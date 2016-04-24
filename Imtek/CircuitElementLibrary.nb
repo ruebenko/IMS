@@ -1,0 +1,1432 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     65601,       1283]*)
+(*NotebookOutlinePosition[     66265,       1306]*)
+(*  CellTagsIndexPosition[     66221,       1302]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["CircuitElementLibrary Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ CircuitElementLibrary . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Author : oliver\ ruebenkoenig, \ 
+      kai\ kratt\ *) \)\(\[IndentingNewLine]\)\( (*\ Date : \ 3.9 . \ 2007, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ circuit\ element\ library\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .5\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(History\)\(:\)\)\
+\[IndentingNewLine]; \[IndentingNewLine]oliver : \ 
+        for\ mma6  .0\ fixed\ Arrow; \[IndentingNewLine]kai : \ 
+        fixed\ some\ things . \ 
+            7.6  .06;\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      added\ new\ \(element : \ 
+          mutual\ inductance\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      added\ new\ \(elements : \ 
+          controlled\ sources\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      added\ new\ \(element : \ 
+          diode\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ is\ the\ IMTEK\ circuit\ element\ library . \ 
+          Extend\ graph\ to\ deal\ with\ circuit\ \(\(elements\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005, \ oliver\ ruebenkoenig, \ 
+      kai\ kratt\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \
+\(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`CircuitElementLibrary`\>",\
+ \ "\<Imtek`Nodes`\>", \ "\<Imtek`Graph`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeCapacitance::usage\
+\  = \ "\<imsMakeCapacitance[ id, incidentsIds, value, data ] returns an \
+imsCapacitance with Integer id, a List of incidentsIds and  a value of the \
+capacitance. Optionally data can be given.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCapacitance::usage\  = \ "\<imsCapacitance is the datastructure \
+returned by imsMakeCapacitance.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeResistance::usage\  = \ "\<imsMakeResistance[ id, incidentsIds, \
+value, data ] returns an imsResistance with Integer id, a List of \
+incidentsIds and a value of the resistor. Optionally data can be given.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsResistance::usage\  = \ "\<imsResistance is the datastructure \
+returned by imsMakeResistance.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeInductance::usage\  = \ "\<imsMakeInductance[ id, incidentsIds, \
+value, data ] returns an imsInductance with Integer id, a List of \
+incidentsIds and a value of the inductance. Optionally data can be given.\>";\
+\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsInductance::usage\  = \ "\<imsInductance is the datastructure \
+returned by imsMakeInductance.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeMutualInductance::usage = "\<imsMakeMutualInductance[ id, \
+incidentsIds_{i11,i12,i21,i22}, value_{v1,v2,k}, data ] returns an \
+imsMutualInductance with Integer id, a List of incidentsIds i11 and i12 for \
+the inductances respectivly. A List of (real) inductances values v1 and v2 \
+and k the coupling coefficient. The coupling coefficient is defined as 0 < k \
+= M/Sqrt[v1*v2] < 1, where M is the mutual inductance. Optionally data can be \
+given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMutualInductance::usage\  = \ "\<imsMutualInductance is the \
+datastructure returned by imsMakeMutualInductance.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeVoltageSource::usage\  = \ "\<imsMakeVoltageSource[ id, \
+incidentsIds, value, data ] returns an imsVoltageSource with Integer id, a \
+List of incidentsIds and a value of the voltage source, where value can \
+either be a Integer, Real, Symbol or Function. Optionally data can be \
+given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsVoltageSource::usage\  = \ "\<imsVoltageSource is the datastructure \
+returned by imsMakeVoltageSource.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeCurrentControlledCurrentSource::usage = \
+"\<imsMakeCurrentControlledCurrentSource[ id, incidentsIds_{i11,i12,i21,i22}, \
+value, data ] returns an imsCurrentControlledCurrentSource with a integer id, \
+a List of incidentsIds i11 and i12 for the input current and i21 and i22 for \
+the output current. The two are related by value. This parameter is called \
+current gain, which is the ratio of the output current to the input current. \
+Optionally data can be given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCurrentControlledCurrentSource::usage = \
+"\<imsCurrentControlledCurrentSource is the datastructure returned by \
+imsMakeCurrentControlledCurrentSource\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeCurrentControlledVoltageSource::usage = \
+"\<imsMakeCurrentControlledVoltageSource[ id, incidentsIds_{i11,i12,i21,i22}, \
+ value, data ] returns an imsCurrentControlledVoltageSource with a integer \
+id, a List of incidentsIds i11 and i12 for the input current and i21 and i22 \
+for the output voltage. The output voltage of this source depends on the \
+current through the input terminals. The two are related by value. This \
+parameter is called transresistance, which is the ratio of the output voltage \
+to the input current. Its unit is Ohm. Optionally data can be given.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCurrentControlledVoltageSource::usage = \
+"\<imsCurrentControlledVoltageSource is the datastructure returned by \
+imsMakeCurrentControlledVoltageSource\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeVoltageControlledCurrentSource::usage = \
+"\<imsMakeVoltageControlledCurrentSource[ id, incidentsIds_{i11,i12,i21,i22}, \
+value, data ] returns an imsVoltageControlledCurrentSource with a integer id, \
+a List of incidentsIds i11 and i12 for the input voltage and i21 and i22 for \
+the output current. The output current of this source depends on the voltage \
+applied at the input terminals. The two are related by value. This parameter \
+is called transconductance, which is the ratio of the output current to the \
+input voltage. Its unit is Siemens. Optionally data can be given.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsVoltageControlledCurrentSource::usage = \
+"\<imsVoltageControlledCurrentSource is the datastructure returned by \
+imsMakeVoltageControlledCurrentSource\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeVoltageControlledVoltageSource::usage = \
+"\<imsMakeVoltageControlledVoltageSource[ id, incidentsIds_{i11,i12,i21,i22}, \
+value, data ] returns an imsVoltageControlledVoltageSource with a integer id, \
+a List of incidentsIds i11 and i12 for the input voltage and i21 and i22 for \
+the output voltage. The output voltage of this source depends on the voltage \
+applied to its input terminal. The ratio of the output voltage to the input \
+voltage determines its voltage gain which can be set by value. Optionally \
+data can be given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsVoltageControlledVoltageSource::usage = \
+"\<imsVolrageControlledVoltageSource is the datastructure returned by \
+imsMakeVoltageControlledVoltageSource\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeCurrentSource::usage\  = \ "\<imsMakeCurrentSource[ id, \
+incidentsIds, value, data ] returns an imsCurrentSource with Integer id, a \
+List of incidentsIds and a value of the current source, where value can \
+either be a Integer, Real, Symbol or Function. Optionally data can be \
+given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCurrentSource::usage\  = \ "\<imsCurrentSource is the datastructure \
+returned by imsMakeCurrentSource.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeWire::usage\  = \ "\<imsMakeWire[ id, incidentsIds, data ] \
+returns an imsWire with Integer id and a List of incidentsIds. Optionally \
+data can be given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsWire::usage\  = \ "\<imsWire is the datastructure returned by \
+imsMakeWire.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeGround::usage\  = \ "\<imsMakeGround [ id, incidentsIds, value, \
+data ] returns an imsGround with Integer id and a List of one incidentsId. \
+Value defaults to 0. Optionally data can be given.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGround::usage\  = \ "\<imsGround is the datastructure returned by \
+imsMakeGround.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeDiode::usage = "\<imsMakeDiode [ id, incidentsIds, { Vd, Is, Vt, \
+n}, data ] returns an imsDiode with Integer id and a List of incidentsIds. \
+Symbol Vd is the voltage across the diode. Saturation current Is defaults to \
+10^-12 A (silicon, temperature dependant), thermal voltage Vt defaults at \
+room temperature to 25.8 mV, emission coefficient defaults to 1. Optionally \
+data can be given.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDiode::usage = "\<imsDiode is the datastructure returned by \
+imsMakeDiode.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]
+    \(imsGetIds::usage = "\<imsGetIds[ elements ] returns the circuit \
+element's id.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIncidentsIds::usage = "\<imsGetIncidentsIds[ elements ] returns \
+the circuit element's incidentsIds.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetValues::usage = "\<imsGetValues[ elements ] returns the circuit \
+element's value.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetDatas::usage = "\<imsGetDatas[ elements ] returns the circuit \
+element's data, if any are present.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ predicates\ *) \[IndentingNewLine]
+    \(imsCircuitElementQ::usage\  = "\<imsCircuitElementNodeQ[ expr ] returns \
+True if expr is any imsCircuitElement.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDataCircuitElementQ::usage\  = "\<imsDataCircuitElementQ[expr] \
+returns True if expr is any imsCircuitElement with additional data set.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    \(imsCircuitElements::usage = "\<imsCircuitElements[] returns a list of \
+all available circuit elements.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements::usage = "\<imsDrawElements[ element, nodes ] will draw \
+the element consisting of nodes.\>";\)\n
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(If[\ $VersionNumber\  \[LessEqual] \ 
+        5.2, \ << "\<Graphics`Arrow`\>", \ \(Null;\)\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsMakeCapacitance[\ id_Integer, \ incidents_List, \ 
+          value_, \ data___\ ]\  := \ 
+        imsCapacitance[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeResistance[\ id_Integer, \ incidents_List, \ value_, \ 
+          data___\ ]\  := \ 
+        imsResistance[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeInductance[\ id_Integer, \ incidents_List, \ value_, \ 
+          data___\ ]\  := \ 
+        imsInductance[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeMutualInductance[\ id_, \ incidents_List, \ value_, \ 
+          data___\ ]\  := \ 
+        imsMutualInductance[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeVoltageSource[\ id_Integer, \ incidents_List, \ value_, \ 
+          data___\ ]\  := \ 
+        imsVoltageSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeCurrentSource[\ id_Integer, \ incidents_List, \ value_, \ 
+          data___\ ]\  := \ 
+        imsCurrentSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeCurrentControlledCurrentSource[\ id_Integer, \ incidents_List, \ 
+          value_, \ data___\ ]\  := \ 
+        imsCurrentControlledCurrentSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeCurrentControlledVoltageSource[\ id_Integer, \ incidents_List, \ 
+          value_, \ data___\ ]\  := \ 
+        imsCurrentControlledVoltageSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeVoltageControlledCurrentSource[\ id_Integer, \ incidents_List, \ 
+          value_, \ data___\ ]\  := \ 
+        imsVoltageControlledCurrentSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeVoltageControlledVoltageSource[\ id_Integer, \ incidents_List, \ 
+          value_, \ data___\ ]\  := \ 
+        imsVoltageControlledVoltageSource[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeWire[\ id_Integer, \ incidents_List, \ value_:  0, \ 
+          data___]\  := \ 
+        imsWire[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeGround[\ id_Integer, \ incidents_List, \ value_:  0, \ 
+          data___\ ]\  := \ 
+        imsGround[\ id, \ incidents, \ value, \ 
+          data\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeDiode[\ id_Integer, \ 
+          incidents_List, \ {symb_Symbol, \ Is_:  10^\(-12\), \ 
+            Vt_:  0.0258, \ n_:  1}, \ data___\ ] := \ 
+        imsDiode[\ id, \ incidents, \ {symb, \ Is, \ Vt, \ n}, \ 
+          data\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ selector\ *) \), "\[IndentingNewLine]", \( (*\ *) \), 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(imsGetIds[\ e_\ ]\  /; \ imsCircuitElementQ[\ e\ ]\  := \ 
+            e[\([1]\)];\), 
+        "\[IndentingNewLine]", \(imsGetIncidentsIds[\ e_\ ]\  /; \ 
+              imsCircuitElementQ[\ e\ ]\  := \ e[\([2]\)];\), 
+        "\[IndentingNewLine]", \(imsGetValues[\ e_\ ]\  /; \ 
+              imsCircuitElementQ[\ e\ ]\  := \ e[\([3]\)];\), 
+        "\[IndentingNewLine]", \(imsGetDatas[\ e_\ ]\  /; \ 
+              imsCircuitElementQ[\ e\ ]\  && \ 
+                imsDataCircuitElementQ[\ e\ ]\  := \ e[\([4]\)];\), 
+        StyleBox["\[IndentingNewLine]",
+          FontColor->GrayLevel[1]], 
+        StyleBox["\[IndentingNewLine]",
+          FontColor->GrayLevel[
+          0]], \(SetAttributes[\ imsGetIncidentsIds, \ Listable\ ];\), 
+        "\[IndentingNewLine]", \(SetAttributes[\ imsGetIds, \ Listable\ ];\), 
+        "\[IndentingNewLine]", \(SetAttributes[\ imsGetValues, \ 
+            Listable\ ];\), 
+        "\[IndentingNewLine]", \(SetAttributes[\ imsGetDatas, \ 
+            Listable\ ];\), 
+        StyleBox["\[IndentingNewLine]",
+          FontColor->GrayLevel[1]], 
+        "\[IndentingNewLine]", \( (*\[IndentingNewLine]imsGetIds[\ 
+              imsCapacitance[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsCapacitance[\ _, \ incidents_, \ _, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsCapacitance[\ _, \ _, \ value_, \ ___\ ]\ ]\  := \ 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsCapacitance[\ _, \ _, \ _, \ data_\ ]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsResistance[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsResistance[\ _, \ incidents_, \ _, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsResistance[\ _, \ _, \ value_, \ ___\ ]\ ]\  := \ 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsResistance[\ _, \ _, \ _, \ data_\ ]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsInductance[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsInductance[\ _, \ incidents_, \ _, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsInductance[\ _, \ _, \ value_, \ ___\ ]\ ]\  := \ 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsInductance[\ _, \ _, \ _, \ data_\ ]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsVoltageSource[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsVoltageSource[\ _, \ incidents_, \ _, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsVoltageSource[\ _, \ _, \ value_, \ ___\ ]\ ]\  := 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsVoltageSource[\ _, \ _, \ _, data\ _\ ]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsCurrentSource[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsCurrentSource[\ _, \ incidents_, \ _, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsCurrentSource[\ _, \ _, \ value_, \ ___\ ]\ ]\  := 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsCurrentSource[\ _, \ _, \ _, \ data_\ ]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsWire[\ id_, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsWire[\ _, \ incidents_, \ ___\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetDatas[\ 
+              imsWire[\ _, \ _, \ data_]\ ]\  := \ 
+            data; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+              imsGround[\ id_, \ _, \ _, \ ___\ ]\ ]\  := \ 
+            id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+              imsGround[\ _, \ incidents_, \ _, \ _\ ]\ ]\  := \ 
+            incidents; \[IndentingNewLine]imsGetValues[\ 
+              imsGround[\ _, \ _, \ value_, \ _\ ]\ ]\  := \ 
+            value; \[IndentingNewLine]imsGetDatas[\ 
+              imsGround[\ _, \ _, \ _, \ data_\ ]\ ]\  := \ 
+            data;\[IndentingNewLine]\[IndentingNewLine]*) \)}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsCircuitElementQ[\ e_\ ]\  /; \ 
+          MemberQ[\ imsCircuitElements[\ ], \ Head[\ e\ ]\ ] := \ True;\)\n
+    \(imsCircuitElementQ[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDataCircuitElementQ[thisElement : e_[_, _, _, _]] /; 
+          imsCircuitElementQ[thisElement] := True;\)\[IndentingNewLine]
+    \(imsDataCircuitElementQ[___] := False;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsCircuitElements[]\  := \ {\ imsResistance, \ 
+          imsCapacitance, \ imsInductance, \ imsMutualInductance, \ 
+          imsGround, \ imsWire, \ imsVoltageSource, \ imsCurrentSource, \ 
+          imsCurrentControlledCurrentSource, \ 
+          imsCurrentControlledVoltageSource, \ 
+          imsVoltageControlledCurrentSource, \ 
+          imsVoltageControlledVoltageSource, \ 
+          imsDiode\[IndentingNewLine]\ };\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutators", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Mutators\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSetValues[\ 
+          imsWire[\ id_, \ incidents_List, \ value_, \ data___\ ], \ 
+          newValue_?MatrixQ\ ]\  := \ 
+        imsMakeWire[\ id, \ incidents, \ newValue, \ data\ ];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(If[\ $VersionNumber\  \[LessEqual] \ 
+        5.2, \ \[IndentingNewLine]versionArrow[\ v1_, \ v2_, \ 
+          opts___\ ]\  := \ 
+        Arrow[\ v1, \ v2, \ opts\ ], \[IndentingNewLine]versionArrow[\ v1_, \ 
+          v2_, \ opts___\ ]\  := \ 
+        Arrow[\ {v1, \ 
+            v2\ }\ ]\[IndentingNewLine]]\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(imsDrawElements[\ a_imsCapacitance, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, \ vectorOrtho, p1, \ p2, \ p3, \ p4, \ 
+            p5, \ p6\ }, \[IndentingNewLine]{\ firstPoint\ , \ 
+              lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.45\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p4\  = \ 
+            lastPoint\  - \ 
+              vector\ *\ 0.45\ *\ lengthVector; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                lastPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\
+\[IndentingNewLine]\n
+    \(imsDrawElements[\ a_imsResistance, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, \ vectorOrtho, p1, \ p2, \ p3, \ p4, \ 
+            p5, \ p6\ }, \[IndentingNewLine]{\ firstPoint\ , \ 
+              lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p4\  = \ 
+            lastPoint\  - \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                p2, \ p5}\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p6}\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                lastPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\
+\[IndentingNewLine]\n
+    \(imsDrawElements[\ a_imsInductance, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, \ vectorOrtho, p1, \ p2, \ p3, \ p4, \ 
+            p5, \ p6\ }, \[IndentingNewLine]{\ firstPoint\ , \ 
+              lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p3\  = \ 
+            p1\ \  - \ 
+              vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p4\  = \ 
+            lastPoint\  - \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Polygon[\ {p2, p3, \ p6, \ 
+                p5}\ ], \[IndentingNewLine]Line[\ {\ lastPoint, \ 
+                p4\ }\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\n\
+\[IndentingNewLine]
+    imsDrawElements[\ a_imsMutualInductance, \ nodes_\ ]\  := \ 
+      Module[\ {\ firstPoint\ , \ secondPoint, \ thirdPoint, \ fourthPoint, \ 
+          vectorNotUnit1, \ vectorNotUnit2, \ lengthVector1, \ 
+          lengthVector2, \ vector1, \ vector2, \ \ vectorOrtho1, 
+          vectorOrtho2, \ p11, \ p12, \ p13, \ p14, \ p15, \ p16, \ p21, \ 
+          p22, \ p23, \ p24, \ p25, \ p26, \ m1, \ m2, \ 
+          ma\ }, \[IndentingNewLine]\[IndentingNewLine]{\ firstPoint\ , \ 
+            secondPoint, \ thirdPoint, \ fourthPoint\ }\  = \ 
+          imsGetCoords[\ 
+            nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit1\  \
+= \ secondPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector1\  = \ 
+          Sqrt[\ vectorNotUnit1 . 
+              vectorNotUnit1\ ]; \[IndentingNewLine]vector1\  = \ 
+          vectorNotUnit1\ \ /\ 
+            lengthVector1; \[IndentingNewLine]vectorOrtho1\  = \ {\ \(-1\), \ 
+              1\ }\ *\ \ Reverse[\ 
+              vector1\ ]; \[IndentingNewLine]\[IndentingNewLine]p11\  = \ 
+          firstPoint\  + \ 
+            vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p12\  = \ 
+          p11\  + \ 
+            vectorOrtho1\ *\ 0.1\ *\ 
+              lengthVector1; \[IndentingNewLine]p13\  = \ 
+          p11\ \  - \ 
+            vectorOrtho1\ *\ 0.1\ *\ 
+              lengthVector1; \[IndentingNewLine]\[IndentingNewLine]p14\  = \ 
+          secondPoint\  - \ 
+            vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p15\  = \ 
+          p14\  + \ 
+            vectorOrtho1\ *\ 0.1\ *\ 
+              lengthVector1; \[IndentingNewLine]p16\  = \ 
+          p14\  - \ 
+            vectorOrtho1\ *\ 0.1\ *\ 
+              lengthVector1; \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]vectorNotUnit2\  = \ 
+          fourthPoint\  - \ 
+            thirdPoint; \[IndentingNewLine]lengthVector2\  = \ 
+          Sqrt[\ vectorNotUnit2 . 
+              vectorNotUnit2\ ]; \[IndentingNewLine]vector2\  = \ 
+          vectorNotUnit2\ \ /\ 
+            lengthVector2; \[IndentingNewLine]vectorOrtho2\  = \ {\ \(-1\), \ 
+              1\ }\ *\ \ Reverse[\ 
+              vector2\ ]; \[IndentingNewLine]\[IndentingNewLine]p21\  = \ 
+          thirdPoint\  + \ 
+            vector2\ *\ 0.35\ *\ lengthVector2; \[IndentingNewLine]p22\  = \ 
+          p21\  + \ 
+            vectorOrtho2\ *\ 0.1\ *\ 
+              lengthVector2; \[IndentingNewLine]p23\  = \ 
+          p21\ \  - \ 
+            vectorOrtho2\ *\ 0.1\ *\ 
+              lengthVector2; \[IndentingNewLine]\[IndentingNewLine]p24\  = \ 
+          fourthPoint\  - \ 
+            vector2\ *\ 0.35\ *\ lengthVector2; \[IndentingNewLine]p25\  = \ 
+          p24\  + \ 
+            vectorOrtho2\ *\ 0.1\ *\ 
+              lengthVector2; \[IndentingNewLine]p26\  = \ 
+          p24\  - \ 
+            vectorOrtho2\ *\ 0.1\ *\ 
+              lengthVector2; \[IndentingNewLine]\[IndentingNewLine]diff\  = \ 
+          Sqrt[\ \((thirdPoint\  - \ firstPoint)\) . \((thirdPoint\  - \ 
+                  firstPoint)\)\ ]; \[IndentingNewLine]\[IndentingNewLine]m11\
+\  = \ firstPoint\  + \ 0.45\ *\ diff*vectorOrtho1\  + \ 
+            0.35\ *\ vector1\ *\ lengthVector1; \[IndentingNewLine]m12\  = \ 
+          secondPoint\  + \ 0.45*diff*vectorOrtho1\  - \ 
+            0.35\ *\ vector1\ *\ 
+              lengthVector1; \[IndentingNewLine]\[IndentingNewLine]m21\  = \ 
+          thirdPoint\  - \ 
+            0.45\ *\ diff*vectorOrtho2\  + \ \ 0.35\ *\ vector2\ *\ 
+              lengthVector2; \[IndentingNewLine]m22\  = \ 
+          fourthPoint\  - \ 0.45\ *\ diff*vectorOrtho2\  - \ 
+            0.35\ *\ vector2\ *\ 
+              
+              lengthVector2; \[IndentingNewLine]\[IndentingNewLine] (*\ \
+\[IndentingNewLine]m1\  = \ \ \((\ secondPoint\  + \ firstPoint\ )\)\ /\ 
+                2\  + \ vectorOrtho1\ *\ 0.1\ *\ 
+                lengthVector1; \[IndentingNewLine]m2\  = \ \((\ 
+                  fourthPoint\  + \ thirdPoint\ )\)\ /\ 2\  - \ 
+              vectorOrtho2\ *\ 0.1\ *\ 
+                lengthVector2; \[IndentingNewLine]ma\  = \ \((\ \((\ 
+                      fourthPoint\  + \ thirdPoint\ )\)\ /\ 
+                    2\ \  + \ \((\ secondPoint\  + \ firstPoint\ )\)\ /\ 
+                    2)\)\ /\ 
+              2;\ \[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]\
+{\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+              p11\ }\ ], \[IndentingNewLine]Polygon[\ {p12, p13, \ p16, \ 
+              p15}\ ], \[IndentingNewLine]Line[\ {\ secondPoint, \ 
+              p14\ }\ ], \[IndentingNewLine] (*\ \(Text[\ "\<L1\>", \ 
+              m1, \ {\ \(-1\), \ \(-1\)\ }, \ \ TextStyle \[Rule] {FontSize \
+\[Rule] 14}\ ]\)\(,\)\ *) \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+              thirdPoint, \ p21\ }\ ], \[IndentingNewLine]Polygon[\ {p22, 
+              p23, \ p26, \ p25}\ ], \[IndentingNewLine]Line[\ {\ 
+              fourthPoint, \ 
+              p24\ }\ ], \[IndentingNewLine]\[IndentingNewLine] (*\ \
+\[IndentingNewLine]Text[\ "\<L2\>", \ 
+              m2, \ {\ 1, \ 
+                1\ }, \ \ TextStyle \[Rule] {FontSize \[Rule] 
+                    14}\ ], \ \
+\[IndentingNewLine]\[IndentingNewLine]versionArrow\ [\ m1, \ 
+              m2], \[IndentingNewLine]versionArrow[\ m2, \ 
+              m1\ ], \[IndentingNewLine]\[IndentingNewLine]Text[\ "\<M\>", \ 
+              ma, \ TextStyle \[Rule] {FontSize \[Rule] 
+                    14}]\ \[IndentingNewLine]*) \[IndentingNewLine]\
+\[IndentingNewLine]Line[\ {\ m11, \ m12\ }\ ], \[IndentingNewLine]Line[\ {\ 
+              m21, \ m22\ }]\[IndentingNewLine]}\[IndentingNewLine]\
+\[IndentingNewLine]]\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsVoltageSource, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, vectorOrtho, \ \ centerPoint, \ radius, \ 
+            p1, \ p2\ }, \[IndentingNewLine]{\ firstPoint\ , \ 
+              lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ vector\ *\ 0.3\ *\ lengthVector\  - \ 
+              vectorOrtho\ *\ 0.15\ *\ 
+                lengthVector; \[IndentingNewLine]p2\  = \ 
+            lastPoint\  - \ vector\ *\ 0.3\ *\ lengthVector\  - \ 
+              vectorOrtho\ *\ 0.15\ *\ 
+                lengthVector; \
+\[IndentingNewLine]\[IndentingNewLine]centerPoint\  = \ \((\ 
+                firstPoint\  + \ lastPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                lastPoint\ }\ ], \[IndentingNewLine]Circle[\ centerPoint, \ 
+              radius\ ], \[IndentingNewLine]versionArrow[\ p1, \ p2, \ 
+              HeadScaling \[Rule] 
+                Relative\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\n\
+\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsCurrentSource, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, \ vectorOrtho, centerPoint, \ radius, \ 
+            p1, \ p2, \ p3, \ p4, \ 
+            p5\ }, \[IndentingNewLine]{\ firstPoint\ , \ lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]centerPoint\ \
+ = \ \((\ firstPoint\  + \ lastPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector; \[IndentingNewLine]\[IndentingNewLine]p1\  \
+= \ firstPoint\  + \ 
+              vector\ *\ 0.4\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            lastPoint\  - \ 
+              vector\ *\ 0.4\ *\ lengthVector; \[IndentingNewLine]p3\  = \ 
+            centerPoint\  + \ 
+              vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p4\  = \ 
+            centerPoint\  - \ 
+              vectorOrtho\ *\ 0.1\ *\ 
+                lengthVector; \[IndentingNewLine]p5\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.8\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p4\ }\ ], \[IndentingNewLine]versionArrow[\ p2, p5, \ 
+              HeadScaling \[Rule] Relative\ ], \[IndentingNewLine]Line[\ {\ 
+                p5, \ lastPoint\ }\ ], \[IndentingNewLine]Circle[\ 
+              centerPoint, \ 
+              radius\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\n\
+\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsWire, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ 
+            lastPoint}, \[IndentingNewLine]{\ firstPoint\ , \ 
+              lastPoint\ }\  = \ 
+            imsGetCoords[\ nodes\ ]; \[IndentingNewLine]Line[\ {\ 
+              firstPoint, \ 
+              lastPoint}\ ]\[IndentingNewLine]];\)\[IndentingNewLine]\n
+    \(imsDrawElements[\ a_imsGround, \ nodes_\ ]\  := \ 
+        Module[\ {\ individualPoint, \ p1, \ p2, \ 
+            p3}, \[IndentingNewLine]{\ individualPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]p1\  = \ \
+{individualPoint[\([1]\)], 
+              individualPoint[\([2]\)] - 
+                0.5}; \[IndentingNewLine]p2\  = \ {individualPoint[\([1]\)]\  \
+- \ 0.4, \ 
+              p1[\([2]\)]}; \[IndentingNewLine]p3\  = \ \
+{individualPoint[\([1]\)]\  + \ 0.4, \ 
+              p1[\([2]\)]}; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {individualPoint, \ 
+                p1}], \[IndentingNewLine]{\[IndentingNewLine]Thickness[ .01], 
+              Line[\ {\ p2, \ 
+                  p3}\ ]\[IndentingNewLine]}\[IndentingNewLine]}\
+\[IndentingNewLine]];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsVoltageControlledVoltageSource, \ 
+          nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+            fourthPoint, \ vectorNotUnit, \ lengthVector, \ vector, \ 
+            vectorOrtho, vectorNotUnit2, \ lengthVector2, \ vector2, \ 
+            vectorOrtho2, p1, \ p2, \ p3, \ p4, \ p5, \ p6, p7, p8, p9, p10, 
+            centerPoint1, \ centerPoint2, \ 
+            radius\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+              fourthPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ secondPoint - firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]vectorNotUnit2\  = \ 
+            fourthPoint - thirdPoint; \[IndentingNewLine]lengthVector2\  = \ 
+            Sqrt[\ vectorNotUnit2 . 
+                vectorNotUnit2\ ]; \[IndentingNewLine]vector2\  = \ 
+            vectorNotUnit2\ \ /\ 
+              lengthVector2; \[IndentingNewLine]vectorOrtho2\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector2\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho\ *\ 0.05*\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p4\  = \ 
+            secondPoint\  - \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \
+\[IndentingNewLine]\[IndentingNewLine]centerPoint1\  = \ \((firstPoint + 
+                  secondPoint)\)\ /\ 
+              2; \[IndentingNewLine]centerPoint2\  = \ \((\ 
+                thirdPoint\  + \ fourthPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector; \[IndentingNewLine]\[IndentingNewLine]p7\  \
+= \ p2\  - \ vectorOrtho\ *\ 0.15\ *\ 
+                lengthVector; \[IndentingNewLine]p8\  = \ 
+            p5\  - \ vectorOrtho\ *\ 0.15*\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p9 = \ 
+            centerPoint2\  - \ vector2\ *1.5*radius\  + \ 
+              vectorOrtho2\ *\ 0.15\ *\ 
+                lengthVector2; \[IndentingNewLine]p10\  = \ 
+            centerPoint2\  + \ vector2\ *1.5*radius\  + \ 
+              vectorOrtho2\ *\ 0.15\ *\ 
+                lengthVector2; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                p2, \ p5}\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p6}\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                secondPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ], \[IndentingNewLine]\[IndentingNewLine]versionArrow[\
+\ p7, \ p8, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]versionArrow[\ p9, \ p10, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                firstPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                secondPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \
+\[IndentingNewLine]Text[\ "\<V\>", \ 
+                centerPoint1, \ {0, \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ thirdPoint, \ 
+                fourthPoint\ }\ ], \[IndentingNewLine]Circle[\ 
+              centerPoint2, \ 
+              radius\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                thirdPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                fourthPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]versionArrow[\ centerPoint1, \ 
+              centerPoint2\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\n\
+\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsCurrentControlledVoltageSource, \ 
+          nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+            fourthPoint, \ vectorNotUnit, \ lengthVector, \ vector, \ 
+            vectorOrtho, vectorNotUnit2, \ lengthVector2, \ vector2, \ 
+            vectorOrtho2, p1, \ p2, \ p3, \ p4, \ p5, \ p6, p7, p8, p9, \ 
+            centerPoint1, \ centerPoint2, \ 
+            radius\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+              fourthPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ secondPoint - firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]vectorNotUnit2\  = \ 
+            fourthPoint - thirdPoint; \[IndentingNewLine]lengthVector2\  = \ 
+            Sqrt[\ vectorNotUnit2 . 
+                vectorNotUnit2\ ]; \[IndentingNewLine]vector2\  = \ 
+            vectorNotUnit2\ \ /\ 
+              lengthVector2; \[IndentingNewLine]vectorOrtho2\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector2\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p4\  = \ 
+            secondPoint\  - \ 
+              vector\ *\ 0.35\ *\ lengthVector; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho\ *\ 0.05\ *\ 
+                lengthVector; \
+\[IndentingNewLine]\[IndentingNewLine]centerPoint1\  = \ \((firstPoint + 
+                  secondPoint)\)\ /\ 
+              2; \[IndentingNewLine]centerPoint2\  = \ \((\ 
+                thirdPoint\  + \ fourthPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector; \[IndentingNewLine]\[IndentingNewLine]p7\  \
+= \ p1\  - \ vector\ *\ 0.2\ *\ lengthVector; \[IndentingNewLine]p8 = \ 
+            centerPoint2\  - \ vector2\ *1.5*radius\  + \ 
+              vectorOrtho2\ *\ 0.15\ *\ 
+                lengthVector2; \[IndentingNewLine]p9\  = \ 
+            centerPoint2\  + \ vector2\ *1.5*radius\  + \ 
+              vectorOrtho2\ *\ 0.15\ *\ 
+                lengthVector2; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                p2, \ p5}\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p6}\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                secondPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ], \[IndentingNewLine]\[IndentingNewLine]versionArrow[\
+\ p1, \ p7, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]versionArrow[\ p8, \ p9, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                firstPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                secondPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \
+\[IndentingNewLine]Text[\ "\<I\>", \ 
+                centerPoint1, \ {0, \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ thirdPoint, \ 
+                fourthPoint\ }\ ], \[IndentingNewLine]Circle[\ 
+              centerPoint2, \ 
+              radius\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                thirdPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                fourthPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]versionArrow[\ centerPoint1, \ 
+              centerPoint2\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\
+\[IndentingNewLine]\n
+    \(imsDrawElements[\ a_imsVoltageControlledCurrentSource, \ 
+          nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+            fourthPoint, \ vectorNotUnit1, vectorNotUnit2, \ \ lengthVector1, 
+            lengthVector2, \ vector1, vector2, \ vectorOrtho1, 
+            vectorOrtho2, \ p1, \ p2, \ p3, \ p4, \ p5, \ p6, \ p7, \ p8, \ 
+            p9, \ p10, p11, p12, p13, p14, \ centerPoint1, \ centerPoint2, \ 
+            radius\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+              fourthPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit1\ \
+ = \ secondPoint - firstPoint; \[IndentingNewLine]lengthVector1\  = \ 
+            Sqrt[\ vectorNotUnit1 . 
+                vectorNotUnit1\ ]; \[IndentingNewLine]vector1\  = \ 
+            vectorNotUnit1\ \ /\ 
+              lengthVector1; \[IndentingNewLine]vectorOrtho1\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector1\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]vectorNotUnit2 = \ 
+            fourthPoint - thirdPoint; \[IndentingNewLine]lengthVector2 = \ 
+            Sqrt[\ vectorNotUnit2 . 
+                vectorNotUnit2\ ]; \[IndentingNewLine]vector2\  = \ 
+            vectorNotUnit2\ \ /\ 
+              lengthVector2; \[IndentingNewLine]vectorOrtho2\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector2\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]centerPoint1\  = \ \((firstPoint + 
+                  secondPoint)\)\ /\ 
+              2; \[IndentingNewLine]centerPoint2\  = \ \((\ 
+                thirdPoint\  + \ fourthPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector2; \[IndentingNewLine]\[IndentingNewLine]p1\  \
+= \ firstPoint\  + \ 
+              vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p4\  = \ 
+            secondPoint\  - \ 
+              vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]\[IndentingNewLine]p7\  = \ 
+            thirdPoint\  + \ 
+              vector2\ *\ 0.4\ *\ lengthVector2; \[IndentingNewLine]p8\  = \ 
+            fourthPoint\  - \ 
+              vector2\ *\ 0.4\ *\ lengthVector2; \[IndentingNewLine]p9\  = \ 
+            centerPoint2\  + \ 
+              vectorOrtho2\ *radius; \[IndentingNewLine]p10\  = \ 
+            centerPoint2\  - \ 
+              vectorOrtho2\ *
+                radius; \[IndentingNewLine]\[IndentingNewLine]p11\  = \ 
+            centerPoint2\  - \ vector2\ *radius; \[IndentingNewLine]p12\  = \ 
+            centerPoint2\  - \ 
+              vector2\ *3*radius; \[IndentingNewLine]p13\  = \ 
+            p1\  - \ vectorOrtho1\ *\ 0.15\ *\ 
+                lengthVector1; \[IndentingNewLine]p14\  = \ 
+            p4\  - \ 
+              vectorOrtho1\ *\ 0.15*\ 
+                lengthVector1; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                p2, \ p5}\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p6}\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                secondPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ], \[IndentingNewLine]\[IndentingNewLine]versionArrow[\
+\ p11, \ p12, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]versionArrow[\ p13, \ p14, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                firstPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                secondPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \
+\[IndentingNewLine]Text[\ "\<V\>", \ 
+                centerPoint1, \ {0, \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ thirdPoint, \ 
+                p7\ }\ ], \[IndentingNewLine]Line[\ {\ p9, \ 
+                p10\ }\ ], \[IndentingNewLine]Line[\ {\ p8, \ 
+                fourthPoint\ }\ ], \[IndentingNewLine]Circle[\ 
+              centerPoint2, \ 
+              radius\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                thirdPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                fourthPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]versionArrow[\ centerPoint1, \ 
+              centerPoint2\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\
+\[IndentingNewLine]\n
+    \(imsDrawElements[\ a_imsCurrentControlledCurrentSource, \ 
+          nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+            fourthPoint, \ vectorNotUnit1, vectorNotUnit2, \ \ lengthVector1, 
+            lengthVector2, \ vector1, vector2, \ vectorOrtho1, 
+            vectorOrtho2, \ p1, \ p2, \ p3, \ p4, \ p5, \ p6, \ p7, \ p8, \ 
+            p9, \ p10, p11, p12, p13, \ centerPoint1, \ centerPoint2, \ 
+            radius\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              firstPoint\ , \ secondPoint, \ thirdPoint, \ 
+              fourthPoint\ }\  = \ 
+            imsGetCoords[\ 
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit1\ \
+ = \ secondPoint - firstPoint; \[IndentingNewLine]lengthVector1\  = \ 
+            Sqrt[\ vectorNotUnit1 . 
+                vectorNotUnit1\ ]; \[IndentingNewLine]vector1\  = \ 
+            vectorNotUnit1\ \ /\ 
+              lengthVector1; \[IndentingNewLine]vectorOrtho1\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector1\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]vectorNotUnit2 = \ 
+            fourthPoint - thirdPoint; \[IndentingNewLine]lengthVector2 = \ 
+            Sqrt[\ vectorNotUnit2 . 
+                vectorNotUnit2\ ]; \[IndentingNewLine]vector2\  = \ 
+            vectorNotUnit2\ \ /\ 
+              lengthVector2; \[IndentingNewLine]vectorOrtho2\  = \ {\ \(-1\), \
+\ 1\ }\ *\ \ Reverse[\ 
+                vector2\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]centerPoint1\  = \ \((firstPoint + 
+                  secondPoint)\)\ /\ 
+              2; \[IndentingNewLine]centerPoint2\  = \ \((\ 
+                thirdPoint\  + \ fourthPoint)\)\ /\ 
+              2; \[IndentingNewLine]radius\  = \ 
+            0.1\ *\ lengthVector2; \[IndentingNewLine]\[IndentingNewLine]p1\  \
+= \ firstPoint\  + \ 
+              vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p2\  = \ 
+            p1\  + \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p3\  = \ 
+            p1\  - \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p4\  = \ 
+            secondPoint\  - \ 
+              vector1\ *\ 0.35\ *\ lengthVector1; \[IndentingNewLine]p5\  = \ 
+            p4\  + \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]p6\  = \ 
+            p4\  - \ vectorOrtho1\ *\ 0.05\ *\ 
+                lengthVector1; \[IndentingNewLine]\[IndentingNewLine]p7\  = \ 
+            thirdPoint\  + \ 
+              vector2\ *\ 0.4\ *\ lengthVector2; \[IndentingNewLine]p8\  = \ 
+            fourthPoint\  - \ 
+              vector2\ *\ 0.4\ *\ lengthVector2; \[IndentingNewLine]p9\  = \ 
+            centerPoint2\  + \ 
+              vectorOrtho2\ *\ radius; \[IndentingNewLine]p10\  = \ 
+            centerPoint2\  - \ 
+              vectorOrtho2\ *\ 
+                radius; \[IndentingNewLine]\[IndentingNewLine]p11\  = \ 
+            p1\  - \ vector1\ *\ 0.2\ *\ 
+                lengthVector1; \[IndentingNewLine]p12 = \ 
+            centerPoint2\  - \ vector2\ *radius; \[IndentingNewLine]p13 = \ 
+            centerPoint2\  - \ 
+              vector2\ *3*
+                radius; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                p1\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p3\ }\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                p2, \ p5}\ ], \[IndentingNewLine]Line[\ {\ p3, \ 
+                p6}\ ], \[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                secondPoint, \ p4\ }\ ], \[IndentingNewLine]Line[\ {\ p5, \ 
+                p6\ }\ ], \[IndentingNewLine]\[IndentingNewLine]versionArrow[\
+\ p1, \ p11, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]versionArrow[\ p12, \ p13, \ 
+              HeadScaling \[Rule] 
+                Relative\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                firstPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                secondPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \
+\[IndentingNewLine]Text[\ "\<I\>", \ 
+                centerPoint1, \ {0, \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]Line[\ {\ 
+                thirdPoint, \ p7\ }\ ], \[IndentingNewLine]Line[\ {\ p9, \ 
+                p10\ }\ ], \[IndentingNewLine]Line[\ {\ p8, \ 
+                fourthPoint\ }\ ], \[IndentingNewLine]Circle[\ 
+              centerPoint2, \ 
+              radius\ ], \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]Text[\ "\<+\>", \ 
+                thirdPoint, \ {\ \(-1\), \ 
+                  1\ }\ ], \[IndentingNewLine]Text[\ "\<-\>", \ 
+                fourthPoint, \ {\ \(-1\), \ \(-1\)\ }\ ], \[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]versionArrow[\ centerPoint1, \ 
+              centerPoint2\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ a_imsDiode, \ nodes_\ ]\  := \ 
+        Module[\ {\ firstPoint\ , \ lastPoint, \ vectorNotUnit, \ 
+            lengthVector, \ vector, \ vectorOrtho, p1, \ p2, \ p3, \ p4, \ 
+            p5\ }, \[IndentingNewLine]{\ firstPoint\ , \ lastPoint\ }\  = \ 
+            imsGetCoords[\ 
+              
+              nodes\ ]; \[IndentingNewLine]\[IndentingNewLine]vectorNotUnit\  \
+= \ lastPoint\  - \ firstPoint; \[IndentingNewLine]lengthVector\  = \ 
+            Sqrt[\ vectorNotUnit . 
+                vectorNotUnit\ ]; \[IndentingNewLine]vector\  = \ 
+            vectorNotUnit\ \ /\ 
+              lengthVector; \[IndentingNewLine]vectorOrtho\  = \ {\ \(-1\), \ 
+                1\ }\ *\ \ Reverse[\ 
+                vector\ ]; \[IndentingNewLine]\[IndentingNewLine]p1\  = \ 
+            firstPoint\  + \ vector\ *\ 1/3\ *\ lengthVector\  + \ 
+              vectorOrtho*0.2*lengthVector; \[IndentingNewLine]p2\  = \ 
+            firstPoint\  + \ vector\ *\ 1/3*\ lengthVector\  - \ 
+              vectorOrtho*0.2*
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p3\  = \ 
+            lastPoint\  - \ vector\ *\ 1/3\ *\ lengthVector\  + \ 
+              vectorOrtho*0.2*lengthVector; \[IndentingNewLine]p4\  = \ 
+            lastPoint\  - \ vector\ *\ 1/3*\ lengthVector\  - \ 
+              vectorOrtho*0.2*
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]p5 = \ 
+            lastPoint\  - \ 
+              vector*1/3*
+                lengthVector; \[IndentingNewLine]\[IndentingNewLine]{\
+\[IndentingNewLine]Line[\ {\ firstPoint, \ 
+                lastPoint\ }\ ], \[IndentingNewLine]Line[\ {\ p1, \ 
+                p2\ }\ ], \[IndentingNewLine]Line[\ {\ p1, \ 
+                p5\ }\ ], \[IndentingNewLine]Line[\ {\ p2, \ 
+                p5\ }\ ], \[IndentingNewLine]Line[\ {\ p3, 
+                p4\ }\ ]\[IndentingNewLine]}\[IndentingNewLine]];\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1016, 651},
+WindowMargins->{{72, Automatic}, {Automatic, 86}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 49, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1850, 57, 31, 0, 74, "Section"],
+Cell[1884, 59, 1716, 30, 411, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3625, 93, 35, 0, 28, "Subsubsection"],
+Cell[3663, 95, 618, 10, 70, "Input",
+  InitializationCell->True],
+Cell[4284, 107, 1901, 32, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6234, 145, 32, 0, 74, "Section"],
+Cell[6269, 147, 224, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6530, 157, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6607, 161, 26, 0, 38, "Subsection"],
+Cell[6636, 163, 9083, 137, 1995, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15756, 305, 34, 0, 30, "Subsection"],
+Cell[15793, 307, 169, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15999, 315, 36, 0, 30, "Subsection"],
+Cell[16038, 317, 173, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16260, 327, 32, 0, 44, "Section"],
+Cell[16295, 329, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16420, 336, 42, 0, 44, "Section"],
+Cell[16465, 338, 294, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16796, 348, 30, 0, 44, "Section"],
+Cell[16829, 350, 3244, 58, 730, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20110, 413, 26, 0, 44, "Section"],
+Cell[20139, 415, 179, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20355, 424, 27, 0, 44, "Section"],
+Cell[20385, 426, 4742, 79, 990, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25164, 510, 29, 0, 44, "Section"],
+Cell[25196, 512, 550, 10, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25783, 527, 41, 0, 44, "Section"],
+Cell[25827, 529, 141, 4, 70, "Input",
+  InitializationCell->True],
+Cell[25971, 535, 593, 11, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26601, 551, 27, 0, 44, "Section"],
+Cell[26631, 553, 129, 3, 70, "Input",
+  InitializationCell->True],
+Cell[26763, 558, 223, 4, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27023, 567, 31, 0, 44, "Section"],
+Cell[27057, 569, 38089, 689, 8395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65183, 1263, 30, 0, 44, "Section"],
+Cell[65216, 1265, 132, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65385, 1273, 30, 0, 44, "Section"],
+Cell[65418, 1275, 155, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

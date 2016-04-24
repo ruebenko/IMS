@@ -1,0 +1,143 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      3190,         96]*)
+(*NotebookOutlinePosition[      3879,        120]*)
+(*  CellTagsIndexPosition[      3835,        116]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["IMS Contributors", "Title",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["Oliver R\[UDoubleDot]benk\[ODoubleDot]nig < ruebenko -at- imtek.de >", \
+"Text"],
+
+Cell["Version:0.1.2", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["This is a list of people who have contributed to IMS", "Subsection"],
+
+Cell["\<\
+Tamara Bechtold\t\t< bechtold -at- imtek.de >
+Christian Bretthauer\t\t< bretthau -at- imtek.de >
+Matthias Epmeier\t\t< epmeier -at- gmx.de >
+Mirko Frank\t\t\t< mfrank -at- imtek.de >
+Jos\[EAcute] Luis G\[OAcute]mez-Mu\[NTilde]oz\t< jose.luis.gomez -at- \
+itesm.mx >
+David Kauzlaric\t\t< kauzlari -at- imtek.de >
+Steffen Kibbel\t\t< steffen -at kibbel.de >
+Kai Kratt\t\t\t< Kai.Kratt -at- gmx.de >
+Jan G. Korvink\t\t< korvink -at- imtek.de >
+Darius Koziol\t\t\t< koziol -at- imtek.de > 
+Benjamin Lemke\t\t< lemke -at- imtek.de >
+Jan Lienemann\t\t< lienemann -at- imtek.de >
+Daniel Mader\t\t\t< danielstefanmader -at- web.de >
+Dario Mager\t\t\t< dmager -at- gmx.de >
+Zhenyu Liu\t\t\t< zhenyu -at- imtek.de >
+Christian Moosmann\t\t< moosman -at- imtek.de >
+Oliver R\[UDoubleDot]benk\[ODoubleDot]nig\t\t< ruebenko -at- imtek.de >
+Evgenii Rudnyi\t\t< rudnyi -at- imtek.de >
+Stefan Schonhardt\t\t< schonha -at- imtek.de >\
+\>", "Text"],
+
+Cell["\<\
+If i should have forgotten anyone - that was not on purpose by \
+merely my stupidity. Please send me an email! Oliver\
+\>", "Text"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+WindowToolbars->"EditBar",
+WindowSize->{767, 600},
+WindowMargins->{{83, Automatic}, {Automatic, 69}},
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 80, 2, 84, "Title"],
+Cell[1859, 57, 86, 1, 28, "Text"],
+Cell[1948, 60, 29, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[2002, 64, 74, 0, 39, "Subsection"],
+Cell[2079, 66, 939, 21, 316, "Text"],
+Cell[3021, 89, 141, 3, 28, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,625 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13418,        461]*)
+(*NotebookOutlinePosition[     14314,        491]*)
+(*  CellTagsIndexPosition[     14270,        487]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Sparse Matrices - An introduction", "Title"],
+
+Cell["\<\
+By Oliver R\[UDoubleDot]benk\[ODoubleDot]nig <ruebenko -at- \
+imtek.de> and the one and only
+Tamara Bechtold <bechtold -at- imtek.de>
+Version: 0.2.2\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2003-2006 Oliver R\[UDoubleDot]benk\[ODoubleDot]nig, \
+Tamara Bechtold
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Problem Definition", "Section 1"],
+
+Cell[TextData[{
+  "Large scale systems of equations arise, for instance, from continuum \
+physical models, where a discretization of partial differential operators has \
+been employed. The discretization of the partial differential operator may \
+result from using Finite Elements, Finite Differences or Finite Volumes",
+  StyleBox[" ",
+    FontColor->RGBColor[1, 0, 0]],
+  "and the system of equations may be represented by a system matrix. The \
+system matrices are typically large (\[LessEqual] 100 000 DOF)and sparse. In \
+order to be able to solve such systems in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " it is recommended to use a sparse matrix structure.\nA sparse matrix in \
+",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " is defined as a List of Rules: {{ ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"i\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "1"], TraditionalForm]], "InlineFormula"],
+  StyleBox[",", "MR"],
+  " ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"j\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "1"], TraditionalForm]], "InlineFormula"],
+  "}->",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"a\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "1"], TraditionalForm]]],
+  ",{ ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"i\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "2"], TraditionalForm]], "InlineFormula"],
+  StyleBox[",", "MR"],
+  " ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"j\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "2"], TraditionalForm]], "InlineFormula"],
+  "}->",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"a\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "2"], TraditionalForm]]],
+  ", ... }. The element at position ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"i\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "k"], TraditionalForm]], "InlineFormula"],
+  StyleBox[",", "MR"],
+  " ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"j\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "k"], TraditionalForm]], "InlineFormula"],
+  " has value ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox["\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"a\\\\\\\"\\\", \\\"TI\
+\\\"]\\)\"\>", "k"], TraditionalForm]], "InlineFormula"],
+  " and all unspecified elements are taken to be zero. For example:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(exampleSparseMatrix\  = \ {{1, 1} \[Rule] 1.2, {2, 2} \[Rule] 
+          2.3, {3, 3} \[Rule] 4.5}\)], "Input",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[BoxData[
+    \({{1, 1} \[Rule] 1.2`, {2, 2} \[Rule] 2.3`, {3, 3} \[Rule] 
+        4.5`}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Here the element at row 1 and column 1 has the value 1.2. The \
+element at row 2 and column 2 has the value 2.3 and the element at row 3 and \
+column 3 has value 4.5. This is a diagonal matrix \
+\>", "Text"],
+
+Cell["\<\
+To show this in a more convenient way we need a procedure that \
+converts the example sparse matrix to a dense matrix\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Needs["\<Imtek`SparseUtils`\>"]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsSparseMatrixToMatrix[\ exampleSparseMatrix\ ]\  // \ 
+      MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.2`", "0.`", "0.`"},
+            {"0.`", "2.3`", "0.`"},
+            {"0.`", "0.`", "4.5`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+ In the following example we will assemble some arbitrary element \
+matrices into a system matrix and solve a linear system using both dense and \
+sparse structure. On the right side we construct some random vector. \
+\>", \
+"Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Assembling the Element Matrices into a Sparse System Matrix", "Section \
+1"],
+
+Cell["\<\
+Let us assemble the element matrices in a dense system matrix and \
+solve a linear system with some random vector on the right side. We will \
+measure memory used and computation time.\
+\>", "Text"],
+
+Cell["\<\
+The process of assembling an element matrix into a system matrix is \
+handled by the assembler procedure, which we need to load. (See the Help \
+Browser: imsAssembler )\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Needs["\<Imtek`Assembler`\>"]\)], "Input"],
+
+Cell["\<\
+Next we set all the element matrices to be the same. This is no \
+restriction of the generality, just easier.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(\(elementValues\  = \ {\ {\ 1. , \ 2. , \ 3. \ }, \ {\ 2. , \ 5. , \ 
+            4. \ }, \ {3. , \ 4. , \ 6. \ }\ };\)\(\ \)\)\)], "Input"],
+
+Cell["The size of the matrix", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(size\  = \ 2000\)], "Input"],
+
+Cell[BoxData[
+    \(2000\)], "Output"]
+}, Open  ]],
+
+Cell["The right hand side load vector", "Text"],
+
+Cell[BoxData[
+    \(\(loadVec\  = \ Table[\ Random[], \ {\ size\ }\ ];\)\)], "Input"],
+
+Cell["Start the memory measurement", "Text"],
+
+Cell[BoxData[
+    \(\(mem\  = \ MemoryInUse[];\)\)], "Input"],
+
+Cell["Construct the empty system matrix", "Text"],
+
+Cell[BoxData[
+    \(\(systemMatrix\  = \ 
+        Table[\ 0.0, \ {\ size\ }, \ {\ size\ }\ ];\)\)], "Input"],
+
+Cell["Assemble the elements into the matrix", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Do[\[IndentingNewLine]imsAssemble[\ 
+            imsMakeElementMatrix[\ 
+              elementValues, \ {i, \ i + 1, \ i + 2\ }, \ {i, \ i + 1, \ 
+                i + 2\ }\ ]\ , systemMatrix\ \ ], \[IndentingNewLine]{\ i, \ 
+            size - 2\ }\[IndentingNewLine]];\)\  // \ Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.2399639999999999`\ Second, Null}\)], "Output"]
+}, Open  ]],
+
+Cell["This is the amount of memory used in MBytes", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\((\ MemoryInUse[]\  - \ mem\ )\)\ /\ 1024^2\  // \ N\)], "Input"],
+
+Cell[BoxData[
+    \(61.04143524169922`\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Dense Linear Solve", "Section 1"],
+
+Cell["Solve the dense system", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(LinearSolve[\ systemMatrix\ , \ loadVec\ ];\)\  // \ 
+      Timing\)], "Input"],
+
+Cell[BoxData[
+    \({3.3644890000000003`\ Second, Null}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Dense to Sparse Conversion", "Section 1"],
+
+Cell["\<\
+It is of course possible to convert the system matrix into the \
+sparse form in order to solve quicker.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(spMa\  = \ imsMatrixToSparseMatrix[\ systemMatrix\ ];\)\  // \ 
+      Timing\)], "Input"],
+
+Cell[BoxData[
+    \({19.326061`\ Second, Null}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "From ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Version 5.0 this is possible"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sparseMatrix\  = \ SparseArray[\ systemMatrix\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"SparseArray", "[", 
+        RowBox[{
+          InterpretationBox[\("<"\[InvisibleSpace]9994\[InvisibleSpace]">"\),
+            SequenceForm[ "<", 9994, ">"],
+            Editable->False], ",", \({2000, 2000}\)}], "]"}],
+      False,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Assembling the Element Matrices into a sparse system matrix", "Section \
+1"],
+
+Cell["\<\
+Let us assemble the element matrices directly into a sparse system \
+matrix and solve a sparse linear system with the same random vector on the \
+right side. The computation time for solving the system and used memory will \
+rapidly decrease, but the assembling routine is unfortunately  time \
+consuming. \
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(mem2\  = \ MemoryInUse[];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(sparseSystemMatrix\  = \ {};\)\( (*a\ way\ to\ define\ an\ empty\ \
+sparse\ matrix*) \)\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Do[\[IndentingNewLine]imsAssemble[\ 
+            imsMakeElementMatrix[\ 
+              elementValues, \ {i, \ i + 1, \ i + 2\ }, \ {i, \ i + 1, \ 
+                i + 2\ }\ ]\ , \ sparseSystemMatrix\ ], \[IndentingNewLine]{\ 
+            i, \ size - 2\ }\[IndentingNewLine]];\)\  // \ Timing\)], "Input"],
+
+Cell[BoxData[
+    \({75.421534`\ Second, Null}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\((\ MemoryInUse[]\  - \ mem2\ )\)\ /\ 1024^2\  // \ N\)], "Input"],
+
+Cell[BoxData[
+    \(1.2113494873046875`\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Sparse Linear Solve", "Section 1"],
+
+Cell[BoxData[
+    \(<< Developer`\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(SparseLinearSolve[\ sparseSystemMatrix, \ loadVec\ ];\)\  // \ 
+      Timing\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(SparseLinearSolve::"deprec"\), \(\(:\)\(\ \)\), \
+"\<\"Developer`SparseLinearSolve is deprecated.  Use LinearSolve with \
+SparseArray matrices instead. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::deprec\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \({0.1329799999999964`\ Second, Null}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "And from ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Version 5.0 this is possible"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Timing[\ \(LinearSolve[\ sparseMatrix, \ loadVec\ ];\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.11198299999999635`\ Second, Null}\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+CellGrouping->Manual,
+WindowSize->{937, 735},
+WindowMargins->{{Automatic, 1}, {1, Automatic}},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 50, 0, 84, "Title"],
+Cell[1829, 55, 172, 5, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[2026, 64, 35, 0, 30, "Subsubsection"],
+Cell[2064, 66, 924, 27, 28, "Text"],
+Cell[2991, 95, 488, 9, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3516, 109, 39, 0, 70, "Section 1"],
+Cell[3558, 111, 2529, 65, 109, "Text"],
+
+Cell[CellGroupData[{
+Cell[6112, 180, 177, 4, 31, "Input"],
+Cell[6292, 186, 106, 2, 30, "Output"]
+}, Open  ]],
+Cell[6413, 191, 217, 4, 44, "Text"],
+Cell[6633, 197, 141, 3, 28, "Text"],
+Cell[6777, 202, 64, 1, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[6866, 207, 106, 2, 31, "Input"],
+Cell[6975, 211, 378, 11, 80, "Output"]
+}, Open  ]],
+Cell[7368, 225, 242, 5, 44, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7647, 235, 82, 1, 44, "Section 1"],
+Cell[7732, 238, 208, 4, 44, "Text"],
+Cell[7943, 244, 192, 4, 44, "Text"],
+Cell[8138, 250, 62, 1, 31, "Input"],
+Cell[8203, 253, 133, 3, 28, "Text"],
+Cell[8339, 258, 162, 2, 31, "Input"],
+Cell[8504, 262, 38, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8567, 266, 48, 1, 31, "Input"],
+Cell[8618, 269, 38, 1, 30, "Output"]
+}, Open  ]],
+Cell[8671, 273, 47, 0, 28, "Text"],
+Cell[8721, 275, 85, 1, 31, "Input"],
+Cell[8809, 278, 44, 0, 28, "Text"],
+Cell[8856, 280, 61, 1, 31, "Input"],
+Cell[8920, 283, 49, 0, 28, "Text"],
+Cell[8972, 285, 108, 2, 31, "Input"],
+Cell[9083, 289, 53, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[9161, 293, 320, 5, 79, "Input"],
+Cell[9484, 300, 69, 1, 30, "Output"]
+}, Open  ]],
+Cell[9568, 304, 59, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[9652, 308, 86, 1, 31, "Input"],
+Cell[9741, 311, 52, 1, 30, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9842, 318, 39, 0, 44, "Section 1"],
+Cell[9884, 320, 38, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[9947, 324, 101, 2, 31, "Input"],
+Cell[10051, 328, 69, 1, 30, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10169, 335, 47, 0, 44, "Section 1"],
+Cell[10219, 337, 127, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[10371, 344, 111, 2, 31, "Input"],
+Cell[10485, 348, 60, 1, 30, "Output"]
+}, Open  ]],
+Cell[10560, 352, 124, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[10709, 361, 81, 1, 31, "Input"],
+Cell[10793, 364, 308, 8, 30, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11150, 378, 82, 1, 44, "Section 1"],
+Cell[11235, 381, 330, 6, 44, "Text"],
+Cell[11568, 389, 62, 1, 31, "Input"],
+Cell[11633, 392, 126, 2, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[11784, 398, 326, 5, 79, "Input"],
+Cell[12113, 405, 60, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12210, 411, 87, 1, 31, "Input"],
+Cell[12300, 414, 53, 1, 30, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12402, 421, 40, 0, 44, "Section 1"],
+Cell[12445, 423, 46, 1, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[12516, 428, 111, 2, 31, "Input"],
+Cell[12630, 432, 345, 5, 28, "Message"],
+Cell[12978, 439, 69, 1, 30, "Output"]
+}, Open  ]],
+Cell[13062, 443, 128, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[13215, 452, 90, 1, 31, "Input"],
+Cell[13308, 455, 70, 1, 30, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

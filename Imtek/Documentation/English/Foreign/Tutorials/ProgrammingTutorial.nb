@@ -1,0 +1,3522 @@
+(************** Content-type: application/mathematica **************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     70981,       2794]*)
+(*NotebookOutlinePosition[     71825,       2823]*)
+(*  CellTagsIndexPosition[     71781,       2819]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+  StyleBox["Mathematica'",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["s",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["\n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["Programming Language",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Title",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Roman E. Maeder\nSwiss Federal Institute of Technology (ETH)"], "Subsubtitle",\
+
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Abstract"], "Section",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " includes a rich and powerful programming language. It combines the\n\
+procedural, functional, and rule-based programming styles in a single \
+coherent\nsystem. We describe the design decisions taken in implementing ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  "'s\nprogramming language, and compare the different programming styles in \
+the way\nthey present themselves in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"The language is well suited to handle the major programming paradigms,\n\
+including procedural and functional programming, modularization, abstract \
+data\ntypes, term rewriting, logic programming, and object-oriented \
+programming. We\nshow typical uses of these paradigms, and discuss \
+implementation issues for\nthose that are not already part of the language."],
+   "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["\nThe material presented here is adapted from Chapter 1 of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The Mathematica\nProgrammer",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ", AP Professional, 1994. Most of the topics mentioned here are covered in \
+detail\nin the other chapters of this book. Earlier versions of this material \
+were\npublished in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The Mathematica Journal",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", in a column entitled \"",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox[" Mathematica\n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["Programmer",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["\"",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["The Programming Language"], "Section",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  StyleBox["Procedures in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"]
+}], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Strictly speaking, there are no procedures, functions, or subroutines in\n\
+",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[". Any definition of the form ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["f[",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["args",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox["]:=",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["body",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox[
+  " is a rewrite rule.\nWhenever the evaluator sees an expression that \
+matches the left side, the\nexpression is replaced by the right side with the \
+values of the pattern\nvariables substituted. This mechanism corresponds \
+closely to a procedure call\nof a traditional language, a similarity that is \
+intended.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["A Typical Procedure"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"SplitLine[vl_] :=\n        Module[{vll, pos, linelist = {}, low, high},\n    \
+            vll = If[NumberQ[#], #, Indeterminate]& /@ vl;\n                \
+pos = Flatten[ Position[vll, Indeterminate] ];\n                pos = Union[ \
+pos, {0, Length[vll]+1} ];\n                Do[ low = pos[[i]]+1;\n           \
+         high = pos[[i+1]]-1;\n                    If[ low < high,\n          \
+              AppendTo[linelist, Take[vll, {low, high}]] ],\n                 \
+  {i, 1, Length[pos]-1}];\n                linelist\n        ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["(Taken from ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Programming in Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", Chapter 1.)",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["A Typical Function"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"RandomPoly[x_, n_] :=\n        Sum[ Random[Integer, {-10, 10}] x^i, {i, 0, \
+n} ]"], "Input",
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["A Typical Rewrite Rule"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["log[a_ b_] := log[a] + log[b]"], "Input",
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Formal Parameters"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"The pattern variables in a procedure declaration are not local variables in\n\
+the procedure (as they are in Pascal or C)! To get this behavior you can use\n\
+the following:"], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"f[x0_, y0_, z0_] :=\n        Module[{x=x0, y=y0, z=z0}, (* initialized local \
+variables *)\n                .\n                .\n                x = ...   \
+             (* use of local variable *)\n        ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["On the other hand, parameter passing by reference (",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["var",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" parameters in Pascal,\npointers in C) is also possible",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["SetAttributes[f, HoldAll]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"f[xref_Symbol] :=\n        Module[{locals...},\n                .\n          \
+      .\n                xref = val     (* assignment to global parameter *)\n\
+        ]"], "Input",
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Pattern Matching and Term Rewriting"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Pattern matching and term rewriting is the fundamental operating principle \
+of\n",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  "'s evaluator. All other programming constructs are implemented by\nway of \
+term rewriting.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"It is especially useful for implementing rules corresponding to\n\
+transformations from a handbook of formulas. Equations in a handbook are\n\
+usually meant to be used as rewrite rules, transforming the left-hand side\n\
+into the right-hand side. By looking up an expression, we perform essentially\
+\npattern matching in our head."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Example: Laplace Transforms"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Definitions taken almost verbatim from a handbook of mathematics follow:"], 
+  "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Laplace[c_, t_, s_] := c/s /; FreeQ[c, t]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Laplace[a_ + b_, t_, s_] :=\n        Laplace[a, t, s] + Laplace[b, t, s]"], 
+  "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Laplace[c_ a_, t_, s_] :=\n        c Laplace[a, t, s] /; FreeQ[c, t]"], 
+  "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Laplace[t_^n_., t_, s_] :=\n        n!/s^(n+1) /; (FreeQ[n, t] && n > 0)"], 
+  "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Laplace[a_ t_^n_., t_, s_] :=\n        (-1)^n D[Laplace[a, t, s], {s, n}] /; \
+(FreeQ[n, t] && n > 0)"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Laplace[a_. Exp[b_. + c_. t_], t_, s_] :=\n        Laplace[a Exp[b], t, s-c] \
+/; FreeQ[{b, c}, t]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["Usage:"], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Laplace[ Exp[omega t + phi] t^2, t, s]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+(2*E^phi)/(-omega + s)^3\
+\>", "\<\
+      phi
+   2 E
+-------------
+            3
+(-omega + s)\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Programming Paradigms"], "Section",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Functional Programming"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Structured Iteration and Reduction"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Given the problem of adding the square roots of the first 500  integers, the\
+\nsolution in most programming languages is to use an auxiliary variable that \
+is\nincremented by the square root of a loop index iterating from 1 to 500."],
+   "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"sum = 0.0;\nDo[ sum = sum + N[Sqrt[i]], {i, 1, 500} ];\nsum"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["In ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ", this loop reduces to a single statement that corresponds\ndirectly to \
+the mathematical formula.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Sum[ N[Sqrt[i]], {i, 1, 500} ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " does not force you to think about how to implement a summation,\nbut lets \
+you focus instead on the concept itself. ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Product[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  " works in the same\nway, multiplying its terms together instead of adding \
+them up.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Think of the loop body as a function applied to a list/sum/product of \
+values."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["l = {1, 2, 3, 4, 5};"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Table[l[[i]]^2, {i, 1, Length[l]}]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{1, 4, 9, 16, 25}\
+\>", 
+"\<\
+{1, 4, 9, 16, 25}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["#^2& /@ l"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{1, 4, 9, 16, 25}\
+\>", 
+"\<\
+{1, 4, 9, 16, 25}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[
+"Consider this programming style whenever you see loops that iterate over a\n\
+structure (list, matrix, ...)."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Folding"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["What does ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Fold[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  " do? One easy way to see how such a function works is to apply\nit to \
+purely symbolic (undefined) functions.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Fold[f, e0, {e1, e2, e3}]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+f[f[f[e0, e1], e2], e3]\
+\>", 
+"\<\
+f[f[f[e0, e1], e2], e3]\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["One use of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Fold[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" is for ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["recursion-removal",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ". The body of a recursively defined\nfunction (with one recursive call) \
+can be thought of as a function ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["f",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox[
+  " of two\narguments, the result of the recursive call and the value of the \
+recursion\nparameter (the value that changes from one call to the next). We \
+then generate\na list of all values of the recursion parameter and use ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Fold[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  " with the\ninitial value equal to the value of the boundary case. Here is \
+the standard\nexample, factorial numbers. This is the recursive definition:",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"factorial1[0] = 1;\nfactorial1[n_] := n factorial1[n-1]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["The body function is simply ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["multiplication",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", the recursion parameter ranges\nfrom 1 to ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[". This gives the following definition:",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["factorial2[n_] := Fold[ Times, 1, Range[1, n] ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Note that it works also for ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" = 0.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["FoldList[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" shows the intermediate steps.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["FoldList[ Times, 1, Range[1, 10] ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData[
+"\<\
+{1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800}\
+\>", 
+"\<\
+{1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800}\
+\>"], "Output",\
+
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Nesting and Fixed Points"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Loops that compute a value iteratively are examples of nested function\n\
+application."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["r = 2.0;"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["x = 1.0;\nDo[ x = (x +r/x)/2, {10}];\nx"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+1.414213562373095\
+\>", "\<\
+1.41421\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Nest[Function[x, (x +r/x)/2], 1.0, 10]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+1.414213562373095\
+\>", "\<\
+1.41421\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["FixedPoint[Function[x, (x +r/x)/2], 1.0]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+1.414213562373095\
+\>", "\<\
+1.41421\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Logic Programming"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Reversing a list in typical Prolog style."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"reverse[l_] := rev[ l, {} ]\nrev[ {}, r_ ] := r\nrev[ {h_, t___}, {r___} ] \
+:= rev[ {t}, {h, r} ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["reverse[ {a, b, c} ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{c, b, a}\
+\>", "\<\
+{c, b, a}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["Backtracking can be implemented with side conditions."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"sort[ {alpha___, x_, y_, omega___} ] :=\n        sort[ {alpha, y, x, omega} \
+] /; x > y"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["sort[ l_ ] := l"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["sort[ {5, 1, 3, 2} ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{1, 2, 3, 5}\
+\>", "\<\
+{1, 2, 3, 5}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Prolog"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Here is a Prolog interpreter written in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Needs[\"LogicProgramming`\"]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["This is the game of NIM."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["<<NIM.m"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["Now generate/perform moves."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["LogicValues[play]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{rule[play[cons[Var[n], Var[rest]], take[1, Var[n]],
+
+    Var[rest]]], rule[play[cons[Var[n], Var[rest]],
+
+    take[1, 1], cons[Var[n1], Var[rest]]],
+
+   Var[n] > 1 && Var[n1] == -1 + Var[n]],
+
+  rule[play[cons[Var[n], Var[rest]], take[1, Var[m]],
+
+    cons[Var[nr], Var[rest]]],
+
+   Var[n] > 2 && Var[n1] == -1 + Var[n] &&
+
+    play[cons[Var[n1], Var[rest]], take[1, Var[m1]],
+
+     cons[Var[nr], Var[rest]]] && Var[m] == 1 + Var[m1]],
+
+  rule[play[cons[Var[n], Var[rest]], take[Var[i], Var[m]],
+
+    cons[Var[n], Var[rest1]]],
+
+   play[Var[rest], take[Var[j], Var[m]], Var[rest1]] &&
+
+    Var[i] == 1 + Var[j]]}\
+\>", 
+"\<\
+{play[(n_ . rest_), take[1, n_], rest_],
+
+  play[(n_ . rest_), take[1, 1], (n1_ . rest_)] :-
+
+   ((n_) > 1 && (n1_) == -1 + (n_)),
+
+  play[(n_ . rest_), take[1, m_], (nr_ . rest_)] :-
+
+   ((n_) > 2 && (n1_) == -1 + (n_) &&
+
+     play[(n1_ . rest_), take[1, m1_], (nr_ . rest_)] &&
+
+     (m_) == 1 + (m1_)),
+
+  play[(n_ . rest_), take[i_, m_], (n_ . rest1_)] :-
+
+   (play[rest_, take[j_, m_], rest1_] && (i_) == 1 + (j_))}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["The strategy of NIM follows:"], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["LogicValues[win]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{rule[win[Var[pos], Var[t]],
+
+   play[Var[pos], Var[t], Var[pos1]] &&
+
+    !win[Var[pos1], Var[$, 0]]]}\
+\>", 
+"\<\
+{win[pos_, t_] :- (play[pos_, t_, pos1_] && !win[pos1_, _])}\
+\>"], 
+  "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["All moves from position ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["(1 2 1)",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" are given.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["QueryAll[play[list[1,2,1], t_, _]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"{t -> take[1, 1]}\n{t -> take[2, 2]}\n{t -> take[2, 1]}\n{t -> take[3, 1]}"],
+   "Print",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["Find the winning move."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Query[win[list[1,2,1], t_]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{t -> take[2, 2]}\
+\>", 
+"\<\
+{t -> take[2, 2]}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["Perform this move."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Query[play[list[1,2,1], t /. %, newpos_]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{newpos -> cons[1, cons[1, nil]]}\
+\>", 
+"\<\
+{newpos -> (1 1)}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["See The Mathematica Journal, Vol. 4, issues 1 and 2."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  FontFamily->"Palatino",
+  FontWeight->"Plain",
+  FontSlant->"Italic",
+  FontTracking->"Plain",
+  FontVariations->{"Underline"->False,
+  "Outline"->False,
+  "Shadow"->False}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Modularization"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Good programming style suggests separating definition and implementation. \
+The\nexported functions are declared and documented. Any needed functions are\
+\ndeclared and imported. The package mechanism in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" provides for these\nfeatures. It is explained in detail in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Programming in Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["\n(Addison-Wesley, 1991).",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["A Demonstration Package"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Create a clean state for a new package and declare any imports."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["BeginPackage[\"Demo`\", \"Needed1`\"]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Create the public symbols. This is best done with a usage message."], "Text",\
+
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"SampleFunction::usage = \"SampleFunction[n] does nothing\""], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["Start the implementation part."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Begin[\"`Private`\"]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["All new symbols in this part will not be exported."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["SampleFunction[n_] := n^3 + 2n^2 + 3n + 4"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["AuxFunction[m_] := something"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["End[]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["End the package and add its context to ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["$ContextPath.",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["EndPackage[]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["Reading it in."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"This is a machine-independent way of reading in packages."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["<< Demo`"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["The exported function can be used outside."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["?SampleFunction"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["SampleFunction[n] does nothing"], "Print",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["The private symbols are not found."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["?AuxFunction"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Information::notfound: Symbol AuxFunction not found."], "Message",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Import of Packages: Details"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Transitivity: if ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["A`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" needs ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["B`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" and ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["B`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" needs ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["C`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[", can ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["A",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontWeight->"Bold"],
+  StyleBox["`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" use ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["C`",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["?",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData[
+"BeginPackage[\"A`\", \"B`\"];\n\na::usage = \"a in A\";\n\nPrint[$Context, \
+$ContextPath];\n\nEndPackage[];"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["A`{A`, B`, System`}"], "Print",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[
+"BeginPackage[\"B`\", \"C`\"]\n\nb::usage = \"b in B\"\n\nEndPackage[]"], 
+  "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"BeginPackage[\"C`\"]\n\nc::usage = \"c in C\"\n\nEndPackage[]"], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["In Version 2.2, ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["C`",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" is not available inside the package ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["A`",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[". This will be fixed in the next\nversion.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Hidden import"], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  PageBreakBelow->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData[
+"BeginPackage[\"D1`\"];\n\nNeeds[\"E`\"]; (* hidden import *)\n\n\
+Print[$Context, $ContextPath];\n\nEndPackage[];"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["D1`{E`, D1`, System`}"], "Print",
+  Evaluatable->False,
+  PageBreakAbove->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[
+"BeginPackage[\"D2`\"];\n\nNeeds[\"E`\"]; (* hidden import *)\n\n\
+Print[$Context, $ContextPath];\n\nEndPackage[];"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["D2`{E`, D2`, System`}"], "Print",
+  Evaluatable->False,
+  PageBreakAbove->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["$Packages"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData[
+"\<\
+{\"D2`\", \"D1`\", \"E`\", \"Global`\", \"System`\"}\
+\>", 
+"\<\
+{D2`, D1`, E`, Global`, System`}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["$ContextPath"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{\"D2`\", \"D1`\", \"Global`\", \"System`\"}\
+\>", 
+"\<\
+{D2`, D1`, Global`, System`}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox[
+  "In Version 2.2.0, a second attempt at hidden import fails, since the \
+package is not\nread again, and it is not put on ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["$ContextPath",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[". This is now fixed.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Abstract Data Types"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Abstract data types are both a theoretically well-defined concept and a \
+useful\ntool for program development. Following the principles of abstract \
+data type\ndesign, one arrives at a clear separation of specification and \
+implementation."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Abstract data types are defined in terms of type names, function names, \
+and\nequations. These can be realized in ",
+    CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " very easily. The equations\nbecome rewrite rules. The interactive nature \
+of ",
+    CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " makes it well\nsuited for rapid prototyping and testing of designs.",
+    CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["A detailed discussion of abstract data types in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" can be found in\n",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The Mathematica Programmer",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", and in Vol. 2, No. 3 of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["\n",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Journal",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[". Here is a short excerpt and an example.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["How to Define a Data Type"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Define the names of the sorts to be used."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Define the constants to be used."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Define constructors and selectors."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Write down the equations that should hold."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["How to implement a Data Type"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Choose a representation for elements of the sorts defined.\nUsually you can \
+use a normal expression having the name of the sort as head.\nThis \
+corresponds roughly to a record in many programming languages."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Derive rules for normal forms for the data elements.\nThis ensures that \
+elements are stored in a unique way. The rules are derived\nfrom the \
+equations and can normally be put into the constructors."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Define constructors and selectors.\nThese are the only operations that are \
+allowed access to the details of the\ninternal representations."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Define the other operations.\nAn operation for which exactly one equation \
+exists can usually be turned into\na simple rewrite rule. (Such an operation \
+is called a ",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["derived",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " operation.) The\nvariables in the left side of the rules are in the form \
+",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["_",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier"],
+  StyleBox["type",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox[
+  ", restricting\nthe arguments to the correct types. Use only selectors to \
+access parts of the\ndata elements on the right side of the rules.",
+    CellDingbat->"\[FilledCircle]",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Use overloading where appropriate.\nOverloading built-in functions is most \
+easily done by defining up-values,\nrules of the form"], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["g/: f[n_g, ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["...",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Times",
+    FontWeight->"Plain"],
+  StyleBox["] := ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["...",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Times",
+    FontWeight->"Plain"]
+}], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Choose a suitable output representation of data elements."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Define automatic type conversions where useful."], "Text",
+  CellDingbat->"\[FilledCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["An Example"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["This is a data type for modular numbers."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Design"], "Text",
+  CellDingbat->"\[GrayCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Sorts:   ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["               mod, Integer",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Constants:  ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["            p",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Constructors:  ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["         makemod",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Selectors:  ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["            rep",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Derived Operations: ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["    Plus, Times",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Equations:  ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["            Mod[ rep[",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox["mod[n] ] - n, p ] == 0",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Implementation"], "Text",
+  CellDingbat->"\[GrayCircle]",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["makemod[n_Integer] := mod[ Mod[n, p] ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["rep[ mod[n_] ] := n"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"mod/: m1_mod + m2_mod := makemod[ rep[m1] + rep[m2] ]\nmod/: m1_mod * m2_mod \
+:= makemod[ rep[m1] * rep[m2] ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Note that we have ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["overloaded",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " the built-in addition and subtraction functions.\nThis corresponds \
+directly to the use of the same names in the specification.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Usage"], "Text",
+  CellDingbat->"\[GrayCircle]",
+  Evaluatable->False,
+  PageBreakBelow->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"This sets the modulus to 5 for the computations that follow."], "Text",
+  Evaluatable->False,
+  PageBreakBelow->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["p = 5;"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "This makes two modular numbers and assigns them to the variables ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["m2",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" and ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["m3",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["m2 = makemod[2]; m3 = makemod[3];"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["Their sum is 0 (modulo 5)."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["m2 + m3"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+mod[0]\
+\>", "\<\
+mod[0]\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["Their product is 1 (modulo 5)."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["m2 m3"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+mod[1]\
+\>", "\<\
+mod[1]\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Lazy Evaluation: Infinity"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "With lazy evaluation, arguments of functions are only evaluated when they \
+are\nneeded, not when the function is called. It can be implemented with the\n\
+attributes ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["HoldFirst",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" and ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["HoldRest",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  ". Among other things, this idea allows us to\nimplement infinite lists.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["It is, of course, impossible to deal with an ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["infinite",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " set explicitly on a\nfinite computer. But a set whose elements can be \
+generated one at a time, each in a finite\nnumber of steps---such a set is \
+called ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["recursively enumerable",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  "---can be\nconsidered in some sense as entirely \"known,\" because any \
+element can be\nproduced upon demand. The set of all perfect squares, for \
+example, is\nrecursively enumerable, for each element can be computed by the \
+formula ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["^2,\nwhere ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " = 1, 2,.... Such a formula describes a function of the integers; we\ncan \
+therefore define a recursively enumerable set as the ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["range",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" of a computable\n(or ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["recursive",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[") function.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["We will call our infinite lists ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["streams",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" (not to be confused with input and\noutput streams in ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ").\nGood software design principles suggest that we do not work on ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["stream",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  " objects\ndirectly, but only through an interface that hides the \
+implementation details.\nHere the interface consists of a constructor ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["MakeStream[",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["first",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox[",",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontWeight->"Bold"],
+  StyleBox["rest",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox["]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["\nand two selectors ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["First[",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["stream",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox["]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" and ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Rest[",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox["stream",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox["]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "The data-structure built in this way is the same as lists in Lisp. The ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["rest",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold",
+    FontSlant->"Italic"],
+  StyleBox[
+  ",\nhowever, is now a function that produces the rest of the stream \
+(usually\nanother stream) when called. Until then it is held in unevaluated \
+form.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["<< Streams.m"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["First Example"], "Subsubsection",
+  CellMargins->{{Inherited, Inherited}, {Inherited, 4}},
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Our first example is a stream of zeroes."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["zeroes = MakeStream[0, zeroes]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[0, zeroes]\
+\>", 
+"\<\
+{0, zeroes ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["First[zeroes]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+0\
+\>", "\<\
+0\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Rest[zeroes]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[0, zeroes]\
+\>", 
+"\<\
+{0, zeroes ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["We can take the rest several times."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Nest[ Rest, zeroes, 1000 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[0, zeroes]\
+\>", 
+"\<\
+{0, zeroes ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["The Set of Integers"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "The definition below produces a stream of integers starting from ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"IntegersFrom[n_Integer] := MakeStream[n, IntegersFrom[n+1]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["The first element of the stream of integers from ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" is, of course, ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" itself,\nand the rest is the stream of integers from ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["n",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox["+1.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["integers = IntegersFrom[1]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[1, IntegersFrom[1 + 1]]\
+\>", 
+"\<\
+{1, IntegersFrom[1 + 1] ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["If we take the rest of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["integers",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  " 99 times and then take the first element, we\nshould get the 100th \
+element. We can overload ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Part[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" to perform this operation\non streams.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["integers[[100]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+100\
+\>", "\<\
+100\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Streams like Lists"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"We can overload most functions on lists to work also with streams."], "Text",\
+
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Listable functions thread over streams as they do over lists."], "Text",
+  CellDingbat->"\[GrayCircle]",
+  Evaluatable->False,
+  PageBreakBelow->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["integers^2"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[1, IntegersFrom[1 + 1]^2]\
+\>", 
+"\<\
+                       2
+{1, IntegersFrom[1 + 1]  ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Take[%, 10]"], "Input",
+  CellMargins->{{Inherited, Inherited}, {2, Inherited}},
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{1, 4, 9, 16, 25, 36, 49, 64, 81, 100}\
+\>", 
+"\<\
+{1, 4, 9, 16, 25, 36, 49, 64, 81, 100}\
+\>"], "Output",
+  CellMargins->{{Inherited, Inherited}, {Inherited, 8}},
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData["Most functional constructs work on streams."], "Text",
+  CellDingbat->"\[GrayCircle]",
+  Evaluatable->False,
+  PageBreakBelow->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Select[ integers, PrimeQ ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[2, Select[IntegersFrom[2 + 1], PrimeQ]]\
+\>", 
+"\<\
+{2, Select[IntegersFrom[2 + 1], PrimeQ] ...}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["%[[1000]]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+7919\
+\>", "\<\
+7919\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["Nest[]",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" without its third argument produces a stream.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["goldenstream = Nest[ Function[x, 1 + 1/x], 1 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Stream[1, Nest[Function[x, 1 + 1/x],
+
+   Function[x, 1 + 1/x][1]]]\
+\>", "\<\
+                         1
+{1, Nest[Function[x, 1 + -], <<1>>] ...}
+                         x\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Take[ goldenstream, 15 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData[
+"\<\
+{1, 2, 3/2, 5/3, 8/5, 13/8, 21/13, 34/21, 55/34, 89/55,
+
+  144/89, 233/144, 377/233, 610/377, 987/610}\
+\>", 
+"\<\
+       3  5  8  13  21  34  55  89  144  233  377  610  987
+{1, 2, -, -, -, --, --, --, --, --, ---, ---, ---, ---, ---}
+       2  3  5  8   13  21  34  55  89   144  233  377  610\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["N[%, 10]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+{1., 2., 1.5, 1.666666666666667, 1.6, 1.625,
+
+  1.615384615384615, 1.619047619047619, 1.617647058823529,
+
+  1.618181818181818, 1.617977528089888, 1.618055555555556,
+
+  1.618025751072961, 1.618037135278514, 1.618032786885246}\
+\>", 
+"\<\
+{1., 2., 1.5, 1.666666667, 1.6, 1.625, 1.615384615,
+
+  1.619047619, 1.617647059, 1.618181818, 1.617977528,
+
+  1.618055556, 1.618025751, 1.618037135, 1.618032787}\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Object-oriented Programming"], "Subsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Object-oriented programming is a programming style that is becoming more and\
+\nmore popular. It promises code-reuse and easier maintenance of larger \
+projects\nthan is possible with traditional procedural languages. Its use of \
+methods and message passing\ninstead of procedure calls shifts the \
+programmer's view towards close\nintegration of data and operations."], "Text",\
+
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "An interactive object-oriented language can easily be implemented in\n",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[". The implementation is in the package ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Classes.m",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[", available from\n",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["MathSource.",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Objects and Classes"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"The first important aspect of object-oriented languages is that functions \
+are\nconsidered part of data. A data object \"knows\" which operations can be\
+\nperformed on it. The functions defined for a certain type of object are \
+part\nof that object."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Thus an ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["object",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" is a collection of data elements and operations",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["that act on these data elements. The operations are called ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["methods",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[".",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "Methods are usually not defined for each object separately but are \
+collected\nin a ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["class",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ". Objects then belong to a class from which they take their methods.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Message Passing"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["A uniform mechanism, called ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["message passing",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  ", is provided for invoking the\ncorrect piece of code, if a function is \
+called or, as we now prefer to say, if\na message is passed to an object to \
+execute a certain method. This viewpoint\nemphasizes that it is the object's \
+responsibility to react to a message.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["Inheritance"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Often a number of related data types have some common characteristics. Some\n\
+operations on them can be written in a way that does not depend on which of\n\
+the data types the operations are applied to.  Common characteristics of \
+related data types\ncan then be isolated and encapsulated in a new data type. \
+The other data types\nare then made subtypes of the new type. They inherit \
+the characteristics of\nthe common type, and need only implement those \
+aspects in which they differ\nfrom their supertype."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Thus, much of the code needs to be written only once. This saves development\
+\ntime and--perhaps more important--ensures consistency, since a change needs\
+\nto be made only once, instead of being applied to several almost identical\n\
+pieces of code."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["An Example"], "Subsubsection",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox[
+  "The implementation of the object-oriented system in the package ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Classes.m",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" is\ndescribed in detail in Vol. 3, No. 1 of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["The",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Mathematica",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Journal",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[". An update",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["d\nversion of the package is available from ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["MathSource.",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData["Needs[\"Classes`\"]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["A class is declared with"], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[{
+  StyleBox["Class[ ",
+    AspectRatioFixed->True],
+  StyleBox["name",
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", ",
+    AspectRatioFixed->True],
+  StyleBox["superclass",
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", ",
+    AspectRatioFixed->True],
+  StyleBox["instance variables",
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[", ",
+    AspectRatioFixed->True],
+  StyleBox["methods",
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[" ]",
+    AspectRatioFixed->True]
+}], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"An account has one instance variable, the balance, and methods to initialize\
+\nit and to deposit and withdraw money and to ask what the balance is."], 
+  "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Class[ Account, Object,\n    {bal},\n    {{new,      (new[super]; bal = \
+#1)&},\n     {balance,  bal&},\n     {deposit,  Function[bal += #1]},\n     \
+{withdraw, Function[bal -= #1]},\n     {delete,   (If[ bal != 0, \
+Print[\"Remaining balance:\", bal]];\n                 delete[super])&}\n    \
+} ];"], "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["a1 = new[Account, 100]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Classes`Private`Account[bal$74]\
+\>", 
+"\<\
+-Account-\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[
+"Message passing is made to look like ordinary function calls. The object \
+that\nreceives the message is the first argument."], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["deposit[ a1, 200 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+300\
+\>", "\<\
+300\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["withdraw[ a1, 500 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+-200\
+\>", "\<\
+-200\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["Here is a subclass of ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Account",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[
+  ". It inherits most behavior. The method for\nwithdrawing money is ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["overridden",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontSlant->"Italic"],
+  StyleBox[
+  " to check whether the balance is sufficient for\nthe withdrawal. If it is, \
+we invoke the method in the superclass ",
+    Evaluatable->False,
+    AspectRatioFixed->True],
+  StyleBox["Account",
+    Evaluatable->False,
+    AspectRatioFixed->True,
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  StyleBox[" to\nperform an ordinary withdrawal.",
+    Evaluatable->False,
+    AspectRatioFixed->True]
+}], "Text",
+  Evaluatable->False,
+  AspectRatioFixed->True],
+
+Cell[TextData[
+"Class[ NoCreditAccount, Account,\n    {},\n    {{withdraw, Function[ If[ \
+balance[self] < #1,\n                              Print[\"cannot withdraw \
+\", #1],\n                              withdraw[super, #1] ] ]}\n    } ];"], 
+  "Input",
+  AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[TextData["a2 = new[NoCreditAccount, 1000]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+Classes`Private`NoCreditAccount[bal$77]\
+\>", 
+"\<\
+-NoCreditAccount-\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["withdraw[ a2, 900 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+100\
+\>", "\<\
+100\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["withdraw[ a2, 110 ]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[TextData["cannot withdraw 110"], "Print",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData["balance[ a2]"], "Input",
+  AspectRatioFixed->True],
+
+Cell[OutputFormData["\<\
+100\
+\>", "\<\
+100\
+\>"], "Output",
+  Evaluatable->False,
+  AspectRatioFixed->True]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"4.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->{},
+CellGrouping->Manual,
+WindowSize->{739, 731},
+WindowMargins->{{Automatic, 186}, {91, Automatic}},
+PrivateNotebookOptions->{"ColorPalette"->{RGBColor, -1}},
+ShowCellLabel->True,
+ShowCellTags->False,
+RenderingOptions->{"ObjectDithering"->True,
+"RasterDithering"->False}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1727, 52, 432, 17, 174, "Title",
+  Evaluatable->False],
+Cell[2162, 71, 144, 4, 71, "Subsubtitle",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[2331, 79, 85, 2, 60, "Section",
+  Evaluatable->False],
+Cell[2419, 83, 925, 29, 104, "Text",
+  Evaluatable->False],
+Cell[3347, 114, 442, 8, 104, "Text",
+  Evaluatable->False],
+Cell[3792, 124, 1196, 40, 122, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5025, 169, 101, 2, 60, "Section",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[5151, 175, 266, 10, 45, "Subsection",
+  Evaluatable->False],
+Cell[5420, 187, 1345, 45, 123, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[6790, 236, 102, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[6895, 240, 592, 8, 192, "Input"],
+Cell[7490, 250, 354, 13, 32, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7881, 268, 101, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[7985, 272, 135, 3, 42, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8157, 280, 105, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[8265, 284, 82, 1, 27, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8384, 290, 100, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[8487, 294, 248, 5, 68, "Text",
+  Evaluatable->False],
+Cell[8738, 301, 264, 4, 102, "Input"],
+Cell[9005, 307, 438, 14, 50, "Text",
+  Evaluatable->False],
+Cell[9446, 323, 78, 1, 27, "Input"],
+Cell[9527, 326, 222, 4, 102, "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9798, 336, 115, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[9916, 340, 492, 17, 68, "Text",
+  Evaluatable->False],
+Cell[10411, 359, 406, 7, 104, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[10842, 370, 110, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[10955, 374, 150, 4, 32, "Text",
+  Evaluatable->False],
+Cell[11108, 380, 94, 1, 27, "Input"],
+Cell[11205, 383, 129, 3, 42, "Input"],
+Cell[11337, 388, 125, 3, 42, "Input"],
+Cell[11465, 393, 129, 3, 42, "Input"],
+Cell[11597, 398, 155, 3, 42, "Input"],
+Cell[11755, 403, 152, 3, 42, "Input"],
+Cell[11910, 408, 80, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[12015, 414, 91, 1, 27, "Input"],
+Cell[12109, 417, 183, 10, 60, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12365, 435, 98, 2, 60, "Section",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[12488, 441, 102, 2, 45, "Subsection",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[12615, 447, 117, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[12735, 451, 311, 6, 68, "Text",
+  Evaluatable->False],
+Cell[13049, 459, 113, 2, 57, "Input"],
+Cell[13165, 463, 419, 15, 50, "Text",
+  Evaluatable->False],
+Cell[13587, 480, 83, 1, 27, "Input"],
+Cell[13673, 483, 650, 22, 68, "Text",
+  Evaluatable->False],
+Cell[14326, 507, 154, 4, 32, "Text",
+  Evaluatable->False],
+Cell[14483, 513, 73, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[14581, 518, 87, 1, 27, "Input"],
+Cell[14671, 521, 137, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14845, 533, 62, 1, 27, "Input"],
+Cell[14910, 536, 137, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[15062, 546, 183, 4, 50, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15282, 555, 90, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[15375, 559, 458, 16, 50, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[15858, 579, 78, 1, 27, "Input"],
+Cell[15939, 582, 149, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[16103, 592, 1429, 45, 141, "Text",
+  Evaluatable->False],
+Cell[17535, 639, 109, 2, 42, "Input"],
+Cell[17647, 643, 589, 20, 50, "Text",
+  Evaluatable->False],
+Cell[18239, 665, 100, 1, 27, "Input"],
+Cell[18342, 668, 337, 13, 32, "Text",
+  Evaluatable->False],
+Cell[18682, 683, 301, 11, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[19008, 698, 87, 1, 27, "Input"],
+Cell[19098, 701, 218, 9, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19365, 716, 107, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[19475, 720, 161, 4, 50, "Text",
+  Evaluatable->False],
+Cell[19639, 726, 61, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[19725, 731, 92, 1, 57, "Input"],
+Cell[19820, 734, 126, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19983, 745, 91, 1, 27, "Input"],
+Cell[20077, 748, 126, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20240, 759, 93, 1, 27, "Input"],
+Cell[20336, 762, 126, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20523, 775, 97, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[20623, 779, 115, 2, 32, "Text",
+  Evaluatable->False],
+Cell[20741, 783, 152, 3, 57, "Input"],
+
+Cell[CellGroupData[{
+Cell[20918, 790, 73, 1, 27, "Input"],
+Cell[20994, 793, 120, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[21129, 802, 127, 2, 32, "Text",
+  Evaluatable->False],
+Cell[21259, 806, 142, 3, 42, "Input"],
+Cell[21404, 811, 68, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[21497, 816, 73, 1, 27, "Input"],
+Cell[21573, 819, 126, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21736, 830, 89, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[21828, 834, 355, 13, 32, "Text",
+  Evaluatable->False],
+Cell[22186, 849, 81, 1, 27, "Input"],
+Cell[22270, 852, 98, 2, 32, "Text",
+  Evaluatable->False],
+Cell[22371, 856, 60, 1, 27, "Input"],
+Cell[22434, 859, 101, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[22560, 865, 70, 1, 27, "Input"],
+Cell[22633, 868, 1137, 47, 165, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[23785, 918, 102, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[23912, 924, 69, 1, 27, "Input"],
+Cell[23984, 927, 269, 12, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[24268, 942, 371, 14, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[24664, 960, 87, 1, 27, "Input"],
+Cell[24754, 963, 153, 4, 68, "Print",
+  Evaluatable->False]
+}, Open  ]],
+Cell[24922, 970, 96, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[25043, 976, 80, 1, 27, "Input"],
+Cell[25126, 979, 137, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[25278, 989, 92, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[25395, 995, 94, 1, 27, "Input"],
+Cell[25492, 998, 153, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[25660, 1008, 302, 9, 32, "Text",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[26011, 1023, 94, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[26108, 1027, 794, 23, 104, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[26927, 1054, 106, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[27036, 1058, 138, 3, 32, "Text",
+  Evaluatable->False],
+Cell[27177, 1063, 90, 1, 27, "Input"],
+Cell[27270, 1066, 143, 4, 32, "Text",
+  Evaluatable->False],
+Cell[27416, 1072, 112, 2, 27, "Input"],
+Cell[27531, 1076, 104, 2, 32, "Text",
+  Evaluatable->False],
+Cell[27638, 1080, 73, 1, 27, "Input"],
+Cell[27714, 1083, 124, 2, 32, "Text",
+  Evaluatable->False],
+Cell[27841, 1087, 94, 1, 27, "Input"],
+Cell[27938, 1090, 81, 1, 27, "Input"],
+Cell[28022, 1093, 58, 1, 27, "Input"],
+Cell[28083, 1096, 313, 11, 32, "Text",
+  Evaluatable->False],
+Cell[28399, 1109, 65, 1, 27, "Input"],
+Cell[28467, 1112, 122, 3, 32, "Text",
+  Evaluatable->False],
+Cell[28592, 1117, 132, 3, 32, "Text",
+  Evaluatable->False],
+Cell[28727, 1122, 61, 1, 27, "Input"],
+Cell[28791, 1125, 116, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[28932, 1131, 68, 1, 27, "Input"],
+Cell[29003, 1134, 105, 2, 23, "Print",
+  Evaluatable->False]
+}, Open  ]],
+Cell[29123, 1139, 108, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[29256, 1145, 65, 1, 27, "Input"],
+Cell[29324, 1148, 130, 3, 23, "Message",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29503, 1157, 110, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[29616, 1161, 1954, 73, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[31595, 1238, 162, 3, 117, "Input"],
+Cell[31760, 1243, 94, 2, 23, "Print",
+  Evaluatable->False]
+}, Open  ]],
+Cell[31869, 1248, 148, 4, 87, "Input",
+  Evaluatable->False],
+Cell[32020, 1254, 137, 3, 87, "Input",
+  Evaluatable->False],
+Cell[32160, 1259, 615, 22, 50, "Text",
+  Evaluatable->False],
+Cell[32778, 1283, 146, 4, 32, "Text",
+  Evaluatable->False,
+  PageBreakBelow->False],
+
+Cell[CellGroupData[{
+Cell[32949, 1291, 167, 3, 117, "Input"],
+Cell[33119, 1296, 121, 3, 23, "Print",
+  Evaluatable->False,
+  PageBreakAbove->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33277, 1304, 167, 3, 117, "Input"],
+Cell[33447, 1309, 121, 3, 23, "Print",
+  Evaluatable->False,
+  PageBreakAbove->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33605, 1317, 62, 1, 27, "Input"],
+Cell[33670, 1320, 188, 8, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33895, 1333, 65, 1, 27, "Input"],
+Cell[33963, 1336, 175, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[34153, 1346, 484, 16, 50, "Text",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[34686, 1368, 99, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[34788, 1372, 317, 6, 68, "Text",
+  Evaluatable->False],
+Cell[35108, 1380, 1109, 31, 83, "Text",
+  Evaluatable->False],
+Cell[36220, 1413, 1141, 41, 68, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[37386, 1458, 108, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[37497, 1462, 149, 3, 32, "Text",
+  Evaluatable->False],
+Cell[37649, 1467, 140, 3, 32, "Text",
+  Evaluatable->False],
+Cell[37792, 1472, 142, 3, 32, "Text",
+  Evaluatable->False],
+Cell[37937, 1477, 150, 3, 32, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38124, 1485, 111, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[38238, 1489, 318, 6, 68, "Text",
+  Evaluatable->False],
+Cell[38559, 1497, 310, 6, 68, "Text",
+  Evaluatable->False],
+Cell[38872, 1505, 249, 5, 68, "Text",
+  Evaluatable->False],
+Cell[39124, 1512, 1421, 46, 123, "Text",
+  Evaluatable->False],
+Cell[40548, 1560, 239, 5, 68, "Text",
+  Evaluatable->False],
+Cell[40790, 1567, 469, 19, 28, "Input",
+  Evaluatable->False],
+Cell[41262, 1588, 166, 4, 32, "Text",
+  Evaluatable->False],
+Cell[41431, 1594, 155, 3, 32, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41623, 1602, 93, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[41719, 1606, 114, 2, 32, "Text",
+  Evaluatable->False],
+Cell[41836, 1610, 112, 3, 32, "Text",
+  Evaluatable->False],
+Cell[41951, 1615, 297, 11, 32, "Text",
+  Evaluatable->False],
+Cell[42251, 1628, 286, 11, 32, "Text",
+  Evaluatable->False],
+Cell[42540, 1641, 292, 11, 32, "Text",
+  Evaluatable->False],
+Cell[42835, 1654, 288, 11, 32, "Text",
+  Evaluatable->False],
+Cell[43126, 1667, 296, 11, 32, "Text",
+  Evaluatable->False],
+Cell[43425, 1680, 580, 22, 33, "Text",
+  Evaluatable->False],
+Cell[44008, 1704, 120, 3, 32, "Text",
+  Evaluatable->False],
+Cell[44131, 1709, 91, 1, 27, "Input"],
+Cell[44225, 1712, 72, 1, 27, "Input"],
+Cell[44300, 1715, 164, 3, 42, "Input"],
+Cell[44467, 1720, 463, 15, 50, "Text",
+  Evaluatable->False],
+Cell[44933, 1737, 136, 4, 32, "Text",
+  Evaluatable->False,
+  PageBreakBelow->False],
+Cell[45072, 1743, 160, 4, 32, "Text",
+  Evaluatable->False,
+  PageBreakBelow->False],
+Cell[45235, 1749, 59, 1, 27, "Input"],
+Cell[45297, 1752, 594, 23, 32, "Text",
+  Evaluatable->False],
+Cell[45894, 1777, 86, 1, 27, "Input"],
+Cell[45983, 1780, 100, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[46108, 1786, 60, 1, 27, "Input"],
+Cell[46171, 1789, 114, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[46300, 1798, 104, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[46429, 1804, 58, 1, 27, "Input"],
+Cell[46490, 1807, 114, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[46665, 1820, 105, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[46773, 1824, 782, 26, 86, "Text",
+  Evaluatable->False],
+Cell[47558, 1852, 1774, 57, 176, "Text",
+  Evaluatable->False],
+Cell[49335, 1911, 2751, 103, 124, "Text",
+  Evaluatable->False],
+Cell[52089, 2016, 587, 19, 69, "Text",
+  Evaluatable->False],
+Cell[52679, 2037, 65, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[52769, 2042, 153, 3, 28, "Subsubsection",
+  Evaluatable->False],
+Cell[52925, 2047, 114, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[53064, 2053, 83, 1, 27, "Input"],
+Cell[53150, 2056, 135, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53322, 2068, 66, 1, 27, "Input"],
+Cell[53391, 2071, 104, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53532, 2082, 65, 1, 27, "Input"],
+Cell[53600, 2085, 135, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[53750, 2095, 109, 2, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[53884, 2101, 79, 1, 27, "Input"],
+Cell[53966, 2104, 135, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[54150, 2117, 102, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[54255, 2121, 373, 14, 32, "Text",
+  Evaluatable->False],
+Cell[54631, 2137, 113, 2, 27, "Input"],
+Cell[54747, 2141, 750, 27, 50, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[55522, 2172, 79, 1, 27, "Input"],
+Cell[55604, 2175, 161, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[55780, 2185, 690, 24, 68, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[56495, 2213, 68, 1, 27, "Input"],
+Cell[56566, 2216, 108, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[56723, 2228, 101, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[56827, 2232, 143, 4, 32, "Text",
+  Evaluatable->False],
+Cell[56973, 2238, 193, 5, 32, "Text",
+  Evaluatable->False,
+  PageBreakBelow->False],
+
+Cell[CellGroupData[{
+Cell[57191, 2247, 63, 1, 27, "Input"],
+Cell[57257, 2250, 189, 8, 34, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[57483, 2263, 121, 2, 24, "Input"],
+Cell[57607, 2267, 236, 8, 28, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[57858, 2278, 174, 4, 32, "Text",
+  Evaluatable->False,
+  PageBreakBelow->False],
+
+Cell[CellGroupData[{
+Cell[58057, 2286, 79, 1, 27, "Input"],
+Cell[58139, 2289, 193, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[58369, 2301, 62, 1, 27, "Input"],
+Cell[58434, 2304, 110, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[58559, 2313, 313, 11, 32, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[58897, 2328, 99, 1, 27, "Input"],
+Cell[58999, 2331, 262, 10, 43, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[59298, 2346, 77, 1, 27, "Input"],
+Cell[59378, 2349, 386, 12, 43, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[59801, 2366, 61, 1, 27, "Input"],
+Cell[59865, 2369, 488, 17, 60, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[60414, 2393, 107, 2, 45, "Subsection",
+  Evaluatable->False],
+Cell[60524, 2397, 445, 8, 104, "Text",
+  Evaluatable->False],
+Cell[60972, 2407, 744, 26, 68, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[61741, 2437, 102, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[61846, 2441, 327, 6, 86, "Text",
+  Evaluatable->False],
+Cell[62176, 2449, 730, 26, 32, "Text",
+  Evaluatable->False],
+Cell[62909, 2477, 467, 16, 50, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[63413, 2498, 98, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[63514, 2502, 617, 17, 86, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[64168, 2524, 94, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[64265, 2528, 589, 9, 140, "Text",
+  Evaluatable->False],
+Cell[64857, 2539, 327, 6, 86, "Text",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[65221, 2550, 93, 2, 42, "Subsubsection",
+  Evaluatable->False],
+Cell[65317, 2554, 1183, 43, 68, "Text",
+  Evaluatable->False],
+Cell[66503, 2599, 72, 1, 27, "Input"],
+Cell[66578, 2602, 98, 2, 32, "Text",
+  Evaluatable->False],
+Cell[66679, 2606, 603, 24, 28, "Input"],
+Cell[67285, 2632, 226, 5, 50, "Text",
+  Evaluatable->False],
+Cell[67514, 2639, 356, 6, 147, "Input"],
+
+Cell[CellGroupData[{
+Cell[67895, 2649, 75, 1, 27, "Input"],
+Cell[67973, 2652, 143, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[68131, 2662, 199, 4, 50, "Text",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[68355, 2670, 71, 1, 27, "Input"],
+Cell[68429, 2673, 108, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[68574, 2684, 72, 1, 27, "Input"],
+Cell[68649, 2687, 110, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+Cell[68774, 2696, 947, 32, 86, "Text",
+  Evaluatable->False],
+Cell[69724, 2730, 283, 5, 102, "Input"],
+
+Cell[CellGroupData[{
+Cell[70032, 2739, 84, 1, 27, "Input"],
+Cell[70119, 2742, 159, 7, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[70315, 2754, 72, 1, 27, "Input"],
+Cell[70390, 2757, 108, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[70535, 2768, 72, 1, 27, "Input"],
+Cell[70610, 2771, 94, 2, 23, "Print",
+  Evaluatable->False]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[70741, 2778, 65, 1, 27, "Input"],
+Cell[70809, 2781, 108, 6, 25, "Output",
+  Evaluatable->False]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

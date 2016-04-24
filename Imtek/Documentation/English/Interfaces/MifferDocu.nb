@@ -1,0 +1,485 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     12174,        377]*)
+(*NotebookOutlinePosition[     12843,        400]*)
+(*  CellTagsIndexPosition[     12799,        396]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Imtek`Interfaces`Miffer`", "Section",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "This package contains procedures to convert ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " expressions into the MIF format. This is usefull for improting ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " expressions into for example FrameMaker.\n",
+  StyleBox[Cell[BoxData[GridBox[{
+          {
+            RowBox[{"MIFForm", "[", 
+              StyleBox["expr",
+                FontSlant->"Italic"], "]"}], 
+            RowBox[{"takes", " ", "an", " ", "expression", " ", 
+              StyleBox["expr",
+                FontSlant->"Italic"], " ", "and", " ", "convertrs", " ", "it",
+               " ", "to", " ", "MIF", " ", "form"}]},
+          {
+            RowBox[{"MIFToFile", "[", 
+              RowBox[{
+                StyleBox["expr",
+                  FontSlant->"Italic"], ",", 
+                StyleBox["file",
+                  FontSlant->"Italic"]}], "]"}], 
+            RowBox[{"writes", " ", 
+              StyleBox["expr",
+                FontSlant->"Italic"], " ", "to", " ", 
+              StyleBox["file",
+                FontSlant->"Italic"]}]}
+          },
+        GridFrame->True]], "DefinitionBox"], "DefinitionBox"]
+}], "Text"],
+
+Cell["This loads the package", "Text",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[BoxData[
+    \(<< Imtek`Interfaces`Miffer`\)], "Input",
+  CellLabel->"In[1]:="],
+
+Cell["Some examples:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test1 = HoldForm[Pi] == N[Pi]\)], "Input",
+  CellLabel->"In[2]:="],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox["\[Pi]",
+        HoldForm], "==", "3.141592653589793`"}]], "Output",
+  CellLabel->"Out[2]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFForm[\ test1\ ]\)], "Input",
+  CellLabel->"In[3]:="],
+
+Cell[BoxData[
+    \("equal[char[pi],num[3.14159,\"3.14159\"]]"\)], "Output",
+  CellLabel->"Out[3]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test2 = \((3 + 4)\)\ 5 // HoldForm\)], "Input",
+  CellLabel->"In[4]:="],
+
+Cell[BoxData[
+    TagBox[\(\((3 + 4)\)\ 5\),
+      HoldForm]], "Output",
+  CellLabel->"Out[4]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFForm[\ test2\ ]\)], "Input",
+  CellLabel->"In[5]:="],
+
+Cell[BoxData[
+    \("times[plus[num[3,\"3\"],num[4,\"4\"]],num[5,\"5\"]]"\)], "Output",
+  CellLabel->"Out[5]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test3 = With[{s = \((a + b)\)^2}, HoldForm[s] == Expand[s]]\)], "Input",\
+
+  CellLabel->"In[6]:="],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[\(\((a + b)\)\^2\),
+        HoldForm], "==", \(a\^2 + 2\ a\ b + b\^2\)}]], "Output",
+  CellLabel->"Out[6]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFForm[\ test3\ ]\)], "Input",
+  CellLabel->"In[7]:="],
+
+Cell[BoxData[
+    \("equal[power[plus[char[a],char[b]],num[2,\"2\"]],plus[power[char[a],num[\
+2,\"2\"]],times[num[2,\"2\"],char[a],char[b]],power[char[b],num[2,\"2\"]]]]"\)\
+], "Output",
+  CellLabel->"Out[7]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test4 = \ 
+      With[{s = HoldForm[Integrate[x, x]]}, s == ReleaseHold[s]]\)], "Input",
+  CellLabel->"In[8]:="],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[\(\[Integral]x \[DifferentialD]x\),
+        HoldForm], "==", \(x\^2\/2\)}]], "Output",
+  CellLabel->"Out[8]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFForm[\ test4\ ]\)], "Input",
+  CellLabel->"In[9]:="],
+
+Cell[BoxData[
+    \("equal[int[times[char[x],diff[char[x]]]],times[over[num[1,\"1\"],num[2,\
+\"2\"]],power[char[x],num[2,\"2\"]]]]"\)], "Output",
+  CellLabel->"Out[9]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test5 = 
+      Integrate[HoldForm[x], {x, 0, 1}] == Integrate[x, {x, 0, 1}]\)], "Input",\
+
+  CellLabel->"In[10]:="],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(\[Integral]\_0\%1\), 
+        RowBox[{
+          TagBox["x",
+            HoldForm], \(\[DifferentialD]x\)}]}], "==", \(1\/2\)}]], "Output",\
+
+  CellLabel->"Out[10]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFForm[\ test5\ ]\)], "Input",
+  CellLabel->"In[11]:="],
+
+Cell[BoxData[
+    \("equal[int[times[char[x],diff[char[x]]],num[0,\"0\"],num[1,\"1\"]],over[\
+num[1,\"1\"],num[2,\"2\"]]]"\)], "Output",
+  CellLabel->"Out[11]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"(", 
+        RowBox[{"test", "=", 
+          RowBox[{
+            RowBox[{"Transpose", "[", 
+              RowBox[{"(", GridBox[{
+                    {\(HoldForm[Pi] == N[Pi]\)},
+                    {\(\((3 + 4)\)\ 5 // HoldForm\)},
+                    {\(With[{s = \((a + b)\)^2}, 
+                        HoldForm[s] == Expand[s]]\)},
+                    {\(With[{s = HoldForm[Integrate[x, x]]}, 
+                        s == ReleaseHold[s]]\)},
+                    {\(Integrate[HoldForm[x], {x, 0, 1}] == 
+                        Integrate[x, {x, 0, 1}]\)},
+                    {\("\<Identity\>" == IdentityMatrix[20]\)}
+                    }], ")"}], "]"}], "\[LeftDoubleBracket]", "1", 
+            "\[RightDoubleBracket]"}]}], ")"}], "//", "TableForm"}]], "Input",\
+
+  CellLabel->"In[12]:="],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {
+            RowBox[{
+              TagBox["\[Pi]",
+                HoldForm], "==", "3.141592653589793`"}]},
+          {
+            TagBox[\(\((3 + 4)\)\ 5\),
+              HoldForm]},
+          {
+            RowBox[{
+              TagBox[\(\((a + b)\)\^2\),
+                HoldForm], "==", \(a\^2 + 2\ a\ b + b\^2\)}]},
+          {
+            RowBox[{
+              TagBox[\(\[Integral]x \[DifferentialD]x\),
+                HoldForm], "==", \(x\^2\/2\)}]},
+          {
+            RowBox[{
+              RowBox[{\(\[Integral]\_0\%1\), 
+                RowBox[{
+                  TagBox["x",
+                    HoldForm], \(\[DifferentialD]x\)}]}], "==", \(1\/2\)}]},
+          {\("Identity" == {{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0}, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+                  0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
+                  0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 1, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                  0, 0, 0, 0, 1}}\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      TableForm[ {
+        Equal[ 
+          HoldForm[ Pi], 3.1415926535897931], 
+        HoldForm[ 
+          Times[ 
+            Plus[ 3, 4], 5]], 
+        Equal[ 
+          HoldForm[ 
+            Power[ 
+              Plus[ a, b], 2]], 
+          Plus[ 
+            Power[ a, 2], 
+            Times[ 2, a, b], 
+            Power[ b, 2]]], 
+        Equal[ 
+          HoldForm[ 
+            Integrate[ x, x]], 
+          Times[ 
+            Rational[ 1, 2], 
+            Power[ x, 2]]], 
+        Equal[ 
+          Integrate[ 
+            HoldForm[ x], {x, 0, 1}], 
+          Rational[ 1, 2]], 
+        Equal[ 
+        "Identity", {{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+           0}, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+          0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 
+          0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 1, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 
+          0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 
+          0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 
+          0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}, {
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}, {0, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 1}}]}]]], "Output",
+  CellLabel->"Out[12]//TableForm="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test // Dimensions\)], "Input",
+  CellLabel->"In[13]:="],
+
+Cell[BoxData[
+    \({6}\)], "Output",
+  CellLabel->"Out[13]="]
+}, Open  ]],
+
+Cell["\<\
+Here we write the expressions to a file. Watch out, since no \
+checking is done, if whether a file with this name allready exists.\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MIFToFile[test, "\<~/test.mif\>"]\)], "Input",
+  CellLabel->"In[14]:="],
+
+Cell[BoxData[
+    \("/home/ruebenko/test.mif"\)], "Output",
+  CellLabel->"Out[14]="]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{839, 600},
+WindowMargins->{{Automatic, 164}, {Automatic, 75}},
+StyleDefinitions -> "HelpBrowser.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 77, 1, 66, "Section"],
+Cell[1856, 56, 1193, 31, 89, "Text"],
+Cell[3052, 89, 77, 1, 24, "Text"],
+Cell[3132, 92, 84, 2, 26, "Input"],
+Cell[3219, 96, 30, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[3274, 100, 86, 2, 26, "Input"],
+Cell[3363, 104, 132, 4, 25, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3532, 113, 75, 2, 26, "Input"],
+Cell[3610, 117, 100, 2, 25, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3747, 124, 91, 2, 26, "Input"],
+Cell[3841, 128, 96, 3, 25, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3974, 136, 75, 2, 26, "Input"],
+Cell[4052, 140, 111, 2, 25, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4200, 147, 118, 3, 26, "Input"],
+Cell[4321, 152, 148, 4, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4506, 161, 75, 2, 26, "Input"],
+Cell[4584, 165, 210, 4, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4831, 174, 132, 3, 26, "Input"],
+Cell[4966, 179, 150, 4, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5153, 188, 75, 2, 70, "Input"],
+Cell[5231, 192, 169, 3, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5437, 200, 135, 4, 70, "Input"],
+Cell[5575, 206, 209, 7, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5821, 218, 76, 2, 70, "Input"],
+Cell[5900, 222, 161, 3, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6098, 230, 839, 19, 70, "Input"],
+Cell[6940, 251, 4654, 94, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11631, 350, 76, 2, 70, "Input"],
+Cell[11710, 354, 62, 2, 70, "Output"]
+}, Open  ]],
+Cell[11787, 359, 156, 4, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[11968, 367, 91, 2, 70, "Input"],
+Cell[12062, 371, 84, 2, 70, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

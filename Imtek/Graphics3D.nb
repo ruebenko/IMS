@@ -1,0 +1,1248 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     35631,        947]*)
+(*NotebookOutlinePosition[     36295,        970]*)
+(*  CellTagsIndexPosition[     36251,        966]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Graphics3D utilities", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Graphics3D . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Author : \ \(concept : \ jan\ korvink\), \ 
+      enhancement\ and\ bug\ \(fixes : \ 
+          oliver\ ruebenkoenig\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 30.03  .2006, \ IMTEK, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ convertes\ Graphics\ into\ Graphics3D\ expressions\ or\ \
+extrudes\ them\ to\ Graphics3D\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History : \
+\[IndentingNewLine]added\ Text\ expressions . \ o . 
+              r . ;\)\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Thie\ program\ converts\ mathematica\ Graphics\ objects\ into\ \
+Graphics3D\ objects\ or\ extrudes\ them\ to\ Graphics3D\ \ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ Jan\ Korvink\ and\ Oliver\ Ruebnekoenig\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Graphics3D`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\n
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ExtrudeGraphics, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        RasterToGraphics, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ToGraphics3D, \ $Context\ ];\)\[IndentingNewLine]\n\
+\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsExtrudeGraphics::usage = "\<imsExtrudeGraphics[ objects, { zMin, \
+zMax } ] convert the planar Graphics objects to 3-dimensional Graphics3D \
+objects by extruding each component into the third dimension on the { zMin, \
+zMax } specified\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsRasterToGraphics::usage = "\<imsRasterToGraphics[ raster ] returns \
+the graphics primitive representation of raster.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsToGraphics3D::usage = "\<imsToGraphics3D[ g, level ] converts the \
+graphics object g to a Graphics3D object. g can be any one of Graphics[], \
+Graphics3D[], SurfaceGraphics[], CoutourGraphics[], DensityGraphics[] or \
+GraphicsArray[]. The optional level specifies the z-coordinate to which the \
+Graphics object g is converted. The default for level is 0.\>";\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Options Docu", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsExtrudeGraphics::scl = "\<Scaled coordinates are \
+not allowed.\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[{
+    \(<< Utilities`FilterOptions`\), "\n", 
+    \(<< Graphics`Shapes`\), "\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ functions\ *) \)\(\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["imsRasterToGraphics", "Subsection",
+  InitializationCell->True],
+
+Cell["\<\
+This function does not belong here. Actually, a more precise name \
+would be FullGraphics, i.e., an overload of the system functionality. I need \
+it here so that I can also extrude Rasters!\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(imsRasterToGraphics[Raster[s : {{\((_)\) .. } .. }, opts___]] := 
+        Module[{r, nx, ny, func}, \[IndentingNewLine]r = 
+            Transpose[s]; \[IndentingNewLine]{nx, ny} = 
+            Dimensions[
+              r]; \[IndentingNewLine]func = \(ColorFunction /. {opts}\) /. \
+{ColorFunction \[Rule] GrayLevel}; \[IndentingNewLine]Flatten[
+            Table[{func[r[\([i, j]\)]], 
+                Rectangle[{i - 1, j - 1}, {i, j}]}, {i, 1, nx}, {j, 1, 
+                ny}]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsRasterToGraphics[RasterArray[s : {{\((_)\) .. } .. }]] := 
+        imsRasterToGraphics[
+          RasterArray[s, {{0, 0}, Dimensions[s]}]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsRasterToGraphics[
+          RasterArray[
+            s : {{\((_)\) .. } .. }, {{xmin_, ymin_}, {xmax_, ymax_}}]] := 
+        Module[{r, nx, ny, dx, dy}, \[IndentingNewLine]r = 
+            Transpose[s]; \[IndentingNewLine]dx = \((xmax - xmin)\)/
+              nx; \[IndentingNewLine]dy = \((ymax - ymin)\)/
+              ny; \[IndentingNewLine]{nx, ny} = 
+            Dimensions[r]; \[IndentingNewLine]Flatten[
+            Table[{r[\([i, j]\)], 
+                Rectangle[{\((i - 1)\) dx, \((j - 1)\) dy}, {\((i)\) 
+                      dx, \((j)\) dy}]}, {i, 1, nx}, {j, 1, 
+                ny}]]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsExtrudeGraphics", "Subsection",
+  InitializationCell->True],
+
+Cell["A Point becomes a vertical Line.", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Point[{x_, y_}], {zm_, zM_}] := 
+        Line[{{x, y, zm}, {x, y, zM}}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Point[s : Scaled[_]], {zm_, zM_}] := 
+        Module[{}, Message[imsExtrudeGraphics::scl, s]; 
+          Return[{}]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+Each segment of the Line becomes a vertical rectangular face. If \
+the line is not closed, then the face between start and end will be \
+missing.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Line[q : {{_, _} .. }], {zm_, zM_}] := 
+        Module[{}, \[IndentingNewLine]\(\((Polygon[\((Join @@ #)\)])\) &\) /@ 
+            Transpose[\[IndentingNewLine]{Transpose[{\(Join[#, {zM}] &\) /@ 
+                      Drop[q, \(-1\)], \[IndentingNewLine]\(Join[#, {zM}] &\) \
+/@ Drop[q, 1]\[IndentingNewLine]}], \[IndentingNewLine]\(Reverse[#] &\) /@ 
+                  Transpose[{\(Join[#, {zm}] &\) /@ 
+                        Drop[q, \(-1\)], \[IndentingNewLine]\(Join[#, {zm}] &\
+\) /@ Drop[q, 1]}]}]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[
+          Line[q : {\(({_, _} | Scaled[_])\) .. }], {zm_, zM_}] := 
+        Module[{}, Message[imsExtrudeGraphics::scl, q]; 
+          Return[{}]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["A Rectangle becomes a box with six faces.", "Text"],
+
+Cell[BoxData[
+    \(\(imsExtrudeGraphics[
+          Rectangle[{xm_, ym_}, {xM_, yM_}], {zm_, 
+            zM_}] := \(Polygon[#] &\) /@ {{{xm, ym, zm}, {xM, ym, zm}, {xM, 
+                ym, zM}, {xm, ym, zM}, {xm, ym, 
+                zm}}, \[IndentingNewLine]{{xM, yM, zm}, {xM, ym, zm}, {xM, 
+                ym, zM}, {xM, yM, zM}, {xM, yM, 
+                zm}}, \[IndentingNewLine]{{xm, yM, zm}, {xM, yM, zm}, {xM, 
+                yM, zM}, {xm, yM, zM}, {xm, yM, 
+                zm}}, \[IndentingNewLine]{{xm, yM, zm}, {xm, ym, zm}, {xm, 
+                ym, zM}, {xm, yM, zM}, {xm, yM, 
+                zm}}, \[IndentingNewLine]{{xm, ym, zm}, {xM, ym, zm}, {xM, 
+                yM, zm}, {xm, yM, zm}, {xm, ym, 
+                zm}}, \[IndentingNewLine]{{xm, ym, zM}, {xM, ym, zM}, {xM, 
+                yM, zM}, {xm, yM, zM}, {xm, ym, 
+                zM}}\[IndentingNewLine]};\)\)], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+A Polygon is an extruded Line and two caps. If the line is not \
+closed, then the face between start and end will be missing.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Polygon[q : {{_, _} .. }], {zm_, zM_}] := 
+        Module[{p}, \[IndentingNewLine]p = 
+            Join[q, {q[\([1]\)]}]; \[IndentingNewLine]{imsExtrudeGraphics[
+              Line[q], {zm, 
+                zM}], \[IndentingNewLine]Polygon[\(Join[#, {zm}] &\) /@ p], 
+            Polygon[\(Join[#, {zM}] &\) /@ 
+                p]\[IndentingNewLine]}\[IndentingNewLine]];\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[
+          Polygon[q : {\(({_, _} | Scaled[_])\) .. }], {zm_, zM_}] := 
+        Module[{}, Message[imsExtrudeGraphics::scl, q]; 
+          Return[{}]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+The Circle is discretized into a polygonal Line which is then \
+extruded.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Circle[{x_, y_}, r_], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Line[Table[{x, y} + r {Sin[i], Cos[i]}, {i, 0, 
+                2  \[Pi], \[Pi]/10. }]], {zm, 
+            zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Circle[{x_, y_}, {rx_, ry_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Line[Table[{x, y} + {rx\ Sin[i], ry\ Cos[i]}, {i, 0, 
+                2  \[Pi], \[Pi]/10. }]], {zm, 
+            zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Circle[{x_, y_}, r_, {tx_, ty_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Line[Table[{x, y} + r {Sin[i], Cos[i]}, {i, tx, 
+                ty, \[Pi]/10. }]], {zm, zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[
+          Circle[{x_, y_}, {rx_, ry_}, {tx_, ty_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Line[Table[{x, y} + {rx\ Sin[i], ry\ Cos[i]}, {i, tx, 
+                ty, \[Pi]/10. }]], {zm, zM}];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["A Disk is the Polygon version where Circle is a Line.", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Disk[{x_, y_}, r_], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Polygon[Table[{x, y} + r {Sin[i], Cos[i]}, {i, 0, 
+                2  \[Pi], \[Pi]/10. }]], {zm, 
+            zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Disk[{x_, y_}, {rx_, ry_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Polygon[Table[{x, y} + {rx\ Sin[i], ry\ Cos[i]}, {i, 0, 
+                2  \[Pi], \[Pi]/10. }]], {zm, 
+            zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Disk[{x_, y_}, r_, {tx_, ty_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Polygon[Table[{x, y} + r {Sin[i], Cos[i]}, {i, tx, 
+                ty, \[Pi]/10. }]], {zm, zM}];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[
+          Disk[{x_, y_}, {rx_, ry_}, {tx_, ty_}], {zm_, zM_}] := 
+        imsExtrudeGraphics[
+          Polygon[Table[{x, y} + {rx\ Sin[i], ry\ Cos[i]}, {i, tx, 
+                ty, \[Pi]/10. }]], {zm, zM}];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+A raster is first truned into raw graphics and then recursively \
+extruded.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(imsExtrudeGraphics[
+          r_Raster, {zm_, zM_}] := \(imsExtrudeGraphics[#, {zm, zM}] &\) /@ 
+          Flatten[{EdgeForm[], imsRasterToGraphics[r]}];\)\)], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+Text is given 3D coordinates and placed at the lower z \
+position.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(imsExtrudeGraphics[Text[e_, c_], {zm_, zM_}] := 
+        Text[e, Join[c, {zm}]];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Text[e_, c_, o_], {zm_, zM_}] := 
+        Text[e, Join[c, {zm}], o];\)\), "\[IndentingNewLine]", 
+    \(\(imsExtrudeGraphics[Text[e_, c_, o_, d_], {zm_, zM_}] := 
+        Text[e, Join[c, {zm}], o, d];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell["A Graphics object is dealt with part by part.", "Text"],
+
+Cell[BoxData[
+    \(\(imsExtrudeGraphics[g_Graphics, {zm_, zM_}] := 
+        Module[{fg, primitives, \ opts = {}}, \[IndentingNewLine]fg = 
+            FullGraphics[g]; \[IndentingNewLine]primitives = 
+            fg[\([1]\)]; \[IndentingNewLine]If[Length[fg] \[Equal] 2, 
+            opts = fg[\([2]\)]]; \[IndentingNewLine]Graphics3D[{EdgeForm[], \
+\(imsExtrudeGraphics[#, {zm, zM}] &\) /@ 
+                Flatten[{primitives}]}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell["Pass everything we do not know through untouched", "Text"],
+
+Cell[BoxData[
+    \(\(imsExtrudeGraphics[unknown_, {zm_, zM_}] := unknown;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Graphic Primitives Implementation", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(SetAttributes[\ to3D, \ Listable\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Scaled", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(to3D[\ Scaled[\ {\ x_, \ y_\ }\ ], \ level_:  0. \ ]\  := \ 
+      Scaled[\ {\ x, \ y, \ level\ }\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Text", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(to3D[\ Text[\ expr_, \ {\ x_, \ y_\ }, \ offset___, \ dir___\ ], 
+          level_:  0. \ ]\  := \ 
+        Text[\ expr, \ {x, y, level}, \ offset, \ dir\ ]\ ;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Circle", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(to3D[\ Circle[\ {\ x_, \ y_\ }, \ {\ rx_, \ ry_\ }\ ], 
+          level_:  0. , \ t1_:  0. , \ t2_:  2. *Pi, \ 
+          tStep_:  Pi/10. \ ]\  := \ 
+        Line[\ Table[\ {\ x\  + rx\ Sin[\ t\ ], \ y\  + \ ry\ Cos[\ t\ ], \ 
+              level\ }, \ {\ t, \ t1, \ t2, \ 
+              tStep\ }\ \ ]\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ Circle[\ {\ x_, \ y_\ }, \ r_\ ], \ level_:  0. \ ]\  := \ 
+        to3D[\ Circle[\ {\ x, \ y\ }, \ {\ r, \ r\ }\ ], \ 
+          level\ ];\)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ Circle[\ {\ x_, \ y_\ }, \ r_, \ {\ t1_, \ t2_\ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        to3D[\ Circle[\ {\ x, \ y\ }, \ {\ r, \ r\ }\ ], level, \ \ t1, \ 
+          t2, \ \((t2\  - \ t1)\)/10. \ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Disk", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(to3D[\ Disk[\ {\ x_, \ y_\ }, \ {\ rx_, \ ry_\ }\ ], 
+          level_:  0. , \ t1_:  0. , \ t2_:  2. *Pi, \ 
+          tStep_:  Pi/10. \ ]\  := \ 
+        Polygon[\ 
+          Table[\ {\ x\  + rx\ Sin[\ t\ ], \ y\  + \ ry\ Cos[\ t\ ], \ 
+              level\ }, \ {\ t, \ t1, \ t2, \ 
+              tStep\ }\ \ ]\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ Disk[\ {\ x_, \ y_\ }, \ r_\ ], \ level_:  0. \ ]\  := \ 
+        to3D[\ Disk[\ {\ x, \ y\ }, \ {\ r, \ r\ }\ ], \ 
+          level\ ];\)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ Disk[\ {\ x_, \ y_\ }, \ r_, \ {\ t1_, \ t2_\ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        to3D[\ Disk[\ {\ x, \ y\ }, \ {\ r, \ r\ }\ ], level, \ \ t1, \ 
+          t2, \ \((t2\  - \ t1)\)/10. \ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Point", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(to3D[\ Point[\ {\ x_, \ y_\ }\ ], \ level_:  0. \ ]\  := \ 
+        Point[\ {\ x, \ y, \ level\ }\ ];\)\), "\[IndentingNewLine]", 
+    \(\(\(to3D[\ Point[\ a : Scaled[\ {\ x_, \ y_\ }\ ]\ ], \ 
+          level_:  0. \ ]\  := \ 
+        Point[\ to3D[\ a, \ level\ ]\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : Point[\ {\ _, \ _, \ _\ }\ ], \ level_:  0. \ ]\  := \ 
+        a;\)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : Point[\ Scaled[\ {\ _, \ _, \ _\ }\ ]\ ], \ 
+          level_:  0. \ ]\  := \ a;\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Line", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(to3D[\ Line[\ a : \ {\ {\ _, \ _\ } .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        Line[\ \(Join[\ #, \ {\ level\ }\ ] &\)\  /@ \ 
+            a\ ];\)\), "\[IndentingNewLine]", 
+    \(\(\(to3D[\ Line[\ a : \ {\ Scaled[\ {\ _, \ _\ }\ ] .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        Line[\ \(to3D[\ #, \ level\ ] &\)\  /@ \ 
+            a\ \ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : Line[\ {\ {\ _, \ _, \ _\ } .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ a;\)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : Line[\ {\ Scaled[\ {\ _, \ _, \ _\ }\ ] .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ a;\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Polygon", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(to3D[\ Polygon[\ a : \ {\ {\ _, \ _\ } .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        Polygon[\ \(Join[\ #, \ {\ level\ }\ ] &\)\  /@ \ 
+            a\ ];\)\), "\[IndentingNewLine]", 
+    \(\(\(to3D[\ Polygon[\ a : \ {\ Scaled[\ {\ _, \ _\ }\ ] .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ 
+        Polygon[\ \(to3D[\ #, \ level\ ] &\)\  /@ \ 
+            a\ \ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : \ Polygon[\ {\ {\ _, \ _, \ _\ } .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ a;\)\), "\[IndentingNewLine]", 
+    \(\(to3D[\ a : Polygon[\ {\ Scaled[\ {\ _, \ _, \ _\ }\ ] .. \ }\ ], \ 
+          level_:  0. \ ]\  := \ a;\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Rectangle", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(to3D[\ Rectangle[\ {\ x1_, \ y1_\ }, \ {\ x2_, \ y2_\ }\ ], \ 
+        level_:  0. \ ]\  := \ 
+      Polygon[\ {\ {\ x1, \ y1, \ level\ }, \ {\ x2, \ y1, \ level\ }, \ {\ 
+            x2, \ y2, \ level\ }, \ {\ x1, \ y2, \ 
+            level\ }\ }\ ]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(to3D[\ 
+          Rectangle[\ Scaled[\ {\ x1_, \ y1_\ }\ ], \ 
+            Scaled[\ {\ x2_, \ y2_\ }\ ]\ ], \ 
+          level_:  
+            0. \ ]\  := \ \(Polygon[\ Scaled[\ #\ ]\ ] &\)\  /@ \ {\ {\ x1, \ 
+              y1, \ level\ }, \ {\ x2, \ y1, \ level\ }, \ {\ x2, \ y2, \ 
+              level\ }, \ {\ x1, \ y2, \ 
+              level\ }\ };\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(to3D[\ 
+        Rectangle[\ {\ x1_, \ y1_\ }, \ {\ x2_, \ y2_\ }, \ gr_\ ], \ 
+        level_:  
+          0. \ ]\  := \ {Line[\ {\ {\ x1, \ y1, \ level\ }, \ {\ x2, \ y1, \ 
+              level\ }, \ {\ x2, \ y2, \ level\ }, \ {\ x1, \ y2, \ 
+              level\ }, \ {\ x1, \ y1, \ level\ }\ \ }\ ], \ 
+        TranslateShape[\ 
+          to3D[\ gr, \ level\ ], \ {\ x1, \ y1, \ 
+            level\ }\ ]\ \ }\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(to3D[\ 
+        Rectangle[\ Scaled[\ {\ x1_, \ y1_\ }\ ], \ 
+          Scaled[\ {\ x2_, \ y2_\ }\ ], \ gr_\ ], \ 
+        level_:  
+          0. \ ]\  := \ {Line[\ {\ Scaled[\ {\ x1, \ y1, \ level\ }\ ], \ 
+            Scaled[\ {\ x2, \ y1, \ level\ }\ ], \ 
+            Scaled[\ {\ x2, \ y2, \ level\ }\ ], \ 
+            Scaled[\ {\ x1, \ y2, \ level\ }\ ], \ 
+            Scaled[\ {\ x1, \ y1, \ level\ }\ ]\ }\ ], \ 
+        TranslateShape[
+          to3D[\ gr, \ level\ ], \ {\ x1, \ y1, \ 
+            level\ }\ ]\ \ }\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["PostScript", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(to3D[\ PostScript[\ ___\ ]\ ]\  := \ {};\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Raster", "Subsubsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      StyleBox[\(to3D[\ Raster[\ array_, \ rect_, \ opts___\ ], \ 
+              level_:  0\ ] := 
+            Block[{r, c, scaledData, minX, maxx, minY, maxy, dx, dy, x, 
+                y}, \[IndentingNewLine]{r, c} = 
+                Dimensions[\ 
+                  array\ ]; \[IndentingNewLine]{{minX, minY}, {maxx, maxy}} = 
+                rect; \[IndentingNewLine]dx = \((maxx - minX)\)/r; 
+              dy = \((maxy - minY)\)/c; \[IndentingNewLine]x[i_] := 
+                minX + i*dx; 
+              y[j_] := minY + j*dy; \[IndentingNewLine]scaledData = 
+                Flatten[
+                  array]; \[IndentingNewLine]scaledData = \((scaledData - 
+                      Min[scaledData])\)/\((Max[scaledData] - 
+                      Min[scaledData])\); \
+\[IndentingNewLine]Transpose[{\(GrayLevel[#] &\) /@ scaledData, 
+                  Flatten[
+                    Table[\[IndentingNewLine]Polygon[{{x[i], y[j], 
+                            level\ }, {x[i + 1], y[j], level\ }, {x[i + 1], 
+                            y[j + 1], level\ }, {x[i], y[j + 1], 
+                            level\ }}], {i, 0, r - 1}, {j, 0, 
+                        c - 1}]]}]\[IndentingNewLine]];\),
+        FontColor->GrayLevel[0]], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{
+        RowBox[{
+          StyleBox[
+            RowBox[{"t", 
+              StyleBox["o3D",
+                FontColor->GrayLevel[0]]}]], 
+          StyleBox["[",
+            FontColor->GrayLevel[0]], 
+          StyleBox[" ",
+            FontColor->GrayLevel[0]], 
+          StyleBox[\(Raster[\ array_, \ opts___\ ], \ level_:  0. \),
+            FontColor->GrayLevel[0]], 
+          StyleBox["]",
+            FontColor->GrayLevel[0]]}], 
+        StyleBox[":=",
+          FontColor->GrayLevel[0]], 
+        StyleBox[" ",
+          FontColor->GrayLevel[0]], 
+        StyleBox[\(to3D[\ 
+            Raster[\ array, \ {\ {\ 0, \ 0\ }, Dimensions[\ array\ ]\ }, \ 
+              opts\ ], \ level\ ]\),
+          FontColor->GrayLevel[0]]}], 
+      StyleBox[";",
+        FontColor->GrayLevel[0]]}]}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(minY\\)\\\" is similar to existing symbol \\\
+\"\\!\\(minX\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(maxy\\)\\\" is similar to existing symbol \\\
+\"\\!\\(maxx\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["RasterArray", "Subsubsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      StyleBox[\(to3D[\ RasterArray[\ array_, \ rect_\ ], \ level_:  0\ ] := 
+            Block[{r, c, scaledData, minx, maxx, miny, maxy, dx, dy, x, 
+                y}, \[IndentingNewLine]{r, c} = 
+                Dimensions[\ 
+                  array\ ]; \[IndentingNewLine]{{minx, miny}, {maxx, maxy}} = 
+                rect; \[IndentingNewLine]dx = \((maxx - minx)\)/r; 
+              dy = \((maxy - miny)\)/c; \[IndentingNewLine]x[i_] := 
+                minx + i*dx; 
+              y[j_] := miny + j*dy; \[IndentingNewLine]cellDirectives = 
+                Flatten[\ array\ ]; \[IndentingNewLine]Join[{EdgeForm[]}, 
+                Transpose[{cellDirectives, 
+                    Flatten[
+                      Table[\[IndentingNewLine]Polygon[{{x[i], y[j], 
+                              level\ }, {x[i + 1], y[j], level\ }, {x[i + 1], 
+                              y[j + 1], level\ }, {x[i], y[j + 1], 
+                              level\ }}], {j, 0, c - 1}, {i, 0, 
+                          r - 1}]]}]]\[IndentingNewLine]];\),
+        FontColor->GrayLevel[0]], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{
+        RowBox[{
+          StyleBox[
+            RowBox[{"t", 
+              StyleBox["o3D",
+                FontColor->GrayLevel[0]]}]], 
+          StyleBox["[",
+            FontColor->GrayLevel[0]], 
+          StyleBox[" ",
+            FontColor->GrayLevel[0]], 
+          StyleBox[\(RasterArray[\ array_\ ], \ level_:  0. \),
+            FontColor->GrayLevel[0]], 
+          StyleBox["]",
+            FontColor->GrayLevel[0]]}], 
+        StyleBox[":=",
+          FontColor->GrayLevel[0]], 
+        StyleBox[" ",
+          FontColor->GrayLevel[0]], 
+        StyleBox[\(to3D[\ 
+            RasterArray[\ 
+              array, \ {\ {\ 0, \ 0\ }, Dimensions[\ array\ ]\ }\ ], \ 
+            level\ ]\),
+          FontColor->GrayLevel[0]]}], 
+      StyleBox[";",
+        FontColor->GrayLevel[0]]}]}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(minx\\)\\\" is similar to existing symbol \\\
+\"\\!\\(minX\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(miny\\)\\\" is similar to existing symbols \
+\\!\\({minx, minY}\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    StyleBox[\(to3D[any_AbsoluteDashing, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_AbsolutePointSize, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_AbsoluteThickness, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_CMYKColor, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_Dashing, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_GrayLevel, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_Hue, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_PointSize, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_RGBColor, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_Thickness, \ ___\ ] := any;\),
+      FontColor->GrayLevel[0]]}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["3D opts", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    StyleBox[\(to3D[any_SurfaceColor, _] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_FaceForm, _] := any;\),
+      FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+    StyleBox[\(to3D[any_EdgeForm, _] := any;\),
+      FontColor->GrayLevel[0]]}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Wrapper", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsToGraphics3D[
+          g : \((_Graphics | _Graphics3D | _SurfaceGraphics | \
+_ContourGraphics | _DensityGraphics)\), \ level_:  0. \ ]\  := \ 
+        Graphics3D\  @@ \ to3D[\ g, \ level\ ];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsToGraphics3D[\ GraphicsArray[\ array_\ , opts___], \ 
+        level_:  0. \ ]\  := \ 
+      GraphicsArray[\ \((\(imsToGraphics3D[\ #, \ level\ ] &\)\  /@ \ 
+            array\ )\), opts]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{\(to3D[\ Graphics[\ x_, \ opts___\ ], \ 
+          level_:  0. \ ]\  := \ {\ 
+          to3D[\ x, \ level\ ], {\ 
+            FilterOptions[Graphics3D, \ 
+              opts\ ]\ }\ };\), "\[IndentingNewLine]", \(to3D[\ 
+          a_ContourGraphics, \ level_:  0. \ ]\  := \ 
+        to3D[\ Graphics[\ a\ ], \ 
+          level\ ];\), "\[IndentingNewLine]", \(to3D[\ a_Graphics3D, \ 
+          level_:  0. \ ]\  := \ 
+        List\  @@ \ a;\), "\[IndentingNewLine]", \(to3D[\ 
+          a_SurfaceGraphics, \ level_:  0. \ ]\  := \ 
+        List\  @@ \ Graphics3D[\ a\ ];\), "\[IndentingNewLine]", 
+    StyleBox[\(to3D[\ dg : DensityGraphics[\ x_, \ opts___\ ], \ 
+            level_:  0. \ ] := 
+          Block[\[IndentingNewLine]{\ 
+              ef\ }, \[IndentingNewLine]\[IndentingNewLine]dgmOptsQ\  = \ \
+\(Mesh /. opts\)\  /. Options[\ DensityGraphics\ ]; \[IndentingNewLine]If[\ 
+              dgmOptsQ, \ ef = EdgeForm[GrayLevel[0]], 
+              ef = EdgeForm[]\ ]; \[IndentingNewLine]\[IndentingNewLine]ct3D\ \
+ = \ to3D[\ Graphics[\ DensityGraphics[\ x, \ opts\ ]\ ], \ 
+                level\ ]; \[IndentingNewLine] (*\ 
+              This\ is\ a\ realy\ dirty\ hack\ *) \[IndentingNewLine]{\ 
+              Join[\ {\ ef\ }, \ ct3D[\([\ 1]\)]\ ], 
+              ct3D[\([\ 2\ ]\)]\ \ }\[IndentingNewLine]\ ];\),
+      FontColor->GrayLevel[0]]}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1078, 769},
+WindowMargins->{{34, Automatic}, {Automatic, 81}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 40, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1841, 57, 31, 0, 74, "Section"],
+Cell[1875, 59, 1437, 24, 331, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3337, 87, 35, 0, 28, "Subsubsection"],
+Cell[3375, 89, 1890, 31, 395, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5314, 126, 32, 0, 44, "Section"],
+Cell[5349, 128, 169, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5555, 138, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5632, 142, 26, 0, 38, "Subsection"],
+Cell[5661, 144, 1645, 28, 475, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[7321, 175, 34, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[7380, 179, 36, 0, 38, "Subsection"],
+Cell[7419, 181, 270, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7738, 192, 32, 0, 44, "Section"],
+Cell[7773, 194, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7898, 201, 42, 0, 44, "Section"],
+Cell[7943, 203, 160, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8140, 212, 30, 0, 44, "Section"],
+Cell[8173, 214, 279, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8489, 224, 26, 0, 44, "Section"],
+Cell[8518, 226, 179, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8734, 235, 27, 0, 44, "Section"],
+Cell[8764, 237, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8880, 244, 29, 0, 44, "Section"],
+Cell[8912, 246, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9030, 253, 41, 0, 44, "Section"],
+Cell[9074, 255, 111, 2, 43, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[9210, 261, 69, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[9282, 264, 214, 4, 70, "Text"],
+Cell[9499, 270, 565, 10, 70, "Input",
+  InitializationCell->True],
+Cell[10067, 282, 901, 17, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11005, 304, 68, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[11076, 307, 48, 0, 32, "Text"],
+Cell[11127, 309, 332, 6, 43, "Input",
+  InitializationCell->True],
+Cell[11462, 317, 169, 4, 32, "Text"],
+Cell[11634, 323, 816, 13, 155, "Input",
+  InitializationCell->True],
+Cell[12453, 338, 57, 0, 32, "Text"],
+Cell[12513, 340, 929, 16, 139, "Input",
+  InitializationCell->True],
+Cell[13445, 358, 149, 3, 32, "Text"],
+Cell[13597, 363, 667, 13, 123, "Input",
+  InitializationCell->True],
+Cell[14267, 378, 97, 3, 70, "Text"],
+Cell[14367, 383, 1036, 20, 70, "Input",
+  InitializationCell->True],
+Cell[15406, 405, 69, 0, 70, "Text"],
+Cell[15478, 407, 1040, 20, 70, "Input",
+  InitializationCell->True],
+Cell[16521, 429, 99, 3, 32, "Text"],
+Cell[16623, 434, 218, 4, 70, "Input",
+  InitializationCell->True],
+Cell[16844, 440, 90, 3, 32, "Text"],
+Cell[16937, 445, 404, 7, 59, "Input",
+  InitializationCell->True],
+Cell[17344, 454, 61, 0, 32, "Text"],
+Cell[17408, 456, 496, 8, 107, "Input",
+  InitializationCell->True],
+Cell[17907, 466, 64, 0, 32, "Text"],
+Cell[17974, 468, 117, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18128, 475, 83, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[18214, 478, 96, 2, 27, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[18335, 484, 59, 1, 28, "Subsubsection",
+  InitializationCell->True],
+Cell[18397, 487, 161, 3, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18595, 495, 57, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[18655, 498, 224, 4, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18916, 507, 59, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[18978, 510, 841, 15, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19856, 530, 57, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[19916, 533, 845, 16, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20798, 554, 58, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[20859, 557, 609, 11, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21505, 573, 57, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[21565, 576, 723, 14, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22325, 595, 60, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[22388, 598, 743, 14, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23168, 617, 62, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[23233, 620, 1811, 38, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25081, 663, 63, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[25147, 666, 105, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25289, 673, 59, 1, 22, "Subsubsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[25373, 678, 2175, 50, 70, "Input",
+  InitializationCell->True],
+Cell[27551, 730, 384, 6, 70, "Message",
+  InitializationCell->True],
+Cell[27938, 738, 384, 6, 70, "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28371, 750, 64, 1, 22, "Subsubsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[28460, 755, 2022, 47, 70, "Input",
+  InitializationCell->True],
+Cell[30485, 804, 384, 6, 70, "Message",
+  InitializationCell->True],
+Cell[30872, 812, 383, 6, 70, "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[31304, 824, 60, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[31367, 827, 1152, 21, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32556, 853, 60, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[32619, 856, 345, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33001, 868, 60, 1, 22, "Subsubsection",
+  InitializationCell->True],
+Cell[33064, 871, 259, 5, 43, "Input",
+  InitializationCell->True],
+Cell[33326, 878, 250, 5, 27, "Input",
+  InitializationCell->True],
+Cell[33579, 885, 1408, 25, 235, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35048, 917, 31, 0, 44, "Section"],
+Cell[35082, 919, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35202, 926, 30, 0, 44, "Section"],
+Cell[35235, 928, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35384, 935, 30, 0, 44, "Section"],
+Cell[35417, 937, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,514 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13657,        370]*)
+(*NotebookOutlinePosition[     14319,        393]*)
+(*  CellTagsIndexPosition[     14275,        389]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Imtek`SystemAnalysis` Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ SystemAnalysis . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 1.2  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        Imtek\ system\ analysis\ package\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ this\ package\ computes\ stationary, \ 
+      transient\ and\ harmonic\ solution\ to\ systems\ of\ equations\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005, \ 
+      oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\
+\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\
+\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`SystemAnalysis`\>", \ \
+{"\<Imtek`System`\>"}];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        StationarySolve, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TransientSolve, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        HarmonicSolve, \ $Context\ ];\)\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\n (*\ 
+      predicates\ *) \[IndentingNewLine]\n (*\ functions\ *) \n
+    imsStationarySolve::usage = "\<imsStationarySolve[ system, options ] \
+computes the stationary solution to system. The options are those from \
+LinearSolve.\>"\n\[IndentingNewLine]
+    imsTransientSolve::usage\  = "\<imsTransientSolve[ system, f, { t, \
+tStart, tEnd }, excitation, options ] computes the transient solution of \
+system. The system is of form f[t], and the default excitation is UnitStep. \
+Options are options for NDSolve.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsHarmonicSolve::usage\  = \ "\<imsHarmonicSolve[ system, frequency ] \
+computes the harmonic solution of system.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(<< Utilities`FilterOptions`\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Options[\ imsTransientSolve\ ]\  = {\ 
+          SolveDelayed\  \[Rule] \ True\ };\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsStationarySolve[\ 
+            sys_imsSystem, \ 
+            opts___\ ]\  /; \ \(! imsParametricStiffnessQ[\ sys\ ]\) := \ 
+        Module[\[IndentingNewLine]{\ 
+            lsOpts\ }, \[IndentingNewLine]lsOpts\  = \ 
+            FilterOptions[\ LinearSolve, \ 
+              opts\ ]; \
+\[IndentingNewLine]Return[\[IndentingNewLine]LinearSolve[\ 
+              First[\ imsGetStiffness[\ sys\ ]\ ], \ imsGetLoad[\ sys\ ], \ 
+              lsOpts\ ]\ \ ]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsTransientSolve[\ sys_imsSystem, \ 
+            f_, \ {\ var_, \ varStart_, \ varEnd_\ }, \ 
+            excitation_:  UnitStep, \ opts___\ ]\  /; \ 
+          imsLinearQ[\ sys, \ 
+              f[\ var\ ]\ ]\  && \ \(! imsParametricQ[\ sys\ ]\)\  && \ 
+            imsFirstOrderQ[\ sys\ ] := \ 
+        Module[\[IndentingNewLine]{\ ndsOpts, \ tsOpts, \ init1, \ 
+            inverse\ }, \[IndentingNewLine]ndsOpts\  = \ 
+            DeleteCases[\ 
+              Flatten[\ {\ FilterOptions[\ NDSolve, \ opts\ ]\ }\ ], \ 
+              Rule[\ SolveDelayed, \ _\ ]\ ]; \[IndentingNewLine]tsOpts\  = \ 
+            Options[\ imsTransientSolve\ ]; \[IndentingNewLine]init1\  = \ 
+            Table[\ 0. , {\ 
+                Length[\ 
+                  imsGetLoad[\ 
+                    sys\ ]\ ]\ }\ ]; \[IndentingNewLine]inverse\  = \ 
+            Inverse[\ 
+              First[\ imsGetDamping[\ 
+                  sys\ ]\ ]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]NDSolve[\[IndentingNewLine]{\
+\[IndentingNewLine]\ 
+              D[\ f[\ var\ ], var\ ]\  + \ 
+                  inverse\  . \ First[\ imsGetStiffness[\ sys\ ]\ ]\  . \ 
+                    f[\ var\ ]\  \[Equal] \ 
+                excitation[\ var\ ]\ *\ 
+                  inverse\  . \ imsGetLoad[\ sys\ ], \[IndentingNewLine]f[\ 
+                  varStart\ ]\  == \ init1\[IndentingNewLine]}, 
+            f, \ {\ var, \ varStart, \ varEnd\ }, \ 
+            Join[\ tsOpts, \ 
+              ndsOpts\ ]\ ]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      i\ am\ very\ unhappy\ with\ this\ Transpose[\ \(Flatten[\ #\ ] &\)\(\ \
+\)\(/@\)\ ]\ shit\ i\ have\ the\ feeling\ i\ missed\ something\ \
+*) \[IndentingNewLine]
+    \(imsHarmonicSolve[\ sys_imsSystem, freq_List, \ 
+            ops___]\  /; \ \(! imsParametricQ[\ 
+              sys\ ]\)\  := \[IndentingNewLine]\(Flatten[\ #\ ] &\)\  \
+/@ \[IndentingNewLine]Which[\[IndentingNewLine]imsFirstOrderQ[\ 
+              sys\ ], \[IndentingNewLine]harmonicLoop[\ \((\ 
+                  I\ *\ #\ *\ First[\ imsGetDamping[sys]\ ]\  + \ 
+                    First[\ imsGetStiffness[\ sys\ ]\ ]\ )\) &, 
+              imsGetLoad[\ sys\ ], \ freq, \ 
+              ops\ ], \[IndentingNewLine]imsSecondOrderQ[\ 
+              sys\ ], \[IndentingNewLine]harmonicLoop[\ \((\ \(-#^2\)\ *\ 
+                      First[\ imsGetInertia[\ sys\ ]\ ]\  + \ 
+                    I\ *\ #\ *\ \ First[\ imsGetDamping[sys]\ ]\  + \ 
+                    First[\ imsGetStiffness[\ 
+                        sys\ ]\ ]\ )\) &, \[IndentingNewLine]imsGetLoad[\ 
+                sys\ ], \ freq, \ 
+              ops\ ]\[IndentingNewLine]];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(harmonicLoop[fun_, rhs_, list_, ops___] := 
+      Map[\ LinearSolve[\ fun[#], rhs, ops] &, 
+        2. *N[Pi]*list\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{45, Automatic}, {Automatic, 50}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 49, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1850, 57, 31, 0, 74, "Section"],
+Cell[1884, 59, 1188, 19, 70, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3097, 82, 63, 1, 70, "Subsubsection",
+  InitializationCell->True],
+Cell[3163, 85, 534, 8, 70, "Input",
+  InitializationCell->True],
+Cell[3700, 95, 1864, 31, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5613, 132, 32, 0, 44, "Section"],
+Cell[5648, 134, 198, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5883, 144, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5960, 148, 26, 0, 38, "Subsection"],
+Cell[5989, 150, 1390, 23, 427, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7416, 178, 34, 0, 30, "Subsection"],
+Cell[7453, 180, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7659, 188, 36, 0, 30, "Subsection"],
+Cell[7698, 190, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7920, 200, 32, 0, 44, "Section"],
+Cell[7955, 202, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8080, 209, 42, 0, 44, "Section"],
+Cell[8125, 211, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8250, 218, 30, 0, 44, "Section"],
+Cell[8283, 220, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8576, 230, 26, 0, 44, "Section"],
+Cell[8605, 232, 288, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8930, 242, 27, 0, 44, "Section"],
+Cell[8960, 244, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9076, 251, 29, 0, 44, "Section"],
+Cell[9108, 253, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9226, 260, 41, 0, 44, "Section"],
+Cell[9270, 262, 3416, 64, 70, "Input",
+  InitializationCell->True],
+Cell[12689, 328, 320, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13046, 339, 31, 0, 44, "Section"],
+Cell[13080, 341, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13200, 348, 30, 0, 44, "Section"],
+Cell[13233, 350, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13382, 357, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[13443, 360, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

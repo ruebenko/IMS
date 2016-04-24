@@ -1,0 +1,690 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     24298,        550]*)
+(*NotebookOutlinePosition[     24962,        573]*)
+(*  CellTagsIndexPosition[     24918,        569]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Graph Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Graph . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 13.3  .2006, IMTEK, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ graph\ a\ mathematica\ packages\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .6\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(History\)\(:\)\)\
+\[IndentingNewLine]; \[IndentingNewLine]for\ mma6  .0\  - \ 
+        swaped\ imsDrawElementText\ definitions, \ 
+      that\ _imsNexus\ is\ scanned\ first; \[IndentingNewLine]rename : \ 
+          imsSetNodesCoords\  \[Rule] \ 
+        imsSetNexusCoords; \[IndentingNewLine]extended\ imsDrawNodeText\ to\ \
+1  D\ element; \[IndentingNewLine]added\ imsSetNodesCoords\ \((christian\ \
+moosmann)\); \[IndentingNewLine]Fixed\ \(bug : \ 
+          imsGetNodes\ did\ not\ return\ a\ sorted\ list\); \ 
+      it\ does\ now; \[IndentingNewLine]Added, \ imsGetBoundaryElements, \ 
+      imsGetBoundaryElementIds; \[IndentingNewLine]Added, \ 
+      imsDrawElementText\ and\ imsDrawNodeText; \[IndentingNewLine]Made\ name\
+\ change, \ 
+      from\ MakeGraph\ to\ MakeNexus; \[IndentingNewLine]Default\ Sequence\ \
+is\ now\ Sequence[
+          1]; \[IndentingNewLine]Public\ export\ of\ symbol\ Graph; \
+\[IndentingNewLine]Changed\ the\ publicly\ loaded\ context; \
+\[IndentingNewLine]In\ Version\ 0.2\ the\ internal\ data\ has\ changed\ i . 
+          e . \ moved\ away\ from\ Dispatch[]\ to\ direct\ element\ access . \
+\ For\ performance\ \(\(reasons\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ is\ the\ IMTEK\ graph\ a\ mathematica\ packages\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2002 - 
+        2005\ oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Graph`\>", \ {\ \
+"\<Imtek`Nodes`\>"\ }\ ];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeNexus, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Nexus, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GetBoundaryNodes, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GetInteriorNodes, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GetNodes, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GetElements, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GetIncidentsIds, \ $Context\ ];\)\[IndentingNewLine] (*\ \
+\(imsCreateObsoleteFunctionInterface[\ 
+          GetIds, \ $Context\ ];\)\ *) \[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        To3DNexus, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NodePoints, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NodeValueTexts, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DrawElements, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DrawElementIdText, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DrawElementSolution, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ constructors\ *) \[IndentingNewLine]
+    imsMakeNexus::usage\  = \ \[IndentingNewLine]"\<imsMakeNexus[ { \
+boundaryNodes..},{ interiorNodes..}, { NexusElements.. } ] returns a imsNexus \
+made up from imsNode list and NexusElement list.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsNexus::usage\  = \ \[IndentingNewLine]"\<imsNexus is the data \
+structure returned by imsMakeNexus.\>"\[IndentingNewLine]\[IndentingNewLine] \
+(*\ selectors\ *) \[IndentingNewLine]
+    imsGetBoundaryNodes::usage = \[IndentingNewLine]"\<imsGetBoundaryNodes[ \
+imsNexus ] returns the List of boundary nodes from imsNexus.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsGetInteriorNodes::usage = \[IndentingNewLine]"\<imsGetInteriorNodes[ \
+imsNexus ] returns the List of interior nodes from imsNexus.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsGetNodes::usage = "\<imsGetNodes[ imsNexus, { nodeIds } ] returns the \
+List of nodes from imsNexus with nodeIds.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsGetElements::usage = "\<imsGetElements[ imsNexus, { elementIds } ] \
+returns the List of Elements from imsNexus with elementIds.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetBoundaryElements::usage\  = \ "\<imsGetBoundaryElements[ imsNexus \
+] returns a list of lists. Each sub list is an element, where at least one of \
+the element's incident ids points to a boundary node and a list with those \
+incident ids which point to a boundary node.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetBoundaryElementIds::usage\  = \ "\<imsGetBoundaryElementIds[ \
+imsNexus ] returns a list of element ids, where at least one of the element`s \
+incident ids points to a boundary node.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      for\ global`\ selector\ to\ work\ *) \[IndentingNewLine]
+    \(imsGetIncidentsIds::usage = "\<This function has to be specified by the \
+user of the Nexus package. See HelpBrowser for more information.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds::usage = "\<This function has to be specified by the user of \
+the Nexus package. See HelpBrowser for more information.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      mutators\ *) \[IndentingNewLine]\[IndentingNewLine]
+    imsSetNexusCoords::usage\  = \ "\< imsSetNexusCoords[imsNexus, newCoords] \
+changes the coordinates of a nexus' nodes to newCoords\>"\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    imsTo3DNexus::usage\  = \[IndentingNewLine]"\<imsTo3DNexus[ imsNexus, \
+default ] returns a imsNexus expression to be dissplayed by Graphics3D.\>"\
+\[IndentingNewLine]\[IndentingNewLine] (*\ graphics\ *) \[IndentingNewLine]
+    imsNodePoints::usage\  = \ \[IndentingNewLine]"\<imsNodePoints[ imsNexus, \
+opts ] returns a list of imsPoint expressions at coords of imsNexus nodes. \
+Optinaly can can specify a list of node ids contained in imsNexus to be \
+returned.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsNodeIdTexts::usage\  = \ \[IndentingNewLine]"\<imsNodeIdTexts[ \
+imsNexus, offset, dir ] returns a list of Text expressions at coords of \
+imsNexus nodes with the nodes id as text. Offset and dir are the same as for \
+a Text expression.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsNodeValueTexts::usage\  = \ \[IndentingNewLine]"\<imsNodeValueTexts[ \
+imsNexus, part, offset, dir ] returns a list of Text expressions at coords of \
+imsNexus nodes with part of nodes value as text. Part defaults to \
+Sequence[1,1]. Offset and dir are the same as for a Text expression.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElements::usage\  = \ \[IndentingNewLine]"\<imsDrawElements[ \
+imsNexus, { elementIds } ] is special interface function. It will call \
+imsDrawElements[ _elementType, { nodes.. } ], with _elementType being the \
+head of imsNexus element. A list of element ids is optional.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElementIdText::usage\  = \ \
+\[IndentingNewLine]"\<imsDrawElementIdText[ imsNexus, { elementIds } ] is \
+special interface function. It will call imsDrawElementIdText[ _elementType, \
+{ nodes.. } ], with _elementType being the head of imsNexus element. A list \
+of element ids is optional.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElementSolution::usage\  = \
+\[IndentingNewLine]"\<imsDrawElementSolution[ imsNexus, Sequence, { \
+elementIds } ] is special interface function. It will call \
+imsDrawElementSolution[ _elementType, Sequence, { nodes.. } ], with \
+_elementType being the head of imsNexus element. Sequence (default \
+Sequence[1]) specifies which node vaule is to be taken. A list of element ids \
+is optional.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElementText::usage = \ "\<imsDrawElementText[ imsNexus, function1, \
+function2, offset, dir ] returns a list of Text expressions at the midpoint \
+of imsNexus nodes corresponding to the elements. The text string is selcted \
+by function1, which defaults to imsGetIds. function2 defaults to \
+imsGetElements. Offset and dir are the same as for a Text expression.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawNodeText::usage\  = \ "\<imsDrawNodeText[ imsNexus, function1, \
+function2, offset, dir ] returns a list of Text expressions at coords of \
+imsNexus nodes. The text string is selcted by function1, which defaults to \
+imsGetIds. Function2 defaults to imsGetNodes, but can choose \
+imsGetBoundaryNodes or imsGetInteriorNodes. Offset and dir are the same as \
+for a Text expression.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeNexus[\ 
+          boundaryNodes_List, \ interiorNodes_List, \ elements_List\ ]\  := \ 
+        imsNexus[\ boundaryNodes, \ interiorNodes, \ 
+          Sort[\ elements, \ 
+            OrderedQ[\ imsGetIds[\ {\ #1, \ #2\ }\ ]\ ] &\ ], 
+          Sort[\ Join[\ boundaryNodes, \ interiorNodes\ ], \ 
+            OrderedQ[\ 
+                imsGetIds[\ {\ #1, \ #2\ }\ ]\ ] &\ ]\ \
+];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Format[\ a_imsNexus, 
+          StandardForm\ ] := "\<- imsNexus -\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Private Functions", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\(SetAttributes[\ getNodesByIds, \ Listable\ ]\n
+    SetAttributes[\ getElementsByIds, \ Listable\ ]\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\(\(imsGetBoundaryNodes[\ 
+          a_imsNexus\ ]\  := \ a[\([\ 1\ ]\)];\)\[IndentingNewLine]
+    \(imsGetInteriorNodes[\ a_imsNexus\ ]\  := \ 
+        a[\([\ 2\ ]\)];\)\[IndentingNewLine]
+    \(imsGetNodes[\ a_imsNexus\ ]\  := \ a[\([\ 4\ ]\)];\)\[IndentingNewLine]
+    \(imsGetElements[\ a_imsNexus\ ]\  := \ 
+        a[\([\ 3\ ]\)];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetNodes[\ a_imsNexus, \ ids_\ ]\  := \ a[\([4, \ ids\ ]\)];\)\n
+    \(imsGetElements[\ a_imsNexus, \ ids_\ ]\  := \ 
+        a[\([\ 3, \ ids\ ]\)];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetBoundaryElements[\ n_imsNexus\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ bnids, \ allElements, \ bnQ, \ belms, \ 
+            activeIncidents\ }, \[IndentingNewLine]bnids\  = 
+            imsGetIds[\ 
+              imsGetBoundaryNodes[\ 
+                n\ ]\ ]; \[IndentingNewLine]allElements\  = \ 
+            imsGetElements[\ 
+              n\ ]; \[IndentingNewLine]\(\((bnQ[\ #\ ]\  := \ 
+                  True)\) &\)\  /@ \ 
+            bnids; \[IndentingNewLine]bnQ[\ ___\ ]\  := \ 
+            False; \[IndentingNewLine]belms\  = 
+            Select[\ allElements, \ \((Or\  @@ \ \((bnQ\  /@ \ 
+                        imsGetIncidentsIds[#])\) &)\)\ ]; \
+\[IndentingNewLine]activeIncidents\  = \ \(Select[\ #, \ \((bnQ[#] &)\)\ ] \
+&\)\  /@ \ imsGetIncidentsIds[\ belms\ ]; \[IndentingNewLine]Return[\ 
+            Transpose[\ {\ belms, \ 
+                activeIncidents\ }\ ]\ ];\[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetBoundaryElementIds[\ n_imsNexus\ ]\  := \ 
+        imsGetIds[\ \(imsGetBoundaryElements[\ n\ ]\)[\([\ All, \ 
+              1\ ]\)]\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutators", "Section"],
+
+Cell[BoxData[
+    \(imsSetNexusCoords[nexus_, newCoords_] := 
+      Module[{newBoundaryNodes, newInteriorNodes, myNode}, 
+        newBoundaryNodes = 
+          imsGetBoundaryNodes[nexus] /. 
+            myNode_imsNode \[RuleDelayed] 
+              If[imsDataNodeQ[myNode], 
+                imsMakeNode[imsGetIds[myNode], 
+                  newCoords[\([imsGetIds[myNode]]\)], imsGetMarkers[myNode], 
+                  imsGetValues[myNode], imsGetDatas[myNode]], 
+                imsMakeNode[imsGetIds[myNode], 
+                  newCoords[\([imsGetIds[myNode]]\)], imsGetMarkers[myNode], 
+                  imsGetValues[
+                    myNode]]]; \[IndentingNewLine]newInteriorNodes = 
+          imsGetInteriorNodes[nexus] /. 
+            myNode_imsNode \[RuleDelayed] 
+              If[imsDataNodeQ[myNode], 
+                imsMakeNode[imsGetIds[myNode], 
+                  newCoords[\([imsGetIds[myNode]]\)], imsGetMarkers[myNode], 
+                  imsGetValues[myNode], imsGetDatas[myNode]], 
+                imsMakeNode[imsGetIds[myNode], 
+                  newCoords[\([imsGetIds[myNode]]\)], imsGetMarkers[myNode], 
+                  imsGetValues[myNode]]]; \[IndentingNewLine]Return[
+          imsMakeNexus[newBoundaryNodes, newInteriorNodes, 
+            imsGetElements[nexus]]]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]\(imsTo3DNexus[\ 
+            imsNexus[\ boundaryNodes_, \ interiorNodes_, \ elements_, 
+              nodeByIdsRelation_, elementsByIdsRelation_\ ], \ 
+            myValue_:  0. \ ]\  := \ 
+          imsMakeNexus[\ imsTo3DNodes[\ boundaryNodes, \ myValue\ ], \ 
+            imsTo3DNodes[\ interiorNodes, \ myValue\ ], \ 
+            elements\ ];\)\ \[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\(\
+\(imsTo3DNexus[\ 
+          imsNexus[\ boundaryNodes_, \ interiorNodes_, \ elements_, 
+            sortedNodes_\ ], \ myValue_:  0. \ ]\  := \ 
+        imsMakeNexus[\ imsTo3DNodes[\ boundaryNodes, \ myValue\ ], \ 
+          imsTo3DNodes[\ interiorNodes, \ myValue\ ], \ 
+          elements\ ];\)\(\ \)\(\[IndentingNewLine]\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ representors\ *) \)\(\[IndentingNewLine]\)\(imsNexus\  /: \ 
+      imsNodePoints[\ a_imsNexus, \ nodeIds___\ ]\  := \ 
+      imsNodePoint\  /@ \ 
+        imsGetNodes[\ a, \ nodeIds\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsNexus\  /: \ 
+      imsNodeIdTexts[\ a_imsNexus, \ offset_: {\ 0, 0\ }, \ 
+        dir_: {\ 1, 0\ }\ ]\  := \ \(imsNodeIdText[\ #, \ offset, \ 
+            dir\ ] &\)\  /@ \ 
+        imsGetNodes[\ a\ ]\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[\ imsNodeValueTexts, \ SequenceHold\ ];\)\n
+    \(Default[\ imsNodeValueTexts, \ 2\ ]\  = \ 
+        Sequence[\ 1, \ 1\ ];\)\[IndentingNewLine]
+    imsNexus\  /: \ 
+      imsNodeValueTexts[\ a_imsNexus, \ part_. , \ offset_: {\ 0, 0\ }, \ 
+        dir_: {\ 1, 0\ }\ ]\  := \ \(imsNodeValueText[\ #, \ part, \ 
+            offset, \ dir\ ] &\)\  /@ \ 
+        imsGetNodes[\ a\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsNexus\  /: \ 
+      imsDrawElements[\ a_imsNexus, \ 
+        ids___\ ]\  := \ \[IndentingNewLine]\(imsDrawElements[\ \ #, \ \ \
+imsGetNodes[\ a, \ \ imsGetIncidentsIds[\ #\ ]\ ]\ ] &\)\  /@ \ 
+        imsGetElements[\ a, \ 
+          ids\ \ ]\[IndentingNewLine]\[IndentingNewLine] (*\ {}, \ offset_, \ 
+      dir_\ *) \ \[IndentingNewLine]
+    imsNexus\  /: \ 
+      imsDrawElementIdText[\ a_imsNexus, \ 
+        ids___\ ]\  := \[IndentingNewLine]\(imsDrawElementIdText[\ \ #, \ \ \
+imsGetNodes[\ a, \ \ imsGetIncidentsIds[\ #\ ]\ ]\ ] &\)\  /@ \ 
+        imsGetElements[\ a, ids\ ]\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[\ imsDrawElementSolution, \ 
+        SequenceHold\ ];\)\[IndentingNewLine]
+    \(Default[\ imsDrawElementSolution, \ 2\ ]\  = \ 
+        Sequence[\ 1\ ];\)\[IndentingNewLine]
+    imsNexus\  /: \ 
+      imsDrawElementSolution[\ a_imsNexus, \ part_. , \ 
+        ids___\ ]\  := \ \(imsDrawElementSolution[\ #, \ \ part, \ 
+            imsGetNodes[\ a, \ imsGetIncidentsIds[\ #\ ]\ ]\ ] &\)\  /@ \ 
+        imsGetElements[\ a, \ ids\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawNodeText[n_imsNexus, \ function_:  imsGetIds, 
+        nodeSelection_:  imsGetNodes, \ offset_: {0, 0}, 
+        dir_: {1, 0}] := \(Text[ToString[function[#]], 
+            imsGetCoords[#] /. {x_?NumericQ} \[Rule] {x, 0}, offset, 
+            dir] &\) /@ 
+        nodeSelection[\ n\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElementText[n_imsNexus, \ function1_:  imsGetIds, \ 
+        function2_:  imsGetElements, offset_: {0, 0}, 
+        dir_: {1, 0}] := \(imsDrawElementText[#, 
+            imsGetNodes[n, imsGetIncidentsIds[#]], \ function1, offset, 
+            dir] &\) /@ function2[n]\n\[IndentingNewLine]
+    imsDrawElementText[e_, nodes_, \ function_:  imsGetIds, offset_: {0, 0}, 
+        dir_: {1, 0}] := 
+      Text[ToString[function[e]], \(Plus @@ \((#/Length[#])\) &\)[\ 
+          imsGetCoords[\ nodes\ ] /. {x_?NumericQ} \[Rule] {x, 0}], offset, 
+        dir]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1081, 825},
+WindowMargins->{{54, Automatic}, {Automatic, 56}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 33, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1834, 57, 31, 0, 74, "Section"],
+Cell[1868, 59, 2373, 40, 507, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[4266, 103, 35, 0, 28, "Subsubsection"],
+Cell[4304, 105, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4925, 117, 1823, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6797, 154, 32, 0, 44, "Section"],
+Cell[6832, 156, 194, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7063, 166, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[7140, 170, 26, 0, 38, "Subsection"],
+Cell[7169, 172, 7305, 119, 1563, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14511, 296, 34, 0, 30, "Subsection"],
+Cell[14548, 298, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14754, 306, 36, 0, 30, "Subsection"],
+Cell[14793, 308, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15015, 318, 32, 0, 44, "Section"],
+Cell[15050, 320, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15175, 327, 30, 0, 44, "Section"],
+Cell[15208, 329, 791, 15, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16036, 349, 36, 0, 44, "Section"],
+Cell[16075, 351, 278, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16390, 362, 27, 0, 44, "Section"],
+Cell[16420, 364, 1814, 33, 347, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18271, 402, 27, 0, 44, "Section"],
+Cell[18301, 404, 1336, 25, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19674, 434, 29, 0, 44, "Section"],
+Cell[19706, 436, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19824, 443, 41, 0, 44, "Section"],
+Cell[19868, 445, 899, 17, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20804, 467, 31, 0, 44, "Section"],
+Cell[20838, 469, 2994, 55, 491, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23869, 529, 30, 0, 44, "Section"],
+Cell[23902, 531, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24051, 538, 30, 0, 44, "Section"],
+Cell[24084, 540, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,1898 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     81876,       1663]*)
+(*NotebookOutlinePosition[     82539,       1686]*)
+(*  CellTagsIndexPosition[     82495,       1682]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Ansys", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Title : \ Ansys . m\ *) \), 
+      "\[IndentingNewLine]", \( (*\ \(Context\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Author : \ Jan\ Lienemann\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Date : \ 10.5  .2005, \ Freiburg\ *) \), 
+      "\[IndentingNewLine]", \( (*\ 
+        Summary : \ This\ package\ parses\ ANSYS\ binary\ files\ *) \), 
+      "\[IndentingNewLine]", \( (*\ 
+        Package\ \(Copyright : \ GNU\ GPL\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Package\ \(Version : \ 1.0\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Mathematica\ \(Version : \ 5.11\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ \(History\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ Keywords : \ ANSYS\ binary\ files\ *) \), 
+      "\[IndentingNewLine]", \( (*\ \(Sources\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ \(Warnings\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+        RowBox[{\(Limitations : \ Is\ incomplete\), ",", " ", 
+          RowBox[{
+          "and", " ", "will", " ", "probably", " ", "only", " ", "be", " ", 
+            "extended", " ", "as", " ", "needed", "\[IndentingNewLine]", "TO",
+             " ", \(DO!\), "\[IndentingNewLine]", 
+            StyleBox[\(Test!\),
+              FontWeight->"Bold"], "\n", \(Support\ for\ frontal\ assembly\), 
+            "\n", \(Support\ for\ constraint\ equations\), 
+            "\n", \(Assembler\ for\ the . emat\ files, 
+            interface\ to\ ims\ functions\), 
+            "\n", \(Dirichlet\ boundary\ conditions\), "\n", "Other", " ", 
+            "binary", " ", "file", " ", "formats"}]}], "\[IndentingNewLine]", 
+        " ", "*)"}], "\[IndentingNewLine]", \( (*\ \(Discussion\)\(:\)\ *) \),
+       "\[IndentingNewLine]", \( (*\ \(Requirements\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ \(Examples\)\(:\)\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \)}]], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ parses\ ANSYS\ binary\ files\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ jan\ lienemann\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`\
+Interfaces`Ansys`\>", {"\<Imtek`BoundaryConditions`\>"}];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\( \
+(*imsReadAnsysBinaryFileHeader::usage = \
+"\<imsReadAnsysBinaryFileHeader[InputStream str]\>"; \
+\[IndentingNewLine]imsReadAnsysFullFileHeader::usage = \
+"\<imsReadAnsysFullFileHeader[InputStream str]\>"; \
+\[IndentingNewLine]imsReadAnsysFullFileDOFs::usage = \
+"\<imsReadAnsysFullFileDOFs[InputStream str]\>"; \
+\[IndentingNewLine]imsReadAnsysFullFileNET::usage = \
+"\<imsReadAnsysFullFileNET[InputStream str]\>"; \
+\[IndentingNewLine]imsReadAnsysFullFileMatricesSymbolic::usage = \
+"\<imsReadAnsysFullFileMatricesSymbolic[InputStream str, Integer \
+numberofequations, Integer numberofmatrices, Boolean iscomplex, Boolean \
+isunsymmetric, Boolean lumpedmass]\>"; \
+\[IndentingNewLine]imsReadAnsysFullFileMatricesFrontal::usage = \
+"\<imsReadAnsysFullFileMatricesFrontal[InputStream str, Integer \
+numberofequations, Integer numberofmatrices, Boolean iscomplex, Boolean \
+isunsymmetric, Boolean lumpedmass]\>"; \
+\[IndentingNewLine]imsReadAnsysEmatFileHeader::usage = \
+"\<imsReadAnsysEmatFileHeader[InputStream \
+str]\>";*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(\
+imsReadAnsysBinaryFile::usage = "\<imsReadAnsysBinaryFile[String filename] \
+returns the contents of the file as list of rules.\>";\)\[IndentingNewLine]
+    \(imsReadAnsysBinaryFileDescriptions::usage = \
+"\<imsReadAnsysBinaryFileDescriptions[expr] converts the ANSYS variable \
+symbols to human readable descriptive names.\>";\)\[IndentingNewLine]
+    \(imsReadAnsysBinaryFileRecords::usage = \
+"\<imsReadAnsysBinaryFileRecords[String filename, Integer n] returns a list \
+of all records found in the binary file. The optional argument n is the \
+number of records to read.\>";\)\[IndentingNewLine]
+    imsAssembleSystemFromAnsys::usage = "\<imsAssembleSystemFromAnsys[List \
+fileRecordsFull, List fileRecordsEmat] creates an imsSystem from the data \
+read from an ANSYS file.\>"\[IndentingNewLine]
+    imsInvertAnsysEquivList::usage = "\<\>"\[IndentingNewLine]
+    imsReadAnsysListFile::usage = "\<imsReadAnsysListFile[filename] is a \
+filter to read in a file produced by, e.g., Ansys' NLIST command. It removes \
+all column headings and empty lines.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsExcludeElements::usage = "\
+\<Elements to exclude from building the matrices. Automagically sets \
+imsGetStiffnessFromFull to False.\>";\)\[IndentingNewLine]
+    \(imsGetStiffnessFromFull::usage = "\<Get stiffness matrix from .full \
+file (otherwise use .emat file)\>";\)\[IndentingNewLine] \
+(*\(imsRemoveDirichlets::usage = "\<Remove Dirichlet degrees of freedoms from \
+matrices\>";\)*) \[IndentingNewLine]
+    \(System`imsDisplayStatus::usage = "\<Use ShowStatus to show current \
+process\>";\)\[IndentingNewLine]
+    \(imsApplyDirichlets::usage = "\<Apply Dirichlet boundary conditions to \
+system\>";\)\[IndentingNewLine]
+    \(imsFullFileMatrices::usage = "\<Extract matrices from full file\>";\)\
+\[IndentingNewLine]
+    \(imsNamesFormat::usage = "\<Format of the names vector\>";\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsReadAnsysBinary::substr = "\<Substructure matrices not \
+supported\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsReadAnsysBinary::nyi = "\<Sorry, `1` not yet implemented\>";\)\), \
+"\[IndentingNewLine]", 
+    \(\(imsReadAnsysBinary::parse = "\<Parse error `1` while reading ANSYS \
+file\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsReadRecord::wrongtype = "\<Wrong record type; `1` \
+expected\>";\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(Needs["\<Imtek`Assembler`\>"]\
+\)\(\[IndentingNewLine]\)
+    \(Needs["\<Imtek`System`\>"]\)\(\[IndentingNewLine]\)
+    \(Needs["\<Imtek`ShowStatus`\>"]\)\(\[IndentingNewLine]\)
+    \( (*Needs["\<Imtek`BoundaryConditions`\>"]*) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Options[
+          imsReadAnsysBinaryFileDescriptions] = {imsShort \[Rule] 
+            True};\)\[IndentingNewLine]
+    \(Options[imsAssembleSystemFromAnsys] = {imsExcludeElements \[Rule] None, 
+          imsGetStiffnessFromFull \[Rule] True, 
+          imsRemoveDirichlets \[Rule] False, imsDisplayStatus \[Rule] True, 
+          imsApplyDirichlets \[Rule] True, 
+          imsNamesFormat -> "\<String\>"};\)\[IndentingNewLine]
+    \(Options[
+          imsReadAnsysBinaryFile] = {imsFullFileMatrices \[Rule] 
+            True};\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Private functions", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(ReadRecord[s_, type_String, size_Integer] := 
+      Block[{len = BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1], 
+          t}, \[IndentingNewLine]If[len \[LessEqual] 0, 
+          Return[{}]]; \[IndentingNewLine]t = 
+          BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1]; 
+        Return[{len, t, 
+            BinaryReadList[s, type, \((len - 4)\)/size, 
+              ByteOrdering \[Rule] 1], 
+            BinaryRead[s, "\<Integer32\>", 
+              ByteOrdering \[Rule] 1]}]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ReadRecord[s_] := 
+      Block[{len = BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1], 
+          t}, If[len \[LessEqual] 0, Return[{}]]; \[IndentingNewLine]t = 
+          BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1]; 
+        Return[{len, t, 
+            BinaryReadList[s, 
+              If[t \[Equal] 0, "\<Real64\>", "\<Integer32\>"], \((len - 4)\)/
+                If[t \[Equal] 0, 8, 4], ByteOrdering \[Rule] 1], 
+            BinaryRead[s, "\<Integer32\>", 
+              ByteOrdering \[Rule] 1]}]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ReadRecord[s_, integ : \((True | False)\)] := 
+      Block[{len = BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1], 
+          t}, If[len \[LessEqual] 0, Return[{}]]; \[IndentingNewLine]t = 
+          BinaryRead[s, "\<Integer32\>", 
+            ByteOrdering \[Rule] 1]; \[IndentingNewLine]If[
+          Xor[integ, \((t != 0)\)], 
+          Message[imsReadRecord::wrongtype, 
+            If[integ, "\<Integer\>", "\<Real\>"]]]; \
+\[IndentingNewLine]Return[{len, t, 
+            BinaryReadList[s, 
+              If[t \[Equal] 0, "\<Real64\>", "\<Integer32\>"], \((len - 4)\)/
+                If[t \[Equal] 0, 8, 4], ByteOrdering \[Rule] 1], 
+            BinaryRead[s, "\<Integer32\>", 
+              ByteOrdering \[Rule] 
+                1]}]]\)\(\[IndentingNewLine]\)\(\n\)\( (*\ \(\(**\)\(\ \
+\)\(for\)\)\ debugging\  ** \[IndentingNewLine]ReadRecord[s_, type_, size_] := 
+        Module[{len = BinaryRead[s, "\<Integer32\>", ByteOrdering \[Rule] 1], 
+            t, tmp}, \[IndentingNewLine]If[len \[LessEqual] 0, 
+            Return[{}]]; \[IndentingNewLine]t = 
+            BinaryRead[s, "\<Integer32\>", 
+              ByteOrdering \[Rule] 1]; \[IndentingNewLine]tmp = 
+            BinaryReadList[s, type, \((len - 4)\)/size, 
+              ByteOrdering \[Rule] 1]; 
+          Print[tmp]; {len, t, tmp, 
+            BinaryRead[s, "\<Integer32\>", 
+              ByteOrdering \[Rule] 1]}]*) \)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(GetByte[i_, b_] := 
+      BitAnd[255, 
+        Developer`BitShiftRight[i, \((b - 1)\)*8]]\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(GetBytes[i_] := \(GetByte[i, #] &\) /@ 
+        Reverse[Range[4]]\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(GetChars[i_] := 
+      FromCharacterCode /@ GetBytes[i]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(StringTrim[s_] := 
+      Module[{IFS = {"\< \>", "\<\t\>", "\<\n\>"}, 
+          s2}, \[IndentingNewLine]s2 = 
+          If[\((StringLength[s] > 0)\) && \((MemberQ[IFS, 
+                  StringTake[s, \(-1\)]])\), 
+            StringTrim[StringDrop[s, \(-1\)]], s]; \[IndentingNewLine]Return[
+          If[\((StringLength[s2] > 0)\) && \((MemberQ[IFS, 
+                  StringTake[s2, 1]])\), StringTrim[StringDrop[s2, 1]], 
+            s2]]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(IntsToString[i_List] := 
+      StringTrim[StringJoin[Flatten[GetChars /@ i]]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsReadAnsysFullFilePossiblyComplex[str_, compl_] := 
+        If[compl, Return[ReadRecord[str, "\<Complex64\>", 8]], 
+          Return[ReadRecord[str, False]]\  (*TODO : check*) ];\)\)}], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*removeZeros[l : {Except[_List] ... }, 
+          dof_] := \(Module[{nnpos}, \[IndentingNewLine]nnpos = 
+            Flatten[Position[dof, Except[0], {1}, 
+                Heads \[Rule] False]]; \[IndentingNewLine]{l[\([nnpos]\)], 
+            dof[\([nnpos]\)]}\[IndentingNewLine]]\[IndentingNewLine]
+        removeZeros[l : {__List}, dof_] := 
+          Module[{nnpos}, \[IndentingNewLine]nnpos = 
+              Flatten[Position[dof, Except[0], {1}, 
+                  Heads \[Rule] False]]; \[IndentingNewLine]{l[\([nnpos, 
+                  nnpos]\)], 
+              dof[\([nnpos]\)]}\[IndentingNewLine]]\)*) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(myMakeElementMatrix[m_, 
+        dof_] :=  (*\(Module\)\([\)\({nzm, 
+            nzd}, \({nzm, nzd} = 
+              removeZeros[m, 
+                dof];\)\)*) \[IndentingNewLine]imsMakeElementMatrix[
+        Take[m, Length[dof], Length[dof]], \ dof, \ 
+        dof\ ]\[IndentingNewLine]\[IndentingNewLine]
+    myMakeElementMatrix[m_, dof_, keep_] := 
+      imsMakeElementMatrix[m[\([keep, keep]\)], dof, 
+        dof]\[IndentingNewLine]\n
+    \(assembleVec[vec_, val_, 
+          dof_] :=  (*\(Module\)\([\)\({nzval, 
+              nzd}, \({nzval, nzd} = 
+                removeZeros[val, 
+                  dof];\)\)*) \[IndentingNewLine]vec[\([dof]\)] += 
+          Take[val, Length[dof]];\)\[IndentingNewLine]\[IndentingNewLine]
+    assembleVec[vec_, val_, dof_, keep_] := 
+      vec[\([dof]\)] += val[\([keep]\)]\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[assembleVec, \ 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]
+    deleteRowsCols[m_, rr_] := 
+      Module[{r = List /@ rr}, \[IndentingNewLine] (*cond = 
+            Alternatives @@ 
+              Flatten[\({{#} \[Rule] _, {#, _} \[Rule] _, {_, #} \[Rule] _} &\
+\) /@ r, 1]; \[IndentingNewLine]m = 
+            SparseArray[DeleteCases[ArrayRules[m], cond], 
+              dim]; \[IndentingNewLine]don' 
+            t\ know\ which\ is\ better\ *) \[IndentingNewLine]\(If[
+            TensorRank[m] > 1, 
+            m = Transpose[Delete[Transpose[Delete[m, r]], r]], 
+            m = Delete[m, 
+                r]];\)\[IndentingNewLine]]\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(zeroRowsCols[m_, rr_] := 
+        If[TensorRank[m] > 1, m[\([All, rr]\)] = 0. ; 
+          m[\([rr, All]\)] = 0. ;, 
+          m[\([rr]\)] = 0. ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[deleteRowsCols, HoldFirst];\)\[IndentingNewLine]
+    \(SetAttributes[zeroRowsCols, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsInvertAnsysEquivList[l_List] := 
+      Module[{li = Table[0, {Max[l]}]}, 
+        MapIndexed[If[#1 > 0, li[\([#1]\)] = #2[\([1]\)]] &, l]; 
+        Return[li]]\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysBinaryFileHeader", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsReadAnsysBinaryFileHeader[str_] := 
+        Module[{r}, \[IndentingNewLine]r = 
+            ReadRecord[str, 
+              True]; \[IndentingNewLine]\[IndentingNewLine]Return[{"\<fnum\>" \
+\[Rule] Switch[r[\([3, 1]\)], 4, "\<FULL\>", 2, "\<EMAT\>", _, 
+                  r[\([3, 1]\)]], \[IndentingNewLine]"\<fformat\>" -> 
+                r[\([3, 2]\)], \[IndentingNewLine]"\<time\>" -> 
+                r[\([3, 3]\)], \[IndentingNewLine]"\<date\>" -> 
+                r[\([3, 4]\)], \[IndentingNewLine]"\<units\>" -> 
+                r[\([3, 5]\)], \[IndentingNewLine]"\<ANSYSrel\>" -> 
+                IntsToString[
+                  r[\([3, {10}]\)]], \[IndentingNewLine]"\<ANSYSreldate\>" -> 
+                r[\([3, 11]\)], \[IndentingNewLine]"\<machid\>" -> 
+                IntsToString[
+                  r[\([3, {12, 13, 
+                        14}]\)]], \[IndentingNewLine]"\<jobname\>" -> 
+                IntsToString[
+                  r[\([3, {15, 16}]\)]], \[IndentingNewLine]"\<ANSYSpnam\>" -> 
+                IntsToString[
+                  r[\([3, {17, 18}]\)]], \[IndentingNewLine]"\<ANSYSsverl\>" -> 
+                IntsToString[
+                  r[\([3, {19}]\)]], \[IndentingNewLine]"\<user\>" -> 
+                IntsToString[
+                  r[\([3, {20, 21, 
+                        22}]\)]], \[IndentingNewLine] (*"\<machid2\>" -> 
+                  IntsToString[r[\([3, {23, 24, 25}]\)]], \ 
+                returned\ bullshit\ *) \[IndentingNewLine]"\<sysrec\>" -> 
+                r[\([3, 26]\)], \[IndentingNewLine]"\<flenmax\>" -> 
+                r[\([3, 27]\)], \[IndentingNewLine]"\<recmax\>" -> 
+                r[\([3, 28]\)], \[IndentingNewLine]"\<noproc\>" -> 
+                r[\([3, 29]\)], \[IndentingNewLine]"\<title\>" -> 
+                IntsToString[
+                  r[\([3, 
+                      Range[41, 60]]\)]], \[IndentingNewLine]"\<subtitle\>" -> 
+                IntsToString[r[\([3, Range[61, 80]]\)]]}]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysFullFileHeader", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsReadAnsysFullFileHeader[str_] := 
+        Module[{r0, r, ret, symb}, \[IndentingNewLine]r0 = 
+            ReadRecord[str, True]; \[IndentingNewLine]r = 
+            r0[\([3]\)]; \[IndentingNewLine]If[Abs[r[\([1]\)]] \[NotEqual] 4, 
+            Message[imsReadAnsysBinary::parse, {1, r[\([1]\)]}]; 
+            Return[$Failed]]; \[IndentingNewLine]symb = \((r[\([1]\)] < 
+                0)\); \[IndentingNewLine]If[symb, 
+            r = Join[r, Table[0, {24 - Length[r]}]], 
+            r = Join[r, 
+                Table[0, {39 - 
+                      Length[r]}]]]; \[IndentingNewLine]ret = {"\<fun04\>" -> 
+                r[\([1]\)], "\<Assembly\>" \[Rule] 
+                If[symb, "\<Symbolic\>", "\<Frontal\>"], \[IndentingNewLine]"\
+\<neqn\>" -> r[\([2]\)], \[IndentingNewLine]"\<nmrow\>" -> 
+                r[\([3]\)], \[IndentingNewLine]"\<nmatrx\>" -> 
+                r[\([4]\)], \[IndentingNewLine]"\<kan\>" -> 
+                r[\([5]\)], \[IndentingNewLine]"\<wfmax\>" -> 
+                r[\([6]\)], \[IndentingNewLine]"\<lenbac\>" -> 
+                r[\([7]\)], \[IndentingNewLine]"\<numdof\>" -> 
+                r[\([8]\)], \[IndentingNewLine] (*"\<Pointer to EOF 1\>" -> 
+                  r[\([9]\)], \[IndentingNewLine]"\<Pointer to EOF 2\>" -> 
+                  r[\([10]\)], \ 
+                obsolete\ *) \[IndentingNewLine]"\<lumpm\>" \[Rule] \
+\((r[\([11]\)] \[Equal] 1)\)}; \[IndentingNewLine]\[IndentingNewLine]ret = 
+            Join[ret, 
+              If[symb, \[IndentingNewLine]{"\<nmrow2\>" -> 
+                    r[\([12]\)], \[IndentingNewLine]"\<ntrmStif\>" -> 
+                    r[\([13]\)]}, \[IndentingNewLine]{"\<jcgeqn\>" -> 
+                    r[\([12]\)], \[IndentingNewLine]"\<jcgtrm\>" -> 
+                    r[\([13]\)]}]]; \[IndentingNewLine]\[IndentingNewLine]ret \
+= Join[ret, \[IndentingNewLine]{"\<keyuns\>" -> 
+                  r[\([14]\)] \[Equal] 
+                    1, \[IndentingNewLine]"\<extopt\>" \[Rule] 
+                  r[\([15]\)], \[IndentingNewLine]"\<keyse\>" \[Rule] \
+\((r[\([16]\)] \[Equal] 1)\), \[IndentingNewLine]"\<sclstf\>" -> 
+                  r[\([17]\)], \[IndentingNewLine]"\<nxrows\>" \[Rule] 
+                  r[\([18]\)]}]; \[IndentingNewLine]\[IndentingNewLine]ret = 
+            Join[ret, 
+              If[symb, \[IndentingNewLine]{"\<ptrSTFl\>" \[Rule] 
+                    r[\([19]\)], "\<ptrSTFl\>" \[Rule] 
+                    r[\([20]\)], \[IndentingNewLine]"\<ncefull\>" \[Rule] 
+                    r[\([21]\)], "\<ptrENDl\>" \[Rule] 
+                    r[\([23]\)], "\<ptrENDh\>" \[Rule] 
+                    r[\([24]\)], "\<ptrIRHSl\>" \[Rule] 
+                    r[\([25]\)], "\<ptrIRHSh\>" \[Rule] 
+                    r[\([26]\)], "\<ptrMASl\>" \[Rule] 
+                    r[\([27]\)], "\<ptrMASh\>" \[Rule] 
+                    r[\([28]\)], "\<ptrDMPl\>" \[Rule] 
+                    r[\([29]\)], "\<ptrDMPl\>" \[Rule] 
+                    r[\([30]\)], "\<ptrCEl\>" \[Rule] 
+                    r[\([31]\)], "\<ptrCEh\>" \[Rule] 
+                    r[\([32]\)], \[IndentingNewLine]"\<nNodes\>" \[Rule] 
+                    r[\([33]\)], \[IndentingNewLine]"\<ntrmMass\>" \[Rule] 
+                    r[\([34]\)], \[IndentingNewLine]"\<ntrmDamp\>" \[Rule] 
+                    r[\([34]\)], \[IndentingNewLine]"\<ptrDOFl\>" \[Rule] 
+                    r[\([35]\)], "\<ptrDOFh\>" \[Rule] 
+                    r[\([36]\)], \[IndentingNewLine]"\<ptrRHSl\>" \[Rule] 
+                    r[\([37]\)], "\<ptrRHSh\>" \[Rule] 
+                    r[\([38]\)]}, \[IndentingNewLine]{"\<ptrIDXl\>" \[Rule] 
+                    r[\([19]\)], "\<ptrIDXh\>" \[Rule] 
+                    r[\([20]\)], \[IndentingNewLine]"\<ncefull\>" \[Rule] 
+                    r[\([21]\)], \[IndentingNewLine]"\<ncetrm\>" \[Rule] 
+                    r[\([22]\)], \[IndentingNewLine]"\<ptrENDl\>" \[Rule] 
+                    r[\([23]\)], "\<ptrENDh\>" \[Rule] 
+                    r[\([24]\)]}]]; \[IndentingNewLine]\[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<DOF\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<BAC\>" \[Rule] 
+              r[\([3]\)]]; \[IndentingNewLine]\[IndentingNewLine]Return[
+            ret]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["imsReadAnsysFullFileMatricesSymbolic",
+  FontColor->RGBColor[0, 0, 1]]], "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsReadAnsysFullFilePossiblyComplex[str_, compl_] := 
+        If[compl, \[IndentingNewLine]Return[
+            ReadRecord[str, "\<Complex64\>", 8]], \[IndentingNewLine]Return[
+            ReadRecord[str, False]]\  (*\ 
+            TODO : \ check\ *) \[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(imsReadAnsysFullFileMatrixSymbolic[str_, compl_, keyuns_, nontp_, 
+        True] := Module[{rows, r, col, m}, \[IndentingNewLine]m = 
+          Flatten[Table[\[IndentingNewLine]rows = \(ReadRecord[str, 
+                    True]\)[\([3]\)]; \[IndentingNewLine]r = \
+\(imsReadAnsysFullFilePossiblyComplex[str, 
+                    compl]\)[\([3]\)]; \[IndentingNewLine]Join[
+                Transpose[{rows, Table[col, {Length[rows]}], 
+                    r}], \[IndentingNewLine]If[Not[keyuns], 
+                  Drop[Transpose[{Table[col, {Length[rows]}], rows, 
+                        r}], \(-1\)], {}]], \[IndentingNewLine]{col, nontp}], 
+            1]; \[IndentingNewLine]\[IndentingNewLine]Return[
+          m[\([All, {1, 2}]\)] \[Rule] 
+            m[\([All, 
+                3]\)]];\[IndentingNewLine]]\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(imsReadAnsysFullFileMatrixSymbolic[str_, compl_, keyuns_, nontp_, 
+        False] := \[IndentingNewLine]With[{}, \[IndentingNewLine]Do[\
+\[IndentingNewLine]ReadRecord[str, 
+            True]; \[IndentingNewLine]imsReadAnsysFullFilePossiblyComplex[
+            str, compl];, \[IndentingNewLine]{nontp}]; \
+\[IndentingNewLine]Return[{}]\[IndentingNewLine]]\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(imsReadAnsysFullFileMatricesSymbolic[str_, nontp_, nomats_, compl_, 
+        keyuns_, lumpm_, ffMat_] := 
+      Block[{mm = {}, dm = {}, sm = {}, f, fimg, r, rows, rules = {}, 
+          m0}, \[IndentingNewLine]\[IndentingNewLine] \
+(*\(\(**\)\(**\)\(**\)\(**\)\(**\)\(**\)\(\ \)\(Stiffness\)\)\ matrix\ \
+*************) \[IndentingNewLine]sm = 
+          imsReadAnsysFullFileMatrixSymbolic[str, compl, keyuns, nontp, 
+            ffMat]; \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(**\)\(\
+**\)\(**\)\(**\)\(**\)\(\ \)\(Load\)\)\ vector\ \
+******************) \[IndentingNewLine]f = \
+\(imsReadAnsysFullFilePossiblyComplex[str, 
+              compl]\)[\([3]\)]; \[IndentingNewLine]\[IndentingNewLine]If[
+          compl, fimg = \[IndentingNewLine]\(ReadRecord[str, 
+                False]\)[\([3]\)]]; \  (*\ 
+          TODO : \ 
+            when\ does\ this\ vector\ \(\(appear\)\(?\)\)\ \
+*) \[IndentingNewLine]\[IndentingNewLine]AppendTo[
+          rules, "\<nextvec\>" -> \(ReadRecord[str, 
+                True]\)[\([3]\)]]; \[IndentingNewLine]AppendTo[
+          rules, "\<dofvec\>" -> \(ReadRecord[str, 
+                True]\)[\([3]\)]]; \[IndentingNewLine]AppendTo[
+          rules, "\<dofimp\>" -> \(ReadRecord[str, 
+                True]\)[\([3]\)]]; \[IndentingNewLine]AppendTo[
+          rules, "\<impval\>" -> \(imsReadAnsysFullFilePossiblyComplex[str, 
+                compl]\)[\([3]\)]]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ Mass\ matrix\ *) \[IndentingNewLine]If[
+          nomats > 1, \[IndentingNewLine]mm = 
+            If[lumpm, \[IndentingNewLine]MapIndexed[\(({#2[\([1]\)], #2[\([1]\
+\)]} \[Rule] #1)\) &, \(imsReadAnsysFullFilePossiblyComplex[str, 
+                    compl]\)[\([3]\)]], \
+\[IndentingNewLine]imsReadAnsysFullFileMatrixSymbolic[str, compl, keyuns, 
+                nontp, ffMat]\[IndentingNewLine]]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ Damping\ matrix\ *) \[IndentingNewLine]If[
+          nomats > 2, \[IndentingNewLine]dm = 
+            imsReadAnsysFullFileMatrixSymbolic[str, compl, keyuns, nontp, 
+              ffMat]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ \(\(...\) \(..\)\)\ \(TODO : \ 
+              G\ matrix\)\ *) \[IndentingNewLine]\[IndentingNewLine]Return[
+          Join[{"\<mmat\>" -> 
+                SparseArray[
+                  mm, {nontp, nontp}], \[IndentingNewLine]"\<dmat\>" -> 
+                SparseArray[dm, {nontp, nontp}], "\<stmat\>" -> 
+                SparseArray[sm, {nontp, nontp}], "\<lvec\>" -> f}, 
+            rules]]\[IndentingNewLine]]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["imsReadAnsysFullFileMatricesFrontal",
+  FontColor->RGBColor[0, 0, 1]]], "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*imsReadAnsysFullFileMatrixFrontalPart[m_, str_, col_, rows_, compl_, 
+          keyuns_, isstmat_] := 
+        Module[{r, r0, f, lm = 0, 
+            m = {}}, \[IndentingNewLine]r0 = \
+\(imsReadAnsysFullFilePossiblyComplex[str, 
+                compl]\)[\([3]\)]; \[IndentingNewLine]r = 
+            Take[r0, Length[rows]]; \[IndentingNewLine]m = 
+            Join[m, MapThread[\(({#1, col} \[Rule] #2)\) &, {rows, 
+                  r}], \[IndentingNewLine]If[
+                keyuns, \[IndentingNewLine], \
+\[IndentingNewLine]MapThread[\(({col, #1} \[Rule] #2)\) &, {rows, 
+                    r}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]If[
+                isstmat, \[IndentingNewLine]If[
+                  Length[r0] > Length[r0] + 1\ , \  (*\ 
+                    with\ lumped\ mass\ *) \ lm = r0[\([\(-1\)]\)]; \ 
+                  f = r0[\([\(-2\)]\)], \[IndentingNewLine]f = 
+                    r0[\([\(-1\)]\)]], \
+\[IndentingNewLine]\[IndentingNewLine]]]]*) \)], "Input"],
+
+Cell[BoxData[
+    \( (*\(SetAttributes[imsReadAnsysFullFileMatrixFrontalPart, 
+          HoldFirst];\)*) \)], "Input"],
+
+Cell[BoxData[
+    \(imsReadAnsysFullFileMatricesFrontal[str_, nmrow_, nomats_, compl_, 
+        keyuns_, lumpm_] := 
+      Module[{mm = {}, sm = {}, dm = {}, f = {}, rows, r, 
+          flm}, \[IndentingNewLine] (*\[IndentingNewLine]Do[\
+\[IndentingNewLine]rows = \(ReadRecord[str, 
+                  True]\)[\([3]\)]; \[IndentingNewLine]\(ReadRecord[str, 
+                True]\)[\([3]\)]; \  (*\ 
+              second\ level\ of\ indexing\ for\ the\ matrix . \ I\ don' 
+                t\ know\ what\ this\ is\ *) \[IndentingNewLine]\
+\[IndentingNewLine]flm = 
+              imsReadAnsysFullFileMatrixFrontalPart[sm, str, col, rows, 
+                compl, keyuns, True]; \[IndentingNewLine]AppendTo[f, 
+              flm[\([1]\)]]; \[IndentingNewLine]If[lumpm, 
+              AppendTo[
+                mm, {col, col} \[Rule] 
+                  flm[\([2]\)]]]; \[IndentingNewLine]\[IndentingNewLine] (*\(\
+\(**\)\(**\)\(**\)\(**\)\(**\)\(**\)\(\ \)\(Mass\)\)\ matrix\ \
+*************) \[IndentingNewLine] (*\ 
+              not\ sure\ what\ happens\ for\ lumped\ mass\ matrix ... \ \
+*) \[IndentingNewLine]If[
+              nomats > 
+                1, \[IndentingNewLine]\(msReadAnsysFullFileMatrixFrontalPart[
+                  mm, str, rows, col, compl, keyuns, 
+                  False];\)\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\(\(**\)\(**\)\(**\)\(**\)\(**\)\(**\)\(\ \)\(Damping\)\
+\)\ matrix\ *************) \[IndentingNewLine]If[
+              nomats > 
+                2, \[IndentingNewLine]\(msReadAnsysFullFileMatrixFrontalPart[
+                  dm, str, rows, col, compl, keyuns, 
+                  False];\)\[IndentingNewLine]];\[IndentingNewLine]\
+\[IndentingNewLine], {col, 
+              nmrow}]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[{"\<mmat\>" -> 
+                SparseArray[
+                  mm, {nmrow, nmrow}], \[IndentingNewLine]"\<dmat\>" -> 
+                SparseArray[dm, {nmrow, nmrow}], "\<stmat\>" -> 
+                SparseArray[sm, {nmrow, nmrow}], "\<lvec\>" -> 
+                f}]\[IndentingNewLine]*) \[IndentingNewLine]Message[
+          imsReadAnsysBinary::nyi, "\<frontal assembly\>"]; 
+        Return[$Failed]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysEmatFileHeader", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsReadAnsysEmatFileHeader[str_] := 
+        Module[{r, ret}, \[IndentingNewLine]r = 
+            ReadRecord[str, 
+              True]; \[IndentingNewLine]ret = {"\<fun02\>" -> 
+                r[\([3, 1]\)], "\<nume\>" -> 
+                r[\([3, 2]\)], \[IndentingNewLine]"\<numdof\>" -> 
+                r[\([3, 3]\)], \[IndentingNewLine]"\<lenu\>" -> 
+                r[\([3, 4]\)], \[IndentingNewLine]"\<lenbac\>" -> 
+                r[\([3, 5]\)], \[IndentingNewLine]"\<maxn\>" -> 
+                r[\([3, 6]\)], \[IndentingNewLine]"\<nodref\>" \[Rule] 
+                r[\([3, 
+                    9]\)], \[IndentingNewLine]"\<lumpm\>" \[Rule] \((r[\([3, 
+                        10]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygst\>" \[Rule] \((r[\([3, 
+                        11]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygm\>" \[Rule] \((r[\([3, 
+                        12]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygd\>" \[Rule] \((r[\([3, 
+                        13]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygss\>" \[Rule] \((r[\([3, 
+                        14]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygaf\>" \[Rule] \((r[\([3, 
+                        15]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<kygrf\>" \[Rule] \((r[\([3, 
+                        16]\)] \[Equal] 
+                    1)\), \[IndentingNewLine]"\<numCE\>" \[Rule] 
+                r[\([3, 27]\)], \[IndentingNewLine]"\<maxLeng\>" \[Rule] 
+                r[\([3, 28]\)], \[IndentingNewLine]"\<ptrCEl\>" \[Rule] 
+                r[\([3, 29]\)], "\<ptrCEh\>" \[Rule] 
+                r[\([3, 30]\)], \[IndentingNewLine]"\<ptrDOF\>" \[Rule] 
+                r[\([3, 31]\)], \[IndentingNewLine]"\<ptrBAC\>" \[Rule] 
+                r[\([3, 32]\)], \[IndentingNewLine]"\<ptrELM\>" \[Rule] 
+                r[\([3, 33]\)], \[IndentingNewLine]"\<ptrFST\>" \[Rule] 
+                r[\([3, 34]\)], \[IndentingNewLine]"\<ptrLST\>" \[Rule] 
+                r[\([3, 35]\)], \[IndentingNewLine]"\<ptrEHD\>" \[Rule] 
+                r[\([3, 37]\)], \[IndentingNewLine]"\<ptrIDX\>" \[Rule] 
+                r[\([3, 38]\)], \[IndentingNewLine]"\<ptrendH\>" \[Rule] 
+                r[\([3, 39]\)], \[IndentingNewLine]"\<ptrendL\>" \[Rule] 
+                r[\([3, 
+                    40]\)]\[IndentingNewLine]}; \[IndentingNewLine]\
+\[IndentingNewLine]r = ReadRecord[str, False]; \[IndentingNewLine]ret = 
+            Join[ret, {"\<timval\>" \[Rule] 
+                  r[\([3, 1]\)], \[IndentingNewLine]"\<timinc\>" \[Rule] 
+                  r[\([3, 2]\)], \[IndentingNewLine]"\<frqval\>" \[Rule] 
+                  r[\([3, 3]\)], \[IndentingNewLine]"\<timbeg\>" \[Rule] 
+                  r[\([3, 4]\)], \[IndentingNewLine]"\<timend\>" \[Rule] 
+                  r[\([3, 5]\)]}]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<DOF\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<BAC\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<ELM\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<FST\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<LST\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]r = 
+            ReadRecord[str, True]; \[IndentingNewLine]AppendTo[
+            ret, "\<IDX\>" \[Rule] r[\([3]\)]]; \[IndentingNewLine]Return[
+            ret];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysEmatFileMatrices", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsReadAnsysEmatFileMatrix[str_, nmrow_] := 
+      Block[{r, 
+          m}, \[IndentingNewLine]r = \(ReadRecord[str, 
+              False]\)[\([3]\)]; \[IndentingNewLine]If[
+          Length[r] \[Equal] nmrow, \  (*\ 
+            Diagonal\ *) \[IndentingNewLine]Return[
+            DiagonalMatrix[r]], \[IndentingNewLine]If[
+            Length[r] \[Equal] nmrow*\((nmrow + 1)\)/2, \  (*\ 
+              Symmetric\ *) \[IndentingNewLine]m = 
+              Table[Join[Take[r, {1 + \((n^2 - n)\)/2, \((n^2 + n)\)/2}], 
+                  Table[0, {nmrow - n}]], {n, 
+                  nmrow}]; \[IndentingNewLine]Return[
+              m + Transpose[m] - 
+                Tr[m, DiagonalMatrix[List[##]] &]], \[IndentingNewLine]If[
+              Length[r] \[Equal] nmrow*nmrow,  (*\ 
+                Full\ *) \[IndentingNewLine]Return[
+                Transpose[Partition[r, nmrow]]]\  (*\ 
+                I' m\ not\ sure\ about\ that ... \ *) , \
+\[IndentingNewLine]Message[imsReadAnsysBinary::parse, {2, r, nmrow}]; 
+              Return[$Failed]\[IndentingNewLine]]\[IndentingNewLine]]\
+\[IndentingNewLine]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(imsReadAnsysEmatFileMatrices[str_, nume_] := 
+      Block[{r, m, stkey, mkey, dkey, sskey, akey, nrkey, ikey, 
+          nmrow}, \[IndentingNewLine]\[IndentingNewLine]Return[\
+\[IndentingNewLine]Table[\[IndentingNewLine]r = 
+              ReadRecord[str, 
+                True]; \[IndentingNewLine]m = {"\<stkey\>" \[Rule] \((stkey = \
+\((r[\([3, 1]\)])\) \[NotEqual] 
+                        0)\), \[IndentingNewLine]"\<mkey\>" \[Rule] \((mkey = \
+\((r[\([3, 2]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<dkey\>" \[Rule] \
+\((dkey = \((r[\([3, 3]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<sskey\>" \[Rule] \
+\((sskey = \((r[\([3, 4]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<akey\>" \[Rule] \
+\((akey = \((r[\([3, 5]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<nrkey\>" \[Rule] \
+\((nrkey = \((r[\([3, 6]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<ikey\>" \[Rule] \
+\((ikey = \((r[\([3, 7]\)] \[NotEqual] 
+                          0)\))\), \[IndentingNewLine]"\<nmrow\>" \[Rule] \
+\((nmrow = Abs[r[\([3, 
+                            10]\)]])\), \[IndentingNewLine]"\<lowtri\>" \
+\[Rule] \((r[\([3, 10]\)] < 
+                      0)\), \[IndentingNewLine]"\<dofidx\>" -> \(ReadRecord[
+                      str, True]\)[\([3]\)]\[IndentingNewLine]}; \
+\[IndentingNewLine]If[stkey, 
+              AppendTo[
+                m, "\<stmat\>" \[Rule] 
+                  imsReadAnsysEmatFileMatrix[str, 
+                    nmrow]], \[IndentingNewLine]AppendTo[
+                m, "\<stmat\>" \[Rule] {}]]; \[IndentingNewLine]If[mkey, 
+              AppendTo[
+                m, "\<mmat\>" \[Rule] 
+                  imsReadAnsysEmatFileMatrix[str, 
+                    nmrow]], \[IndentingNewLine]AppendTo[
+                m, "\<mmat\>" \[Rule] {}]]; \[IndentingNewLine]If[dkey, 
+              AppendTo[
+                m, "\<dmat\>" \[Rule] 
+                  imsReadAnsysEmatFileMatrix[str, 
+                    nmrow]], \[IndentingNewLine]AppendTo[
+                m, "\<dmat\>" \[Rule] {}]]; \[IndentingNewLine]If[sskey, 
+              AppendTo[
+                m, "\<ssmat\>" \[Rule] 
+                  imsReadAnsysEmatFileMatrix[str, 
+                    nmrow]], \[IndentingNewLine]AppendTo[
+                m, "\<ssmat\>" \[Rule] {}]]; \[IndentingNewLine]\
+\[IndentingNewLine]r = ReadRecord[str, False]; \[IndentingNewLine]If[akey, 
+              AppendTo[
+                m, "\<lvec\>" \[Rule] 
+                  Take[r[\([3]\)], nmrow]], \[IndentingNewLine]AppendTo[
+                m, "\<lvec\>" \[Rule] {}]]; \[IndentingNewLine]If[nrkey, 
+              AppendTo[
+                m, "\<nrvec\>" \[Rule] 
+                  Take[r[\([3]\)], \(-nmrow\)]], \[IndentingNewLine]AppendTo[
+                m, "\<nrvec\>" \[Rule] {}]]; \[IndentingNewLine]If[ikey, 
+              AppendTo[
+                m, "\<ilvec\>" \[Rule] 
+                  Take[r[\([3]\)], \(-nmrow\)]], \[IndentingNewLine]AppendTo[
+                m, "\<ilvec\>" \[Rule] {}]]; \[IndentingNewLine]m, {nume}]]\  \
+(*\ Internal\ CE\ stuff\ is\ missing, \ 
+          but\ probably\ makes\ no\ sense\ anyways\ \
+*) \[IndentingNewLine]]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Public functions", "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysBinaryFileDescriptions", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsReadAnsysBinaryFileDescriptionsDOFs[
+          n : \((_List | _Integer)\)] := {\[IndentingNewLine]"\<UX\>", \
+"\<UY\>", "\<UZ\>", "\<ROTX\>", "\<ROTY\>", \[IndentingNewLine]"\<ROTZ\>", \
+"\<AX\>", "\<AY\>", "\<AZ\>", "\<VX\>", \[IndentingNewLine]"\<VY\>", \
+"\<VZ\>", 0, 0, 0, \[IndentingNewLine]0, 0, 
+            0, "\<PRES\>", "\<TEMP\>", \[IndentingNewLine]"\<VOLT\>", \
+"\<MAG\>", "\<ENKE\>", "\<ENDS\>", "\<EMF\>", \[IndentingNewLine]"\<CURR\>", 
+            0, 0, 0, 0, 0, 
+            0}[\([n /. {0 \[Rule] 30}]\)];\)\), "\[IndentingNewLine]", 
+    \(imsReadAnsysBinaryFileDescriptionsTime[d_Integer] := 
+      Module[{s = ToString[d]}, 
+        StringDrop[s, \(-4\)] <> "\<:\>" <> 
+          StringTake[s, {\(-4\), \(-3\)}] <> "\<:\>" <> 
+          StringTake[s, \(-2\)]]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsReadAnsysBinaryFileDescriptions[expr_, opts___] := 
+      Module[{short}, \[IndentingNewLine]short[x_] := 
+          If[\(imsShort /. {opts}\) /. 
+              Options[imsReadAnsysBinaryFileDescriptions], Short[x], 
+            x]; \[IndentingNewLine]expr /. 
+          Join[{\[IndentingNewLine]\[IndentingNewLine] (*\(**\)\(\(*\)\(\ \
+\)\(Header\)\)\ ****) \[IndentingNewLine]\(("\<fnum\>" \[Rule] 
+                    n_)\) \[Rule] \(("\<file number\>" \[Rule] 
+                    Switch[n, 4, "\<FULL\>", 2, "\<EMAT\>", _, 
+                      n])\), \[IndentingNewLine]"\<fformat\>" -> "\<file \
+format\>", \[IndentingNewLine]\(("\<time\>" \[Rule] 
+                    s_)\) \[Rule] \(("\<time\>" \[Rule] 
+                    imsReadAnsysBinaryFileDescriptionsTime[
+                      s])\), \(("\<date\>" \[Rule] 
+                    s_)\) \[Rule] \(("\<date\>" \[Rule] 
+                    imsReadAnsysBinaryFileDescriptionsTime[
+                      s])\), \[IndentingNewLine]\(("\<units\>" \[Rule] 
+                    n_)\) \[Rule] \(("\<units of measurement\>" \[Rule] 
+                    Switch[n, 0, "\<User\>", 1, "\<SI\>", 2, "\<CSG\>", 
+                      3, "\<Feet\>", 4, "\<Inches\>", _, 
+                      n])\), \[IndentingNewLine]"\<ANSYSrel\>" -> "\<ANSYS \
+release\>", "\<ANSYSreldate\>" -> "\<ANSYS release date\>", "\<machid\>" -> "\
+\<machine identifier\>", "\<jobname\>" -> "\<jobname\>", "\<ANSYSpnam\>" -> "\
+\<ANSYS product name\>", "\<ANSYSsverl\>" -> "\<ANSYS special version \
+label\>", "\<user\>" -> "\<username\>", "\<machid2\>" -> "\<machine \
+identifier2\>", "\<sysrec\>" -> "\<system record size\>", "\<flenmax\>" -> \
+"\<max file length\>", "\<recmax\>" -> "\<max record Nr\>", "\<noproc\>" -> "\
+\<# processors\>", "\<title\>" -> "\<main analysis title\>", "\<subtitle\>" -> \
+"\<first subtitle\>", \[IndentingNewLine]\[IndentingNewLine] \
+(*\(**\)\(\(*\)\(\ \)\(Full\)\(\ \)\(file\)\)\ \
+****) \[IndentingNewLine]"\<fun04\>" -> "\<unit number\>", "\<neqn\>" -> \
+"\<number of equations on file\>", "\<nmrow\>" -> "\<number of rows in \
+matrices\>", "\<nmatrx\>" -> "\<number of matrices on file\>", "\<kan\>" -> "\
+\<analysis type\>", "\<wfmax\>" -> "\<maximum wavefront\>", "\<lenbac\>" -> "\
+\<number of nodes\>", "\<numdof\>" -> "\<number of dofs per node\>", \
+"\<ptrEND\>" -> "\<pointer to end of file (obsolete)\>", "\<lumpm\>" -> \
+"\<lumped mass key\>", "\<jcgeqn\>" -> "\<number of jcg equations\>", \
+"\<jcgtrm\>" -> "\<number of coefficients in sparse jcg storage\>", "\<keyuns\
+\>" -> "\<unsymmetric key\>", \[IndentingNewLine]\(("\<extopt\>" \[Rule] 
+                    n_)\) \[Rule] \(("\<mode extraction method\>" \[Rule] 
+                    Switch[n, 0, "\<reduced\>", 1, "\<lumped\>", 
+                      3, "\<unsymmetric Lanczos\>", 4, "\<damped Lanczos\>", 
+                      6, "\<block Lanczos\>", _, 
+                      n])\), \[IndentingNewLine]"\<keyse\>" -> \
+"\<superelement key\>", "\<sclstf\>" -> "\<scale factor for matrices\>", \
+"\<nxrows\>" -> "\<maximum rank for this solution\>", "\<ptrIDXl\>" -> \
+"\<pointer to matrix row indices low\>", \[IndentingNewLine]"\<ptrIDXl\>" -> \
+"\<pointer to matrix row indices high\>", "\<ncefull\>" -> "\<Number of \
+constraint equations CE+CP on full file\>", "\<ncetrm\>" -> "\<Total number \
+of terms in constraint equations\>", "\<ptrENDl\>" -> "\<pointer to end of \
+file low\>", "\<ptrENDh\>" -> "\<pointer to end of file high\>", "\<nmrow2\>" \
+-> "\<Number of rows in matrices 2\>", "\<ntrmStif\>" -> "\<number of terms \
+in K matrix\>", "\<ptrSTFl\>" -> "\<pointer to Stiffness matrix low\>", \
+"\<ptrSTFh\>" -> "\<pointer to Stiffness matrix high\>", \[IndentingNewLine]"\
+\<ptrIRHSl\>" -> "\<pointer to imaginary RHS (F) low\>", \[IndentingNewLine]"\
+\<ptrIRHSh\>" -> "\<pointer to imaginary RHS (F) high\>", \
+\[IndentingNewLine]"\<ptrMASl\>" -> "\<pointer to Mass matrix low\>", \
+\[IndentingNewLine]"\<ptrMASh\>" -> "\<pointer to Mass matrix high\>", \
+\[IndentingNewLine]"\<ptrDMPl\>" -> "\<pointer to Damping matrix low\>", \
+\[IndentingNewLine]"\<ptrDMPh\>" -> "\<pointer to Damping matrix high\>", \
+\[IndentingNewLine]"\<ptrCEl\>" -> "\<pointer to Gt and g matrices/int. CE \
+list low\>", \[IndentingNewLine]"\<ptrCEh\>" -> "\<pointer to Gt and g \
+matrices/int. CE list high\>", \[IndentingNewLine]"\<nNodes\>" -> "\<number \
+of internal Nodes\>", \[IndentingNewLine]"\<ntrmMass\>" -> "\<number of terms \
+in Mass matrix\>", \[IndentingNewLine]"\<ntrmDamp\>" -> "\<number of terms in \
+Damping matrix\>", \[IndentingNewLine]"\<ptrDOFl\>" -> "\<pointer to DOF info \
+low\>", \[IndentingNewLine]"\<ptrDOFh\>" -> "\<pointer to DOF info high\>", \
+\[IndentingNewLine]"\<ptrRHSl\>" -> "\<pointer to RHS (F) low\>", \
+\[IndentingNewLine]"\<ptrRHSh\>" -> "\<pointer to RHS (F) high\>", \
+\[IndentingNewLine]\(("\<DOF\>" \[Rule] 
+                    n_)\) \[Rule] \(("\<degrees of freedom per node\>" \
+\[Rule] imsReadAnsysBinaryFileDescriptionsDOFs[
+                      n])\), \[IndentingNewLine]\[IndentingNewLine] \
+(*\(**\)\(\(*\)\(\ \)\(Emat\)\(\ \)\(file\)\)\ \
+****) \[IndentingNewLine]"\<fun02\>" \[Rule] "\<unit number\>", "\<nume\>" \
+\[Rule] "\<number of elements\>", "\<lenu\>" \[Rule] "\<total DOFs of \
+model\>", "\<maxn\>" \[Rule] "\<maximum node number\>", "\<nodref\>" \[Rule] \
+"\<actual number of nodes referenced\>", "\<kygst\>" \[Rule] "\<global \
+stiffness matrix calculate key\>", "\<kygm\>" \[Rule] "\<global mass matrix \
+calculate key\>", "\<kygd\>" \[Rule] "\<global damping matrix calculate \
+key\>", "\<kygss\>" \[Rule] "\<global stress stiffening matrix calculate \
+key\>", "\<kygaf\>" \[Rule] "\<global applied force vector calculate key\>", \
+"\<kygrf\>" \[Rule] "\<global restoring force vector calculate key\>", \
+"\<numCE\>" \[Rule] "\<number of internal CEs\>", "\<maxLeng\>" \[Rule] \
+"\<maximum length of any internal CE\>", "\<ptrDOF\>" \[Rule] "\<pointer to \
+degrees of freedom per node used in model\>", "\<ptrBAC\>" \[Rule] "\<pointer \
+to nodal equivalence table\>", "\<ptrELM\>" \[Rule] "\<pointer to element \
+equivalence table\>", "\<ptrFST\>" \[Rule] "\<pointer to first element at a \
+DOF table\>", "\<ptrLST\>" \[Rule] "\<pointer to last element at a DOF \
+table\>", "\<ptrEHD\>" \[Rule] "\<pointer to the start of the element \
+matrices\>", "\<ptrIDX\>" \[Rule] "\<pointer to element matrices index \
+table\>", "\<ptrendH\>" \[Rule] "\<pointer to end of file high\>", "\<ptrendL\
+\>" \[Rule] "\<pointer to end of file low\>", \ "\<ELM\>" -> "\<Element \
+equivalence table\>", "\<FST\>" -> "\<First element at DOF table\>", \
+"\<LST\>" -> "\<Last element at DOF table\>", "\<IDX\>" -> "\<Element index \
+table\>", "\<stkey\>" \[Rule] "\<stiffness matrix key\>", \
+\[IndentingNewLine]"\<mkey\>" \[Rule] "\<mass matrix key\>", \
+\[IndentingNewLine]"\<dkey\>" \[Rule] "\<damping matrix key\>", \
+\[IndentingNewLine]"\<sskey\>" \[Rule] "\<stress stiffening matrix key\>", \
+\[IndentingNewLine]"\<akey\>" \[Rule] "\<applied load vector key\>", \
+\[IndentingNewLine]"\<nrkey\>" \[Rule] "\<newton-raphson load vector key\>", \
+\[IndentingNewLine]"\<ikey\>" \[Rule] "\<imaginary load vector key\>", \
+\[IndentingNewLine]"\<nmrow\>" \[Rule] "\<numbers/columns in matrices\>", \
+\[IndentingNewLine]"\<dofidx\>" -> "\<DOF index table\>", "\<timval\>" -> \
+"\<current time\>", "\<timinc\>" -> "\<time increment\>", "\<frqval\>" -> \
+"\<current frequency\>", "\<timbeg\>" -> "\<start time for the analysis\>", "\
+\<timend\>" -> "\<end time for the analysis\>", "\<lowtri\>" \[Rule] "\<lower \
+triangular form\>"\n}, 
+            Map[\((\((#[\([1]\)] \[Rule] n_)\) \[Rule] \((#[\([2]\)] \[Rule] 
+                        short[n])\))\) &, {{"\<BAC\>", "\<nodal equivalence \
+table\>"}, {"\<nextvec\>", "\<Number of DOFs at nodes\>"}, {"\<dofvec\>", \
+"\<DOF vector\>"}, {"\<dofimp\>", "\<DOFs with imposed value\>"}, \
+{"\<impval\>", "\<Imposed values\>"}, {"\<stmat\>", "\<stiffness matrix\>"}, \
+{"\<dmat\>", "\<damping matrix\>"}, {"\<mmat\>", "\<mass matrix\>"}, {"\<lvec\
+\>", "\<load vector\>"}, {"\<ssmat\>", "\<stress stiffening matrix\>"}, \
+{"\<nrvec\>", "\<newton-raphson load vector\>"}, {"\<ilvec\>", "\<imaginary \
+load vector\>"}}]]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysBinaryFile", "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsReadAnsysBinaryFile[filename_, opts___] := 
+      Block[{str = OpenRead[filename, BinaryFormat -> True], ftype, header, 
+          fheader, fdata = {}, 
+          ffMat}, \[IndentingNewLine]\[IndentingNewLine]ffMat = \
+\(imsFullFileMatrices /. {opts}\) /. 
+            Options[imsReadAnsysBinaryFile]; \[IndentingNewLine]header = 
+          imsReadAnsysBinaryFileHeader[
+            str]; \[IndentingNewLine]ftype = "\<fnum\>" /. 
+            header; \[IndentingNewLine]Switch[
+          ftype, "\<FULL\>", \[IndentingNewLine]\[IndentingNewLine] \
+(*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+              Full\ file\ ************) \ \[IndentingNewLine]fheader = 
+            imsReadAnsysFullFileHeader[str]; \[IndentingNewLine]fdata = 
+            If[\(("\<Assembly\>" /. fheader)\) == "\<Symbolic\>", 
+              imsReadAnsysFullFileMatricesSymbolic[
+                str, "\<neqn\>" /. fheader, "\<nmatrx\>" /. 
+                  fheader, \(("\<kan\>" /. fheader)\) \[Equal] 
+                  3, "\<keyuns\>" /. fheader, "\<lumpm\>" /. fheader, ffMat], 
+              imsReadAnsysFullFileMatricesFrontal[
+                str, "\<neqn\>" /. fheader, "\<nmatrx\>" /. 
+                  fheader, \(("\<kan\>" /. fheader)\) \[Equal] 
+                  3, "\<keyuns\>" /. fheader, "\<lumpm\>" /. 
+                  fheader]];, \[IndentingNewLine]"\<EMAT\>", \
+\[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+              Emat\ file\ ************) \ \[IndentingNewLine]fheader = 
+            imsReadAnsysEmatFileHeader[str]; \[IndentingNewLine]fdata = 
+            imsReadAnsysEmatFileMatrices[
+              str, "\<nume\>" /. 
+                fheader];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Close[
+          str]; \[IndentingNewLine]Return[{header, fheader, 
+            fdata}]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(ftype\\)\\\" is similar to existing symbol \
+\\\"\\!\\(type\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(fheader\\)\\\" is similar to existing symbol \
+\\\"\\!\\(header\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysBinaryFileRecords", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsReadAnsysBinaryFileRecords[filename_] := 
+      Module[{str = OpenRead[filename, BinaryFormat -> True], a, 
+          l = {}}, \[IndentingNewLine]While[\((a = 
+                ReadRecord[str])\) \[NotEqual] {}, \(AppendTo[l, 
+              a];\)]; \[IndentingNewLine]Close[
+          str]; \[IndentingNewLine]Return[
+          l];\[IndentingNewLine]]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(imsReadAnsysBinaryFileRecords[filename_, nn_] := 
+      Module[{n = nn, str = OpenRead[filename, BinaryFormat \[Rule] True], a, 
+          l = {}}, 
+        While[\((a = ReadRecord[str])\) \[NotEqual] {} && \((\(n--\))\) > 
+              0, \(AppendTo[l, a];\)]; \[IndentingNewLine]Close[
+          str]; \[IndentingNewLine]Return[l];]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsAssembleSystemFromAnsys", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(imsAssembleSystemFromAnsys[fulls_List, emat_List, opts___]\), 
+        ":=", 
+        RowBox[{"Module", "[", "\[IndentingNewLine]", 
+          
+          RowBox[{\({totalDOF, nfulls, dlist, actdof2dof, dof2actdof, 
+              nactdof, stmat, mmat, dmat, ssmat, nrvec, ilvec, lvec0, lvecm, 
+              bac, DOFnames, names, lvec, dofidx, i, xelem, xelemlist, 
+              nxelemlist, kfromf, removeDBC, applyDBC, dnodes, ldnodes, 
+              dvalues, stmatignored, myDisplayStatus, j, k, STAT, rowcommand, 
+              DBCremoved2actdof, nformat, deleteRowsCols}\), ",", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            StyleBox[\( (*\ Parse\ options\ *) \),
+              FontColor->RGBColor[0, 0, 1],
+              Background->GrayLevel[1]], "\[IndentingNewLine]", 
+            
+            RowBox[{\({xelem, kfromf, removeDBC, applyDBC, myDisplayStatus, 
+                  nformat} = \(\({imsExcludeElements, 
+                        imsGetStiffnessFromFull, imsRemoveDirichlets, 
+                        imsApplyDirichlets, imsDisplayStatus, 
+                        imsNamesFormat} /. {opts}\) /. 
+                    Options[imsAssembleSystemFromAnsys]\) /. 
+                  None \[Rule] {}\), ";", 
+              "\[IndentingNewLine]", \(If[myDisplayStatus, \ 
+                STAT[s_] := imsShowStatus[s], STAT[s_] := Null]\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(STAT["\<Preparing matrices and \
+vectors...\>"]\), ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              
+              StyleBox[\( (*\ 
+                  Convert\ element\ number\ to\ element\ index\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(If[
+                xelem =!= {}, \[IndentingNewLine]kfromf = 
+                  False; \[IndentingNewLine]xelem = \
+\(imsInvertAnsysEquivList["\<ELM\>" /. 
+                        emat[\([2]\)]]\)[\([xelem]\)];\[IndentingNewLine]]\), 
+              ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(totalDOF = "\<lenu\>" /. 
+                  emat[\([2]\)]\), ";", " ", 
+              
+              StyleBox[\( (*\ 
+                  Number\ of\ total\ dofs\  = \ 
+                    dofspernode\ *\ numbernodes\ *) \),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], 
+              "\[IndentingNewLine]", \(nfulls = Length[fulls]\), ";", 
+              "                 ", 
+              StyleBox[\( (*\ Number\ of\  . full\ files\ *) \),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              
+              StyleBox[\( (*\ 
+                  Non - activated\ DOFs\ \(\((\)\(e . g . , \ 
+                        for\ nodes\ without\ VOLT\ dof\)\(\ \)\)*) \),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], 
+              "\[IndentingNewLine]", \(dlist = 
+                Flatten[Position["\<LST\>" /. emat[\([2]\)], 0, {1}]]\), ";", 
+              "   ", "\[IndentingNewLine]", 
+              
+              StyleBox[\( (*\ 
+                  Convert\ active\ DOF\ index\ to\ original\ DOF\ number\ \
+\((with\ non - reordered\ DOFs\ as\ in\ the\ BAC\ list)\)\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              StyleBox["\[IndentingNewLine]",
+                FontColor->RGBColor[0, 0, 1]], \(actdof2dof = 
+                Delete[Range[totalDOF], Transpose[{dlist}]]\), ";", 
+              "\[IndentingNewLine]", 
+              
+              StyleBox[\( (*\ 
+                  Complement : \ 
+                    Convert\ original\ DOF\ number\ to\ active\ DOF\ index\ *) \
+\),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], 
+              "\[IndentingNewLine]", \(dof2actdof = 
+                imsInvertAnsysEquivList[actdof2dof]\), ";", 
+              "\[IndentingNewLine]", 
+              StyleBox[\( (*\ Number\ of\ active\ DOFs\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(nactdof = Length[actdof2dof]\), ";", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              StyleBox[\( (*\ Initialize\ matrices\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(mmat = \(dmat = \(ssmat = \
+\(stmatignored = SparseArray[{}, {nactdof, nactdof}]\)\)\)\), ";", 
+              "\[IndentingNewLine]", \(nrvec = \(ilvec = 
+                  SparseArray[{}, {nactdof}]\)\), ";", 
+              "\[IndentingNewLine]", \(lvec0 = Table[0. , {nactdof}]\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(bac = "\<BAC\>" /. emat[\([2]\)]\), 
+              ";", "                ", 
+              StyleBox[\( (*\ Sorting\ of\ node\ numbers\ *) \),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(DOFnames = 
+                imsReadAnsysBinaryFileDescriptionsDOFs["\<DOF\>" /. 
+                    fulls[\([1, 2]\)]]\), ";", 
+              "\[IndentingNewLine]", \(names = 
+                Switch[nformat, \[IndentingNewLine]"\<Numeric\>", \
+\[IndentingNewLine]\(Flatten[
+                      Table[\(dummyHead[bac[\([i]\)], #] &\) /@ \(("\<DOF\>" /. 
+                              fulls[\([1, 2]\)])\), {i, Length[bac]}], 
+                      1]\)[\([actdof2dof]\)], \[IndentingNewLine]_, \  (*\ 
+                    String\ *) \[IndentingNewLine]\(Flatten[
+                      Table[\(\(("\<Node_\>" <> 
+                                ToString[
+                                  bac[\([i]\)]] <> "\<_\>" <> #)\) &\) /@ 
+                          DOFnames, {i, Length[bac]}], 
+                      1]\)[\([actdof2dof]\)]]\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(lvec = \ "\<lvec\>" /. 
+                  fulls[\([All, 3]\)]\), ";", " ", 
+              StyleBox[\( (*\ Get\ load\ vectors\ from\ full\ files\ *) \),
+                FontColor->RGBColor[0, 0, 1],
+                Background->GrayLevel[1]], "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              
+              StyleBox[\( (*\ If\ kfromf, \ 
+                  get\ K\ matrix\ from\ first\ full\ file\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(If[kfromf, 
+                STAT["\<Extracting stmat...\>"]; \[IndentingNewLine]stmat = "\
+\<stmat\>" /. fulls[\([1, 3]\)], \[IndentingNewLine]stmat = 
+                  SparseArray[{}, {nactdof, nactdof}]]\), ";", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              StyleBox[\( (*\ Assemble\ matrices\ from\ elem\ file\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(j = 0\), ";", 
+              " ", \(k = Length[emat[\([3]\)]] - Length[xelem]\), ";", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              RowBox[{
+                StyleBox["(*",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                RowBox[{
+                  RowBox[{
+                    StyleBox["The",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["elements",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["which",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["should",
+                      FontColor->RGBColor[0.501961, 0, 1],
+                      FontVariations->{"Underline"->True}], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0.501961, 0, 1],
+                      FontVariations->{"Underline"->True}], 
+                    StyleBox["not",
+                      FontColor->RGBColor[0.501961, 0, 1],
+                      FontVariations->{"Underline"->True}], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["be",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["ignored",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["plus",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["the",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["transformed",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[\((BAC - 1)\),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["dofidx",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["plus",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["the",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["non",
+                      FontColor->RGBColor[0, 0, 1]]}], 
+                  StyleBox["-",
+                    FontColor->RGBColor[0, 0, 1]], 
+                  StyleBox[\(null\ positions\ in\ dofidx\),
+                    FontColor->RGBColor[0, 0, 1]]}], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox["*)",
+                  FontColor->RGBColor[0, 0, 1]]}], 
+              "\[IndentingNewLine]", \(nxelemlist = \
+\({dof2actdof[\([Cases["\<dofidx\>" /. #, Except[0], 
+                            Heads \[Rule] False]]\)], 
+                      Flatten[
+                        Position["\<dofidx\>" /. #, Except[0], {1}, 
+                          Heads \[Rule] False]], #} &\) /@ 
+                  If[xelem === {}, emat[\([3]\)], 
+                    emat[\([3, 
+                        Complement[Range[Length[emat[\([3]\)]]], 
+                          xelem]]\)]]\), ";", 
+              " ", \( (*\ 
+                seems\ Complement\ is\ faster\ than\ Delete[ ... ]\ *) \), 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              RowBox[{
+                StyleBox["(*",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                RowBox[{
+                  RowBox[{
+                    StyleBox["The",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["elements",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["which",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["should",
+                      FontColor->RGBColor[0.501961, 0, 1],
+                      FontVariations->{"Underline"->True}], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["be",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["ignored",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["plus",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["the",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["transformed",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[\((BAC - 1)\),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["dofidx",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["plus",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["the",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox["non",
+                      FontColor->RGBColor[0, 0, 1]]}], 
+                  StyleBox["-",
+                    FontColor->RGBColor[0, 0, 1]], 
+                  StyleBox[\(null\ positions\ in\ dofidx\),
+                    FontColor->RGBColor[0, 0, 1]]}], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox["*)",
+                  FontColor->RGBColor[0, 0, 1]]}], 
+              StyleBox["\[IndentingNewLine]",
+                FontColor->RGBColor[0, 0, 1]], \(If[
+                xelem =!= {}, \[IndentingNewLine]xelemlist = \
+\({dof2actdof[\([Cases["\<dofidx\>" /. #, Except[0], 
+                              Heads \[Rule] False]]\)], 
+                        Flatten[
+                          Position["\<dofidx\>" /. #, Except[0], {1}, 
+                            Heads \[Rule] False]], #} &\) /@ 
+                    emat[\([3, 
+                        xelem]\)]; \[IndentingNewLine]STAT["\<Assembling \
+stmatignored\>"]; \
+\[IndentingNewLine]imsAssemble[\(myMakeElementMatrix["\<stmat\>" /. \
+#[\([3]\)], #[\([1]\)], #[\([2]\)]] &\) /@ 
+                    Select[xelemlist, \(("\<stkey\>" /. #[\([3]\)])\) &], 
+                  stmatignored];\[IndentingNewLine]]\), ";", 
+              "\[IndentingNewLine]", \( (*\(Print[
+                    MaxMemoryUsed[]/1024. ^2];\)*) \), 
+              "\[IndentingNewLine]", \(If[Not[kfromf], 
+                STAT["\<Assembling stmat\>"]; \[IndentingNewLine]imsAssemble[\
+\(myMakeElementMatrix["\<stmat\>" /. #[\([3]\)], #[\([1]\)], #[\([2]\)]] &\) /@ 
+                    Select[nxelemlist, \(("\<stkey\>" /. #[\([3]\)])\) &], 
+                  stmat];\[IndentingNewLine]]\), ";", 
+              "\[IndentingNewLine]", \( (*\(Print[
+                    MaxMemoryUsed[]/1024. ^2];\)*) \), 
+              "\[IndentingNewLine]", \(STAT["\<Assembling mmat\>"]\), ";", 
+              "\[IndentingNewLine]", \
+\(imsAssemble[\(myMakeElementMatrix["\<mmat\>" /. #[\([3]\)], #[\([1]\)], \
+#[\([2]\)]] &\) /@ Select[nxelemlist, \(("\<mkey\>" /. #[\([3]\)])\) &], 
+                mmat]\), ";", 
+              "\[IndentingNewLine]", \( (*\(Print[
+                    MaxMemoryUsed[]/1024. ^2];\)*) \), "\n", 
+              " ", \(STAT["\<Assembling dmat\>"]\), ";", 
+              "\[IndentingNewLine]", \
+\(imsAssemble[\(myMakeElementMatrix["\<dmat\>" /. #[\([3]\)], #[\([1]\)], \
+#[\([2]\)]] &\) /@ Select[nxelemlist, \(("\<dkey\>" /. #[\([3]\)])\) &], 
+                dmat]\), ";", 
+              "\[IndentingNewLine]", \( (*\(Print[
+                    MaxMemoryUsed[]/1024. ^2];\)*) \), 
+              "\n", \(STAT["\<Assembling ssmat\>"]\), ";", 
+              "\[IndentingNewLine]", \
+\(imsAssemble[\(myMakeElementMatrix["\<ssmat\>" /. #[\([3]\)], #[\([1]\)], #[\
+\([2]\)]] &\) /@ Select[nxelemlist, \(("\<sskey\>" /. #[\([3]\)])\) &], 
+                ssmat]\), ";", 
+              "\[IndentingNewLine]", \(STAT["\<Assembling lvec\>"]\), ";", 
+              "\[IndentingNewLine]", \(\(\((lvec0[\([#[\([1]\)]]\)] += \
+\(("\<lvec\>" /. #[\([3]\)])\)[\([#[\([2]\)]]\)])\) &\) /@ 
+                Select[nxelemlist, \(("\<akey\>" /. #[\([3]\)])\) &]\), ";", 
+              "\[IndentingNewLine]", \(STAT["\<Assembling nrvec\>"]\), ";", 
+              "\[IndentingNewLine]", \(\(\((nrvec[\([#[\([1]\)]]\)] += \
+\(("\<nrvec\>" /. #[\([3]\)])\)[\([#[\([2]\)]]\)])\) &\) /@ 
+                Select[nxelemlist, \(("\<nrkey\>" /. #[\([3]\)])\) &]\), ";", 
+              "\[IndentingNewLine]", \(STAT["\<Assembling ilvec\>"]\), ";", 
+              "\[IndentingNewLine]", \(\(\((ilvec[\([#[\([1]\)]]\)] += \
+\(("\<ilvec\>" /. #[\([3]\)])\)[\([#[\([2]\)]]\)])\) &\) /@ 
+                Select[nxelemlist, \(("\<ikey\>" /. #[\([3]\)])\) &]\), ";", 
+              "\[IndentingNewLine]", \(DBCremoved2actdof = Range[nactdof]\), 
+              ";", "\[IndentingNewLine]", 
+              "\n", \( (*\(Print[MaxMemoryUsed[]/1024. ^2];\)*) \), 
+              "\[IndentingNewLine]", 
+              RowBox[{"If", "[", 
+                RowBox[{"applyDBC", ",", "\[IndentingNewLine]", 
+                  
+                  StyleBox[\( (*\ 
+                      Apply\ boundary\ conditions\ to\ stmat\ *) \),
+                    FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                  
+                  RowBox[{\(STAT["\<Applying Dirichlet BCs to stmat\>"]\), 
+                    ";", "\[IndentingNewLine]", \(dnodes = 
+                      Flatten[
+                        Position["\<dofimp\>" /. fulls[\([1, 3]\)], 
+                          Except[0], {1}, Heads \[Rule] False]]\), ";", 
+                    "\[IndentingNewLine]", \(dvalues = "\<impval\>" /. 
+                        fulls[\([1, 3]\)]\), ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", \(imsDirichlet[\ {\ stmat, \ 
+                        lvec0}, \ dnodes, \ dvalues, \ 1. , 
+                      imsRemoveDirichlets \[Rule] removeDBC\ ]\), ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    
+                    StyleBox[\( (*\ 
+                        Remove\ spurious\ load\ vector\ entries\ from\ \
+ignored\ elements\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    "\[IndentingNewLine]", \(If[
+                      xelem =!= {}, \[IndentingNewLine]lvecm = 
+                        Table[0. , {Length[
+                              lvec[\([1]\)]]}]; \
+\[IndentingNewLine]imsDirichlet[\ {\ stmatignored, \ lvecm}, \ dnodes, \ 
+                        dvalues\ ]; \[IndentingNewLine]lvecm[\([dnodes]\)] = 
+                        0. ; \[IndentingNewLine]lvec = \(\((# - lvecm)\) &\) /@ 
+                          lvec;\[IndentingNewLine]]\), ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    
+                    StyleBox[\( (*\ 
+                        Apply\ Dirichlet\ to\ other\ matrices\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    "\[IndentingNewLine]", \( (*\(Print[
+                          MaxMemoryUsed[]/1024. ^2];\)*) \), 
+                    "\n", \(STAT["\<Applying Dirichlet to other \
+matrices\>"]\), ";", "\[IndentingNewLine]", \(ldnodes = List /@ dnodes\), ";",
+                     "\[IndentingNewLine]", \(If[
+                      removeDBC, \[IndentingNewLine]lvec = 
+                        Transpose[
+                          Delete[Transpose[lvec], 
+                            ldnodes]]; \[IndentingNewLine]names = 
+                        Delete[names, ldnodes]; \[IndentingNewLine]mmat = 
+                        Transpose[
+                          Delete[Transpose[Delete[mmat, ldnodes]], 
+                            ldnodes]]; \[IndentingNewLine]dmat = 
+                        Transpose[
+                          Delete[Transpose[Delete[dmat, ldnodes]], 
+                            ldnodes]]; \[IndentingNewLine]ssmat = 
+                        Transpose[
+                          Delete[Transpose[Delete[ssmat, ldnodes]], 
+                            ldnodes]]; \[IndentingNewLine]nrvec = 
+                        Delete[nrvec, ldnodes]; \[IndentingNewLine]ilvec = 
+                        Delete[ilvec, 
+                          ldnodes]; \[IndentingNewLine]DBCremoved2actdof = 
+                        Delete[DBCremoved2actdof, 
+                          ldnodes];, \[IndentingNewLine]\[IndentingNewLine] \
+(*\ not\ removeDBC\ *) \[IndentingNewLine]lvec[\([All, dnodes]\)] = 
+                        0. ; \[IndentingNewLine]mmat[\([All, dnodes]\)] = 
+                        0. ; mmat[\([dnodes, All]\)] = 
+                        0. ; \[IndentingNewLine]dmat[\([All, dnodes]\)] = 
+                        0. ; dmat[\([dnodes, All]\)] = 
+                        0. ; \[IndentingNewLine]nrvec[\([dnodes]\)] = 
+                        0. ; \[IndentingNewLine]ilvec[\([dnodes]\)] = 
+                        0. ; \[IndentingNewLine]DBCremoved2actdof[\([dnodes]\)\
+] = 0. ;]\), ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", \(AppendTo[lvec, lvec0]\), ";"}], 
+                  ",", "\[IndentingNewLine]", \(dnodes = \(dvalues = \
+{}\);\)}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(imsClearStatus[]\), ";", 
+              "\n", \( (*Print[
+                  MaxMemoryUsed[]/
+                    1024. ^2]; \[IndentingNewLine]Print["\<-----\>"];*) \), 
+              "\[IndentingNewLine]", \
+\(Return[{\[IndentingNewLine]If["\<kygm\>" /. emat[\([2]\)], 
+                    imsMakeSystem[\ 
+                      Transpose[lvec], \ {\ SparseArray[stmat]\ }, \ {\ 
+                        SparseArray[dmat]\ }, \ {\ 
+                        SparseArray[
+                          mmat]\ }\ ], \[IndentingNewLine]If["\<kygd\>" /. 
+                        emat[\([2]\)], 
+                      imsMakeSystem[\ 
+                        Transpose[lvec], \ {\ 
+                          SparseArray[stmat]\ }, \ {SparseArray[
+                            dmat]\ \ }\ ], \[IndentingNewLine]imsMakeSystem[\ 
+                        Transpose[lvec], \ {\ SparseArray[stmat]\ }\ ]]], 
+                  Transpose[{dnodes, dvalues}], 
+                  List @@@ names, \[IndentingNewLine]ssmat, nrvec, ilvec, 
+                  actdof2dof, dof2actdof, dlist, 
+                  DBCremoved2actdof}\[IndentingNewLine]]\)}]}], 
+          "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]"}]], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["imsReadAnsysListFile", "Subsection"],
+
+Cell[BoxData[
+    \(imsReadAnsysListFile[
+        filename_String] \
+:= \[IndentingNewLine]\(Flatten[\[IndentingNewLine]ToExpression[\
+\[IndentingNewLine]\(If[\ 
+                    Head[\ #\ ]\  === \ 
+                      String, \ \[IndentingNewLine]\(ToExpression[\ 
+                          StringReplace[\ #, \ "\<E\>"\  \[RuleDelayed] \ \
+"\<* 10^\>"\ ]\ ] &\)\  /@ \ 
+                      StringSplit[\ 
+                        StringInsert[\ #, \ "\< \>", 
+                          Union[\ 
+                              Flatten[\ 
+                                StringPosition[\ #, \ "\<E\>"\ ]\ ]\ ] + 
+                            4\ ], \ "\< \>"], \ #\[IndentingNewLine]\ ] &\) /@ \
+#\[IndentingNewLine]]\[IndentingNewLine]] &\) /@ 
+        Cases[Import[filename, "\<Table\>"], {_Integer, rest___}]\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\ ;\)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{902, 998},
+WindowMargins->{{165, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 25, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1826, 57, 31, 0, 71, "Section"],
+Cell[1860, 59, 2001, 34, 427, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3886, 97, 35, 0, 28, "Subsubsection"],
+Cell[3924, 99, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4545, 111, 1786, 30, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6380, 147, 32, 0, 41, "Section"],
+Cell[6415, 149, 233, 5, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6685, 159, 52, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[6762, 163, 26, 0, 40, "Subsection"],
+Cell[6791, 165, 2627, 43, 619, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9455, 213, 34, 0, 32, "Subsection"],
+Cell[9492, 215, 1018, 18, 203, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10547, 238, 36, 0, 32, "Subsection"],
+Cell[10586, 240, 173, 4, 59, "Input",
+  InitializationCell->True],
+Cell[10762, 246, 463, 9, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11274, 261, 32, 0, 41, "Section"],
+Cell[11309, 263, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11434, 270, 42, 0, 41, "Section"],
+Cell[11479, 272, 455, 8, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11971, 285, 30, 0, 41, "Section"],
+Cell[12004, 287, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12332, 297, 26, 0, 41, "Section"],
+Cell[12361, 299, 738, 14, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13136, 318, 27, 0, 41, "Section"],
+Cell[13166, 320, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13332, 328, 29, 0, 41, "Section"],
+Cell[13364, 330, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13532, 338, 69, 1, 41, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[13626, 343, 67, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[13696, 346, 3924, 77, 651, "Input",
+  InitializationCell->True],
+Cell[17623, 425, 2827, 56, 571, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20487, 486, 78, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[20568, 489, 2037, 36, 363, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22642, 530, 76, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[22721, 533, 4441, 72, 859, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27199, 610, 138, 2, 30, "Subsection",
+  InitializationCell->True],
+Cell[27340, 614, 4249, 73, 971, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[31626, 692, 137, 2, 30, "Subsection",
+  InitializationCell->True],
+Cell[31766, 696, 1045, 19, 267, "Input"],
+Cell[32814, 717, 118, 2, 27, "Input"],
+Cell[32935, 721, 2251, 41, 475, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35223, 767, 76, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[35302, 770, 3825, 61, 795, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[39164, 836, 78, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[39245, 839, 4512, 85, 811, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[43772, 927, 66, 1, 30, "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[43863, 932, 84, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[43950, 935, 848, 15, 155, "Input",
+  InitializationCell->True],
+Cell[44801, 952, 8300, 118, 1355, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53138, 1075, 72, 1, 30, "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[53235, 1080, 1903, 33, 411, "Input",
+  InitializationCell->True],
+Cell[55141, 1115, 357, 5, 20, "Message"],
+Cell[55501, 1122, 361, 5, 20, "Message"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55911, 1133, 51, 0, 30, "Subsection"],
+Cell[55965, 1135, 821, 15, 203, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[56823, 1155, 48, 0, 30, "Subsection"],
+Cell[56874, 1157, 23393, 445, 2491, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[80304, 1607, 42, 0, 38, "Subsection"],
+Cell[80349, 1609, 858, 18, 171, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[81256, 1633, 31, 0, 71, "Section"],
+Cell[81290, 1635, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[81460, 1643, 30, 0, 41, "Section"],
+Cell[81493, 1645, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[81663, 1653, 30, 0, 41, "Section"],
+Cell[81696, 1655, 152, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,1648 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     38048,       1337]*)
+(*NotebookOutlinePosition[     38945,       1367]*)
+(*  CellTagsIndexPosition[     38901,       1363]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Norms in Numerical Analysis", "Title"],
+
+Cell["\<\
+By Oliver R\[UDoubleDot]benk\[ODoubleDot]nig <ruebenko -at- \
+imtek.de>
+Version: 0.1.2\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2004 - 2006 Oliver R\[UDoubleDot]benk\[ODoubleDot]nig
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Overview - Introduction", "Section 1"],
+
+Cell["\<\
+A norm maps a mathematical object onto a positive real \
+number.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]\[CenterDot]\[RightDoubleBracketingBar] : 
+        V\  \[Rule] \ \(\[DoubleStruckCapitalR]\_+\)\)], "NumberedEquation"],
+
+Cell[TextData[{
+  "You may read this as such: the norm \[LeftDoubleBracketingBar]\[CenterDot]\
+\[RightDoubleBracketingBar] with an arbitrary entry \[CenterDot] maps (:) the \
+space V onto ( \[Rule] ) the space ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[DoubleStruckCapitalR]\_+\)\)]]
+}], "Text"],
+
+Cell["Generally norms have the following properties", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]\[Alpha]v\[RightDoubleBracketingBar]\  = \ \(\
+\(|\)\(\[Alpha]\)\(|\)\(\ \)\(\[LeftDoubleBracketingBar]v\
+\[RightDoubleBracketingBar]\)\)\)], "NumberedEquation"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]v\  + \ 
+          w\[RightDoubleBracketingBar]\  \[LessEqual] \ \
+\[LeftDoubleBracketingBar]v\[RightDoubleBracketingBar]\  + \ \
+\[LeftDoubleBracketingBar]w\[RightDoubleBracketingBar]\)], "NumberedEquation"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]v\[RightDoubleBracketingBar]\  = \ \(0\  \
+\[DoubleLeftRightArrow] \ v = 0\)\)], "NumberedEquation"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Vector Norms", "Section 1"],
+
+Cell["The most important vector norms are", "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"\[LeftDoubleBracketingBar]", "v", 
+        FormBox[\(\[RightDoubleBracketingBar]\_1\),
+          "TraditionalForm"]}], "=", 
+      " ", \(\[Sum]\+\(k = 1\)\%n\(\(|\)\(v\_k\)\(|\)\)\)}]], \
+"NumberedEquation",
+  Evaluatable->False],
+
+Cell[TextData[{
+  "The following norm is called ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_2\)]],
+  "-Norm ( or Euclidean norm)"
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"\[LeftDoubleBracketingBar]", "v", 
+        FormBox[\(\[RightDoubleBracketingBar]\_2\),
+          "TraditionalForm"]}], "=", 
+      " ", \(\@\(\[Sum]\+\(k = 1\)\%n v\_k\^2\)\)}]], "NumberedEquation",
+  Evaluatable->False],
+
+Cell[TextData[{
+  "The next is called ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_\[Infinity]\)]],
+  "-Norm"
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"\[LeftDoubleBracketingBar]", "v", 
+        FormBox[\(\[RightDoubleBracketingBar]\_\[Infinity]\),
+          "TraditionalForm"]}], "=", " ", 
+      RowBox[{\(max\+\(\(1\)\(\ \)\(\[LessEqual]\)\(\ \)\(k\)\(\ \)\(\
+\[LessEqual]\)\(\ \ \)\(n\)\(\ \)\)\), 
+        RowBox[{"|", \(v\_k\), "|", "\[IndentingNewLine]", 
+          FormBox["",
+            "TraditionalForm"]}]}]}]], "NumberedEquation",
+  Evaluatable->False],
+
+Cell["\<\
+The vector norm gives a measure for the distance between the \
+coordinate origin and the vector. The distance between two vectors is the \
+norm between the difference of the two vectors\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Some examples", "Section"],
+
+Cell[TextData[{
+  "In ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[DoubleStruckCapitalR]\^2\)\(\ \)\)\)]],
+  "vectors with a ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_2\)]],
+  "-Norm smaller than 1 are inside a unit circle. "
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      FormBox[\(\[LeftDoubleBracketingBar]v\[RightDoubleBracketingBar]\_2\),
+        "TraditionalForm"], "=", 
+      " ", \(\@\(\[Sum]\+\(k = 1\)\%n v\_k\^2\) = \ \@\(v\_1\^2 + \ v\_2\^2\) \
+< \ 1\)}]], "NumberedEquation"],
+
+Cell[TextData[{
+  "Again in ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[DoubleStruckCapitalR]\^2\)\(\ \)\)\)]],
+  " vectors with a ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_\[Infinity]\)]],
+  "-Norm smaller than 1 are inside a unit square. For example the vector ( \
+0.8, 1 )"
+}], "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]v\[RightDoubleBracketingBar]\_\[Infinity] = \ \
+\(\(max\+\(\(1\)\(\ \)\(\[LessEqual]\)\(\ \)\(k\)\(\ \)\(\[LessEqual]\)\(\ \ \
+\)\(n\)\(\ \)\)\) \(\(|\)\(v\_k\)\(|\)\)\  = \ \ \(\(max\+\(1\  \[LessEqual] \
+\ k\  \[LessEqual] \ \ 2\)\) \(\(|\)\(v\_k\)\(|\)\)\  = \ 
+          max\ {\(\(|\)\(\ \)\(0.8\)\(|\)\), \ \(\(|\)\(1\)\(|\)\)\ }\)\)\)], \
+"NumberedEquation"],
+
+Cell["We define the following procedure to compute the norms", "Text"],
+
+Cell[BoxData[{
+    \(\(imsNorm[\ v_, \ p_\ ]\  /; \ VectorQ[\ v\ ] := \ 
+        Apply[\ Plus, \ 
+            Abs[\ Flatten[\ v\ ]^p\ ]\ ]^\((1/
+              p)\);\)\), "\[IndentingNewLine]", 
+    \(\(imsNorm[\ v_, \ Infinity\ ]\  /; \ VectorQ[\ v\ ]\  := \ 
+        Max[\ Abs[\ v\ ]\ ];\)\)}], "Input"],
+
+Cell[TextData[{
+  "The ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_1\)]],
+  "-Norm of the vector { 2, 3, 4 }"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {\ 2, \ 3, \ 4\ }, \ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_2\)]],
+  "-Norm of the same vector { 2, 3, 4 }"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {\ 2, \ 3, \ 4\ }, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(\@29\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The distance between two vectors in the ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_2\)]],
+  "-Norm"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {\ 2, \ 3, 4\ }\  - \ {\ 1.9, \ 3, \ 4.1\ }, \ 
+      2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0.1414213562373093`\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The norm of the distance in the ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_\[Infinity]\)]],
+  "-Norm"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {\ 2, \ 3, 4\ }\  - \ {\ 1.9, \ 3, \ 4.1\ }, \ 
+      Infinity\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0.10000000000000009`\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Matrix Norms", "Section 1"],
+
+Cell["\<\
+The  most common matrix norms are very closely linked to vector \
+norms. As a matter of fact they are induced by vector norms.\
+\>", "Text"],
+
+Cell["The most common are first the maximum column sum", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]\ A\ \[RightDoubleBracketingBar]\_1 = \ \(max\
+\+\(\(1\)\(\ \)\(\[LessEqual]\)\(\ \)\(j\)\(\ \)\(\[LessEqual]\)\(\ \ \)\(n\)\
+\(\ \)\)\) \[Sum]\+\(i = 1\)\%n | a\_ij | \)], "NumberedEquation",
+  Evaluatable->False],
+
+Cell["Second the maximum row sum", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]\ A\ \[RightDoubleBracketingBar]\_\[Infinity] \
+= \ \(max\+\(\(1\)\(\ \)\(\[LessEqual]\)\(\ \)\(i\)\(\ \)\(\[LessEqual]\)\(\ \
+\ \)\(n\)\(\ \)\)\) \[Sum]\+\(j = 1\)\%n | a\_ij | \)], "NumberedEquation",
+  Evaluatable->False],
+
+Cell[TextData[{
+  "The matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`l\_2\)]],
+  "-Norm - also called the spectral norm - is difficult to compute and \
+involves finding the spectral radius \[Rho] of the transposed conjugated \
+matrix multiplied by itself"
+}], "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]\ A\ \[RightDoubleBracketingBar]\_2 = \ \@\(\
+\[Rho] \((\(A\^\(\(*\)\(T\)\)\) A)\)\)\)], "NumberedEquation",
+  Evaluatable->False],
+
+Cell["The spectral radius is given by", "Text"],
+
+Cell[BoxData[
+    \(\[Rho] \((\ A\ )\)\  = \ 
+      max \((\ \[Lambda] \((\ A\ )\)\ )\)\)], "NumberedEquation",
+  Evaluatable->False],
+
+Cell["\<\
+Where \[Lambda](A) are the eigenvalues of A\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Some examples", "Section"],
+
+Cell[BoxData[{
+    \(\(imsNorm[\ m_, \ Infinity\ ]\  /; \ MatrixQ[\ m\ ]\  := \ \ Max[\ 
+          Apply[\ Plus, \ \(Abs[\ #\ ] &\)\  /@ \ 
+              m, \ {1}\ ]\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsNorm[\ m_, \ 1\ ]\  /; \ MatrixQ[\ m\ \ ]\  := \ 
+        Norm[\ Transpose[\ m\ ], \ Infinity\ ];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(imsNorm[\ m_, \ 2\ ]\  /; \ MatrixQ[\ m\ ]\  := \ 
+      Sqrt[\ Max[\ 
+          Eigenvalues[\ 
+            Transpose[\ Conjugate[\ m\ ]\ ]\  . \ m\ ]\ ]\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {{\ \ 1, \ 2, \ \(-1\)}, {\ 0, \ 3, \ \(-1\)}, \ {\ 
+          5, \ \(-1\), \ 1\ }\ }, \ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {{\ \ 1, \ 2, \ \(-1\)}, {\ 0, \ 3, \ \(-1\)}, \ {\ 
+          5, \ \(-1\), \ 1\ }\ }, \ Infinity\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(7\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ {{\ \ 1, \ 1, \ 0\ }, {\ 1, \ 2, \ 1}, \ {\ \(-1\), \ 1, \ 
+          2\ }\ }, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(\@\(7 + \@7\)\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+While analyzing the behavior of iterative solvers it is of \
+importance to know when the powers of a matrix become zero. A (n x n) matrix \
+is called convergent if\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(lim\+\(k \[Rule] \ \[Infinity]\)\) \((A\^k)\)\_ij = 0\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\  = \ {{\ 1/2, \ 0\ }, \ {\ 1/4, \ 1/2\ }}\)], "Input"],
+
+Cell[BoxData[
+    \({{1\/2, 0}, {1\/4, 1\/2}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A^2\)], "Input"],
+
+Cell[BoxData[
+    \({{1\/4, 0}, {1\/16, 1\/4}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A^k\)], "Input"],
+
+Cell[BoxData[
+    \({{2\^\(-k\), 0\^k}, {4\^\(-k\), 2\^\(-k\)}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Limit[\ A^k, \ k \[Rule] \ \[Infinity]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{0, 0}, {0, 0}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Thus A is a convergent matrix. The spectral radius of the matrix is\
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Max[\ Eigenvalues[\ A\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Every matrix which has a spectral radius smaller 1 is \
+convergent\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\  = \ {\ {\ 1\ , \ 0\ }, \ {\ 1/4, \ 1/2\ }\ }\)], "Input"],
+
+Cell[BoxData[
+    \({{1, 0}, {1\/4, 1\/2}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Limit[\ A^k, \ k\  \[Rule] \ \[Infinity]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{1, 0}, {0, 0}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Max[\ Eigenvalues[\ A\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The spectral radius says something about the worst overall \
+(asymptotic) behavior of  iterative solvers. That does not necessarily mean \
+how each step evolves.\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error estimates and condition of a matrix", "Section"],
+
+Cell["A system of equations", "Text"],
+
+Cell[BoxData[
+    \(Au = f\)], "NumberedEquation",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "has a solution u. Due to a limited precision of the computer the solution \
+will only be an approximation ",
+  Cell[BoxData[
+      \(TraditionalForm\`u\_approx\)]],
+  ". We can define the residuum to be "
+}], "Text"],
+
+Cell[BoxData[
+    \(r\  = \ f - Au\_approx\)], "NumberedEquation",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "To judge the how the residuum influences the error ",
+  Cell[BoxData[
+      \(TraditionalForm\`e = u - u\_approx\)]],
+  "and the relative error ",
+  Cell[BoxData[
+      \(TraditionalForm\`e/u\)]],
+  ", we introduce a matrix norm and a compatible vector norm. We can say \
+that"
+}], "Text"],
+
+Cell[BoxData[
+    \(Ae\  = \ \ r\)], "NumberedEquation",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["and", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar]\  = \ \
+\[LeftDoubleBracketingBar]Au\[RightDoubleBracketingBar]\  \[LessEqual] \ \
+\[LeftDoubleBracketingBar]A\[RightDoubleBracketingBar]\ \
+\[LeftDoubleBracketingBar]u\[RightDoubleBracketingBar]\)], "NumberedEquation"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]e\[RightDoubleBracketingBar]\  = \ \
+\[LeftDoubleBracketingBar]\(-A\^\(-1\)\) 
+            r\[RightDoubleBracketingBar]\  \[LessEqual] \ \
+\[LeftDoubleBracketingBar]A\^\(-1\)\[RightDoubleBracketingBar]\ \
+\[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\)], "NumberedEquation"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]e\[RightDoubleBracketingBar]\/\
+\[LeftDoubleBracketingBar]u\[RightDoubleBracketingBar] \[LessEqual] \(\
+\[LeftDoubleBracketingBar]A\^\(-1\)\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\)\/\(\
+\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar]/\
+\[LeftDoubleBracketingBar]A\[RightDoubleBracketingBar]\)\  = \ \(\
+\[LeftDoubleBracketingBar]A\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]A\^\(-1\)\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\/\
+\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar] := \ 
+        cond \((A)\) \[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\/\
+\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar]\)\)], \
+"NumberedEquation"],
+
+Cell[TextData[{
+  "We call cond(A)= ",
+  Cell[BoxData[
+      \(\[LeftDoubleBracketingBar]A\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]A\^\(-1\)\[RightDoubleBracketingBar]\)]],
+  " the ",
+  StyleBox["condition number",
+    FontWeight->"Bold"],
+  " of the matrix A. For cond( A ) >> 1 we speak of a badly conditioned \
+matrix"
+}], "Text"],
+
+Cell["\<\
+Let us consider the following two matrices B, F and their load \
+vectors b, f.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(MatrixForm[\ 
+      B\  = \ {{\ 1, \ \(-1\)\ }, \ {\ 
+            21, \ \(-20\)\ }\ }\ ]\), "\[IndentingNewLine]", 
+    \(b = \ {\ \(-1\), \ \(-19\)\ }\), "\[IndentingNewLine]", 
+    \(MatrixForm[\ 
+      F\  = \ {\ {\ 1, \ \(-1\)}, \ {\ 3, \ \(-1\)}\ }\ ]\), "\n", 
+    \(f\  = \ {\ \(-1\), \ 1\ }\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", \(-1\)},
+            {"21", \(-20\)}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    \({\(-1\), \(-19\)}\)], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", \(-1\)},
+            {"3", \(-1\)}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    \({\(-1\), 1}\)], "Output"]
+}, Open  ]],
+
+Cell["Both have the solution", "Text"],
+
+Cell[BoxData[
+    \(\(sol\  = \ {\ 1, \ 2\ };\)\)], "Input"],
+
+Cell["Suppose an approximation is", "Text"],
+
+Cell[BoxData[
+    \(\(u = {\ 1.95, \ 3\ };\)\)], "Input"],
+
+Cell["The error is", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ u - sol, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1.379311422413372`\)], "Output"]
+}, Open  ]],
+
+Cell["The residual for the first system is", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ b - B . u, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0.0707106781186578`\)], "Output"]
+}, Open  ]],
+
+Cell["And for the second system", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ f - F . u, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1.8506755523321743`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The small residual for the first system does not reflect the large \
+error. This is due to the bad condition number of the first system\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ B, \ 2\ ]\ *\ imsNorm[\ Inverse[\ B\ ], \ 2\ ]\  // \ 
+      N\)], "Input"],
+
+Cell[BoxData[
+    \(842.9988137587104`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ F, \ 2\ ]\ *\ imsNorm[\ Inverse[\ F\ ], \ 2\ ]\  // 
+      N\)], "Input"],
+
+Cell[BoxData[
+    \(5.82842712474619`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+So, as derived before a better estimate for the relative error \
+would be\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]A\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]A\^\(-1\)\[RightDoubleBracketingBar] \
+\[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\/\
+\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar] := \ 
+      cond \((A)\) \[LeftDoubleBracketingBar]r\[RightDoubleBracketingBar]\/\
+\[LeftDoubleBracketingBar]f\[RightDoubleBracketingBar]\)], "NumberedEquation"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ B, \ 2\ ]\ *\ imsNorm[\ Inverse[\ B\ ], \ 2\ ]\ *\ 
+      imsNorm[\ B . u\  - \ b, \ 2\ ]\ /\ imsNorm[\ b, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(3.132980417800909`\)], "Output"]
+}, Open  ]],
+
+Cell["And", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ F, \ 2\ ]\ *\ imsNorm[\ Inverse[\ F\ ], \ 2\ ]\ *\ 
+      imsNorm[\ F . u\  - \ f, \ 2\ ]\ /\ imsNorm[\ f, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(7.627226803155068`\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Function Norms", "Section 1"],
+
+Cell[TextData[{
+  "For functions we have analog norms\nThe ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_1\)]],
+  "Norm"
+}], "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]f \
+\((x)\)\[RightDoubleBracketingBar]\_\(\(L\^1\) \((\([a, b]\))\)\)\  = \ \
+\[Integral]\_a\^b\(\(|\)\(f \((x)\)\)\(|\)\(\[DifferentialD]x\)\)\)], "Input",\
+
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Or the ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_2\)]],
+  "Norm"
+}], "Text"],
+
+Cell[BoxData[
+    \(\[LeftDoubleBracketingBar]f \
+\((x)\)\[RightDoubleBracketingBar]\_\(\(L\^2\) \((\([a, b]\))\)\)\  = \ \
+\[Integral]\_a\^b\(\(|\)\(f \((x)\)\)\( | \^2\)\(\[DifferentialD]x\)\)\)], \
+"Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[CellGroupData[{
+
+Cell["Some examples", "Section"],
+
+Cell["Let", "Text"],
+
+Cell[BoxData[
+    \(\(uExact[\ x_\ ]\  := \ E^x\  - \ 1;\)\)], "Input"],
+
+Cell["And", "Text"],
+
+Cell[BoxData[
+    \(\(uNumeric[\ x_\ ]\  := \ Sin[\ x\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[\[IndentingNewLine]Plot[\ uExact[\ x\ ], {\ x, \ 0, \ 1\ }, \ 
+        PlotStyle\  \[Rule] \ Hue[\ 0.7\ ], \ 
+        DisplayFunction\  \[Rule] \ Identity], 
+      Plot[\ uNumeric[\ x\ ], {\ x, \ 0, \ 1\ }, \ 
+        PlotStyle\  \[Rule] \ Hue[\ 0.9\ ], \ 
+        DisplayFunction\  \[Rule] \ Identity], \[IndentingNewLine]Plot[\ 
+        uExact[\ x\ ]\  - \ uNumeric[\ x\ ], {\ x, \ 0, \ 1\ }, \ 
+        PlotStyle\  \[Rule] \ Dashing[\ {0.05, \ 0.08}\ ], \ 
+        DisplayFunction\  \[Rule] \ 
+          Identity], \[IndentingNewLine]DisplayFunction\  \[Rule] \ \
+$DisplayFunction\[IndentingNewLine]]\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.952381 0.0147151 0.342554 [
+[.21429 .00222 -9 -9 ]
+[.21429 .00222 9 0 ]
+[.40476 .00222 -9 -9 ]
+[.40476 .00222 9 0 ]
+[.59524 .00222 -9 -9 ]
+[.59524 .00222 9 0 ]
+[.78571 .00222 -9 -9 ]
+[.78571 .00222 9 0 ]
+[.97619 .00222 -3 -9 ]
+[.97619 .00222 3 0 ]
+[.01131 .10035 -24 -4.5 ]
+[.01131 .10035 0 4.5 ]
+[.01131 .18599 -18 -4.5 ]
+[.01131 .18599 0 4.5 ]
+[.01131 .27163 -24 -4.5 ]
+[.01131 .27163 0 4.5 ]
+[.01131 .35727 -6 -4.5 ]
+[.01131 .35727 0 4.5 ]
+[.01131 .44291 -24 -4.5 ]
+[.01131 .44291 0 4.5 ]
+[.01131 .52855 -18 -4.5 ]
+[.01131 .52855 0 4.5 ]
+[.01131 .61418 -24 -4.5 ]
+[.01131 .61418 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.21429 .01472 m
+.21429 .02097 L
+s
+[(0.2)] .21429 .00222 0 1 Mshowa
+.40476 .01472 m
+.40476 .02097 L
+s
+[(0.4)] .40476 .00222 0 1 Mshowa
+.59524 .01472 m
+.59524 .02097 L
+s
+[(0.6)] .59524 .00222 0 1 Mshowa
+.78571 .01472 m
+.78571 .02097 L
+s
+[(0.8)] .78571 .00222 0 1 Mshowa
+.97619 .01472 m
+.97619 .02097 L
+s
+[(1)] .97619 .00222 0 1 Mshowa
+.125 Mabswid
+.07143 .01472 m
+.07143 .01847 L
+s
+.11905 .01472 m
+.11905 .01847 L
+s
+.16667 .01472 m
+.16667 .01847 L
+s
+.2619 .01472 m
+.2619 .01847 L
+s
+.30952 .01472 m
+.30952 .01847 L
+s
+.35714 .01472 m
+.35714 .01847 L
+s
+.45238 .01472 m
+.45238 .01847 L
+s
+.5 .01472 m
+.5 .01847 L
+s
+.54762 .01472 m
+.54762 .01847 L
+s
+.64286 .01472 m
+.64286 .01847 L
+s
+.69048 .01472 m
+.69048 .01847 L
+s
+.7381 .01472 m
+.7381 .01847 L
+s
+.83333 .01472 m
+.83333 .01847 L
+s
+.88095 .01472 m
+.88095 .01847 L
+s
+.92857 .01472 m
+.92857 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.02381 .10035 m
+.03006 .10035 L
+s
+[(0.25)] .01131 .10035 1 0 Mshowa
+.02381 .18599 m
+.03006 .18599 L
+s
+[(0.5)] .01131 .18599 1 0 Mshowa
+.02381 .27163 m
+.03006 .27163 L
+s
+[(0.75)] .01131 .27163 1 0 Mshowa
+.02381 .35727 m
+.03006 .35727 L
+s
+[(1)] .01131 .35727 1 0 Mshowa
+.02381 .44291 m
+.03006 .44291 L
+s
+[(1.25)] .01131 .44291 1 0 Mshowa
+.02381 .52855 m
+.03006 .52855 L
+s
+[(1.5)] .01131 .52855 1 0 Mshowa
+.02381 .61418 m
+.03006 .61418 L
+s
+[(1.75)] .01131 .61418 1 0 Mshowa
+.125 Mabswid
+.02381 .03184 m
+.02756 .03184 L
+s
+.02381 .04897 m
+.02756 .04897 L
+s
+.02381 .0661 m
+.02756 .0661 L
+s
+.02381 .08323 m
+.02756 .08323 L
+s
+.02381 .11748 m
+.02756 .11748 L
+s
+.02381 .13461 m
+.02756 .13461 L
+s
+.02381 .15174 m
+.02756 .15174 L
+s
+.02381 .16886 m
+.02756 .16886 L
+s
+.02381 .20312 m
+.02756 .20312 L
+s
+.02381 .22025 m
+.02756 .22025 L
+s
+.02381 .23738 m
+.02756 .23738 L
+s
+.02381 .2545 m
+.02756 .2545 L
+s
+.02381 .28876 m
+.02756 .28876 L
+s
+.02381 .30589 m
+.02756 .30589 L
+s
+.02381 .32301 m
+.02756 .32301 L
+s
+.02381 .34014 m
+.02756 .34014 L
+s
+.02381 .3744 m
+.02756 .3744 L
+s
+.02381 .39152 m
+.02756 .39152 L
+s
+.02381 .40865 m
+.02756 .40865 L
+s
+.02381 .42578 m
+.02756 .42578 L
+s
+.02381 .46003 m
+.02756 .46003 L
+s
+.02381 .47716 m
+.02756 .47716 L
+s
+.02381 .49429 m
+.02756 .49429 L
+s
+.02381 .51142 m
+.02756 .51142 L
+s
+.02381 .54567 m
+.02756 .54567 L
+s
+.02381 .5628 m
+.02756 .5628 L
+s
+.02381 .57993 m
+.02756 .57993 L
+s
+.02381 .59706 m
+.02756 .59706 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.2 0 1 r
+.5 Mabswid
+.02381 .01472 m
+.06244 .0289 L
+.10458 .04503 L
+.14415 .06085 L
+.18221 .0767 L
+.22272 .09428 L
+.26171 .11192 L
+.30316 .13148 L
+.34309 .15115 L
+.3815 .17086 L
+.42237 .19273 L
+.46172 .21468 L
+.49955 .23667 L
+.53984 .26106 L
+.57861 .28553 L
+.61984 .31267 L
+.65954 .33994 L
+.69774 .36726 L
+.73838 .39757 L
+.77751 .42799 L
+.81909 .46172 L
+.85916 .49565 L
+.89771 .52967 L
+.93871 .56739 L
+.97619 .60332 L
+s
+1 0 .6 r
+.02381 .01472 m
+.06244 .02861 L
+.10458 .04373 L
+.14415 .05788 L
+.18221 .07143 L
+.22272 .08574 L
+.26171 .0994 L
+.30316 .11376 L
+.34309 .12741 L
+.3815 .14037 L
+.42237 .15392 L
+.46172 .16673 L
+.49955 .1788 L
+.53984 .19137 L
+.57861 .20317 L
+.61984 .21537 L
+.65954 .22677 L
+.69774 .23739 L
+.73838 .24829 L
+.77751 .25838 L
+.81909 .26866 L
+.85916 .2781 L
+.89771 .28675 L
+.93871 .29546 L
+.97619 .30296 L
+s
+0 g
+[ .05 .08 ] 0 setdash
+.02381 .01472 m
+.02499 .01472 L
+.02605 .01472 L
+.02729 .01472 L
+.02846 .01472 L
+.03053 .01472 L
+.03279 .01473 L
+.03527 .01474 L
+.0379 .01475 L
+.04262 .01478 L
+.04749 .01482 L
+.05205 .01487 L
+.06244 .015 L
+.07305 .01519 L
+.08274 .0154 L
+.10458 .01602 L
+.12357 .01673 L
+.14429 .01769 L
+.18493 .02018 L
+.22406 .02338 L
+.26565 .02769 L
+.30571 .03279 L
+.34426 .03864 L
+.38527 .04593 L
+.42475 .05404 L
+.46273 .06292 L
+.50315 .07359 L
+.54206 .0851 L
+.58342 .09874 L
+.62326 .11332 L
+.66159 .12874 L
+.70238 .14672 L
+.74164 .16562 L
+.77939 .18534 L
+.8196 .20807 L
+.85828 .2317 L
+.89942 .2588 L
+.93905 .28689 L
+.97619 .31507 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40004P0000/A000`40n007h00Ooooo8Ooo003ooolQ
+ool004Koo`8000Coo`03003ooooo00;oo`@002Coo`8000Coo`03003ooooo00Coo`03003ooooo02?o
+o`8000Coo`03003ooooo00?oo`8002Coo`8000Coo`03003ooooo00?oo`8002[oo`@000Koo`00AOoo
+00@00?ooool000Soo`03003ooooo02Coo`04003ooooo000:ool00`00ooooo`0Rool01000ooooo`00
+2?oo00@00?ooool002;oo`04003ooooo0008ool01000ooooo`00:ooo00<00?ooool01Ooo0015ool0
+1000ooooo`002Ooo00<00?ooool08ooo00@00?ooool000Ooo`D002?oo`04003ooooo0008ool01000
+ooooo`008_oo00@00?ooool000Soo`04003ooooo000[ool00`00ooooo`05ool004Goo`04003ooooo
+000:ool00`00ooooo`0Rool01000ooooo`001ooo00@00?ooool002Coo`04003ooooo0008ool3000S
+ool01000ooooo`002Ooo0P00;?oo00<00?ooool01Ooo0015ool01000ooooo`002ooo00<00?ooool0
+8Ooo00@00?ooool000Soo`03003oo`0002Coo`04003ooooo0008ool00`00ooooo`0Sool01000oooo
+o`002?oo00@00?ooool002_oo`03003ooooo00Goo`00AOoo00@00?ooool000Soo`04003ooooo000S
+ool01000ooooo`002Ooo0P009?oo00@00?ooool000Soo`03003ooooo02?oo`04003ooooo0008ool0
+1000ooooo`00:Ooo0`001ooo000Kool00`00ooooo`0Xool2000:ool2000Uool2000;ool00`00oooo
+o`0Sool2000:ool3000Sool2000:ool2000/ool00`00ooooo`05ool001_oo`03003ooooo0?ooo`?o
+o`006ooo00<00?ooool0oooo0ooo000Kool00`00ooooo`3oool3ool001Coool000d000006ooo00@0
+0?oon1?h4`Soo`03003ooooo00[oo`03003ooooo00Koo`D000_oo`03003ooooo00[oo`03003ooooo
+00[oo`03003ooooo00Woo`03003ooooo00[oo`03003ooooo00[oo`03003ooooo00Woo`03003ooooo
+00[oo`03003ooooo00[oo`03003ooooo00Woo`03003ooooo00[oo`03003ooooo00[oo`03003ooooo
+00Woo`03003ooooo00[oo`03003ooooo00[oo`03003ooooo00Woo`03003ooooo00[oo`03003ooooo
+00Goo`006ooo00@00?ooooooo`?h4b3oo`X00003ool00?oo037oo`03003ooooo033oo`03003ooooo
+02ooo`03003ooooo033oo`03003ooooo00Goo`006ooo00<00?ooool01?oo0_PCo?oo000Kool00`00
+ooooo`06ool3n1<iool3002mool001_oo`8000[oo`?h4cWoo`L00;Koo`006ooo00<00?ooool03?oo
+0_PC?_oo1000/_oo000Kool00`00ooooo`0>ool3n1?aool001_oo`03003ooooo017oo`?h4nkoo`00
+6ooo0P005Ooo0oPCjooo000Kool00`00ooooo`0Gool2n1=;ool2002Lool001_oo`03003ooooo01Wo
+o`?h4d[oo`@009Soo`006ooo00<00?ooool07?oo0oPCBooo1@00Tooo000Kool00`00ooooo`0Nool0
+130On1?h4oPCCOoo0`00T?oo000Kool2000Qool2<1l4n1?Lool001_oo`03003ooooo02;oo`8`7`;o
+o`?h4mWoo`006ooo00<00?ooool09?oo0S0O0ooo0oPCe_oo000Kool00`00ooooo`0Vool3<1l3ool2
+n1?Dool001_oo`8002[oo`<`7`;oo`?h4m7oo`006ooo00<00?ooool0;?oo0S0O0ooo0oPCDOoo1000
+NOoo000Kool00`00ooooo`0^ool3<1l3ool2n1=Cool3001fool000;oo`8000Coo`03003ooooo00;o
+o`@000;oo`<000Goo`03003ooooo037oo`8`7`?oo`?h4e?oo`8007Coo`0000Goo`00ooooo`0000So
+o`03003ooooo00Koo`03003ooooo00;oo`03003ooooo03?oo`8`7`Coo`;h4e?oo`<0077oo`0000Go
+o`00ooooo`0000Woo`03003ooooo00Goo`03003ooooo00;oo`8003Koo`8`7`Coo`?h4e?oo`8006oo
+o`0000Goo`00ooooo`0000[oo`04003oooooool30005ool00`00ooooo`0gool2<1l5ool3n1?1ool0
+0005ool00?ooool0000;ool01000ooooo`001ooo00<00?ooool0>Ooo0S0O1_oo0_PC_ooo00001Ooo
+003ooooo00002?oo00@00?ooool000;oo`03003ooooo00Goo`03003ooooo03_oo`<`7`Goo`?h4kco
+o`000_oo0P002_oo0P000ooo10001?oo00<00?ooool0?_oo0S0O1_oo0oPC^Ooo000Kool20011ool2
+<1l7ool4n1>eool001_oo`03003ooooo04;oo`8`7`Woo`Ch4k7oo`006ooo00<00?ooool0A?oo0S0O
+2ooo0oPCD_oo00<00?ooool0FOoo000Kool00`00ooooo`16ool2<1l<ool2n1=@ool2001Jool001_o
+o`8004Woo`8`7`coo`?h4dooo`<005Ooo`006ooo00<00?ooool0B_oo0S0O3Ooo0_PCD?oo0P00EOoo
+000Kool00`00ooooo`1<ool2<1l=ool3n1=?ool3001Bool001_oo`03003ooooo04koo`8`7`koo`Ch
+4dkoo`80053oo`006ooo00<00?ooool0D?oo0S0O4?oo1?PCC?oo00<00?ooool0COoo000Kool2001C
+ool00c0Oooooo`0Aool3n1>Iool001_oo`03003ooooo05?oo`8`7aCoo`;h4iOoo`006ooo00<00?oo
+ool0EOoo0S0O5?oo0oPCU?oo000Kool00`00ooooo`1Gool2<1lEool2n1>Bool001_oo`8005[oo`8`
+7aGoo`?h4hooo`006ooo00<00?ooool0Fooo0S0O5_oo0oPCS?oo000Kool00`00ooooo`1Mool2<1lG
+ool4n1>8ool000Soo`8000Coo`03003ooooo00;oo`<000Goo`03003ooooo05ooo`8`7aWoo`?h4hGo
+o`001ooo00@00?ooool000_oo`03003ooooo00;oo`03003ooooo067oo`8`7a[oo`Ch4dCoo`03003o
+oooo03[oo`001ooo00@00?ooool000_oo`03003ooooo00;oo`8006Coo`8`7acoo`Ch4d7oo`03003o
+oooo03Woo`001ooo00@00?ooool000Soo`<000Goo`03003ooooo06Goo`8`7akoo`?h4cooo`8003Wo
+o`001ooo00@00?ooool000Soo`03003ooooo00Goo`03003ooooo06Ooo`03<1oooooo01koo`?h4cko
+o`8003Ooo`001ooo00@00?ooool000Soo`03003ooooo00Goo`03003ooooo06Soo`8`7b7oo`Ch4cco
+o`8003Goo`002?oo0P002Ooo10001?oo0P00Jooo0S0O8ooo0oPC>ooo0P00<ooo000Kool00`00oooo
+o`1/ool2<1lTool3n1<jool2000aool001_oo`03003ooooo06koo`8`7bGoo`;h4c[oo`03003ooooo
+02koo`006ooo00<00?ooool0L?oo0S0O9Ooo0oPCJ?oo000Kool00`00ooooo`1bool2<1lVool3n1=U
+ool001_oo`8007Goo`8`7bOoo`Ch4f7oo`006ooo00<00?ooool0M_oo00<`7oooool0:?oo1?PCGOoo
+000Kool00`00ooooo`1gool2<1l/ool4n1=Iool001_oo`03003ooooo07Woo`8`7bkoo`Gh4eCoo`00
+6ooo0P00O?oo00<`7oooool0<?oo1?PCD?oo000Kool00`00ooooo`1lool2<1ldool4n1=<ool001_o
+o`03003ooooo07koo`03<1oooooo03Goo`Ch4dSoo`006ooo00<00?ooool0Oooo0S0O>Ooo0oPCAOoo
+000Kool00`00ooooo`21ool2<1ljool3n1<Sool00`00ooooo`0Lool001_oo`8008Coo`03<1oooooo
+03[oo`Ch4b3oo`8001coo`006ooo00<00?ooool0Q?oo0S0O?_oo0oPC7ooo00<00?ooool06Ooo000K
+ool00`00ooooo`26ool00c0Oooooo`0nool4n1<Lool00`00ooooo`0Hool000;oo`8000Coo`03003o
+oooo00?oo`03003ooooo00;oo`<000Goo`03003ooooo08Ooo`8`7d;oo`Ch4aWoo`8001Soo`0000Go
+o`00ooooo`0000Woo`03003ooooo00Goo`03003ooooo00;oo`03003ooooo08Woo`8`7dCoo`Ch4aOo
+o`03003ooooo01Goo`0000Goo`00ooooo`0000[oo`03003ooooo00Coo`03003ooooo00;oo`8008co
+o`03<1oooooo04Goo`Kh4a;oo`03003ooooo01Coo`0000Goo`00ooooo`0000[oo`04003oooooool3
+0005ool00`00ooooo`2<ool2<1m;ool4n1<?ool2000Dool00005ool00?ooool0000;ool01000oooo
+o`001ooo00<00?ooool0S_oo0S0OCOoo0oPC3_oo00<00?ooool04Ooo00001Ooo003ooooo00002?oo
+00@00?ooool000;oo`03003ooooo00Goo`03003ooooo093oo`03<1oooooo04goo`Ch4akoo`000_oo
+0P002Ooo10000_oo10001?oo0P00T_oo0S0ODOoo1?PC6_oo000Kool00`00ooooo`2Cool00c0Ooooo
+o`1Bool6n1<Dool001_oo`03003ooooo09Coo`8`7eSoo`Gh4`ooo`006ooo00<00?ooool0U_oo0S0O
+Fooo1OPC2_oo000Kool00`00ooooo`2Hool00c0Oooooo`1Mool3n1<7ool001_oo`8009[oo`8`7fOo
+o`006ooo00<00?ooool0Vooo00<`7oooool0I?oo000Kool00`00ooooo`2Lool2<1mTool001_oo`03
+003ooooo09koo`03<1oooooo067oo`006ooo0P00X?oo00<`7oooool0H?oo000Kool00`00ooooo`2P
+ool2<1mPool001_oo`03003ooooo0:;oo`03<1oooooo05goo`006ooo00<00?ooool0Xooo00<`7ooo
+ool0G?oo000Kool00`00ooooo`2Tool2<1mLool001_oo`800:Ooo`03<1oooooo05Woo`006ooo00<0
+0?ooool0Yooo0S0OFOoo000Cool40004ool00`00ooooo`2Yool00c0Oooooo`1Fool001Goo`03003o
+oooo00?oo`03003ooooo0:[oo`03<1oooooo05Goo`005Ooo00<00?ooool00ooo0P00[?oo0S0OEOoo
+000Eool00`00ooooo`03ool00`00ooooo`2]ool00c0Oooooo`1Bool001Goo`03003ooooo00?oo`03
+003ooooo0:koo`8`7e;oo`004ooo0`001Ooo00<00?ooool0/?oo00<`7oooool0Cooo000Eool00`00
+ooooo`03ool00`00ooooo`2aool2<1m?ool001_oo`800;Coo`03<1oooooo04coo`006ooo00<00?oo
+ool0]?oo00<`7oooool0Booo000Kool00`00ooooo`2eool2<1m;ool001_oo`03003ooooo0;Ooo`03
+<1oooooo04Soo`006ooo0P00^Ooo00<`7oooool0Aooo000Kool00`00ooooo`2iool2<1m7ool001_o
+o`03003ooooo0;_oo`03<1oooooo04Coo`006ooo00<00?ooool0_?oo00<`7oooool0@ooo000Kool0
+0`00ooooo`2mool2<1m3ool001_oo`800<3oo`03<1oooooo043oo`006ooo00<00?ooool0`?oo00<`
+7oooool0?ooo000Kool00`00ooooo`31ool00c0Oooooo`0nool001_oo`03003ooooo0<;oo`8`7cko
+o`006ooo00<00?ooool0a?oo00<`7oooool0>ooo000Kool20036ool00c0Oooooo`0jool001_oo`03
+003ooooo0<Koo`03<1oooooo03Woo`0000?oo`0000000P000ooo00<00?ooool00_oo10000_oo0`00
+1Ooo00<00?ooool0aooo0S0O>Ooo0003ool00`00ooooo`07ool00`00ooooo`06ool00`00ooooo`02
+ool00`00ooooo`39ool00c0Oooooo`0fool000?oo`03003ooooo00Soo`03003ooooo00Goo`03003o
+oooo00;oo`800<_oo`03<1oooooo03Goo`000ooo00<00?ooool02Ooo00@00?ooooooo`<000Goo`03
+003ooooo0<_oo`03<1oooooo03Coo`000ooo00<00?ooool02_oo00@00?ooool000Ooo`03003ooooo
+0<coo`03<1oooooo03?oo`0000Coo`00000000Woo`04003ooooo0002ool00`00ooooo`05ool00`00
+ooooo`3=ool2<1lcool000?oo`03003ooooo00Soo`8000?oo`@000Coo`03003ooooo0<ooo`03<1oo
+oooo033oo`006ooo0P00dOoo00<`7oooool0;ooo000Kool00`00ooooo`3Aool00c0Oooooo`0^ool0
+01_oo`03003ooooo0=;oo`8`7bkoo`006ooo00<00?ooool0e?oo00<`7oooool0:ooo000Kool2003F
+ool00c0Oooooo`0Zool001_oo`03003ooooo0=Koo`03<1oooooo02Woo`006ooo00<00?ooool0eooo
+00<`7oooool0:?oo000Kool00`00ooooo`3Hool2<1lXool001_oo`03003ooooo0=[oo`03<1oooooo
+02Goo`006ooo0P00g?oo00<`7oooool09?oo000Kool00`00ooooo`3Lool00c0Oooooo`0Sool001_o
+o`03003ooooo0=goo`03<1oooooo02;oo`006ooo00<00?ooool0g_oo00<`7oooool08Ooo000Kool2
+003Pool00c0Oooooo`0Pool001_oo`03003ooooo0>3oo`8`7b3oo`006ooo00<00?ooool0h_oo00<`
+7oooool07Ooo0007ool40003ool00`00ooooo`02ool30005ool00`00ooooo`3Sool00c0Oooooo`0L
+ool000Woo`03003ooooo00[oo`03003ooooo00;oo`03003ooooo0>Coo`03<1oooooo01_oo`002Ooo
+00<00?ooool02_oo00<00?ooool00_oo0P00i_oo00<`7oooool06_oo0009ool00`00ooooo`07ool3
+0005ool00`00ooooo`3Vool00c0Oooooo`0Iool000Woo`03003ooooo00Ooo`03003ooooo00Goo`03
+003ooooo0>Ooo`03<1oooooo01Soo`001ooo0`002Ooo00<00?ooool01Ooo00<00?ooool0j?oo00<`
+7oooool05ooo0009ool00`00ooooo`07ool40004ool2003Zool00c0Oooooo`0Fool001_oo`03003o
+oooo0>[oo`8`7aKoo`006ooo00<00?ooool0k?oo00<`7oooool04ooo000Kool00`00ooooo`3]ool0
+0c0Oooooo`0Bool001_oo`03003ooooo0>koo`03<1oooooo017oo`006ooo0P00l?oo00<`7oooool0
+4?oo000Kool00`00ooooo`3`ool00c0Oooooo`0?ool001_oo`03003ooooo0?7oo`03<1oooooo00ko
+o`006ooo00<00?ooool0l_oo00<`7oooool03Ooo000Kool00`00ooooo`3cool00c0Oooooo`0<ool0
+01_oo`800?Goo`03<1oooooo00_oo`006ooo00<00?ooool0mOoo00<`7oooool02_oo000Kool00`00
+ooooo`3fool00c0Oooooo`09ool001_oo`03003ooooo0?Ooo`03<1oooooo00Soo`006ooo0P00nOoo
+00<`7oooool01ooo000Kool00`00ooooo`3iool00c0Oooooo`06ool001_oo`03003ooooo0?[oo`03
+<1oooooo00Goo`0000?oo`0000000P000ooo00<00?ooool00ooo00<00?ooool00_oo0`001Ooo00<0
+0?ooool0oooo0ooo0003ool00`00ooooo`08ool00`00ooooo`05ool00`00ooooo`02ool00`00oooo
+o`3oool3ool000?oo`03003ooooo00Woo`03003ooooo00Coo`03003ooooo00;oo`800?ooo`Coo`00
+0ooo00<00?ooool02Ooo00@00?ooooooo`<000Goo`03003ooooo0?ooo`?oo`000ooo00<00?ooool0
+2_oo00@00?ooool00?ooo`goo`0000Coo`00000000Woo`04003ooooo0002ool00`00ooooo`3oool;
+ool000?oo`03003ooooo00Ooo`@000;oo`@00?ooo`[oo`00\
+\>"],
+  ImageRangeCache->{{{0, 287}, {176.938, 0}} -> {-0.107864, -0.138826, \
+0.00394728, 0.0109744}}],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ Function[\ x, \ x^2\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Function\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(imsNorm[\ f_Function, \ p_, \ a_, \ b_\ ] := \ 
+        NIntegrate[\ 
+            Abs[\ f[\ x\ ]\ ]^p\ , \ {\ x, \ a, \ b\ }\ ]^\((1/
+              p)\);\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsNorm[\ E^#\  - 1\  - Sin[\ #\ ] &, \ 2, \ 0, \ 0.1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0.0007468421374577719`\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Literature", "Section 1"],
+
+Cell["\"A Multigrid Tutorial\"; W.L. Briggs, et.al; siam.", "Text"],
+
+Cell["\<\
+\"Numerische Mathematik f\[UDoubleDot]r Ingenieure und \
+Naturwissenschaftler\", F. Weller, Vieweg\
+\>", "Text"]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+CellGrouping->Manual,
+WindowSize->{900, 599},
+WindowMargins->{{Automatic, 1}, {Automatic, 43}},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 44, 0, 84, "Title"],
+Cell[1823, 55, 110, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[1958, 63, 35, 0, 30, "Subsubsection"],
+Cell[1996, 65, 924, 27, 28, "Text"],
+Cell[2923, 94, 471, 8, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3431, 107, 44, 0, 70, "Section 1"],
+Cell[3478, 109, 88, 3, 28, "Text"],
+Cell[3569, 114, 165, 2, 23, "NumberedEquation"],
+Cell[3737, 118, 300, 6, 28, "Text"],
+Cell[4040, 126, 61, 0, 28, "Text"],
+Cell[4104, 128, 207, 3, 23, "NumberedEquation"],
+Cell[4314, 133, 254, 4, 23, "NumberedEquation"],
+Cell[4571, 139, 146, 2, 23, "NumberedEquation"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4754, 146, 33, 0, 44, "Section 1"],
+Cell[4790, 148, 51, 0, 28, "Text"],
+Cell[4844, 150, 272, 7, 46, "NumberedEquation",
+  Evaluatable->False],
+Cell[5119, 159, 144, 5, 28, "Text"],
+Cell[5266, 166, 262, 6, 47, "NumberedEquation",
+  Evaluatable->False],
+Cell[5531, 174, 123, 5, 28, "Text"],
+Cell[5657, 181, 455, 10, 46, "NumberedEquation",
+  Evaluatable->False],
+Cell[6115, 193, 209, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[6349, 201, 32, 0, 67, "Section"],
+Cell[6384, 203, 247, 8, 28, "Text"],
+Cell[6634, 213, 249, 5, 47, "NumberedEquation"],
+Cell[6886, 220, 299, 9, 28, "Text"],
+Cell[7188, 231, 410, 6, 30, "NumberedEquation"],
+Cell[7601, 239, 70, 0, 28, "Text"],
+Cell[7674, 241, 304, 6, 47, "Input"],
+Cell[7981, 249, 124, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8130, 258, 68, 1, 31, "Input"],
+Cell[8201, 261, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[8251, 265, 129, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8405, 274, 68, 1, 31, "Input"],
+Cell[8476, 277, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[8529, 281, 134, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8688, 290, 101, 2, 31, "Input"],
+Cell[8792, 294, 53, 1, 70, "Output"]
+}, Open  ]],
+Cell[8860, 298, 136, 5, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[9021, 307, 108, 2, 31, "Input"],
+Cell[9132, 311, 54, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9247, 319, 33, 0, 44, "Section 1"],
+Cell[9283, 321, 150, 3, 28, "Text"],
+Cell[9436, 326, 64, 0, 28, "Text"],
+Cell[9503, 328, 260, 4, 46, "NumberedEquation",
+  Evaluatable->False],
+Cell[9766, 334, 42, 0, 28, "Text"],
+Cell[9811, 336, 270, 4, 49, "NumberedEquation",
+  Evaluatable->False],
+Cell[10084, 342, 272, 7, 44, "Text"],
+Cell[10359, 351, 176, 3, 30, "NumberedEquation",
+  Evaluatable->False],
+Cell[10538, 356, 47, 0, 28, "Text"],
+Cell[10588, 358, 133, 3, 23, "NumberedEquation",
+  Evaluatable->False],
+Cell[10724, 363, 67, 2, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[10816, 369, 32, 0, 67, "Section"],
+Cell[10851, 371, 323, 5, 47, "Input"],
+Cell[11177, 378, 189, 4, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[11391, 386, 136, 2, 31, "Input"],
+Cell[11530, 390, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11602, 396, 143, 2, 31, "Input"],
+Cell[11748, 400, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11820, 406, 128, 2, 31, "Input"],
+Cell[11951, 410, 47, 1, 70, "Output"]
+}, Open  ]],
+Cell[12013, 414, 187, 4, 44, "Text"],
+Cell[12203, 420, 159, 4, 41, "Input",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[12387, 428, 77, 1, 31, "Input"],
+Cell[12467, 431, 59, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12563, 437, 36, 1, 31, "Input"],
+Cell[12602, 440, 60, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12699, 446, 36, 1, 31, "Input"],
+Cell[12738, 449, 77, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12852, 455, 74, 1, 31, "Input"],
+Cell[12929, 458, 50, 1, 70, "Output"]
+}, Open  ]],
+Cell[12994, 462, 93, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[13112, 469, 60, 1, 31, "Input"],
+Cell[13175, 472, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[13228, 476, 90, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[13343, 483, 81, 1, 31, "Input"],
+Cell[13427, 486, 56, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13520, 492, 76, 1, 31, "Input"],
+Cell[13599, 495, 50, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13686, 501, 60, 1, 31, "Input"],
+Cell[13749, 504, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[13799, 508, 185, 4, 44, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14021, 517, 60, 0, 41, "Section"],
+Cell[14084, 519, 37, 0, 28, "Text"],
+Cell[14124, 521, 121, 4, 23, "NumberedEquation",
+  Evaluatable->False],
+Cell[14248, 527, 235, 6, 29, "Text"],
+Cell[14486, 535, 137, 4, 24, "NumberedEquation",
+  Evaluatable->False],
+Cell[14626, 541, 308, 9, 45, "Text"],
+Cell[14937, 552, 127, 4, 23, "NumberedEquation",
+  Evaluatable->False],
+Cell[15067, 558, 19, 0, 28, "Text"],
+Cell[15089, 560, 294, 4, 23, "NumberedEquation"],
+Cell[15386, 566, 329, 5, 25, "NumberedEquation"],
+Cell[15718, 573, 803, 13, 44, "NumberedEquation"],
+Cell[16524, 588, 348, 10, 28, "Text"],
+Cell[16875, 600, 102, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[17002, 607, 333, 7, 79, "Input"],
+Cell[17338, 616, 326, 10, 70, "Output"],
+Cell[17667, 628, 51, 1, 70, "Output"],
+Cell[17721, 631, 324, 10, 70, "Output"],
+Cell[18048, 643, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[18108, 647, 38, 0, 28, "Text"],
+Cell[18149, 649, 60, 1, 31, "Input"],
+Cell[18212, 652, 43, 0, 28, "Text"],
+Cell[18258, 654, 57, 1, 31, "Input"],
+Cell[18318, 657, 28, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[18371, 661, 58, 1, 31, "Input"],
+Cell[18432, 664, 52, 1, 70, "Output"]
+}, Open  ]],
+Cell[18499, 668, 52, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[18576, 672, 60, 1, 31, "Input"],
+Cell[18639, 675, 53, 1, 70, "Output"]
+}, Open  ]],
+Cell[18707, 679, 41, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[18773, 683, 60, 1, 31, "Input"],
+Cell[18836, 686, 53, 1, 70, "Output"]
+}, Open  ]],
+Cell[18904, 690, 161, 4, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[19090, 698, 105, 2, 31, "Input"],
+Cell[19198, 702, 52, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19287, 708, 103, 2, 31, "Input"],
+Cell[19393, 712, 51, 1, 70, "Output"]
+}, Open  ]],
+Cell[19459, 716, 97, 3, 28, "Text"],
+Cell[19559, 721, 416, 6, 41, "NumberedEquation"],
+
+Cell[CellGroupData[{
+Cell[20000, 731, 156, 2, 31, "Input"],
+Cell[20159, 735, 52, 1, 70, "Output"]
+}, Open  ]],
+Cell[20226, 739, 19, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[20270, 743, 156, 2, 31, "Input"],
+Cell[20429, 747, 52, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20542, 755, 35, 0, 44, "Section 1"],
+Cell[20580, 757, 133, 5, 44, "Text"],
+Cell[20716, 764, 275, 7, 47, "Input",
+  Evaluatable->False],
+Cell[20994, 773, 100, 5, 28, "Text"],
+Cell[21097, 780, 280, 7, 47, "Input",
+  Evaluatable->False],
+
+Cell[CellGroupData[{
+Cell[21402, 791, 32, 0, 67, "Section"],
+Cell[21437, 793, 19, 0, 28, "Text"],
+Cell[21459, 795, 71, 1, 31, "Input"],
+Cell[21533, 798, 19, 0, 28, "Text"],
+Cell[21555, 800, 72, 1, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[21652, 805, 641, 11, 127, "Input"],
+Cell[22296, 818, 14779, 472, 70, 5009, 347, "GraphicsData", "PostScript", \
+"Graphics"],
+Cell[37078, 1292, 130, 3, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37245, 1300, 65, 1, 31, "Input"],
+Cell[37313, 1303, 42, 1, 70, "Output"]
+}, Open  ]],
+Cell[37370, 1307, 190, 4, 31, "Input"],
+
+Cell[CellGroupData[{
+Cell[37585, 1315, 89, 1, 31, "Input"],
+Cell[37677, 1318, 56, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[37794, 1326, 31, 0, 44, "Section 1"],
+Cell[37828, 1328, 67, 0, 28, "Text"],
+Cell[37898, 1330, 122, 3, 28, "Text"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,597 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     14612,        474]*)
+(*NotebookOutlinePosition[     15303,        498]*)
+(*  CellTagsIndexPosition[     15259,        494]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["IMS Design Philosophy", "Title",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["\<\
+    La perfection est atteinte non quand il ne reste rien \[AGrave]\
+\[NonBreakingSpace] ajouter, mais quand il ne reste rien \[AGrave]\
+\[NonBreakingSpace]enlever.
+    (Antoine DeSaintExupery 1900-1944)\
+\>", "Text",
+  TextAlignment->Right,
+  TextJustification->0],
+
+Cell["\<\
+By Oliver R\[UDoubleDot]benk\[ODoubleDot]nig <ruebenko -at- \
+imtek.de>
+Version: 0.1.4\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2005 Oliver R\[UDoubleDot]benk\[ODoubleDot]nig
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Overview", "Section 1"],
+
+Cell[TextData[{
+  "As the designing maxim for the IMTEK ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Supplement (IMS) I have chosen a sentence from Antoine DeSaintExupery."
+}], "Text"],
+
+Cell["\<\
+Perfection is reached not when there is no longer anything to add \
+but when there is no longer anything to take away.\
+\>", "Text",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+While programming you inevitably will come to the point where you \
+have to decide which path or which turn to take. Even since there is \
+obviously no general answer to the question, the designing philosophy is \
+supposed to be your compass and point you in the right direction. Try to step \
+back and ask yourself: What can I take a way and you will find yourself \
+slightly enlightened.\
+\>", "Text"],
+
+Cell["\<\
+Nevertheless, in program design it is possible to setup some design \
+rules to easy the development, the maintenance and future development of \
+program pieces. In this documentation I try to give the rules i have setup \
+for IMS. I hope they help you - rules should guide not restrict.\
+\>", "Text"],
+
+Cell["\<\
+For a package to appear in IMS several entities are needed. First \
+of all you need the package you would like to see in IMS. Equally important, \
+the package must be adjoined by documentation. Last but not least you would \
+like your package and the functionality within to be found by the user; you \
+need entries in the help browser index.\
+\>", "Text"],
+
+Cell["\<\
+In the next sections I am going to comment on each of the entities \
+needed and which rules to follow.  To build the package in IMS I need the \
+Package (*.m or *.nb and *.m) the Documentation *Docu.nb and the index \
+entries as a notebook.\
+\>", "Text"],
+
+Cell[TextData[{
+  "Another very good resorse about programming is the wizard book: ",
+  ButtonBox["Structure and Interpretation of Computer Programs",
+    ButtonStyle->"AddOnsLink"],
+  ". (The port to ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "  is part of the IMS.) This book is magic."
+}], "Text"],
+
+Cell[TextData[{
+  "Also check out: ",
+  ButtonBox["The Cathedral and the Bazaar",
+    ButtonData:>{
+      URL[ 
+      "http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/"],\
+
+  " by Eric Steven Raymond"
+}], "Text"],
+
+Cell["I hope you have fun.", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Packages", "Section 1"],
+
+Cell["\<\
+The package should either be a *.nb file or *.m file. If you choose \
+to use a *.nb file the *.m file should automatically be created with the File \
+-> Save As Special -> Package format selection from the menu.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "For either *.nb or *.m files you should use the structure presented in the \
+",
+  ButtonBox["Package Template",
+    ButtonData:>{"Package Template"},
+    Active->True,
+    ButtonStyle->"AddOnsLink"],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["You should only use ASCII. No special characters.", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+The Context must be Imtek`youPackageName` or \
+Imtek`Interfaces`yourPackageName`\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+The usage:: message should be succinct. One or two sentences should \
+sufficient to describe the core functionality of each function. Explain each \
+input expression and the output expression. If you need more sentences apply \
+the IMS maxim!\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Functions exported form your package should begin with a capital \
+letter. You should spend a lot of time to give meaningful names. Internal \
+functions should begin with small letters.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "Function names must not conflict with existing ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " symbols. Open the HelpBrowser and check every name that is exported from \
+your package."
+}], "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["One function should only do one thing.", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["If you use constructors they should be called MakeXY", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Functions returning boolean values should be indicated with a \
+postfix capital Q functionNameQ\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+If you have functions with attribute Listable I indicate that with \
+a postfix small print s as in functionNames. This is not a must.\
+\>", "Text",\
+
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+If you use create a data structure that provides constructors and \
+selectors it is OK to use direct pattern matching in the same package. (eg: \
+internalFunction[ dataStructure[ x_, y_ ] ] := whatever[ x, y ]) You must, \
+however, use the constructors and selectors in all other packages. ( \
+externalFunction[ a_dataStructure ] := whatever[ getX[ a ], getY[ a ] ] ). \
+This is the only way to guarantee the flawless intermarriage of \
+packages.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation", "Section 1",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["\<\
+There is two types of documentation: Package documentation and \
+Application Examples.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Package documentation should explain the functionality of your \
+package as easy a possible. Focus on the most common usage. First the simple \
+cases then the more intricate ones.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "For package documentation follow the ",
+  ButtonBox["Imtek Help Style",
+    ButtonData:>{"Imtek Help Style"},
+    Active->True,
+    ButtonStyle->"AddOnsLink"],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Your package documentation should contain a note on whether the \
+package is in experimental (name changes possible), beta (only additional \
+functionality may be added) or alpha (only bug fixes possible) status\
+\>", \
+"Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+If the name of your package is youPackageName.nb then the \
+documentation should be called yourPackageNameDocu.nb\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+The application examples are to show off. Here you can and should \
+pull all tricks of the trade. The user should be struck in awe.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+The Documentation also serves as verification of you package. If \
+you make changes to your package the documentation notebook should work \
+exactly as before.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Once your documentation is ready proceed exactly as follows: Quit \
+the Kernel. Select Kernel -> Delete All Output. Select Kernel -> Evaluation \
+-> Evaluate Notebook. Do NOT press save now, but select File -> Close and \
+answer yes in order for the file to be saved. This results in _much_ smaller \
+notebooks.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Index entries", "Section 1",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Follow the index entries example to generate notebook with the ",
+  ButtonBox["Imtek Browser Index Entry",
+    ButtonStyle->"AddOnsLink"]
+}], "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Each function should be in the index and point to the package \
+providing the function\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Each option should be in the index and point to the package \
+providing the function\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["The package name should be in the index and point to itself", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+The entries to be put in the index should be sorted \
+alphabetically\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["How I develop packages", "Section 1",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["\<\
+I start with a file that is called SomeThingDocu.nb. In this file I \
+start to develop the functionality I would like to provide in the \
+package.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "Once the functionality is the way I like it, I take an empty ",
+  ButtonBox["Package Template",
+    ButtonData:>{"Package Template"},
+    Active->True,
+    ButtonStyle->"AddOnsLink"],
+  " and copy the functionality that is to be provided into the template. By \
+now I already have a good idea of who to call the package and",
+  " I ",
+  "save as MyPackage.nb. I then copy the generated *.m file into the path \
+provided by the following code"
+}], "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imtekHomes\  = \ FileNames[\ "\<Imtek\>", \ $Path\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({"/usr/share/Mathematica/Applications/Imtek"}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The SomeThingDocu.nb now only contains test cases from the \
+development of the package. I use these test cases from the development to \
+write the documentation, since they usually provide test exactly for the \
+cases id have developed the package in first place for. The first thing in \
+insert is Needs[\"Imtek`MyPackage\"] and then I write the documentation along \
+the lines specified above.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Now I alter between changing the code, copying it into palace and \
+advancing the documentation.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+Once I am completely satisfied with the package and the \
+documentation I copy the package once again into its place. The documentation \
+is put into the palace specified by\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ToFileName[\ {\ 
+        First[\ imtekHomes\ ], \ "\<Documentation\>", \ "\<English\>"\ }, \ "\
+\<BrowserCategories.m\>"\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("/usr/share/Mathematica/Applications/Imtek/Documentation/English/\
+BrowserCategories.m"\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+I modify the file to display the new package in the \
+HelpBrowser.\
+\>", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["Last I edit the index file for the HelpBrowser indices", "Text",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ToFileName[\ {\ 
+        First[\ imtekHomes\ ], \ "\<Documentation\>", \ "\<English\>"\ }, \ "\
+\<BrowserIndex.nb\>"\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("/usr/share/Mathematica/Applications/Imtek/Documentation/English/\
+BrowserIndex.nb"\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->"EditBar",
+WindowSize->{767, 600},
+WindowMargins->{{105, Automatic}, {Automatic, 62}},
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 85, 2, 84, "Title"],
+Cell[1864, 57, 275, 7, 44, "Text"],
+Cell[2142, 66, 110, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[2277, 74, 35, 0, 30, "Subsubsection"],
+Cell[2315, 76, 924, 27, 28, "Text"],
+Cell[3242, 105, 464, 8, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3743, 118, 29, 0, 70, "Section 1"],
+Cell[3775, 120, 198, 5, 44, "Text"],
+Cell[3976, 127, 191, 5, 28, "Text"],
+Cell[4170, 134, 413, 7, 60, "Text"],
+Cell[4586, 143, 310, 5, 60, "Text"],
+Cell[4899, 150, 366, 6, 60, "Text"],
+Cell[5268, 158, 264, 5, 44, "Text"],
+Cell[5535, 165, 314, 8, 44, "Text"],
+Cell[5852, 175, 390, 13, 28, "Text"],
+Cell[6245, 190, 36, 0, 28, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6318, 195, 29, 0, 70, "Section 1"],
+Cell[6350, 197, 269, 5, 44, "Text"],
+Cell[6622, 204, 270, 9, 28, "Text"],
+Cell[6895, 215, 99, 1, 28, "Text"],
+Cell[6997, 218, 138, 4, 28, "Text"],
+Cell[7138, 224, 300, 6, 44, "Text"],
+Cell[7441, 232, 243, 5, 44, "Text"],
+Cell[7687, 239, 260, 7, 44, "Text"],
+Cell[7950, 248, 88, 1, 28, "Text"],
+Cell[8041, 251, 102, 1, 28, "Text"],
+Cell[8146, 254, 153, 4, 28, "Text"],
+Cell[8302, 260, 193, 5, 70, "Text"],
+Cell[8498, 267, 504, 9, 70, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9039, 281, 81, 2, 70, "Section 1"],
+Cell[9123, 285, 144, 4, 70, "Text"],
+Cell[9270, 291, 237, 5, 70, "Text"],
+Cell[9510, 298, 230, 8, 70, "Text"],
+Cell[9743, 308, 271, 6, 70, "Text"],
+Cell[10017, 316, 171, 4, 70, "Text"],
+Cell[10191, 322, 189, 4, 70, "Text"],
+Cell[10383, 328, 217, 5, 70, "Text"],
+Cell[10603, 335, 369, 7, 70, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11009, 347, 81, 2, 70, "Section 1"],
+Cell[11093, 351, 202, 5, 70, "Text"],
+Cell[11298, 358, 144, 4, 70, "Text"],
+Cell[11445, 364, 142, 4, 70, "Text"],
+Cell[11590, 370, 109, 1, 70, "Text"],
+Cell[11702, 373, 126, 4, 70, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11865, 382, 90, 2, 70, "Section 1"],
+Cell[11958, 386, 204, 5, 70, "Text"],
+Cell[12165, 393, 507, 12, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[12697, 409, 85, 1, 70, "Input"],
+Cell[12785, 412, 79, 1, 70, "Output"]
+}, Open  ]],
+Cell[12879, 416, 454, 8, 70, "Text"],
+Cell[13336, 426, 154, 4, 70, "Text"],
+Cell[13493, 432, 231, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[13749, 441, 156, 3, 70, "Input"],
+Cell[13908, 446, 121, 2, 70, "Output"]
+}, Open  ]],
+Cell[14044, 451, 124, 4, 70, "Text"],
+Cell[14171, 457, 104, 1, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[14300, 462, 152, 3, 70, "Input"],
+Cell[14455, 467, 117, 2, 70, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,2637 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     95258,       2259]*)
+(*NotebookOutlinePosition[     96526,       2297]*)
+(*  CellTagsIndexPosition[     96482,       2293]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    RowBox[{"\[IndentingNewLine]", Cell[GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`4000480000>R000`400?l00000o`00003oooooool9
+ooooo`00ooooool9ooooo`001ooooolE0?ooo`0?0>[/m@2a]mX0Phg305m//`11D:@0;CjJ01l`U00K
+;I807BnC02/kV@0nCJ80FFJ`07j8`@2`]]T0k>gf0=@0oooo2Oooool000Oooooo4P3oool0103Gfn`0
+Qi76041?X`0A8hd=00lRS004010SS@0nCZ<0RI;60=gPkm40oooo2Oooool000Oooooo3`3oool00`3Y
+jo@0SIK803Y9X00D00lRS004010RS012DJD0YjkE0?_koAL0oooo00D0g=o_0;VogP2i_mh0k^og0=gP
+k`020:F/e0060>o`m`3oool0oooo0?ooo`39cND0h>?`0`3oool00`37bn@0YJcD0:Z`eP020?ooo`04
+0>?UlP2i_mh0^KoN0>GWl`<0oooo00<0g=o^0;VogP2i_mh0102i_mh01@37c>D0oooo0<G:i02i_mh0
+a<WS00@0oooo00@0`<GQ0;VogP2i_mh0bLgU0`3oool00`3onOT0onc/0?ooo`0>0?ooo`030?oOg`3o
+f=P0ooOg00H0oooo00<0on3P0?ooo`3oool00P3oool01P3oknl0oooo0?ooo`3oool0ooWi0?ogm`@0
+oooo00<0on3P0?ooo`3oool00`3oool01P3oh>00oooo0?ooo`3oool0onSX0?ogm`@0oooo00<0on3P
+0?ogm`3oool00P3oool00`3omoL0on3P0?ooo`020?ooo`030?oXj03omoL0oooo00<0oooo00<0ooWi
+0?oPh03oool0103oool00`3oj>P0ooOg0?ooo`040?ooo`030?oPh03of=P0ono_00D0oooo0P3omoL3
+0?ooo`030?ogm`3oj>P0oooo01d0oooo2Oooool000Oooooo3@3oool00`3cm?T0Q8k401T[T@0I00lR
+S00302hnV`3;cnH0oooo01D0oooo00D0Qi7600lRS00?8X`0`lSR0<76h@0200lRS0060;Nmg@3oool0
+oooo0?gmoP0W>9P0KgZj0`3oool00`1EHjh03b:<02loV`020?ooo`0409nWd@0?8X`03b:<0:F/e0<0
+oooo00<0Qi7600lRS00?8X`0100?8X`01@0oCZ<0oooo03M7W`0?8X`0<d>M00<0oooo00D0];[K00lR
+S00?8X`04BB=0;c2g`020?ooo`040?ogm`3nEU80oSPd0?oWiP`0oooo00@0oY2=0?hY9@3n;RX0oWAa
+0P3nJfL0203of]T0oooo0?ooo`3oool0okFc0?hG4P3nCd/0om[I0P3oool01`3n:RD0oS<^0?ooo`3o
+ool0olW80?hG4P3nQX@00P3oool0103odM00oQLB0?i5@@3odM020?ooo`080?nIU`3n5a80oUEA0?of
+mP3oool0oRXU0?hY9@3o]K<30?ooo`030?hP6`3n:BD0okFc0080oooo00P0oVYW0?hG4P3nF5@0on?S
+0?ooo`3nAD40oRTU0?ne/`<0oooo00@0oWAa0?hG4P3nAD40olO60`3oool00`3n:RD0oRTU0?nRX002
+0?ooo`070?ogm`3nF5@0oQLB0?hY9@3n?3P0oVYW0?oPh0030?ooo`030?o7aP3n5a80oX>10080oooo
+00@0oWej0?hG4P3nHEh0ong/703oool9ooooo`001oooool<0?ooo`030:fcf00V=iL03b:<01/03b:<
+00<072jB0<?8hP3oool0503oool01@27TLH03b:<00lRS033b>80jnce00803b:<00L0U9c<0?ooo`3o
+ool0a<SS00lRS00V=iL0oOgn0080oooo00<0>dZQ00lRS01;FJT00P3oool0102OYm403b:<00lRS02U
+[=@30?ooo`0308NAaP0?8X`03b:<00@03b:<00D0?djS0?ooo`0gAil03b:<03=3W@020?ooo`050?Gf
+nP0^?i/03b:<00lRS01oRL800P3oool01P3onOT0oUIB0?hG4P3n5a80oSPd0?oWiP/0oooo00<0oUQD
+0?n6Q03oool00P3oool00`3om_H0oTE10?o7aP020?ooo`090?nn_@3n5a80oTE10?idL@3o/[00oooo
+0?iQGP3n5a80om[I0080oooo01<0oRXU0?hc;P3oool0oooo0?o/k03n5a80oRhZ0?imNP3nVIL0oooo
+0?nIU`3n5a80oeeI0?imNP3om_H0oTE10?hG4P3nQX@0ojZX0080oooo0P3n5a801@3nOGX0oi>@0?oo
+o`3nAD40oQLB0080oV5N00D0onSW0?i5@@3n5a80ohJ40?j6Q0020?ooo`050?iTH@3n5a80ogej0?iZ
+I`3nOGX00P3oool03@3n<bh0oQLB0?j6Q03nJVL0ooKf0?nb/03n5a80oS<^0?ofmP3oool0oiVG0?h^
+:P3oalH00`3oool02@3n:RD0oTe90?ooo`3oool0oi2=0?hG4P3nCd/0oWAa0?oHf00K0?ooo`Wooooo
+0007ooooo`X0oooo00<0k^og05aY/@0?8X`07P0?8X`00`0H:Y00`<GQ0?ooo`0C0?ooo`0808NAaP0?
+8X`03b:<0<?8hP3oool08cBF00lRS01^N[X20?ooo`04075l^`0?8X`03b:<0<76h@80oooo00<07S2C
+00lRS01VL[H00P3oool0102OYm403b:<00lRS02U[=@30?ooo`0408NAaP0?8X`03b:<0:2WdP<0fmk^
+00D0h^Ga0?ooo`0gAil03b:<03=3W@020?ooo`05071k^P0?8X`03b:<04MEY`3knod00P3oool00`3n
+K6T0oQLB0?hG4P020?hG4P030?hh=03ojnX0oooo00T0oooo00<0oXJ40?oAd03oool00`3oool03@3o
+VIL0oRXU0?o`k`3oool0onc/0?hG4P3nAD40oooo0?ogm`3oool0oiVG0?hG4P3oVIL00P3oool00`3n
+JfL0oQLB0?oAd0020?ooo`090?i?B`3n9b80oooo0?ofmP3oool0olO60?hG4P3oO7T0ooKf0080oWej
+00<0oQLB0?oAd03omoL00P3oool03P3nAD40oQLB0?ooo`3omoL0oooo0?iHE03n5a80oj:P0?ofmP3o
+O7T0oWej0?hG4P3ok>`0ooKf0P3oool01@3oRhT0oQLB0?nn_@3oool0ong/0080oooo00P0oV5N0?hG
+4P3odM00ooKf0?ooo`3oRhT0oQLB0?idL@<0oooo00<0oRhZ0?hl>03oool00P3oool02@3nF5@0oQlJ
+0?ooo`3oool0olO60?hG4P3nF5@0oooo0?ogm`0K0?ooo`Wooooo0007ooooo`T0oooo00<0f=_/02`l
+VP0?8X`0800?8X`00`0H:Y00a<SS0?ooo`0B0?ooo`0;08NAaP0?8X`03b:<0<?8hP3oool0C5ZY00lR
+S01:FJT0oooo0?cloP0T=IH00P0?8X`00`1WLkH0oooo0??dn@0200lRS004086;``3oool0oooo09nW
+d@803b:<00D0YJcD0?ooo`3oool0oooo08NAaP0200lRS0030;VogP3oool0oooo00<0oooo00T0=dNO
+00lRS00c@id0oooo0;Fkf`0@8h`03b:<020aU03SiO800P3oool00`3nOGX0oQLB0?hG4P040?hG4P03
+0?i;A`3omoL0oooo00P0oooo00<0om[I0?o/k03oool00`3oool00`3oVIL0oQLB0?nZZ0020?ooo`03
+0?hl>03n5a80onc/0080oooo00<0om7@0?hG4P3nAD400P3oool00`3oZjX0oQLB0?j6Q0020?ooo`03
+0?j6Q03n5a80on?S00<0oooo00L0oR0K0?i=B@3oool0om[I0?i?B`3n5a80oj^Z00<0oooo00<0oV]W
+0?hG4P3odM000P3oool0203nQX@0oQLB0?imNP3oool0olW80?i[I`3n5a80okjm0`3oool00`3o^KP0
+oQLB0?n@S@040?ooo`030?nIU`3n5a80oi2=0080oooo00<0oi>@0?hG4P3nM7400`3oool00`3nK6T0
+oQLB0?ne/`020?ooo`030?n@S@3n5a80okFc0080oooo00<0oR0K0?hZ9@3oool0703oool9ooooo`00
+1oooool80?ooo`030=KIj`0V=iL03b:<02803b:<00<072jB0=CGjP3oool04@3oool02P27TLH03b:<
+00lRS033b>80oooo07Ao_00?8X`09CNG0?ooo`31a^4200lRS004010SS00I:i40m?Gj0=SKk0803b:<
+00@0W:C@0?ooo`3oool0WjOA0P0?8X`01@2U[=@0oooo0?ooo`3oool0Qi7600803b:<00<0^KoN0?oo
+o`3oool00`3oool0200gAil03b:<03=3W@3WjO@08S>E00lRS00@8h`0^;gM0P3oool00`3nOGX0oQLB
+0?hG4P060?hG4P030?iFDP3omoL0oooo00`0oooo00@0om7@0?hc;P3n5a80oh^90P3oool00`3nOGX0
+oQLB0?ne/`030?ooo`0<0?hP6`3n<bh0okjm0?ooo`3ohn<0oQLB0?hc;P3ok>`0oooo0?nn_@3n5a80
+oj:P0`3oool01`3nHEh0oQlJ0?ooo`3oool0oWej0?hG4P3nJfL00`3oool00`3oVIL0oQLB0?nRX002
+0?ooo`030?nn_@3n5a80oS`h0080oooo00<0oVYW0?hG4P3nQX@00`3oool00`3oh=l0oQLB0?iQGP04
+0?ooo`030?oJf@3n5a80oUQD0080oooo00<0okVh0?hG4P3nCd/00`3oool00`3oTi00oQLB0?i[I`02
+0?ooo`030?o7aP3n5a80oUQD0080oooo00<0oUQD0?hG4P3of]T0703oool9ooooo`001oooool70?oo
+o`030;_0g`0M;i<03b:<02@03b:<00<09cRH0=CGjP3oool0403oool01P27TLH03b:<00lRS033b>80
+oooo0:2XdP803b:<00P0k^og06Ue]`0?8X`0:cbJ05m//`0?8X`0WJC@0;Vng@803b:<00@0^l3N0?oo
+o`3oool0WjOA0P0?8X`01@2U[=@0oooo0?ooo`3oool0Qi7600803b:<00X0UYk=0<gAi`3=dNL0cM7W
+0>7Sl@3oool0=dNO00lRS00]?IX0AUFV0P0?8X`0101fPKd0oooo0?oin@3nK6T:0?hG4P030?i;B03o
+jnX0oooo00P0oooo00<0olG40?idL@3n;RX00`3n5a801P3oZjX0oooo0?ooo`3o^KP0oQLB0?idL@<0
+oooo00P0oTe90?h^:P3nRhT0onGU0?ooo`3n;RX0oUEA0?n3P@80ooOg00<0oQhI0?iMF@3oool00P3o
+ool01`3oXZ00oQLB0?o1`03oool0onSW0?hG4P3n;RX00`3oool00`3of=P0oQLB0?iTH@030?ooo`07
+0?hf<P3n5a80onSW0?ooo`3oh>00oQLB0?iED@040?ooo`030?hV8P3n;RX0oooo00@0oooo00D0oRhZ
+0?hO6P3omoL0oooo0?oblP020?hO6P060?ogm`3oool0oooo0?nb/03n5a80oTE10`3oool01`3n91l0
+ofaY0?nRX03oool0oiZH0?hG4P3oTi00703oool9ooooo`001oooool60?ooo`030;g2g`0E:8l03b:<
+02H03b:<00<072jB0<_?iP3oool03`3oool01P27TLH03b:<00lRS033b>80oooo0<gAi`803b:<00P0
+_<;O01X/T@0?8X`0RiC70;2ff@0?8X`0>TZQ09bTc`803b:<00@0fMc]0?ooo`3oool0WjOA0P0?8X`0
+1@2U[=@0oooo0?ooo`3oool0Qi7600H03b:<00<0KgZj0?ooo`0gAil0100?8X`0100iBJ00n?Sl0?oo
+o`3nIF8<0?hG4P030?hl=`3oool0oooo00H0oooo00<0okFc0?hG4P3n5a800P3n5a805`3n81/0oWej
+0?ooo`3ok>`0oi2=0?ofmP3n5a80oRXU0?ooo`3o]K<0om[I0?idL@3n5a80on?S0?ilN@3okN`0oV5N
+0?hP6`3ohn<0oVYW0?ofmP3n?SX0oR0K0080oooo00@0oi2=0?oSh`3n5a80oXJ40P3oool00`3nF5@0
+oQLB0?oPg`030?ooo`030?hZ9@3n<bh0oooo0080oooo00<0olO60?hP6`3oT8d00P3oool00`3nCd/0
+oQLB0?ofmP030?ooo`030?iQGP3n5a80on?S0080oooo00D0ojZX0?oSh`3nJfL0oQLB0?ne/`020?oo
+o`030?n@S@3n5a80ojbZ0080oooo00d0ojZX0?hG4P3nCd/0oooo0?ne/`3of]T0oUEA0?iHE03oalH0
+ojbZ0?oAd03n5a80oTm;01`0oooo2Oooool000Oooooo1@3oool00`3Ig>d07BnC00lRS00X00lRS003
+01h`T`3@e>T0oooo00h0oooo0100Qi7600lRS00?8X`0`lSR0?ooo`3dmOX042>=00lRS01CHJ`03b:<
+010SS@3Ri?40l_?i01DXS`0?8X`0DUn/0P0?8X`0103emOX0oooo0?ooo`2OYm4200lRS0050:F/e03o
+ool0oooo0?ooo`27TLH01P0?8X`01@1_N[X0oooo03M7W`0?8X`04bF>00803b:<00D0JGFg0?ooo`3o
+ool0om;A0?hW8`0:0?hG4P030?hJ5P3o/:h0oooo00L0oooo00H0oUQD0?hG4P3n:BD0oXJ40?nn_@3o
+m_H30?ooo`0I0?oAd03nF5@0oQLB0?hG4P3oh=l0oooo0?j@S@3n:BD0oQLB0?ne/`3oj>L0oUQD0?hP
+6`3n5a80om[I0?oSh`3nCT/0oQlJ0?hG4P3odM00oooo0?oJf@3nCd/0oQLB0?i?B`020?ooo`030?n@
+S@3n5a80oj:P00<0oooo00<0oUQD0?hG4P3ol>l00`3oool03@3odM00oS`h0?nb/03o_[d0oTE10?hG
+4P3o_[d0oooo0?oSh`3oXZ00oUQD0?hG4P3oM7400P3oXZ001@3omoL0oWej0?hY9@3n5a80oWej00<0
+oooo0140oiVG0?hl>03of]T0ooKf0?iMF@3n5a80oiVG0?ooo`3om_H0oXJ40?hV8P3n:RD0oooo0?o7
+aP3n?3P0oQLB0?hP6`0L0?ooo`Wooooo0007ooooo`@0oooo00<0m_Ok03Q8X00?8X`0:P0?8X`00`0P
+<Y@0d=CY0?ooo`0=0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00D0:3VH00lRS00@8h`03b:<04eK
+ZP020?ooo`0505]X/00?8X`03b:<00lRS00S=9H00`3oool0102OYm403b:<00lRS02U[=@30?ooo`04
+08NAaP0?8X`03b:<08nHb@<0`lSR00H0fmk^0?ooo`0gAil03b:<03=3W@1VL[H200lRS0050:bbe`3o
+ool0oooo0?oBd@3n9b<0203n5a800`3n6QH0ok2^0?ooo`080?ooo`030?i5@@3n9b80ooKf00L0oooo
+00@0ooKf0?nIU`3nCT/0onSW0P3oool03@3oalH0oUQD0?nn_@3oool0ooKf0?nIU`3nCT/0onc/0?oo
+o`3om_H0oi>A0?i>B`3ok>`00P3oool00`3om_H0oX>10?idL@020?ooo`030?oJf@3nOGX0oiZH00<0
+oooo00<0oi2=0?hG4P3o`L00103oool0303om_H0oWai0?i5@@3nHEh0oiVG0?ne/`3oool0ooKf0?o1
+`03nM740oQLB0?hl>080oWAa00D0oo3_0?ooo`3oalH0oV5N0?jIU`040?ooo`050?oJf@3nOGX0oTE1
+0?iED@3oVIL0103oool01`3o/[00oTi;0?ooo`3oool0on?S0?iZI`3nHEh0703oool9ooooo`001ooo
+ool40?ooo`0307N2_P0?8X`03b:<02/03b:<00<083:D0=OJk03oool0303oool01027TLH03b:<00lR
+S033b>820?ooo`0504YHZ00?8X`03b:<00lRS02U[=@00P3oool01@2`]mT03b:<00lRS00?8X`0A5>U
+00<0oooo00@0WjOA00lRS00?8X`0YJcD0`3oool01027TLH03b:<00lRS02i_mh50?ooo`0803M7W`0?
+8X`0<d>M0?CenP0b@Yd03b:<01laU03Ri?420?ooo`030?oBd@3n9b<0oQLB00D0oQLB00<0oQXE0?n`
+[P3oool02@3oool00`3nM740oShj0?ooo`040?ooo`030?nj^03oool0oooo0200oooo00<0okjm0?hG
+4P3oViP03@3oool00`3ok>`0oQLB0?i?B`0g0?ooo`Wooooo0007ooooo`<0oooo00<0bloV014TS@0?
+8X`0;@0?8X`00`0Q<iD0dMGY0?ooo`0;0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00D0L7^j00lR
+S00?8X`08S>E0?Kgn`020?ooo`050?Wjo00T=IH03b:<00lRS01YM;L00`3oool0102OYm403b:<00lR
+S02U[=@30?ooo`0408NAaP0?8X`03b:<0;VogPD0oooo00T0=dNO00lRS00c@id0oooo0=SKk00O<9<0
+3b:<03A4WP3Xj_@00P3oool00`3ofMP0oS8]0?hG4P030?hG4P030?hJ5@3oZjT0oooo00X0oooo00<0
+on3P0?ha;@3oj>L00`3oool00`3omoL0oW5^0?ooo`020?ooo`030?oPh03nK6T0ok:`01`0oooo00<0
+ooOg0?hG4P3nI6403P3oool00`3nAD40oQLB0?o`k`040?ooo`030?n;R@3nM740oo3_02l0oooo2Ooo
+ool000Oooooo0`3oool00`1AGj`03b:<00lRS00^00lRS00305]X/03oool0oooo00X0oooo00@0Qi76
+00lRS00?8X`0`lSR0P3oool0102EWL`03b:<00lRS01jQ;l40?ooo`0507b7`00?8X`03b:<08bFb03<
+d>L00P0c@id0100U=YH03b:<00lRS00V=iL203=3W@050>3Sl027TLH03b:<00lRS00Y>IP00`0c@id0
+1@1LJK40oooo03M7W`0?8X`0<d>M0080oooo00D0^KkN010SS00?8X`0?DfR0?GfnP020?ooo`060?oI
+f@3n9b<0oQLB0?hG4P3n6QH0ok2^3@3oool01`3odM00oTE10?ne/`3odM00okFc0?i5@@3nEE400`3o
+ool00`3oZjX0oQLB0?hn>P0K0?ooo`040?o]k03odM00oQLB0?hf<Ph0oooo00<0on?S0?j6Q03oalH0
+103oool00`3n81/0oQLB0?nRX00_0?ooo`Wooooo0007ooooo`80oooo00<0e=OZ010SS@0?8X`0;`0?
+8X`00`0F:8l0k_3g0?ooo`0:0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00@0][_L00lRS00?8X`0
+dmOZ103oool01@3AeNT03b:<00lRS02]/mP0`lSR00P03b:<00<0fmk^08NAaP0?8X`01@0?8X`01@0o
+CZ<0oooo03M7W`0?8X`0<d>M00<0oooo00@0Ig>f00lRS00?8X`0GV^b0`3oool0103od]40oRLS0?hJ
+5P3o/:h?0?ooo`060?ofmP3oZjX0oWAa0?idL@3oVIL0oo3_0`3oool00`3om_H0oXJ40?nb/00K0?oo
+o`050?oJf@3nOGX0oUQD0?hO6P3ok>`0503oool00`3o]K<0oWej0?o/k00_0?ooo`Wooooo0007oooo
+o`80oooo00<0Ig>f00lRS00?8X`0<00?8X`00`2KXll0oooo0?ooo`090?ooo`040;6gfP1SKk@0Hfnd
+0=WLk@80oooo00<0hnGb06mj^P20R/801P3oool0101lQ/00KgZj0=kQk`3Hfn`806=_]0030>SYm02a
+]mX0Hfnd00D0Hfnd00D0PXc30?ooo`1mQl40Hfnd07^5`0030?ooo`050>[/m@1TL;D0Hfnd06=_]03:
+c^H00`3oool00`3od]40ok:a0?ooo`0i0?ooo`030?o`k`3oool0oooo04D0oooo2Oooool000Oooooo
+00<0oooo0>g^mP0F:8l0<P0?8X`00`15E:H0oooo0?ooo`300?ooo`Wooooo0007ooooo`030?ooo`2J
+X/l03b:<03803b:<00<042>=0>W[m03oool0`03oool9ooooo`001oooool00`3oool0AE>V00lRS00K
+00lRS00301`^TP0?8X`03b:<00/03b:<00<052J>00lRS00?8X`01`0?8X`00`2NYM00oooo0?ooo`2o
+0?ooo`Wooooo0007ooooo`030>W[m@0@8hd03b:<01X03b:<00<0D5j[0?7bn01GI:l02`0?8X`00`16
+E:H0h^Ca03i=XP0800lRS00305]X/03oool0oooo0;l0oooo2Oooool000Oooooo00<0/KOJ00lRS00?
+8X`06@0?8X`01@1@GZ/0moSk0?ooo`3inO`0EfB_00T03b:<00D0AUBV0?;cn@3oool0k_3g03I6W`07
+00lRS00302HgU`3oool0oooo0;l0oooo2Oooool000Oooooo00<0P8[200lRS00?8X`0600?8X`00`15
+E:H0moSk0?ooo`020?ooo`030?Wio01GI:l03b:<00H03b:<00<0AUBV0?;cn@3oool00P3oool00`3N
+hNl09CJF00lRS00600lRS0030>c]mP3oool0oooo0;h0oooo2Oooool000Oooooo00<0F6F_00lRS00?
+8X`05`0?8X`00`0a@Y`0j^ce0?ooo`040?ooo`030?Wio01;FJT03b:<00@03b:<00<0?DbR0?;cn@3o
+ool0103oool00`3Gfn`09CJF00lRS00400lRS003051NZ`3hn?`0oooo0;l0oooo2Oooool000Oooooo
+00<0>DRP00lRS00?8X`05P0?8X`00`15E:H0j^ce0?ooo`060?ooo`030?3an01;FJT03b:<00803b:<
+00<0?DbR0>SZm03oool01P3oool00`3NhNl0=TJO00lRS00200lRS00306Mc]P3inO`0oooo0<00oooo
+2Oooool000Oooooo00<083:D00lRS00?8X`05@0?8X`00`1@GZ/0moSk0?ooo`080?ooo`050?Wio01G
+I:l03b:<04IDYP3bloT02@3oool0103^l?L0?TfR00lRS01WLkK30?ooo`Wooooo0007ooooo`0301@W
+S`0?8X`03b:<01@03b:<00<0@e:U0?Ohn`3oool02P3oool00`3inO`0PWfd0?;cn@0;0?ooo`030>k`
+m`1[MkP0nOWl00`0oooo00<0no_m0?ooo`3oool0]03oool9ooooo`001ooooolG00lRS00301PZT030
+aN40oooo00X0oooo00<0ol;10?hV8@3o^KP02`3oool00`2]]=P08cFF0=SKk@0;0?ooo`030:fdf018
+EjL0moSk0;D0oooo2Oooool000Oooooo00<05bV@00lRS00?8X`05@0?8X`00`0H:Y00`<GQ0?ooo`08
+0?ooo`050?o2`@3n81/0oQLB0?hM603o^KP02@3oool01@2]]=P04bF>00lRS00`@I`0jN_e00T0oooo
+00D0[KCH01<USP0?8X`0D5j[0?Ohn`2d0?ooo`Wooooo0007ooooo`0302<dUP0?8X`03b:<01H03b:<
+00<062Z@0<35h@3oool01P3oool00`3oc</0oR0K0?hG4P020?hG4P030?hM603oaL@0oooo00H0oooo
+00<0[KCH01<USP0?8X`00P0?8X`00`0gAil0jN_e0?ooo`060?ooo`030:fdf00C9Hh03b:<00803b:<
+00<0D5j[0?Ohn`3oool0/P3oool9ooooo`001oooool00`0mC:803b:<00lRS00G00lRS00301LYT02h
+_]d0oooo00@0oooo00<0olc;0?hY9@3n5a80103n5a800`3n9R40olG40?ooo`040?ooo`0309JNc@0B
+9Hd03b:<00@03b:<00<0<46L0=SKk03oool0103oool00`2FW/d04RF=00lRS00400lRS00304EDYP3Z
+k?D0oooo0;40oooo2Oooool000Oooooo00<0Gfbc00lRS00?8X`0600?8X`00`0G:I00`<GQ0?ooo`02
+0?ooo`030?o2`@3n81/0oQLB00H0oQLB00<0oQdH0?ni^03oool00P3oool00`2FW/d03b:<00lRS006
+00lRS003020bU03@e>T0oooo0080oooo00<0PH_300lRS00?8X`01P0?8X`00`0a@Y`0i^Sc0?ooo`2`
+0?ooo`Wooooo0007ooooo`0308VCa`0?8X`03b:<01T03b:<00D062Z@0<35h@3oool0ol;10?hP6`09
+0?hG4P050?hM603o^KP0oooo0:fdf00B9Hh02@0?8X`0100P<Y@0d=CY0?ooo`21Rl<:00lRS0030352
+W03Zk?D0oooo0:l0oooo2Oooool000Oooooo00<0^KoN00lRS00?8X`06P0?8X`00`0H:Y00bIfc0?hP
+6`0;0?hG4P030?hM602gQJ@04bF>00/03b:<00<083:D07^6`00?8X`02`0?8X`00`15E:H0nOWl0?oo
+o`2^0?ooo`Wooooo0007ooooo`030?7bn00C9Hh03b:<01X03b:<00<0AUBV0?;/l@3nEU802`3n5a80
+0`3nA400jM_T03M7W`0;00lRS00305MT[`2n`n005BR?00/03b:<00<0Ig>f0?ooo`3oool0[P3oool9
+ooooo`001oooool00`3oool0D5j[00lRS00I00lRS00505aX/@3emOX0oooo0?oin@3nK6T02@3n5a80
+1@3nFED0oo;a0?ooo`3]k_H0@E2T00T03b:<00D0KWZj0?[jo@3oool0`lSR024cU@0900lRS00306Mc
+]P3jn_d0oooo0:l0oooo2Oooool000Oooooo00<0oooo0:J]e@0?8X`0600?8X`00`1LJK40oOgn0?oo
+o`030?ooo`030?imNP3n5a80oQLB00D0oQLB00<0oVIS0?oln`3oool00P3oool00`3]k_L0=dNO00lR
+S00600lRS003086;``3oool0oooo0080oooo00<0em_/02DfUP0?8X`01P0?8X`00`1hPkh0oooo0?oo
+o`2`0?ooo`Wooooo0007ooooo`030?ooo`3dmOX06bfB01L03b:<00<0AUBV0?GenP3oool01@3oool0
+0`3nK6T0oQLB0?hG4P030?hG4P030?iIE@3oo?/0oooo00@0oooo00<0jN_e03M7W`0?8X`0100?8X`0
+0`21Rl<0oooo0?ooo`040?ooo`030=OKk00U=YH03b:<00@03b:<00<0N8>n0?ooo`3oool0/@3oool9
+ooooo`001oooool20?ooo`0307Ao_@0?8X`03b:<01@03b:<00<0AUBV0?;cn@3oool01P3oool00`3o
+nOT0oUIB0?hG4P020?hG4P030?i4@03ol_40oooo00H0oooo00<0jN_e03M7W`0?8X`00P0?8X`00`21
+Rl<0oooo0?ooo`060?ooo`030=OKk00U=YH03b:<00803b:<00<0N8>n0?ooo`3oool0/P3oool9oooo
+o`001oooool20?ooo`030=oQl00B9Hh03b:<01<03b:<00<0AUBV0?;cn@3oool0203oool01@3omoL0
+oUIB0?hG4P3nA400ono^00T0oooo00@0jN_e03M7W`0?8X`0KWZj2P3oool0103Gfn`09CJF00lRS01h
+Pkje0?ooo`Wooooo0007ooooo`<0oooo00<0Gf^b00lRS00?8X`04@0?8X`00`0`@9`0l_?i0?ooo`0:
+0?ooo`030?ogm`3gMGD0ono^00/0oooo00<0jN_e07M]Z03jn_d02`3oool00`3Gfn`0N8:n0?ooo`0;
+0?ooo`030?gmoP3hn?`0oooo0:L0oooo2Oooool000Oooooo0`3oool00`3Gf^`052N>00lRS00A00lR
+S003010RS022S<<0o_kn00X0oooo00<0^l3O02DfUP2Z/=H02`3oool00`3oTY00oQdI0?nc/@0H0?oo
+o`040?Kgn`1LJ;40AEBV0>[/mJL0oooo2Oooool000Oooooo103oool00`28TLH03b:<00lRS00B00lR
+S00306]g^03moOh0oooo00L0oooo00D0[KCH01<USP0?8X`042><09RQcP090?ooo`050?imNP3n5a80
+oQLB0?hL5`3o^KP05P3oool01P3moOh0G6Va00lRS00?8X`0<D:L0>KXljH0oooo2Oooool000Oooooo
+103oool00`3jnod0@U6T00lRS00C00lRS00306]g^03no_h0oooo00D0oooo00<0^l3O01<USP0?8X`0
+0P0?8X`00`0@8h`0Z[3F0?ooo`060?ooo`030?imNP3n5a80oQLB0080oQLB00<0oQdH0?ni^03oool0
+4`3oool00`3moOh0JgNh00lRS00300lRS0030352W03Vj?<0oooo0:@0oooo2Oooool000Oooooo1@3o
+ool00`3Qho408S>E00lRS00C00lRS00308:<``3oool0oooo00<0oooo00<0d=CY01d_T`0?8X`0100?
+8X`00`0G:I00`<GQ0?ooo`040?ooo`030?imNP3n5a80oQLB00@0oQLB00<0oQdH0?ni^03oool04@3o
+ool00`3moOh0JgNh00lRS00500lRS0030352W03Zk?D0oooo0:<0oooo2Oooool000Oooooo1P3oool0
+0`34bN<05BR?00lRS00B00lRS003010SS02HXLh0oooo0080oooo00<0d=CY020bU00?8X`01P0?8X`0
+0`0H:Y00`<GQ0?ooo`020?ooo`030?nBT03n5a80oQLB00H0oQLB00<0oQdH0?ni^03oool03`3oool0
+0`3moOh0JgNh00lRS00700lRS00304EDYP3gn?/0oooo0:80oooo2Oooool000Oooooo1`3oool00`2n
+`n007BnC00lRS00B00lRS005010RS022S<<0o_kn0;_0g`0M;i<02@0?8X`01@0G:I00Z[3F0?ooo`3o
+TY00oQPC00T0oQLB00<0oQ`G0?nSX@3oool03@3oool00`3emOX0G6Ra00lRS00900lRS00304EDYP3Z
+k?D0oooo0:40oooo2Oooool000Oooooo203oool00`3BeNX08S>E00lRS00C00lRS00304eLZP0C9Hh0
+3b:<00X03b:<00<042><09QFPP3n5a80303n5a800`3oclh0oooo0?ooo`0;0?ooo`0305]X/00?8X`0
+3b:<00X03b:<00<0=dNO0?cloP3oool0X03oool9ooooo`001oooool90?ooo`030=7Dj@0S=IH03b:<
+02003b:<00<072jB0>ETK03n5a802P3n5a800`3oQH<0oooo0?ooo`0<0?ooo`030=OKk00U=YH03b:<
+00T03b:<00<05BR?0;Nmg03oool0X@3oool9ooooo`001oooool:0?ooo`030>GWlP19EjP03b:<01h0
+3b:<00@0=DFN0=OJk03oool0oVaY2@3n5a800`3oQH<0oooo0?ooo`0>0?ooo`030=OKk00U=YH03b:<
+00L03b:<00<052N>0;Nmg03oool0XP3oool9ooooo`001oooool;0?ooo`030?gmoP2BVl/06B^A01/0
+3b:<00<042>=07=n_03em_X00P3oool00`3onOT0oUIB0?hG4P060?hG4P030?n5P`3oool0oooo0100
+oooo00<0em_/02DfUP0?8X`01P0?8X`00`2PZ=40oooo0?ooo`2R0?ooo`Wooooo0007ooooo`d0oooo
+00<0hnKb06Ea]@0A8hd0600?8X`00`0hB:00b<gU0?ooo`040?ooo`030?ogm`3nEU80oQLB00@0oQLB
+00<0ohF30?ooo`3oool04P3oool00`3Gfn`09CJF00lRS00400lRS00308fFb03oool0oooo0:<0oooo
+2Oooool000Oooooo3`3oool00`3CenX0Kg^j020bU00C00lRS004018TS@1>G:X0Z[7F0?[ko@L0oooo
+00H0ooWi0?i/J@3n5a80oQLB0?hJ5@3oVYLF0?ooo`060=kQk`0`@9`03b:<00lRS00G:I00YJcDYP3o
+ool9ooooo`001ooooolA0?ooo`040?Wjo02b^=X0HVjd01l`U0d03b:<00@042>=041?X`2?V<T0i>Kb
+303oool00`3nOGX0oQLB0?nJU`0H0?ooo`040=kQk`0U=YH062Z@0<35hJL0oooo2Oooool000Oooooo
+503oool03`3lo?h0b<gU08nHbP1ULKD0A5>U02`lVP0L;Y804RB=01LZT00R<iD0=dJO05=Q[@1iQ;l0
+Z:oE0>KXl`0@0?ooo`030?nk^@3oool0oooo01P0oooo00<0em_/0<;7hP3oool0Y`3oool9ooooo`00
+ooooool9ooooo`00\
+\>"], "Text",
+        ShowCellBracket->False,
+        CellMargins->{{0, 0}, {Inherited, 0}},
+        Evaluatable->False,
+        GeneratedCell->False,
+        CellAutoOverwrite->False,
+        ImageSize->{232.062, 51.375},
+        ImageMargins->{{0, 0}, {0, 12.75}},
+        ImageRegion->{{0, 1}, {0, 1}},
+        Background->GrayLevel[1]]}]], "Author"],
+
+Cell[BoxData[
+    RowBox[{
+      ButtonBox[\(Visit\ the\ IMTEK\ Simulation\ web\ page\),
+        ButtonData:>{
+          URL[ "http://www.imtek.de/simulation"], None},
+        ButtonStyle->"Hyperlink",
+        ButtonFrame->"DialogBox",
+        ButtonNote->"Browse!"], 
+      ButtonBox[\(Email\ us\),
+        ButtonData:>{
+          URL[ "mailto:korvink@imtek.de"], None},
+        ButtonStyle->"Hyperlink",
+        ButtonFrame->"DialogBox",
+        ButtonNote->"Talk!"]}]],
+  ShowCellBracket->False,
+  CellMargins->{{5, 0}, {Inherited, 10}},
+  Evaluatable->False,
+  GeneratedCell->False,
+  CellAutoOverwrite->False,
+  FontColor->GrayLevel[1]],
+
+Cell["SECM-Help", "Title",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell[TextData[{
+  "Notebook \[Copyright] 2003-2005 Darius Koziol\n\n\n\t\t\tDarius Koziol\n\t\
+\t\tIMTEK-Simulation\n\t\t\tGeorges-Koehler-Allee 103\n\t\t\tD-79110 \
+Freiburg, Germany\n\t\t\t",
+  Cell[BoxData[
+      FormBox[
+        ButtonBox[\(koziol@imtek . de\),
+          ButtonData:>{
+            URL[ "mailto:koziol@imtek.de"], None},
+          ButtonStyle->"Hyperlink"], TraditionalForm]]],
+  "\n\t\n\t\n (See: ",
+  ButtonBox["License",
+    ButtonData:>{"License"},
+    Active->True,
+    ButtonStyle->"AddOnsLink"],
+  ")\n \nThis program is free software; you can redistribute it and/or modify \
+it under the terms of the GNU General Public License as published by the Free \
+Software Foundation; either version 2 of the License, or (at your option) any \
+later version.\n\nThis program is distributed in the hope that it will be \
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of \
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General \
+Public License for more details.\n\nYou should have received a copy of the \
+GNU General Public License along with this program; if not, write to the Free \
+Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 \
+ USA\t\n"
+}], "Author"],
+
+Cell[BoxData[
+    \(Needs["\<Imtek`SimulationTools`SECM`\>"]\)], "Input",
+  CellLabel->"In[1]:=",
+  InitializationCell->True],
+
+Cell["2D axissymmetric simulation", "Section",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Grid generation and visualization", \
+"SubsectionIcon"]], "SubsectionIcon"],
+
+Cell[TextData[StyleBox["The 2D simulation domain is meshed by Easymesh, a \
+public domain mesh generator written by Bojan Niceno. See also \
+\"http://www-dinma.univ.trieste.it/~nirftc/research/easymesh/easymesh.html\". \
+\nTo generate and view the data you need the following functions :", "Text",
+  FontWeight->"Plain",
+  FontVariations->{"CompatibilityType"->0}]], "SubsectionIcon"],
+
+Cell[BoxData[
+    StyleBox[GridBox[{
+          {
+            StyleBox[\(MakePoint\ [\ x\ , \ y\ ]\),
+              
+              FontSize->
+                12], \(needs\ coordinates\ x\ and\ y\ in\ the\ argument . 
+                Returns\ an\ object\ ' \(\(Point'\)\(.\)\)\)},
+          {\(MakeEasymeshMaterialPoint\ [\ p, \ size\ , \ 
+              materialCondition\ ]\), \(returns\ an\ object\ ' 
+              EasymeshMaterialPoint' . \ It\ includes\ the\ point\ ' p', \ 
+            the\ element\ edge\ size\ definition\ ' size' 
+              and\ the\ material\ condition\ tag\ ' materialCondition' 
+              in\ the\ \(\(argument\)\(.\)\)\)},
+          {\(MakeEasymeshVertex\ [\ p, \ size\ , \ bcnode, \ 
+              bcedge\ ]\), \(returns\ an\ object\ with\ the\ Head\ ' 
+              EasymeshVertex' . \ It\ includes\ the\ point\ ' p', \ 
+            the\ element\ edge\ size\ definition\ ' size', \ 
+            the\ boundary\ tag\ for\ this\ node\ ' 
+              bcnode'\ and\ the\ boundary\ tag\ for\ the\ edge\ which\ starts\
+\ with\ this\ node\ ' bcedge' in\ the\ \(\(argument\)\(.\)\)\)},
+          {\(MakeEasymeshPolyLine\ [\ vertex1\ , \ 
+              vertex2, \  ... \ ]\), \(returns\ an\ object\ with\ the\ head\ \
+' EasymeshPolyLine' . \ 
+                It\ includes\ two\ or\ more\ vertices\ with\ the\ Head\ ' 
+              EasymeshVertex'\ in\ the\ argument . \ 
+                A\ polyline\ is\ defined\ as\ a\ number\ of\ connected\ \
+points\ that\ creates\ a\ open\ \(\(figure\)\(.\)\)\)},
+          {\(MakeEasymeshPolygon\ [\ vertex\ \ , \ 
+              vertex2, \  ... \ ]\), \(returns\ an\ object\ with\ the\ head\ \
+' EasymeshPolygon' . \ 
+                It\ includes\ three\ or\ more\ vertices\ with\ the\ Head\ ' 
+              EasymeshVertex'\ in\ the\ argument . \ 
+                A\ polygon\ is\ defined\ as\ a\ number\ of\ connected\ points\
+\ that\ creates\ a\ closed\ \(\(figure\)\(.\)\)\)},
+          {\(\n\), \(\n\)},
+          {\(WriteEasymeshData\ [\ easymeshPolygonInput\ , \ 
+              easymeshLineInput, \ 
+              easymeshMaterialPointInput\ ]\), \(easymeshPolygonInput\  = {\ 
+                polygon1, \ polygon2, \  ... \ }; 
+            easymeshLineInput\  = {\ polyline1, \ polyline2, \  ... \ }; 
+            easymeshMaterialPointInput\  = {\ materialPoint1, \ 
+                    materialPoint2, \  ... \ } . \ All\ polygons, \ 
+            polylines\ and\ materialpoints\ are\ collected\ to\ three\ lists\ \
+to\ be\ the\ argument\ of\ the\ function\ ' \
+\(\(WriteEasymeshData'\)\(.\)\)\)},
+          {\(RunEasymesh\ [\ 
+              geometryData\ ]\), \(creates\ a\ file\ with\ the\ input\ data\ \
+for\ Easymesh\ and\ the\ extension\ ' . d'\ and\ runs\ Easymesh . \ 
+                The\ argument\ is\ the\ output\ of\ ' 
+              WriteEasymeshData' . \ 
+                At\ present\ available\ just\ for\ Unix\ operating\ \
+\(\(systems\)\(.\)\)\)},
+          {\(ReadEasymesh\ [\ 
+              fileName\ ]\), \(reads\ the\ data\ created\ by\ Easymesh\ and\ \
+changes\ all\ Easymesh\ numerations\ to\ start\ with\ 1. \ The\ argument\ is\ \
+the\ filename\ \((and\ path)\)\ of\ the\ files\ created\ Easymesh . \ 
+                It\ is\ needed\ without\ any\ \(\(extension\)\(.\)\(\ \
+\)\)\)},
+          {\(PlotMesh\ [\ easymeshData\ ]\), \(takes\ the\ data\ from\ ' 
+              ReadEasymesh'\ and\ plots\ the\ number\ of\ nodes, \ 
+            the\ Delaunay\ mesh, \ 
+            the\ Voronoi\ mesh\ and\ both\ meshes\ \(\(together\)\(.\)\(\ \
+\)\)\)}
+          },
+        GridFrame->True,
+        ColumnLines->True],
+      "DefinitionBox",
+      FontSize->12]], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+This example will show an area as used for a SECM simulation \
+(rg=10, d=5)\
+\>", "SubsubsectionIcon"],
+
+Cell["\<\
+\tA typical simulation area for a SECM simulation is shown below. \
+The red lines show the electrochemical active area (electrode and sample), \
+the green lines show inactive area (glas or symmetry axis)and the blue line \
+shows the solution. \
+\>", "Text"],
+
+Cell[" Generate The Geometry", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["The Area", "SubsubsectionIcon"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .52 
+%%ImageSize: 400 400 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.0952381 0.0314286 0.0952381 [
+[.02381 .01238 -20 -5.03125 ]
+[.02381 .01238 20 5.03125 ]
+[.97619 .01238 -23 -5.03125 ]
+[.97619 .01238 23 5.03125 ]
+[.97619 .48857 -23 -5.03125 ]
+[.97619 .48857 23 5.03125 ]
+[.11905 .48857 -20 -5.03125 ]
+[.11905 .48857 20 5.03125 ]
+[.02381 .48857 -20 -5.03125 ]
+[.02381 .48857 20 5.03125 ]
+[.45238 .36476 -8 -4.90625 ]
+[.45238 .36476 8 4.90625 ]
+[.69048 .26952 -5 -4.90625 ]
+[.69048 .26952 5 4.90625 ]
+[ 0 0 0 0 ]
+[ 1 .52 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 0 r
+.5 Mabswid
+[ ] 0 setdash
+.07143 .36476 m
+.40476 .36476 L
+s
+.5 .36476 m
+.92857 .36476 L
+s
+.69048 .07905 m
+.69048 .2219 L
+s
+.69048 .46 m
+.69048 .31714 L
+s
+1 0 0 r
+.02381 .03143 m
+.97619 .03143 L
+s
+0 0 0 r
+gsave
+.02381 .01238 -81 -9.03125 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.0625 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+63.000 11.250 moveto
+(8) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(0) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(,) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(0) show
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+93.000 11.250 moveto
+(<) show
+99.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+0 0 1 r
+.97619 .03143 m
+.97619 .50762 L
+s
+0 0 0 r
+gsave
+.97619 .01238 -84 -9.03125 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.0625 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+63.000 11.250 moveto
+(8) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(10) show
+81.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(,) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(0) show
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+99.000 11.250 moveto
+(<) show
+105.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+0 1 0 r
+.97619 .50762 m
+.11905 .50762 L
+s
+0 0 0 r
+gsave
+.97619 .48857 -84 -9.03125 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.0625 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+63.000 11.250 moveto
+(8) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(10) show
+81.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(,) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(5) show
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+99.000 11.250 moveto
+(<) show
+105.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+1 0 0 r
+.11905 .50762 m
+.02381 .50762 L
+s
+0 0 0 r
+gsave
+.11905 .48857 -81 -9.03125 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.0625 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+63.000 11.250 moveto
+(8) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(1) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(,) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(5) show
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+93.000 11.250 moveto
+(<) show
+99.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+0 1 0 r
+.02381 .50762 m
+.02381 .03143 L
+s
+0 0 0 r
+gsave
+.02381 .48857 -81 -9.03125 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.0625 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+63.000 11.250 moveto
+(8) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(0) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(,) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(5) show
+%%IncludeResource: font Math2Mono
+%%IncludeFont: Math2Mono
+/Math2Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+93.000 11.250 moveto
+(<) show
+99.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+0 g
+gsave
+.45238 .36476 -69 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(rg) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.69048 .26952 -66 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(d) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+0 0 m
+1 0 L
+1 .52 L
+0 .52 L
+closepath
+clip
+newpath
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  GeneratedCell->False,
+  CellAutoOverwrite->False,
+  ImageSize->{400, 400},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40006@0001T1000`40n007h00OooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonA
+ool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00
+ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool000Koo`03003ooooo00Koo`03003o
+oooo00ooo`03003ooooo0?ooodCoo`03003ooooo00coo`03003ooooo00ooo`03003ooooo00Goo`00
+1Ooo00<00?ooool02?oo00<00?ooool03ooo00<00?ooool0oooo@_oo00<00?ooool03_oo00<00?oo
+ool03ooo00<00?ooool01?oo0005ool00`00ooooo`02ool20004ool00`00ooooo`09ool20004ool0
+0`00ooooo`3ooom2ool01000oooooooo10000ooo0P001?oo00<00?ooool02Ooo0P001?oo00<00?oo
+ool01?oo0005ool01@00oooooooo00000_oo00<00?ooool03?oo00@00?ooool000?oo`03003ooooo
+0?oood;oo`03003ooooo00?oo`05003oooooool00002ool00`00ooooo`0<ool01000ooooo`000ooo
+00<00?ooool01?oo0004ool00`00ooooo`02ool01000ooooo`003_oo00@00?ooool000Coo`03003o
+oooo0?oood3oo`03003ooooo00Coo`05003oooooool00002ool00`00ooooo`0<ool01000ooooo`00
+1?oo00<00?ooool00ooo0005ool01@00oooooooo00000_oo00<00?ooool03?oo00@00?ooool000?o
+o`03003ooooo0?oood;oo`03003ooooo00?oo`05003oooooool00002ool00`00ooooo`0<ool01000
+ooooo`000ooo00<00?ooool01?oo0005ool01@00oooooooo00000_oo00<00?ooool03?oo00@00?oo
+ool000?oo`03003ooooo0?oood;oo`03003ooooo00?oo`05003oooooool00002ool00`00ooooo`0<
+ool01000ooooo`000ooo00<00?ooool01?oo0006ool01000ooooo`000_oo00<00?ooool03?oo00@0
+0?ooool000;oo`03003ooooo0?ooodCoo`03003ooooo00<000?oo`04003ooooo000>ool01000oooo
+o`000_oo00<00?ooool01Ooo000:ool2000@ool2003ooom?ool00`00ooooo`02ool2000@ool2000;
+ool00?oooi7oo`00ooooTOoo000Dool00`OPn03h003on01Rn0000`0Oooooo`0Eool001Coo`031n3o
+oooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool0
+0`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`00
+5?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0E
+ool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07ooo
+ool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`03
+01oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomR
+ool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0
+ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3o
+oooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool0
+0`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo
+06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000D
+ool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003o
+oooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo
+000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03
+003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool0
+5Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Ko
+o`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07ooo
+ool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo
+0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<0
+7oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3o
+oooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo
+00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`03
+1n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0
+J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Co
+o`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?oo
+ool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool0
+01Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<0
+0?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0E
+ool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo
+00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Ooooo
+o`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0
+m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0O
+ooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?oo
+ool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool0
+0`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7
+h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1X
+ool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo
+00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00oooo
+o`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`00
+5?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00
+ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Go
+o`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool0
+0`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo
+01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3f
+ool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oo
+oooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPoooo
+o`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7
+h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Co
+o`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo
+000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo
+01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0O
+ooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo
+00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?oo
+of;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPoooo
+o`3eool200000ooo003oo`1Wool00`0Oooooo`0Eool001Coo`031n3ooooo0?Coo`04003ooooo001Y
+ool00`0Oooooo`0Eool001Coo`031n3ooooo0?Coo`04003ooooo001Yool00`0Oooooo`0Eool001Co
+o`031n3ooooo0?Coo`04003ooooo001Yool00`0Oooooo`0Eool001Coo`031n3ooooo0?Goo`<006Wo
+o`0301oooooo01Goo`005?oo00<7h?ooool0mooo00<00?ooool0Iooo00<07oooool05Ooo000Dool0
+0`OPooooo`3fool2001Yool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Go
+o`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Ooooo
+o`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<0
+7oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;o
+o`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3o
+oomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?oo
+ool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`03
+1n3ooooo0?ooof;oo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07ooo
+ool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo
+0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<0
+7oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3o
+oooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo
+00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`03
+1n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0
+J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Co
+o`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?oo
+ool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool0
+01Coo`031n3ooooo09koo`<005Goo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0
+XOoo00<00?ooool0D_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`2Hool40003
+ool3001Dool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo00koogh000goo`03003o
+oooo00;oo`04003ooooo000=oonQ000Aool00`0Oooooo`0Eool001Coo`031n3ooooo09Woo`03003o
+oooo00;oo`04003ooooo001Dool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo09Wo
+o`03003ooooo00;oo`04003ooooo001Dool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3o
+oooo09Soo`03003oo`00008000;oo`800003ool00?oo05;oo`03003ooooo06Soo`0301oooooo01Go
+o`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3fool0
+0`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oooooo
+01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPooooo`3f
+ool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`0301oo
+oooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OPoooo
+o`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06Soo`03
+01oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool00`OP
+ooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo06So
+o`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000Dool0
+0`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003ooooo
+06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo000D
+ool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03003o
+oooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool05Ooo
+000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Koo`03
+003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07oooool0
+5Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo0?Ko
+o`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<07ooo
+ool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3ooooo
+0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo00<0
+7oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`031n3o
+oooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0m_oo00<00?ooool0J?oo
+00<07oooool05Ooo000Dool00`OPooooo`3fool00`00ooooo`1Xool00`0Oooooo`0Eool001Coo`03
+1n3ooooo0?Koo`03003ooooo06Soo`0301oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07ooo
+ool05Ooo000Dool00`OPooooo`3ooomRool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`03
+01oooooo01Goo`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomR
+ool00`0Oooooo`0Eool001Coo`031n3ooooo0?ooof;oo`0301oooooo01Goo`001_oo00<00?ooool0
+1_oo00<00?ooool00_oo00<7h?ooool02_oo00<00?ooool01Ooo00<00?ooool01_oo00<00?ooool0
+3ooo00<00?ooool0oooo8Ooo00<00?ooool03?oo00<00?oo01l03ooo00<00?ooool01Ooo0005ool0
+0`00ooooo`08ool01@00oooooooo1n003Ooo00<00?ooool00ooo00<00?ooool02?oo00<00?ooool0
+3ooo00<00?ooool0oooo7ooo00<00?ooool03_oo00<0000Oool03ooo00<00?ooool01?oo0005ool0
+0`00ooooo`02ool20004ool01@00oooooooo1n001_oo0`001?oo00<00?ooool00ooo00@00?oooooo
+o`@000?oo`03003ooooo00Soo`<000Coo`03003ooooo0?oooaooo`04003oooooool40003ool20004
+ool00`0001ooo`08ool30004ool00`00ooooo`04ool000Goo`05003oooooool00002ool00`00oooo
+o`05ool00`OPooooo`07ool01@00oooooooo00001Ooo00<00?ooool00ooo00<00?ooool04?oo00D0
+0?ooooooo`000?ooob7oo`03003ooooo00?oo`05003oooooool00002ool00`00ooooo`02ool00`0O
+ooooo`0:ool01@00oooooooo00001_oo0004ool00`00ooooo`02ool01000ooooo`001ooo00<7h?oo
+ool01ooo00<00?ooool00_oo00D00?ooooooo`0000Koo`03003ooooo013oo`03003ooooo00;oo`03
+003ooooo0?oooagoo`03003ooooo00Coo`05003oooooool00002ool00`00ooooo`02ool00`0Ooooo
+o`0:ool00`00ooooo`02ool00`00ooooo`03ool000Goo`05003oooooool00002ool00`00ooooo`05
+ool00`OPooooo`04ool30004ool00`00ooooo`03ool00`00ooooo`03ool00`00ooooo`0=ool30004
+ool00`00ooooo`3ooolOool00`00ooooo`03ool01@00oooooooo00000_oo00<00?ooool00_oo00<0
+7oooool01ooo0`001?oo00<00?ooool01?oo0005ool01@00oooooooo00000_oo00<00?ooool01Ooo
+00<7h?ooool01?oo00<00?ooool01?oo00<00?ooool00ooo00<00?ooool00ooo00<00?ooool03Ooo
+00<00?ooool01?oo00<00?ooool0oooo7ooo00<00?ooool00ooo00D00?ooooooo`0000;oo`03003o
+oooo00;oo`0301oooooo00Ooo`03003ooooo00Coo`03003ooooo00Coo`001_oo00@00?ooool000;o
+o`03003ooooo00Goo`031n3ooooo00Coo`03003ooooo00?oo`03003ooooo00Goo`03003ooooo00<0
+00ooo`03003ooooo00?oo`03003ooooo0?ooob7oo`03003ooooo00<000?oo`04003ooooo0004ool0
+0`0Oooooo`07ool00`00ooooo`03ool00`00ooooo`05ool000[oo`8000Soo`031n3ooooo00Coo`@0
+00ooo`03003ooooo00goo`@00?ooob_oo`03003ooooo00;oo`8000Goo`0301oooooo00Ooo`@000[o
+o`005?oo00<7h?ooool0ooooH_oo00<07oooool05Ooo000Dool00`OPooooo`3ooomRool00`0Ooooo
+o`0Eool001Coo`031n3h0?P0027h0?l7h487h1Ooo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00oooo
+TOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo003ooonAool0
+0?oooi7oo`00ooooTOoo003ooonAool00?oooi7oo`00ooooTOoo0000\
+\>"],
+  ImageRangeCache->{{{0, 399}, {399, 0}} -> {-0.561848, -3.20965, 0.0280901, \
+0.0280901}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Boundaries", "SubsubsectionIcon"],
+
+Cell[BoxData[{
+    \(\(sample = 1;\)\), "\[IndentingNewLine]", 
+    \(\(solution = 2;\)\), "\[IndentingNewLine]", 
+    \(\(glas = 3;\)\), "\[IndentingNewLine]", 
+    \(\(electrode = 4;\)\), "\[IndentingNewLine]", 
+    \(\(symmetryAxis = 5;\)\)}], "Input",
+  CellLabel->"In[2]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Points", "SubsubsectionIcon"],
+
+Cell[BoxData[{
+    \(\(point1a = MakePoint\ [\ 0\ , \ 0\ ];\)\), "\[IndentingNewLine]", 
+    \(\(point2b = MakePoint\ [\ 30\ , \ 0\ ];\)\), "\[IndentingNewLine]", 
+    \(\(point3c = MakePoint\ [\ 30, \ 30\ ];\)\), "\[IndentingNewLine]", 
+    \(\(point4d = MakePoint\ [\ 1\ , \ 30];\)\), "\[IndentingNewLine]", 
+    \(\(point5e = MakePoint\ [\ 0\ , \ 30\ ];\)\)}], "Input",
+  CellLabel->"In[7]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Vertices", "SubsubsectionIcon"],
+
+Cell[BoxData[{
+    \(\(vertex1a = 
+        MakeEasymeshVertex\ [\ point1a, 2.5\ , sample\ , \ 
+          sample\ ];\)\), "\[IndentingNewLine]", 
+    \(\(vertex2b = 
+        MakeEasymeshVertex\ [\ point2b\ , 4\ , sample\ , \ 
+          solution\ ];\)\), "\[IndentingNewLine]", 
+    \(\(vertex3c = 
+        MakeEasymeshVertex\ [\ point3c\ , 2.5, glas\ , \ 
+          glas\ ];\)\), "\[IndentingNewLine]", 
+    \(\(vertex4d = 
+        MakeEasymeshVertex\ [\ point4d, 0.1\ , electrode\ , \ 
+          electrode\ ];\)\), "\[IndentingNewLine]", 
+    \(\(vertex5e = 
+        MakeEasymeshVertex\ [\ point5e\ , 0.1, electrode\ , \ 
+          symmetryAxis\ ];\)\)}], "Input",
+  CellLabel->"In[12]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["We do not have", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(MakeEasymeshMaterialPoint\ [\ 
+          NO\ DATA\ ];\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ \(MakeEasymeshPolyLine\ [\ NO\ DATA\ ];\)\ *) \)\)\)], "Input",
+  CellLabel->"In[18]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Polygon", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(polygon1a = 
+        MakeEasymeshPolygon\ [\ \ vertex1a, vertex2b\ , vertex3c\ , 
+          vertex4d\ , \ vertex5e\ ];\)\)], "Input",
+  CellLabel->"In[17]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["EasymeshInput", "SubsubsectionIcon"],
+
+Cell[BoxData[{
+    \(\(easymeshPolygonInput = \ {\ 
+          polygon1a\ };\)\), "\[IndentingNewLine]", 
+    \(\(easymeshLineInput = \ {\ };\)\), "\[IndentingNewLine]", 
+    \(\(easymeshMaterialPointInput = \ {\ };\)\)}], "Input",
+  CellLabel->"In[18]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Write the Data", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(emData = 
+        WriteEasymeshInputData\ [easymeshPolygonInput\ , \ 
+          easymeshLineInput, \ easymeshMaterialPointInput\ ];\)\)], "Input",
+  CellLabel->"In[21]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Run Easymesh", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(emFileName = RunEasymesh\ [\ emData\ ];\)\)], "Input",
+  CellLabel->"In[22]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Read EasymeshData", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(meshData = ReadEasymesh\ [\ emFileName\ ];\)\)], "Input",
+  CellLabel->"In[23]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "meshData (for a small test mesh, ",
+  StyleBox["If Easymesh is not available",
+    FontColor->RGBColor[1, 0, 0]],
+  ")"
+}], "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \( (*\(meshData = 
+          Get[\ ToFileName[\ {"\<Imtek\>", \ "\<IMSData\>", \ "\<SECM\>"}, \ \
+"\<secmMesh2D.dat\>"]\ ];\)*) \)], "Input",
+  CellLabel->"In[21]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plot EasymeshData", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(PlotMesh\ [\ meshData\ ];\)\)], "Input",
+  CellLabel->"In[22]:="]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[" Run the Simulation", "SubsectionIcon"],
+
+Cell["    To run a simulation you need the following functions:", "Text"],
+
+Cell[BoxData[
+    StyleBox[GridBox[{
+          {\(GeometryFunction2DAxisSymmetric\ [\ 
+              easymeshData\ ]\), \(GeometryFunction2DAxisSymmetric[
+                EasymeshData]\ takes\ as\ argument\ EasymeshData\ and\ \
+returns\ a\ data\ array\ of\ the\ type\ GeometryData . \ 
+                It\ contains\ all\ geometry\ data\ that\ is\ necessary\ to\ \
+describe\ a\ 2  
+              D\ Voronoi\ mesh . \ 
+                Also\ see\ \(\(GeometryData\)\(.\)\(\n\)\)\)},
+          {\(EquationsystemSteadyState2DAxisSymmetric[\ geometry, \ 
+                easymeshData, \ Dif, \ initialConcentrations, \ 
+                neumannBoundaryValues, \ electrodeReactionValues, \ 
+                dirichletBoundaryValues\ ];\), \
+\(EquationsystemSteadyStateAxisSymmetric[GeometryData, \ EasymeshData, \ 
+                DiffusionCoefficient, \ InitialConcentrations, \ 
+                NeumannBoundaryValues, \ ElectrodeReactionValues, \ 
+                DirichletBoundaryValues]\ returns\ a\ data\ object\ with\ \
+head\ EquationDataSteadyState\ which\ in\ turn\ contains\ the\ two\ \
+components\ of\ a\ linear\ steady\ state\ matrix\ equation . \ 
+                The\ first\ part\ is\ the\ stiffness\ matrix\ E, \ 
+            the\ second\ the\ right\ hand\ side\ vector\ R . \ 
+                The\ matrix\ E\ is\ in\ sparse\ format . \ 
+                Also\ see\ GeometryData, \ EasymeshData, \ 
+            DiffusionCoefficient, \ InitialConcentrations, \ 
+            NeumannBoundaryValues, \ ElectrodeReactionValues, \ 
+            DirichletBoundaryValues, \ \(\(EquationDataSteadyState\)\(.\)\(\ \
+\)\(\n\)\)\)},
+          {\(EquationsystTransient2DAxisSymmetric\ [\ geometry, \ 
+              easymeshData, \ Dif, \ \[CapitalDelta]t, \ 
+              initialConcentrations, \ neumannBoundaryValues, \ 
+              electrodeReactionValues, \ 
+              dirichletBoundaries\ ]\), \(EquationsystTransientAxisSymmetric[
+                GeometryData, \ EasymeshData, \ 
+                DifusionCoefficient, \ \[CapitalDelta]t, \ 
+                InitialConcentrations, \ NeumannBoundaryValues, \ 
+                ElectrodeReactionValues, \ 
+                DirichletBoundaryValues]\ returns\ EquationDataTransient\ \
+which\ contains\ the\ components\ of\ a\ linear\ transient\ matrix\ equation, \
+\ the\ stiffness\ matrix, \ the\ right\ hand\ side\ vector, \ 
+            a\ vector\ with\ the\ initial\ concentrations\ and\ an\ \
+additional\ vector\ with\ the\ volumes\ of\ the\ Voronoi\ cells . \ 
+                The\ matrix\ E\ has\ sparse\ form . \ 
+                Also\ see\ GeometryData, \ EasymeshData, \ 
+            DiffusionCoefficient, \ InitialConcentrations, \ 
+            NeumannBoundaryValues, \ ElectrodeReactionValues, \ 
+            DirichletBoundaryValues, \ \(\(EquationDataTransient\)\(.\)\(\n\)\
+\)\)},
+          {\(SteadyStateCalculation\ [\ 
+              glSystSteadyState\ ]\), \(SteadyStateCalculation[
+                EquationDataSteadyState]\ solves\ the\ sparse\ linear\ system\
+\ described\ by\ EquationDataSteadyState . \ 
+                It\ returns\ a\ vector\ of\ concentrations . \ 
+                Also\ see\ \(\(EquationDataSteadyState\)\(.\)\(\n\)\)\)},
+          {\(TransientCalculation\ [\ glSystTransient, \ 
+              Ttotal, \ \[CapitalDelta]t\ ]\), \
+\(\("TransientCalculation[EquationDataTransient, totalTime, \[CapitalDelta]t] \
+solves a time dependend sparse linear system. The timesteps are of the size \
+\[CapitalDelta]t and the full simulation time is specified by totalTime.  The \
+function returns a list with vectors of concentrations. Also see \
+EquationDataTransient."\)\(\n\)
+            \)},
+          {\(\(CvCalculation[\ equationElements, 
+              Tges\ , \ \[CapitalDelta]t\ , \ \[CapitalDelta]Estart\ , \ \
+\[CapitalDelta]Eend\ \ , potVar]\)\(\n\)\(\n\)\(\n\)\(\n\)\(\n\)\(\n\)\(\n\)
+            \), \(CvCalculation[EquationDataTransientCV, \ 
+                  totalTime, \ \[CapitalDelta]t, \ startValue, \ endValue, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ and\ the\ \
+full\ simulation\ time\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue, \ 
+            extends\ to\ endValue\ and\ returns\ again\ to\ startValue . \ 
+                
+                The\ loop\ is\ divided\ into\ totalTime/\[CapitalDelta]t\ \
+equal\ steps . \ 
+                Also\ see\ EquationDataTransient\ and\ \
+\(\(EquationDataTransientCV\)\(.\)\(\n\)\)\)},
+          {\(CvMultistepCalculation[
+              equationElements, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend}, { ... },  ... }, \ \ potVar\ \
+]\), \(CvMultistepCalculation[
+                  EquationDataTransientCV, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend} .. }, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ \((the\ \
+value\ of\ \[CapitalDelta]t\ should\ be\ equal\ the\ value\ used\ for\ \
+\[CapitalDelta]t\ in\ CvCalculation\ )\)\ and\ the\ full\ simulation\ time\ \
+of\ one\ step\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue\ and\ extends\ to\
+\ endValue . \ 
+                  The\ simulation\ is\ divided\ into\ totalTime/\
+\[CapitalDelta]t\ equal\ steps . \ To\ simulate\ a\ full\ standart\ cv - 
+              loop\ you\ need\ two\ sublists, \ 
+            where\ \[CapitalDelta]Eend\ of\ sublist\ 1\ is\ equal\ \
+\[CapitalDelta]Estart\ of\ sublist\ 2. \ Also\ see\ EquationDataTransient\ \
+and\ \(\(EquationDataTransientCV\)\(.\)\(\n\)\)\)},
+          {\(\(\ \)\(\(CurrentFunction\ [\ elektrode, \ easymeshData, \ 
+              concDistribution\ ]\)\(\n\)\(\n\)\(\n\)
+            \)\), \(calculates\ the\ current\ on\ the\ electrode\ for\ every\ \
+timestep . \ 
+                The\ arguments\ are\ the\ boundary\ tag\ for\ the\ electrode\ \
+boundary, \ the\ data\ generated\ by\ ' 
+              ReadEasymesh'\ and\ the\ output\ of\ either\ ' 
+              SteadyStateCalculation', \ \(\('\) \(TransientCalculation'\)\(\ \
+\)\(or\ '\) \(\(CvCalculation'\)\(.\)\)\)\)}
+          },
+        GridFrame->True,
+        ColumnLines->True],
+      "DefinitionBox"]], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+This example will show a steady-state-, a transient- and a \
+CV-simulation \
+\>", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["Initialisation", "SubsubsectionIcon"],
+
+Cell[BoxData[{
+    \(\(\(initialConcentrations = {\ 1, 0\ };\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(totalTime = 15;\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(\[CapitalDelta]t = 1;\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(Dif = {\ 1, 1};\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(neumannBoundaryValues = {{{glas, 0}}, {{symmetryAxis, 
+              0}}};\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(dirichletBoundaryValues = {\ {solution, {1, 2}, {1, 
+              0}}, {sample, {1, 2}, {1, 0}}\ };\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(electrodeReactionValues = {{\ \ \ electrode, \ 1, \ 
+            2, \ \ \ Exp[ .5*1*9.648456*10^7 \((3 - 
+                      1)\)/\((8314*273.15)\)]\ , \ \ Exp[\(-\(( \
+.5*1*9.648456*10^7 \((3 - 1)\)/\((8314*273.15)\))\)\)]\ \ \ }};\)\)}], "Input",\
+
+  CellLabel->"In[23]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Additional Geometry", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(emGeometryData = 
+        GeometryFunction2DAxisSymmetric\ [\ meshData\ ];\)\)], "Input",
+  CellLabel->"In[30]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["SteadyStateCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(\(equationSystemSteady = 
+        EquationsystemSteadyState2DAxisSymmetric\ [\ emGeometryData, \ 
+          meshData, \ Dif, \ initialConcentrations, \ 
+          neumannBoundaryValues, \ electrodeReactionValues, \ 
+          dirichletBoundaryValues\ ];\)\)], "Input",
+  CellLabel->"In[31]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionSteady = \ 
+        SteadyStateCalculation\ [\ equationSystemSteady\ ];\)\)], "Input",
+  CellLabel->"In[32]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(currentSteady = 
+      CurrentFunction2DAxisSymmetric\ [\ electrode, \ meshData, \ 
+        concDistributionSteady\ ]\)], "Input",
+  CellLabel->"In[33]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["TransientCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(Timing[\(equationSystemTrans = 
+          EquationsystTransient2DAxisSymmetric\ [emGeometryData, \ 
+            meshData, \ Dif, \ \[CapitalDelta]t, \ initialConcentrations, \ 
+            neumannBoundaryValues, \ electrodeReactionValues, \ 
+            dirichletBoundaryValues\ ];\)]\)], "Input",
+  CellLabel->"In[34]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(Timing[\(concDistributionTrans = 
+          TransientCalculation\ [\ equationSystemTrans, \ 
+            totalTime, \ \[CapitalDelta]t\ ];\)]\)], "Input",
+  CellLabel->"In[35]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(Timing[\(currentTrans = 
+          CurrentFunction2DAxisSymmetric\ [\ electrode, \ meshData, \ 
+            concDistributionTrans\ ];\)]\)], "Input",
+  CellLabel->"In[36]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["CVCalculation", "SubsubsectionIcon"],
+
+Cell["\<\
+System of equations. Special form of 'electrodeReactionValues'. The \
+potential is variable.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(cvElectrodeReactionValues = {{electrode, 1, 2, 
+            Exp[ .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\)], 
+            Exp[\(-\(( .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\))\)\)]}};\)\)], "Input",
+  CellLabel->"In[37]:="],
+
+Cell[BoxData[
+    \(Timing[\(equationSystemCV = 
+          EquationsystTransient2DAxisSymmetric\ [emGeometryData, \ 
+            meshData, \ Dif, \ \[CapitalDelta]t, \ initialConcentrations, \ 
+            neumannBoundaryValues, \ cvElectrodeReactionValues, \ 
+            dirichletBoundaryValues\ ];\)]\)], "Input",
+  CellLabel->"In[38]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(Timing[\(concDistributionCV = 
+          CvCalculation[\ equationSystemCV, 10\ , \ 0.2\ , \ \(-0.5\)\ , \ 
+            0.5, \ \ \[CapitalDelta]E];\)]\)], "Input",
+  CellLabel->"In[39]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(Timing[\(currentCV = 
+          CurrentFunction2DAxisSymmetric\ [\ electrode, \ meshData, \ 
+            concDistributionCV\ ];\)]\)], "Input",
+  CellLabel->"In[40]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plotting", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["Listplot", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(ListPlot[currentTrans];\)\)], "Input",
+  CellLabel->"In[41]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Feldplot", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(Feldplot[meshData\ , \ concDistributionTrans\ , \ 5\ ]\)], "Input",
+  CellLabel->"In[42]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["CVPlot", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(plotData = CVPlotData[\ currentCV\ ];\)\)], "Input",
+  CellLabel->"In[43]:="],
+
+Cell[BoxData[
+    \(\(MultipleListPlot[\ plotData];\)\)], "Input",
+  CellLabel->"In[44]:="]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell["3D simulation Voronoi based", "Section",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Grid generation and visualization", \
+"SubsectionIcon"]], "SubsectionIcon"],
+
+Cell[BoxData[
+    StyleBox[GridBox[{
+          {\(ReadAnsysNodefile\ [\ 
+              fileName\ ]\), \(ReadAnsysNodefile[\ 
+                fileName\ ]\ attempts\ to\ read\ an\ Ansys\ node\ output\ \
+file\ and, \ if\ successful, \ 
+            returns\ an\ object\ of\ the\ type\ AnsysNodeData . \ 
+                The\ list\ contains\ an\ entry\ for\ each\ of\ the\ nodes\ of\
+\ the\ mesh . \ 
+                Each\ entry\ is\ a\ list\ with\ the\ following\ \(structure : \
+\ \(\({nodeNumber, \ xCoordinate, \ yCoordinate, \ zCoordinate, \ 
+                    nodeTag}\)\(.\)\)\)\)},
+          {\(ReadAnsisElementFile\ [\ 
+              fileName\ ]\), \(ReadAnsisElementFile[\ 
+                fileName\ ]\ attempts\ to\ read\ an\ Ansys\ element\ output\ \
+file\ and, \ if\ successful, \ 
+            returns\ an\ object\ of\ the\ type\ AnsysElementData . \ 
+                The\ list\ contains\ an\ entry\ for\ each\ of\ the\ elements\ \
+of\ the\ mesh . \ 
+                Each\ entry\ is\ a\ list\ with\ the\ following\ \(structure : \
+\ \(\({elementNumber, \ node1, \ node2, \ node3, \ node4, \ 
+                    elementTag}\)\(.\)\)\)\)},
+          {\(WireFrameMeshWithBCNodes\ [\ 
+              Ansysdata\ ]\), \(WireFrameMeshWithBCNodes[\ 
+                  Ansysdata\ ]\ plots\ a\ 3  
+                D\ mesh\ using\ the\ data\ read\ from\ an\ Ansys - 
+              generated\ file . \ 
+                  Boundary\ nodes\ whose\ tag\ is\ not\ equal\ to\ zero\ \
+\((tag\  =!= \ 0)\)\ are\ \(\(highlighted\)\(.\)\)\)},
+          {\(WireFrameMeshWitRotation\ [\ 
+              Ansysdata\ ]\), \(WireFrameMeshWithRotation[\ 
+                  Ansysdata\ ]\ plots\ a\ 3  
+                D\ mesh\ using\ the\ data\ read\ from\ an\ Ansys - 
+              generated\ file . \ 
+                  The\ plot\ allows\ real\ time\ \(\(rotations\)\(.\)\)\)}
+          },
+        GridFrame->True,
+        ColumnLines->True],
+      "DefinitionBox",
+      FontSize->12]], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["This example will show an area as used for a SECM simulation", \
+"SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["The Area generation by Ansys", "SubsubsectionIcon"],
+
+Cell["\<\
+See Ansys script. The area is discretized with tetrahedral elements \
+( named \"solid 70\" )\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Import Ansys data", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["reed the data of all nodes", "Text"],
+
+Cell[BoxData[
+    \(\(ansysNodeData = 
+        ReadAnsysNodefile[\ 
+          ToFileName[{"\<Imtek\>", "\<IMSData\>", "\<SECM\>"}, \
+"\<smal_d_10_rg_10.nod\>"]\ ];\)\)], "Input",
+  CellLabel->"In[45]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["reed the data of all elements", "Text"],
+
+Cell[BoxData[
+    \(\(ansysElementData = 
+        ReadAnsisElementFile[\ 
+          ToFileName[{"\<Imtek\>", "\<IMSData\>", "\<SECM\>"}, \
+"\<smal_d_10_rg_10.elm\>"]\ ];\)\)], "Input",
+  CellLabel->"In[46]:="]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["combines the node and element data to one set", "SubsubsectionIcon"],
+
+Cell[BoxData[
+    \(\(ansysdata = {ansysNodeData, ansysElementData};\)\)], "Input",
+  CellLabel->"In[47]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plot the mesh", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["includes boundary nodes", "Text"],
+
+Cell[BoxData[
+    \(WireFrameMeshWithBCNodes[ViewPoint -> {\(-0.821\), \ 5.988, \ 3.660}, 
+      ansysdata]\)], "Input",
+  CellLabel->"In[48]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["includes real time rotation", "Text"],
+
+Cell[BoxData[
+    \(WireFrameMeshWitRotation[ViewPoint -> {\(-0.821\), \ 5.988, \ 3.660}, 
+      ansysdata]\)], "Input",
+  CellLabel->"In[57]:="]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[" Run The Simulation", "SubsectionIcon"],
+
+Cell[BoxData[
+    StyleBox[GridBox[{
+          {
+            "AnsysElementGeometryFunction3D", \
+\("AnsysElementGeometryFunction3D[AnsysData] takes as argument AnsysData and \
+returns a data array of the type GeometryData3D. It contains all geometry \
+data that is necessary to describe a 3D Voronoi mesh. Also see \
+GeometryData3D."\)},
+          {
+            "GeometryTestForVoronoi3D", \
+\(\("GeometryTestForVoronoi3D[AnsysData, GeometryData3D] tests whether the \
+tetrahedral elements of the input mesh are truly Voronoi elements."\)\(\ \)\(\
+\n\)
+            \)},
+          {
+            "AnsysEquationSystemSteadyState3D", \
+\(EquationsystTransientAxisSymmetric[GeometryData, \ EasymeshData, \ 
+                DifusionCoefficient, \ \[CapitalDelta]t, \ 
+                InitialConcentrations, \ NeumannBoundaryValues, \ 
+                ElectrodeReactionValues, \ 
+                DirichletBoundaryValues]\ returns\ EquationDataTransient\ \
+which\ contains\ the\ components\ of\ a\ linear\ transient\ matrix\ equation, \
+\ the\ stiffness\ matrix, \ the\ right\ hand\ side\ vector, \ 
+            a\ vector\ with\ the\ initial\ concentrations\ and\ an\ \
+additional\ vector\ with\ the\ volumes\ of\ the\ Voronoi\ cells . \ 
+                The\ matrix\ E\ has\ sparse\ form . \ 
+                Also\ see\ GeometryData, \ EasymeshData, \ 
+            DiffusionCoefficient, \ InitialConcentrations, \ 
+            NeumannBoundaryValues, \ ElectrodeReactionValues, \ 
+            DirichletBoundaryValues, \ \(\(EquationDataTransient\)\(.\)\(\n\)\
+\)\)},
+          {\(\(AnsysEquationSystemTrans3D\)\(\n\)
+            \), \("AnsysEquationSystemSteadyState3D[GeometryData3D, \
+AnsysData, DiffusionCoefficient, ElectrodeReactionValues, \
+DirichletBoundaryValues,InitialConcentrations] returns \
+EquationDataSteadyState which contains two components of a linear steady \
+state matrix equation, the stiffness matrix and the right hand side vector. \
+The matrix E has sparse form. Also see GeometryData3D, AnsysData, \
+DiffusionCoefficient, InitialConcentrations, ElectrodeReactionValues, \
+DirichletBoundaryValues, EquationDataSteadyState."\)},
+          {\(SteadyStateCalculation\ [\ 
+              glSystSteadyState\ ]\), \(SteadyStateCalculation[
+                EquationDataSteadyState]\ solves\ the\ sparse\ linear\ system\
+\ described\ by\ EquationDataSteadyState . \ 
+                It\ returns\ a\ vector\ of\ concentrations . \ 
+                Also\ see\ \(\(EquationDataSteadyState\)\(.\)\(\n\)\)\)},
+          {\(TransientCalculation\ [\ glSystTransient, \ 
+              Ttotal, \ \[CapitalDelta]t\ ]\), \
+\(\("TransientCalculation[EquationDataTransient, totalTime, \[CapitalDelta]t] \
+solves a time dependend sparse linear system. The timesteps are of the size \
+\[CapitalDelta]t and the full simulation time is specified by totalTime.  The \
+function returns a list with vectors of concentrations. Also see \
+EquationDataTransient."\)\(\n\)
+            \)},
+          {\(CvCalculation[\ equationElements, 
+              Tges\ , \ \[CapitalDelta]t\ , \ \[CapitalDelta]Estart\ , \ \
+\[CapitalDelta]Eend\ \ , 
+              potVar\ ]\), \(CvCalculation[EquationDataTransientCV, \ 
+                  totalTime, \ \[CapitalDelta]t, \ startValue, \ endValue, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ and\ the\ \
+full\ simulation\ time\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue, \ 
+            extends\ to\ endValue\ and\ returns\ again\ to\ startValue . \ 
+                The\ loop\ is\ divided\ into\ totalTime/\[CapitalDelta]t\ \
+equal\ steps . \ 
+                Also\ see\ EquationDataTransient\ and\ \
+\(\(EquationDataTransientCV\)\(.\)\(\n\)\)\)},
+          {\(CvMultistepCalculation[
+              equationElements, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend}, { ... },  ... }, \ \ potVar\ \
+]\), \(CvMultistepCalculation[
+                  EquationDataTransientCV, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend} .. }, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ \((the\ \
+value\ of\ \[CapitalDelta]t\ should\ be\ equal\ the\ value\ used\ for\ \
+\[CapitalDelta]t\ in\ CvCalculation\ )\)\ and\ the\ full\ simulation\ time\ \
+of\ one\ step\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue\ and\ extends\ to\
+\ endValue . \ 
+                  The\ simulation\ is\ divided\ into\ totalTime/\
+\[CapitalDelta]t\ equal\ steps . \ To\ simulate\ a\ full\ standart\ cv - 
+              loop\ you\ need\ two\ sublists, \ 
+            where\ \[CapitalDelta]Eend\ of\ sublist\ 1\ is\ equal\ \
+\[CapitalDelta]Estart\ of\ sublist\ 2. \ Also\ see\ EquationDataTransient\ \
+and\ \(\(EquationDataTransientCV\)\(.\)\)\)},
+          {\(\(\ \)\(CurrentThroughBoxFunction3D\)\), \(calculates\ the\ \
+current\ on\ the\ electrode\ for\ every\ timestep . \ 
+                The\ arguments\ are\ the\ boundary\ tag\ for\ the\ electrode\ \
+boundary, \ the\ data\ generated\ by\ ' 
+              ReadEasymesh'\ and\ the\ output\ of\ either\ ' 
+              SteadyStateCalculation', \ \(\('\) \(TransientCalculation'\)\(\ \
+\)\(or\ '\) \(\(CvCalculation'\)\(.\)\)\)\)}
+          },
+        GridFrame->True,
+        ColumnLines->True],
+      "DefinitionBox"]], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+This example will show a steady-state-, a transient- and a \
+CV-simulation \
+\>", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["Initialisation", "SubsubsectionIcon"],
+
+Cell["Initial and boundary data", "Text"],
+
+Cell[BoxData[{
+    \(\(\(dirichletBoundaryValues = {\ {1, {1, 2}, {1, 
+              0}}\ };\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(diffcoef = {\ 10, 10\ };\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(initialConcentrations = {\ 1, 0\ };\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(electrodeReactionValues = {{\ \ \ 3, \ 1, \ 
+            2, \ \ \ Exp[ .5*1*9.648456*10^7 \((3 - 
+                      1)\)/\((8314*273.15)\)]\ , \ \ Exp[\(-\(( \
+.5*1*9.648456*10^7 \((3 - 
+                          1)\)/\((8314*273.15)\))\)\)]\ \ \ }};\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(electrode = 3;\)\), "\[IndentingNewLine]", 
+    \(\(\(totalTime = 5;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(\[CapitalDelta]t = 0.1;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(neumannBoundaryValues = {{{glas, 0}}, {{symmetryAxis, 
+              0}}};\)\)}], "Input",
+  CellLabel->"In[49]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Additional Geometry", "SubsubsectionIcon"],
+
+Cell["\<\
+takes the  data of the delaunay mesh generated by Ansys and \
+calculates the geometry data for the control volume calculation\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(listOfGeometries = 
+        AnsysElementGeometryFunction3D[ansysdata];\)\)], "Input",
+  CellLabel->"In[57]:="],
+
+Cell["checks the mesh for non Voronoi elements", "Text"],
+
+Cell[BoxData[
+    \(GeometryTestForVoronoi3D[ansysdata, listOfGeometries]\)], "Input",
+  CellLabel->"In[58]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["SteadyStateCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(\(equationsystSteady = 
+        AnsysEquationSystemSteadyState3D[listOfGeometries, ansysdata, 
+          diffcoef, electrodeReactionValues, dirichletBoundaryValues, 
+          initialConcentrations];\)\)], "Input",
+  CellLabel->"In[59]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionSteady3D = \ 
+        SteadyStateCalculation\ [\ equationsystSteady\ ];\)\)], "Input",
+  CellLabel->"In[60]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(current3Dsteady = 
+      CurrentFunction3D[ansysdata, electrode, listOfGeometries, 
+        concDistributionSteady3D]\)], "Input",
+  CellLabel->"In[61]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["TransientCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(\(equationsystTrans3D = 
+        AnsysEquationSystemTrans3D[listOfGeometries, ansysdata, diffcoef, 
+          electrodeReactionValues, dirichletBoundaryValues, 
+          initialConcentrations, \[CapitalDelta]t];\)\)], "Input",
+  CellLabel->"In[62]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionTrans3D = 
+        TransientCalculation\ [\ equationsystTrans3D, \ 
+          totalTime, \ \[CapitalDelta]t\ ];\)\)], "Input",
+  CellLabel->"In[63]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(\(currentTrans3Dtrans = 
+        CurrentFunction3D[ansysdata, electrode, listOfGeometries, 
+          concDistributionTrans3D];\)\)], "Input",
+  CellLabel->"In[64]:="],
+
+Cell["plot", "Text"],
+
+Cell[BoxData[
+    \(\(ListPlot[currentTrans3Dtrans];\)\)], "Input",
+  CellLabel->"In[65]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["CVCalculation", "SubsubsectionIcon"],
+
+Cell["\<\
+System of equations. Spetial form of 'ElectrodeReactionValues'. The \
+potential is variable.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(cvElectrodeReactionValues = {{electrode, 1, 2, 
+            Exp[ .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\)], 
+            Exp[\(-\(( .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\))\)\)]}};\)\)], "Input",
+  CellLabel->"In[66]:="],
+
+Cell[BoxData[
+    \(\(equationSystemCV3D = 
+        AnsysEquationSystemTrans3D[listOfGeometries, ansysdata, diffcoef, 
+          cvElectrodeReactionValues, dirichletBoundaryValues, 
+          initialConcentrations, \[CapitalDelta]t];\)\)], "Input",
+  CellLabel->"In[67]:="],
+
+Cell["Solving", "Text"],
+
+Cell["A simple CV loop", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionCV3D = 
+        CvCalculation[\ equationSystemCV3D, 10\ , \ 0.2\ , \ \(-0.5\)\ , \ 
+          0.5\ \ , \[CapitalDelta]E];\)\)], "Input",
+  CellLabel->"In[68]:="],
+
+Cell["Arbitary number of CV loops", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionCV3DMultistep = 
+        CvMultistepCalculation[
+          equationSystemCV3D, {{10\ , \ 0.1\ , \ \(-1.5\)\ , \ 1.5}, {10\ , \ 
+              0.1\ , \ 1.5\ , \ \(-1.5\)}, {10\ , \ 0.1\ , \ \(-1.5\)\ , \ 
+              1.5}}, \ \ \[CapitalDelta]E\ ];\)\)], "Input",
+  CellLabel->"In[69]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(\(currentTrans3DCVMultistep = 
+        CurrentFunction3D[ansysdata, electrode, listOfGeometries, 
+          concDistributionCV3DMultistep];\)\)], "Input",
+  CellLabel->"In[70]:="],
+
+Cell["CVPlot", "Text"],
+
+Cell[BoxData[
+    \(\(plotData3DCVmultistep = 
+        CVPlotDataMultiList[currentTrans3DCVMultistep, 3];\)\)], "Input",
+  CellLabel->"In[71]:="],
+
+Cell[BoxData[
+    \(\(MultipleListPlot[\ plotData3DCVmultistep, PlotJoined \[Rule] True, 
+        Frame \[Rule] True];\)\)], "Input",
+  CellLabel->"In[72]:="],
+
+Cell[BoxData[
+    \(\(MultipleListPlot[\ {currentTrans3DCVMultistep}, 
+        PlotJoined \[Rule] True, Frame \[Rule] True];\)\)], "Input",
+  CellLabel->"In[73]:="]
+}, Closed]]
+}, Closed]],
+
+Cell["3D simulation McDonald based", "Section",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Grid generation and visualization", \
+"SubsectionIcon"]], "SubsectionIcon"],
+
+Cell["see above \"3D simulation Voronoi based\"", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[" Run a Simulation", "SubsectionIcon"],
+
+Cell["    To run a simulation you need the following functions:", "Text"],
+
+Cell[BoxData[
+    StyleBox[GridBox[{
+          {\(McDonaldGeometryFunction[
+              AnsysData]\), \(\(\ \)\("McDonaldGeometryFunction[AnsysData] \
+takes as argument AnsysData and returns a data array of the type \
+GeometryData3D. It contains all geometry data that is necessary to describe a \
+3D McDonald mesh. Also see GeometryData3D."\)\)},
+          {\(AnsysMcDonaldEquationSystemSteadyState3D[GeometryData3D, \ 
+              AnsysData, \ DiffusionCoefficient, \ ElectrodeReactionValues, \ 
+              DirichletBoundaryValues, 
+              InitialConcentrations]\), \
+\(\("AnsysMcDonaldEquationSystemSteadyState3D[GeometryData3D, AnsysData, \
+DiffusionCoefficient, ElectrodeReactionValues, \
+DirichletBoundaryValues,InitialConcentrations] returns \
+EquationDataSteadyState which contains two components of a linear steady \
+state matrix equation, the stiffness matrix and the right hand side vector. \
+The matrix E has sparse form. Also see GeometryData3D, AnsysData, \
+DiffusionCoefficient, InitialConcentrations, ElectrodeReactionValues, \
+DirichletBoundaryValues, EquationDataSteadyState."\)\(\ \)\)},
+          {
+            "AnsysMcDonaldEquationSystemTrans3D", \
+\("AnsysMcDonaldEquationSystemTrans3D[GeometryData3D, AnsysData, \
+DiffusionCoefficient, ElectrodeReactionValues, \
+DirichletBoundaryValues,InitialConcentrations] returns \
+EquationDataSteadyState which contains two components of a linear steady \
+state matrix equation, the stiffness matrix and the right hand side vector. \
+The matrix E has sparse form. Also see GeometryData3D, AnsysData, \
+DiffusionCoefficient, InitialConcentrations, ElectrodeReactionValues, \
+DirichletBoundaryValues, EquationDataSteadyState."\)},
+          {\(SteadyStateCalculation\ [\ 
+              glSystSteadyState\ ]\), \(SteadyStateCalculation[
+                EquationDataSteadyState]\ solves\ the\ sparse\ linear\ system\
+\ described\ by\ EquationDataSteadyState . \ 
+                It\ returns\ a\ vector\ of\ concentrations . \ 
+                Also\ see\ \(\(EquationDataSteadyState\)\(.\)\(\ \)\)\)},
+          {\(TransientCalculation\ [\ glSystTransient, \ 
+              Ttotal, \ \[CapitalDelta]t\ ]\), \
+\(\("TransientCalculation[EquationDataTransient, totalTime, \[CapitalDelta]t] \
+solves a time dependend sparse linear system. The timesteps are of the size \
+\[CapitalDelta]t and the full simulation time is specified by totalTime.  The \
+function returns a list with vectors of concentrations. Also see \
+EquationDataTransient."\)\(\n\)
+            \)},
+          {\(CvCalculation[\ equationElements, 
+              Tges\ , \ \[CapitalDelta]t\ , \ \[CapitalDelta]Estart\ , \ \
+\[CapitalDelta]Eend\ , \ \ potVar]\), \(CvCalculation[
+                  EquationDataTransientCV, \ totalTime, \ \[CapitalDelta]t, \ 
+                  startValue, \ endValue, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ and\ the\ \
+full\ simulation\ time\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue, \ 
+            extends\ to\ endValue\ and\ returns\ again\ to\ startValue . \ 
+                The\ loop\ is\ divided\ into\ totalTime/\[CapitalDelta]t\ \
+equal\ steps . \ 
+                Also\ see\ EquationDataTransient\ and\ \
+\(\(EquationDataTransientCV\)\(.\)\)\)},
+          {\(CvMultistepCalculation[
+              equationElements, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend}, { ... },  ... }, \ \ potVar\ \
+]\), \(CvMultistepCalculation[
+                  EquationDataTransientCV, {{Tges\ , \ \[CapitalDelta]t\ , \ \
+\[CapitalDelta]Estart\ , \ \[CapitalDelta]Eend} .. }, \ 
+                  potentialVariable]\ solves\ a\ time - 
+              dependent\ sparse\ linear\ system . \ 
+                  The\ timesteps\ are\ of\ size\ \[CapitalDelta]t\ \((the\ \
+value\ of\ \[CapitalDelta]t\ should\ be\ equal\ the\ value\ used\ for\ \
+\[CapitalDelta]t\ in\ CvCalculation\ )\)\ and\ the\ full\ simulation\ time\ \
+of\ one\ step\ is\ specified\ by\ totalTime . \ 
+                  potentialVariable\ is\ the\ name\ of\ the\ variable\ used\ \
+for\ the\ ElectrodeReactionValues\ \((see\ EquationDataTransientCV)\) . \ 
+                  Its\ value\ starts\ with\ the\ startValue\ and\ extends\ to\
+\ endValue . \ 
+                  The\ simulation\ is\ divided\ into\ totalTime/\
+\[CapitalDelta]t\ equal\ steps . \ To\ simulate\ a\ full\ standart\ cv - 
+              loop\ you\ need\ two\ sublists, \ 
+            where\ \[CapitalDelta]Eend\ of\ sublist\ 1\ is\ equal\ \
+\[CapitalDelta]Estart\ of\ sublist\ 2. \ Also\ see\ EquationDataTransient\ \
+and\ \(\(EquationDataTransientCV\)\(.\)\)\)},
+          {\(BoundarynodesFunction[
+              boundaryMarker]\), \(BoundarynodesFunction[
+                boundaryMarker]\ returns\ a\ multi\ dimensional\ list\ with\ \
+node\ data\ belonging\ to\ nodes\ which\ has\ the\ boundary\ tag\ \
+"boundaryMarker" . \ The\ first\ sublist\ contains\ the\ node\ numbers . \ 
+                The\ second\ sublist\ contains\ the\ Coordinates\ of\ the\ \
+nodes . \ 
+                The\ third, \ \(\(fourth\ and\ fifth\ lists\ contain\ the\ \
+sorted\ X\)\(-\)\), Y - \ and\ Z - \ \(\(coordinates\)\(.\)\)\)},
+          {\(\(\ \)\(CurrentThroughBoxFunction3D[fixedNode3D, AnsysData, 
+              GeometryData3D, 
+              concDistribution\ ]\)\), \(CurrentThroughBoxFunction3D[
+              fixedNode3D, AnsysData, GeometryData3D, concDistribution\ ]\)},
+          {\(NodeinFlatFunction[meshData, minVal, maxVal, 
+              koord]\), \(NodeinFlatFunction[meshData, minVal, maxVal, 
+              koord], \ 
+            returns\ a\ list\ with\ nodenumber\ and\ two\ koordinates\ for\ \
+each\ node . \ 
+                  The\ variables\ minVal\ and\ maxVal\ define\ the\ \
+boundaries\ of\ the\ gape\ which\ includes\ the\ nodes . \ 
+                  The\ variable\ koord\ defines\ the\ koordinate\ that\ is\ \
+constant\ \((in\ the\ range\ of\ minVal\ and\ maxVal)\) . \ 
+                  It\ can\ have\ the\ ' values' : \ x, \ y, \ z, \ X, \ 
+            Y\ or\ \(\(Z\)\(.\)\(\ \)\)\)}
+          },
+        GridFrame->True,
+        ColumnLines->True],
+      "DefinitionBox"]], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+ This example will show a steady-state-, a transient- and a \
+CV-simulation \
+\>", "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+
+Cell["Initialisation", "SubsubsectionIcon"],
+
+Cell["Initial and boundary data", "Text"],
+
+Cell[BoxData[{
+    \(\(\(dirichletBoundaryValues = {\ {liquid, {1, 2}, {1, 
+              0}}, \ {sample, {1, 2}, {1, 0}}\ };\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(diffcoef = {\ 10, 10\ };\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(initialConcentrations = {\ 1, 0\ };\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(electrodeReactionValues = {{\ \ \ electrode, \ 1, \ 
+            2, \ \ \ Exp[ .5*1*9.648456*10^7 \((3 - 
+                      1)\)/\((8314*273.15)\)]\ , \ \ Exp[\(-\(( \
+.5*1*9.648456*10^7 \((3 - 
+                          1)\)/\((8314*273.15)\))\)\)]\ \ \ }};\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(liquid = 1;\)\), "\[IndentingNewLine]", 
+    \(\(electrode = 3;\)\), "\[IndentingNewLine]", 
+    \(\(glas = 2;\)\), "\[IndentingNewLine]", 
+    \(\(sample = 4;\)\), "\[IndentingNewLine]", 
+    \(\(totalTime = 5;\)\), "\[IndentingNewLine]", 
+    \(\(\(\[CapitalDelta]t = 0.1;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(neumannBoundaryValues = {{{glas, 0}}, {{symmetryAxis, 
+              0}}};\)\)}], "Input",
+  CellLabel->"In[74]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Additional Geometry", "SubsubsectionIcon"],
+
+Cell["\<\
+takes the  data of the delaunay mesh generated by Ansis and \
+calculates the geometry data for the control volume calculation\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(listOfGeometriesMcDonald = 
+        McDonaldGeometryFunction[ansysdata];\)\)], "Input",
+  CellLabel->"In[85]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["SteadyStateCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(\(equationsystSteadyMcDonald = 
+        AnsysMcDonaldEquationSystemSteadyState3D[listOfGeometriesMcDonald, 
+          ansysdata, diffcoef, electrodeReactionValues, 
+          dirichletBoundaryValues, initialConcentrations];\)\)], "Input",
+  CellLabel->"In[86]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionSteady3DMcDonald = \ 
+        SteadyStateCalculation\ [\ 
+          equationsystSteadyMcDonald\ ];\)\)], "Input",
+  CellLabel->"In[87]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(current3Dsteady = 
+      CurrentFunctionMcDonald3D[ansysdata, electrode, 
+        listOfGeometriesMcDonald, 
+        concDistributionSteady3DMcDonald]\)], "Input",
+  CellLabel->"In[88]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["TransientCalculation", "SubsubsectionIcon"],
+
+Cell["System of equations", "Text"],
+
+Cell[BoxData[
+    \(\(equationsystTrans3DMcDonald = 
+        AnsysMcDonaldEquationSystemTrans3D[listOfGeometriesMcDonald, 
+          ansysdata, diffcoef, electrodeReactionValues, 
+          dirichletBoundaryValues, 
+          initialConcentrations, \[CapitalDelta]t];\)\)], "Input",
+  CellLabel->"In[89]:="],
+
+Cell["Solving", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionTrans3DMcDonald = 
+        TransientCalculation\ [\ equationsystTrans3DMcDonald, \ 
+          totalTime, \ \[CapitalDelta]t\ ];\)\)], "Input",
+  CellLabel->"In[90]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(\(currentTrans3DtransMcDonald = 
+        CurrentFunctionMcDonald3D[ansysdata, electrode, 
+          listOfGeometriesMcDonald, 
+          concDistributionTrans3DMcDonald];\)\)], "Input",
+  CellLabel->"In[91]:="],
+
+Cell["plot", "Text"],
+
+Cell[BoxData[
+    \(\(ListPlot[currentTrans3DtransMcDonald];\)\)], "Input",
+  CellLabel->"In[92]:="]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["CVCalculation", "SubsubsectionIcon"],
+
+Cell["\<\
+System of equations. Spetial form of \
+'ElectrodeReactionValues'\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(cvElectrodeReactionValues = {{electrode, 1, 2, 
+            Exp[ .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\)], 
+            Exp[\(-\(( .5*1*9.648456*10^7 \
+\((\[CapitalDelta]E)\)/\((8314*273.15)\))\)\)]}};\)\)], "Input",
+  CellLabel->"In[93]:="],
+
+Cell[BoxData[
+    \(\(equationSystemCV3DMcDonald = 
+        AnsysMcDonaldEquationSystemTrans3D[listOfGeometriesMcDonald, 
+          ansysdata, diffcoef, cvElectrodeReactionValues, 
+          dirichletBoundaryValues, 
+          initialConcentrations, \[CapitalDelta]t];\)\)], "Input",
+  CellLabel->"In[94]:="],
+
+Cell["Solving", "Text"],
+
+Cell["Arbitary number of CV loops", "Text"],
+
+Cell[BoxData[
+    \(\(concDistributionCV3DMcDonaldMultistep = 
+        CvMultistepCalculation[
+          equationSystemCV3DMcDonald, {{10\ , \ 0.1\ , \ \(-1.5\)\ , \ 
+              1.5}, {10\ , \ 0.1\ , \ 1.5\ , \ \(-1.5\)}, {10\ , \ 
+              0.1\ , \ \(-1.5\)\ , \ 
+              1.5}}, \ \ \[CapitalDelta]E\ ];\)\)], "Input",
+  CellLabel->"In[95]:="],
+
+Cell["Current", "Text"],
+
+Cell[BoxData[
+    \(\(\(currentTrans3DCVMcDonaldmultistep = 
+        CurrentFunctionMcDonald3D[ansysdata, electrode, 
+          listOfGeometriesMcDonald, 
+          concDistributionCV3DMcDonaldMultistep];\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  CellLabel->"In[96]:="],
+
+Cell["CVPlot", "Text"],
+
+Cell[BoxData[
+    \(\(plotData3Dmultistep = 
+        CVPlotDataMultiList[currentTrans3DCVMcDonaldmultistep, 
+          3];\)\)], "Input",
+  CellLabel->"In[97]:="],
+
+Cell[BoxData[
+    \(\(MultipleListPlot[\ plotData3Dmultistep, PlotJoined \[Rule] True, 
+        Frame \[Rule] True];\)\)], "Input",
+  CellLabel->"In[98]:="],
+
+Cell[BoxData[
+    \(\(MultipleListPlot[\ {currentTrans3DCVMcDonaldmultistep}, 
+        PlotJoined \[Rule] True, Frame \[Rule] True];\)\)], "Input",
+  CellLabel->"In[99]:="]
+}, Closed]]
+}, Closed]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->None,
+WindowToolbars->"EditBar",
+CellGrouping->Manual,
+WindowSize->{927, 702},
+WindowMargins->{{Automatic, 21}, {1, Automatic}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PaperSize"->{597.562, 842.375},
+"PaperOrientation"->"Portrait",
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "home", "koziol", \
+"privat", "math", "1linear"}, "SECMhelp.nb.ps", CharacterEncoding -> \
+"iso8859-1"],
+"Magnification"->1},
+SpellingDictionaries->{"CorrectWords"->{
+  "Darius", "Koziol", "Korvink", "Alte", "Landstrasse", 
+    "R\[UDoubleDot]schlikon", "Georges", "Koehler", "Allee", "Freiburg", "nb",
+     "Easymesh"}},
+Magnification->1,
+StyleDefinitions -> "HelpBrowser.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 17787, 226, 98, "Author"],
+Cell[19544, 279, 641, 19, 38, InheritFromParent,
+  Evaluatable->False],
+Cell[20188, 300, 60, 1, 108, "Title"],
+Cell[20251, 303, 1248, 25, 350, "Author"],
+Cell[21502, 330, 125, 3, 26, "Input",
+  InitializationCell->True],
+Cell[21630, 335, 81, 1, 82, "Section"],
+
+Cell[CellGroupData[{
+Cell[21736, 340, 99, 1, 40, "SubsectionIcon"],
+Cell[21838, 343, 384, 5, 66, "SubsectionIcon"],
+Cell[22225, 350, 3662, 68, 597, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25924, 423, 112, 3, 20, "SubsubsectionIcon"],
+Cell[26039, 428, 267, 5, 40, "Text"],
+Cell[26309, 435, 44, 0, 40, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[26378, 439, 37, 0, 24, "SubsubsectionIcon"],
+Cell[26418, 441, 24808, 615, 406, 10129, 428, "GraphicsData", "PostScript", \
+"Graphics"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[51263, 1061, 39, 0, 20, "SubsubsectionIcon"],
+Cell[51305, 1063, 279, 6, 90, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[51621, 1074, 35, 0, 20, "SubsubsectionIcon"],
+Cell[51659, 1076, 396, 6, 90, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52092, 1087, 37, 0, 20, "SubsubsectionIcon"],
+Cell[52132, 1089, 689, 16, 90, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52858, 1110, 43, 0, 20, "SubsubsectionIcon"],
+Cell[52904, 1112, 236, 4, 58, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53177, 1121, 36, 0, 20, "SubsubsectionIcon"],
+Cell[53216, 1123, 180, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53433, 1132, 42, 0, 20, "SubsubsectionIcon"],
+Cell[53478, 1134, 255, 5, 58, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53770, 1144, 43, 0, 20, "SubsubsectionIcon"],
+Cell[53816, 1146, 193, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54046, 1155, 41, 0, 20, "SubsubsectionIcon"],
+Cell[54090, 1157, 101, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54228, 1164, 46, 0, 20, "SubsubsectionIcon"],
+Cell[54277, 1166, 104, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54418, 1173, 163, 5, 20, "SubsubsectionIcon"],
+Cell[54584, 1180, 184, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54805, 1189, 46, 0, 20, "SubsubsectionIcon"],
+Cell[54854, 1191, 87, 2, 26, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54990, 1199, 45, 0, 30, "SubsectionIcon"],
+Cell[55038, 1201, 73, 0, 24, "Text"],
+Cell[55114, 1203, 6767, 114, 1177, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[61918, 1322, 112, 3, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[62055, 1329, 43, 0, 24, "SubsubsectionIcon"],
+Cell[62101, 1331, 879, 20, 234, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63017, 1356, 48, 0, 20, "SubsubsectionIcon"],
+Cell[63068, 1358, 136, 3, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63241, 1366, 51, 0, 20, "SubsubsectionIcon"],
+Cell[63295, 1368, 35, 0, 24, "Text"],
+Cell[63333, 1370, 313, 6, 42, "Input"],
+Cell[63649, 1378, 23, 0, 24, "Text"],
+Cell[63675, 1380, 149, 3, 26, "Input"],
+Cell[63827, 1385, 23, 0, 24, "Text"],
+Cell[63853, 1387, 175, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[64065, 1396, 49, 0, 20, "SubsubsectionIcon"],
+Cell[64117, 1398, 35, 0, 24, "Text"],
+Cell[64155, 1400, 342, 6, 42, "Input"],
+Cell[64500, 1408, 23, 0, 24, "Text"],
+Cell[64526, 1410, 199, 4, 26, "Input"],
+Cell[64728, 1416, 23, 0, 24, "Text"],
+Cell[64754, 1418, 194, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[64985, 1427, 42, 0, 20, "SubsubsectionIcon"],
+Cell[65030, 1429, 116, 3, 24, "Text"],
+Cell[65149, 1434, 285, 6, 42, "Input"],
+Cell[65437, 1442, 341, 6, 42, "Input"],
+Cell[65781, 1450, 23, 0, 24, "Text"],
+Cell[65807, 1452, 207, 4, 26, "Input"],
+Cell[66017, 1458, 23, 0, 24, "Text"],
+Cell[66043, 1460, 188, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[66268, 1469, 37, 0, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[66330, 1473, 37, 0, 24, "SubsubsectionIcon"],
+Cell[66370, 1475, 85, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[66492, 1482, 37, 0, 20, "SubsubsectionIcon"],
+Cell[66532, 1484, 112, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[66681, 1491, 35, 0, 20, "SubsubsectionIcon"],
+Cell[66719, 1493, 99, 2, 26, "Input"],
+Cell[66821, 1497, 91, 2, 26, "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+Cell[66951, 1504, 81, 1, 56, "Section"],
+
+Cell[CellGroupData[{
+Cell[67057, 1509, 99, 1, 40, "SubsectionIcon"],
+Cell[67159, 1512, 1977, 39, 321, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[69173, 1556, 91, 1, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[69289, 1561, 57, 0, 24, "SubsubsectionIcon"],
+Cell[69349, 1563, 116, 3, 24, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[69502, 1571, 46, 0, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[69573, 1575, 42, 0, 24, "Text"],
+Cell[69618, 1577, 203, 5, 26, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[69858, 1587, 45, 0, 24, "Text"],
+Cell[69906, 1589, 209, 5, 26, "Input"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[70164, 1600, 74, 0, 20, "SubsubsectionIcon"],
+Cell[70241, 1602, 108, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[70386, 1609, 42, 0, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[70453, 1613, 39, 0, 24, "Text"],
+Cell[70495, 1615, 145, 3, 26, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[70677, 1623, 43, 0, 24, "Text"],
+Cell[70723, 1625, 145, 3, 26, "Input"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[70929, 1635, 45, 0, 30, "SubsectionIcon"],
+Cell[70977, 1637, 5915, 103, 1135, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[76929, 1745, 112, 3, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[77066, 1752, 43, 0, 24, "SubsubsectionIcon"],
+Cell[77112, 1754, 41, 0, 24, "Text"],
+Cell[77156, 1756, 1012, 22, 250, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[78205, 1783, 48, 0, 20, "SubsubsectionIcon"],
+Cell[78256, 1785, 149, 3, 24, "Text"],
+Cell[78408, 1790, 132, 3, 26, "Input"],
+Cell[78543, 1795, 56, 0, 24, "Text"],
+Cell[78602, 1797, 111, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[78750, 1804, 51, 0, 20, "SubsubsectionIcon"],
+Cell[78804, 1806, 35, 0, 24, "Text"],
+Cell[78842, 1808, 259, 5, 42, "Input"],
+Cell[79104, 1815, 23, 0, 24, "Text"],
+Cell[79130, 1817, 149, 3, 26, "Input"],
+Cell[79282, 1822, 23, 0, 24, "Text"],
+Cell[79308, 1824, 175, 4, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[79520, 1833, 49, 0, 20, "SubsubsectionIcon"],
+Cell[79572, 1835, 35, 0, 24, "Text"],
+Cell[79610, 1837, 272, 5, 42, "Input"],
+Cell[79885, 1844, 23, 0, 24, "Text"],
+Cell[79911, 1846, 189, 4, 26, "Input"],
+Cell[80103, 1852, 23, 0, 24, "Text"],
+Cell[80129, 1854, 187, 4, 26, "Input"],
+Cell[80319, 1860, 20, 0, 24, "Text"],
+Cell[80342, 1862, 92, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[80471, 1869, 42, 0, 20, "SubsubsectionIcon"],
+Cell[80516, 1871, 116, 3, 24, "Text"],
+Cell[80635, 1876, 285, 6, 42, "Input"],
+Cell[80923, 1884, 273, 5, 42, "Input"],
+Cell[81199, 1891, 23, 0, 24, "Text"],
+Cell[81225, 1893, 32, 0, 24, "Text"],
+Cell[81260, 1895, 199, 4, 26, "Input"],
+Cell[81462, 1901, 43, 0, 24, "Text"],
+Cell[81508, 1903, 327, 6, 42, "Input"],
+Cell[81838, 1911, 23, 0, 24, "Text"],
+Cell[81864, 1913, 199, 4, 26, "Input"],
+Cell[82066, 1919, 22, 0, 24, "Text"],
+Cell[82091, 1921, 145, 3, 26, "Input"],
+Cell[82239, 1926, 158, 3, 26, "Input"],
+Cell[82400, 1931, 164, 3, 26, "Input"]
+}, Closed]]
+}, Closed]],
+Cell[82591, 1938, 82, 1, 56, "Section"],
+
+Cell[CellGroupData[{
+Cell[82698, 1943, 99, 1, 40, "SubsectionIcon"],
+Cell[82800, 1946, 57, 0, 24, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[82894, 1951, 43, 0, 30, "SubsectionIcon"],
+Cell[82940, 1953, 73, 0, 24, "Text"],
+Cell[83016, 1955, 6473, 109, 1125, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[89526, 2069, 113, 3, 20, "SubsubsectionIcon"],
+
+Cell[CellGroupData[{
+Cell[89664, 2076, 43, 0, 24, "SubsubsectionIcon"],
+Cell[89710, 2078, 41, 0, 24, "Text"],
+Cell[89754, 2080, 1166, 24, 282, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[90957, 2109, 48, 0, 20, "SubsubsectionIcon"],
+Cell[91008, 2111, 149, 3, 24, "Text"],
+Cell[91160, 2116, 134, 3, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[91331, 2124, 51, 0, 20, "SubsubsectionIcon"],
+Cell[91385, 2126, 35, 0, 24, "Text"],
+Cell[91423, 2128, 283, 5, 42, "Input"],
+Cell[91709, 2135, 23, 0, 24, "Text"],
+Cell[91735, 2137, 176, 4, 26, "Input"],
+Cell[91914, 2143, 23, 0, 24, "Text"],
+Cell[91940, 2145, 208, 5, 42, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[92185, 2155, 49, 0, 20, "SubsubsectionIcon"],
+Cell[92237, 2157, 35, 0, 24, "Text"],
+Cell[92275, 2159, 307, 6, 42, "Input"],
+Cell[92585, 2167, 23, 0, 24, "Text"],
+Cell[92611, 2169, 205, 4, 26, "Input"],
+Cell[92819, 2175, 23, 0, 24, "Text"],
+Cell[92845, 2177, 230, 5, 42, "Input"],
+Cell[93078, 2184, 20, 0, 24, "Text"],
+Cell[93101, 2186, 100, 2, 26, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[93238, 2193, 42, 0, 20, "SubsubsectionIcon"],
+Cell[93283, 2195, 88, 3, 24, "Text"],
+Cell[93374, 2200, 285, 6, 42, "Input"],
+Cell[93662, 2208, 308, 6, 42, "Input"],
+Cell[93973, 2216, 23, 0, 24, "Text"],
+Cell[93999, 2218, 43, 0, 24, "Text"],
+Cell[94045, 2220, 358, 7, 42, "Input"],
+Cell[94406, 2229, 23, 0, 24, "Text"],
+Cell[94432, 2231, 274, 6, 58, "Input"],
+Cell[94709, 2239, 22, 0, 24, "Text"],
+Cell[94734, 2241, 162, 4, 26, "Input"],
+Cell[94899, 2247, 156, 3, 26, "Input"],
+Cell[95058, 2252, 172, 3, 26, "Input"]
+}, Closed]]
+}, Closed]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

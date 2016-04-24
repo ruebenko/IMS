@@ -1,0 +1,553 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13306,        387]*)
+(*NotebookOutlinePosition[     13969,        410]*)
+(*  CellTagsIndexPosition[     13925,        406]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Ply2 \[Dash] Converting Ply2 Descriptions to Graphics3D\
+\>", \
+"Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Ply2 . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : Jan\ G . \ Korvink\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 10.01  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        Conversion\ of\ Ply2\ format\ to\ Graphics3D\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          4.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(Imports\ Ply2\ files\ and\ returns\ result\
+\ as\ Graphics3D\ \(\(object\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\  < 2005 > \  < 
+        Jan\ G . \ 
+            Korvink > \ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Background data about the file format; example", "Subsubsection"],
+
+Cell["\<\
+
+The PLY2 file format is simple and easy to read. The following is from the \
+web page:
+http://www.mpi-sb.mpg.de/~shin/Research/PLYformat/PLYformat.html\
+\>", "Text"],
+
+Cell["\<\
+The PLY2 format is a file format in implementation of the 3D \
+triangle meshes for approximation of the smooth surfaces. The PLY2 format is \
+constructed by following rules:
+First Line: A number of vertices (Integer).
+Second Line: A number of triangles (Integer).
+After Third: A set of vertex coordinates (Double Double Double).
+After vertex coordinates: A set of face informations which is fromed by the \
+three vertex IDs (3 Integer Integer Integer).\
+\>", "Text"],
+
+Cell["Here is an example:", "Text"],
+
+Cell[BoxData[
+    \(ply2cube = "\<8\n12\n0 0 0\n1 0 0\n0 1 0\n1 1 0\n0 0 1\n1 0 1\n0 1 1\n1 \
+1 1\n3 0 1 3\n3 0 2 3\n3 0 4 6\n3 0 2 6\n3 0 1 5\n3 0 4 5\n3 2 6 3\n3 6 7 3\n\
+3 1 3 5\n3 3 5 7\n3 5 6 7\n3 4 5 6\n\>"\)], "Input",
+  Evaluatable->False]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Interfaces`Ply2`\>"];\)\)\
+\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\(Ply2ToGraphics3D::usage\)\(\ \
+\)\(=\)\(\ \)\(\[IndentingNewLine]\)\("\<Ply2ToGraphics3D[ ply2filename ] \
+returns the Graphics3D version of the object in the ply2 file\>"\)\(\ \
+\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ \(MakeLine[\ 
+            a_?PointQ, \ b_?PointQ\ ]\  := \ 
+          Line[\ a, \ b\ ];\)\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Options[\ myFunctio\ ]\  = \ {\ 
+          myOptionName\  \[Rule] \ 
+            myValue\ }\ *) \)\(\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]Unprotect[\ Line\ ]; \[IndentingNewLine]Line\  /: \ 
+        GetLineStart[\ Line[\ a_, \ b_\ ]\ ]\  := \ 
+        a; \[IndentingNewLine]Line\  /: \ 
+        GetLineEnd[\ Line[\ a_, \ b_\ ]\ ]\  := \ 
+        b; \[IndentingNewLine]Protect[\ 
+        Line\ ];\[IndentingNewLine]*) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]Unprotect[\ Line\ ]; \[IndentingNewLine]Line\  /: \ 
+        LineQ[\ Line[\ a_, \ b_\ ]\ ]\  := \ 
+        True; \[IndentingNewLine]Protect[\ 
+        Line\ ]; \[IndentingNewLine]LineQ[\ ___\ ]\  := \ 
+        False;\[IndentingNewLine]*) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(Ply2ToGraphics3D[
+          filename_String] := 
+        Module[{f, npoints, ntriangles, coords, 
+            triangles}, \[IndentingNewLine]\[IndentingNewLine]f = 
+            OpenRead[filename]; \[IndentingNewLine]{npoints, ntriangles} = 
+            Read[f, {Number, Number}]; \[IndentingNewLine]coords = 
+            ReadList[f, {Real, Real, Real}, 
+              npoints]; \[IndentingNewLine]triangles = 
+            ReadList[f, {Number, Number, Number, Number}, 
+              ntriangles]; \[IndentingNewLine]Close[
+            f]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Note : \ Ply2\ files\ use\ 0\ based\ \(addressing : \ {0, 1, 
+                        2,  ... } . \ 
+                      Mathematica\ is\ 1\ \(based : \ {1, 2, 
+                        3,  ... }\)\)\[IndentingNewLine]*) \[IndentingNewLine]\
+Graphics3D[{EdgeForm[], \(Polygon[
+                    Join[#, {#[\([1]\)]}]] &\) /@ \((\(coords[\([Drop[#, 
+                              1] + {1, 1, 1}]\)] &\) /@ 
+                    triangles)\)}]\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]Unprotect[\ 
+        Graphics\ ]; \[IndentingNewLine]\[IndentingNewLine]Graphics[\ 
+          aLineList : {_Line\  .. }\ , \ 
+          options___\ ] := \[IndentingNewLine]\ 
+        Graphics[\ 
+          Line[\ \[IndentingNewLine]\(Through[\ \(List[\ GetPointX, \ 
+                      GetPointY\ ]\)[\ #\ ]\ ]\  &\)\  /@ 
+              Flatten[\ \[IndentingNewLine]\(Through[\ \(List[GetLineStart, \ 
+                          GetLineEnd]\)[\ #\ ]\ ]\  &\)\  /@ \ 
+                  aLineList\[IndentingNewLine]]\[IndentingNewLine]\ ], \ 
+          options\[IndentingNewLine]]\ ; \[IndentingNewLine]\
+\[IndentingNewLine]Protect[\ 
+        Graphics\ ];\[IndentingNewLine]*) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{800, 383},
+WindowMargins->{{Automatic, 76}, {Automatic, 146}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 85, 3, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1886, 60, 59, 1, 74, "Section",
+  InitializationCell->True],
+Cell[1948, 63, 1192, 20, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3165, 87, 63, 1, 28, "Subsubsection",
+  InitializationCell->True],
+Cell[3231, 90, 534, 8, 123, "Input",
+  InitializationCell->True],
+Cell[3768, 100, 1874, 32, 459, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5679, 137, 71, 0, 22, "Subsubsection"],
+Cell[5753, 139, 176, 5, 62, "Text"],
+Cell[5932, 146, 476, 9, 110, "Text"],
+Cell[6411, 157, 35, 0, 30, "Text"],
+Cell[6449, 159, 247, 4, 75, "Input",
+  Evaluatable->False]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6745, 169, 60, 1, 44, "Section",
+  InitializationCell->True],
+Cell[6808, 172, 174, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7019, 182, 80, 1, 44, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[7124, 187, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[7181, 190, 457, 8, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7675, 203, 62, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[7740, 206, 54, 1, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7831, 212, 64, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[7898, 215, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8090, 223, 60, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8153, 226, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8278, 233, 70, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8351, 236, 26, 0, 27, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8414, 241, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8475, 244, 382, 7, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8894, 256, 54, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8951, 259, 337, 7, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9325, 271, 55, 1, 44, "Section",
+  InitializationCell->True],
+Cell[9383, 274, 424, 9, 123, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9844, 288, 57, 1, 44, "Section",
+  InitializationCell->True],
+Cell[9904, 291, 385, 8, 123, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10326, 304, 69, 1, 44, "Section",
+  InitializationCell->True],
+Cell[10398, 307, 1283, 22, 299, "Input",
+  InitializationCell->True],
+Cell[11684, 331, 176, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11897, 340, 59, 1, 44, "Section",
+  InitializationCell->True],
+Cell[11959, 343, 825, 16, 235, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12821, 364, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[12882, 367, 112, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13031, 374, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[13092, 377, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

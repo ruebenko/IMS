@@ -1,0 +1,882 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     34048,        734]*)
+(*NotebookOutlinePosition[     34711,        757]*)
+(*  CellTagsIndexPosition[     34667,        753]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["StructuredMesher", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ StructuredMesher . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : christian\ moosmann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 14.3  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        tools\ for\ generating\ structured\ meshes\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.25\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(History\)\(:\)\)\ \
+\[IndentingNewLine]; \[IndentingNewLine]\(\(14.3\)\(.\)\) : 
+        Bug\ in\ quadratic\ 3  
+          D\ mesh\ \((incedents)\); \[IndentingNewLine]\(\(13.3\)\(.\)\) : \ 
+        added\ Wrapper, \ \(added\ Option\ imsCoordinateMapping;\)\
+\[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`StructuredMesher`\>"];\)\)\
+\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\
+imsGenerateLinearStructuredMesh::usage = "\<imsGenerateLinearStructuredMesh[ \
+xdiv (, ydiv, zdiv) ] generates a linear structured mesh in domain (-1 (, \
+-1,-1) ) to ( 1 (, 1, 1))\>"\[IndentingNewLine]
+    imsGenerateQuadraticStructuredMesh::usage = \
+"\<imsGenerateQuadraticStructuredMesh[ xdiv (, ydiv, zdiv) ] generates a \
+quadratic structured mesh in domain (-1 (, -1,-1) ) to ( 1 (, 1, 1))\>"\
+\[IndentingNewLine]
+    imsGenerateUnitLinearMesh1D::usage = "\<imsGenerateUnitLinearMesh1D[ xdiv \
+] generates a linear stuctured mesh in Domain (-1) to (1)\>"\n
+    imsGenerateUnitQuadraticMesh1D::usage = \
+"\<imsGenerateUnitQuadraticMesh1D[ xdiv ] generates a quadratic stuctured \
+mesh in Domain (-1) to (1)\>"\[IndentingNewLine]
+    imsGenerateUnitLinearMesh2D::usage = "\<imsGenerateUnitLinearMesh2D[ \
+xdiv, ydiv ] generates a linear stuctured mesh in Domain (-1,-1) to (1,1)\>"\
+\[IndentingNewLine]
+    imsGenerateUnitQuadraticMesh2D::usage = \
+"\<imsGenerateUnitQuadraticMesh2D[ xdiv, ydiv ] generates a quadratic \
+stuctured mesh in Domain (-1,-1) to (1,1)\>"\[IndentingNewLine]
+    imsGenerateUnitLinearMesh3D::usage = "\<imsGenerateUnitLinearMesh3D[ \
+xdiv, ydiv, zdiv ] generates a linear stuctured mesh in Domain (-1,-1,-1) to \
+(1,1,1)\>"\[IndentingNewLine]
+    imsGenerateUnitQuadraticMesh3D::usage = \
+"\<imsGenerateUnitQuadraticMesh3D[ xdiv, ydiv, zdiv ] generates a quadratic \
+stuctured mesh in Domain (-1,-1,-1) to (1,1,1)\>"\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      mutators\ *) \[IndentingNewLine]\[IndentingNewLine]
+    imsGlueNexi::usage = "\<imsGlueNexi[firstNexus,secondNexus,accuracy] \
+glues two nexi together by merging nodes that are the same by accuracy\>"\
+\[IndentingNewLine]\n (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsCoordinateMapping::usage = "\<mapping the \
+coordinates to another domain\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\(\(Needs["\<Imtek`Graph`\>"]\)\(\
+\[IndentingNewLine]\)
+    \(Needs["\<Imtek`MeshElementLibrary`\>"]\)\(\[IndentingNewLine]\)
+    \(Needs["\<Imtek`ShapeFunctions`\>"]\)\(\[IndentingNewLine]\)
+    \(Needs[\ "\<Imtek`Point`\>"\ ]\)\(\[IndentingNewLine]\)
+    \(Needs["\<Utilities`FilterOptions`\>"];\)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      wrapper\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(\
+imsGenerateLinearStructuredMesh[xdiv_Integer, ydiv_Integer, zdiv_Integer, 
+          opts : \((_Rule ... )\)] := 
+        imsGenerateUnitLinearMesh3D[xdiv, ydiv, zdiv, 
+          opts];\)\(\[IndentingNewLine]\)
+    \(imsGenerateLinearStructuredMesh[xdiv_Integer, ydiv_Integer, 
+          opts : \((_Rule ... )\)] := 
+        imsGenerateUnitLinearMesh2D[xdiv, ydiv, 
+          opts];\)\(\[IndentingNewLine]\)
+    \(imsGenerateLinearStructuredMesh[xdiv_Integer, opts : \((_Rule ... )\)] := 
+        imsGenerateUnitLinearMesh1D[xdiv, 
+          opts];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateQuadraticStructuredMesh[xdiv_Integer, ydiv_Integer, 
+          zdiv_Integer, opts : \((_Rule ... )\)] := 
+        imsGenerateUnitQuadraticMesh3D[xdiv, ydiv, zdiv, 
+          opts];\)\(\[IndentingNewLine]\)
+    \(imsGenerateQuadraticStructuredMesh[xdiv_Integer, ydiv_Integer, 
+          opts : \((_Rule ... )\)] := 
+        imsGenerateUnitQuadraticMesh2D[xdiv, ydiv, 
+          opts];\)\(\[IndentingNewLine]\)
+    \(imsGenerateQuadraticStructuredMesh[xdiv_Integer, 
+          opts : \((_Rule ... )\)] := 
+        imsGenerateUnitQuadraticMesh1D[xdiv, 
+          opts];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \
+\ \ \ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  D\ *) \)\(\[IndentingNewLine]\)\( (*\ \ \ \ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitLinearMesh1D[xdiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, 
+          coordsMapping}, \[IndentingNewLine]coordsMapping = \
+\(imsCoordinateMapping /. {opts}\) /. 
+            Options[imsGenerateUnitLinearMesh1D]; \[IndentingNewLine]coords = \
+\(coordsMapping[#] &\) /@ 
+            Table[{i - 1}, {i, 0, 2, 2/xdiv}]; \[IndentingNewLine]incidents = 
+          Table[{i, i + 1}, {i, 1, xdiv}]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[imsMakeLineLinear1DOF[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = {{1}, {xdiv + 
+                1}}; \[IndentingNewLine]Return[
+          imsMakeNexus[\ 
+            imsSetMarkers[allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitQuadraticMesh1D[xdiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, 
+          coordsMapping}, \[IndentingNewLine]coordsMapping = \
+\(imsCoordinateMapping /. {opts}\) /. 
+            Options[imsGenerateUnitQuadraticMesh1D]; \
+\[IndentingNewLine]coords = \(coordsMapping[#] &\) /@ 
+            Table[{i - 1}, {i, 0, 2, 1/xdiv}]; \[IndentingNewLine]incidents = 
+          Table[{i, 2 + i, 1 + i}, {i, 1, 2  xdiv, 
+              2}]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[imsMakeLineQuadratic1DOF[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = {{1}, {2  xdiv + 
+                1}}; \[IndentingNewLine] (*\(boundaryIncs = 
+              Partition[
+                Sort[Join[Range[1, 2\ xdiv + 1, 1], 
+                    Range[\((3\ xdiv + 2)\)*ydiv + 
+                        1, \((3\ xdiv + 2)\)*ydiv + 2  xdiv + 1], 
+                    Table[i \((3  xdiv + 2)\), {i, ydiv}], 
+                    Table[2\ xdiv + 1\  + i \((3  xdiv + 2)\), {i, 
+                        ydiv - 1}]\ , 
+                    Table[1\  + i \((3  xdiv + 2)\), {i, ydiv - 1}]\ , 
+                    Table[2\ xdiv + 2\  + i \((3  xdiv + 2)\), {i, 0, 
+                        ydiv - 1}]\ \ ]], 1];\)*) \[IndentingNewLine]Return[
+          imsMakeNexus[\ \ imsSetMarkers[
+              allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \ \ \ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      2  D\ *) \)\(\[IndentingNewLine]\)\( (*\ \ \ \ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitLinearMesh2D[xdiv_, ydiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, coordsMapping, id, co, 
+          rest}, \[IndentingNewLine]coordsMapping = \(imsCoordinateMapping /. \
+{opts}\) /. Options[
+              imsGenerateUnitLinearMesh2D]; \[IndentingNewLine]coords = \(# - \
+{1, 1} &\) /@ 
+            Flatten[Table[{i, j}, {j, 0, 2, 2/ydiv}, {i, 0, 2, 2/xdiv}], 
+              1]; \[IndentingNewLine]incidents = 
+          Flatten[Table[{i + j*\((xdiv + 1)\) + 1, i + j*\((xdiv + 1)\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + 1}, {j, 0, ydiv - 1}, {i, 0, 
+                xdiv - 1}], 1]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[imsMakeQuadLinear1DOF[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = 
+          Select[allNodes, \((\(imsGetCoords[#]\)[\([1]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([1]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([2]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([2]\)] \[Equal] 1)\) &] /. 
+            imsNode[id_, rest___] \[Rule] {id}; \[IndentingNewLine]allNodes = 
+          allNodes /. 
+            imsNode[id_, co_, rest___] \[RuleDelayed] 
+              imsNode[id, coordsMapping[co], rest]; \[IndentingNewLine]Return[
+          imsMakeNexus[\ 
+            imsSetMarkers[allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitQuadraticMesh2D[xdiv_, ydiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, coordsMapping, id, co, 
+          rest}, \[IndentingNewLine]coordsMapping = \(imsCoordinateMapping /. \
+{opts}\) /. Options[
+              imsGenerateUnitQuadraticMesh2D]; \[IndentingNewLine]coords = 
+          Sort[
+            Join[\(# - {1, 1} &\) /@ 
+                Flatten[Table[{i, j}, {j, 0, 2, 2/ydiv}, {i, 0, 2, 2/xdiv}], 
+                  1], \(# - {1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j}, {j, 0, 2, 2/ydiv}, {i, 
+                      1/xdiv, \((2  xdiv - 1)\)/xdiv, 2/xdiv}], 
+                  1], \(# - {1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j}, {j, 1/ydiv, \((2\ ydiv - 1)\)/ydiv, 
+                      2/ydiv}, {i, 0, 2, 2/xdiv}], 1]], 
+            OrderedQ[{#1[\([{2, 1}]\)], #2[\([{2, 
+                        1}]\)]}] &]; \[IndentingNewLine]incidents = 
+          Flatten[Table[{\[IndentingNewLine]\ 
+                2\ i + j*\ \((3\ xdiv + 2)\) + 1\ , 
+                2\ i + j*\ \((3\ xdiv + 2)\) + 3, 
+                2  i + 3 + \((j + 1)\)*\((2 + 3\ xdiv)\), 
+                2  i + 1 + \((j + 1)\)*\((2 + 
+                        3\ xdiv)\), \[IndentingNewLine]2\ i + 
+                  j*\ \((3\ xdiv + 2)\) + 2, 
+                i + j*\ \((3\ xdiv + 2)\) + 3\  + 2\ xdiv, 
+                2  i + 2 + \((j + 1)\)*\((2 + 3\ xdiv)\), 
+                i + j*\ \((3\ xdiv + 2)\) + 2\  + 
+                  2\ xdiv\[IndentingNewLine]\ \ }, {j, 0, ydiv - 1}, {i, 0, 
+                xdiv - 1}], 1]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[
+            imsMakeQuadQuadratic1DOFSerendipity[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = 
+          Select[allNodes, \((\(imsGetCoords[#]\)[\([1]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([1]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([2]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([2]\)] \[Equal] 1)\) &] /. 
+            imsNode[id_, 
+                rest___] \[Rule] {id}; \[IndentingNewLine] (*\(boundaryIncs = 
+              Partition[
+                Sort[Join[Range[1, 2\ xdiv + 1, 1], 
+                    Range[\((3\ xdiv + 2)\)*ydiv + 
+                        1, \((3\ xdiv + 2)\)*ydiv + 2  xdiv + 1], 
+                    Table[i \((3  xdiv + 2)\), {i, ydiv}], 
+                    Table[2\ xdiv + 1\  + i \((3  xdiv + 2)\), {i, 
+                        ydiv - 1}]\ , 
+                    Table[1\  + i \((3  xdiv + 2)\), {i, ydiv - 1}]\ , 
+                    Table[2\ xdiv + 2\  + i \((3  xdiv + 2)\), {i, 0, 
+                        ydiv - 1}]\ \ ]], 
+                1];\)*) \[IndentingNewLine]allNodes = 
+          allNodes /. 
+            imsNode[id_, co_, rest___] \[RuleDelayed] 
+              imsNode[id, coordsMapping[co], rest]; \[IndentingNewLine]Return[
+          imsMakeNexus[\ \ imsSetMarkers[
+              allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \ \ \ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      3  D\ *) \)\(\[IndentingNewLine]\)\( (*\ \ \ \ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitLinearMesh3D[xdiv_, ydiv_, zdiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, coordsMapping, id, co, 
+          rest}, \[IndentingNewLine]coordsMapping = \(imsCoordinateMapping /. \
+{opts}\) /. Options[
+              imsGenerateUnitLinearMesh3D]; \[IndentingNewLine]coords = \(# - \
+{1, 1, 1} &\) /@ 
+            Flatten[Table[{i, j, k}, {k, 0, 2, 2/zdiv}, {j, 0, 2, 
+                  2/ydiv}, {i, 0, 2, 2/xdiv}], 
+              2]; \[IndentingNewLine]incidents = 
+          Flatten[Table[{i + 
+                  j*\((xdiv + 1)\) + \((k + 
+                        1)\)*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 1, 
+                i + j*\((xdiv + 1)\) + \((k + 
+                        1)\)*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + \((k + 
+                        1)\)*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + \((k + 
+                        1)\)*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 1, 
+                i + j*\((xdiv + 1)\) + 
+                  k*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 1, 
+                i + j*\((xdiv + 1)\) + 
+                  k*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + 
+                  k*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 2, 
+                i + \((j + 1)\)*\((xdiv + 1)\) + 
+                  k*\((\((xdiv + 1)\)*\((ydiv + 1)\))\) + 1}, {k, 0, 
+                zdiv - 1}, {j, 0, ydiv - 1}, {i, 0, xdiv - 1}], 
+            2]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[imsMakeHexahedronLinear1DOF[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = 
+          Select[allNodes, \((\(imsGetCoords[#]\)[\([1]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([1]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([2]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([2]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([3]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([3]\)] \[Equal] 1)\) &] /. 
+            imsNode[id_, rest___] \[Rule] {id}; \[IndentingNewLine]allNodes = 
+          allNodes /. 
+            imsNode[id_, co_, rest___] \[RuleDelayed] 
+              imsNode[id, coordsMapping[co], rest]; \[IndentingNewLine]Return[
+          imsMakeNexus[\ 
+            imsSetMarkers[\ allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsGenerateUnitQuadraticMesh3D[xdiv_, ydiv_, zdiv_, opts___] := 
+      Module[\[IndentingNewLine]{coords, incidents, allNodes, allElements, 
+          boundaryIncs, faceBase, faceHalf, lineBase, lineHalf, completeFace, 
+          completeLine, coordsMapping, id, co, 
+          rest}, \[IndentingNewLine]coordsMapping = \(imsCoordinateMapping /. \
+{opts}\) /. Options[
+              imsGenerateUnitQuadraticMesh3D]; \[IndentingNewLine]coords = 
+          Sort[Join[\(# - {1, 1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j, k}, {k, 0, 2, 2/zdiv}, {j, 0, 2, 2/ydiv}, {i, 
+                      0, 2, 2/xdiv}], 2], \(# - {1, 1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j, k}, {k, 0, 2, 2/zdiv}, {j, 0, 2, 2/ydiv}, {i, 
+                      1/xdiv, \((2  xdiv - 1)\)/xdiv, 2/xdiv}], 
+                  2], \(# - {1, 1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j, k}, {k, 0, 2, 2/zdiv}, {j, 
+                      1/ydiv, \((2\ ydiv - 1)\)/ydiv, 2/ydiv}, {i, 0, 2, 
+                      2/xdiv}], 2], \[IndentingNewLine]\(# - {1, 1, 1} &\) /@ 
+                Flatten[
+                  Table[{i, j, k}, {k, 1/zdiv, \((2\ zdiv - 1)\)/zdiv, 
+                      2/zdiv}, {j, 0, 2, 2/ydiv}, {i, 0, 2, 2/xdiv}], 
+                  2]], \[IndentingNewLine]OrderedQ[{#1[\([{3, 2, 
+                        1}]\)], #2[\([{3, 2, 
+                        1}]\)]}] &]; \[IndentingNewLine]faceBase = \((2\ xdiv \
++ 1)\)*\((2  ydiv + 1)\) - 
+            xdiv*ydiv; \[IndentingNewLine]faceHalf = \((xdiv + 1)\)*\((ydiv + 
+                1)\); \[IndentingNewLine]completeFace = 
+          faceBase + faceHalf; \[IndentingNewLine]lineBase = \ 
+          2  xdiv\  + 1; \[IndentingNewLine]lineHalf = 
+          xdiv\  + 1; \[IndentingNewLine]completeLine = 
+          lineBase + lineHalf; \[IndentingNewLine]incidents = 
+          Flatten[Table[{\[IndentingNewLine]\((k + 1)\)*completeFace + 
+                  j*completeLine + 2  i + 
+                  3, \((k + 1)\)*completeFace + \((j + 1)\)*completeLine + 
+                  2  i + 3, \((k + 1)\)*completeFace + \((j + 1)\)*
+                    completeLine + 2  i + 1, \((k + 1)\)*completeFace + 
+                  j*completeLine + 2  i + 
+                  1, \[IndentingNewLine]k*completeFace + j*completeLine + 
+                  2  i + 3, 
+                k*completeFace + \((j + 1)\)*completeLine + 2  i + 3, 
+                k*completeFace + \((j + 1)\)*completeLine + 2  i + 1, 
+                k*completeFace + j*completeLine + 2  i + 
+                  1, \[IndentingNewLine]\((k + 1)\)*completeFace + 
+                  j*completeLine + lineBase + i + 
+                  2, \((k + 1)\)*completeFace + \((j + 1)\)*completeLine + 
+                  2  i + 2, \((k + 1)\)*completeFace + j*completeLine + 
+                  lineBase + i + 1, \((k + 1)\)*completeFace + 
+                  j*completeLine + 2  i + 
+                  2, \[IndentingNewLine]\((k)\)*completeFace + 
+                  j*completeLine + lineBase + i + 
+                  2, \((k)\)*completeFace + \((j + 1)\)*completeLine + 2  i + 
+                  2, \((k)\)*completeFace + j*completeLine + lineBase + i + 
+                  1, \((k)\)*completeFace + j*completeLine + 2  i + 
+                  2, \[IndentingNewLine]k*completeFace + faceBase + 
+                  j*\((xdiv + 1)\) + i + 2, 
+                k*completeFace + faceBase + \((j + 1)\)*\((xdiv + 1)\) + i + 
+                  2, k*completeFace + faceBase + \((j + 1)\)*\((xdiv + 1)\) + 
+                  i + 1, k*completeFace + faceBase + j*\((xdiv + 1)\) + i + 
+                  1\[IndentingNewLine]}, \[IndentingNewLine]{k, 0, 
+                zdiv - 1}, {j, 0, ydiv - 1}, {i, 0, xdiv - 1}], 
+            2]; \[IndentingNewLine]allNodes = 
+          MapIndexed[imsMakeNode[\ #2[\([1]\)], \ #1] &, 
+            coords]; \[IndentingNewLine]allElements = 
+          MapIndexed[
+            imsMakeHexahedronQuadratic1DOFSerendipity[\ #2[\([1]\)], \ #1] &, 
+            incidents]; \[IndentingNewLine]boundaryIncs = 
+          Select[allNodes, \((\(imsGetCoords[#]\)[\([1]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([1]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([2]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([2]\)] \[Equal] 
+                      1 || \(imsGetCoords[#]\)[\([3]\)] \[Equal] \(-1\) || \
+\(imsGetCoords[#]\)[\([3]\)] \[Equal] 1)\) &] /. 
+            imsNode[id_, rest___] \[Rule] {id}; \[IndentingNewLine]allNodes = 
+          allNodes /. 
+            imsNode[id_, co_, rest___] \[RuleDelayed] 
+              imsNode[id, coordsMapping[co], rest]; \[IndentingNewLine]Return[
+          imsMakeNexus[\ 
+            imsSetMarkers[\ allNodes[\([Flatten[boundaryIncs]]\)], 1], 
+            Delete[allNodes, boundaryIncs], \ 
+            allElements\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(Options[
+          imsGenerateUnitLinearMesh1D] = \(Options[
+            imsGenerateUnitQuadraticMesh1D] = \(Options[
+              imsGenerateUnitLinearMesh2D] = \(Options[
+                imsGenerateUnitQuadraticMesh2D] = \(Options[
+                  imsGenerateUnitLinearMesh3D] = \(Options[
+                    imsGenerateUnitQuadraticMesh3D] = \(Options[
+                      imsGenerateLinearStructuredMesh] = \(Options[
+                        imsGenerateQuadraticStructuredMesh] = \
+{imsCoordinateMapping\  \[Rule] \ 
+                          Identity}\)\)\)\)\)\)\);\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutator", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      mutator\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(\
+imsGlueNexi[firstNexus_imsNexus, secondNexus_imsNexus, accuracy_] := 
+      Module[\[IndentingNewLine]{id, coords, marker, rest, nodesOne, 
+          maxNodeOne, maxElementOne, nodesTwo, actualNode, coordFunc, 
+          nodeCoords, nodeData, mergedNodes, rulesList\ , \ elementsTwo, 
+          nodeIDs, \ 
+          elementType}, \[IndentingNewLine]\[IndentingNewLine]nodesOne = 
+          imsGetNodes[firstNexus] /. 
+            imsNode[id_, coords_, marker_, rest___] \[RuleDelayed] 
+              imsNode[id, imsRound[coords, accuracy], marker, 
+                rest]; \[IndentingNewLine]maxNodeOne = 
+          imsGetIds[Last[nodesOne]]; \[IndentingNewLine]nodesTwo = 
+          imsGetNodes[secondNexus] /. 
+            imsNode[id_, coords_, marker_, rest___] \[RuleDelayed] 
+              imsNode[id + maxNodeOne, imsRound[coords, accuracy], marker, 
+                rest]; \[IndentingNewLine]Do[\[IndentingNewLine]actualNode = 
+            nodesTwo[\([i]\)]; \[IndentingNewLine]coordFunc[
+              imsGetCoords[actualNode]] = 
+            If[imsDataNodeQ[actualNode], {imsGetIds[actualNode], 
+                imsGetMarkers[actualNode], imsGetValues[actualNode], 
+                imsGetDatas[actualNode]}, {imsGetIds[actualNode], 
+                imsGetMarkers[actualNode], 
+                imsGetValues[actualNode]}];\[IndentingNewLine], {i, 1, 
+            Length[nodesTwo]}]; \
+\[IndentingNewLine]Do[\[IndentingNewLine]actualNode = 
+            nodesOne[\([i]\)]; \[IndentingNewLine]coordFunc[
+              imsGetCoords[actualNode]] = 
+            If[imsDataNodeQ[actualNode], {imsGetIds[actualNode], 
+                imsGetMarkers[actualNode], imsGetValues[actualNode], 
+                imsGetDatas[actualNode]}, {imsGetIds[actualNode], 
+                imsGetMarkers[actualNode], 
+                imsGetValues[actualNode]}];\[IndentingNewLine], {i, 1, 
+            Length[nodesOne]}]; \[IndentingNewLine]nodeCoords = \((DownValues[
+                  coordFunc] /. coordFunc \[Rule] List)\)[\([All, 1, 1, 
+              1]\)]; \[IndentingNewLine]nodeData = \((DownValues[coordFunc] /. 
+                coordFunc \[Rule] List)\)[\([All, 
+              2]\)]; \[IndentingNewLine]mergedNodes = 
+          Sort[Transpose[{Transpose[{nodeCoords}], 
+                  Transpose[{nodeData}]}] /. {{coords_}, {{id_Integer, 
+                      marker_, rest_}}} \[RuleDelayed] 
+                imsMakeNode[id, coords, marker, 
+                  rest]]; \[IndentingNewLine]rulesList = 
+          Table[imsGetIds[mergedNodes[\([i]\)]] -> i, {i, 1, 
+              Length[mergedNodes]}]; \[IndentingNewLine]mergedNodes = 
+          mergedNodes /. 
+            imsNode[id_, rest___] \[RuleDelayed] 
+              imsNode[id /. rulesList, 
+                rest]; \[IndentingNewLine]maxElementOne = 
+          imsGetIds[
+            Last[imsGetElements[\ 
+                firstNexus\ ]]]; \[IndentingNewLine]elementsTwo = 
+          imsGetElements[secondNexus] /. 
+            elementType_[id_Integer, nodeIDs_List, rest___] \[RuleDelayed] 
+              elementType[
+                id + maxElementOne, \((\(\(coordFunc[#]\)[\([1]\)] &\) /@ 
+                      imsGetCoords[nodesTwo[\([nodeIDs]\)]])\) /. rulesList, 
+                rest]; \[IndentingNewLine]Return[
+          imsMakeNexus[\ 
+            Select[mergedNodes, imsGetMarkers[#] \[NotEqual] 0 &], 
+            Select[mergedNodes, imsGetMarkers[#] == 0 &], 
+            Join[imsGetElements[\ firstNexus\ ], 
+              elementsTwo]\ ]]\[IndentingNewLine]]\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\(\(imsRound[number_, precision_] := 
+      N[precision*Round[number/precision]]\)\(\[IndentingNewLine]\)
+    \(SetAttributes[imsRound, \ 
+      Listable]\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1280, 1000},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 36, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1837, 57, 31, 0, 71, "Section"],
+Cell[1871, 59, 1463, 25, 363, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3359, 88, 35, 0, 28, "Subsubsection"],
+Cell[3397, 90, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4018, 102, 1875, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5942, 139, 32, 0, 71, "Section"],
+Cell[5977, 141, 175, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6189, 151, 52, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[6266, 155, 26, 0, 38, "Subsection"],
+Cell[6295, 157, 2224, 39, 459, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8556, 201, 34, 0, 30, "Subsection"],
+Cell[8593, 203, 277, 5, 75, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8907, 213, 36, 0, 38, "Subsection"],
+Cell[8946, 215, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9168, 225, 32, 0, 71, "Section"],
+Cell[9203, 227, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9328, 234, 42, 0, 41, "Section"],
+Cell[9373, 236, 502, 9, 139, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9912, 250, 30, 0, 71, "Section"],
+Cell[9945, 252, 17715, 310, 2443, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27697, 567, 26, 0, 71, "Section"],
+Cell[27726, 569, 863, 16, 187, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28626, 590, 27, 0, 71, "Section"],
+Cell[28656, 592, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28822, 600, 26, 0, 41, "Section"],
+Cell[28851, 602, 3741, 66, 555, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32629, 673, 29, 0, 71, "Section"],
+Cell[32661, 675, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32829, 683, 41, 0, 41, "Section"],
+Cell[32873, 685, 373, 8, 107, "Input",
+  InitializationCell->True],
+Cell[33249, 695, 140, 4, 43, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33426, 704, 31, 0, 71, "Section"],
+Cell[33460, 706, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33630, 714, 30, 0, 41, "Section"],
+Cell[33663, 716, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33832, 724, 30, 0, 41, "Section"],
+Cell[33865, 726, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,861 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     24039,        698]*)
+(*NotebookOutlinePosition[     24747,        723]*)
+(*  CellTagsIndexPosition[     24703,        719]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Recovery of Derivatives", "Title"],
+
+Cell["\<\
+By Jan Lienemann <lieneman -at- imtek.de>, Sommersemester 2003
+Version 0.1.3 (8.2.2006)\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at:  ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2003 - 2006 Jan Lienemann
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Overview", "Section"],
+
+Cell["Derivative not continuous at nodes", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Can be recovered by solving linear system", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Note if you want to apply this method to structural mechanics: \
+According to Zienkiewict and Taylor (Zienkiewict, Taylor; \"The Fintie \
+Element Method\", Vol 1, Fourth Edition; McGraw-Hill, p345-351), \"in \
+quadratic C0 elements (whether 2D or 3D) the stresses (or similar quantities) \
+should never be calculated at nodes.\"\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The Problem", "Section"],
+
+Cell["\<\
+Assume potential flow: We are usually not interested in the \
+solution of the linear system (the potential \[CapitalPhi]), but in the \
+derivatives (the velocity vector v)\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Example: FEM model for Nozzle", "Subsection"],
+
+Cell[TextData[{
+  "Axisymmetric (x-axis)\ndifferential equation: ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[PartialD]\^2 \[CapitalPhi]\/\[PartialD]r\^2 + \
+\(1\/r\) \[PartialD]\[CapitalPhi]\/\[PartialD]r = 0\)]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Building System", "Subsubsection"],
+
+Cell[BoxData[{
+    \(Needs["\<Imtek`FEPlot`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Assembler`\>"]\), "\[IndentingNewLine]", 
+    \(Needs[\ "\<Imtek`BoundaryConditions`\>"\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(ra = 5; rb = 10; ha = 4; hb = 10;\)], "Input"],
+
+Cell[BoxData[
+    \(\(coordinates = 
+        Flatten[Join[Table[{i, j}, {i, 0, ha - 1}, {j, 0, ra}], 
+            Table[{i + \((ha - 1)\) + 1, j}, {i, 0, hb}, {j, 0, rb}]], 
+          1];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Show[Graphics[Point /@ coordinates], AspectRatio \[Rule] Automatic, 
+      Axes \[Rule] True]\)], "Input"],
+
+Cell[BoxData[
+    \(\(incidence = 
+        Flatten[Join[
+            Table[{{1 + i*\((ra + 1)\) + j, 1 + \((i + 1)\)*\((ra + 1)\) + j, 
+                  2 + \((i + 1)\)*\((ra + 1)\) + 
+                    j}, {2 + \((i + 1)\)*\((ra + 1)\) + j, 
+                  2 + \((i)\)*\((ra + 1)\) + j, 
+                  1 + \((i)\)*\((ra + 1)\) + j}}, {i, 0, ha - 1}, {j, 0, 
+                ra - 1}], 
+            ha*\((ra + 1)\) + 
+              Table[{{1 + i*\((rb + 1)\) + j, 
+                    1 + \((i + 1)\)*\((rb + 1)\) + j, 
+                    2 + \((i + 1)\)*\((rb + 1)\) + 
+                      j}, {2 + \((i + 1)\)*\((rb + 1)\) + j, 
+                    2 + \((i)\)*\((rb + 1)\) + j, 
+                    1 + \((i)\)*\((rb + 1)\) + j}}, {i, 0, hb - 1}, {j, 0, 
+                  rb - 1}]], 2];\)\)], "Input"],
+
+Cell[BoxData[
+    \(imsFEMeshPlot[coordinates, incidence, 
+      AspectRatio \[Rule] Automatic]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(FEElementMatrixAxi[i_, j_, k_]\), ":=", 
+      RowBox[{"Module", "[", "\[IndentingNewLine]", 
+        RowBox[{\({c = \((\((i + j + k)\)/
+                    3)\)[\([2]\)], \[IndentingNewLine]aa = \((j[\([1]\)]*
+                    k[\([2]\)] - 
+                  k[\([1]\)]*j[\([2]\)] + \[IndentingNewLine]i[\([1]\)]*
+                    j[\([2]\)] - 
+                  i[\([1]\)]*k[\([2]\)] + \[IndentingNewLine]i[\([2]\)]*
+                    k[\([1]\)] - i[\([2]\)]*j[\([1]\)])\), gNi, gNj, gNk}\), 
+          ",", "\[IndentingNewLine]", 
+          
+          RowBox[{\(gNi = {j[\([2]\)] - k[\([2]\)], k[\([1]\)] - j[\([1]\)]}/
+                aa\), ";", 
+            "\[IndentingNewLine]", \(gNj = {k[\([2]\)] - i[\([2]\)], 
+                  i[\([1]\)] - k[\([1]\)]}/aa\), ";", 
+            "\[IndentingNewLine]", \(gNk = {i[\([2]\)] - j[\([2]\)], 
+                  j[\([1]\)] - i[\([1]\)]}/aa\), ";", "\[IndentingNewLine]", 
+            RowBox[{"c", "*", \(aa/2\), "*", 
+              RowBox[{"(", GridBox[{
+                    {\(gNi . gNi\), \(gNi . gNj\), \(gNi . gNk\)},
+                    {\(gNj . gNi\), \(gNj . gNj\), \(gNj . gNk\)},
+                    {\(gNk . gNi\), \(gNk . gNj\), \(gNk . gNk\)}
+                    }], ")"}]}]}]}], "\[IndentingNewLine]", "]"}]}]], "Input"],
+
+Cell[BoxData[{
+    \(\(k = 
+        Table[0. , {Length[coordinates]}, {Length[
+              coordinates]}];\)\), "\[IndentingNewLine]", 
+    \(\(f = Table[0. , {Length[coordinates]}];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(imsAssemble[
+            imsMakeElementMatrix[\ 
+              FEElementMatrixAxi @@ \((\(coordinates[\([#]\)] &\) /@ #)\), #, \
+#], k] &\) /@ incidence;\)\)], "Input"],
+
+Cell[BoxData[
+    \(ListDensityPlot[Map[If[# > 0, # + 50, 0] &, Abs[k], {2}], 
+      Mesh \[Rule] False]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\((\[IndentingNewLine]f[\([# + 
+                    1]\)] += \((\((# - 1)\) - #)\) \((\((# - 1)\) + 2*#)\)/
+                  6; \[IndentingNewLine]f[\([#]\)] += \((\((# - 
+                        1)\) - #)\) \((2*\((# - 1)\) + #)\)/
+                  6;\[IndentingNewLine])\) &\) /@ \((Range[
+            ra])\);\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(imsDirichlet[{k, f}, #, 0. ] &\) /@ 
+        Join[Table[
+            ha*\((ra + 1)\) + 1 + \((i)\)*\((rb + 1)\) + rb, {i, 0, hb}], 
+          Table[ha*\((ra + 1)\) + 1 + hb*\((rb + 1)\) + i, {i, 0, 
+              rb - 1}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(ListDensityPlot[
+      Map[If[# > 0, If[# \[Equal] 1, 1, 0.2], 0] &, Abs[k], {2}], 
+      Mesh \[Rule] False]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solving System", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(sol2D = LinearSolve[k, f];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Show[{imsFEContourPlot[coordinates, incidence, sol2D, 
+          Contours \[Rule] 30, 
+          DisplayFunction \[Rule] 
+            Identity], \[IndentingNewLine]imsFEContourPlot[\({#[\([1]\)], \
+\(-#[\([2]\)]\)} &\) /@ coordinates, incidence, sol2D, Contours \[Rule] 30, 
+          Mesh \[Rule] True, DisplayFunction \[Rule] Identity]}, 
+      DisplayFunction \[Rule] $DisplayFunction]\)], "Input"],
+
+Cell[TextData[{
+  "We want to plot the gradient ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\[Del]\[CapitalPhi]\), "=", 
+          RowBox[{"(", GridBox[{
+                {\(\[PartialD]\ \[CapitalPhi]\/\[PartialD]x\)},
+                {\(\[PartialD]\ \[CapitalPhi]\/\[PartialD]r\)}
+                }], ")"}]}], TraditionalForm]]],
+  " at the nodes of the mesh."
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["1D Example", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Shape functions", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(n1D = 10;\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Nj = 
+        Join[{If[x > 1, 0, 
+              If[x > 0, 1 - \((x)\), 0]]}, \(If[x > # + 1, 0, 
+                If[x > #, 1 - \((x - #)\), 
+                  If[x > # - 1, x - \((# - 1)\), 0]]] &\) /@ 
+            Range[n1D - 2], {If[x > n1D - 1, 0, 
+              If[x > n1D - 2, x - \((n1D - 2)\), 0]]}];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(sol1D = 
+        Table[\((\((n1D - 1)\)/2)\)^2 - \((i - \((n1D - 1)\)/2)\)^2, {i, 0, 
+            n1D - 1}];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(appr = Nj . sol1D;\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Plot[appr, {x, \(-1\), n1D}, PlotRange \[Rule] All];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Derivative of approximation", "Subsubsection"],
+
+Cell[TextData[{
+  "Solution is approximated by ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalPhi] = \[Sum]\+j\( N\_j\) \[Phi]\_j\)]]
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "Take derivative: ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\[Del]\[CapitalPhi]\), "=", 
+          RowBox[{\(\[Sum]\+j\[Del]N\_j  \[Phi]\_j\), "=", 
+            RowBox[{\(\[Sum]\+j\), 
+              RowBox[{
+                RowBox[{"(", GridBox[{
+                      {\(\[PartialD]\ N\_j\/\[PartialD]x\)},
+                      {\(\[PartialD]\ N\_j\/\[PartialD]r\)}
+                      }], ")"}], \(\[Phi]\_j\)}]}]}]}], TraditionalForm]]]
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Example:", "Text"],
+
+Cell[BoxData[
+    \(\(apprDer = D[Nj, x] . sol1D;\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Plot[{apprDer, n1D - 1 - 2*x}, {x, \(-1\), n1D}, 
+        PlotStyle \[Rule] {GrayLevel[0], Hue[0.33]}];\)\)], "Input"],
+
+Cell["Possible inside of elements; but not continuous at nodes", "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Linear Interpolation for Derivatives", "Section"],
+
+Cell[TextData[{
+  "Idea: Use shape functions for derivatives: ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\[Del]\[CapitalPhi]\), "=", 
+          RowBox[{
+            RowBox[{\(\[Sum]\+j\), 
+              RowBox[{\(N\_j\), 
+                StyleBox[\(\[Phi]\_j\^*\),
+                  FontWeight->"Bold"]}]}], "=", 
+            RowBox[{\(\[Sum]\+j\), 
+              RowBox[{\(N\_j\), "(", GridBox[{
+                    {\(\[Phi]\_j\^x\)},
+                    {\(\[Phi]\_j\^r\)}
+                    }], ")"}]}]}]}], TraditionalForm]]]
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "The derivatives expressed by ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(N\_j\), 
+          StyleBox[\(\[Phi]\_j\^*\),
+            FontWeight->"Bold"]}], TraditionalForm]]],
+  " should be the same as ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Del]N\_j  \[Phi]\_j\)]],
+  ":"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[Cell[BoxData[
+    FormBox[
+      RowBox[{
+        RowBox[{\(N\_j\), 
+          StyleBox[\(\[Phi]\_j\^*\),
+            FontWeight->"Bold"]}], "=", \(\[Del]N\_j  \[Phi]\_j\)}], 
+      TraditionalForm]]]], "Text",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Unfortunately this cannot be done pointwise. So we weaken this statement \
+with a weighting function ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_i\)]],
+  " as done before for FEM:"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  " ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{\(\[Integral]\_\[CapitalOmega]\), 
+            RowBox[{\(W\_i\), \(N\_j\), \(\[DifferentialD]\[CapitalOmega]\), 
+              StyleBox[" ",
+                FontWeight->"Bold"], 
+              StyleBox[\(\[Phi]\_j\^*\),
+                FontWeight->"Bold"]}]}], 
+          "=", \(\[Integral]\_\[CapitalOmega]\( 
+                  W\_i\) \[Del]N\_j \[DifferentialD]\[CapitalOmega]\ \
+\[Phi]\_j\)}], TraditionalForm]]]
+}], "Text",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Using ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_i = N\_i\)]],
+  ", we get"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[Cell[BoxData[
+    FormBox[
+      RowBox[{
+        RowBox[{\(\[Integral]\_\[CapitalOmega]\), 
+          
+          RowBox[{\(N\_i\), \(N\_j\), \(\[DifferentialD]\[CapitalOmega]\), 
+            " ", 
+            StyleBox[\(\[Phi]\_j\^*\),
+              FontWeight->"Bold"]}]}], 
+        "=", \(\[Integral]\_\[CapitalOmega]\( 
+                N\_i\) \[Del]N\_j \[DifferentialD]\[CapitalOmega]\ \
+\[Phi]\_j\)}], TraditionalForm]]]], "Text",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["yielding the linear system", "Text"],
+
+Cell[TextData[Cell[BoxData[
+    FormBox[
+      RowBox[{
+        RowBox[{
+          StyleBox["M",
+            FontWeight->"Bold",
+            FontSlant->"Plain"], 
+          StyleBox[" ",
+            FontWeight->"Bold"], 
+          StyleBox[\(\[Phi]\^*\),
+            FontWeight->"Bold"]}], 
+        "=", \(\[Integral]\_\[CapitalOmega]\( 
+                N\_i\) \[Del]N\_j \[DifferentialD]\[CapitalOmega]\ \
+\[Phi]\_j\)}], TraditionalForm]]]], "Text",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["This system can be solved for each direction seperately.", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[CellGroupData[{
+
+Cell["1D Example:", "Subsection"],
+
+Cell["Mass matrix for 1D elements:", "Text"],
+
+Cell[BoxData[{
+    \(\(mm = 
+        N[Table[Switch[i - j, 0, 2/3, 1, 1/6, \(-1\), 1/6, _, 0], {i, 1, 
+              n1D}, {j, 1, n1D}]];\)\), "\[IndentingNewLine]", 
+    \(mm[\([1, 1]\)] = N[1/3]; 
+    mm[\([n1D, n1D]\)] = N[1/3];\), "\[IndentingNewLine]", 
+    \(mm // MatrixForm\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(fm = 
+        Table[Switch[i - j, 0, 0. , 1, \(-0.5\), \(-1\), 0.5, _, 0. ], {i, 1, 
+            n1D}, {j, 1, n1D}];\)\), "\[IndentingNewLine]", 
+    \(fm[\([1, 1]\)] = \(-0.5\); 
+    fm[\([n1D, n1D]\)] = 0.5;\), "\[IndentingNewLine]", 
+    \(fm // MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    \(solDer = LinearSolve[mm, fm . sol1D]\)], "Input"],
+
+Cell[BoxData[
+    \(\(Plot[{Nj . solDer, apprDer}, {x, \(-1\), n1D}, 
+        PlotStyle \[Rule] {Hue[0], Hue[0.33]}];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["2D Example", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Build System", "Subsubsection"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ 
+        This\ is\ the\ mass\ matrix\ for\ non - 
+          axisymmetric\ problems . \ 
+              It\ can\ be\ precalculated\ by\ doing\ a\ coordinate\ \
+transformation\ from\ x, 
+        y\ to\ a\ unit\ triangle\ in\ \[Zeta]\_1, \[Zeta]\_2 . \ 
+            The\ Jacobian\ Determinant\ is\ then\ 2 
+           A . \ See\ the\ Script\ \(\(Appendix\)\(.\)\)\ *) \), 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+        RowBox[{\(FEMassElementMatrix[i_, j_, k_]\), ":=", 
+          RowBox[{"Module", "[", "\[IndentingNewLine]", 
+            
+            RowBox[{\({a = \((j[\([1]\)]*k[\([2]\)] - 
+                        k[\([1]\)]*j[\([2]\)] + \[IndentingNewLine]i[\([1]\)]*
+                          j[\([2]\)] - 
+                        i[\([1]\)]*k[\([2]\)] + \[IndentingNewLine]i[\([2]\)]*
+                          k[\([1]\)] - i[\([2]\)]*j[\([1]\)])\)/2}\), ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+                RowBox[{"(", GridBox[{
+                      {\(1/6\), \(1/12\), \(1/12\)},
+                      {\(1/12\), \(1/6\), \(1/12\)},
+                      {\(1/12\), \(1/12\), \(1/6\)}
+                      }], ")"}], "*", "a"}]}], "\[IndentingNewLine]", "]"}]}],
+         "*)"}]}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(FEMassElementMatrixAxi[i_, j_, k_]\), ":=", 
+      RowBox[{"Module", "[", "\[IndentingNewLine]", 
+        RowBox[{\({aa = \((j[\([1]\)]*k[\([2]\)] - 
+                  k[\([1]\)]*j[\([2]\)] + \[IndentingNewLine]i[\([1]\)]*
+                    j[\([2]\)] - 
+                  i[\([1]\)]*k[\([2]\)] + \[IndentingNewLine]i[\([2]\)]*
+                    k[\([1]\)] - i[\([2]\)]*j[\([1]\)])\), v0 = i[\([2]\)], 
+            v1 = j[\([2]\)] - i[\([2]\)], v2 = k[\([2]\)] - i[\([2]\)]}\), 
+          ",", "\[IndentingNewLine]", 
+          RowBox[{
+            TagBox[
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(v0\/12 + v1\/60 + v2\/60\), \(v0\/24 + v1\/60 + 
+                        v2\/120\), \(v0\/24 + v1\/120 + v2\/60\)},
+                    {\(v0\/24 + v1\/60 + v2\/120\), \(v0\/12 + v1\/20 + 
+                        v2\/60\), \(v0\/24 + v1\/60 + v2\/60\)},
+                    {\(v0\/24 + v1\/120 + v2\/60\), \(v0\/24 + v1\/60 + 
+                        v2\/60\), \(v0\/12 + v1\/60 + v2\/20\)}
+                    }], "\[NoBreak]", ")"}],
+              Function[ BoxForm`e$, 
+                MatrixForm[ BoxForm`e$]]], "*", "aa"}]}], 
+        "\[IndentingNewLine]", "]"}]}]], "Input"],
+
+Cell[BoxData[{
+    \(\(m = 
+        Table[0. , {Length[coordinates]}, {Length[coordinates]}];\)\), "\n", 
+    \(\(\(imsAssemble[
+            imsMakeElementMatrix[\ 
+              FEMassElementMatrixAxi @@ \((\(coordinates[\([#]\)] &\) /@ \
+#)\), #, #], m] &\) /@ incidence;\)\), "\n", 
+    \(\(ListDensityPlot[Abs[m], Mesh \[Rule] False];\)\)}], "Input"],
+
+Cell[BoxData[
+    \( (*\ This\ is\ the\ right\ hand\ side\ for\ non - 
+        axisymmetric\ problems . \ 
+            It\ can\ be\ precalculated\ by\ doing\ a\ coordinate\ \
+transformation\ from\ x, 
+      y\ to\ a\ unit\ triangle\ in\ \[Zeta]\_1, \[Zeta]\_2 . \ 
+          The\ Jacobian\ Determinant\ is\ then\ 2 
+         A . \ See\ the\ Script\ \(\(Appendix\)\(.\)\)\ *) \)], "Input"],
+
+Cell[BoxData[
+    \( (*\ FEElementDerivMatrix[i_, j_, k_] := 
+        Module[\[IndentingNewLine]{aa = \((j[\([1]\)]*k[\([2]\)] - 
+                  k[\([1]\)]*j[\([2]\)] + \[IndentingNewLine]i[\([1]\)]*
+                    j[\([2]\)] - 
+                  i[\([1]\)]*k[\([2]\)] + \[IndentingNewLine]i[\([2]\)]*
+                    k[\([1]\)] - i[\([2]\)]*j[\([1]\)])\), gNi, gNj, 
+            gNk}, \[IndentingNewLine]gNi = {j[\([2]\)] - k[\([2]\)], 
+                k[\([1]\)] - j[\([1]\)]}/
+              aa; \[IndentingNewLine]gNj = {k[\([2]\)] - i[\([2]\)], 
+                i[\([1]\)] - k[\([1]\)]}/
+              aa; \[IndentingNewLine]gNk = {i[\([2]\)] - j[\([2]\)], 
+                j[\([1]\)] - i[\([1]\)]}/
+              aa; {{gNi, gNj, gNk}, {gNi, gNj, gNk}, {gNi, gNj, gNk}}*
+            aa/6\[IndentingNewLine]]*) \)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(FEElementDerivMatrixAxi[i_, j_, k_]\), ":=", 
+      RowBox[{"Module", "[", "\[IndentingNewLine]", 
+        RowBox[{\({aa = \((j[\([1]\)]*k[\([2]\)] - 
+                  k[\([1]\)]*j[\([2]\)] + \[IndentingNewLine]i[\([1]\)]*
+                    j[\([2]\)] - 
+                  i[\([1]\)]*k[\([2]\)] + \[IndentingNewLine]i[\([2]\)]*
+                    k[\([1]\)] - i[\([2]\)]*j[\([1]\)])\), v0 = i[\([2]\)], 
+            v1 = j[\([2]\)] - i[\([2]\)], v2 = k[\([2]\)] - i[\([2]\)], gNi, 
+            gNj, gNk}\), ",", "\[IndentingNewLine]", 
+          
+          RowBox[{\(gNi = {j[\([2]\)] - k[\([2]\)], k[\([1]\)] - j[\([1]\)]}/
+                aa\), ";", 
+            "\[IndentingNewLine]", \(gNj = {k[\([2]\)] - i[\([2]\)], 
+                  i[\([1]\)] - k[\([1]\)]}/aa\), ";", 
+            "\[IndentingNewLine]", \(gNk = {i[\([2]\)] - j[\([2]\)], 
+                  j[\([1]\)] - i[\([1]\)]}/aa\), ";", "\[IndentingNewLine]", 
+            RowBox[{\({gNi, gNj, gNk}*aa*# &\), "/@", 
+              InterpretationBox[
+                RowBox[{
+                  RowBox[{"(", "\[NoBreak]", GridBox[{
+                        {\(v0\/6 + v1\/24 + v2\/24\)},
+                        {\(v0\/6 + v1\/12 + v2\/24\)},
+                        {\(v0\/6 + v1\/24 + v2\/12\)}
+                        }], "\[NoBreak]", ")"}], "*"}],
+                MatrixForm[ {
+                  Plus[ 
+                    Times[ 
+                      Rational[ 1, 6], v0], 
+                    Times[ 
+                      Rational[ 1, 24], v1], 
+                    Times[ 
+                      Rational[ 1, 24], v2]], 
+                  Plus[ 
+                    Times[ 
+                      Rational[ 1, 6], v0], 
+                    Times[ 
+                      Rational[ 1, 12], v1], 
+                    Times[ 
+                      Rational[ 1, 24], v2]], 
+                  Plus[ 
+                    Times[ 
+                      Rational[ 1, 6], v0], 
+                    Times[ 
+                      Rational[ 1, 24], v1], 
+                    Times[ 
+                      Rational[ 1, 12], v2]]}]]}]}]}], "\[IndentingNewLine]", 
+        "]"}]}]], "Input"],
+
+Cell[BoxData[{
+    \(\(fmx = \(fmy = 
+          Table[0. , {Length[coordinates]}, {Length[
+                coordinates]}]\);\)\), "\n", 
+    \(\(\(\((em = 
+              FEElementDerivMatrixAxi @@ \((\(coordinates[\([#]\)] &\) /@ \
+#)\); imsAssemble[imsMakeElementMatrix[em\ [\([All, All, 1]\)], #, #], fmx]; 
+            imsAssemble[imsMakeElementMatrix[\ em[\([All, All, 2]\)], #, #], 
+              fmy])\) &\) /@ incidence;\)\), "\n", 
+    \(\(ListDensityPlot[Abs[fmx], Mesh \[Rule] False];\)\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solve System", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(deriv = 
+        LinearSolve[m, Transpose[{fmx . sol2D, fmy . sol2D}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Needs["\<Graphics`Arrow`\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(\(vel = \(\((Sqrt[Plus @@ \((#^2)\)])\) &\) /@ deriv;\)\)], "Input"],
+
+Cell[BoxData[
+    \(maxvel = Max @@ vel; rangevel = maxvel - Min @@ vel;\)], "Input"],
+
+Cell[BoxData[
+    \(\(Show[
+        Graphics[
+          MapThread[{Hue[\((maxvel - #3)\)/rangevel*0.6666], 
+                Arrow[#1, #1 + #2*\((1 + 1/#3)\), 
+                  HeadScaling \[Rule] Relative, 
+                  HeadWidth \[Rule] 0.8]} &, {coordinates, deriv, 
+              vel}]]];\)\)], "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Literature", "Section"],
+
+Cell[TextData[{
+  "Rainald L\[ODoubleDot]hner: ",
+  StyleBox["Applied CFD Techniques",
+    FontSlant->"Italic"],
+  ", Wiley 2001"
+}], "Text"]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->"EditBar",
+WindowSize->{768, 694},
+WindowMargins->{{Automatic, 131}, {Automatic, 0}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 40, 0, 84, "Title"],
+Cell[1819, 55, 111, 3, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[1955, 62, 35, 0, 30, "Subsubsection"],
+Cell[1993, 64, 925, 27, 28, "Text"],
+Cell[2921, 93, 443, 8, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3401, 106, 27, 0, 67, "Section"],
+Cell[3431, 108, 89, 1, 28, "Text"],
+Cell[3523, 111, 96, 1, 28, "Text"],
+Cell[3622, 114, 352, 6, 60, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4011, 125, 30, 0, 41, "Section"],
+Cell[4044, 127, 195, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[4264, 135, 51, 0, 39, "Subsection"],
+Cell[4318, 137, 226, 5, 54, "Text"],
+
+Cell[CellGroupData[{
+Cell[4569, 146, 40, 0, 30, "Subsubsection"],
+Cell[4612, 148, 200, 3, 64, "Input"],
+Cell[4815, 153, 66, 1, 32, "Input"],
+Cell[4884, 156, 202, 4, 64, "Input"],
+Cell[5089, 162, 126, 2, 32, "Input"],
+Cell[5218, 166, 817, 16, 144, "Input"],
+Cell[6038, 184, 108, 2, 32, "Input"],
+Cell[6149, 188, 1321, 23, 225, "Input"],
+Cell[7473, 213, 200, 4, 48, "Input"],
+Cell[7676, 219, 192, 4, 48, "Input"],
+Cell[7871, 225, 117, 2, 32, "Input"],
+Cell[7991, 229, 352, 6, 80, "Input"],
+Cell[8346, 237, 262, 5, 64, "Input"],
+Cell[8611, 244, 142, 3, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8790, 252, 39, 0, 24, "Subsubsection"],
+Cell[8832, 254, 63, 1, 32, "Input"],
+Cell[8898, 257, 421, 7, 96, "Input"],
+Cell[9322, 266, 380, 10, 61, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9751, 282, 32, 0, 23, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[9808, 286, 40, 0, 30, "Subsubsection"],
+Cell[9851, 288, 46, 1, 32, "Input"],
+Cell[9900, 291, 344, 7, 64, "Input"],
+Cell[10247, 300, 145, 3, 32, "Input"],
+Cell[10395, 305, 55, 1, 32, "Input"],
+Cell[10453, 308, 89, 1, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10579, 314, 52, 0, 24, "Subsubsection"],
+Cell[10634, 316, 190, 5, 30, "Text"],
+Cell[10827, 323, 521, 13, 69, "Text"],
+Cell[11351, 338, 24, 0, 28, "Text"],
+Cell[11378, 340, 64, 1, 32, "Input"],
+Cell[11445, 343, 140, 2, 32, "Input"],
+Cell[11588, 347, 111, 1, 28, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11760, 355, 55, 0, 41, "Section"],
+Cell[11818, 357, 591, 16, 49, "Text"],
+Cell[12412, 375, 354, 12, 30, "Text"],
+Cell[12769, 389, 273, 8, 29, "Text"],
+Cell[13045, 399, 253, 7, 28, "Text"],
+Cell[13301, 408, 565, 16, 30, "Text"],
+Cell[13869, 426, 149, 6, 28, "Text"],
+Cell[14021, 434, 499, 13, 29, "Text"],
+Cell[14523, 449, 42, 0, 28, "Text"],
+Cell[14568, 451, 499, 15, 29, "Text"],
+Cell[15070, 468, 111, 1, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[15206, 473, 33, 0, 39, "Subsection"],
+Cell[15242, 475, 44, 0, 28, "Text"],
+Cell[15289, 477, 295, 6, 64, "Input"],
+Cell[15587, 485, 296, 6, 64, "Input"],
+Cell[15886, 493, 69, 1, 32, "Input"],
+Cell[15958, 496, 132, 2, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16127, 503, 32, 0, 23, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[16184, 507, 37, 0, 30, "Subsubsection"],
+Cell[16224, 509, 1282, 26, 259, "Input"],
+Cell[17509, 537, 1244, 22, 225, "Input"],
+Cell[18756, 561, 354, 7, 122, "Input"],
+Cell[19113, 570, 388, 7, 107, "Input"],
+Cell[19504, 579, 839, 14, 199, "Input"],
+Cell[20346, 595, 2175, 47, 286, "Input"],
+Cell[22524, 644, 510, 9, 153, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23071, 658, 37, 0, 24, "Subsubsection"],
+Cell[23111, 660, 108, 2, 46, "Input"],
+Cell[23222, 664, 61, 1, 46, "Input"],
+Cell[23286, 667, 88, 1, 46, "Input"],
+Cell[23377, 670, 85, 1, 46, "Input"],
+Cell[23465, 673, 312, 7, 46, "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23838, 687, 29, 0, 41, "Section"],
+Cell[23870, 689, 141, 5, 46, "Text"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,1484 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     66389,       1294]*)
+(*NotebookOutlinePosition[     67052,       1317]*)
+(*  CellTagsIndexPosition[     67008,       1313]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FEMFluidics Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ExamplePackage . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 11.7  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ FEMFluidics\ packages\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History : \
+\[IndentingNewLine]\(4.9  .2007 : \ 
+            fixed\ for\ mma6  .0\);\)\[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ Sources : \ google\ \(for : \ per - olof\ persson\), \ 
+      implementation\ of\ finte\ element - 
+        based\ navier\ stokes\ solver; \[IndentingNewLine]C . \ Vuikt, \ 
+      FEM\ for\ navier - stokes; \[IndentingNewLine]hui\ chunyiu, \ joseph, 
+      application\ of\ mesh\ generation\ on\ solving\ navier - 
+        stokes\ equation\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ provides\ FEM\ fluidics\ operatos\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ oliver\ ruebenkoenig, \ 
+      zhenyu\ liu\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \
+\(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`FEMFluidics`\>", \ \
+"\<Imtek`FEMOperators`\>", \ "\<Imtek`MeshElementLibrary`\>", \ \
+"\<Imtek`ShapeFunctions`\>", \ "\<Imtek`Assembler`\>", \ "\<Imtek`Nodes`\>"];\
+\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\(imsFEMStokes::usage = \
+"\<imsFEMStokes[ { inESM, inERHS }, elem, elementNodes, densityViscosity ] \
+computes the system of Stokes equations. -\[Del]\[Rho]\[Nu]\[Del]u+\[Del]p=0 \
+and \[Del]u=0. Where u is the u-velocity and the v-velocity and p is the \
+pressure. \[Rho] is the mass density and \[Nu] is the kinematic \
+viscosity.\>";\)\[IndentingNewLine]
+    \(imsNFEMStokes::usage = "\<computes a numerical equivalent of \
+imsFEMStokes.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFEMNavier::usage = "\<imsFEMNavier[ { inESM, inERHS }, elem, \
+elementNodes, uOld,  massDensityVal ] computes the linearized Navier part. \
+\[Rho](u\[Del])u where u is the x and y velocity and \[Rho] is the mass \
+density. For the linearization the solution values of the preivious time step \
+are needed.\>";\)\[IndentingNewLine]
+    \(imsNFEMNavier::usage = "\<computes a numerical equivalent of \
+imsFEMNavier.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFEMFluidicsLoad::usage = "\<imsFEMFluidicsLoad[ { inESM, inERHS }, \
+elem, elementNodes, uLoad, vLoad, pLoad ] computes load for u, v and p.\>";\)\
+\[IndentingNewLine]
+    \(imsNFEMFluidicsLoad::usage = "\<computes a numerical equivalent of \
+imsFEMFluidicsLoad.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFEMFluidicsTransientMatrix::usage = \
+"\<imsFEMFluidicsTransientMatrix[ { inESM, inERHS }, elem, elementNodes, \
+\[Rho]1, \[Rho]2, \[Rho]3 ] computes \[Rho] \[PartialD]u/\[PartialD]t. Where \
+u is the unknown function and \[Rho]1 is the mass density function of \
+u-velocity, \[Rho]2 of the v-velocity and \[Rho]3 of the pressure.\>";\)\
+\[IndentingNewLine]
+    \(imsNFEMFluidicsTransientMatrix::usage = "\<computes a numerical \
+equivalent of imsFEMFluidicsTransientMatrix.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(If[\ $VersionNumber\  \[LessEqual] \ 5.2, \ << 
+          LinearAlgebra`MatrixManipulation`, \ Null\ ];\)\[IndentingNewLine]
+    \(If[\ $VersionNumber\  \[LessEqual] \ 5.2, \ 
+        myBlockMatrix[\ x_\ ]\  := \ BlockMatrix[\ x\ ], \ 
+        myBlockMatrix[\ x_\ ] := \ ArrayFlatten[\ x\ ]\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Stokes", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMStokes[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ elementNodes_, \ 
+          densityViscosity_\ ] \
+:= \[IndentingNewLine]Block[\[IndentingNewLine]{\ coords, marker, 
+            sf2Element, \ sf1Element, \[IndentingNewLine]outESMvalues, \ 
+            rows, \ cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S1SF, \[IndentingNewLine]KuuST, \ KvvST, \ KupST, \ KvpST, 
+            KpuST, \ 
+            KpvST\ , \[IndentingNewLine]densityViscosityVals, \
+\[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS1S1SF\  = \ 
+            Table[\ 0, \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KuuST\  = \ \(KvvST\  = 
+              emptyS2S2SF\); \[IndentingNewLine]KupST\  = \ \(KvpST\  = \ 
+              emptyS2S1SF\); \[IndentingNewLine]KpuST\  = \ \(KpvST\  = \ 
+              Transpose[\ 
+                emptyS2S1SF\ ]\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]densityViscosityVals\
+\  = \(\((\ densityViscosity\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine]\
+\[IndentingNewLine] (*\ deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuST\  \
++= \ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    densityViscosityVals[\([\ step\ ]\)]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KvvST\  = \ 
+              KuuST; \[IndentingNewLine]\[IndentingNewLine]KupST\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf1xyderiv[\([\ 1\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]KvpST\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf1xyderiv[\([\ 2\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]\[IndentingNewLine]KpuST\  += \ \
+\((\ Transpose[\ {\ sf1[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf2xyderiv[\([\ 1\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]KpvST\  += \ \((\ 
+                  Transpose[\ {\ sf1[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf2xyderiv[\([\ 2\ ]\)]\ }\ )\)\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ KuuST, \ emptyS2S2SF, \ 
+                  KupST\ }, \[IndentingNewLine]{\ emptyS2S2SF, \ KvvST, \ 
+                  KvpST}, \[IndentingNewLine]{\ KpuST, \ KpvST, \ 
+                  emptyS1S1SF\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NStokes", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMStokes[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ elementNodes_, \ 
+          densityViscosity_\ ] \
+:= \[IndentingNewLine]Block[\[IndentingNewLine]{\ coords, marker, 
+            sf2Element, \ sf1Element, \[IndentingNewLine]outESMvalues, \ 
+            rows, \ cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S1SF, \[IndentingNewLine]KuuST, \ KvvST, \ KupST, \ KvpST, 
+            KpuST, \ 
+            KpvST\ , \[IndentingNewLine]densityViscosityVals, \
+\[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsNIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS1S1SF\  = \ 
+            Table[\ 0. , \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KuuST\  = \ \(KvvST\  = 
+              emptyS2S2SF\); \[IndentingNewLine]KupST\  = \ \(KvpST\  = \ 
+              emptyS2S1SF\); \[IndentingNewLine]KpuST\  = \ \(KpvST\  = \ 
+              Transpose[\ 
+                emptyS2S1SF\ ]\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]densityViscosityVals\
+\  = \(\((\ densityViscosity\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine]\
+\[IndentingNewLine] (*\ deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuST\  \
++= \ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    densityViscosityVals[\([\ step\ ]\)]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KvvST\  = \ 
+              KuuST; \[IndentingNewLine]\[IndentingNewLine]KupST\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf1xyderiv[\([\ 1\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]KvpST\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf1xyderiv[\([\ 2\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]\[IndentingNewLine]KpuST\  += \ \
+\((\ Transpose[\ {\ sf1[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf2xyderiv[\([\ 1\ ]\)]\ }\ )\)\ *\ 
+                weight; \[IndentingNewLine]KpvST\  += \ \((\ 
+                  Transpose[\ {\ sf1[\([\ step\ ]\)]\ }\ ]\  . \ {\ 
+                      sf2xyderiv[\([\ 2\ ]\)]\ }\ )\)\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ KuuST, \ emptyS2S2SF, \ 
+                  KupST\ }, \[IndentingNewLine]{\ emptyS2S2SF, \ KvvST, \ 
+                  KvpST}, \[IndentingNewLine]{\ KpuST, \ KpvST, \ 
+                  emptyS1S1SF\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Navier", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMNavier[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ elementNodes_, \ 
+          uOld_, \ \ massDensityVal_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \[IndentingNewLine]sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ outERHSvalues, 
+            rows, \ cols, \ \ rowsERHS, \ colsERHS, \[IndentingNewLine]sf1, \ 
+            sf2, \ sf1rsderiv, \ sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ 
+            secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S2SF, emptyS2SF, \ emptyS1SF, \[IndentingNewLine]KuuNS1, \ 
+            KvvNS1, \ KuuNS2, \ KuvNS2, \ KvvNS2, \ 
+            KvuNS2, \[IndentingNewLine]FuNS, \ FvNS, \ FuNS2, \ FvNS2, \ 
+            FuNS3, \ FvNS3\ , FpNS, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \ 
+            weight, \[IndentingNewLine]massDensityVals, \
+\[IndentingNewLine]uk, \ vk, \ pk, \ u, \ v, \ ux, \ vx, \ uy, \ vy, \ px, \ 
+            py, \[IndentingNewLine]mul\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]outERHSvalues\  = \ 
+            imsGetElementMatrixValues[\ 
+              inERHS\ ]; \[IndentingNewLine]rowsERHS\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine]colsERHS\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inERHS\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS1S2SF\  = \ 
+            Transpose[\ emptyS2S1SF\ ]; \[IndentingNewLine]emptyS1S1SF\  = \ 
+            Table[\ 0, \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, {1}\ ]; \[IndentingNewLine]emptyS1SF\ \
+ = \ Table[\ 
+              0, \ {secondaryDOFs}, {1}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]KuuNS1\  = \ \(KvvNS1\  = \ \(KuuNS2\  = \ \(KuvNS2\  = \ \
+\(KvvNS2\  = \ \(KvuNS2\  = \ 
+                      emptyS2S2SF\)\)\)\)\); \[IndentingNewLine]FuNS\  = \ \
+\(FvNS\  = \ \(FuNS2\  = \ \(FvNS2\  = \ \(FuNS3\  = \ \(FvNS3\  = \ 
+                      emptyS2SF\)\)\)\)\); \[IndentingNewLine]FpNS\  = \ 
+            emptyS1SF; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]massDensityVals\  = \
+\(\((\ massDensityVal\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]Do[\ \
+ (*\ integration\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              solution\ and\ derivs\ *) \[IndentingNewLine]uk\  = \ 
+              uOld[\([\ 
+                  Range[\ primaryDOFs\ ]\ ]\)]; \[IndentingNewLine]vk\  = \ 
+              uOld[\([\ 
+                  primaryDOFs\  + \ 
+                    Range[\ primaryDOFs\ ]\ ]\)]; \[IndentingNewLine]uk\  = \ 
+              uOld[\([\ {\ 1, 2, 3, 4, 5, 
+                    6\ }\ ]\)]; \[IndentingNewLine]vk\  = \ 
+              uOld[\([\ {\ 7, 8, 9, 10, 11, 
+                    12\ }\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]u\  = \
+\ Plus\  @@ \ \((\ sf2[\([\ step\ ]\)]\ *\ uk\ )\); \[IndentingNewLine]{\ 
+                ux, \ uy\ }\  = \ \(\((Plus @@ \((#*uk)\))\) &\)\  /@ \ 
+                sf2xyderiv; \[IndentingNewLine]\[IndentingNewLine]v\  = \ 
+              Plus\  @@ \ \((\ 
+                  sf2[\([\ step\ ]\)]\ *\ vk\ )\); \[IndentingNewLine]{\ 
+                vx, \ vy\ }\  = \ \(\((Plus @@ \((#*vk)\))\) &\)\  /@ \ 
+                sf2xyderiv; \[IndentingNewLine]\[IndentingNewLine]pk\  = \ 
+              uOld[\([\ 
+                  2\ *\ primaryDOFs\  + \ 
+                    Range[\ 
+                      secondaryDOFs\ ]\ ]\)]; \[IndentingNewLine]pk\  = \ 
+              uOld[\([\ {\ 13, \ 14, \ 15\ }\ ]\)]; \[IndentingNewLine]{\ 
+                px, \ py\ }\  = \ \(\((Plus @@ \((#*pk)\))\) &\)\  /@ \ 
+                sf1xyderiv; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]\[IndentingNewLine]mul\ \
+ = \ \ nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuNS1\ \
+ += \ \((\ Transpose[\ {\ sf2[\([\ step\ ]\)], \ 
+                        sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ {u, v}*
+                        sf2xyderiv\ )\)\ )\)*\ 
+                mul; \[IndentingNewLine]KvvNS1\  = \ 
+              KuuNS1; \[IndentingNewLine]KuuNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        ux\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KvvNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        vy\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KuvNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        uy\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KvuNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        vx\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]\[IndentingNewLine]FuNS\  += \ 
+              Transpose[\ {\ 
+                    massDensityVals[\([\ step\ ]\)]\ *\ \((\ 
+                        u*ux\  + \ v*uy\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                mul; \[IndentingNewLine]FvNS\  += \ 
+              Transpose[\ {\ 
+                    massDensityVals[\([\ step\ ]\)]\ *\ \((\ 
+                        u*vx\  + \ v*vy\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                mul;\ \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]mu\  = \ 
+                10^\(-2\); \[IndentingNewLine]\[IndentingNewLine]FuNS2\  += \ 
+                Transpose[\ {\ \((\ px\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul; \[IndentingNewLine]FvNS2\  += \ 
+                Transpose[\ {\ \((\ py\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul; \[IndentingNewLine]\[IndentingNewLine]FuNS3\  += \ \((\
+\ \(\((Plus\  @@ \ #)\) &\)\  /@ \ 
+                      Transpose[\ {\ ux, \ uy\ }\ *\ sf2xyderiv\ ]\ )\)\ *\ 
+                  mu\ *\ mul; \[IndentingNewLine]FvNS3\  += \ \((\ \(\((Plus\ \
+ @@ \ #)\) &\)\  /@ \ Transpose[\ {\ vx, \ vy\ }\ *\ sf2xyderiv\ ]\ )\)\ *\ 
+                  mu\ *\ mul; \[IndentingNewLine]\[IndentingNewLine]FpNS\  \
++= \ Transpose[\ {\ \((\ ux\  + \ vy\ )\)\ *\ sf1[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul;\[IndentingNewLine]*) \[IndentingNewLine]\
+\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ \((\ 
+                    KuuNS1\  + \ KuuNS2\ )\), \ KuvNS2, \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ 
+                  KvuNS2, \ \((\ KvvNS1\  + \ KvvNS2\ )\), \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ emptyS1S2SF, \ 
+                  emptyS1S2SF, \ 
+                  emptyS1S1SF\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]outERHSvalues\  += \ 
+            myBlockMatrix[\ {\ {\ \((FuNS + FuNS2 + 
+                      FuNS3)\)\ }, \ {\ \((FvNS + FvNS2 + FvNS3)\)\ }, \ {\ 
+                  FpNS\ }\ }\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ rowsERHS, \ 
+                colsERHS\ ]\[IndentingNewLine]}\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NNavier", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMNavier[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ elementNodes_, \ 
+          uOld_, \ \ massDensityVal_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \[IndentingNewLine]sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ outERHSvalues, 
+            rows, \ cols, \ \ rowsERHS, \ colsERHS, \[IndentingNewLine]sf1, \ 
+            sf2, \ sf1rsderiv, \ sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ 
+            secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S2SF, emptyS2SF, \ emptyS1SF, \[IndentingNewLine]KuuNS1, \ 
+            KvvNS1, \ KuuNS2, \ KuvNS2, \ KvvNS2, \ 
+            KvuNS2, \[IndentingNewLine]FuNS, \ FvNS, \ FuNS2, \ FvNS2, \ 
+            FuNS3, \ FvNS3\ , FpNS, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \ 
+            weight, \[IndentingNewLine]massDensityVals, \
+\[IndentingNewLine]uk, \ vk, \ pk, \ u, \ v, \ ux, \ vx, \ uy, \ vy, \ px, \ 
+            py, \[IndentingNewLine]mul\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]outERHSvalues\  = \ 
+            imsGetElementMatrixValues[\ 
+              inERHS\ ]; \[IndentingNewLine]rowsERHS\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine]colsERHS\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inERHS\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsNIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS1S2SF\  = \ 
+            Transpose[\ emptyS2S1SF\ ]; \[IndentingNewLine]emptyS1S1SF\  = \ 
+            Table[\ 0. , \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, {1}\ ]; \
+\[IndentingNewLine]emptyS1SF\  = \ 
+            Table[\ 0. , \ {secondaryDOFs}, {1}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]KuuNS1\  = \ \(KvvNS1\  = \ \(KuuNS2\  = \ \(KuvNS2\  = \ \
+\(KvvNS2\  = \ \(KvuNS2\  = \ 
+                      emptyS2S2SF\)\)\)\)\); \[IndentingNewLine]FuNS\  = \ \
+\(FvNS\  = \ \(FuNS2\  = \ \(FvNS2\  = \ \(FuNS3\  = \ \(FvNS3\  = \ 
+                      emptyS2SF\)\)\)\)\); \[IndentingNewLine]FpNS\  = \ 
+            emptyS1SF; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]massDensityVals\  = \
+\(\((\ massDensityVal\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]Do[\ \
+ (*\ integration\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              solution\ and\ derivs\ *) \[IndentingNewLine]uk\  = \ 
+              uOld[\([\ 
+                  Range[\ primaryDOFs\ ]\ ]\)]; \[IndentingNewLine]vk\  = \ 
+              uOld[\([\ 
+                  primaryDOFs\  + \ 
+                    Range[\ primaryDOFs\ ]\ ]\)]; \[IndentingNewLine]uk\  = \ 
+              uOld[\([\ {\ 1, 2, 3, 4, 5, 
+                    6\ }\ ]\)]; \[IndentingNewLine]vk\  = \ 
+              uOld[\([\ {\ 7, 8, 9, 10, 11, 
+                    12\ }\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]u\  = \
+\ Plus\  @@ \ \((\ sf2[\([\ step\ ]\)]\ *\ uk\ )\); \[IndentingNewLine]{\ 
+                ux, \ uy\ }\  = \ \(\((Plus @@ \((#*uk)\))\) &\)\  /@ \ 
+                sf2xyderiv; \[IndentingNewLine]\[IndentingNewLine]v\  = \ 
+              Plus\  @@ \ \((\ 
+                  sf2[\([\ step\ ]\)]\ *\ vk\ )\); \[IndentingNewLine]{\ 
+                vx, \ vy\ }\  = \ \(\((Plus @@ \((#*vk)\))\) &\)\  /@ \ 
+                sf2xyderiv; \[IndentingNewLine]\[IndentingNewLine]pk\  = \ 
+              uOld[\([\ 
+                  2\ *\ primaryDOFs\  + \ 
+                    Range[\ 
+                      secondaryDOFs\ ]\ ]\)]; \[IndentingNewLine]pk\  = \ 
+              uOld[\([\ {\ 13, \ 14, \ 15\ }\ ]\)]; \[IndentingNewLine]{\ 
+                px, \ py\ }\  = \ \(\((Plus @@ \((#*pk)\))\) &\)\  /@ \ 
+                sf1xyderiv; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]\[IndentingNewLine]mul\ \
+ = \ \ nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuNS1\ \
+ += \ \((\ Transpose[\ {\ sf2[\([\ step\ ]\)], \ 
+                        sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ {u, v}*
+                        sf2xyderiv\ )\)\ )\)*\ 
+                mul; \[IndentingNewLine]KvvNS1\  = \ 
+              KuuNS1; \[IndentingNewLine]KuuNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        ux\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KvvNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        vy\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KuvNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        uy\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]KvuNS2\  += \ \((\ 
+                  Transpose[\ {\ sf2[\([\ step\ ]\)]\ }\ ]\  . \ \((\ 
+                      massDensityVals[\([\ step\ ]\)]\ *\ 
+                        vx\ *\ {\ sf2[\([\ step\ ]\)]\ }\ )\)\ )\)\ *\ 
+                mul; \[IndentingNewLine]\[IndentingNewLine]FuNS\  += \ 
+              Transpose[\ {\ 
+                    massDensityVals[\([\ step\ ]\)]\ *\ \((\ 
+                        u*ux\  + \ v*uy\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                mul; \[IndentingNewLine]FvNS\  += \ 
+              Transpose[\ {\ 
+                    massDensityVals[\([\ step\ ]\)]\ *\ \((\ 
+                        u*vx\  + \ v*vy\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                mul;\ \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]mu\  = \ 
+                10^\(-2\); \[IndentingNewLine]\[IndentingNewLine]FuNS2\  += \ 
+                Transpose[\ {\ \((\ px\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul; \[IndentingNewLine]FvNS2\  += \ 
+                Transpose[\ {\ \((\ py\ )\)\ *sf2[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul; \[IndentingNewLine]\[IndentingNewLine]FuNS3\  += \ \((\
+\ \(\((Plus\  @@ \ #)\) &\)\  /@ \ 
+                      Transpose[\ {\ ux, \ uy\ }\ *\ sf2xyderiv\ ]\ )\)\ *\ 
+                  mu\ *\ mul; \[IndentingNewLine]FvNS3\  += \ \((\ \(\((Plus\ \
+ @@ \ #)\) &\)\  /@ \ Transpose[\ {\ vx, \ vy\ }\ *\ sf2xyderiv\ ]\ )\)\ *\ 
+                  mu\ *\ mul; \[IndentingNewLine]\[IndentingNewLine]FpNS\  \
++= \ Transpose[\ {\ \((\ ux\  + \ vy\ )\)\ *\ sf1[\([\ step\ ]\)]\ }\ ]\ *\ 
+                  mul;\[IndentingNewLine]*) \[IndentingNewLine]\
+\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ \((\ 
+                    KuuNS1\  + \ KuuNS2\ )\), \ KuvNS2, \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ 
+                  KvuNS2, \ \((\ KvvNS1\  + \ KvvNS2\ )\), \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ emptyS1S2SF, \ 
+                  emptyS1S2SF, \ 
+                  emptyS1S1SF\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]outERHSvalues\  += \ 
+            myBlockMatrix[\ {\ {\ \((FuNS + FuNS2 + 
+                      FuNS3)\)\ }, \ {\ \((FvNS + FvNS2 + FvNS3)\)\ }, \ {\ 
+                  FpNS\ }\ }\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ rowsERHS, \ 
+                colsERHS\ ]\[IndentingNewLine]}\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["FluidicsLoad", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMFluidicsLoad[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ uLoad_, \ vLoad_, \ 
+          pLoad_\ ] := \[IndentingNewLine]Block[\[IndentingNewLine]{\ coords, 
+            marker, sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]uLoadVals, vLoadVals, 
+            pLoadVals, \[IndentingNewLine]Fu, \ Fv, \ 
+            Fp, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ RHS\ part\ *) \[IndentingNewLine]outERHSvalues = 
+            imsGetElementMatrixValues[\ 
+              inERHS\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inERHS\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sf2Element\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]uLoadVals\  = \(\((\ 
+                  uLoad\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]vLoadVals\  = \(\((\ 
+                  vLoad\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine] (*\ \(pLoadVals\  = \(\
+\((\ pLoad\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                    sf1 . coords\ )\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ integration\ *) \[IndentingNewLine]Fu\  = \ 
+            Plus\  @@ \ \((\ 
+                uLoadVals\ *\ nIntegrationWeight\ *\ jDets\ \ *\ 
+                  sf2\ )\); \[IndentingNewLine]Fv\  = \ 
+            Plus\  @@ \ \((\ 
+                vLoadVals\ *\ nIntegrationWeight\ *\ jDets\ *\ 
+                  sf2\ \ )\); \[IndentingNewLine] (*\ \(Fp\  = \ \ Plus\  \
+@@ \ \((\ pLoadVals\ *\ nIntegrationWeight\ *\ jDets\ *\ 
+                      sf1\ )\);\)\ *) \[IndentingNewLine]Fp\  = \ 
+            Table[\ 0, \ {3}, {1}\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Plus\  @@ \ \((\ 
+              weight\ *\ \((\ 
+                  loadVal1\ *\ 
+                    nSerendipityShapeFunctionIntegration\ )\)\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]outERHSvalues\  += \ 
+            Partition[\ Flatten[\ {\ Fu, \ Fv, Fp\ }\ ], \ 
+              1\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]inESM, \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ rows, \ 
+                cols\ ]\[IndentingNewLine]}\ ]\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NFluidicsLoad", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMFluidicsLoad[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ uLoad_, \ vLoad_, \ 
+          pLoad_\ ] := \[IndentingNewLine]Block[\[IndentingNewLine]{\ coords, 
+            marker, sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]uLoadVals, vLoadVals, 
+            pLoadVals, \[IndentingNewLine]Fu, \ Fv, \ 
+            Fp, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ RHS\ part\ *) \[IndentingNewLine]outERHSvalues = 
+            imsGetElementMatrixValues[\ 
+              inERHS\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inERHS\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsNIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sf2Element\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]uLoadVals\  = \(\((\ 
+                  uLoad\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]vLoadVals\  = \(\((\ 
+                  vLoad\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine] (*\ \(pLoadVals\  = \(\
+\((\ pLoad\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                    sf1 . coords\ )\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ integration\ *) \[IndentingNewLine]Fu\  = \ 
+            Plus\  @@ \ \((\ 
+                uLoadVals\ *\ nIntegrationWeight\ *\ jDets\ \ *\ 
+                  sf2\ )\); \[IndentingNewLine]Fv\  = \ 
+            Plus\  @@ \ \((\ 
+                vLoadVals\ *\ nIntegrationWeight\ *\ jDets\ *\ 
+                  sf2\ \ )\); \[IndentingNewLine] (*\ \(Fp\  = \ \ Plus\  \
+@@ \ \((\ pLoadVals\ *\ nIntegrationWeight\ *\ jDets\ *\ 
+                      sf1\ )\);\)\ *) \[IndentingNewLine]Fp\  = \ 
+            Table[\ 0. , \ {3}, {1}\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Plus\  @@ \ \((\ 
+              weight\ *\ \((\ 
+                  loadVal1\ *\ 
+                    nSerendipityShapeFunctionIntegration\ )\)\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]outERHSvalues\  += \ 
+            Partition[\ Flatten[\ {\ Fu, \ Fv, Fp\ }\ ], \ 
+              1\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]inESM, \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ rows, \ 
+                cols\ ]\[IndentingNewLine]}\ ]\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["FluidicsTransient", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMFluidicsTransientMatrix[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ factor1_, \ factor2_, \ 
+          factor3_\ ] := \[IndentingNewLine]Block[\[IndentingNewLine]{\ 
+            coords, marker, sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S1SF, \[IndentingNewLine]KuuST, \ KvvST, \ KppST, \ 
+            KupST, \ KvpST, KpuST, \ KpvST\ , \[IndentingNewLine]factor1Vals, 
+            factor2Vals, factor3Vals, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0, \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KppST\  = \ 
+            Table[\ 0, \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KuuST\  = \ \(KvvST\  = 
+              emptyS2S2SF\); \[IndentingNewLine]KupST\  = \ \(KvpST\  = \ 
+              emptyS2S1SF\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]factor1Vals\  = \
+\(\((\ factor1\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]factor2Vals\  = \(\((\ 
+                  factor2\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]factor3Vals\  = \(\((\ 
+                  factor3\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine]\
+\[IndentingNewLine] (*\ deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuST\  \
++= \ factor1Vals[\([\ step\ ]\)]\ *\ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KvvST\  += \ 
+              factor2Vals[\([\ 
+                    step\ ]\)]\ *\ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KppST\  += \ 
+              factor3Vals[\([\ 
+                    step\ ]\)]\ *\ \((Transpose[\ sf1xyderiv\ ]\  . \ 
+                    sf1xyderiv)\)\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ KuuST, \ emptyS2S2SF, \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ emptyS2S2SF, \ 
+                  KvvST, \ emptyS2S1SF}, \[IndentingNewLine]{\ 
+                  Transpose[\ emptyS2S1SF\ ], \ Transpose[\ emptyS2S1SF\ ], \ 
+                  KppST\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NFluidicsTransient", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMFluidicsTransientMatrix[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ factor1_, \ factor2_, \ 
+          factor3_\ ] := \[IndentingNewLine]Block[\[IndentingNewLine]{\ 
+            coords, marker, sf2Element, \ 
+            sf1Element, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf1, \ sf2, \ sf1rsderiv, \ 
+            sf2rsderiv, \ sf1xyderiv, \ sf2xyderiv, 
+            nIntegrationWeight, \[IndentingNewLine]primaryDOFs, \ \ \
+secondaryDOFs, \[IndentingNewLine]emptyS2S2SF, \ emptyS2S1SF, \ 
+            emptyS1S1SF, \[IndentingNewLine]KuuST, \ KvvST, \ KppST, \ 
+            KupST, \ KvpST, KpuST, \ KpvST\ , \[IndentingNewLine]factor1Vals, 
+            factor2Vals, factor3Vals, \[IndentingNewLine]jacobians, jDets, \ 
+            jInverses, \[IndentingNewLine]weight\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sf2Element\  = \ 
+            imsPrimaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]sf1Element\  = \ 
+            imsSecondaryElement[\ 
+              Head[\ elem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ stiffness\ part\ *) \[IndentingNewLine]outESMvalues\  = \
+\ imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf1\  = 
+            imsNIntegratedShapeFunction[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf1rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf1Element\ ]; \[IndentingNewLine]sf2\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sf2Element\ ]; \[IndentingNewLine]sf2rsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sf2Element\ ]; \[IndentingNewLine]nIntegrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sf2Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]primaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf2Element\ ]; \[IndentingNewLine]secondaryDOFs\  = \ 
+            imsElementIncidents[\ 
+              sf1Element\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]emptyS2S2SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, {primaryDOFs}\ ]; \
+\[IndentingNewLine]emptyS2S1SF\  = \ 
+            Table[\ 0. , \ {primaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KppST\  = \ 
+            Table[\ 0. , \ {secondaryDOFs}, \ {secondaryDOFs}\ ]; \
+\[IndentingNewLine]KuuST\  = \ \(KvvST\  = 
+              emptyS2S2SF\); \[IndentingNewLine]KupST\  = \ \(KvpST\  = \ 
+              emptyS2S1SF\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sf2rsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]factor1Vals\  = \
+\(\((\ factor1\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]factor2Vals\  = \(\((\ 
+                  factor2\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]factor3Vals\  = \(\((\ 
+                  factor3\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf2 . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine]\
+\[IndentingNewLine] (*\ deriv\ of\ sf\ *) \[IndentingNewLine]sf1xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf1rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]sf2xyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sf2rsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+nIntegrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]KuuST\  \
++= \ factor1Vals[\([\ step\ ]\)]\ *\ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KvvST\  += \ 
+              factor2Vals[\([\ 
+                    step\ ]\)]\ *\ \((Transpose[\ sf2xyderiv\ ]\  . \ 
+                    sf2xyderiv)\)\ *\ weight; \[IndentingNewLine]KppST\  += \ 
+              factor3Vals[\([\ 
+                    step\ ]\)]\ *\ \((Transpose[\ sf1xyderiv\ ]\  . \ 
+                    sf1xyderiv)\)\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], {\ step, \ 
+              Length[\ 
+                nIntegrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+            myBlockMatrix[\ {\[IndentingNewLine]{\ KuuST, \ emptyS2S2SF, \ 
+                  emptyS2S1SF\ }, \[IndentingNewLine]{\ emptyS2S2SF, \ 
+                  KvvST, \ emptyS2S1SF}, \[IndentingNewLine]{\ 
+                  Transpose[\ emptyS2S1SF\ ], \ Transpose[\ emptyS2S1SF\ ], \ 
+                  KppST\ }\[IndentingNewLine]}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{49, Automatic}, {Automatic, 25}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 39, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1840, 57, 31, 0, 74, "Section"],
+Cell[1874, 59, 1614, 28, 363, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3513, 91, 35, 0, 28, "Subsubsection"],
+Cell[3551, 93, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4172, 105, 1824, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6045, 142, 32, 0, 44, "Section"],
+Cell[6080, 144, 317, 7, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6434, 156, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6511, 160, 26, 0, 38, "Subsection"],
+Cell[6540, 162, 2247, 35, 539, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8824, 202, 34, 0, 30, "Subsection"],
+Cell[8861, 204, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9067, 212, 36, 0, 30, "Subsection"],
+Cell[9106, 214, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9328, 224, 32, 0, 44, "Section"],
+Cell[9363, 226, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9488, 233, 42, 0, 44, "Section"],
+Cell[9533, 235, 499, 8, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10069, 248, 30, 0, 44, "Section"],
+Cell[10102, 250, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10430, 260, 26, 0, 44, "Section"],
+Cell[10459, 262, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10675, 271, 27, 0, 44, "Section"],
+Cell[10705, 273, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10871, 281, 29, 0, 44, "Section"],
+Cell[10903, 283, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11071, 291, 41, 0, 44, "Section"],
+Cell[11115, 293, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[11259, 299, 140, 4, 43, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[11424, 307, 31, 0, 28, "Subsubsection"],
+Cell[11458, 309, 6063, 101, 1323, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17558, 415, 32, 0, 22, "Subsubsection"],
+Cell[17593, 417, 6056, 101, 1307, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23686, 523, 31, 0, 22, "Subsubsection"],
+Cell[23720, 525, 10571, 177, 1979, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[34328, 707, 32, 0, 22, "Subsubsection"],
+Cell[34363, 709, 10585, 177, 1979, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[44985, 891, 37, 0, 22, "Subsubsection"],
+Cell[45025, 893, 4249, 73, 875, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[49311, 971, 38, 0, 22, "Subsubsection"],
+Cell[49352, 973, 4257, 73, 875, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53646, 1051, 42, 0, 22, "Subsubsection"],
+Cell[53691, 1053, 5966, 99, 1275, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[59694, 1157, 43, 0, 22, "Subsubsection"],
+Cell[59740, 1159, 5978, 99, 1275, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65767, 1264, 31, 0, 44, "Section"],
+Cell[65801, 1266, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65971, 1274, 30, 0, 44, "Section"],
+Cell[66004, 1276, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[66173, 1284, 30, 0, 44, "Section"],
+Cell[66206, 1286, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

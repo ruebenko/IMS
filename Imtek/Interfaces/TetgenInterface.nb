@@ -1,0 +1,655 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     21907,        511]*)
+(*NotebookOutlinePosition[     22569,        534]*)
+(*  CellTagsIndexPosition[     22525,        530]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["TetgenInterface Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ TetgenInterface . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : \ 
+        oliver\ ruebenkoenig\ and\ christian\ moosmann\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Date : \ 16.1  .2006, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ package\ for\ generating\ Tetgen\ input\ files\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]backward\ compatability\ for\ 5.0\ \
+\[IndentingNewLine]fixed\ the\ documentation; \[IndentingNewLine]fixed\ bug\ \
+in\ quadratic\ tetgen\ read; \[IndentingNewLine]finished\ read\ tetgen; \
+\[IndentingNewLine]added\ first\ version\ of\ read\ \
+tetgen\[IndentingNewLine]modification\ of\ TriangleInterface\ for\ use\ with\ \
+tetgen\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\
+\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Sources : \ 
+        Tetgen\ is\ a\ mesh\ generator\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ is\ the\ IMTEK\ package\ for\ generating\ Tetgen\ input\ \
+\(\(files\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005 - 
+        2006\ oliver\ ruebenkoenig\ and\ christian\ moosmann\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Interfaces`\
+TetgenInterface`\>", \ {\ "\<Imtek`Graph`\>", \ "\<Imtek`Nodes`\>", \n\
+"\<Imtek`DomainElementLibrary`\>", \ "\<Imtek`MeshElementLibrary`\>"\ }\ ];\)\
+\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\(imsToTetgenInputFile::usage\ \
+ = \ "\<imsToTetgenInputFile[ domain, {holePoints}, {markerPoints} ] returns \
+an input file for tetgen. Domain is a nexus. Optionally a list of hole points \
+{ x, y, z } and a list of marker points { { x, y, z }, marker, delimiter } \
+can be given. The delimiter controls the mesh size at this point.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsReadTetgenOutput::usage\  = \ "\<imsReadTetgenOutput[file, \
+boundaryMarkers, boundaryFunction, boundaryData ] returns a nexus generated \
+from tetgen output file. Optionally the functions boundaryMarkers[ id, x, y, \
+z ], boundaryFunction[id, x, y, z, marker] and boundaryData[id, x, y, z, \
+marker] can be given.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsToTetgenInputFile[\ 
+          nexus_imsNexus, \ pointsMarkingHoles_: {{}}, \ 
+          pointsMarkingDomains_: {{}}\ \ ]\  := \ 
+        Module[\ {\ nodes, \ numberOfNodes, \ firstLine, \ nodeLines, 
+            segments, segmentHoles, \ numberOfSegments, \ firstSegmentLine, \ 
+            segmentLines, \ numberOfHoles, \ holePoints, segmentHolePoints, \ 
+            numberOfDomains, \ domainPoints, \ i, 
+            tempinc\ }, \[IndentingNewLine]\[IndentingNewLine]nodes\  = \ 
+            imsGetNodes[\ nexus\ ]; \[IndentingNewLine]numberOfNodes\ \  = \ 
+            Length[\ nodes\ ]; \[IndentingNewLine]segments\  = \ 
+            Cases[imsGetElements[\ 
+                nexus\ ], _imsDomainSegment]; \[IndentingNewLine]segmentHoles \
+= \ Cases[imsGetElements[\ 
+                nexus\ ], _imsDomainHoleSegment]; \
+\[IndentingNewLine]segmentHolePoints = \(Apply[Plus, 
+                    imsGetCoords[nodes[\([#]\)]]]/
+                  Length[#] &\) /@ \(imsGetIncidentsIds /@ 
+                segmentHoles\); \[IndentingNewLine]numberOfSegments\  = \ 
+            Length[\ 
+              segments\ ]; \[IndentingNewLine]\[IndentingNewLine]firstLine\  \
+= \ {\ {\ numberOfNodes, \ 3, \ 0, \ 
+                1\ }\ }; \[IndentingNewLine]nodeLines\  = \ \(Flatten[{\ 
+                    imsGetIds[\ #\ ], \ imsGetCoords[\ #\ ], \ 
+                    imsGetMarkers[\ #\ ]\ }\ ]\  &\)\ \  /@ \ 
+              nodes; \[IndentingNewLine]\[IndentingNewLine]firstSegmentLine\  \
+= \ {\ {\ numberOfSegments, \ 
+                1\ }\ }; \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]segmentLines\  = 
+            Flatten[\(Switch[imsDataDomainElementQ[#], 
+                    False, {{1, 0, imsGetMarkers[#]}, 
+                      Flatten[{Length[tempinc = imsGetIncidentsIds[\ #\ ]], \ 
+                          tempinc}]}, \[IndentingNewLine]True, 
+                    Join[Join[{{1 + Length[imsGetDatas[#]], 
+                            Length[imsGetDatas[#]], imsGetMarkers[#]}, 
+                          Flatten[{Length[
+                                tempinc = imsGetIncidentsIds[\ #\ ]], \ 
+                              tempinc}]}, \(Flatten[{Length[
+                                  tempinc = imsGetIncidentsIds[\ #\ ]], \ 
+                                tempinc}] &\) /@ 
+                          segmentHoles[\([imsGetDatas[#]]\)]], 
+                      i = 1; \(Flatten[\ {\(i++\), 
+                              
+                              segmentHolePoints[\([imsGetIds[#]]\)]\ }\ ] &\) \
+/@ segmentHoles[\([imsGetDatas[#]]\)]]\[IndentingNewLine]]\  &\)\  /@ \ 
+                segments\ , 
+              1]; \[IndentingNewLine]\[IndentingNewLine]If[\[IndentingNewLine]\
+MatchQ[\ pointsMarkingHoles, \ {{\ _, _\ , _} .. }\ ], \
+\[IndentingNewLine]numberOfHoles\  = \ {{\ 
+                  Length[\ pointsMarkingHoles\ ]\ }}; \[IndentingNewLine]i = 
+              1; \[IndentingNewLine]holePoints\  = \ \(Flatten[\ {\ \(i++\), \
+\ #\ }\ ] &\)\  /@ \ 
+                pointsMarkingHoles, \[IndentingNewLine]numberOfHoles\  = \ {{\
+\ 0\ }}; \[IndentingNewLine]holePoints\  = \ {{"\< \>"}}\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\[IndentingNewLine]MatchQ[\ 
+              pointsMarkingDomains, \ {{\ {_, _, \ _\ }, _, _} .. }\ ], \
+\[IndentingNewLine]numberOfDomains\  = \ {{\ 
+                  Length[\ 
+                    pointsMarkingDomains\ ]\ }}; \[IndentingNewLine]i = 
+              1; \[IndentingNewLine]domainPoints\  = \ \(Flatten[\ {\ \
+\(i++\), \ #\ }\ ] &\)\  /@ \ 
+                pointsMarkingDomains, \[IndentingNewLine]numberOfDomains\  = \
+\ {{\ 0\ }}; \[IndentingNewLine]domainPoints\  = \ {{"\< \>"}}\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+            Join[\ firstLine, \ nodeLines, \ firstSegmentLine, \ 
+              segmentLines, \ numberOfHoles, \ holePoints, \ 
+              numberOfDomains, \ 
+              domainPoints\ ]\ ];\[IndentingNewLine]];\)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsReadTetgenOutput[\ fileName_, \ 
+        markerFunction_: 
+           Function[\ {\ id, \ x, \ y, \ z, \ marker\ }, \ marker\ ], \ 
+        boundaryFunction_: 
+           Function[\ {\ id, \ x, \ y, \ z, \ marker\ }, \ {{\ 0\ }}\ ], \ 
+        boundaryData_:  Null\ ]\  := \ 
+      imsReadTetgenOutput[\ \[IndentingNewLine]{\  (*\ 
+            generate\ the\ correct\ file\ names\ for\  . node\ and\  . 
+                ele\ *) \[IndentingNewLine]StringJoin[\ 
+            Join[\ {\ 
+                DirectoryName[\ 
+                  fileName\ ]\ }, \(StringJoin[\ #, \ "\<.\>"\ ] &\)\  /@ \ 
+                Drop[\ StringSplit[\ 
+                    StringReplace[\ fileName, \ 
+                      DirectoryName[\ 
+                          fileName\ ]\  \[Rule] \ "\<\>"\ ], "\<.\>"\ ], \(-1\
+\)\ \ ], \ {"\<node\>"}\ ]\ \ ], \[IndentingNewLine]StringJoin[\ 
+            Join[\ {\ 
+                DirectoryName[\ 
+                  fileName\ ]\ }, \(StringJoin[\ #, \ "\<.\>"\ ] &\)\  /@ \ 
+                Drop[\ StringSplit[\ 
+                    StringReplace[\ fileName, \ 
+                      DirectoryName[\ 
+                          fileName\ ]\  \[Rule] \ "\<\>"\ ], "\<.\>"\ ], \(-1\
+\)\ \ ], \ {"\<ele\>"}\ ]\ \ ]\[IndentingNewLine]\ }, \ markerFunction, \ 
+        boundaryFunction, \ boundaryData\ ]\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsReadTetgenOutput[\ {\ nodeFileName_, \ 
+            elementFileName_\ }, \ \ markerFunction_: 
+             Function[\ {\ id, \ x, \ y, \ z, \ marker\ }, \ marker\ ], 
+          boundaryFunction_: 
+             Function[\ {\ id, \ x, \ y, \ z, \ marker\ }, \ {{\ 0\ }}\ ], \ 
+          boundaryData_:  Null\ ]\  := \ 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]rawNodes, \ 
+            rawElements, \[IndentingNewLine]numberOfElements, \ 
+            orderOfElement, \ boolMarker, \[IndentingNewLine]elementType, \ 
+            elementIdPattern, \ elementIds, elementMarkerPattern, \ 
+            elementMarkers, 
+            boolElementMarker, \[IndentingNewLine]elementParsePattern, \ \ \
+elementParseAccess, \[IndentingNewLine]interiorNodes, \ boundaryNodes, \ 
+            thisMarker, \ 
+            elements\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ read\ the\ data\ *) \[IndentingNewLine]rawNodes\  = \ 
+            Import[\ 
+              nodeFileName, \ "\<Table\>"\ ]; \[IndentingNewLine]rawElements\ \
+ = \ Import[\ 
+              elementFileName, \ "\<Table\>"\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]interiorNodes\  = \ 
+            Select[\ Take[\ rawNodes, \ {2, \ \(-2\)\ }\ ], \ \((\ 
+                  Last[\ #\ ]\  == \ 0 &\ )\)\ ]\  /. \ {\ id_Integer, \ 
+                  xCoord_, \ yCoord_, \ zCoord_, \ nodeMarker_\ }\  \[Rule] \ 
+                imsMakeNode[\ 
+                  id, \ {\ xCoord, \ yCoord, \ 
+                    zCoord\ }\ \ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Which[\[IndentingNewLine]boundaryData\  \
+=!= \ Null, \[IndentingNewLine]boundaryNodes\  = \ 
+              Select[\ Take[\ rawNodes, \ {2, \ \(-2\)\ }\ ], \ \((\ 
+                    Last[\ #\ ]\  != \ 0 &\ )\)\ ]\  /. {\ id_Integer, \ 
+                    xCoord_, \ yCoord_, zCoord_, \ nodeMarker_\ }\  :> 
+                  imsMakeNode[\ 
+                    id, \ {\ xCoord, \ yCoord, 
+                      zCoord\ }, \ \[IndentingNewLine]thisMarker\  = \ 
+                      markerFunction[\ id, \ xCoord, \ yCoord, \ zCoord, \ 
+                        nodeMarker\ ], \ 
+                    boundaryFunction[\ id, \ xCoord, \ yCoord, zCoord, \ 
+                      thisMarker\ ], \ 
+                    boundaryData[\ id, \ xCoord, \ yCoord, zCoord, \ 
+                      thisMarker\ ]\ ], \[IndentingNewLine]boundaryData\  \
+=== \ Null, \[IndentingNewLine]boundaryNodes\  = \ 
+              Select[\ Take[\ rawNodes, \ {2, \ \(-2\)\ }\ ], \ \((\ 
+                    Last[\ #\ ]\  != \ 0 &\ )\)\ ]\  /. {\ id_Integer, \ 
+                    xCoord_, \ yCoord_, zCoord_, \ nodeMarker_\ }\  :> 
+                  imsMakeNode[\ 
+                    id, \ {\ xCoord, \ yCoord, 
+                      zCoord\ }, \ \[IndentingNewLine]thisMarker\  = \ 
+                      markerFunction[\ id, \ xCoord, \ yCoord, \ zCoord, \ 
+                        nodeMarker\ ], \ 
+                    boundaryFunction[\ id, \ xCoord, \ yCoord, zCoord, \ 
+                      thisMarker\ ]\ ]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]{\ numberOfElements, \ 
+              orderOfElement, \ boolElementMarker\ }\  = \ 
+            First[\ rawElements\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Which[\[IndentingNewLine]orderOfElement\
+\  \[Equal] \ 4, \[IndentingNewLine]elementType\  = \ 
+              imsMakeTetrahedronLinear1DOF; \
+\[IndentingNewLine]elementIdPattern\  = \ {\ id1_, \ id2_, \ id3_, \ 
+                id4_\ }; \[IndentingNewLine]elementIds\  = \ {\ id1, \ id2, \ 
+                id3, \ id4\ }\[IndentingNewLine], \[IndentingNewLine]\
+\[IndentingNewLine]orderOfElement\  \[Equal] \ 
+              10, \[IndentingNewLine]elementType\  = \ 
+              imsMakeTetrahedronQuadratic1DOFSerendipity; \
+\[IndentingNewLine]elementIdPattern\  = \ {\ id1_, \ id2_, \ id3_, \ id4_, \ 
+                id5_\ , id6_, \ id7_, \ id8_, \ id9_, \ 
+                id10_\ }; \ \[IndentingNewLine]elementIds\  = \ {id1, id2, 
+                id3, id4, id5, id6, id7, id9, id10, 
+                id8}\[IndentingNewLine], \[IndentingNewLine]\
+\[IndentingNewLine]True, \ \(Print["\<Element Order: \>", \ 
+                orderOfElement, \ "\< not \
+supported.\>"];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Which[\[IndentingNewLine]\
+boolElementMarker\  \[Equal] \ 
+              0, \[IndentingNewLine]elementMarkerPattern\  = \ {}; \
+\[IndentingNewLine]elementMarkers\  = \ 
+              Sequence[]\[IndentingNewLine], \[IndentingNewLine]\
+\[IndentingNewLine]boolElementMarker\  \[Equal] \ 
+              1, \[IndentingNewLine]elementMarkerPattern\  = \ {\ 
+                marker_\ }; \[IndentingNewLine]elementMarkers\  = \ 
+              marker\[IndentingNewLine], \[IndentingNewLine]True, \ \(Print["\
+\<Marker: \>", \ 
+                boolMarker, \ "\< not supported.\>"];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]elementParsePattern\  = \ 
+            Flatten[\ {\ id_Integer, \ elementIdPattern, \ 
+                elementMarkerPattern\ }\ ]; \
+\[IndentingNewLine]elementParseAccess\  = \ 
+            Sequence[\ id, \ elementIds, \ 
+              elementMarkers\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]elements\  = \ 
+            Take[\ rawElements, \ {\ 2, \ \(-2\)\ }\ ]\  /. \ 
+              elementParsePattern\  \[Rule] \ \((elementType[\ 
+                    elementParseAccess\ ])\); \n\[IndentingNewLine]Return[\ 
+            imsMakeNexus[\ boundaryNodes, \ interiorNodes, \ 
+              elements\ ]\ ];\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{892, 599},
+WindowMargins->{{Automatic, 52}, {Automatic, 32}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 43, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1844, 57, 31, 0, 74, "Section"],
+Cell[1878, 59, 1667, 29, 411, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3570, 92, 35, 0, 28, "Subsubsection"],
+Cell[3608, 94, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4229, 106, 1877, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6155, 143, 32, 0, 44, "Section"],
+Cell[6190, 145, 313, 7, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6540, 157, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6617, 161, 26, 0, 38, "Subsection"],
+Cell[6646, 163, 1199, 18, 347, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7882, 186, 34, 0, 30, "Subsection"],
+Cell[7919, 188, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8125, 196, 36, 0, 30, "Subsection"],
+Cell[8164, 198, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8386, 208, 32, 0, 44, "Section"],
+Cell[8421, 210, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8546, 217, 42, 0, 44, "Section"],
+Cell[8591, 219, 174, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8802, 228, 30, 0, 44, "Section"],
+Cell[8835, 230, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9163, 240, 26, 0, 44, "Section"],
+Cell[9192, 242, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9408, 251, 27, 0, 44, "Section"],
+Cell[9438, 253, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9604, 261, 29, 0, 44, "Section"],
+Cell[9636, 263, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9804, 271, 41, 0, 44, "Section"],
+Cell[9848, 273, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[9992, 279, 4228, 72, 875, "Input",
+  InitializationCell->True],
+Cell[14223, 353, 7025, 123, 1387, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21285, 481, 31, 0, 44, "Section"],
+Cell[21319, 483, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21489, 491, 30, 0, 44, "Section"],
+Cell[21522, 493, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21691, 501, 30, 0, 44, "Section"],
+Cell[21724, 503, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

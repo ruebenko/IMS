@@ -1,0 +1,3018 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    102123,       2490]*)
+(*NotebookOutlinePosition[    102808,       2514]*)
+(*  CellTagsIndexPosition[    102764,       2510]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Imtek`System`", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "(* WARNING: This should be merged with System in the near future. Please \
+don't use at the moment... *)\n(* Title: PolynomialSystem.m *)\n(* Context: \
+*)\n(* Authors: oliver ruebenkoenig ,Jan Lienemann *)\n(* Date: 22.2.2005, \
+Geilo, Norway *)\n(* Summary: This is the IMTEK differential equation system \
+data structure for systems with polynomial nonlinearities *)\n(* Package \
+Copyright: GNU GPL *)\n(* Package Version: 0.4.1 *)\n(* Mathematica Version: \
+5.11 *)\n(* History: Some stuff taken from Oliver Ruebenkoenig's System \
+package\n   2005-09-22: Bugfixes with imsGetStiffness...\n   2006-11-23: \
+added backward compatability so that system works in version 5.0\n   \
+2007-09-03: added compat. with mma6.0\n   *)\n(* Keywords: *)\n(* Sources: *)\
+\n(* Limitations: *)\n(* Discussion: A polynomial system is a system of \
+equations where terms of the form ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\+ij\( x\_i\) \(m\_pij\) x\_j\)]],
+  "may occur. To be real general, it should also be able to represent such \
+pervert stuff like ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\+ijk\( m\_pijk\) \(u\_i\) \(x\& . \_j\) 
+          x\_k\)]],
+  " may occur (note the dot over the x), although I hope I will never be \
+confronted with such a beast. As a general expression for the system of \
+equations,we may write:\n",
+  Cell[BoxData[
+      \(TraditionalForm\`0 = \[Sum]\+\(\(J\_i\) K\_i\)\(M\_\(p\ \(J\_i\) 
+                  K\_i\)\) \(X\_\(J\_i\)\) U\_\(K\_i\)\)]],
+  ", where:\n",
+  Cell[BoxData[
+      \(TraditionalForm\`J\_i\)]],
+  "and ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_i\)]],
+  "are lists of nonnegative integers ",
+  Cell[BoxData[
+      \(TraditionalForm\`\((\(\[Element]\)\(\[DoubleStruckCapitalN]\_0\))\)\)]\
+],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`X\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\)]],
+  " are the list of time derivatives of ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`u\)]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`X\_\(J\_i\)\)]],
+  "and ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\_\(K\_i\)\)]],
+  "are the product of all time derivatives with a nonzero entry in ",
+  Cell[BoxData[
+      \(TraditionalForm\`J\_i\)]],
+  " or ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_i\)]],
+  ".\nExample: ",
+  Cell[BoxData[
+      \(TraditionalForm\`X\_{1, 0, 2} = \(x\_i\) \(x\&\[DoubleDot]\_j\) 
+          x\&\[DoubleDot]\_k\)]],
+  ". Of course there should be ",
+  Cell[BoxData[
+      \(TraditionalForm\`J\_i \[NotEqual] J\_j\)]],
+  " for ",
+  Cell[BoxData[
+      \(TraditionalForm\`i \[NotEqual] j\)]],
+  ", otherwise we have doubled entries.\n",
+  Cell[BoxData[
+      \(TraditionalForm\`M\_\(\(J\_i\) K\_i\)\)]],
+  "features all the coefficients for the numerous products:\n",
+  Cell[BoxData[
+      \(TraditionalForm\`M\_\(p {1, 0, 2} {1, 1}\) = M\_pjklmn\)]],
+  ".\n*)\n(* Requirements: *)\n(* Examples: *)\n(* ",
+  StyleBox["Red",
+    FontColor->RGBColor[1, 0, 0]],
+  " means: Implement me! ",
+  StyleBox["Gray",
+    FontColor->GrayLevel[0.666667]],
+  " means: Fix me if your time allows. *)\n(* Further TODOs: Compatibility \
+with PostprocessMOR package; Ensure compatiblity with packages using System \
+*)"
+}], "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsection",
+  InitializationCell->True],
+
+Cell["\<\
+(* Whereever the GNU GPL is not applicable, the software should be \
+used in the same spirit. *)
+(* Users of this code must verify correctness for their application. *)
+(* Free Software Foundation,Inc.,59 Temple Place,Suite 330,Boston,MA \
+02111-1307 USA *)\
+\>", "Text",
+  InitializationCell->True],
+
+Cell["\<\
+(* Disclaimer: *)
+(* This is the IMTEK differential equation system data structure for systems \
+with polynomial nonlinearities *)
+(* Copyright (C) 2005 Jan Lienemann *)
+(* This program is free software; *)
+(* you can redistribute it and/or modify it under the terms of the GNU \
+General Public License *)
+(* as published by the Free Software Foundation;either version 2 of the \
+License, *)
+(* or (at your option) any later version.This program is distributed in the \
+hope that *)
+(* it will be useful,but WITHOUT ANY WARRANTY; *)
+(* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \
+PARTICULAR PURPOSE. *)
+(* See the GNU General Public License for more details. You should have \
+received a copy of *)
+(* the GNU General Public License along with this program;if not, write to \
+the *)
+(* Free Software Foundation,Inc.,59 Temple Place,Suite 330,Boston,MA \
+02111-1307 USA *)\
+\>", "Text",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`System`\>", \
+{"\<Imtek`Debug`\>", "\<Imtek`BackwardCompatability`\>"}];\)\(\ \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Obsolete Functions", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\n
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeSystem, \ $Context\ ];\)\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ GetInertia, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ GetDamping, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ GetStiffness, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ GetLoad, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ SetInertia, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      SetDamping, \ $Context\ ];\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ SetStiffness, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ SetLoad, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ StationaryQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ FirstOrderQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ SecondOrderQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ParametricStiffnessQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ParametricDampingQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ParametricStiffnessQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ParametricInertiaQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ParametricQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      ToFirstOrder, \ $Context\ ];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(SetInertia\\)\\\" is similar to existing \
+symbol \\\"\\!\\(GetInertia\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"Mehr\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(SetDamping\\)\\\" is similar to existing \
+symbol \\\"\\!\\(GetDamping\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"Mehr\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(SetStiffness\\)\\\" is similar to existing \
+symbol \\\"\\!\\(GetStiffness\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"Mehr\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(SetLoad\\)\\\" is similar to existing symbol \
+\\\"\\!\\(GetLoad\\)\\\". \\!\\(\\*ButtonBox[\\\"Mehr\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), "\[IndentingNewLine]", \( (*\ documentation\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \( (*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+          constructors\  **  ** ******) \), 
+      "\[IndentingNewLine]", \( (*\ 
+        MakePolynomialSystem\ should\ be\ changed\ to\ "\<PolynomialSystem\>"\
+\ only\  ... \ *) \), "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(imsSystem::usage\  = \ "\<imsSystem is the expression \
+returned by imsMakeSystem represents a data structure for storing systems of \
+equations with polynomial nonlinearities.\>";\), " ", \( (*\ Core\ *) \), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsMakeSystem::usage = "\<imsMakeSystem[ l, \
+{ s, s2..sn }, { d, d2..dn }, { i, i2..in } ] creates a imsSystem data \
+structure. l is a column load vector, s,d and i are stiffness, damping and \
+inertia matrices respectively. The matrices d and i are optional. So are the \
+matrices s2 to sn, d2 to dn and i2 to in. The column vectors l can have \
+multiple columns.\>";\), " ", \( (*\ Convenience\ *) \), "\n", 
+        "\[IndentingNewLine]", \(imsMakeSystemPolynomial::usage = \
+"\<imsMakeSystemPolynomial[ {DimJ, DimK, ...}, {imsPolynomMatrix[{J1, K1,..}, \
+M1],.., imsPolynomialMatrix[{Jn, Kn,..}, Mn]}] creates an imsSystem data \
+structure, but allows for polynomial systems. J1 is the list of occurences of \
+time derivatives of x in the product, K1 is the same for the imputs u. \
+Further lists may be given for extensions to other problems or parameters. \
+DimJ is in this case the dimension of x, DimK that of u, and so on.\>"; \  \
+(*\ Core\ *) \[IndentingNewLine]\[IndentingNewLine]imsPolynomMatrix::usage = \
+\[IndentingNewLine]"\<imsPolynomMatrix represents a data tructure for storing \
+the coefficients of a matrix polynomial.\>";  (*Core*) \[IndentingNewLine]\
+\[IndentingNewLine]imsMakePolynomMatrix::usage = \
+"\<imsMakePolynomMatrix[{J1,K1,...},M1] creates an imsPolynomMatrix data \
+structure. The J1,.. are the exponents of time derivatives of the various \
+variables\>"; \  (*\ 
+          Core\ *) \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(**\)\(\
+**\)\(**\)\)*\ 
+            selectors\  **  \
+** ******) \[IndentingNewLine]imsGetInertia::usage = "\<imsGetInertia[ system \
+] returns the system's inertia.\>"; \  (*\ Convenience\ *) \n
+        imsGetDamping::usage = "\<imsGetDamping[ system ] returns the \
+system's damping.\>"; \  (*\ Convenience\ *) \n
+        imsGetStiffness::usage = "\<imsGetStiffness[ system ] returns the \
+system's stiffness.\>"; \  (*\ Convenience\ *) \n
+        imsGetLoad::usage = "\<imsGetLoad[ system ] returns the systems load.\
+\>"; \  (*\ 
+          Convenience\ \
+*) \[IndentingNewLine]\[IndentingNewLine]imsGetSystemPolynomMatrix::usage = "\
+\<imsGetSystemPolynomMatrix[ system, {Ji, Ki,..} ] returns the \
+imsPolynomMatrix tensor for the respective combinations of x und u time \
+derivatives given by Ji, Ki,..\>"; \  (*\ 
+          Core\ *) \[IndentingNewLine]\[IndentingNewLine]\
+imsGetPolynomMatrixExponents::usage = "\<imsGetPolynomMatrixExponents[M] \
+returns the exponent lists {Ji, Ki,..} of the imsPolynomMatrix M.\>"; \  (*\ 
+          Core\ *) \[IndentingNewLine]imsGetPolynomMatrixValues::usage = \
+"\<imsGetPolynomMatrixValues[M] returns the coefficient tensor of the \
+imsPolynomMatrix M.\>"; \  (*\ 
+          Core\ *) \n\[IndentingNewLine]imsGetSystemPolynomMatrices::usage = \
+"\<imsGetSystemPolynomMatrices[ system, {Ji, Ki,..} ] returns all \
+imsPolynomMatrices of a system for which the exponents match the pattern {Ji, \
+Ki,..}.\>";\), " ", \( (*\ Core\ *) \), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{\(imsGetSystemSize::usage = "\<imsGetSystemSize[ system ] \
+returns the length of the state vector.\>"\), ";", " ", \( (*\ Core\ *) \), 
+          "\[IndentingNewLine]", \(imsGetSystemVariables::usage = \
+"\<imsGetSystemVariables[ system ] returns the dimension of parameter, input \
+and state vectors.\>"\), ";", " ", \( (*\ Core\ *) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \(imsPolynomMatrixCanonicalExponents::usage \
+= "\<imsPolynomMatrixCanonicalExponents[ {Ji, Ki,..} ] returns the canonical \
+form of the exponent lists {Ji, Ki,..}. It mainly strips trailing zeros and \
+empty lists.\>"\), ";", " ", \( (*\ Core\ *) \), 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[0]], 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[
+            0]], \( (*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+              mutators\  **  **  ** ****) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \(imsSetSystemMatrix::usage = \
+"\<imsSetSystemMatrix[ system, imsPolynomMatrix[{Ji,Ki},M] ] returns system \
+with its M_JiKi.. object replaced by M or added. If M is empty, the matrix is \
+simply deleted.\>"\), ";", " ", \( (*\ Core\ *) \), 
+          "\[IndentingNewLine]", \( (*\ 
+            imsSetSystemParametricMatrix::usage = \
+"\<imsSetSystemParametricMatrix[ system, {Ji, Ki,..}, M0, {M1, M2, ...} ] \
+sets a matrix M0 and its parametric parts.\>"; \ 
+            IMHO\ not\ necessary\ to\ export . \ YMMV . \ *) \), 
+          "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \(imsSetInertia::usage = "\<imsSetInertia[ \
+system, {i, i2..in} ] returns system with its inertia replaced by {i, \
+i2..in}.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsSetDamping::usage = "\<imsSetDamping[ \
+system, {d, d2..dn} ] returns system with its damping replaced by {d, \
+d2..dn}.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsSetStiffness::usage = \
+"\<imsSetStiffness[ system, {s, s2..sn} ] returns system with its stiffness \
+replaced by {s, s2..sn}.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsSetLoad::usage = "\<imsSetLoad[ system, \
+l ] returns system with its load replaced by column load vector l.\>"\), ";", 
+          " ", \( (*\ Convenience\ *) \), "\[IndentingNewLine]", 
+          
+          "\[IndentingNewLine]", \(imsPolynomMatrixContract::usage = \
+"\<imsPolynomMatrixContract[ M, { {i1, v1}, {i2, v2}, ... } ] calculates the \
+product of M with the vi at indices ii, e.g. for i1=2 and i2=4: Mijkl v1j \
+v2l. M may be an array or an imsPolynomMatrix.\>"\), ";"}], 
+        " ", \( (*\ Core\ *) \), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsPolynomMatrixContractAll::usage = \
+"\<imsPolynomMatrixContractAll[ pm, vc, vr, vu, vf ] calls \
+imsPolynomMatrixContract such that all parameter levels are multiplied with \
+vc, the row level with vr, the state levels with vu and the input levels with \
+vf; A non-List for any of those means that this contraction is ignored.\>";\),
+         " ", \( (*\ Convenience\ *) \), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \
+\(imsPolynomMatrixContractAllDerivatives::usage = \
+"\<imsPolynomMatrixContractAllDerivatives[ pm, vc, vr, vu, vf ] calls \
+imsPolynomMatrixContract such that all parameter levels with time derivative \
+are multiplied with vc[[1]], the first time derivatives with vc[[2]] and so \
+on, the row level with vr, the state levels with vu[[1]], the velocity levels \
+with vu[[2]] and so on, the input levels with vf[[1]], the time derivatives \
+of the input with vf[[2]] etc.; A non-List for any of those means that this \
+contraction is ignored.\>";\), 
+        "\[IndentingNewLine]", \( (*\ Convenience\ *) \), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \( (*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+            predicates\ **********) \), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{\(imsStationaryQ::usage\  = \ "\<imsStationaryQ[ system ] \
+returns True if system is stationary.\>"\), ";", 
+          " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsFirstOrderQ::usage\  = \ \
+"\<imsFirstOrderQ[ system ] returns True if system is of first order.\>"\), 
+          ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsSecondOrderQ::usage\  = \ \
+"\<imsSecondOrderQ[ system ] returns True if system is of second order.\>"\), 
+          ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsParametricStiffnessQ::usage\  = \ \
+"\<imsParametricStiffnessQ[ system ] returns True if system has more than one \
+stiffness matrix.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsParametricDampingQ::usage\  = \ \
+"\<imsParametricDampingQ[ system ] returns True if system has more than one \
+damping matrix.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsParametricInertiaQ::usage\  = \ \
+"\<imsParametricInertiaQ[ system ] returns True if system has more than one \
+inertia matrix.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsParametricQ::usage\  = \ \
+"\<imsParametricQ[ system ] returns True if system has parametric \
+matrices.\>"\), ";", " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsLinearQ::usage\  = \ "\<imsLinearQ[ \
+system, function ] returns True if system is linear w.r.t function.\>"\), ";",
+           " ", \( (*\ Convenience\ *) \), 
+          "\[IndentingNewLine]", \(imsPolynomMatrixContainsExponentsQ::usage \
+= "\<imsPolynomMatrixContainsExponentsQ[ M, {Ji, Ki,..} ] returns True if \
+after canonicalization the exponents of the imsPolynomMatrix match {Ji, \
+Ki,..}\>"\), ";", " ", \( (*\ Core\ *) \), 
+          "\[IndentingNewLine]", \(imsSystemContainsExponentsQ::usage = \
+"\<imsSystemContainsExponentsQ[ system, pattern ] returns True if pattern \
+matches any of the system's matrices' exponents.\>"\), ";", 
+          " ", \( (*\ Core\ *) \), 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[
+            0]], \(imsSystemContainsOnlyExponentsQ::usage = \
+"\<imsSystemContainsExponentsQ[ system, pattern ] returns True if pattern \
+matches all of the system's matrices' exponents.\>"\), ";", 
+          " ", \( (*\ Core\ *) \), 
+          "\[IndentingNewLine]", \(imsSystemContainsMoreExponentsQ::usage = "\
+\<imsSystemContainsMoreExponentsQ[ system ] returns True if there are more \
+than the usual (possibly parametrized) load, stiffness, damping and inertia \
+matrices.\>"\), ";", " ", \( (*\ Core\ *) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \( (*\(\(**\)\(**\)\(**\)\(**\)\)*\ 
+              functions\ **********) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \(imsPolynomMatrixToMatrix::usage = \
+"\<imsPolynomMatrixToMatrix [ imsPolynomMatrix, xvar_Symbol ] converts a \
+polynomial matrix to an object with lower tensor rank by moving all but one \
+occurences of the state variable inside, creating possibly nonlinear matrix \
+entries.\>"\), ";", " ", \( (*\ Core\ *) \), 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[0]], 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[
+            0]], \(imsToFirstOrder::usage\  = \ "\<imsToFirstOrder[ system ] \
+transforms a second order system to a symmetric first order system.\>"\), ";",
+           " ", \( (*\ Core\ *) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", \(imsStiffnessToIdentity::usage = \
+"\<imsStiffnessToIdentity[system] transforms a system such that the stiffness \
+matrix is the Identity matrix\>"\), ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsToSimpleSystem::usage = \
+"\<imsToSimpleSystem[ imsSystem, xvar_Symbol ] converts a polynomial system \
+to a standard inertia-damping-stiffness-load system with nonlinear matrices \
+as a function of xvar. Currently does not convert time derivatives.\>";\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLinearizeSystem::usage = \
+"\<imsLinearizeSystem[sys, op] returns a version of sys whose matrices are \
+linearized in the state variable around operation point op. The matrix \
+elements may not include the state variable.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \( (*\ "\<not yet implemented:\n\n\
+imsLinearizeSystem[sys, xvar, op] returns a version of sys whose stiffness is \
+linearized in xvar[i] around operation point op. The matrix elements may not \
+include the state variable.\>"\ *) \)}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSkipRows::usage = "\<Option for imsPolynomMatrixContract which \
+specifies if the index for rows should be skipped for contracting/projecting. \
+Default: True\>";\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsSystem::"\<noinertia\>"\  = \ "\<`1` has no \
+inertia.\>";\)\[IndentingNewLine]
+    \(imsSystem::"\<nodamping\>"\  = \ "\<`1` has no damping.\>";\)\
+\[IndentingNewLine]
+    \(imsSystem::"\<nostiffness\>"\  = \ "\<`1` has no stiffness.\>";\)\
+\[IndentingNewLine]
+    \(imsSystem::"\<noload\>"\  = \ "\<`1` has no load.\>";\)\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(Start\ Private\n\), "\[IndentingNewLine]", 
+    \(\(Begin["\<`Private`\>"];\)\)}], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(myFirst[{}] := {};\)\), "\[IndentingNewLine]", 
+    \(\(myFirst[l___] := First[l];\)\), "\[IndentingNewLine]", 
+    \(\(myLast[{}] := {};\)\), "\n", 
+    \(\(myLast[l___] := Last[l];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      representors\ *) \), "\[IndentingNewLine]", 
+    \(\(Format[\ sys_imsSystem\ \ ]\  := \ 
+        Which[\[IndentingNewLine]imsSystemContainsMoreExponentsQ[
+              sys], "\<imsSystem[<<Poly>>\>" <> 
+              ToString[imsGetSystemVariables[sys]] <> "\<,\>" <> 
+              StringJoin[\(\(("\< <\>" <> 
+                        ToString[
+                          imsGetPolynomMatrixExponents[#]] <> "\<>\>")\) &\) /@ 
+                  imsGetSystemPolynomMatrices[
+                    sys, _]], \
+\[IndentingNewLine]\[IndentingNewLine]imsStationaryQ[\ 
+              sys\ ], \ \[IndentingNewLine]"\<imsSystem[\>" <> \ 
+              ToString[\ 
+                Length[\ 
+                  myFirst[\ 
+                    imsGetStiffness[\ sys\ ]\ ]\ ]\ ]\  <> \ "\<, \>"\  <> \ 
+              ToString[\ {\ 
+                  myLast[\ Dimensions[\ imsGetLoad[\ sys\ ]\ ]\ ], \ 
+                  Length[\ imsGetStiffness[\ sys\ ]\ ], \ 0, \ 
+                  0\ }\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsFirstOrderQ[\ 
+              sys\ ], \[IndentingNewLine]"\<imsSystem[\>" <> \ 
+              ToString[\ 
+                Length[\ 
+                  myFirst[\ 
+                    imsGetStiffness[\ sys\ ]\ ]\ ]\ ]\  <> \ "\<, \>"\  <> \ 
+              ToString[\ {\ 
+                  myLast[\ Dimensions[\ imsGetLoad[\ sys\ ]\ ]\ ], \ 
+                  Length[\ imsGetStiffness[\ sys\ ]\ ], \ 
+                  Length[\ imsGetDamping[\ sys\ ]\ ], \ 
+                  0\ }\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsSecondOrderQ[\ 
+              sys\ ], \[IndentingNewLine]"\<imsSystem[\>" <> \ 
+              ToString[\ 
+                Length[\ 
+                  myFirst[\ 
+                    imsGetStiffness[\ sys\ ]\ ]\ ]\ ]\  <> \ "\<, \>"\  <> \ 
+              ToString[\ {\ 
+                  myLast[\ Dimensions[\ imsGetLoad[\ sys\ ]\ ]\ ], \ 
+                  Length[\ imsGetStiffness[\ sys\ ]\ ], \ 
+                  Length[\ imsGetDamping[\ sys\ ]\ ], \ 
+                  Length[\ 
+                    imsGetInertia[\ 
+                      sys\ ]\ ]\ }\ ], \
+\[IndentingNewLine]\[IndentingNewLine]True, "\<imsSystem[...\>"\
+\[IndentingNewLine]] <> "\<]\>";\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrix Algebra", "Section"],
+
+Cell[BoxData[
+    \(\(imsPolynomMatrix /: a_?NumericQ*imsPolynomMatrix[be_, bv_] := 
+        imsMakePolynomMatrix[be, a*bv];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSystem /: a_?NumericQ*imsSystem[be_, bv_] := 
+        imsMakeSystemPolynomial[be, Expand[a*bv]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Plus[imsPolynomMatrix[ae_, av_], imsPolynomMatrix[be_, bv_]] ^:= 
+        imsMakePolynomMatrix[ae, av + bv] /; SameQ[ae, be];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSystem /: Plus[imsSystem[e_, m_], b_imsPolynomMatrix] := 
+        imsMakeSystemPolynomial[e, m + b];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Plus[imsSystem[ae_, av_], imsSystem[be_, bv_]] ^:= 
+        imsMakeSystemPolynomial[ae, av + bv] /; SameQ[ae, be];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(checkSystemConsitency[\ {\ 
+            loadF_, \ matRest__\ }\ ]\  := 
+        SameQ\  @@ \ 
+          Join[\ {\ 
+              Length[\ loadF\ ]\ }, \ \ \(Last[\ 
+                  Dimensions[\ #\ ]\ ] &\)\  /@ \ {\ 
+                matRest\ }\ ];\)\(\ \)\(\n\)
+    \(checkParametricConsistency[\ mat__\ ]\  := \ 
+        SameQ\  @@ \ \((\ \(Dimensions[\ #\ ] &\)\  /@ \ {\ 
+                mat\ }\ )\);\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \( (*\ constructor\ *) \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Convenience", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsMakeSystem[\ load_?MatrixQ, \ s_?MatrixQ\ ]\  := \ 
+        imsMakeSystem[\ load, \ {\ s\ }\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsMakeSystem[\ load_?MatrixQ, \ s_?MatrixQ, \ d_?MatrixQ\ ]\  := \ 
+        imsMakeSystem[\ 
+          load, \ {\ s\ }, \ {\ d\ }\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsMakeSystem[\ load_?MatrixQ, \ s_?MatrixQ, \ d_?MatrixQ, \ 
+          m_\ ?MatrixQ]\  := \ 
+        imsMakeSystem[\ 
+          load\ , \ {\ s\ }, \ {\ d\ }, \ {\ m\ }\ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["S x = Fu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMakeSystem[\ l_, \ 
+            s : {\ matS_, \ 
+                matSP___\ }\ ] /; \ \[IndentingNewLine]checkSystemConsitency[\
+\ {\ l, \ matS\ }\ ]\  && \ 
+            checkParametricConsistency[\ {\ matS, \ 
+                matSP\ }\ ]\  := \[IndentingNewLine]imsSetLoad[\
+\[IndentingNewLine]imsSetStiffness[\[IndentingNewLine]imsMakeSystemPolynomial[
+              Join[\[IndentingNewLine]If[
+                  Length[s] > 1, {1}, {0}], \ \ \ \ \ \ \ \ \ \ \ \ \  (*\ 
+                  Number\ of\ parameters\ *) \[IndentingNewLine]{Length[
+                    matS[\([1]\)]], \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \  (*\ Length\ of\ x\ vector\ *) \[IndentingNewLine]Length[
+                    l[\([1]\)]]}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \  (*\ 
+                  Number\ of\ inputs\ *) \[IndentingNewLine]], {}\ \
+\[IndentingNewLine]], s], l];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["D x' + S x = Fu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMakeSystem[\ l_, \ s : {\ matS_, \ matSP___\ }, \ 
+            d : {\ matD_, \ 
+                matDP___\ }\ ] /; \ \[IndentingNewLine]checkSystemConsitency[\
+\ {\ l, \ matS, \ matD\ }\ ]\  && \ 
+            checkParametricConsistency[\ {\ matS, \ matSP, \ matD, \ 
+                matDP\ }\ ] := \ \[IndentingNewLine]\ 
+        imsSetDamping[imsMakeSystem[l, s], d];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Mx'' + D x' + S x = Fu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMakeSystem[\ l_, \ \ s : {\ matS_, \ matSP___\ }, \ 
+            d : {\ matD_, \ matDP___\ }, \ 
+            m : {\ matM_, \ 
+                matMP___\ }\ ] /; \ \[IndentingNewLine]checkSystemConsitency[\
+\ {\ l, \ matS, \ matD, \ matM\ }\ ]\  && \ 
+            checkParametricConsistency[\ {\ matS, \ matSP, \ matD, \ matDP, \ 
+                matM, \ matMP\ }\ ] := \ \[IndentingNewLine]imsSetInertia[
+          imsMakeSystem[\ l, \ s, \ d], \ m\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Mx'' + S x = Fu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMakeSystem[\ l_, \ \ s : {\ matS_, \ matSP___\ }, {\ }, \ 
+            m : {\ matM_, \ 
+                matMP___\ }\ ] /; \ \[IndentingNewLine]checkSystemConsitency[\
+\ {\ l, \ matS, \ \ matM\ }\ ]\  && \ 
+            checkParametricConsistency[\ {\ matS, \ matSP, \ matM, \ 
+                matMP\ }\ ] := \ \[IndentingNewLine]imsSetInertia[
+          imsMakeSystem[\ l, \ s], \ m\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Polynomial", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsMakeSystemPolynomial[\ dim_, m_List] := 
+        imsSystem[dim, Plus @@ m];\)\), "\[IndentingNewLine]", 
+    \(\(\(imsMakeSystemPolynomial[\ dim_, m_] /; \((Head[m] =!= List)\) := 
+        imsSystem[dim, m];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsMakePolynomMatrix[exp_, m_] := 
+        imsPolynomMatrix[imsPolynomMatrixCanonicalExponents[exp], 
+          m];\)\)}], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsGetParametricMatrix[
+          sys_, e_] := 
+        Return[Release[
+            Join[{imsGetPolynomMatrixValues[
+                  imsGetSystemPolynomMatrix[sys, {{}, e}]]}, 
+              Flatten[\(\((Hold /@ imsGetPolynomMatrixValues[#])\) &\) /@ 
+                  imsGetSystemPolynomMatrices[sys, {{__}, e, ___}], 
+                1]]]];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetInertia[sys_imsSystem] := 
+        If[imsSystemContainsExponentsQ[sys, {{}, {0, 0, 1}}], 
+          imsGetParametricMatrix[sys, {0, 0, 1}] // 
+            Return, \[IndentingNewLine]Message[imsSystem::"\<noinertia\>", 
+            sys]; Return[$Failed];];\)\n\[IndentingNewLine]
+    \(imsGetDamping[\ sys_imsSystem\ ]\  := 
+        If[imsSystemContainsExponentsQ[
+            sys, {{}, {0, 1}}], \[IndentingNewLine]imsGetParametricMatrix[
+              sys, {0, 1}] // 
+            Return, \[IndentingNewLine]\(If[imsSecondOrderQ[sys], Return[{}], 
+              Message[\ imsSystem::"\<nodamping\>", \ sys\ ]; 
+              Return[$Failed]];\)];\)\n\[IndentingNewLine]
+    \(imsGetStiffness[\ sys_imsSystem]\  := \[IndentingNewLine]\ 
+        If[imsSystemContainsExponentsQ[
+            sys, {{}, {1}}], \[IndentingNewLine]Return[
+            imsGetParametricMatrix[sys, {1}]], \[IndentingNewLine]\(If[
+              imsSecondOrderQ[sys] || imsFirstOrderQ[sys], Return[{}], 
+              Message[\ imsSystem::"\<nostiffness\>", \ sys\ ]; 
+              Return[$Failed]];\)];\)\n\[IndentingNewLine] (*\ 
+      Sign\ \(change!\)\ *) \[IndentingNewLine]
+    \(imsGetLoad[\ sys_imsSystem]\  := \ 
+        If[imsSystemContainsExponentsQ[
+            sys, {{}, {}, {1}}], \(-imsGetPolynomMatrixValues[
+                imsGetSystemPolynomMatrix[sys, {{}, {}, {1}}]]\) // 
+            Return, \[IndentingNewLine]Message[\ imsSystem::"\<noload\>", \ 
+            sys\ ]; Return[$Failed];];\)\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(imsPolynomMatrixCanonicalExponents[
+          l_List] := \(\(\((l /. {{a : ___, b : Except[0], 
+                        Repeated[0]} \[Rule] {a, b}})\) /. {{Repeated[
+                      0]} \[Rule] {}}\) /. {a : ___, b : Except[{}], 
+                Repeated[{}]} \[Rule] {a, 
+                b}\) /. {Repeated[{}]} \[Rule] {};\)\n
+    \(imsPolynomMatrixCanonicalExponents[a_] := 
+        a;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetPolynomMatrixExponents[imsPolynomMatrix[e_, _]] := e;\)\n
+    \(imsGetPolynomMatrixValues[imsPolynomMatrix[_, v_]] := v // Return;\)\n
+    \(imsGetPolynomMatrixExponents[{}] := {};\)\n
+    \(imsGetPolynomMatrixValues[{}] := {};\)\n\[IndentingNewLine]
+    \(imsGetSystemPolynomMatrix[sys_imsSystem, pattern_] := 
+        Module[{r}, 
+          If[Length[r = imsGetSystemPolynomMatrices[\ sys, \ pattern\ ]] > 0, 
+              r[\([1]\)], {}] // Return];\)\[IndentingNewLine]\n
+    \(imsGetSystemPolynomMatrices[\ s : imsSystem[d_, sys_], \ 
+          pattern_\ ] := \[IndentingNewLine]\((Cases[sys, 
+              imsPolynomMatrix[
+                imsPolynomMatrixCanonicalExponents[pattern], _], {0, 
+                Infinity}] // 
+            Return)\);\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetSystemSize[\ imsSystem[d_, ___]\ ] := 
+        d[\([2]\)];\)\[IndentingNewLine]
+    \(imsGetSystemVariables[\ imsSystem[d_, ___]\ ] := d;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutators", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ mutators\ *) \), "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{
+          
+          RowBox[{\(imsSetSystemMatrix[s_imsSystem, 
+                  pm : imsPolynomMatrix[ee_, m_]] := 
+                imsMakeSystemPolynomial[imsGetSystemVariables[s], 
+                  If[m =!= {}, 
+                    Append[imsGetSystemPolynomMatrices[s, 
+                        Except[imsPolynomMatrixCanonicalExponents[ee]]], pm], 
+                    imsGetSystemPolynomMatrices[s, 
+                      Except[imsPolynomMatrixCanonicalExponents[ee]]]]];\), 
+            "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", \(imsSetSystemParametricMatrix[
+                  s_imsSystem, e_, m_] := 
+                imsSetSystemMatrix[
+                  If[Length[m] > 1, \[IndentingNewLine]imsSetSystemMatrix[s, 
+                      imsPolynomMatrix[{{1}, e}, 
+                        Drop[m, 1]]], \[IndentingNewLine]imsSetSystemMatrix[
+                      s, imsPolynomMatrix[{{1}, e}, {}]]\[IndentingNewLine]], 
+                  imsPolynomMatrix[{{}, e}, m[\([1]\)]]];\), 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{
+              RowBox[{
+                RowBox[{
+                  AdjustmentBox["imsSetInertia",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                  AdjustmentBox["[",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                  RowBox[{
+                    AdjustmentBox["s_imsSystem",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                    AdjustmentBox[",",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 
+                      0}}], \(m : {\ matS_, \ matSP___\ }\)}], 
+                  AdjustmentBox["]",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}]}], 
+                AdjustmentBox[":=",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                AdjustmentBox["\[IndentingNewLine]",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 
+                  0}}], \(imsSetSystemParametricMatrix[s, {0, 0, 1}, m]\)}], 
+              ";"}], "\[IndentingNewLine]", 
+            AdjustmentBox["\[IndentingNewLine]",
+              BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+            RowBox[{
+              RowBox[{
+                RowBox[{"imsSetDamping", 
+                  AdjustmentBox["[",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                  RowBox[{
+                    AdjustmentBox["s_imsSystem",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                    AdjustmentBox[",",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 
+                      0}}], \(m : {\ matS_, \ matSP___\ }\)}], 
+                  AdjustmentBox["]",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}]}], 
+                AdjustmentBox[":=",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                AdjustmentBox["\[IndentingNewLine]",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 
+                  0}}], \(imsSetSystemParametricMatrix[s, {0, 1}, m]\)}], 
+              ";"}], 
+            AdjustmentBox["\[IndentingNewLine]",
+              BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+            "\[IndentingNewLine]", 
+            RowBox[{
+              RowBox[{
+                RowBox[{"imsSetStiffness", 
+                  AdjustmentBox["[",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                  RowBox[{
+                    AdjustmentBox["s_imsSystem",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                    AdjustmentBox[",",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 
+                      0}}], \(m : {\ matS_, \ matSP___\ }\)}], 
+                  AdjustmentBox["]",
+                    BoxMargins->{{0.079602, -0.079602}, {0, 0}}]}], 
+                AdjustmentBox[":=",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                AdjustmentBox["\[IndentingNewLine]",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 
+                  0}}], \(imsSetSystemParametricMatrix[s, {1}, m]\)}], ";"}], 
+            
+            AdjustmentBox["\[IndentingNewLine]",
+              BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+            "\[IndentingNewLine]", \( (*\ Sign\ \(change!\)\ *) \), 
+            "\[IndentingNewLine]", 
+            RowBox[{
+              RowBox[{"imsSetLoad", 
+                AdjustmentBox["[",
+                  BoxMargins->{{0.079602, -0.079602}, {0, 0}}], 
+                RowBox[{
+                  RowBox[{
+                    AdjustmentBox["s",
+                      BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                    AdjustmentBox[":",
+                      BoxMargins->{{0.318408, -0.318408}, {0, 0}}], 
+                    RowBox[{
+                      AdjustmentBox["imsSystem",
+                        BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                      AdjustmentBox["[",
+                        BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                      AdjustmentBox[\(v_, d_\),
+                        BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                      AdjustmentBox["]",
+                        BoxMargins->{{0.318408, -0.318408}, {0, 0}}]}]}], 
+                  AdjustmentBox[",",
+                    BoxMargins->{{0.159204, -0.159204}, {0, 0}}], 
+                  AdjustmentBox["l_",
+                    BoxMargins->{{0.159204, -0.159204}, {0, 0}}]}], 
+                AdjustmentBox["]",
+                  BoxMargins->{{0.159204, -0.159204}, {0, 0}}]}], 
+              AdjustmentBox[":=",
+                BoxMargins->{{0.159204, -0.159204}, {0, 
+                0}}], \(imsSetSystemVariables[
+                imsSetSystemMatrix[s, 
+                  imsPolynomMatrix[{{}, {}, {1}}, \(-l\)]], 
+                ReplacePart[v, Dimensions[l], {{2}, {3}}, {{1}, {2}}]]\)}]}], 
+          ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsSetSystemVariables[imsSystem[v_, d___], 
+              nv_] := imsSystem[nv, d];\)}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(\
+imsPolynomMatrixContainsExponentsQ[imsPolynomMatrix[d_, ___], pattern_] := 
+        MatchQ[d, 
+          imsPolynomMatrixCanonicalExponents[
+            pattern]];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSystemContainsExponentsQ[s_imsSystem, pattern_] := 
+        Length[imsGetSystemPolynomMatrices[\ s, \ 
+              imsPolynomMatrixCanonicalExponents[pattern]\ ]] > 
+          0;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSystemContainsOnlyExponentsQ[s_imsSystem, pattern_] := 
+        And @@ \((\(imsPolynomMatrixContainsExponentsQ[#, pattern] &\) /@ 
+              imsGetSystemPolynomMatrices[\ 
+                s, \ _\ ])\);\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsStationaryQ[\ s_imsSystem\ ]\  := \ 
+        imsSystemContainsOnlyExponentsQ[
+          s, \ {{___}, {_} | {}, ___}\  | {{___}} | {}];\)\[IndentingNewLine]
+    \(imsFirstOrderQ[\ s_imsSystem\ ]\  := \ 
+        imsSystemContainsOnlyExponentsQ[
+            s, \ {{___}, {_, _} | {_} | {}, ___} | {{___}} | {}] && 
+          imsSystemContainsExponentsQ[
+            s, \ {{___}, {_, _}, ___}\ ];\)\[IndentingNewLine]
+    \(imsSecondOrderQ[\ s_imsSystem\ ]\  := \ 
+        imsSystemContainsOnlyExponentsQ[
+            s, \ {{___}, {_, _, _} | {_, _} | {_} | {}, ___}\  | {{___}} | \
+{}] && imsSystemContainsExponentsQ[
+            s, \ {{___}, {_, _, _}, ___}\ ];\)\[IndentingNewLine]
+    imsParametricStiffnessQ[\ s_imsSystem\ ]\  := \ 
+      imsSystemContainsExponentsQ[s, {{__}, {1}}]\[IndentingNewLine]
+    \(imsParametricDampingQ[\ s_imsSystem\ ]\  := \ 
+        imsSystemContainsExponentsQ[s, {{__}, {0, 1}}];\)\[IndentingNewLine]
+    \(imsParametricInertiaQ[\ s_imsSystem\ ]\  := \ 
+        imsSystemContainsExponentsQ[
+          s, {{__}, {0, 0, 1}}];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsParametricQ[\ a_imsSystem\ ]\  := \ 
+        imsParametricStiffnessQ[\ a\ ]\  || \ 
+          imsParametricDampingQ[\ a\ ]\  || \ 
+          imsParametricInertiaQ[\ a\ ];\)\[IndentingNewLine]
+    \(imsParametricQ[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine] (*\ \(Crude\ hack \
+... \)\ When\ is\ a\ system\ nonlinear\ wrt\ f?\ 
+          We\ assume\ f\ is\ one\ of\ the\ states . \ 
+          Then\ we\ can\ have\ either\ matrices\ with\ two\ state\ \
+\((\(+velocity\) ... )\)\ or\ input\ exponents\ \((\(so\ the\ second + 
+                third +  ... \)\ exponent\ sublists\ have\ more\ than\ one\ \
+entry\ in\ total)\)\ or\ we\ can\ have\ matrices\ with\ on\ state\ exponent\ \
+and\ f\ somewhere\ inside, \ 
+      or\ we\ can\ have\ matrices\ without\ state\ exponent, \ 
+      but\ entries\ where\ f\ occurs\ in\ a\ nonlinear\ fashion, \ 
+      i . e . \ 
+          not\ in\ a\ simple\ sum\ or\ some\ number\ times\ f\ \
+*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsLinearQ[\ s_imsSystem, \ 
+          f_\ ] := \(! \((\[IndentingNewLine]Or @@ \((\(\((\((Plus @@ 
+                                Flatten[
+                                  Drop[imsGetPolynomMatrixExponents[#], 1]] + 
+                              If[MemberQ[\(ArrayRules[
+                                      imsGetPolynomMatrixValues[#]]\)[\([All, 
+                                      2]\)], f, {1, Infinity}], 1, 0])\) > 
+                          1)\) &\) /@ 
+                    imsGetSystemPolynomMatrices[
+                      s, {{___}, __}])\)\[IndentingNewLine] \
+|| \[IndentingNewLine]Or @@ \((\(MemberQ[
+                        Replace[\(ArrayRules[
+                              imsGetPolynomMatrixValues[#]]\)[\([All, 
+                              2]\)], {Plus \[Rule] Sequence, 
+                            Times[c_ /; NumberQ[c], b_] \[Rule] b}, {1, 
+                            Infinity}], f, {2, Infinity}] &\) /@ 
+                    imsGetSystemPolynomMatrices[s, 
+                      Except[{{___}, __}]])\)\[IndentingNewLine])\)\);\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSystemContainsMoreExponentsQ[
+          sys_imsSystem] := \(! imsSystemContainsOnlyExponentsQ[
+            sys, \ \[IndentingNewLine]{{}, {}, {1}}\ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*\ 
+                load\ *) \[IndentingNewLine] | \ {{}, {1}}\ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*\ 
+                stiffness\ *) \[IndentingNewLine] | \ {{1}, {1}}\ \ \ \ \ \ \ \
+\ \ \ \ \ \  (*\ stiffness\ par\ *) \[IndentingNewLine] | \ {{}, {0, 
+                  1}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*\ 
+                damping\ *) \[IndentingNewLine] | \ {{1}, {0, 
+                  1}}\ \ \ \ \ \ \  (*\ 
+                damping\ par\ *) \[IndentingNewLine] | \ {{}, {0, 0, 
+                  1}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*\ 
+                inertia\ *) \[IndentingNewLine] | \ {{1}, {0, 0, 1}}\  (*\ 
+              intertia\ par\ *) \[IndentingNewLine]]\);\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(Options[imsPolynomMatrixContract] = 
+        imsSkipRows \[Rule] True;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["BlockMatrix compat to mma6.0 (private)", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      For\ BlockMatrix\ *) \)\(\[IndentingNewLine]\)\(\(If[\ $VersionNumber\  \
+\[LessEqual] \ 5.2, \ Needs["\<LinearAlgebra`MatrixManipulation`\>"], \ 
+        Null\ ];\)\[IndentingNewLine]
+    If[\ $VersionNumber\  \[LessEqual] \ 5.2, \ 
+      myBlockMatrix[data_]\  := \ BlockMatrix[data], 
+      myBlockMatrix[data_]\  := \ 
+        ArrayRules[ArrayFlatten[data]]\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["myExtract (private)", "Subsection"],
+
+Cell[BoxData[
+    \(\(myExtract[l_, p_] := 
+        If[Length[p] \[Equal] 0, l, 
+          If[Length[l] \[GreaterEqual] First[p], 
+            myExtract[l[\([First[p]]\)], Rest[p]], Null]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsToFirstOrder", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsToFirstOrder[\ sys_imsSystem\ ]\  /; \ 
+          imsFirstOrderQ[\ sys\ ]\ \  := \ sys;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsToFirstOrder[\ sys_imsSystem\ ]\  /; \ 
+          imsSecondOrderQ[\ 
+              sys\ ]\  && \ \(! imsParametricQ[\ 
+                sys\ ]\) && \(! imsSystemContainsMoreExponentsQ[\ 
+                sys\ ]\) := \ 
+        Module[\[IndentingNewLine]{\ 
+            l\  = \ imsGetLoad[\ sys\ ], \[IndentingNewLine]fs\  = \ 
+              First[\ imsGetStiffness[\ sys\ ]\ ], \[IndentingNewLine] (*\ 
+              for\ mma6  .0\ this\ should\ be\ 0. \ zeros\ \
+*) \[IndentingNewLine]zeros\  = \ 
+              SparseArray[\ {}, \ 
+                Dimensions[\ First[\ imsGetStiffness[\ sys\ ]\ ]\ ], 
+                0. \ ], \[IndentingNewLine]fi\  = \ 
+              First[\ imsGetInertia[\ 
+                  sys\ ]\ ]\[IndentingNewLine]}, \
+\[IndentingNewLine]imsMakeSystem[\[IndentingNewLine] (*\ {\ F, \ 
+                0\ }\ *) \[IndentingNewLine]Join[\ l, \ 
+              Table[\ 0. , \ 
+                Evaluate[\ 
+                  Sequence\  @@ \ 
+                    Partition[\ Dimensions[\ l\ ], \ 
+                      1\ ]\ ]\ ]\ ], \[IndentingNewLine] (*\ {\ {\ S, \ 
+                  0\ }, \ {\ 
+                  0, \ \(-W\) = \(-M\)\ }\ }\ \
+*) \[IndentingNewLine]SparseArray[\ 
+              myBlockMatrix[\ {\ {\ fs, \ zeros\ }, {\ 
+                    zeros, \ \(-fi\)\ }\ }\ ]\ ], \[IndentingNewLine] (*\ {\ \
+{\ D, \ M\ }, \ {\ W = M, \ 0\ }\ }\ *) \ \[IndentingNewLine]SparseArray[\ 
+              myBlockMatrix[\ {\ {\ First[\ imsGetDamping[\ sys\ ]\ ], \ 
+                    fi\ }, {\ fi, \ 
+                    zeros\ }\ }\ ]\ \
+]\[IndentingNewLine]]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsStiffnessToIdentity", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*imsStiffnessToIdentity[
+            sys_imsSystem] /; \  (*\(! imsParametricStiffnessQ[\ 
+                  sys\ ]\)\(&&\)*) \(! imsSystemContainsMoreExponentsQ[\ 
+              sys\ ]\) := 
+        Module[{l, s, d, m, s1, sn = {}}, \[IndentingNewLine]l = 
+            imsGetLoad[sys]; \[IndentingNewLine]s = 
+            imsGetStiffness[sys]; \[IndentingNewLine]d = 
+            If[imsSecondOrderQ[sys] || imsFirstOrderQ[sys], 
+              imsGetDamping[sys], {}]; \[IndentingNewLine]m = 
+            If[imsSecondOrderQ[sys], \ 
+              imsGetInertia[sys], {}]; \[IndentingNewLine]s1 = 
+            LinearSolve[First[s]]; \[IndentingNewLine]Return[
+            imsMakeSystem @@ 
+              DeleteCases[{s1[l], 
+                  Prepend[\(s1[#] &\) /@ Drop[s, 1], 
+                    IdentityMatrix[Length[s[\([1]\)]]]], \(s1[#] &\) /@ 
+                    d, \(s1[#] &\) /@ 
+                    m}, {}]]\[IndentingNewLine]]*) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\(imsStiffnessToIdentity[sys_imsSystem] := 
+      Module[{s = 
+            Inverse[First[imsGetStiffness[sys]]]}, \[IndentingNewLine]Return[
+          imsMakeSystemPolynomial[\ imsGetSystemVariables[sys], 
+            Append[\(imsPolynomMatrixContractAll[#, Null, s, Null, 
+                    Null] &\) /@ \ 
+                imsGetSystemPolynomMatrices[sys, Except[{{}, {1}}]], 
+              imsMakePolynomMatrix[{{}, {1}}, 
+                IdentityMatrix[
+                  Length[s]]]]]]\[IndentingNewLine]]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsLinearizePolynomMatrix (private)", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ *) \)\(\[IndentingNewLine]\)\(imsLinearizePolynomMatrix[
+        m_imsPolynomMatrix, op_] := 
+      Module[{e = imsGetPolynomMatrixExponents[m], istart, 
+          iend}, \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(\ \
+\)\(Constant\)\)\ \((parametric)\)\ matrices\ *) \[IndentingNewLine]If[
+          Length[e] < 2, 
+          Return[{m}]]; \[IndentingNewLine] (*\(\(**\)\(\ \)\(Matrix\)\)\ \
+without\ state, \ like\ B . u\ *) \[IndentingNewLine]If[
+          Length[e[\([2]\)]] < 1, 
+          Return[{m}]]; \[IndentingNewLine] (*\(\(**\)\(\ \)\(Already\)\)\ \
+linear, \ like\ K . x\ *) \[IndentingNewLine]If[e[\([2]\)] \[Equal] {1}, 
+          Return[{m}]]; \ \[IndentingNewLine] (*\ 
+          All\ following\ matrices\ have\ some\ nonlinear\ state\ \
+contribution\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          First\ index\ of\ \(state : \ 
+              Number\ of\ parameters\  + \ 
+                1\)\ *) \[IndentingNewLine]istart = \((Plus @@ 
+                e[\([1]\)])\) + 1; \[IndentingNewLine] (*\ 
+          Last\ index\ of\ \(state : \ 
+              the\ number\ above\  + \ number\ of\ states\  - \ 
+                1\)\ *) \[IndentingNewLine]iend = 
+          istart + e[\([2, 1]\)] - 
+            1; \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(\ \
+\)\(If\)\)\ we\ have\ something\ like\ d^nx/dt^n, \ kill\ all\ states, \ 
+          otherwise\ leave\ one\ for\ stiffness\ matrix\ \
+*) \[IndentingNewLine]If[
+          Length[e[\([2]\)]] == 1, \[IndentingNewLine] (*\ 
+            No\ d^nx/dt^n\ *) \[IndentingNewLine]Return[
+            Append[\(imsPolynomMatrixContract[
+                    m, \[IndentingNewLine]\(\(({#, op})\) &\) /@ #] &\) /@ 
+                Subsets[Range[istart, iend], {iend - istart}], 
+              imsPolynomMatrixContract[m, 
+                Table[{j, op}, {j, istart, 
+                    iend}]]]\[IndentingNewLine]], \[IndentingNewLine] (*\ 
+            with\ d^nx/
+                dt^n\ *) \[IndentingNewLine]Return[{imsPolynomMatrixContract[
+                m, Table[{j, op}, {j, istart, 
+                    iend}]]}]\[IndentingNewLine]];\[IndentingNewLine]]\)\)\)],\
+ "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsLinearizeSystem", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsLinearizeSystem[sys_imsSystem, op_] := 
+        imsMakeSystemPolynomial[imsGetSystemVariables[sys], 
+          Flatten[\ \(imsLinearizePolynomMatrix[#, op] &\) /@ 
+              imsGetSystemPolynomMatrices[sys, _], 
+            1]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \( (*\(imsLinearizeSystem[sys_imsSystem, xvar_Symbol, op_List] := 
+          Module[{}, 
+            jacobian = 
+              SparseArray[\((Rule[#[\([All, 1]\)], #[\([All, 2]\)]] &)\)[
+                  Flatten[
+                    MapIndexed[\(( (*\(If[Mod[#2[\([1]\)], 100] \[Equal] 0, 
+                                Print[#2[\([1]\)]]];\)*) derivvars = 
+                            Transpose[
+                              Union[Cases[#1, 
+                                  b : xvar[a : _] \[Rule] {b, 
+                                      a}, {0, \[Infinity]}]]]; \
+\[IndentingNewLine]row = #2[\([1]\)]; \[IndentingNewLine]MapThread[{{row, \
+#1}, #2} &, {derivvars[\([2]\)], D[#1, {derivvars[\([1]\)]}]}])\) &, func], 
+                    1]], {Length[xvec], Length[xvec]}]];\)*) \)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrixToMatrix", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsPolynomMatrixToMatrix[p : imsPolynomMatrix[e_, v_], xvar_Symbol] := 
+        Module[{tocontract = 0, coffs, xe, n, i, j, 
+            enew}, \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(\ \
+\)\(Constant\)\)\ \((parametric)\)\ matrices\ *) \[IndentingNewLine]If[
+            Length[e] < 2, 
+            Return[p]]; \[IndentingNewLine] (*\(\(**\)\(\ \)\(Matrix\)\)\ \
+without\ state, \ like\ B . u\ *) \[IndentingNewLine]If[
+            Length[e[\([2]\)]] < 1, 
+            Return[p]]; \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(\ \
+\)\(If\)\)\ we\ have\ something\ like\ dx/dt\ or\ if\ we\ have\ an\ input, \ 
+            kill\ all\ states, \ 
+            otherwise\ leave\ one\ for\ stiffness\ matrix\ \
+*) \[IndentingNewLine]tocontract = 
+            If[Length[e[\([2]\)]] > 1 || Length[e] > 2, e[\([2, 1]\)], 
+              e[\([2, 1]\)] - 1]; \[IndentingNewLine]If[tocontract < 1, 
+            Return[p]]; \[IndentingNewLine]\[IndentingNewLine] (*\(\(**\)\(\ \
+\)\(Subtract\)\)\ killed\ indices\ from\ coefficient\ list\ \
+*) \[IndentingNewLine]enew = e; \ 
+          enew[\([2, 1]\)] -= 
+            tocontract; \[IndentingNewLine] (*\(\(**\)\(\ \)\(Before\)\)\ \
+first\ index\ of\ \(state : \ 
+                Number\ of\ parameters\  + \ 
+                  1\ \((for\ rows)\)\)\ *) \[IndentingNewLine]coffs = \((Plus \
+@@ e[\([1]\)])\) + 
+              1; \[IndentingNewLine]n = \(Dimensions[
+                v]\)[\([coffs + 1]\)]; \[IndentingNewLine]xe = 
+            Array[xvar, n]; \[IndentingNewLine]i = 
+            Transpose[
+              Table[{j, xe}, {j, coffs + tocontract, 
+                  coffs + 
+                    1, \(-1\)}]]; \ \[IndentingNewLine]\[IndentingNewLine] \
+(*\ Start\ from\ back\ *) \ \[IndentingNewLine]Return[
+            imsMakePolynomMatrix[enew, 
+              imsPolynomMatrixContract[v, 
+                Transpose[{Range[coffs + tocontract, coffs + 1, \(-1\)], 
+                    Table[xe, {j, coffs + 1, 
+                        coffs + 
+                          tocontract}]}]]]];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsToSimpleSystem", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsToSimpleSystem[s_imsSystem, \ xvar_Symbol] := 
+        imsMakeSystemPolynomial[
+          imsGetSystemVariables[s], \(imsPolynomMatrixToMatrix[#, xvar] &\) /@ 
+            imsGetSystemPolynomMatrices[s, _]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrixContract", "Subsection"],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{
+        RowBox[{\(imsPolynomMatrixContract[m_imsPolynomMatrix, 
+            w2 : {{_Integer, _List | _SparseArray} ... }, opts___]\), ":=", 
+          RowBox[{"Module", "[", 
+            
+            RowBox[{\({e = imsGetPolynomMatrixExponents[m], exppos, csum, 
+                w = w2, wnorows, skiprows, a, b}\), ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+                
+                StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContract\>", \ 
+                    2, \ "\<Imtek`System`imsPolynomMatrixContract: exp: \>" <> 
+                      ToString[
+                        imsGetPolynomMatrixExponents[m]] <> "\< | Dim m: \>" <> 
+                      ToString[
+                        Dimensions[
+                          imsGetPolynomMatrixValues[
+                            m]]] <> "\< | w[[All,1]]: \>" <> 
+                      ToString[w[\([All, 1]\)]]]\),
+                  FontColor->GrayLevel[0.500008]], ";", "\[IndentingNewLine]",
+                 "\[IndentingNewLine]", \(skiprows = \(imsSkipRows /. \
+{opts}\) /. Options[imsPolynomMatrixContract]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Convert\)\)\ \
+exponents\ to\ position\ \(\(list\)\(.\)\)\ ***) \), 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Example : \ {{3}, \
+{0, 0, 1}}\)\)\  -> \ {{1, 1}, {1, 1}, {1, 1}, {2, 3}}\ ***) \), 
+                "\[IndentingNewLine]", \(exppos = Position[e, _?Positive]\), 
+                ";", "\[IndentingNewLine]", \(exppos = 
+                  Flatten[\(Table[#, {e[\([Sequence @@ #]\)]}] &\) /@ exppos, 
+                    1]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Total\)\)\ number\
+\ of\ parameter\ \(\(levels\)\(.\)\)\ ***) \), 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Example : \ {{2, 
+                            1}, {0, 0, 1}}\)\)\  \[Rule] \ 3\ ***) \), 
+                "\[IndentingNewLine]", \(csum = Plus @@ e[\([1]\)]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(If\)\)\ skiprows, \
+\ then\ add\ 1\ for\ equation\ rows\ to\ all\ indices\ of\ w\ greater\ than\ \
+the\ number\ of\ \(\(parameters\)\(.\)\)\ ***) \), 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Example\)\)\ for\ \
+cnum\ 3 : \ {{1, v1}, {4, v2}}\  \[Rule] \ \ {{1, v1}, {5, v2}}\ ***) \), 
+                "\[IndentingNewLine]", \(If[skiprows, 
+                  w[\([All, 1]\)] = \(If[# > csum, # + 1, #] &\) /@ 
+                      w[\([All, 1]\)]]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(This\)\)\ is\ the\
+\ indices\ of\ w\ with\ the\ rows\ index\ removed\ ***) \), 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Example\)\)\ for\ \
+cnum\ 3 : \ {{1, v1}, {4, v2}, {6, v3}}\  \[Rule] \ {{1, 1}, {5, 2}}\ ***) \),
+                 "\[IndentingNewLine]", \(wnorows = 
+                  DeleteCases[\({#[\([1]\)], TensorRank[#[\([2]\)]]} &\) /@ 
+                        w, {csum + 
+                          1, _}] /. {\(({a_, b_} /; a > csum)\) \[Rule] {a - 
+                            1, b}}\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(For\)\)\ each\ \
+deleted\ index, \ 
+                  subtract\ one\ from\ the\ corresponding\ part\ of\ the\ \
+\(\(exponents\)\(.\)\)\ ***) \), 
+                "\[IndentingNewLine]", \( (*\(\(**\)\(\ \)\(Example\)\)\ for\ \
+wnorows\ {{1, 1}, {5, 2}} : \ {{2, 1}, {0, 0, 1}, {1}}\  \[Rule] \ {{1, 
+                        1}, {0, 0, 1}, {1}}\ ***) \), 
+                "\[IndentingNewLine]", \(Scan[
+                  If[#[\([2]\)] \[Equal] 
+                        1, \(e[\([Sequence @@ 
+                              exppos[\([#[\([1]\)]]\)]]\)]--\)] &, wnorows]\),
+                 ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                
+                StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContract\>", \ 
+                    2, \ "\<Imtek`System`imsPolynomMatrixContract: exppos: \
+\>" <> ToString[exppos] <> "\< | w[[All,1]]: \>" <> 
+                      ToString[w[\([All, 1]\)]]]\),
+                  FontColor->GrayLevel[0.500008]], ";", "\[IndentingNewLine]",
+                 "\[IndentingNewLine]", \(imsMakePolynomMatrix[e, 
+                  imsPolynomMatrixContract[imsGetPolynomMatrixValues[m], 
+                    w]]\)}]}], "]"}]}], ";"}], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(imsPolynomMatrixContract[m : \((_SparseArray | _List)\), 
+          w : {{_Integer, _List | _SparseArray} ... }]\), ":=", 
+        RowBox[{"(", 
+          RowBox[{
+            
+            StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContract\>", \ 
+                2, \ "\<Imtek`System`imsPolynomMatrixContract: Dim m: \>" <> 
+                  ToString[Dimensions[m]] <> "\< | w[[All,1]]: \>" <> 
+                  ToString[w[\([All, 1]\)]]]\),
+              FontColor->GrayLevel[0.500008]], 
+            ";", \(Fold[imsPolynomMatrixContractSingle[#1, #2] &, m, 
+              Sort[w, \((#1[\([1]\)] > #2[\([1]\)])\) &]]\)}], ")"}]}], 
+      ";"}]}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrixContractSingle (private)", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(imsPolynomMatrixContractSingle[m_, {i_, v_}]\), ":=", 
+        RowBox[{"Module", "[", 
+          
+          RowBox[{\({rm = TensorRank[m], rv = TensorRank[v], l}\), ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+              RowBox[{"If", "[", 
+                RowBox[{\(rv > 1\), ",", "\[IndentingNewLine]", 
+                  
+                  RowBox[{\(l = Range[rm]\), 
+                    ";", \(l[\([{i, rm}]\)] = {rm, i}\), ";", 
+                    "\[IndentingNewLine]", 
+                    
+                    StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContractSingle\>", \ 
+                        2, \ "\<Imtek`System`imsPolynomMatrixContractSingle: \
+TR m: \>" <> ToString[rm] <> "\< | TR v: \>" <> ToString[rv] <> "\< | i: \>" <> 
+                          ToString[i] <> "\< | l: \>" <> ToString[l]]\),
+                      FontColor->GrayLevel[0.500008]], ";", 
+                    "\[IndentingNewLine]", \(Return[
+                      Transpose[Transpose[m, l] . SparseArray[v], l]]\), 
+                    ";"}], ",", "\[IndentingNewLine]", 
+                  
+                  RowBox[{\(l = Drop[Insert[Range[rm], rm, i], \(-1\)]\), ";",
+                     "\[IndentingNewLine]", 
+                    
+                    StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContractSingle\>", \ 
+                        2, \ "\<Imtek`System`imsPolynomMatrixContractSingle: \
+TR m: \>" <> ToString[rm] <> "\< | TR v: \>" <> ToString[rv] <> "\< | i: \>" <> 
+                          ToString[i] <> "\< | l: \>" <> ToString[l]]\),
+                      FontColor->GrayLevel[0.500008]], ";", 
+                    "\[IndentingNewLine]", \(Return[
+                      Transpose[m, l] . SparseArray[v]]\), ";"}]}], 
+                "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+          "]"}]}], ";"}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrixContractAll", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsPolynomMatrixContractAll[m_imsPolynomMatrix, vc_, vr_, vu_, vf_] := 
+        Module[{e = 
+              imsGetPolynomMatrixExponents[
+                m]}, \[IndentingNewLine]Return[\[IndentingNewLine]\
+imsPolynomMatrixContract[
+              m, \[IndentingNewLine]If[
+                Length[e] == 0, \[IndentingNewLine]If[
+                  Head[vr] === List || Head[vr] === SparseArray, {1, 
+                    vr}, {}], \[IndentingNewLine]Join[\[IndentingNewLine]If[
+                    Head[vc] === List || Head[vc] === SparseArray, 
+                    Table[{i, vc}, {i, 
+                        Plus @@ e[\([1]\)]}], {}], \[IndentingNewLine]If[
+                    Head[vr] === List || 
+                      Head[vr] === SparseArray, {{Plus @@ e[\([1]\)] + 1, 
+                        vr}}, {}], \[IndentingNewLine]If[
+                    Length[e] > 1 && Head[vu] === List || 
+                      Head[vu] === SparseArray, 
+                    Table[{i, vu}, {i, Plus @@ e[\([1]\)] + 2, 
+                        1 + Plus @@ 
+                            Flatten[
+                              e[\([{1, 2}]\)]]}], {}], \[IndentingNewLine]If[
+                    Length[e] > 2 && Head[vf] === List || 
+                      Head[vf] === SparseArray, 
+                    Table[{i, vf}, {i, 2 + Plus @@ Flatten[e[\([{1, 2}]\)]], 
+                        1 + Plus @@ 
+                            Flatten[
+                              e]}], {}]\[IndentingNewLine]]\[IndentingNewLine]\
+], imsSkipRows \[Rule] 
+                False]\[IndentingNewLine]]\[IndentingNewLine]];\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolynomMatrixContractAllDerivatives", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(imsPolynomMatrixContractAllDerivatives[m_imsPolynomMatrix, 
+          vc_, vr_, vu_, vf_]\), ":=", 
+        RowBox[{"Module", "[", 
+          
+          RowBox[{\({e = imsGetPolynomMatrixExponents[m], exppos, w}\), ",", 
+            "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", \( (*\(\(**\)\(Convert\)\)\ exponents\ to\ \
+position\ \(\(list\)\(.\)\)***) \), \( (*\(\(**\)\(Example : {{3}, {0, 0, 
+                        1}}\)\) \[Rule] {{1, 1}, {1, 1}, {1, 1}, {2, 
+                    3}}***) \), 
+            
+            RowBox[{\(exppos = Position[e, _?Positive]\), ";", 
+              "\[IndentingNewLine]", \(exppos = 
+                Flatten[\(Table[#, {e[\([Sequence @@ #]\)]}] &\) /@ exppos, 
+                  1]\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \( (*\(\(**\)\(Total\)\)\ number\ of\ \
+parameter\ \(\(levels\)\(.\)\)***) \), \( (*\(\(**\)\(Example : {{2, 1}, {0, 
+                          0, 1}}\)\) \[Rule] 3***) \), 
+              "\[IndentingNewLine]", \(csum = Plus @@ e[\([1]\)]\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \( (*\(\(**\)\(Insert\)\)\ entry\ for\ \
+matrix\ rows***) \), 
+              "\[IndentingNewLine]", \( (*\(\(**\)\(We\)\)\ put\ the\ row\ \
+multiplicator\ to\ the\ end, \ but\ this\ doesn' t\ matter***) \), 
+              "\[IndentingNewLine]", \(exppos = 
+                Insert[exppos, {4}, csum + 1]\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(w = \[IndentingNewLine]MapIndexed[\
+\[IndentingNewLine]{#2[\([\)\(1\)\(]\)], 
+                      myExtract[{vc, vu, vf, 
+                          vr}, #1]} &, \[IndentingNewLine]exppos\
+\[IndentingNewLine]]\), ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              
+              StyleBox[\(imsDebugMessage["\<Imtek`System`\
+imsPolynomMatrixContractAllDerivatives\>", \ 
+                  2, \ "\<Imtek`System`imsPolynomMatrixContractAllDerivatives:\
+ e: \>" <> ToString[e] <> "\< | exppos: \>" <> 
+                    ToString[exppos] <> "\< | w[[All,1]]: \>" <> 
+                    ToString[w[\([All, 1]\)]]]\),
+                FontColor->GrayLevel[0.500008]], ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(Return[
+                imsPolynomMatrixContract[m, 
+                  DeleteCases[
+                    w, \[IndentingNewLine]{_, Except[_List | _SparseArray]}], 
+                  imsSkipRows \[Rule] False]]\), ";"}]}], 
+          "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["(* imsTranspose (private) *)", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{"(*", 
+      RowBox[{
+        RowBox[{\(imsTranspose[m_, l_]\), ":=", 
+          RowBox[{"Module", "[", 
+            RowBox[{\({ar}\), ",", "\[IndentingNewLine]", 
+              RowBox[{
+                
+                StyleBox[\(imsDebugMessage["\<Imtek`System`imsTranspose\>", \ 
+                    2, \ "\<Imtek`System`imsTranspose: ar[[1]]: \>" <> 
+                      ToString[ar[\([1]\)]] <> "\< | l: \>" <> ToString[l]]\),
+                  
+                  FontColor->GrayLevel[0.500008]], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0.500008]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0.500008]], \(If[OrderedQ[l], 
+                  Return[m]]\), ";", 
+                "\[IndentingNewLine]", \(ar = ArrayRules[m]\), ";", 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0.500008]], \(ar[\([All, 1]\)] = 
+                  ar[\([All, 1, l]\)]\), 
+                ";", \(Return[
+                  SparseArray[ar, \(Dimensions[m]\)[\([l]\)]]]\)}]}], "]"}]}],
+         ";"}], "*)"}]], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \("Imtek`System`Private`"\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Section"],
+
+Cell[BoxData[
+    \(Quit\)], "Input"],
+
+Cell[BoxData[
+    \(Needs["\<Imtek`Debug`\>"]\)], "Input"],
+
+Cell[BoxData[{
+    \(\($imsDebug = False;\)\), "\[IndentingNewLine]", 
+    \(\($imsDebugLevel[___] = 9;\)\)}], "Input"],
+
+Cell[BoxData[
+    \(<< "\</home_loc/lieneman/Projekte/Mathematica/PolynomialSystem/System.m\
+\>"\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["1", "Subsection"],
+
+Cell[BoxData[
+    \(\(s = 
+        imsMakeSystemPolynomial[{3, 3, 
+            2}, {imsMakePolynomMatrix[{{1}, {2, 3}}, m], 
+            imsMakePolynomMatrix[{{}, {}}, m2]}];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s = s + imsMakePolynomMatrix[{{}, {}}, m4]\)], "Input"],
+
+Cell[BoxData[
+    \("imsSystem[<<Poly>>{3, 3, 2}, {{}, {{1}, {2, 3}}}]"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(List @@ s // FullForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(List[List[3, 3, 2], 
+          Plus[imsPolynomMatrix[List[], Plus[m2, m4]], 
+            imsPolynomMatrix[List[List[1], List[2, 3]], m]]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[s, _]\)], "Input"],
+
+Cell[BoxData[
+    \({imsPolynomMatrix[{}, m2 + m4], 
+      imsPolynomMatrix[{{1}, {2, 3}}, m]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s\)], "Input"],
+
+Cell[BoxData[
+    \("imsSystem[<<Poly>>{3, 3, 2}, {{}, {{1}, {2, 3}}}]"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[\ s, \ {{1}, {2, 3}}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({imsPolynomMatrix[{{1}, {2, 3}}, m]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(imsGetSystemPolynomMatrix[
+            s, #] &\) /@ {{{1}, {2, 3}}, {}, {{}, {}}, {{1, 2}}} // 
+      FullForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(List[imsPolynomMatrix[List[List[1], List[2, 3]], m], 
+          imsPolynomMatrix[List[], Plus[m2, m4]], 
+          imsPolynomMatrix[List[], Plus[m2, m4]], List[]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetPolynomMatrixExponents\  /@ \((\(imsGetSystemPolynomMatrix[
+                s, #] &\) /@ {{{1}, {2, 3}}, {}, {{}, {}}, {{1, 2}}})\) // 
+      MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {\({{1}, {2, 3}}\)},
+              {\({}\)},
+              {\({}\)},
+              {\({}\)}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetPolynomMatrixValues /@ \((\(imsGetSystemPolynomMatrix[
+              s, #] &\) /@ {{{1}, {2, 3}}, {}, {{}, {}}, {{1, 
+                2}}})\)\)], "Input"],
+
+Cell[BoxData[
+    \({m, m2 + m4, m2 + m4, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s // FullForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(imsSystem[List[3, 3, 2], 
+          Plus[imsPolynomMatrix[List[], Plus[m2, m4]], 
+            imsPolynomMatrix[List[List[1], List[2, 3]], m]]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsSetSystemMatrix[s, imsMakePolynomMatrix[{}, m3]] // 
+      FullForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(imsSystem[List[3, 3, 2], 
+          Plus[imsPolynomMatrix[List[], m3], 
+            imsPolynomMatrix[List[List[1], List[2, 3]], m]]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(imsSystemContainsExponentsQ[
+          s, #] &\) /@ {{{1}, {2, 3}}, {}, {{}, {}}, {{1, 2}}}\)], "Input"],
+
+Cell[BoxData[
+    \({True, True, True, False}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(imsPolynomMatrixCanonicalExponents[#] &\) /@ {\ {}, \
+\[IndentingNewLine]{{}, {}}, \[IndentingNewLine]{{}, {1, 2, 
+              0}}, \[IndentingNewLine]{{0, 
+              0}, {}}\ , \[IndentingNewLine]{{}, {}, {}}, \
+\[IndentingNewLine]{{1, 2}, {3}, {0, 1, 0}}, \[IndentingNewLine]{{1, 0, 
+              0}, {0, 0, 1}, {0, 1, 0}}, \[IndentingNewLine]{{_, 0, 
+              0}, {0, _, 0}, {0, 0, _}}, \[IndentingNewLine]{{_}}} // 
+      MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {\({}\)},
+              {\({}\)},
+              {\({{}, {1, 2}}\)},
+              {\({}\)},
+              {\({}\)},
+              {\({{1, 2}, {3}, {0, 1}}\)},
+              {\({{1}, {0, 0, 1}, {0, 1}}\)},
+              {\({{_}, {0, _}, {0, 0, _}}\)},
+              {\({{_}}\)}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[\ s, \ {_, _}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({imsPolynomMatrix[{{1}, {2, 3}}, m]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[\ s, \ {___}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({imsPolynomMatrix[{}, m2 + m4], 
+      imsPolynomMatrix[{{1}, {2, 3}}, m]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsPolynomMatrixCanonicalExponents[{{1, 2}, {3}, {0, 1, 0}, {99, 
+          0}}]\)], "Input"],
+
+Cell[BoxData[
+    \({{1, 2}, {3}, {0, 1}, {99}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(c = 
+      imsMakePolynomMatrix[{{2, 1}, {0, 1}}, 
+        SparseArray[{{1, 1, 1, 1} \[Rule] m1111, {2, 3, 4, 5} \[Rule] 
+              m2345}, {4, 5, 6, 7}]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2, 1}, {0, 1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]2\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 2, ">"],
+                Editable->False], ",", \({4, 5, 6, 7}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsSystemContainsExponentsQ[s, {{1}, {2, 3}, ___} | {}]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsStationaryQ[
+      imsMakeSystemPolynomial[{3, 3, 
+          2}, {imsMakePolynomMatrix[{{2, 3}, {1}}, m], 
+          imsMakePolynomMatrix[{{0, 2}, {}}, m2]}]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsStationaryQ[
+      imsMakeSystemPolynomial[{3, 3, 
+          2}, {imsMakePolynomMatrix[{{2, 3}, {0, 1}}, m], 
+          imsMakePolynomMatrix[{{0, 2}, {}}, m2]}]]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s2 = 
+      imsMakeSystemPolynomial[{3, 3, 
+          2}, {imsMakePolynomMatrix[{{1}, {2, 3}, {}}, m], 
+          imsMakePolynomMatrix[{}, m2], 
+          imsMakePolynomMatrix[{{2}, {}, {}}, m3], 
+          imsMakePolynomMatrix[{{1}, {}, {}}, m4], 
+          imsMakePolynomMatrix[{{3}, {}, {}}, m5]}]\)], "Input"],
+
+Cell[BoxData[
+    \("imsSystem[<<Poly>>{3, 3, 2}, {{}, {{1}}, {{2}}, {{3}}, {{1}, {2, \
+3}}}]"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetPolyStiffnesses[s2\ ] // FullForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(imsGetPolyStiffnesses[
+          imsSystem[List[3, 3, 2], 
+            Plus[imsPolynomMatrix[List[], m2], 
+              imsPolynomMatrix[List[List[1]], m4], 
+              imsPolynomMatrix[List[List[2]], m3], 
+              imsPolynomMatrix[List[List[3]], m5], 
+              imsPolynomMatrix[List[List[1], List[2, 3]], m]]]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsSystemContainsExponentsQ[s2, {{_}}]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \( (*\(imsGetPolyStiffnesses\)\(?\)*) \)], "Input"],
+
+Cell[BoxData[
+    \( (*imsTranspose[Array[m, {2, 3, 4, 5}], {1, 3, 2, 4}]*) \)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[\ s2, \ {___}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({imsPolynomMatrix[{}, m2], imsPolynomMatrix[{{1}}, m4], 
+      imsPolynomMatrix[{{2}}, m3], imsPolynomMatrix[{{3}}, m5], 
+      imsPolynomMatrix[{{1}, {2, 3}}, m]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[
+      imsAddToSystemMatrix[\ s2, \ 
+        imsMakePolynomMatrix[{{2}}, m6]\ ], \ {___}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[
+      imsAddToSystemMatrix[
+        "imsSystem[<<Poly>>{3, 3, 2}, {{}, {{1}}, {{2}}, {{3}}, {{1}, {2, \
+3}}}]", imsPolynomMatrix[{{2}}, m6]], {___}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[
+      imsAddToSystemMatrix[\ s2, \ 
+        imsMakePolynomMatrix[{{1}, {2, 3}}, m7]\ ], \ {___}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(imsGetSystemPolynomMatrices[
+      imsAddToSystemMatrix[
+        "imsSystem[<<Poly>>{3, 3, 2}, {{}, {{1}}, {{2}}, {{3}}, {{1}, {2, \
+3}}}]", imsPolynomMatrix[{{1}, {2, 3}}, m7]], {___}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsMakePolynomMatrix[{{1}, {2, 3}}, m1] + 
+      imsMakePolynomMatrix[{{1}, {2, 3}}, m2]\)], "Input"],
+
+Cell[BoxData[
+    \(imsPolynomMatrix[{{1}, {2, 3}}, m1 + m2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(3*imsMakePolynomMatrix[{{1}, {2, 3}}, m2] + 
+      2*imsMakePolynomMatrix[{{1}, {2, 3, 1}}, m2] + 
+      9*imsMakePolynomMatrix[{{1}, {2, 3}}, m2]\)], "Input"],
+
+Cell[BoxData[
+    \(imsPolynomMatrix[{{1}, {2, 3}}, 12\ m2] + 
+      imsPolynomMatrix[{{1}, {2, 3, 1}}, 2\ m2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(10*\((Plus @@ {imsMakePolynomMatrix[{{1}, {2, 3}}, m2], 
+              imsMakePolynomMatrix[{{1}, {2, 3, 1}}, m2], 
+              3*imsMakePolynomMatrix[{{1}, {2, 3}}, m2]})\) // 
+      Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(10\ \((imsPolynomMatrix[{{1}, {2, 3}}, 4\ m2] + 
+          imsPolynomMatrix[{{1}, {2, 3, 1}}, m2])\)\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["2", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(c = 
+      imsMakePolynomMatrix[{{2}, {0, 0, 1}}, 
+        SparseArray[{{1, 1, 1, 1} \[Rule] m1111, {2, 3, 4, 5} \[Rule] 
+              m2345}, {4, 5, 5, 5}]]\), "\[IndentingNewLine]", 
+    \(\(v = 
+        SparseArray[{{v11, v21}, {v12, v22}, {v13, v23}, {v14, v24}, {v15, 
+              v25}}];\)\), "\[IndentingNewLine]", 
+    \(\(v0 = SparseArray[{v1, v2, v3, v4, v5}];\)\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2}, {0, 0, 1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]2\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 2, ">"],
+                Editable->False], ",", \({4, 5, 5, 5}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(imsPolynomMatrixContract[
+      c, {{2, v}, {3, v}}]\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContract[c, {{2, v}, {3, v}}] // 
+        imsGetPolynomMatrixValues\) // ArrayRules\), "\[IndentingNewLine]", 
+    \(imsPolynomMatrixContract[c, {{2, v}, {3, v}}, 
+      imsSkipRows \[Rule] False]\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContract[c, {{2, v}, {3, v}}, 
+          imsSkipRows \[Rule] False] // imsGetPolynomMatrixValues\) // 
+      ArrayRules\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2}, {0, 0, 1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]8\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 8, ">"],
+                Editable->False], ",", \({4, 2, 5, 2}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1, 1, 1} \[Rule] m1111\ v11\^2, {1, 2, 1, 1} \[Rule] 
+        m1111\ v11\ v21, {1, 1, 1, 2} \[Rule] 
+        m1111\ v11\ v21, {1, 2, 1, 2} \[Rule] 
+        m1111\ v21\^2, {2, 1, 4, 1} \[Rule] 
+        m2345\ v13\ v15, {2, 2, 4, 1} \[Rule] 
+        m2345\ v15\ v23, {2, 1, 4, 2} \[Rule] 
+        m2345\ v13\ v25, {2, 2, 4, 2} \[Rule] 
+        m2345\ v23\ v25, {_, _, _, _} \[Rule] 0}\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2}, {0, 0, 1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]8\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 8, ">"],
+                Editable->False], ",", \({4, 2, 2, 5}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1, 1, 1} \[Rule] m1111\ v11\^2, {1, 2, 1, 1} \[Rule] 
+        m1111\ v11\ v21, {1, 1, 2, 1} \[Rule] 
+        m1111\ v11\ v21, {1, 2, 2, 1} \[Rule] 
+        m1111\ v21\^2, {2, 1, 1, 5} \[Rule] 
+        m2345\ v13\ v14, {2, 2, 1, 5} \[Rule] 
+        m2345\ v14\ v23, {2, 1, 2, 5} \[Rule] 
+        m2345\ v13\ v24, {2, 2, 2, 5} \[Rule] 
+        m2345\ v23\ v24, {_, _, _, _} \[Rule] 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(imsPolynomMatrixContract[
+      c, {{2, v0}, {3, v0}}]\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContract[c, {{2, v0}, {3, v0}}] // 
+        imsGetPolynomMatrixValues\) // ArrayRules\), "\[IndentingNewLine]", 
+    \(imsPolynomMatrixContract[c, {{2, v0}, {3, v0}}, 
+      imsSkipRows \[Rule] False]\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContract[c, {{2, v0}, {3, v0}}, 
+          imsSkipRows \[Rule] False] // imsGetPolynomMatrixValues\) // 
+      ArrayRules\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]2\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 2, ">"],
+                Editable->False], ",", \({4, 5}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1} \[Rule] m1111\ v1\^2, {2, 4} \[Rule] 
+        m2345\ v3\ v5, {_, _} \[Rule] 0}\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{1}, {0, 0, 1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]2\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 2, ">"],
+                Editable->False], ",", \({4, 5}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1} \[Rule] m1111\ v1\^2, {2, 5} \[Rule] 
+        m2345\ v3\ v4, {_, _} \[Rule] 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(c = 
+      imsMakePolynomMatrix[{{2}, {0, 0, 1}, {1}}, 
+        SparseArray[{{1, 1, 1, 1, 1} \[Rule] m11111, {2, 3, 4, 5, 5} \[Rule] 
+              m23455}, {6, 6, 6, 6, 6}]]; 
+    v0 = SparseArray[{v1, v2, v3, v4, v5, v6}];\), "\[IndentingNewLine]", 
+    \(\(v = 
+        SparseArray[{{v11, v21}, {v12, v22}, {v13, v23}, {v14, v24}, {v15, 
+              v25}, {v16, v26}}];\)\), "\[IndentingNewLine]", 
+    \(imsPolynomMatrixContractAll\ [c, v0, v0, v0, 
+      v0]\), "\[IndentingNewLine]", 
+    \(imsPolynomMatrixContractAll\ [c, v, v, v, v]\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContractAll\ [c, v, v, v, v] // 
+        imsGetPolynomMatrixValues\) // ArrayRules\)}], "Input"],
+
+Cell[BoxData[
+    \(imsPolynomMatrix[{}, 
+      m11111\ v1\^5 + m23455\ v2\ v3\ v4\ v5\^2]\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2}, {0, 0, 1}, {1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]32\[InvisibleSpace]">"\)\
+,
+                SequenceForm[ "<", 32, ">"],
+                Editable->False], ",", \({2, 2, 2, 2, 2}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1, 1, 1, 1} \[Rule] 
+        m11111\ v11\^5 + m23455\ v12\ v13\ v14\ v15\^2, {1, 1, 1, 2, 
+          1} \[Rule] 
+        m11111\ v11\^4\ v21 + m23455\ v12\ v13\ v14\ v15\ v25, {1, 1, 2, 1, 
+          1} \[Rule] 
+        m11111\ v11\^4\ v21 + m23455\ v12\ v13\ v15\^2\ v24, {1, 1, 2, 2, 
+          1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v13\ v15\ v24\ v25, {1, 2, 1, 
+          1, 1} \[Rule] 
+        m11111\ v11\^4\ v21 + m23455\ v12\ v14\ v15\^2\ v23, {1, 2, 1, 2, 
+          1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v14\ v15\ v23\ v25, {1, 2, 2, 
+          1, 1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v15\^2\ v23\ v24, {1, 2, 2, 2, 
+          1} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v12\ v15\ v23\ v24\ v25, {1, 1, 1, 
+          1, 2} \[Rule] 
+        m11111\ v11\^4\ v21 + m23455\ v12\ v13\ v14\ v15\ v25, {1, 1, 1, 2, 
+          2} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v13\ v14\ v25\^2, {1, 1, 2, 1, 
+          2} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v13\ v15\ v24\ v25, {1, 1, 2, 
+          2, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v12\ v13\ v24\ v25\^2, {1, 2, 1, 1, 
+          2} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v12\ v14\ v15\ v23\ v25, {1, 2, 1, 
+          2, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v12\ v14\ v23\ v25\^2, {1, 2, 2, 1, 
+          2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v12\ v15\ v23\ v24\ v25, {1, 2, 2, 
+          2, 2} \[Rule] 
+        m11111\ v11\ v21\^4 + m23455\ v12\ v23\ v24\ v25\^2, {2, 1, 1, 1, 
+          1} \[Rule] 
+        m11111\ v11\^4\ v21 + m23455\ v13\ v14\ v15\^2\ v22, {2, 1, 1, 2, 
+          1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v13\ v14\ v15\ v22\ v25, {2, 1, 2, 
+          1, 1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v13\ v15\^2\ v22\ v24, {2, 1, 2, 2, 
+          1} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v13\ v15\ v22\ v24\ v25, {2, 2, 1, 
+          1, 1} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v14\ v15\^2\ v22\ v23, {2, 2, 1, 2, 
+          1} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v14\ v15\ v22\ v23\ v25, {2, 2, 2, 
+          1, 1} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v15\^2\ v22\ v23\ v24, {2, 2, 2, 2, 
+          1} \[Rule] 
+        m11111\ v11\ v21\^4 + m23455\ v15\ v22\ v23\ v24\ v25, {2, 1, 1, 1, 
+          2} \[Rule] 
+        m11111\ v11\^3\ v21\^2 + m23455\ v13\ v14\ v15\ v22\ v25, {2, 1, 1, 
+          2, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v13\ v14\ v22\ v25\^2, {2, 1, 2, 1, 
+          2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v13\ v15\ v22\ v24\ v25, {2, 1, 2, 
+          2, 2} \[Rule] 
+        m11111\ v11\ v21\^4 + m23455\ v13\ v22\ v24\ v25\^2, {2, 2, 1, 1, 
+          2} \[Rule] 
+        m11111\ v11\^2\ v21\^3 + m23455\ v14\ v15\ v22\ v23\ v25, {2, 2, 1, 
+          2, 2} \[Rule] 
+        m11111\ v11\ v21\^4 + m23455\ v14\ v22\ v23\ v25\^2, {2, 2, 2, 1, 
+          2} \[Rule] 
+        m11111\ v11\ v21\^4 + m23455\ v15\ v22\ v23\ v24\ v25, {2, 2, 2, 2, 
+          2} \[Rule] 
+        m11111\ v21\^5 + 
+          m23455\ v22\ v23\ v24\ v25\^2, {_, _, _, _, _} \[Rule] 
+        0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(c = 
+      imsMakePolynomMatrix[{{2}, {0, 0, 1}, {1}}, 
+        SparseArray[{{1, 1, 1, 1, 1} \[Rule] m11111, {2, 3, 4, 5, 5} \[Rule] 
+              m23455}, {4, 5, 5, 5, 6}]]; 
+    imsPolynomMatrixContractAll\ [c, 0, aaa, 0, Null]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"imsPolynomMatrix", "[", 
+      RowBox[{\({{2}, {0, 0, 1}, {1}}\), ",", 
+        TagBox[
+          RowBox[{"SparseArray", "[", 
+            RowBox[{
+              
+              InterpretationBox[\("<"\[InvisibleSpace]2\[InvisibleSpace]">"\),
+                
+                SequenceForm[ "<", 2, ">"],
+                Editable->False], ",", \({4, 5, 5, 5, 6}\)}], "]"}],
+          False,
+          Editable->False]}], "]"}]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["3", "Subsection"],
+
+Cell[BoxData[{
+    \(\(c = 
+        imsMakePolynomMatrix[{{2}, {0, 0, 1}, {1}}, 
+          SparseArray[{{1, 1, 1, 1, 1} \[Rule] 
+                m11111, {2, 3, 4, 5, 6} \[Rule] m23456}, {6, 6, 6, 6, 
+              6}]];\)\), "\[IndentingNewLine]", 
+    \(\(v = 
+        SparseArray[{{v11, v21}, {v12, v22}, {v13, v23}, {v14, v24}, {v15, 
+              v25}, {v16, v26}}];\)\), "\[IndentingNewLine]", 
+    \(\(v0 = {v01, v02, v03, v04, v05, v06};\)\), "\[IndentingNewLine]", 
+    \(\(v1 = {v11, v12, v13, v14, v15, v16};\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\((\(\(imsPolynomMatrixContractAllDerivatives[c, {v0}, 
+              0, {v0, 0, v1}, {0, v0}] // imsGetPolynomMatrixValues\) // 
+          Normal\) // MatrixForm)\)\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContractAllDerivatives[c, {v}, v, {v}, {v}] // 
+        imsGetPolynomMatrixValues\) // ArrayRules\), "\[IndentingNewLine]", 
+    \(\(imsPolynomMatrixContractAllDerivatives[c, {v}, v, {v}, {v}] // 
+        imsGetPolynomMatrixValues\) // Dimensions\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(m11111\ v01\^2\ v11\), "0", "0", "0", "0", "0"},
+            {"0", "0", "0", "0", "0", "0"},
+            {"0", "0", "0", "0", "0", "0"},
+            {"0", "0", "0", "0", "0", \(m23456\ v02\ v03\ v15\)},
+            {"0", "0", "0", "0", "0", "0"},
+            {"0", "0", "0", "0", "0", "0"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    \({{1, 1, 1, 1, 1} \[Rule] m11111\ v11\^4, {1, 1, 1, 5, 1} \[Rule] 
+        m23456\ v12\ v13\ v14\ v16, {1, 1, 2, 1, 1} \[Rule] 
+        m11111\ v11\^3\ v21, {1, 1, 2, 5, 1} \[Rule] 
+        m23456\ v12\ v13\ v16\ v24, {1, 2, 1, 1, 1} \[Rule] 
+        m11111\ v11\^3\ v21, {1, 2, 1, 5, 1} \[Rule] 
+        m23456\ v12\ v14\ v16\ v23, {1, 2, 2, 1, 1} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {1, 2, 2, 5, 1} \[Rule] 
+        m23456\ v12\ v16\ v23\ v24, {1, 1, 1, 1, 2} \[Rule] 
+        m11111\ v11\^3\ v21, {1, 1, 1, 5, 2} \[Rule] 
+        m23456\ v12\ v13\ v14\ v26, {1, 1, 2, 1, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {1, 1, 2, 5, 2} \[Rule] 
+        m23456\ v12\ v13\ v24\ v26, {1, 2, 1, 1, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {1, 2, 1, 5, 2} \[Rule] 
+        m23456\ v12\ v14\ v23\ v26, {1, 2, 2, 1, 2} \[Rule] 
+        m11111\ v11\ v21\^3, {1, 2, 2, 5, 2} \[Rule] 
+        m23456\ v12\ v23\ v24\ v26, {2, 1, 1, 1, 1} \[Rule] 
+        m11111\ v11\^3\ v21, {2, 1, 1, 5, 1} \[Rule] 
+        m23456\ v13\ v14\ v16\ v22, {2, 1, 2, 1, 1} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {2, 1, 2, 5, 1} \[Rule] 
+        m23456\ v13\ v16\ v22\ v24, {2, 2, 1, 1, 1} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {2, 2, 1, 5, 1} \[Rule] 
+        m23456\ v14\ v16\ v22\ v23, {2, 2, 2, 1, 1} \[Rule] 
+        m11111\ v11\ v21\^3, {2, 2, 2, 5, 1} \[Rule] 
+        m23456\ v16\ v22\ v23\ v24, {2, 1, 1, 1, 2} \[Rule] 
+        m11111\ v11\^2\ v21\^2, {2, 1, 1, 5, 2} \[Rule] 
+        m23456\ v13\ v14\ v22\ v26, {2, 1, 2, 1, 2} \[Rule] 
+        m11111\ v11\ v21\^3, {2, 1, 2, 5, 2} \[Rule] 
+        m23456\ v13\ v22\ v24\ v26, {2, 2, 1, 1, 2} \[Rule] 
+        m11111\ v11\ v21\^3, {2, 2, 1, 5, 2} \[Rule] 
+        m23456\ v14\ v22\ v23\ v26, {2, 2, 2, 1, 2} \[Rule] 
+        m11111\ v21\^4, {2, 2, 2, 5, 2} \[Rule] 
+        m23456\ v22\ v23\ v24\ v26, {_, _, _, _, _} \[Rule] 0}\)], "Output"],
+
+Cell[BoxData[
+    \({2, 2, 2, 6, 2}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(<< "\</home_loc/lieneman/Projekte/Mathematica/PolynomialSystem/System.m\
+\>"\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(imsStiffnessToIdentity /@ {imsMakeSystem[{{1}, {0}}, {{\ {1, 
+                0.2}, {0.2, 
+                1}}}], \[IndentingNewLine]imsMakeSystem[{{1}, {0}}, {{\ {1, 
+                0.2}, {0.2, 1}}}, {{\ {1, 0}, {0, 1}}, {\ {0.11, 0.2}, {0.2, 
+                0.11}}}], \[IndentingNewLine]imsMakeSystem[{{1}, {0}}, {{\ \
+{1, 0.2}, {0.2, 1}}}, {{\ {1, 0}, {0, 1}}, {\ {0.11, 0.2}, {0.2, 0.11}}}, 
+          2*{{\ {1, 0}, {0, 1}}, {\ {0.11, 0.2}, {0.2, 0.11}}}], 
+        imsMakeSystem[{{1}, {0}}, {{\ {1, 0.2}, {0.2, 1}}}, {{\ {1, 0}, {0, 
+                  1}}, {\ {0.11, 0.2}, {0.2, 0.11}}}, 
+            2*{{\ {1, 0}, {0, 1}}, {\ {0.11, 0.2}, {0.2, 0.11}}}] + 
+          imsMakePolynomMatrix[{{1}, {1}, {1}}, 
+            SparseArray[{1, 2, 2, 2} \[Rule] 1, {1, 2, 2, 
+                2}]]}\)\(\[IndentingNewLine]\)
+    \)\)], "Input"],
+
+Cell[BoxData[
+    \({"imsSystem[2, {1, 1, 0, 0}]", "imsSystem[2, {1, 1, 2, 0}]", 
+      "imsSystem[2, {1, 1, 2, 2}]", 
+      "imsSystem[<<Poly>>{0, 2, 1}, <{{}, {1}}> <{{}, {0, 1}}> <{{}, {0, 0, \
+1}}> <{{1}, {0, 1}}> <{{1}, {0, 0, 1}}> <{{}, {}, {1}}> <{{1}, {1}, \
+{1}}>]"}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(List @@@ %\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{\({{0, 2, 1}, 
+          imsPolynomMatrix[{{}, {1}}, {{1, 0}, {0, 1}}] + 
+            imsPolynomMatrix[{{}, {}, {1}}, {{\(-1.0416666666666667`\)}, \
+{0.20833333333333337`}}]}\), 
+        ",", \({{0, 2, 1}, 
+          imsPolynomMatrix[{{}, {1}}, {{1, 0}, {0, 1}}] + 
+            imsPolynomMatrix[{{}, {0, 
+                  1}}, {{1.0416666666666667`, \(-0.20833333333333337`\)}, \
+{\(-0.20833333333333337`\), 1.0416666666666667`}}] + 
+            imsPolynomMatrix[{{1}, {0, 
+                  1}}, {{{0.07291666666666666`, 
+                    0.1854166666666667`}, {0.1854166666666667`, 
+                    0.07291666666666666`}}}] + 
+            imsPolynomMatrix[{{}, {}, {1}}, {{\(-1.0416666666666667`\)}, \
+{0.20833333333333337`}}]}\), 
+        ",", \({{0, 2, 1}, 
+          imsPolynomMatrix[{{}, {1}}, {{1, 0}, {0, 1}}] + 
+            imsPolynomMatrix[{{}, {0, 
+                  1}}, {{1.0416666666666667`, \(-0.20833333333333337`\)}, \
+{\(-0.20833333333333337`\), 1.0416666666666667`}}] + 
+            imsPolynomMatrix[{{}, {0, 0, 
+                  1}}, {{2.0833333333333335`, \(-0.41666666666666674`\)}, \
+{\(-0.41666666666666674`\), 2.0833333333333335`}}] + 
+            imsPolynomMatrix[{{1}, {0, 
+                  1}}, {{{0.07291666666666666`, 
+                    0.1854166666666667`}, {0.1854166666666667`, 
+                    0.07291666666666666`}}}] + 
+            imsPolynomMatrix[{{1}, {0, 0, 
+                  1}}, {{{0.14583333333333331`, 
+                    0.3708333333333334`}, {0.3708333333333334`, 
+                    0.14583333333333331`}}}] + 
+            imsPolynomMatrix[{{}, {}, {1}}, {{\(-1.0416666666666667`\)}, \
+{0.20833333333333337`}}]}\), ",", 
+        RowBox[{"{", 
+          RowBox[{\({0, 2, 1}\), ",", 
+            
+            RowBox[{\(imsPolynomMatrix[{{}, {1}}, {{1, 0}, {0, 1}}]\), 
+              "+", \(imsPolynomMatrix[{{}, {0, 
+                    1}}, {{1.0416666666666667`, \(-0.20833333333333337`\)}, {\
+\(-0.20833333333333337`\), 1.0416666666666667`}}]\), 
+              "+", \(imsPolynomMatrix[{{}, {0, 0, 
+                    1}}, {{2.0833333333333335`, \(-0.41666666666666674`\)}, {\
+\(-0.41666666666666674`\), 2.0833333333333335`}}]\), 
+              "+", \(imsPolynomMatrix[{{1}, {0, 
+                    1}}, {{{0.07291666666666666`, 
+                      0.1854166666666667`}, {0.1854166666666667`, 
+                      0.07291666666666666`}}}]\), 
+              "+", \(imsPolynomMatrix[{{1}, {0, 0, 
+                    1}}, {{{0.14583333333333331`, 
+                      0.3708333333333334`}, {0.3708333333333334`, 
+                      0.14583333333333331`}}}]\), 
+              "+", \(imsPolynomMatrix[{{}, {}, {1}}, {{\(-1.0416666666666667`\
+\)}, {0.20833333333333337`}}]\), "+", 
+              RowBox[{"imsPolynomMatrix", "[", 
+                RowBox[{\({{1}, {1}, {1}}\), ",", 
+                  TagBox[
+                    RowBox[{"SparseArray", "[", 
+                      RowBox[{
+                        
+                        InterpretationBox[\("<"\[InvisibleSpace]2\
+\[InvisibleSpace]">"\),
+                          SequenceForm[ "<", 2, ">"],
+                          Editable->False], ",", \({1, 2, 2, 2}\)}], "]"}],
+                    False,
+                    Editable->False]}], "]"}]}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Last[Last[Last[%]]]\)[\([2]\)] // ArrayRules\)], "Input"],
+
+Cell[BoxData[
+    \({{1, 1, 2, 2} \[Rule] \(-0.20833333333333337`\), {1, 2, 2, 2} \[Rule] 
+        1.0416666666666667`, {_, _, _, _} \[Rule] 0.`}\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1082, 900},
+WindowMargins->{{Automatic, 80}, {44, Automatic}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 33, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1834, 57, 59, 1, 74, "Section",
+  InitializationCell->True],
+Cell[1896, 60, 3321, 86, 724, "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[5242, 150, 60, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[5305, 153, 309, 7, 68, "Text",
+  InitializationCell->True],
+Cell[5617, 162, 951, 22, 230, "Text",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6617, 190, 60, 1, 44, "Section",
+  InitializationCell->True],
+Cell[6680, 193, 231, 6, 43, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6948, 204, 65, 1, 74, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[7038, 209, 1576, 25, 363, "Input",
+  InitializationCell->True],
+Cell[8617, 236, 370, 6, 33, "Message"],
+Cell[8990, 244, 370, 6, 33, "Message"],
+Cell[9363, 252, 374, 6, 33, "Message"],
+Cell[9740, 260, 362, 5, 33, "Message"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10151, 271, 80, 1, 44, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[10256, 276, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[10313, 279, 12464, 194, 3323, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22814, 478, 62, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[22879, 481, 230, 4, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23146, 490, 64, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[23213, 493, 530, 11, 123, "Input",
+  InitializationCell->True],
+Cell[23746, 506, 112, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23907, 514, 60, 1, 44, "Section",
+  InitializationCell->True],
+Cell[23970, 517, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24095, 524, 59, 1, 44, "Section",
+  InitializationCell->True],
+Cell[24157, 527, 2502, 51, 491, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26696, 583, 43, 0, 44, "Section"],
+Cell[26742, 585, 167, 3, 43, "Input",
+  InitializationCell->True],
+Cell[26912, 590, 164, 3, 43, "Input",
+  InitializationCell->True],
+Cell[27079, 595, 190, 3, 43, "Input",
+  InitializationCell->True],
+Cell[27272, 600, 168, 3, 43, "Input",
+  InitializationCell->True],
+Cell[27443, 605, 179, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27659, 613, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[27720, 616, 713, 14, 155, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[28458, 634, 61, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[28522, 637, 547, 10, 75, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29106, 652, 58, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[29167, 655, 953, 17, 171, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30157, 677, 65, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[30225, 680, 435, 8, 59, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30697, 693, 72, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[30772, 696, 519, 9, 75, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31328, 710, 65, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[31396, 713, 453, 8, 59, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31886, 726, 60, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[31949, 729, 460, 9, 75, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32458, 744, 55, 1, 44, "Section",
+  InitializationCell->True],
+Cell[32516, 747, 3472, 63, 907, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[36025, 815, 55, 1, 44, "Section",
+  InitializationCell->True],
+Cell[36083, 818, 6275, 125, 507, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[42395, 948, 57, 1, 44, "Section",
+  InitializationCell->True],
+Cell[42455, 951, 5024, 88, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[47516, 1044, 26, 0, 44, "Section"],
+Cell[47545, 1046, 135, 3, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[47717, 1054, 69, 1, 44, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[47811, 1059, 60, 0, 38, "Subsection"],
+Cell[47874, 1061, 445, 9, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[48356, 1075, 41, 0, 30, "Subsection"],
+Cell[48400, 1077, 232, 5, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[48669, 1087, 37, 0, 30, "Subsection"],
+Cell[48709, 1089, 1835, 36, 315, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[50581, 1130, 44, 0, 30, "Subsection"],
+Cell[50628, 1132, 1573, 29, 363, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52238, 1166, 57, 0, 30, "Subsection"],
+Cell[52298, 1168, 2230, 41, 491, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54565, 1214, 40, 0, 30, "Subsection"],
+Cell[54608, 1216, 1155, 21, 251, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55800, 1242, 46, 0, 30, "Subsection"],
+Cell[55849, 1244, 2136, 40, 475, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[58022, 1289, 39, 0, 30, "Subsection"],
+Cell[58064, 1291, 275, 5, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[58376, 1301, 46, 0, 30, "Subsection"],
+Cell[58425, 1303, 5346, 94, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63808, 1402, 62, 0, 30, "Subsection"],
+Cell[63873, 1404, 1968, 38, 283, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65878, 1447, 49, 0, 30, "Subsection"],
+Cell[65930, 1449, 1648, 31, 347, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[67615, 1485, 60, 0, 30, "Subsection"],
+Cell[67678, 1487, 2603, 47, 427, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[70318, 1539, 50, 0, 30, "Subsection"],
+Cell[70371, 1541, 1172, 25, 139, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[71592, 1572, 58, 1, 44, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[71675, 1577, 112, 2, 27, "Input",
+  InitializationCell->True],
+Cell[71790, 1581, 57, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[71896, 1588, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[71957, 1591, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[72180, 1602, 23, 0, 44, "Section"],
+Cell[72206, 1604, 37, 1, 27, "Input"],
+Cell[72246, 1607, 58, 1, 27, "Input"],
+Cell[72307, 1610, 119, 2, 43, "Input"],
+Cell[72429, 1614, 109, 2, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[72563, 1620, 23, 0, 38, "Subsection"],
+Cell[72589, 1622, 189, 4, 59, "Input"],
+
+Cell[CellGroupData[{
+Cell[72803, 1630, 75, 1, 27, "Input"],
+Cell[72881, 1633, 85, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[73003, 1639, 54, 1, 27, "Input"],
+Cell[73060, 1642, 313, 8, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[73410, 1655, 66, 1, 27, "Input"],
+Cell[73479, 1658, 108, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[73624, 1665, 34, 1, 27, "Input"],
+Cell[73661, 1668, 85, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[73783, 1674, 84, 1, 27, "Input"],
+Cell[73870, 1677, 70, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[73977, 1683, 145, 3, 43, "Input"],
+Cell[74125, 1688, 338, 8, 59, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[74500, 1701, 191, 3, 59, "Input"],
+Cell[74694, 1706, 389, 13, 81, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[75120, 1724, 180, 3, 59, "Input"],
+Cell[75303, 1729, 59, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[75399, 1735, 46, 1, 27, "Input"],
+Cell[75448, 1738, 318, 8, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[75803, 1751, 103, 2, 27, "Input"],
+Cell[75909, 1755, 308, 8, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[76254, 1768, 126, 2, 43, "Input"],
+Cell[76383, 1772, 59, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[76479, 1778, 483, 8, 155, "Input"],
+Cell[76965, 1788, 574, 18, 171, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[77576, 1811, 77, 1, 27, "Input"],
+Cell[77656, 1814, 70, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[77763, 1820, 76, 1, 27, "Input"],
+Cell[77842, 1823, 108, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[77987, 1830, 113, 2, 27, "Input"],
+Cell[78103, 1834, 61, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[78201, 1840, 191, 4, 43, "Input"],
+Cell[78395, 1846, 455, 12, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[78887, 1863, 88, 1, 27, "Input"],
+Cell[78978, 1866, 38, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[79053, 1872, 194, 4, 59, "Input"],
+Cell[79250, 1878, 38, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[79325, 1884, 197, 4, 59, "Input"],
+Cell[79525, 1890, 39, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[79601, 1896, 333, 7, 91, "Input"],
+Cell[79937, 1905, 108, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[80082, 1912, 72, 1, 27, "Input"],
+Cell[80157, 1915, 502, 12, 75, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[80696, 1932, 71, 1, 27, "Input"],
+Cell[80770, 1935, 38, 1, 27, "Output"]
+}, Open  ]],
+Cell[80823, 1939, 69, 1, 27, "Input"],
+Cell[80895, 1942, 89, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[81009, 1947, 77, 1, 27, "Input"],
+Cell[81089, 1950, 197, 3, 59, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[81323, 1958, 152, 3, 59, "Input"],
+Cell[81478, 1963, 211, 4, 59, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[81726, 1972, 160, 3, 59, "Input"],
+Cell[81889, 1977, 219, 4, 59, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[82145, 1986, 121, 2, 43, "Input"],
+Cell[82269, 1990, 74, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[82380, 1996, 179, 3, 59, "Input"],
+Cell[82562, 2001, 124, 2, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[82723, 2008, 227, 4, 75, "Input"],
+Cell[82953, 2014, 134, 2, 43, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[83136, 2022, 23, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[83184, 2026, 410, 8, 91, "Input"],
+Cell[83597, 2036, 455, 12, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[84089, 2053, 506, 9, 107, "Input"],
+Cell[84598, 2064, 455, 12, 27, "Output"],
+Cell[85056, 2078, 421, 8, 79, "Output"],
+Cell[85480, 2088, 455, 12, 27, "Output"],
+Cell[85938, 2102, 421, 8, 79, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[86396, 2115, 514, 9, 107, "Input"],
+Cell[86913, 2126, 438, 12, 27, "Output"],
+Cell[87354, 2140, 120, 2, 29, "Output"],
+Cell[87477, 2144, 449, 12, 27, "Output"],
+Cell[87929, 2158, 120, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[88086, 2165, 712, 13, 155, "Input"],
+Cell[88801, 2180, 104, 2, 29, "Output"],
+Cell[88908, 2184, 450, 12, 27, "Output"],
+Cell[89361, 2198, 3256, 66, 587, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[92654, 2269, 263, 5, 59, "Input"],
+Cell[92920, 2276, 463, 12, 27, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[93432, 2294, 23, 0, 30, "Subsection"],
+Cell[93458, 2296, 535, 10, 123, "Input"],
+
+Cell[CellGroupData[{
+Cell[94018, 2310, 498, 7, 107, "Input"],
+Cell[94519, 2319, 576, 14, 119, "Output"],
+Cell[95098, 2335, 1900, 32, 315, "Output"],
+Cell[97001, 2369, 49, 1, 27, "Output"]
+}, Open  ]],
+Cell[97065, 2373, 109, 2, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[97199, 2379, 863, 14, 219, "Input"],
+Cell[98065, 2395, 289, 5, 91, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[98391, 2405, 43, 1, 27, "Input"],
+Cell[98437, 2408, 3356, 66, 395, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[101830, 2479, 79, 1, 27, "Input"],
+Cell[101912, 2482, 159, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

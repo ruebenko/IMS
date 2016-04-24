@@ -1,0 +1,651 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     16956,        472]*)
+(*NotebookOutlinePosition[     17618,        495]*)
+(*  CellTagsIndexPosition[     17574,        491]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Sudoku", "Subtitle"],
+
+Cell["by Jan G. Korvink", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ExamplePackage . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : Jan\ G . \ Korvink\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 4.1  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ solves\ the\ Sudoku\ game\ problem\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Sudoku`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsReadSudoku::usage = \
+"\<imsReadSudoku[filepath] reads a Sudoku specification from an ASCII file \
+specified by the given path. Each row of the array is on a separate line. \
+Unoccupied cells are indicated by a \".\", occupied cells by their digit \
+entries. Example:\n\t ..3....51\n\t 5.2..64..\n\t ..7.5....\n\t ...63.7..\n\t \
+2..7.8..6\n\t ..4.21...\n\t ....7.8..\n\t ..81..6.9\n\t 17....5..\n The \
+Sudoku is returned as an integer array with zeros in the unoccupied cells, \
+and integer digits in the occupied cells.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDrawSudoku::usage = "\<imsDrawSudoku[array] draws a picture of the \
+Sudoku specified by a 9x9 integer array. Unoccupied squares have the value 0, \
+occupied squares have a value between 1 and 9.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsSolveSudoku::usage = "\<imsSolveSudoku[array] finds the possible \
+solutions of a partially specified Sudoku given by the array. The function \
+returns a list of zero or more solutions, each again in the form of an array.\
+\>";\)\n\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\n (*\ functions\ *) \n
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`ExactCover`\>"]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Private Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(sudokuDigitQ[d_Integer] := MemberQ[Range[9], d];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(rcToBlock[r_?sudokuDigitQ, 
+          c_?sudokuDigitQ] := \((Quotient[r - 1, 3] 
+              3)\) + \((Quotient[c - 1, 3] + 1)\);\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(rcToEntry[r_?sudokuDigitQ, 
+          c_?sudokuDigitQ] := \((Quotient[r - 1, 1] 
+              9)\) + \((Quotient[c - 1, 1] + 1)\);\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(makeIntegerSudoku[
+          p : {{_String, _String, _String, _String, _String, _String, \
+_String, _String, _String} .. }] := 
+        Map[If[# == "\<.\>" || # == "\< \>" || # == "\<0\>", 0, 
+              ToExpression[#]] &, p, {2}];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(generalConstraint[p_] := 
+        Normal[SparseArray[{p \[Rule] 1}, 81]];\)\), "\[IndentingNewLine]", 
+    \(\(rowConstraint[r_, d_] := 
+        generalConstraint[\((\((d - 1)\) 9 + 
+              r)\)];\)\), "\[IndentingNewLine]", 
+    \(\(columnConstraint[c_, d_] := 
+        generalConstraint[\((\((d - 1)\) 9 + 
+              c)\)];\)\), "\[IndentingNewLine]", 
+    \(\(blockConstraint[{r_, c_}, d_] := 
+        generalConstraint[\((\((d - 1)\) 9 + 
+              rcToBlock[r, c])\)];\)\), "\[IndentingNewLine]", 
+    \(\(cellConstraint[{r_, c_}, d_] := 
+        generalConstraint[rcToEntry[r, c]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(makeGivenLine[{r_?sudokuDigitQ, c_Integer?sudokuDigitQ}, d_Integer] := 
+        Join[rowConstraint[r, d], columnConstraint[c, d], 
+          blockConstraint[{r, c}, d], 
+          cellConstraint[{r, c}, d]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(freeMovesSudoku[
+          p : {{_Integer, _Integer, _Integer, _Integer, _Integer, _Integer, \
+_Integer, _Integer, _Integer} .. }] := 
+        Module[{rowSets, colSets, blockSets, cellSets, 
+            makeCellSet}, \[IndentingNewLine]\[IndentingNewLine]makeCellSet[
+              d_, {r_?sudokuDigitQ, c_?sudokuDigitQ}] := 
+            If[d \[Equal] 0, \[IndentingNewLine]Intersection[
+                rowSets[\([\)\(r\)\(]\)], colSets[\([\)\(c\)\(]\)], 
+                blockSets[\([\)\(rcToBlock[r, 
+                    c]\)\(]\)]], {d}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]rowSets = \(Complement[
+                  Range[9], #] &\) /@ \((\(Select[
+                      Union[#], \((# \[NotEqual] 0)\) &] &\) /@ 
+                  p)\); \[IndentingNewLine]colSets = \(Complement[
+                  Range[9], #] &\) /@ \((\(Select[
+                      Union[#], \((# \[NotEqual] 0)\) &] &\) /@ 
+                  Transpose[p])\); \[IndentingNewLine]blockSets = 
+            Flatten[Map[
+                Complement[Range[9], 
+                    Select[Flatten[
+                        Transpose[#]], \((# \[NotEqual] 
+                            0)\) &]] &, \(Partition[#, 
+                      3] &\) /@ \((\(Transpose[#] &\) /@ 
+                      Partition[p, 3])\), {2}], 
+              1]; \[IndentingNewLine]\[IndentingNewLine]Return[
+            MapIndexed[makeCellSet, 
+              p, {2}]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(extractSolution[
+          sol : {{_Integer, _Integer, _Integer, _Integer} .. }] := \
+\(\((Quotient[# - 1, 9] + 1)\) &\) /@ 
+          Flatten[\(#[\([\)\(1\)\(]\)] &\) /@ 
+              Sort[sol, \((#1[\([\)\(-1\)\(]\)] < #2[\([\)\(-1\)\(]\)])\) \
+&]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(makeTableLine[
+          ds : {\((_Integer)\) .. }, {r_, 
+            c_}] := \(makeGivenLine[{r, c}, #] &\) /@ ds;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Public Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsReadSudoku[f_String] := 
+        Module[{s, res}, \[IndentingNewLine]s = 
+            OpenRead[f]; \[IndentingNewLine]res = 
+            Partition[
+              Flatten[ReadList[s, Character, 
+                  RecordSeparators \[Rule] {"\<\n\>"}, 
+                  RecordLists \[Rule] True]], 9]; \[IndentingNewLine]Close[
+            s]; \[IndentingNewLine]Return[
+            makeIntegerSudoku[res]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsDrawSudoku[
+          p : {{_Integer, _Integer, _Integer, _Integer, _Integer, _Integer, \
+_Integer, _Integer, _Integer} .. }] := 
+        Module[{drawLabel, 
+            grid}, \[IndentingNewLine]drawLabel[
+              l_Integer, {i_Integer, j_Integer}] := 
+            Text[If[l \[Equal] 0, "\< \>", ToString[l]], {j, 10 - i}, {0, 
+                0}]; \[IndentingNewLine]grid = {Thickness[ .004], \(Line[{{ \
+.5, # -  .5}, {9.5, # -  .5}}] &\) /@ 
+                Range[10], \[IndentingNewLine]\(Line[{{# -  .5,  .5}, {# -  \
+.5, 9.5}}] &\) /@ Range[10], 
+              Thickness[ .012], \(Line[{{ .5, 3  # - 2.5}, {9.5, 
+                        3  # - 2.5}}] &\) /@ 
+                Range[4], \[IndentingNewLine]\(Line[{{3  # - 
+                          2.5,  .5}, {3  # - 2.5, 9.5}}] &\) /@ 
+                Range[4]}; \[IndentingNewLine]Graphics[{grid, 
+              MapIndexed[drawLabel, p, {2}]}, AspectRatio \[Rule] Automatic, 
+            PlotRange \[Rule] All]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSolveSudoku[
+          p : {{_Integer, _Integer, _Integer, _Integer, _Integer, _Integer, \
+_Integer, _Integer, _Integer} .. }] := 
+        Module[{exactCoverTable, theSolutions, 
+            myRecursionLimit}, \[IndentingNewLine]exactCoverTable = 
+            Flatten[MapIndexed[makeTableLine, freeMovesSudoku[p], {2}], 
+              2]; \[IndentingNewLine]myRecursionLimit = $RecursionLimit; \
+\[IndentingNewLine]$RecursionLimit = 10000; \[IndentingNewLine]theSolutions = 
+            imsExactCover[
+              exactCoverTable]; \[IndentingNewLine]$RecursionLimit = 
+            myRecursionLimit; \[IndentingNewLine]\(Partition[
+                extractSolution[#], 9] &\) /@ 
+            theSolutions\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \("Imtek`Sudoku`Private`"\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{965, 638},
+WindowMargins->{{13, Automatic}, {Automatic, 13}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 26, 0, 51, "Subtitle"],
+Cell[1805, 55, 33, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[1863, 59, 31, 0, 74, "Section"],
+Cell[1897, 61, 1201, 20, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3123, 85, 35, 0, 28, "Subsubsection"],
+Cell[3161, 87, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[3782, 99, 1875, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5706, 136, 32, 0, 44, "Section"],
+Cell[5741, 138, 165, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5943, 148, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6020, 152, 26, 0, 38, "Subsection"],
+Cell[6049, 154, 1510, 24, 475, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7596, 183, 34, 0, 38, "Subsection"],
+Cell[7633, 185, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7839, 193, 36, 0, 30, "Subsection"],
+Cell[7878, 195, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8100, 205, 32, 0, 44, "Section"],
+Cell[8135, 207, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8260, 214, 42, 0, 44, "Section"],
+Cell[8305, 216, 231, 4, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8573, 225, 30, 0, 44, "Section"],
+Cell[8606, 227, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8934, 237, 26, 0, 44, "Section"],
+Cell[8963, 239, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9179, 248, 27, 0, 44, "Section"],
+Cell[9209, 250, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9375, 258, 29, 0, 44, "Section"],
+Cell[9407, 260, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9575, 268, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[9641, 272, 39, 0, 38, "Subsection"],
+Cell[9683, 274, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[9827, 280, 113, 2, 27, "Input",
+  InitializationCell->True],
+Cell[9943, 284, 196, 4, 27, "Input",
+  InitializationCell->True],
+Cell[10142, 290, 196, 4, 27, "Input",
+  InitializationCell->True],
+Cell[10341, 296, 300, 6, 43, "Input",
+  InitializationCell->True],
+Cell[10644, 304, 669, 14, 91, "Input",
+  InitializationCell->True],
+Cell[11316, 320, 272, 5, 43, "Input",
+  InitializationCell->True],
+Cell[11591, 327, 1520, 28, 235, "Input",
+  InitializationCell->True],
+Cell[13114, 357, 317, 7, 43, "Input",
+  InitializationCell->True],
+Cell[13434, 366, 180, 4, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13651, 375, 38, 0, 30, "Subsection"],
+Cell[13692, 377, 140, 4, 43, "Input",
+  InitializationCell->True],
+Cell[13835, 383, 493, 10, 107, "Input",
+  InitializationCell->True],
+Cell[14331, 395, 1063, 19, 139, "Input",
+  InitializationCell->True],
+Cell[15397, 416, 794, 14, 155, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16240, 436, 31, 0, 44, "Section"],
+Cell[16274, 438, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16444, 446, 30, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[16499, 450, 132, 3, 43, "Input",
+  InitializationCell->True],
+Cell[16634, 455, 57, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16740, 462, 30, 0, 44, "Section"],
+Cell[16773, 464, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,823 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     29815,        678]*)
+(*NotebookOutlinePosition[     30477,        701]*)
+(*  CellTagsIndexPosition[     30433,        697]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MORTools\t", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ MORTools . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : christian\ moosmann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 20.9  .2005, 
+      Freiburg\ i\ Br\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ useful\ functions\ for\ handling\ reduced\ \
+systems\ after\ Model\ Order\ \
+\(\(Reduction\)\(.\)\)*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  a\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(History\)\(:\)\)\ \
+\[IndentingNewLine]; \[IndentingNewLine]28.3  .06 : \ 
+        added\ FilterOptions\ to\ imsSolveAtPar; \[IndentingNewLine]20.9 . \ 
+          new\ Functions\ \((imsSolveAtPar, imsGetReorderedNode, 
+          imsProjectSystem, 
+          imsExtendProjection)\)\ \[IndentingNewLine]*) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\ 2004\ christian\ moosmann\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`MORTools`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsReorderStateToNodes::usage \
+= "\<imsReorderStateToNodes[stateVector,reorderMatrix,dirichletList] takes a \
+stateVector from an ANSYS-generated discretisation and reorders it based on \
+the reorder Matrix provided by mor4ansys. At last values from dirichletList \
+are reinserted. dirichletList is a list of nodes with their corresponding \
+Dirichlet values with original node numbers\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsDiscreteTransferfunction::usage = \
+"\<imsDiscreteTransferfunction[matC,matK,load,freqRange] takes the ODE system \
+C x\.b4[t]= K x[t] + b and computes the transfer function for discrete \
+frequencies. Frequencies are computed based on freqRange. freqRange is \
+{minFreq,maxFreq,steps}. steps is the number of frequencies computet with \
+logarithmic frequency increase. It returns a List consisting of the \
+StateTable and the list of frequencies. The StateTable itself is a list \
+containing the state vectors at the different frequencies.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsAppendOrthoNormal::usage = "\<imsAppendOrthoNormal[matrix,vector] \
+appends a vector to a matrix after othogonalizing it to all the vectors in \
+the matrix and normalizeing it.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsSolveAtPar::usage = "\<imsSolveAtPar[system_imsSystem,par_List] \
+computes a harmonic solution or a system using parameters and frequencies \
+specified with par\>"\n\[IndentingNewLine]
+    imsGetReorderedNode::usage = \
+"\<imsGetReorderedNode[reorderTable_Matrix,dirichletPositions_List,orgNode_\
+Number] returns the number of a node in a reordered equations system\>"\n\
+\[IndentingNewLine]
+    imsProjectSystem::usage = \
+"\<imsProjectSystem[system_imsSystem,projM_Matrix,projMT_Matrix] projects a \
+system using the projection Matrix projM and its Transpose projMT\>"\n\
+\[IndentingNewLine]
+    imsExtendProjection::usage = \
+"\<imsExtendProjection[system_imsSystem,load_Vector,projMT_Matrix,conv_List,\
+expandPointer_Integer,expansionPoint_,testPoint_List,testNodes_List,\
+combinationVec_List,criterion_Number,maxIterations_Number,normThreshold_\
+Number] extends the transposed projection Matrix projMT for the imsSystem \
+system with the load Vector load.\>"\n
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsStepping::usage = "\<Define the type of frequency \
+stepping (linear, logarithmic or Automatic).\>"\[IndentingNewLine]
+    imsNormThreshold::usage = "\<Threshold value to decide if a vector should \
+be appended or not.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*Needs[\ "\<Imtek`ShowStatus`\>"\ \
+]*) \)\(\[IndentingNewLine]\)\(Needs["\<Imtek`System`\>"]\[IndentingNewLine]
+    Needs["\<Utilities`FilterOptions`\>"]\[IndentingNewLine]
+    Needs["\<Imtek`Debug`\>"]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Options[
+        imsDiscreteTransferfunction] = {imsStepping \[Rule] 
+          Automatic}\[IndentingNewLine]
+    Options[
+        imsAppendOrthoNormal] = {imsNormThreshold \[Rule] \ 
+          0. }\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\(imsReorderStateToNodes[
+        redVec_List, reorderMatrix_, dirichletList_] := 
+      Module[\[IndentingNewLine]{dirichletpos, dirichletval, 
+          stateVec}, \[IndentingNewLine]stateVec = 
+          reorderMatrix . redVec; \[IndentingNewLine]{dirichletpos, 
+            dirichletval} = 
+          Transpose[dirichletList]; \[IndentingNewLine]dirichletpos = 
+          IntegerPart[dirichletpos]; \[IndentingNewLine]TestRange = 
+          Range[dirichletpos[\([1]\)], 
+            Last[dirichletpos]]; \[IndentingNewLine]Timing[
+          While[Unequal[dirichletval, {}], \[IndentingNewLine]test = 
+              True; \[IndentingNewLine]For[i = 1, 
+              test, \(i++\), \[IndentingNewLine]If[\((dirichletpos[\([i]\)] \
+\[Equal] TestRange[\([i]\)])\) && \((i < Length[dirichletpos])\), 
+                test = True; 
+                length1 = 
+                  i, \[IndentingNewLine]If[\((dirichletpos[\([i]\)] \[Equal] 
+                        TestRange[\([i]\)])\) && \((i == 
+                        Length[dirichletpos])\), test = False; length1 = i, 
+                  test = False]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]dirichlettemp = 
+              Take[dirichletval, length1]; \[IndentingNewLine]stateVec = \ 
+              Flatten[Append[
+                  Flatten[
+                    Prepend[dirichlettemp, 
+                      Take[stateVec, dirichletpos[\([1]\)] - 1\ ]\ ]], 
+                  Drop[stateVec, 
+                    dirichletpos[\([1]\)] - 
+                      1\ ]\ ]\ ]; \[IndentingNewLine]dirichletval = 
+              Drop[dirichletval, length1]; \[IndentingNewLine]dirichletpos = 
+              Drop[dirichletpos, length1]; \[IndentingNewLine]If[
+              Unequal[dirichletval, {}], \[IndentingNewLine]TestRange = 
+                Range[dirichletpos[\([1]\)], 
+                  Last[dirichletpos]]];\[IndentingNewLine]]]; \
+\[IndentingNewLine]Return[
+          stateVec]\[IndentingNewLine]]\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsDiscreteTransferfunction[matC_, matK_, load_List, 
+        singleFreq_?NumericQ, opts___] := 
+      transferCorefirstOrder[matC, matK, load, 
+        singleFreq]\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsDiscreteTransferfunction[matC_, matK_, load_List, freqRange_List, 
+        opts___] := 
+      Module[\[IndentingNewLine]{stepMethod, 
+          freqList}, \[IndentingNewLine]stepMethod = \(imsStepping /. \
+{opts}\) /. Options[
+              imsDiscreteTransferfunction]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]Length[freqRange] \[Equal] 1, 
+          Return[transferCorefirstOrder[matC, matK, load, 
+              freqRange[\([1]\)]]], \[IndentingNewLine]Length[
+              freqRange] \[Equal] 2, 
+          Which[\[IndentingNewLine]freqRange[\([1]\)] \[Equal] 
+              freqRange[\([2]\)], 
+            Return[transferCorefirstOrder[matC, matK, load, 
+                freqRange[\([1]\)]]], \[IndentingNewLine]True, 
+            Return[imsDiscreteTransferfunction[matC, matK, load, 
+                Append[freqRange, 100], 
+                opts]]\[IndentingNewLine]], \[IndentingNewLine]Length[
+              freqRange] \[Equal] 3, \[IndentingNewLine]\t
+          Which[\[IndentingNewLine]\tstepMethod === "\<Linear\>", 
+            freqList = buildLinFreqs[freqRange], \[IndentingNewLine]\t
+            stepMethod === "\<Logarithmic\>", 
+            freqList = buildLogFreqs[freqRange], \[IndentingNewLine]\t
+            stepMethod === 
+              Automatic, \[IndentingNewLine]\t\tWhich[\[IndentingNewLine]\t\t\
+freqRange[\([1]\)] \[Equal] 0, 
+              freqList = 
+                buildLinFreqs[freqRange], \[IndentingNewLine]\t\tTrue, 
+              freqList = 
+                buildLogFreqs[
+                  freqRange]\[IndentingNewLine]\t]\[IndentingNewLine]]; \
+\[IndentingNewLine]stateTable = \(transferCorefirstOrder[matC, matK, 
+                  load, #] &\) /@ 
+              freqList; \[IndentingNewLine]Return[{stateTable, 
+              freqList}]]\[IndentingNewLine]]\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsAppendOrthoNormal[matV_, newVec_, opts___] := 
+        Module[{hij, newVecNorm, internalVec, 
+            threshold}, \[IndentingNewLine]internalVec = 
+            newVec/Norm[
+                newVec]; \[IndentingNewLine]threshold = \(imsNormThreshold /. \
+{opts}\) /. Options[imsAppendOrthoNormal]; \[IndentingNewLine]For[i = 1, 
+            i \[LessEqual] Length[matV], \(i++\), \[IndentingNewLine]hij = 
+              internalVec . matV[\([i]\)]; \[IndentingNewLine]internalVec = 
+              internalVec - 
+                hij*matV[\([i]\)];\[IndentingNewLine]]; \
+\[IndentingNewLine]For[i = 1, 
+            i \[LessEqual] Length[matV], \(i++\), \[IndentingNewLine]hij = 
+              internalVec . matV[\([i]\)]; \[IndentingNewLine]internalVec = 
+              internalVec - 
+                hij*matV[\([i]\)];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]newVecNorm = Norm[internalVec]; \[IndentingNewLine]If[
+            newVecNorm > 
+              threshold, \[IndentingNewLine]\[IndentingNewLine]internalVec = 
+              internalVec/newVecNorm; \[IndentingNewLine]AppendTo[matV, 
+              internalVec];\[IndentingNewLine]]; \[IndentingNewLine]Return[
+            newVecNorm];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(SetAttributes[imsAppendOrthoNormal, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(imsSolveAtPar[system_imsSystem, par_List, opts___] := 
+        Which[\[IndentingNewLine]imsStationaryQ[system], 
+          LinearSolve[
+            Apply[Plus, 
+              Drop[par, Length[Transpose[imsGetLoad[system]]]]*
+                imsGetStiffness[system]], 
+            Normal[Apply[Plus, 
+                Take[par, Length[Transpose[imsGetLoad[system]]]]*
+                  Transpose[imsGetLoad[system]]]], 
+            FilterOptions[\ LinearSolve, \ 
+              opts\ ]], \[IndentingNewLine]imsFirstOrderQ[system], 
+          LinearSolve[
+            Apply[Plus, 
+              Drop[par, Length[Transpose[imsGetLoad[system]]]]*
+                Flatten[{imsGetStiffness[system], imsGetDamping[system]}, 
+                  1]], Normal[
+              Apply[Plus, 
+                Take[par, Length[Transpose[imsGetLoad[system]]]]*
+                  Transpose[imsGetLoad[system]]]], 
+            FilterOptions[\ LinearSolve, \ 
+              opts\ ]], \[IndentingNewLine]imsSecondOrderQ[system], 
+          LinearSolve[
+            Apply[Plus, 
+              Drop[par, Length[Transpose[imsGetLoad[system]]]]*
+                Flatten[{imsGetStiffness[system], imsGetDamping[system], 
+                    imsGetInertia[system]}, 1]], 
+            Normal[Apply[Plus, 
+                Take[par, Length[Transpose[imsGetLoad[system]]]]*
+                  Transpose[imsGetLoad[system]]]], 
+            FilterOptions[\ LinearSolve, \ 
+              opts\ ]]\[IndentingNewLine]];\)\n\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetReorderedNode[reorderTable_, dirichletPos_, 
+          orgNode_] := \(Cases[ArrayRules[reorderTable], 
+            a : \(({orgNode - Length[Select[dirichletPos, # < orgNode &]], 
+                      b_} \[Rule] _)\) \[Rule] 
+              b]\)[\([1]\)];\)\n\[IndentingNewLine]
+    \(imsMORProjectPolynomMatrix[m_imsPolynomMatrix, projM_, projMT_] := 
+        Module[\[IndentingNewLine]{e = imsGetPolynomMatrixExponents[m], 
+            ts = 0, te = 0, 
+            mv = imsGetPolynomMatrixValues[
+                m]}, \[IndentingNewLine]\[IndentingNewLine]If[
+            Length[e] \[GreaterEqual] 1, 
+            ts = \((Plus @@ e[\([1]\)])\) + 2]; \[IndentingNewLine]If[
+            Length[e] \[GreaterEqual] 2, 
+            te = ts + \((Plus @@ e[\([2]\)])\) - 
+                1]; \[IndentingNewLine]\[IndentingNewLine]If[
+            TensorRank[mv] \[Equal] 2\  && \ ts \[Equal] 2\  && \ 
+              te \[Equal] 2, \ 
+            Return[imsMakePolynomMatrix[e, 
+                projMT . \((mv . 
+                      projM)\)]]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\[IndentingNewLine]\
+imsMakePolynomMatrix[
+              e, \[IndentingNewLine]imsPolynomMatrixContract[\
+\[IndentingNewLine]mv, \[IndentingNewLine]Join[{{ts - 1, Transpose[projMT]}}, 
+                  Table[{i, projM}, {i, ts, 
+                      te}]]\[IndentingNewLine]]\[IndentingNewLine]]\
+\[IndentingNewLine]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsProjectSystem[system_?imsSystemContainsMoreExponentsQ, projM_, 
+          projMT_] := 
+        Module[{e = 
+              imsGetSystemVariables[
+                system]}, \[IndentingNewLine]e[\([2]\)] = \(Dimensions[
+                projM]\)[\([2]\)]; \[IndentingNewLine]imsMakeSystemPolynomial[
+            e, \(imsMORProjectPolynomMatrix[#, projM, projMT] &\) /@ 
+              imsGetSystemPolynomMatrices[
+                system, _]]];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsProjectSystem[system_?imsSecondOrderQ, projM_, projMT_] := 
+      imsMakeSystem[
+          projMT . imsGetLoad[system], \(\((projMT . \((# . projM)\))\) &\) /@ 
+            imsGetStiffness[system], 
+          If[imsSystemContainsExponentsQ[\ 
+              system, \ {{1}, {0, 1}} | {{}, {0, 
+                    1}}\ ], \(\((projMT . \((# . projM)\))\) &\) /@ 
+              imsGetDamping[
+                system], {}], \(\((projMT . \((# . projM)\))\) &\) /@ 
+            imsGetInertia[system]] /; 
+        Not[imsSystemContainsMoreExponentsQ[
+            system]]\[IndentingNewLine]\[IndentingNewLine]
+    imsProjectSystem[system_?imsFirstOrderQ, projM_, projMT_] := 
+      imsMakeSystem[
+          projMT . imsGetLoad[system], \(\((projMT . \((# . projM)\))\) &\) /@ 
+            imsGetStiffness[system], \(\((projMT . \((# . projM)\))\) &\) /@ 
+            imsGetDamping[system]] /; 
+        Not[imsSystemContainsMoreExponentsQ[
+            system]]\[IndentingNewLine]\[IndentingNewLine]
+    imsProjectSystem[system_?imsStationaryQ, projM_, projMT_] := 
+      imsMakeSystem[
+          projMT . imsGetLoad[system], \(\((projMT . \((# . projM)\))\) &\) /@ 
+            imsGetStiffness[system]] /; 
+        Not[imsSystemContainsMoreExponentsQ[
+            system]]\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsExtendProjection[system_, load_, projMT_, conv_, 
+        expandPointer_Integer, expansion_, test_, testNodes_, 
+        criterion_:  10. ^\(-10\), maxIterations_:  30, 
+        normThreshold_:  10. ^\(-4\)] := 
+      Module[{allMatrices, expandMatrix, constMatrix, kInvFunc, 
+          localProjMT = {}, localProjM, returnProjM, returnProjMT, 
+          returnConv, outVec, reducedSystem, 
+          localVal}, \[IndentingNewLine]allMatrices = 
+          Which[\[IndentingNewLine]imsSecondOrderQ[system], 
+            Flatten[{imsGetStiffness[system], imsGetDamping[system], 
+                imsGetInertia[system]}, 1], \[IndentingNewLine]imsFirstOrderQ[
+              system], 
+            Flatten[{imsGetStiffness[system], imsGetDamping[system]}, 
+              1], \[IndentingNewLine]True, 
+            imsGetStiffness[
+              system]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]expandMatrix = 
+          allMatrices[\([expandPointer]\)]; \[IndentingNewLine]constMatrix = 
+          Apply[Plus, 
+            expansion*
+              allMatrices]; \
+\[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<imsAppendOrthoNormal\
+\>", 2, "\<building base matrix\>"]; \
+\[IndentingNewLine]\[IndentingNewLine]kInvFunc = 
+          LinearSolve[
+            constMatrix]; \[IndentingNewLine]localProjMT = {}; \
+\[IndentingNewLine]returnProjMT = projMT; \[IndentingNewLine]returnConv = 
+          conv; \[IndentingNewLine]\[IndentingNewLine]imsAppendOrthoNormal[
+          localProjMT, kInvFunc[Flatten[Normal[load]]], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+          returnProjMT, localProjMT[\([1]\)], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+          localProjMT, kInvFunc[expandMatrix . localProjMT[\([1]\)]], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+          returnProjMT, localProjMT[\([\(-1\)]\)], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]\[IndentingNewLine]returnProjM \
+= Transpose[
+            returnProjMT]; \
+\[IndentingNewLine]\[IndentingNewLine]reducedSystem = 
+          imsProjectSystem[system, returnProjM, 
+            returnProjMT]; \
+\[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<imsAppendOrthoNormal\
+\>", 2, "\<testing\>"]; \[IndentingNewLine]\[IndentingNewLine]localVal[1] = 
+          returnProjM . 
+            imsSolveAtPar[reducedSystem, test]; \[IndentingNewLine]AppendTo[
+          returnConv, 
+          Norm[localVal[1]]/
+            Length[load]]; \[IndentingNewLine]\[IndentingNewLine]While[\
+\[IndentingNewLine]\((Last[returnConv] > 
+                criterion)\) && \((Length[localProjMT] < 
+                maxIterations)\), \[IndentingNewLine]imsAppendOrthoNormal[
+            localProjMT, kInvFunc[expandMatrix . Last[localProjMT]], 
+            imsNormThreshold \[Rule] 
+              normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+            returnProjMT, Last[localProjMT], 
+            imsNormThreshold \[Rule] 
+              normThreshold]; \[IndentingNewLine]returnProjM = 
+            Transpose[returnProjMT]; \[IndentingNewLine]reducedSystem = 
+            imsProjectSystem[system, returnProjM, 
+              returnProjMT]; \[IndentingNewLine]localVal[2] = 
+            returnProjM . 
+              imsSolveAtPar[reducedSystem, test]; \[IndentingNewLine]AppendTo[
+            returnConv, 
+            Norm[localVal[2] - localVal[1]]/
+              Length[load]]; \[IndentingNewLine]localVal[1] = 
+            localVal[
+              2];\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[{reducedSystem, returnProjM, returnProjMT, 
+            returnConv}]]\[IndentingNewLine]\[IndentingNewLine]
+    imsExtendProjection[system_, load_, projMT_, expandPointer_Integer, 
+        expansion_, iterations_:  30, normThreshold_:  10. ^\(-4\)] := 
+      Module[{allMatrices, expandMatrix, constMatrix, kInvFunc, 
+          localProjMT = {}, localProjM, returnProjM, returnProjMT, 
+          returnConv, outVec, reducedSystem, 
+          localVal}, \[IndentingNewLine]allMatrices = 
+          Which[\[IndentingNewLine]imsFirstOrderQ[system], 
+            Flatten[{imsGetStiffness[system], imsGetDamping[system]}, 
+              1], \[IndentingNewLine]True, 
+            imsGetStiffness[
+              system]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]expandMatrix = 
+          allMatrices[\([expandPointer]\)]; \[IndentingNewLine]constMatrix = 
+          Apply[Plus, expansion*allMatrices]; \[IndentingNewLine]kInvFunc = 
+          LinearSolve[
+            constMatrix]; \[IndentingNewLine]localProjMT = {}; \
+\[IndentingNewLine]returnProjMT = 
+          projMT; \[IndentingNewLine]\[IndentingNewLine]imsAppendOrthoNormal[
+          localProjMT, kInvFunc[Flatten[Normal[load]]], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+          returnProjMT, localProjMT[\([1]\)], 
+          imsNormThreshold \[Rule] 
+            normThreshold]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]imsAppendOrthoNormal[localProjMT, 
+            kInvFunc[expandMatrix . Last[localProjMT]], 
+            imsNormThreshold \[Rule] 
+              normThreshold]; \[IndentingNewLine]imsAppendOrthoNormal[
+            returnProjMT, Last[localProjMT], 
+            imsNormThreshold \[Rule] normThreshold];\[IndentingNewLine], {i, 
+            2, iterations}]; \
+\[IndentingNewLine]\[IndentingNewLine]returnProjM = 
+          Transpose[
+            returnProjMT]; \
+\[IndentingNewLine]\[IndentingNewLine]reducedSystem = 
+          imsProjectSystem[system, returnProjM, 
+            returnProjMT]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[{reducedSystem, returnProjM, 
+            returnProjMT}]\[IndentingNewLine]]\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ \
+*) \)\(\[IndentingNewLine]\)\(\(transferCorefirstOrder[matC_, matK_, load_, 
+          freq_] := Module[{omega, stateVec}, \[IndentingNewLine]omega = 
+            2. *Pi*freq; \[IndentingNewLine]stateVec = 
+            LinearSolve[omega*matC - matK, load]; \[IndentingNewLine]Return[
+            stateVec]\[IndentingNewLine]];\)\[IndentingNewLine]
+    \(buildLogFreqs[freqRange_] := 
+        Module[{minFreq, maxFreq, steps, stepWidth, freqList, 
+            freq}, \[IndentingNewLine]minFreq = 
+            freqRange[\([1]\)]; \[IndentingNewLine]maxFreq = 
+            freqRange[\([2]\)]; \[IndentingNewLine]steps = 
+            freqRange[\([3]\)]; \[IndentingNewLine]stepWidth = 
+            Log[10, \ \((maxFreq/minFreq)\)]/\((steps - 
+                  1)\); \[IndentingNewLine]freqList = {}; \
+\[IndentingNewLine]Do[\[IndentingNewLine]freq = 
+              minFreq*10. ^\((i*stepWidth)\); \[IndentingNewLine]AppendTo[
+              freqList, freq], \[IndentingNewLine]{i, 0, 
+              steps - 1}]; \[IndentingNewLine]Return[
+            freqList]\[IndentingNewLine]];\)\[IndentingNewLine]
+    \(buildLinFreqs[freqRange_] := 
+        Module[{minFreq, maxFreq, steps, stepWidth, freqList, 
+            freq}, \[IndentingNewLine]minFreq = 
+            freqRange[\([1]\)]; \[IndentingNewLine]maxFreq = 
+            freqRange[\([2]\)]; \[IndentingNewLine]steps = 
+            freqRange[\([3]\)]; \[IndentingNewLine]stepWidth = \((maxFreq - 
+                  minFreq)\)/\((steps - 
+                  1)\); \[IndentingNewLine]freqList = {}; \
+\[IndentingNewLine]Do[\[IndentingNewLine]freq = 
+              minFreq + \((i*stepWidth)\); \[IndentingNewLine]AppendTo[
+              freqList, freq], \[IndentingNewLine]{i, 0, 
+              steps - 1}]; \[IndentingNewLine]Return[
+            freqList]\[IndentingNewLine]];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Section"],
+
+Cell[BoxData[
+    \(<< "\</home_loc/lieneman/Projekte/Mathematica/MOR/MORTools.m\>"\)], \
+"Input"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{784, 998},
+WindowMargins->{{Automatic, 47}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 30, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1831, 57, 31, 0, 71, "Section"],
+Cell[1865, 59, 1570, 27, 395, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3460, 90, 35, 0, 28, "Subsubsection"],
+Cell[3498, 92, 1862, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5409, 128, 32, 0, 71, "Section"],
+Cell[5444, 130, 167, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5648, 140, 52, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[5725, 144, 26, 0, 38, "Subsection"],
+Cell[5754, 146, 2497, 41, 635, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8288, 192, 34, 0, 30, "Subsection"],
+Cell[8325, 194, 422, 7, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8784, 206, 36, 0, 30, "Subsection"],
+Cell[8823, 208, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9045, 218, 30, 0, 41, "Section"],
+Cell[9078, 220, 178, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9293, 229, 32, 0, 41, "Section"],
+Cell[9328, 231, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9453, 238, 42, 0, 41, "Section"],
+Cell[9498, 240, 274, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9809, 250, 26, 0, 41, "Section"],
+Cell[9838, 252, 404, 9, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10279, 266, 27, 0, 41, "Section"],
+Cell[10309, 268, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10425, 275, 29, 0, 41, "Section"],
+Cell[10457, 277, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10575, 284, 41, 0, 41, "Section"],
+Cell[10619, 286, 16485, 312, 3739, "Input",
+  InitializationCell->True],
+Cell[27107, 600, 1927, 34, 507, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29071, 639, 31, 0, 71, "Section"],
+Cell[29105, 641, 83, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29225, 648, 30, 0, 41, "Section"],
+Cell[29258, 650, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29407, 657, 30, 0, 41, "Section"],
+Cell[29440, 659, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29663, 670, 23, 0, 41, "Section"],
+Cell[29689, 672, 98, 2, 27, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

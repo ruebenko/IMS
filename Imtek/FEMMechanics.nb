@@ -1,0 +1,705 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     24799,        561]*)
+(*NotebookOutlinePosition[     25461,        584]*)
+(*  CellTagsIndexPosition[     25417,        580]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FEMMechanics", "Subtitle",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ FEMMecchanics . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : \ 
+        Benjamin\ Lemke\ /\ Christian\ Moosmann\ /\ 
+            Oliver\ Ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ \(2005/01\)/10, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Summary\)\(:\)\ \ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Keywords : \ mechanics, \ stress, \ 
+      strain\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ Benjamin\ Lemke\ *) \)\(\[IndentingNewLine]\)\
+\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`FEMMechanics`\>", \ \
+"\<Imtek`FEMOperators`\>"]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  Evaluatable->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), "\[IndentingNewLine]", \( (*\ documentation\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{\(imsFEMPlaneStress::usage = \
+\[IndentingNewLine]"\<imsFEMPlaneStress[ { elementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, 
+	{ n1, n2, n3 }, mechanicalFunction] returns the new elementOperatorMatrix \
+and the new elementRHS.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsNFEMPlaneStress::usage = \
+\[IndentingNewLine]"\<imsNFEMPlaneStress[ { elementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, 
+	{ n1, n2, n3 }, mechanicalFunction] returns a numeric elementOperatorMatrix \
+and the numeric elementRHS.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsFEMPlaneStrain::usage = \
+\[IndentingNewLine]"\<imsFEMPlaneStrain[ {ElementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, 
+	{ n1, n2, n3 }, mechanicalFunction] returns the new elementOperatorMatrix \
+and the new elementRHS.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsNFEMPlaneStrain::usage = \
+\[IndentingNewLine]"\<imsNFEMPlaneStrain[ {ElementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, 
+	{ n1, n2, n3 }, mechanicalFunction] returns a numeric elementOperatorMatrix \
+and the numeric elementRHS.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        " ", \(imsFEMMechanicsLoad::usage = \
+\[IndentingNewLine]"\<imsFEMMechanicsLoad[{ elementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, 
+	{ n1, n2, n3 },f] adds a bodyforce to the elementOperatorMatrix and the \
+elementRightHandSide.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsNFEMMechanicsLoad::usage = \
+"\<imsNFEMMechanicsLoad[{ elementOperatorMatrix, elementRightHandSide}, \
+imsTriangleLinear2DOF, 
+	{ n1, n2, n3 },f] numerically adds a bodyforce to the elementOperatorMatrix \
+and the elementRightHandSide.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsFEMMechanicsTransientMatrix::usage = \
+\[IndentingNewLine]"\<imsFEMMechanicsBodyLoad[{ elementOperatorMatrix, \
+elementRightHandSide}, imsTriangleLinear2DOF, { n1, n2, n3 },f] adds a \
+bodyforce to the elementOperatorMatrix and the elementRightHandSide.\>"\), 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+          RowBox[{
+            RowBox[{
+              StyleBox["imsNFEMMechanicsTransient",
+                FontColor->RGBColor[0, 0, 1]], 
+              RowBox[{
+                StyleBox["Matrix",
+                  FontColor->RGBColor[0, 0, 1]], "::", "usage"}]}], "=", 
+            "\"\<\>\""}], ";"}]}]}]], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[{
+    \(Needs["\<Imtek`Assembler`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Nodes`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Triangle`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Polygon`\>"\ ]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`MeshElementLibrary`\>"]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Auxilliary Functions", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\(compiledArea = 
+        Compile[{x1, y1, x2, y2, x3, y3}, 
+          Evaluate[
+            imsArea[{{x1, y1}, {x2, y2}, {x3, y3}}]]];\)\n\[IndentingNewLine]
+    \(ccom = 
+        Compile[{x1, y1, x2, y2, x3, y3}, 
+          Evaluate[
+            N[imsCenterOfMass[{{x1, y1}, {x2, y2}, {x3, 
+                    y3}}]]]];\)\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(femMechanics[{elementOperatorMatrix_, elementRightHandSide_}, 
+          te2dof_, {n1_, n2_, n3_}, CM_] := 
+        Module[\[IndentingNewLine]{x1, x2, x3, y1, y2, y3, 
+            inElementOperatorMatrix, inElementRHSMatrix, triAng, area, 
+            b\ }, \[IndentingNewLine]\[IndentingNewLine]{{\ x1, \ y1\ }, \ {\ 
+                x2, \ y2\ }, {\ x3, \ y3\ }\ }\  = \ 
+            imsGetCoords[\ {\ n1, n2, 
+                n3\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]area\  = 
+            imsArea[{{x1, y1}, {x2, y2}, {x3, 
+                  y3}}]; \[IndentingNewLine]\[IndentingNewLine]b\  = \ {\ \ \ \
+{\ y2 - y3, \ 0, y3 - y1, \ 0, y1 - y2, \ 0\ }, \[IndentingNewLine]\t\ {\ 
+                0, \ x3 - x2, \ 0, \ x1 - x3\ , \ 0, \ 
+                x2 - x1}, \[IndentingNewLine]\t\ {x3 - x2, y2 - y3, 
+                x1 - x3, \ y3 - y1, x2 - x1, \ 
+                y1 - y2\ }\ }; \
+\[IndentingNewLine]\[IndentingNewLine]newElementOperatorMatrix = 
+            imsGetElementMatrixValues[
+              elementOperatorMatrix]; \
+\[IndentingNewLine]\[IndentingNewLine]newElementOperatorMatrix\  += 
+            1\ /\((4\ area\ )\)*\ 
+              Transpose[\ b\ ] . \ CM\  . \ 
+                b; \[IndentingNewLine]\[IndentingNewLine]Return[\
+\[IndentingNewLine]{\[IndentingNewLine]imsMakeElementMatrix[\
+\[IndentingNewLine]newElementOperatorMatrix, \
+\[IndentingNewLine]imsGetElementMatrixRows[\ 
+                  elementOperatorMatrix], \[IndentingNewLine]\ 
+                imsGetElementMatrixColumns[\ 
+                  elementOperatorMatrix]\[IndentingNewLine]], \
+\[IndentingNewLine]elementRightHandSide\ }\ ];\[IndentingNewLine]\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(nFemMechanics[{elementOperatorMatrix_, elementRightHandSide_}, 
+          te2dof_, {n1_, n2_, n3_}, CM_] := 
+        Module[\[IndentingNewLine]{x1, x2, x3, y1, y2, y3, 
+            newElementOperatorMatrix, triAng, area, 
+            b\ }, \[IndentingNewLine]\[IndentingNewLine]{{\ x1, \ y1\ }, \ {\ 
+                x2, \ y2\ }, {\ x3, \ y3\ }\ }\  = \ 
+            imsGetCoords[\ {\ n1, n2, 
+                n3\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            triAng\  = \ {{x1, y1}, {x2, y2}, {x3, 
+                  y3}}; \[IndentingNewLine]area\  = \ 
+              imsArea[triAng];\ *) \[IndentingNewLine]\[IndentingNewLine]area\
+\  = compiledArea @@ \ {x1, y1, x2, y2, x3, 
+                y3}; \[IndentingNewLine]\[IndentingNewLine]b\  = \ {\ {\ 
+                y2 - y3, \ 0. , y3 - y1, \ 0. , y1 - y2, \ 0. \ }, \ {\ 
+                0. , \ x3 - x2, \ 0. , \ x1 - x3\ , \ 0. , \ 
+                x2 - x1}, \ {x3 - x2, y2 - y3, x1 - x3, \ y3 - y1, x2 - x1, \ 
+                y1 - y2\ }\ }; \
+\[IndentingNewLine]\[IndentingNewLine]newElementOperatorMatrix = 
+            imsGetElementMatrixValues[
+              elementOperatorMatrix]; \
+\[IndentingNewLine]\[IndentingNewLine]newElementOperatorMatrix\  += 
+            0.25\ /\ area\ *\ 
+              Transpose[\ b\ ] . \ CM\  . \ 
+                b; \[IndentingNewLine]\[IndentingNewLine]Return[\
+\[IndentingNewLine]{\[IndentingNewLine]imsMakeElementMatrix[\
+\[IndentingNewLine]newElementOperatorMatrix, \
+\[IndentingNewLine]imsGetElementMatrixRows[\ 
+                  elementOperatorMatrix], \[IndentingNewLine]\ 
+                imsGetElementMatrixColumns[\ 
+                  elementOperatorMatrix]\[IndentingNewLine]], \
+\[IndentingNewLine]elementRightHandSide\ }\ ];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions", "Section",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+
+Cell["Analytic Functions", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsFEMMechanicsTransientMatrix[{elementOperatorMatrix_?
+              imsElementMatrixQ, elementRightHandSide_?imsElementMatrixQ}, 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, skalar_] := 
+        Module[\[IndentingNewLine]{x1, x2, x3, y1, y2, y3, 
+            newElementOperatorMatrix, inElementRHSMatrix, triAng, area, 
+            stencil}, \[IndentingNewLine]\[IndentingNewLine]{{\ x1, \ 
+                y1\ }, \ {\ x2, \ y2\ }, {\ x3, \ y3\ }\ }\  = \ 
+            imsGetCoords[\ {\ n1, n2, 
+                n3\ }\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]newElementOperatorMatrix = 
+            imsGetElementMatrixValues[
+              elementOperatorMatrix]; \
+\[IndentingNewLine]\[IndentingNewLine]triAng = {{x1, y1}, {x2, y2}, {x3, 
+                y3}}; \[IndentingNewLine]area\  = 
+            imsArea[triAng]; \[IndentingNewLine]\[IndentingNewLine]stencil = \
+{{1/6, 0, 1/12, 0, 1/12, 0}, {0, 1/6, 0, 1/12, 0, 1/12}, {1/12, 0, 1/6, 0, 
+                1/12, 0}, {0, 1/12, 0, 1/6, 0, 1/12}, {1/12, 0, 1/12, 0, 1/6, 
+                0}, {0, 1/12, 0, 1/12, 0, 
+                1/6}}; \[IndentingNewLine]\[IndentingNewLine]\
+newElementOperatorMatrix\  = 
+            skalar*area\ *\ 
+              stencil; \[IndentingNewLine]\[IndentingNewLine]Return[\
+\[IndentingNewLine]{\[IndentingNewLine]imsMakeElementMatrix[\
+\[IndentingNewLine]newElementOperatorMatrix, \
+\[IndentingNewLine]imsGetElementMatrixRows[\ 
+                  elementOperatorMatrix], \[IndentingNewLine]\ 
+                imsGetElementMatrixColumns[\ 
+                  elementOperatorMatrix]\[IndentingNewLine]], \
+\[IndentingNewLine]elementRightHandSide\ }\ ];\[IndentingNewLine]\
+\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsFEMPlaneStress[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          mechanicalFunction_\ ] := \[IndentingNewLine]Module[\
+\[IndentingNewLine]{output, \ CM, marker, 
+            CMValues}, \[IndentingNewLine]CM[\ Y_, \ poi_\ ]\  := \ 
+            Y/\((1 - poi^2)\)*{{1, poi, 0}, {poi, 1, 0}, {0, 
+                  0, \((1 - poi)\)/2}}; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ 
+              te2dof\ ]; \[IndentingNewLine]{\ {\ x1, \ y1\ }, {\ x2, \ 
+                y2\ }, \ {\ x3, \ y3\ }\ }\ \  = \ 
+            imsGetCoords[\ {\ n1, \ n2, \ n3\ }\ ]; \[IndentingNewLine]{\ 
+              xc, \ yc\ }\  = \ 
+            imsCenterOfMass[\ {\ {\ x1, \ y1\ }, {\ x2, \ y2\ }, \ {\ x3, \ 
+                  y3\ }\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]CMValues\
+\  = \ CM\  @@ \ \((\ 
+                mechanicalFunction\  @@ \ {\ marker, \ xc, \ 
+                    yc\ }\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]femMechanics[{elementOperatorMatrix, 
+              elementRightHandSide}, te2dof, {n1, n2, n3}, 
+            CMValues\ ]\[IndentingNewLine]];\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsFEMPlaneStrain[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          mechanicalFunction_] := \[IndentingNewLine]Module[\
+\[IndentingNewLine]{output, \ CM, marker, 
+            CMValues}, \[IndentingNewLine]CM[\ Y_, \ poi_\ ]\  := 
+            Y*\((1 - poi)\)/\((\((1 + poi)\)*\((1 - 2*poi)\))\) {{1, 
+                  poi/\((1 - poi)\), 0}, {poi/\((1 - poi)\), 1, 0}, {0, 
+                  0, \((1 - 
+                        2*poi)\)/\((2*\((1 - 
+                            poi)\))\)}}; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ 
+              te2dof\ ]; \[IndentingNewLine]{\ {\ x1, \ y1\ }, {\ x2, \ 
+                y2\ }, \ {\ x3, \ y3\ }\ }\ \  = \ 
+            imsGetCoords[\ {\ n1, \ n2, \ n3\ }\ ]; \[IndentingNewLine]{\ 
+              xc, \ yc\ }\  = \ 
+            imsCenterOfMass[\ {\ {\ x1, \ y1\ }, {\ x2, \ y2\ }, \ {\ x3, \ 
+                  y3\ }\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]CMValues\
+\  = \ CM\  @@ \ \((\ 
+                mechanicalFunction\  @@ \ {\ marker, \ xc, \ 
+                    yc\ }\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]femMechanics[{elementOperatorMatrix, 
+              elementRightHandSide}, te2dof, {n1, n2, n3}, 
+            CMValues\ ]\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsFEMMechanicsLoad[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, \ 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          f_Function] := \[IndentingNewLine]Module[{A, bfX, bfY, tri, comX, 
+            comY, marker, \ newElementRHS, \ 
+            outElementRHS}, \[IndentingNewLine]tri = 
+            imsGetCoords[\ {\ n1, n2, n3\ }\ ]; \[IndentingNewLine]A = 
+            imsArea[tri]; \[IndentingNewLine]{comX, comY} = 
+            imsCenterOfMass[\ tri\ ]; \[IndentingNewLine]marker = 
+            imsGetMarkers[te2dof]; \[IndentingNewLine]{bfX, bfY} = 
+            f[marker, comX, comY]; \[IndentingNewLine]newElementRHSMatrix = 
+            imsGetElementMatrixValues[elementRightHandSide] + 
+              A/3 {{bfX}\ , \ {bfY}\ , \ {bfX}\ , \ {bfY}\ , \ {bfX}\ , \ \
+{bfY}}; \[IndentingNewLine]outElementRHS = \
+\[IndentingNewLine]imsMakeElementMatrix[\ newElementRHSMatrix\ , \ 
+              imsGetElementMatrixRows[\ 
+                elementRightHandSide]\ , \ {1}\ ]; \
+\[IndentingNewLine]{elementOperatorMatrix, 
+            outElementRHS}\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Numeric Functions", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsNFEMPlaneStress[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          mechanicalFunction_\ ] := \[IndentingNewLine]Module[\
+\[IndentingNewLine]{CM, marker, 
+            CMValues}, \[IndentingNewLine]CM[\ Y_, \ poi_\ ]\  := \ 
+            Y/\((1.  - poi^2)\)*{{1. , poi, 0. }, {poi, 1. , 0. }, {0. , 
+                  0. , \((1.  - poi)\)/2. }}; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ 
+              te2dof\ ]; \[IndentingNewLine]{\ {\ x1, \ y1\ }, {\ x2, \ 
+                y2\ }, \ {\ x3, \ y3\ }\ }\ \  = \ 
+            imsGetCoords[\ {\ n1, \ n2, \ 
+                n3\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \({\ 
+                  xc, \ yc\ }\  = \ 
+                imsCenterOfMass[\ {\ {\ x1, \ y1\ }, {\ x2, \ y2\ }, \ {\ 
+                      x3, \ y3\ }\ }\ ];\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]{\ xc, \ yc\ }\  = \ 
+            ccom\  @@ \ {x1, y1, x2, y2, x3, 
+                y3}; \[IndentingNewLine]\[IndentingNewLine]CMValues\  = \ 
+            CM\  @@ \ \((\ 
+                mechanicalFunction\  @@ \ {\ marker, \ xc, \ 
+                    yc\ }\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]nFemMechanics[{elementOperatorMatrix, 
+              elementRightHandSide}, te2dof, {n1, n2, n3}, 
+            CMValues\ ]\[IndentingNewLine]];\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsNFEMPlaneStrain[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          mechanicalFunction_] := \[IndentingNewLine]Module[\
+\[IndentingNewLine]{CM, marker, 
+            CMValues}, \[IndentingNewLine]CM[\ Y_, \ poi_\ ]\  := 
+            Y*\((1.  - 
+                    poi)\)/\((\((1.  + poi)\)*\((1.  - 2. *poi)\))\) {{1. , 
+                  poi/\((1.  - poi)\), 0. }, {poi/\((1.  - poi)\), 1. , 
+                  0. }, {0. , 
+                  0. , \((1.  - 2. *poi)\)/\((2. *\((1.  - poi)\))\)}}; 
+          marker\  = \ 
+            imsGetMarkers[\ 
+              te2dof\ ]; \[IndentingNewLine]{\ {\ x1, \ y1\ }, {\ x2, \ 
+                y2\ }, \ {\ x3, \ y3\ }\ }\ \  = \ 
+            imsGetCoords[\ {\ n1, \ n2, \ 
+                n3\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \({\ 
+                  xc, \ yc\ }\  = \ 
+                imsCenterOfMass[\ {\ {\ x1, \ y1\ }, {\ x2, \ y2\ }, \ {\ 
+                      x3, \ y3\ }\ }\ ];\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]{\ xc, \ yc\ }\  = \ 
+            ccom\  @@ \ {x1, y1, x2, y2, x3, 
+                y3}; \[IndentingNewLine]\[IndentingNewLine]CMValues\  = \ 
+            CM\  @@ \ \((\ 
+                mechanicalFunction\  @@ \ {\ marker, \ xc, \ 
+                    yc\ }\ )\); \
+\[IndentingNewLine]\[IndentingNewLine]nFemMechanics[{elementOperatorMatrix, 
+              elementRightHandSide}, te2dof, {n1, n2, n3}, 
+            CMValues\ ]\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsNFEMMechanicsLoad[{elementOperatorMatrix_?imsElementMatrixQ, 
+            elementRightHandSide_?imsElementMatrixQ}, \ 
+          te2dof_, {n1_?imsNodeQ, n2_?imsNodeQ, n3_?imsNodeQ}, 
+          f_Function] := \[IndentingNewLine]Module[{x1, y1, x2, y2, x3, y3, 
+            area, bfX, bfY, tri, comX, comY, marker, \ newElementRHS, \ 
+            outElementRHS}, \[IndentingNewLine]\[IndentingNewLine]{{\ x1, \ 
+                y1\ }, \ {\ x2, \ y2\ }, {\ x3, \ y3\ }\ }\  = \ 
+            imsGetCoords[\ {\ n1, n2, 
+                n3\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]area\  = 
+            compiledArea @@ \ {x1, y1, x2, y2, x3, 
+                y3}; \[IndentingNewLine]\[IndentingNewLine]{comX, comY}\  = \ 
+            ccom\  @@ \ {x1, y1, x2, y2, x3, 
+                y3}; \[IndentingNewLine]\[IndentingNewLine]marker = 
+            imsGetMarkers[te2dof]; \[IndentingNewLine]{bfX, bfY} = 
+            f[marker, comX, comY]; \[IndentingNewLine]newElementRHSMatrix = 
+            imsGetElementMatrixValues[elementRightHandSide] + 
+              area/3.  {{bfX}\ , \ {bfY}\ , \ {bfX}\ , \ {bfY}\ , \ {bfX}\ , \
+\ {bfY}}; \[IndentingNewLine]outElementRHS = \
+\[IndentingNewLine]imsMakeElementMatrix[\ newElementRHSMatrix\ , \ 
+              imsGetElementMatrixRows[\ 
+                elementRightHandSide]\ , \ {1}\ ]; \
+\[IndentingNewLine]{elementOperatorMatrix, 
+            outElementRHS}\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[
+    \(\(End[];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  Evaluatable->True],
+
+Cell[BoxData[{
+    \(\(Protect[];\)\), "\[IndentingNewLine]", 
+    \(\(EndPackage[]\ ;\)\), "\n", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{931, 610},
+WindowMargins->{{37, Automatic}, {Automatic, 39}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 53, 1, 51, "Subtitle",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+Cell[1854, 58, 52, 1, 74, "Section",
+  Evaluatable->True],
+Cell[1909, 61, 1254, 22, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3188, 87, 56, 1, 28, "Subsubsection",
+  Evaluatable->True],
+Cell[3247, 90, 534, 8, 91, "Input",
+  InitializationCell->True],
+Cell[3784, 100, 1622, 27, 331, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5455, 133, 53, 1, 44, "Section",
+  Evaluatable->True],
+Cell[5511, 136, 199, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5747, 146, 73, 1, 44, "Section",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+Cell[5845, 151, 47, 1, 38, "Subsection",
+  Evaluatable->True],
+Cell[5895, 154, 2757, 49, 539, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8701, 209, 53, 1, 44, "Section",
+  Evaluatable->True],
+Cell[8757, 212, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8882, 219, 47, 1, 44, "Section",
+  Evaluatable->True],
+Cell[8932, 222, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9148, 231, 50, 1, 44, "Section",
+  Evaluatable->True],
+Cell[9201, 234, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9319, 241, 63, 1, 44, "Section",
+  Evaluatable->True],
+Cell[9385, 244, 348, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9770, 255, 60, 1, 44, "Section",
+  Evaluatable->True],
+Cell[9833, 258, 440, 11, 91, "Input",
+  InitializationCell->True],
+Cell[10276, 271, 1736, 31, 427, "Input",
+  InitializationCell->True],
+Cell[12015, 304, 1835, 33, 443, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13887, 342, 49, 1, 44, "Section",
+  Evaluatable->True],
+
+Cell[CellGroupData[{
+Cell[13961, 347, 40, 0, 38, "Subsection"],
+Cell[14004, 349, 5676, 98, 1147, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19717, 452, 39, 0, 30, "Subsection"],
+Cell[19759, 454, 4600, 80, 859, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24408, 540, 51, 1, 44, "Section",
+  Evaluatable->True],
+Cell[24462, 543, 71, 2, 30, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24570, 550, 51, 1, 44, "Section",
+  Evaluatable->True],
+Cell[24624, 553, 147, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

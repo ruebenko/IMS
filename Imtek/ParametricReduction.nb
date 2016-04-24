@@ -1,0 +1,758 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     27932,        623]*)
+(*NotebookOutlinePosition[     28597,        646]*)
+(*  CellTagsIndexPosition[     28553,        642]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ParametricReduction\t\t", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ParametricReduction . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : christian\ moosmann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 28.2  .2005, 
+      Freiburg\ i\ Br\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ performes\ a\ parametric\ Model\ Order\ Reduction\ \
+algorithm\ on\ a\ given\ system\ of\ \(\(ODEs\)\(.\)\)*) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.24\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History : \
+\[IndentingNewLine]\(olli : \ 
+            changed\ for\ mma6  .0\);\)\[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(ParametricReduction\ performs\ a\ \
+parametric\ reduction\ algorithm\ on\ on\ a\ given\ system\ of\ ODEs\)\(>\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ christian\ moosmann\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`ParametricReduction`\>"];\
+\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ParametricReduction, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ReductionMethod, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DisplayStatus, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        CutOff, \ $Context\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      had\ to\ take\ this\ out\ vor\ mma6  .0\ \(\(compat\)\(.\)\)\ \
+*) \[IndentingNewLine] (*\ \(imsCreateObsoleteFunctionInterface[\ 
+          Verbose, \ $Context\ ];\)\ \
+*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ExpansionPoints, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MixedModeHandling, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    imsParametricReduction::usage\  = \ \
+\[IndentingNewLine]"\<imsParametricReduction[system,iterations] performs \
+model order reduction on a parametric first order ODE system. It returns a \
+reduced system as well as the projection Matrix. Iterations determines the \
+size of the reduced system.\>"\ \[IndentingNewLine]\[IndentingNewLine]
+    imsReductionMethod::usage = "\<Use this Method for performing the order \
+reduction\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsDisplayStatus::usage = "\<imsDisplayStatus\[Rule]False is to disable \
+the status display during reduction\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsCutOff::usage = "\<Cut off number for Norm of new Vectors\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsVerbose::usage = "\<Be Verbose about Norm of new Vectors\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsExpansionPoints::usage = "\<A list of expansion points to use\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsMixedModeHandling::usage = "\<How to handle the mixed modes\>"\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsParametricReduction::"\<imsReductionMethod\
+\>" = "\<Sorry, no such Method.\>"\)\(\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[{
+    \(Needs[\ "\<Imtek`ShowStatus`\>"\ ]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`System`\>"]\), "\[IndentingNewLine]", 
+    \(\(If[\ $VersionNumber\  \[LessEqual] \ 5.2, 
+        Needs["\<DiscreteMath`Combinatorica`\>"], \ 
+        Needs["\<Combinatorica`\>"]\ ];\)\), "\[IndentingNewLine]", 
+    \(Needs["\<Utilities`FilterOptions`\>"]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Options[
+        imsParametricReduction] = {imsReductionMethod \[Rule] Automatic, 
+        imsDisplayStatus \[Rule] True, imsCutOff \[Rule] 0. , 
+        imsVerbose \[Rule] False, imsExpansionPoints \[Rule] {0}, 
+        imsMixedModeHandling \[Rule] "\<Complete\>"}\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\(imsParametricReduction[
+        OrgSystem_, iterations_, opts___] := 
+      Module[{method}, \[IndentingNewLine]method = \(imsReductionMethod /. \
+{opts}\) /. Options[
+              imsParametricReduction]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]method === "\<Multivariant\>", 
+          Return[multivariantReduction[OrgSystem, iterations, 
+              opts]], \[IndentingNewLine]method === Automatic, 
+          Return[multivariantReduction[OrgSystem, iterations, 
+              opts]], \[IndentingNewLine]True, 
+          Message[imsParametricReduction::"\<imsReductionMethod\>"]\
+\[IndentingNewLine]];]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\(\(initializeFMK := 
+        Module[{fmk}, \[IndentingNewLine]fmk[OrgSystem_, matAdecomp_, varM_, 
+                varK_List, sysDim_Integer] /; 
+              Not[Apply[And, \(MemberQ[Range[0, varM], #] &\) /@ varK]] := 
+            SparseArray[{}, 
+              sysDim]; \[IndentingNewLine]fmk[OrgSystem_, matAdecomp_, varM_, 
+                varK_List, sysDim_Integer] /; 
+              Not[MemberQ[Range[0, varM], Apply[Plus, varK]]] := 
+            SparseArray[{}, 
+              sysDim]; \[IndentingNewLine]\[IndentingNewLine]fmk[OrgSystem_, 
+                matAdecomp_, varM_Integer, varK_List, sysDim_Integer] /; 
+              varM \[Equal] 0 := 
+            matAdecomp[
+              Normal[imsGetLoad[
+                  OrgSystem]]]; \[IndentingNewLine]\[IndentingNewLine]fmk[
+              OrgSystem_, matAdecomp_, varM_Integer, varK_List, 
+              sysDim_Integer] := \(fmk[OrgSystem, matAdecomp, varM, varK, 
+                sysDim] = 
+              matAdecomp[
+                  Normal[First[imsGetDamping[OrgSystem]] . 
+                      fmk[OrgSystem, matAdecomp, varM - 1, varK, 
+                        sysDim]]] + \[IndentingNewLine]Apply[
+                  Plus, \((\(matAdecomp[
+                          Normal[\(imsGetStiffness[
+                                  OrgSystem]\)[\([# + 1]\)] . 
+                              fmk[OrgSystem, matAdecomp, varM - 1, 
+                                MapAt[\ Subtract[\ #, \ 1\ ] &, \ 
+                                  varK, \ #\ ]\ , sysDim]]] &\) /@ 
+                      Range[Length[
+                          varK]])\)]\); \
+\[IndentingNewLine]\[IndentingNewLine]SetAttributes[fmk, 
+            HoldFirst]; \[IndentingNewLine]Return[
+            fmk]\[IndentingNewLine]];\)\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(fmkOuter[OrgSystem_, matAdecomp_, varM_, varK : {___?NumericQ}, 
+          sysDim_Integer] := 
+        fmk[OrgSystem, matAdecomp, varM, varK, sysDim];\)\[IndentingNewLine]
+    \(fmkOuter[OrgSystem_, matAdecomp_, varM_, varK : {{__} .. }, 
+          sysDim_Integer] := 
+        Module[{tempList}, \[IndentingNewLine]tempList = {}; \
+\[IndentingNewLine]\(\(AppendTo[tempList, #] &\) /@ 
+                Transpose[fmk[OrgSystem, matAdecomp, varM, #, sysDim]] &\) /@ 
+            varK; \[IndentingNewLine]Return[
+            Transpose[
+              tempList]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(SetAttributes[fmkOuter, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(fmkOuterConcat[OrgSystem_, matAdecomp_, varM_, varK : {___?NumericQ}, 
+          sysDim_Integer] := 
+        fmk[OrgSystem, matAdecomp, varM, varK, sysDim];\)\[IndentingNewLine]
+    \(fmkOuterConcat[OrgSystem_, matAdecomp_, varM_, varK : {{__} .. }, 
+          sysDim_Integer] := \(Apply[Plus, #] &\) /@ 
+          Transpose[\(fmk[OrgSystem, matAdecomp, varM, #, sysDim] &\) /@ 
+              varK];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[fmkOuterConcat, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(appendOrthoNormal[matV_, newVec_, threshold_] := 
+        Module[{hij, newVecNorm, 
+            internalVec}, \[IndentingNewLine]internalVec = 
+            newVec/Norm[newVec]; \[IndentingNewLine]For[i = 1, 
+            i \[LessEqual] Length[matV], \(i++\), \[IndentingNewLine]hij = 
+              internalVec . matV[\([i]\)]; \[IndentingNewLine]internalVec = 
+              internalVec - 
+                hij*matV[\([i]\)];\[IndentingNewLine]]; \
+\[IndentingNewLine]For[i = 1, 
+            i \[LessEqual] Length[matV], \(i++\), \[IndentingNewLine]hij = 
+              internalVec . matV[\([i]\)]; \[IndentingNewLine]internalVec = 
+              internalVec - 
+                hij*matV[\([i]\)];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]newVecNorm = Norm[internalVec]; \[IndentingNewLine]If[
+            newVecNorm > 
+              threshold, \[IndentingNewLine]\[IndentingNewLine]internalVec = 
+              internalVec/newVecNorm; \[IndentingNewLine]AppendTo[matV, 
+              internalVec];\[IndentingNewLine]]; \[IndentingNewLine]Return[
+            newVecNorm];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(SetAttributes[appendOrthoNormal, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+
+    \(buildConcatK[m_, r_] := 
+        Module[{mainList, testList, 
+            newbuildList}, \[IndentingNewLine]mainList = {Table[
+                0, {i, 1, 
+                  r}]}; \[IndentingNewLine]\[IndentingNewLine]testList = {}; \
+\[IndentingNewLine]Do[
+            AppendTo[testList, Compositions[i, r]], {i, 1, 
+              m}\[IndentingNewLine]]; \[IndentingNewLine]testList = 
+            Flatten[testList, 
+              1]; \[IndentingNewLine]\[IndentingNewLine]newbuildList = 
+            Permutations[
+              Prepend[Table[0, {i, r - 1}], 
+                m]]; \[IndentingNewLine]\(AppendTo[mainList, #] &\) /@ 
+            newbuildList; \[IndentingNewLine]\(\((testList = 
+                  Delete[testList, Flatten[Position[testList, #]]])\)\  &\) /@ 
+            newbuildList; \[IndentingNewLine]\[IndentingNewLine]If[
+            testList \[Equal] {}, 
+            Return[mainList]]; \
+\[IndentingNewLine]\[IndentingNewLine]newbuildList = 
+            Flatten[\(Cases[testList, #] &\) /@ 
+                Permutations[Prepend[Table[0, {i, r - 1}], _\ ]], 
+              1]; \[IndentingNewLine]\(\((testList = 
+                  Delete[testList, Flatten[Position[testList, #]]])\)\  &\) /@ 
+            newbuildList; \[IndentingNewLine]newbuildList = 
+            Partition[newbuildList, 
+              Length[newbuildList]/r]; \[IndentingNewLine]\(AppendTo[
+                mainList, #] &\) /@ 
+            newbuildList; \[IndentingNewLine]\[IndentingNewLine]If[
+            testList \[Equal] {}, 
+            Return[mainList]]; \
+\[IndentingNewLine]\[IndentingNewLine]newbuildList = 
+            Cases[testList, 
+              x : {___} /; 
+                Apply[Plus, x] \[Equal] m]; \[IndentingNewLine]newbuildList = 
+            Flatten[\(Cases[newbuildList, #] &\) /@ 
+                Permutations[Prepend[Prepend[Table[0, {i, r - 2}], _\ ], _]], 
+              1]; \[IndentingNewLine]\(\((testList = 
+                  Delete[testList, Flatten[Position[testList, #]]])\)\  &\) /@ 
+            newbuildList; \[IndentingNewLine]newbuildList = 
+            Partition[newbuildList, 
+              Length[newbuildList]/\((\((r^2 - r)\)/
+                    2)\)]; \[IndentingNewLine]\(AppendTo[mainList, #] &\) /@ 
+            newbuildList; \[IndentingNewLine]\[IndentingNewLine]If[
+            testList \[Equal] {}, 
+            Return[mainList]]; \[IndentingNewLine]\[IndentingNewLine]AppendTo[
+            mainList, testList]; \[IndentingNewLine]\[IndentingNewLine]Return[
+            mainList];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(multivariantReduction[System_, iterations_, opts___] := 
+        Module[\[IndentingNewLine]{numPar, sysDim, matAdecomp, myLoad, matV, 
+            varKList, varK, newVec, threshold, NormsList, myDisplayStatus, 
+            myExpansionPoints, beVerboseQ, redSystem, redDamping, redLoad, 
+            redStiffness, 
+            mixedModes}, \[IndentingNewLine]\[IndentingNewLine]fmk = 
+            initializeFMK; \[IndentingNewLine]myDisplayStatus = \
+\(imsDisplayStatus /. {opts}\) /. 
+              Options[imsParametricReduction]; \
+\[IndentingNewLine]myExpansionPoints = \(imsExpansionPoints /. {opts}\) /. 
+              Options[imsParametricReduction]; \[IndentingNewLine]beVerboseQ \
+= \(imsVerbose /. {opts}\) /. 
+              Options[imsParametricReduction]; \[IndentingNewLine]threshold = \
+\(imsCutOff /. {opts}\) /. 
+              Options[imsParametricReduction]; \[IndentingNewLine]mixedModes \
+= \(imsMixedModeHandling /. {opts}\) /. 
+              Options[imsParametricReduction]; \[IndentingNewLine]NormsList = \
+{}; \[IndentingNewLine]numPar = 
+            Length[imsGetStiffness[System]] - 1; \[IndentingNewLine]sysDim = 
+            Length[imsGetLoad[System]]; \[IndentingNewLine]expNum = 
+            Length[myExpansionPoints]; \[IndentingNewLine]matV = {}; \
+\[IndentingNewLine]For[k = 1, 
+            k \[LessEqual] 
+              expNum, \(++k\), \[IndentingNewLine]\[IndentingNewLine]If[
+              myDisplayStatus, 
+              imsShowStatus["\<Factorization of the first Stiffness Matrix is \
+performed\>"]]; \[IndentingNewLine]\[IndentingNewLine]matAdecomp = 
+              LinearSolve[\(-First[imsGetStiffness[System]]\) - 
+                  myExpansionPoints[\([k]\)]*
+                    First[imsGetDamping[
+                        System]]]; \[IndentingNewLine]myLoad = 
+              matAdecomp[
+                Normal[imsGetLoad[
+                    System]]]; \[IndentingNewLine]\(appendOrthoNormal[
+                  matV, #, 0] &\) /@ 
+              Transpose[myLoad]; \[IndentingNewLine]\[IndentingNewLine]For[
+              m = 1, m < iterations, \(m++\), \[IndentingNewLine]If[
+                myDisplayStatus, 
+                imsShowStatus["\<Iteration \>"\  <> 
+                    ToString[
+                      m + 1] <> \ "\< is performed\>"]]; \[IndentingNewLine]\
+\[IndentingNewLine]Which[\[IndentingNewLine]mixedModes == "\<Mean\>", \
+\[IndentingNewLine]\tvarKList = buildConcatK[m, numPar]; \[IndentingNewLine]\t
+                Do[newVec = 
+                    fmkOuterConcat[System, matAdecomp, m, varKList[\([i]\)], 
+                      sysDim]; \[IndentingNewLine]\t\(AppendTo[NormsList, 
+                        appendOrthoNormal[matV, #, threshold]] &\) /@ 
+                    Transpose[newVec], {i, 1, 
+                    Length[varKList]}], \[IndentingNewLine]mixedModes == \
+"\<Complete\>", \[IndentingNewLine]\t
+                varKList = buildConcatK[m, numPar]; \[IndentingNewLine]\t
+                Do[newVec = 
+                    fmkOuter[System, matAdecomp, m, varKList[\([i]\)], 
+                      sysDim]; \[IndentingNewLine]\t\(AppendTo[NormsList, 
+                        appendOrthoNormal[matV, #, threshold]] &\) /@ 
+                    Transpose[newVec], {i, 1, 
+                    Length[varKList]}], \[IndentingNewLine]mixedModes == \
+"\<Discard\>", \[IndentingNewLine]\t
+                varKList = 
+                  Prepend[Table[{m}, {numPar}], {0}]; \[IndentingNewLine]\t
+                Do[newVec = 
+                    fmkOuter[System, matAdecomp, m, varKList[\([i]\)], 
+                      sysDim]; \[IndentingNewLine]\t\(AppendTo[NormsList, 
+                        appendOrthoNormal[matV, #, threshold]] &\) /@ 
+                    Transpose[newVec], {i, 1, 
+                    Length[varKList]}]\[IndentingNewLine]];\[IndentingNewLine]\
+];\[IndentingNewLine]\[IndentingNewLine]]; \[IndentingNewLine]Clear[
+            fmk]; \[IndentingNewLine]\[IndentingNewLine]If[myDisplayStatus, 
+            imsShowStatus["\<Reduced Matricies are computed\>"]]; \
+\[IndentingNewLine]matVT = matV; \[IndentingNewLine]matV = 
+            Transpose[matV]; \[IndentingNewLine]\[IndentingNewLine]redLoad = 
+            matVT . imsGetLoad[
+                System]; \[IndentingNewLine]redStiffness = \(matVT . \((# . 
+                      matV)\) &\) /@ 
+              imsGetStiffness[
+                System]; \[IndentingNewLine]redDamping = {matVT . \((First[
+                      imsGetDamping[System]] . 
+                    matV)\)}; \[IndentingNewLine]redSystem = 
+            imsMakeSystem[redLoad, redStiffness, 
+              redDamping]; \[IndentingNewLine]If[myDisplayStatus, 
+            imsShowStatus["\<\>"]]; \[IndentingNewLine]If[beVerboseQ, 
+            Return[{redSystem, matV, NormsList}], 
+            Return[{redSystem, 
+                matV}]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(SetAttributes[multivariantReduction, 
+        HoldFirst];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      Backup\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ \
+\(multivariantReduction[OrgSystem_, iterations_, opts___] := 
+          Module[\[IndentingNewLine]{numPar, sysDim, matAdecomp, myLoad, 
+              matV, varKList, varK, newVec, threshold, NormsList, 
+              myDisplayStatus, myExpansionPoints, beVerboseQ, redOrgSystem, 
+              redDamping, redLoad, redStiffness, 
+              concatVectors}, \[IndentingNewLine]fmk = 
+              initializeFMK; \[IndentingNewLine]myDisplayStatus = \
+\(imsDisplayStatus /. {opts}\) /. 
+                Options[
+                  ParametricReduction]; \[IndentingNewLine]myExpansionPoints \
+= \(imsExpansionPoints /. {opts}\) /. 
+                Options[
+                  ParametricReduction]; \[IndentingNewLine]beVerboseQ = \
+\(Verbose /. {opts}\) /. 
+                Options[
+                  ParametricReduction]; \[IndentingNewLine]threshold = \
+\(CutOff /. {opts}\) /. 
+                Options[
+                  ParametricReduction]; \[IndentingNewLine]concatVectors = \
+\(ConcatenateVectors /. {opts}\) /. 
+                Options[
+                  ParametricReduction]; \[IndentingNewLine]NormsList = {}; \
+\[IndentingNewLine]numPar = 
+              Length[imsGetStiffness[OrgSystem]] - 
+                1; \[IndentingNewLine]sysDim = 
+              Length[imsGetLoad[OrgSystem]]; \[IndentingNewLine]expNum = 
+              Length[myExpansionPoints]; \[IndentingNewLine]matV = {}; \
+\[IndentingNewLine]For[k = 1, 
+              k \[LessEqual] expNum, \(++k\), \[IndentingNewLine]If[
+                myDisplayStatus, 
+                imsShowStatus["\<Factorization of the first Stiffness Matrix \
+is performed\>"]]; \[IndentingNewLine]matAdecomp = 
+                LinearSolve[\(-First[imsGetStiffness[OrgSystem]]\) - 
+                    myExpansionPoints[\([k]\)]*
+                      First[imsGetDamping[
+                          OrgSystem]]]; \[IndentingNewLine]myLoad = 
+                matAdecomp[
+                  Normal[imsGetLoad[
+                      OrgSystem]]]; \[IndentingNewLine]\(appendOrthoNormal[
+                    matV, #, 0] &\) /@ 
+                Transpose[myLoad]; \[IndentingNewLine]\[IndentingNewLine]For[
+                m = 1, m < iterations, \(m++\), \[IndentingNewLine]If[
+                  myDisplayStatus, 
+                  imsShowStatus["\<Iteration \>"\  <> 
+                      ToString[
+                        m + 1] <> \ "\< is performed\>"]]; \
+\[IndentingNewLine]varKList = 
+                  buildConcatK[m, 
+                    numPar]; \[IndentingNewLine]Do[\[IndentingNewLine]If[
+                    concatVectors, 
+                    newVec = 
+                      fmkOuterConcat[OrgSystem, matAdecomp, m, 
+                        varKList[\([i]\)], 
+                        sysDim], \[IndentingNewLine]newVec = 
+                      fmkOuter[OrgSystem, matAdecomp, m, varKList[\([i]\)], 
+                        sysDim]]; \
+\[IndentingNewLine]\[IndentingNewLine]\(AppendTo[NormsList, 
+                        appendOrthoNormal[matV, #, threshold]] &\) /@ 
+                    Transpose[newVec]\[IndentingNewLine], {i, 1, 
+                    Length[varKList]}];\[IndentingNewLine]\[IndentingNewLine]]\
+;\[IndentingNewLine]\[IndentingNewLine]]; \[IndentingNewLine]Clear[
+              fmk]; \[IndentingNewLine]\[IndentingNewLine]If[myDisplayStatus, 
+              imsShowStatus["\<Reduced Matricies are computed\>"]]; \
+\[IndentingNewLine]matVT = matV; \[IndentingNewLine]matV = 
+              Transpose[
+                matV]; \[IndentingNewLine]\[IndentingNewLine]redLoad = 
+              matVT . imsGetLoad[
+                  OrgSystem]; \[IndentingNewLine]redStiffness = \(matVT . \
+\((# . matV)\) &\) /@ 
+                imsGetStiffness[
+                  OrgSystem]; \[IndentingNewLine]redDamping = {matVT . \
+\((First[imsGetDamping[OrgSystem]] . 
+                      matV)\)}; \[IndentingNewLine]redOrgSystem = 
+              imsMakeSystem[redLoad, redStiffness, 
+                redDamping]; \[IndentingNewLine]If[myDisplayStatus, 
+              imsShowStatus["\<\>"]]; \[IndentingNewLine]If[beVerboseQ, 
+              Return[{redOrgSystem, matV, NormsList}], 
+              Return[{redOrgSystem, 
+                  matV}]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1016, 744},
+WindowMargins->{{116, Automatic}, {Automatic, 62}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 43, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1844, 57, 31, 0, 74, "Section"],
+Cell[1878, 59, 1379, 24, 331, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3282, 87, 35, 0, 28, "Subsubsection"],
+Cell[3320, 89, 1864, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5233, 125, 32, 0, 44, "Section"],
+Cell[5268, 127, 178, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5483, 137, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5560, 141, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[5617, 144, 2218, 38, 539, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7872, 187, 64, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[7939, 190, 262, 5, 75, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8250, 201, 30, 0, 44, "Section"],
+Cell[8283, 203, 178, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8498, 212, 32, 0, 44, "Section"],
+Cell[8533, 214, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8658, 221, 42, 0, 44, "Section"],
+Cell[8703, 223, 401, 7, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9141, 235, 26, 0, 44, "Section"],
+Cell[9170, 237, 471, 8, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9678, 250, 27, 0, 44, "Section"],
+Cell[9708, 252, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9824, 259, 29, 0, 44, "Section"],
+Cell[9856, 261, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9974, 268, 41, 0, 44, "Section"],
+Cell[10018, 270, 744, 14, 139, "Input",
+  InitializationCell->True],
+Cell[10765, 286, 16547, 302, 3339, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27349, 593, 31, 0, 44, "Section"],
+Cell[27383, 595, 83, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27503, 602, 30, 0, 44, "Section"],
+Cell[27536, 604, 112, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27685, 611, 30, 0, 44, "Section"],
+Cell[27718, 613, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

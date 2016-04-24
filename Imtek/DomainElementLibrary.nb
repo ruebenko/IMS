@@ -1,0 +1,545 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     15441,        403]*)
+(*NotebookOutlinePosition[     16103,        426]*)
+(*  CellTagsIndexPosition[     16059,        422]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["DomainElementLibrary Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ DomainElementLibrary . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 16.11  .05, \ 
+      Leipzig\ to\ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ domain\ element\ library\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      performance\ improvement\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\
+\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ is\ the\ IMTEK\ domain\ element\ library . \ 
+          Extend\ Graph\ to\ deal\ with\ domain\ elements\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005, \ 
+      oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\
+\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\
+\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`DomainElementLibrary`\>", \
+\ "\<Imtek`Nodes`\>", \ "\<Imtek`Graph`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsMakeDomainSegment::usage = \
+"\<imsMakeDomainSegment[ id, nodeIds, marker, data ] returns an \
+imsDomainSegment with Integer id and a List of nodeIdes. Marker defaults to \
+0. Optionally data can be given.\>";\)\[IndentingNewLine]
+    \(imsDomainSegment::usage = "\<\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeDomainHoleSegment::usage = "\<imsMakeDomainSegment[ id, nodeIds, \
+marker, data ] returns an imsDomainSegment with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\
+\[IndentingNewLine]
+    \(imsDomainHoleSegment::usage = "\<\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ selectors\ *) \[IndentingNewLine]
+    \(imsGetIds::usage = "\<imsGetIds[ elements ] returns the elements \
+id.\>";\)\[IndentingNewLine]
+    \(imsGetIncidentsIds::usage = "\<imsGetIncidentsIds[ elements ] returns \
+the elements nodeIds.\>";\)\n
+    \(imsGetMarkers::usage = "\<imsGetMarkers[ elements ] returns the \
+elements marker.\>";\)\[IndentingNewLine]
+    \(imsGetDatas::usage = "\<imsGetDatas[ elements ] returns the element's \
+data, if any are present.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]
+    \(imsDomainElementQ::usage = "\<imsDomainElementQ[ expr ] returns True if \
+expr is a domain element.\>";\)\[IndentingNewLine]
+    imsDataDomainElementQ::usage\  = \ "\<imsDataDomainElementQ[ expr ] \
+returns True if expr is a domain element containing data.\>"\
+\[IndentingNewLine]\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    \(imsGraphics3DToNexus::usage\  = \ "\<imsGraphics3DToNexus[ Graphics3D ] \
+returns an imsNexus from Graphics3D with boundary nodes set to imsNodes and \
+elements set to \
+imsDomainSegments.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      representors\ *) \[IndentingNewLine]
+    \(imsDrawElements::usage = "\<imsDrawElements[ element, nodes ] will draw \
+the element consisting of nodes.\>";\)\[IndentingNewLine]
+    \(imsDrawElementIdText::usage = "\<imsDrawElementIdText[ element, nodes ] \
+will draw the element's id as text. The element is made up from \
+nodes.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Polygon`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsMakeDomainSegment[\ id_, \ nodeIds_List, \ 
+          marker_Integer:  0, \ data___\ ]\  := \ 
+        imsDomainSegment[\ id, \ nodeIds, \ marker, \ 
+          data\ ];\)\[IndentingNewLine]\n
+    \(imsMakeDomainHoleSegment[\ id_, \ nodeIds_List, \ marker_Integer:  0, \ 
+          data___\ ]\  := \ 
+        imsDomainHoleSegment[\ id, \ nodeIds, \ marker, \ 
+          data\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\[IndentingNewLine]\
+\)\(\(imsGetIds[\ a_imsDomainSegment\ ]\  := \ a[\([\ 1\ ]\)];\)\n
+    \(imsGetIncidentsIds[\ a_imsDomainSegment\ ]\  := \ 
+        a[\([\ 2\ ]\)];\)\[IndentingNewLine]
+    \(imsGetMarkers[\ a_imsDomainSegment\ ]\  := \ 
+        a[\([\ 3\ ]\)];\)\[IndentingNewLine]
+    \(imsGetDatas[\ a_imsDomainSegment\ ]\  := \ 
+        a[\([\ 4\ ]\)];\)\n\[IndentingNewLine]
+    \(imsGetIds[\ a_imsDomainHoleSegment\ ]\  := \ a[\([\ 1\ ]\)];\)\n
+    \(imsGetIncidentsIds[\ a_imsDomainHoleSegment\ ]\  := \ 
+        a[\([\ 2\ ]\)];\)\[IndentingNewLine]
+    \(imsGetMarkers[\ a_imsDomainHoleSegment\ ]\  := \ 
+        a[\([\ 3\ ]\)];\)\[IndentingNewLine]
+    \(imsGetDatas[\ a_imsDomainHoleSegment\ ]\  := \ 
+        a[\([\ 4\ ]\)];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsDomainElementQ[\ _imsDomainSegment\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsDomainElementQ[\ _imsDomainHoleSegment\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsDomainElementQ[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDataDomainElementQ[\ 
+          imsDomainSegment[\ _, \ _, \ _, \ _\ ]\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsDataDomainElementQ[\ 
+          imsDomainHoleSegment[\ _, \ _, \ _, \ _\ ]\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsDataDomainElementQ[\ ___\ ]\  := \ False;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsPolygonToDomainSegements[\ polygons_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ i, \ f, \ boundaryNodes, \ 
+            domainSegments, \ coords, \ 
+            incidents\ }, \[IndentingNewLine]\[IndentingNewLine]coords\  = \ 
+            Union[\ Flatten[\ List\  @@@ \ Flatten[\ polygons\ ], \ 
+                2\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine]i = 
+            1; \[IndentingNewLine]\(\((f[\ #\ ] = \(i++\))\) &\) /@ 
+            coords; \[IndentingNewLine]incidents\  = \ 
+            Map[\ f, \ \((Sequence\  @@@ \ 
+                  polygons)\), \ {2}\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]i\  = \ 
+            1; \[IndentingNewLine]boundaryNodes\  = \ \(imsMakeNode[\ \
+\(i++\), \ #\ ] &\)\  /@ \ coords; \[IndentingNewLine]\[IndentingNewLine]i = 
+            1; \[IndentingNewLine]domainSegments\  = \ \
+\(imsMakeDomainSegment[\ \(i++\), \ \ #\ ] &\)\  /@ \ 
+              incidents; \[IndentingNewLine]\[IndentingNewLine]Return[{\ 
+              boundaryNodes, \ 
+              domainSegments\ }];\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsGraphics3DToNexus[\ gr_Graphics3D\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ polygons, \ boundaryNodes, \ 
+            elements\ }, \[IndentingNewLine]\[IndentingNewLine] (*\ dirty, \ 
+            dirty ... \ *) \[IndentingNewLine]polygons\  = \ 
+            Cases[\ Flatten[\ 
+                List\  @@ \ 
+                  gr\ ], \ _Polygon\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]{\ boundaryNodes, \ elements\ }\  = \ 
+            imsPolygonToDomainSegements[\ 
+              polygons\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+            imsMakeNexus[\ boundaryNodes, \ {}, \ 
+              elements\ ]\ ];\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsDrawElements[\ e_imsDomainSegment, \ 
+          nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ imsGetCoords[\ nodes\ ]\ ]\ ];\)\n
+    \(imsDrawElements[\ e_imsDomainHoleSegment, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ nodes\ ]\ ]\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{969, 694},
+WindowMargins->{{20, Automatic}, {Automatic, 13}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 48, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1849, 57, 31, 0, 74, "Section"],
+Cell[1883, 59, 1300, 23, 315, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3208, 86, 35, 0, 28, "Subsubsection"],
+Cell[3246, 88, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[3867, 100, 1872, 32, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5788, 138, 32, 0, 44, "Section"],
+Cell[5823, 140, 223, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6083, 150, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6160, 154, 26, 0, 38, "Subsection"],
+Cell[6189, 156, 2410, 41, 587, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8636, 202, 34, 0, 30, "Subsection"],
+Cell[8673, 204, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8879, 212, 36, 0, 30, "Subsection"],
+Cell[8918, 214, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9140, 224, 32, 0, 44, "Section"],
+Cell[9175, 226, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9300, 233, 42, 0, 44, "Section"],
+Cell[9345, 235, 229, 4, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9611, 244, 30, 0, 44, "Section"],
+Cell[9644, 246, 704, 13, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10385, 264, 26, 0, 44, "Section"],
+Cell[10414, 266, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10630, 275, 27, 0, 44, "Section"],
+Cell[10660, 277, 874, 17, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11571, 299, 29, 0, 44, "Section"],
+Cell[11603, 301, 744, 16, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12384, 322, 41, 0, 44, "Section"],
+Cell[12428, 324, 1221, 21, 315, "Input",
+  InitializationCell->True],
+Cell[13652, 347, 820, 15, 203, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14509, 367, 31, 0, 44, "Section"],
+Cell[14543, 369, 443, 9, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15023, 383, 30, 0, 44, "Section"],
+Cell[15056, 385, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15225, 393, 30, 0, 44, "Section"],
+Cell[15258, 395, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

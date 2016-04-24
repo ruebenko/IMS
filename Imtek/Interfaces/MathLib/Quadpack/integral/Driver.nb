@@ -1,0 +1,528 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 4.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10429,        377]*)
+(*NotebookOutlinePosition[     11087,        400]*)
+(*  CellTagsIndexPosition[     11043,        396]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["Comparison between NItnegrate and dqags.", "Text"],
+
+Cell["\<\
+Steps: 1) compile quadpack (make), 2) compile examples in \
+quadpack/ex (make NAME=test) to make sure that everything is fine, 3) compile \
+Mathlink inteface (make in the integral, you need to modify makefile).\
+\>", \
+"Text"],
+
+Cell["\<\
+Note that this is a mixture of Fortran (quadpack), C and C++.\
+\>", \
+"Text"],
+
+Cell["\<\
+Quadpack is not complete, I took only dqags. Its description in \
+dqags.f in the beginning. From docs:\
+\>", "Text"],
+
+Cell["\<\
+
+C    QUADPACK is a FORTRAN subroutine package for the numerical
+C    computation of definite one-dimensional integrals. It originated
+C    from a joint project of R. Piessens and E. de Doncker (Appl.
+C    Math. and Progr. Div.- K.U.Leuven, Belgium), C. Ueberhuber (Inst.
+C    Fuer Math.- Techn.U.Wien, Austria), and D. Kahaner (Nation. Bur.
+C    of Standards- Washington D.C., U.S.A.).
+...
+
+C    - QAGS : Is an integrator based on globally adaptive interval
+C             subdivision in connection with extrapolation (de Doncker,
+C             1978) by the Epsilon algorithm (Wynn, 1956).
+...
+
+C 3. Guidelines for the use of QUADPACK
+C    ----------------------------------
+C    Here it is not our purpose to investigate the question when
+C    automatic quadrature should be used. We shall rather attempt
+C    to help the user who already made the decision to use QUADPACK,
+C    with selecting an appropriate routine or a combination of
+C    several routines for handling his problem.
+C
+...
+C    For both quadrature over finite and over infinite intervals,
+C    one of the first questions to be answered by the user is
+C    related to the amount of computer time he wants to spend,
+C    versus his -own- time which would be needed, for example, for
+C    manual subdivision of the interval or other analytic
+C    manipulations.
+C
+...
+C    (1) The user may not care about computer time, or not be
+C        willing to do any analysis of the problem. especially when
+C        only one or a few integrals must be calculated, this attitude
+C        can be perfectly reasonable. In this case it is clear that
+C        either the most sophisticated of the routines for finite
+C        intervals, QAGS, must be used, or its analogue for infinite
+C        intervals, GAGI. These routines are able to cope with
+C        rather difficult, even with improper integrals.
+C        This way of proceeding may be expensive. But the integrator
+C        is supposed to give you an answer in return, with additional
+C        information in the case of a failure, through its error
+C        estimate and flag. Yet it must be stressed that the programs
+C        cannot be totally reliable.
+...
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SetDirectory["\<~/user/cp/math/mathlink/integral\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("/Volumes/user/cp/math/mathlink/integral"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lnk\  = \ Install[\ "\<integral\>"\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(LinkObject["./integral", 3, 2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Links[]\)], "Input"],
+
+Cell[BoxData[
+    \({LinkObject["ParentLink", 1, 1], 
+      LinkObject["./integral", 3, 2]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(LinkPatterns[lnk]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        TagBox[\(integral[str_String, a_Real, b_Real, epsabs_Real, 
+            epsrel_Real]\),
+          HoldForm], ",", 
+        TagBox[\(integralExp[a_Real, b_Real, epsabs_Real, epsrel_Real]\),
+          HoldForm], ",", 
+        TagBox[\(functionCall[n_Integer]\),
+          HoldForm]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fun\  = \ \((25*Exp[#])\) &\)], "Input"],
+
+Cell[BoxData[
+    \(25\ \[ExponentialE]\^#1 &\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun\>", \ 0. , \ 10. , \ 0. , 1.*^-12]\)], "Input"],
+
+Cell[BoxData[
+    \({550636.6448701681`, 1.5597453997136347`*^-8, 21, 0, 1}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[fun[x], \ {x, \ 0, \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(550636.644870168`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fun1\  = \ \((Exp[#] + 25*Sin[#])\) &\)], "Input"],
+
+Cell[BoxData[
+    \(\[ExponentialE]\^#1 + 25\ Sin[#1] &\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun1\>", \ 0. , \ 10. , 0. , 1.*^-12]\)], "Input"],
+
+Cell[BoxData[
+    \({22071.442583033633`, 5.397594894423381`*^-10, 21, 0, 1}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[fun1[x], \ {x, \ 0, \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(22071.44258303363`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun2\>", \ 0. , \ 10. , 0. , 1.*^-12]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        InterpretationBox["\[Infinity]",
+          DirectedInfinity[ 1]], ",", "0.`", ",", "21", ",", "7", ",", "1"}], 
+      "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fun3\  = \ 25*\(\(Exp\)\([\)\(x + Sin[a]\)\)\)], "Input"],
+
+Cell[BoxData[
+    \(Syntax::"bktmcp" \(\(:\)\(\ \)\) 
+      "Expression \"\!\(Exp[\(\(x + \(\(Sin[a]\)\)\)\)\)\" has no closing \
+\"\!\(\"]\"\)\".\!\(\"\"\)"\)], "Message"],
+
+Cell[BoxData[
+    StyleBox[
+      RowBox[{"fun3", "=", 
+        RowBox[{"25", "*", 
+          ErrorBox[\(\(Exp\)\([\)\(x + Sin[a]\)\)]}]}],
+      ShowStringCharacters->True]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun3\>", \ 0. , \ 10. , 0. , 1.*^-12]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        InterpretationBox["\[Infinity]",
+          DirectedInfinity[ 1]], ",", "0.`", ",", "21", ",", "7", ",", "1"}], 
+      "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(fun4[x_]\  := \ x*3\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun4\>", \ 0. , \ 10. , 0. , 1.*^-12]\)], "Input"],
+
+Cell[BoxData[
+    \({149.99999999999997`, 1.6653345369377344`*^-12, 21, 0, 1}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(fun5[x_]\  := \ Exp[\(-x^2\)]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[fun5[x], {x, \(-1000\), 1000}, MinRecursion \[Rule] 3, 
+        MaxRecursion \[Rule] 10] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.13999999999999968`\ Second, 1.772453850905782`}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+How to know number of function evaluations in NIntegrate? It looks \
+like that it is less than in dqags in this case.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun5\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-5] // 
+      Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.7599999999999998`\ Second, {1.7724538509055159`, 
+        7.768295457420693`*^-9, 735, 0, 18}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\ \)\(fun6\  = \ Compile[{x}, \ Exp[\(-x^2\)]]\)\)\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(CompiledFunction[{x}, \[ExponentialE]\^\(-x\^2\), 
+        "-CompiledCode-"]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun6\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-5] // 
+      Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.3700000000000001`\ Second, {1.7724538509055159`, 
+        7.768295457420693`*^-9, 735, 0, 18}}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Look at importance of pre-compilation in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integralExp[\(-1000. \), \ 1000. , 0. , 1.*^-5] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.`\ Second, {1.7724538509055159`, 7.768295457420693`*^-9, 735, 0, 
+        18}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Still, dqags beets NIntegtate if there is no Mathlink \
+communication, even with bigger number of function evaluations. Well, check \
+timing with your routines but this is correct - you can directly run exp in \
+quadpack/ex with this problem.It may be quite important for multidimensional \
+integrals. \
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(functionCall[700]\  // Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.2799999999999998`\ Second, 0.23`}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "So, most time above  is about communication. The rest is evaluation Exp in \
+",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Uninstall[lnk]\)], "Input"],
+
+Cell[BoxData[
+    \("./integral"\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"4.2 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 705}},
+WindowSize->{628, 674},
+WindowMargins->{{196, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 56, 0, 36, "Text"],
+Cell[1813, 53, 236, 5, 74, "Text"],
+Cell[2052, 60, 87, 3, 36, "Text"],
+Cell[2142, 65, 126, 3, 55, "Text"],
+Cell[2271, 70, 2197, 47, 891, "Text"],
+
+Cell[CellGroupData[{
+Cell[4493, 121, 85, 1, 33, "Input"],
+Cell[4581, 124, 75, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4693, 130, 70, 1, 33, "Input"],
+Cell[4766, 133, 64, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4867, 139, 40, 1, 33, "Input"],
+Cell[4910, 142, 105, 2, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5052, 149, 50, 1, 33, "Input"],
+Cell[5105, 152, 355, 9, 90, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5497, 166, 60, 1, 33, "Input"],
+Cell[5560, 169, 59, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5656, 175, 83, 1, 33, "Input"],
+Cell[5742, 178, 89, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5868, 184, 69, 1, 33, "Input"],
+Cell[5940, 187, 51, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6028, 193, 70, 1, 33, "Input"],
+Cell[6101, 196, 69, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6207, 202, 82, 1, 33, "Input"],
+Cell[6292, 205, 90, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6419, 211, 70, 1, 33, "Input"],
+Cell[6492, 214, 52, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6581, 220, 82, 1, 33, "Input"],
+Cell[6666, 223, 190, 5, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6893, 233, 77, 1, 33, "Input"],
+Cell[6973, 236, 172, 3, 27, "Message"],
+Cell[7148, 241, 186, 5, 31, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7371, 251, 82, 1, 33, "Input"],
+Cell[7456, 254, 190, 5, 33, "Output"]
+}, Open  ]],
+Cell[7661, 262, 52, 1, 33, "Input"],
+
+Cell[CellGroupData[{
+Cell[7738, 267, 82, 1, 33, "Input"],
+Cell[7823, 270, 91, 1, 36, "Output"]
+}, Open  ]],
+Cell[7929, 274, 62, 1, 33, "Input"],
+
+Cell[CellGroupData[{
+Cell[8016, 279, 142, 2, 52, "Input"],
+Cell[8161, 283, 84, 1, 33, "Output"]
+}, Open  ]],
+Cell[8260, 287, 141, 3, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[8426, 294, 108, 2, 33, "Input"],
+Cell[8537, 298, 131, 2, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8705, 305, 87, 1, 33, "Input"],
+Cell[8795, 308, 154, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8986, 317, 108, 2, 33, "Input"],
+Cell[9097, 321, 131, 2, 36, "Output"]
+}, Open  ]],
+Cell[9243, 326, 132, 5, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[9400, 335, 90, 1, 33, "Input"],
+Cell[9493, 338, 115, 2, 36, "Output"]
+}, Open  ]],
+Cell[9623, 343, 326, 6, 93, "Text"],
+
+Cell[CellGroupData[{
+Cell[9974, 353, 62, 1, 33, "Input"],
+Cell[10039, 356, 70, 1, 33, "Output"]
+}, Open  ]],
+Cell[10124, 360, 168, 6, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[10317, 370, 47, 1, 33, "Input"],
+Cell[10367, 373, 46, 1, 33, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

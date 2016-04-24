@@ -1,0 +1,495 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13971,        366]*)
+(*NotebookOutlinePosition[     14633,        389]*)
+(*  CellTagsIndexPosition[     14589,        385]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["SparseUtils Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ 
+        SparseUtils\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\[IndentingNewLine]Jan\ Korvink\ \
+contributed\ the\ the\ Dimensions\ overload\[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Date : \ 20.2  .2007, \ 
+      Leipzig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  .3\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]added\ imsSparseIdentityMatrix\ and\ \
+imsSparseDiagonalMatrix\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`SparseUtils`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\n
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SparseMatrixQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MatrixToSparseMatrix, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SparseMatrixToMatrix, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SparseProcedure, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SparseProcedureValues, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SparseProcedureToSparseMatrix, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]
+    \(imsSparseMatrixQ::usage\  = \ \[IndentingNewLine]"\<imsSparseMatrixQ[ \
+expr ] returns True if expr is a List of Rules building up a sparse \
+matrix.\>";\)\[IndentingNewLine]\n (*\ functions\ *) \[IndentingNewLine]
+    imsMatrixToSparseMatrix::usage = "\<imsMatrixToSparseMatrix[ matrix ] \
+converts a matrix into a sparse matrix.\>"\[IndentingNewLine]\n
+    imsSparseMatrixToMatrix::usage = "\<imsSparseMatrixToMatrix[ sparseMatrix \
+] converts a sparse matrix to a dense matrix.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsSparseProcedure::usage = "\<THE USE IS DEPRECIATED. \
+imsSparseProcedure[matrixName, rowList, columnList] initalises so called \
+sparse procedures with the names matrixName[row, column] to the value 0. row \
+and column are computed from the outer product of the rowList and columnList. \
+The length of the integer rowList and columnList must be the same.\>"\
+\[IndentingNewLine]\n
+    imsSparseProcedureValues::usage = "\<THE USE IS DEPRECIATED. \
+imsSparseProcedureValues[matrixName, rowList, columnList, values] sets the \
+initalised so called sparse procedure to the values values. See also \
+imsSparseProcedure.\>"\[IndentingNewLine]\n
+    imsSparseProcedureToSparseMatrix::usage = "\<THE USE IS DEPRECIATED. \
+imsSparseProcedureToSparseMatrix[matrixName] converts a so called sparse \
+procedure into a conventional sparse matix. The conversion is different in \
+the way that the rules produced are RuleDelayed insted of normal Rule. This \
+should cause no problems. See also imsSparseProcedure and \
+imsSparseProcedureValues.\>"\n\n\[IndentingNewLine]
+    imsSparseDiagonalMatrix::usage\  = \
+\[IndentingNewLine]"\<imsSparseDiagonalMatrix[list, z_:0 ] returns a \
+SparseArray with list elements on the diagonal. The zero element defaults to \
+integer 0.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsSparseIdentityMatrix::usage = \
+\[IndentingNewLine]"\<imsSparseIdentityMatrix[d, z_:0 ] returns an \
+IdentityMatrix of dimensions d as a SparseArray. The zero element defaults to \
+integer 0.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsSparseUtils::"\<Error type: badarg\>" = "\<Check \
+you arguments please. You called `1` with 
+argument `2`!\>";\)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell["Needs - Public Imports", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\(imsSparseMatrixQ[\ 
+          matrix_\ ]\  := \[IndentingNewLine]MatchQ[\ 
+          matrix, \ {\ 
+            Rule[\ List[\ _, \ _\ ], \ _\ ]\ \  .. \ }\ ];\)\
+\[IndentingNewLine]
+    \(imsSparseMatrixQ[\ \ ___\ ]\  := \ False;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(imsMatrixToSparseMatrix[\
+\ matrix_\ ]\  := \ \[IndentingNewLine]Module[\[IndentingNewLine]{\ 
+            notZeroQ\ }, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            the\ Position\ line\ finds\ non\ zero\ \((integer)\)\ entries*)  \
+(*\ the\ select\ line\ selectes\ the\ values\ from\ the\ matrix*)  (*\ 
+            the\ map\ through\ builds\ the\ rule*) \[IndentingNewLine]\
+\[IndentingNewLine]notZeroQ = \((# \[NotEqual] 
+                  0 &)\); \[IndentingNewLine]\[IndentingNewLine]Return[\
+\[IndentingNewLine]MapThread[\ 
+              Rule, \ {\ 
+                Position[\ matrix, \ _?\((\ notZeroQ\ )\), \ {\ 2\ }, \ 
+                  Heads\  \[Rule] \ 
+                    False\ ], \((\ \(Select[\ #1, \ notZeroQ\ ] &\)\  /@ \ 
+                      matrix\ )\)\  // \ 
+                  Flatten\ }\[IndentingNewLine]]\[IndentingNewLine]];\
+\[IndentingNewLine]]\  /; 
+        MatrixQ[matrix] || 
+          Message[\ imsSparseUtils::"\<Error type: badarg\>", \ 
+            imsMatrixToSparseMatrix, \ matrix\ ]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsSparseMatrixToMatrix[\ 
+        sparseMatrix_\ ]\  := \ \
+\[IndentingNewLine]Module[\[IndentingNewLine]{\ indices, \ flatInd, \ 
+            colInd, \ rowInd, \ rows, \ columns, \ matrix, \ 
+            values\ }, \[IndentingNewLine]\[IndentingNewLine]indices\  = \ 
+            sparseMatrix[\([\ All, \ 1\ ]\)]; \[IndentingNewLine]values\  = \ 
+            sparseMatrix[\([\ All, \ 
+                2\ ]\)]; \[IndentingNewLine]flatInd\  = \ 
+            indices\  // \ Flatten; \[IndentingNewLine]{\ colInd, \ 
+              rowInd\ }\  = \ \(Drop[\ 
+                  flatInd, \ {\ #1, \ Length[\ flatInd\ ], \ 
+                    2\ }\ ] &\)\  /@ \ {1, 2}; \[IndentingNewLine]{\ rows, \ 
+              columns\ }\  = \ \(Max[\ #1\ ] &\)\  /@ \ {\ rowInd, \ 
+                colInd\ }; \[IndentingNewLine]matrix\  = \ 
+            Table[\ 0. , \ {\ rows\ }, \ {\ 
+                columns\ }\ ]; \[IndentingNewLine]\(\((\ 
+                matrix[\([\ #1[\([\ 1, \ 1\ ]\)], \ #1[\([\ 1, \ 
+                          2\ ]\)]\ ]\)]\  = \ #1[\([\ 2\ ]\)]\ )\) &\)\  /@ \ 
+            sparseMatrix; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+            matrix\ ];\[IndentingNewLine]\[IndentingNewLine]]\  /; \ 
+        VectorQ[\ 
+            sparseMatrix, \ \((\ Head[\ #\ ]\  === \ Rule\ )\) &\ ]\  || \ 
+          VectorQ[\ 
+            sparseMatrix, \ \((\ 
+                Head[\ #\ ]\  === \ RuleDelayed\ )\) &\ ]\  || \ 
+          Message[\ imsSparseUtils::"\<Error type: badarg\>", \ 
+            imsSparseMatrixToMatrix, \ sparseMatrix\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsSparseProcedure[matrixName_Symbol, row_List, column_List] := 
+        Outer[\((matrixName[#1, #2] = 0. )\) &, row, column] // 
+          Flatten;\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*this\ is\ not\ as\ nice\ at\ imsSparseProcedure*) \)\(\n\)\( \
+(*could\ not\ find\ similar\ way - 
+        try\ your\ luck*) \)\(\[IndentingNewLine]\)\( (*use\ \
+\(\(Unique\)\(?\)\)*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\
+imsSparseProcedureValues[matrixName_Symbol, row_List, column_List, 
+          values_List] := \((Clear[
+            oXtmpoXNameoX]; \[IndentingNewLine]\((\((\(HoldForm[\((#1 += \
+#2)\)] &\)[Outer[oXtmpoXNameoX, row, column], values])\) /. 
+                oXtmpoXNameoX \[Rule] matrixName)\) // 
+            ReleaseHold)\);\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(imsSparseProcedureToSparseMatrix[matrixName_Symbol] := 
+        DeleteCases[\(ReleaseHold[#1] &\) /@ \((DownValues[matrixName] /. 
+                matrixName[row_, column_] \[Rule] {row, 
+                    column})\), {_, _} \[RuleDelayed] 
+            0. ];\)\(\n\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      overload\ for\ Dimensions\ by\ Jan\ Korvink\ *) \)\(\[IndentingNewLine]\
+\)\(\(Unprotect[\ Dimensions\ ];\)\[IndentingNewLine]
+    \(Dimensions[m : {\(({_, _} \[Rule] _)\) .. }] := \(Max[#] &\) /@ 
+          Transpose[\(#[\([1]\)] &\) /@ m];\)\[IndentingNewLine]
+    \(Protect[\ Dimensions\ ];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsSparseIdentityMatrix[d_, \ z_:  0] := 
+      SparseArray[\ {{i_, \ i_} \[Rule] \ 
+            SetPrecision[1, Precision[z]\ ]}, {d, d}, z\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsSparseDiagonalMatrix[\ l_List, \ z_:  0\ ]\  := \ 
+      SparseArray[\ \(Transpose[\ {#, #}\ ] &\)[\ 
+            Range[\ Length[\ l\ ]\ ]\ ]\  \[Rule] \ l, \ {Length[l], 
+          Length[l]}, \ z\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{761, 600},
+WindowMargins->{{0, Automatic}, {48, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 39, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1840, 57, 31, 0, 74, "Section"],
+Cell[1874, 59, 1410, 24, 363, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3321, 88, 32, 0, 44, "Section"],
+Cell[3356, 90, 170, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3563, 100, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[3640, 104, 26, 0, 38, "Subsection"],
+Cell[3669, 106, 3126, 52, 875, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6832, 163, 36, 0, 30, "Subsection"],
+Cell[6871, 165, 286, 5, 91, "Input"]
+}, Closed]]
+}, Closed]],
+Cell[7184, 174, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[7250, 178, 30, 0, 74, "Section"],
+Cell[7283, 180, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7576, 190, 32, 0, 44, "Section"],
+Cell[7611, 192, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[7714, 197, 42, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[7781, 201, 26, 0, 74, "Section"],
+Cell[7810, 203, 179, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8026, 212, 27, 0, 44, "Section"],
+Cell[8056, 214, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8172, 221, 29, 0, 44, "Section"],
+Cell[8204, 223, 355, 8, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8596, 236, 41, 0, 44, "Section"],
+Cell[8640, 238, 1180, 22, 315, "Input",
+  InitializationCell->True],
+Cell[9823, 262, 1613, 28, 283, "Input",
+  InitializationCell->True],
+Cell[11439, 292, 213, 4, 43, "Input",
+  InitializationCell->True],
+Cell[11655, 298, 631, 11, 139, "Input",
+  InitializationCell->True],
+Cell[12289, 311, 363, 7, 91, "Input",
+  InitializationCell->True],
+Cell[12655, 320, 376, 7, 75, "Input",
+  InitializationCell->True],
+Cell[13034, 329, 204, 4, 43, "Input",
+  InitializationCell->True],
+Cell[13241, 335, 264, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13542, 345, 30, 0, 44, "Section"],
+Cell[13575, 347, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13724, 354, 30, 0, 44, "Section"],
+Cell[13757, 356, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

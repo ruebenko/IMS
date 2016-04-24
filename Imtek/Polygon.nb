@@ -1,0 +1,1601 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     67613,       1387]*)
+(*NotebookOutlinePosition[     68276,       1410]*)
+(*  CellTagsIndexPosition[     68232,       1406]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Polygon Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Polygon . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 5.11  .2007, \ 
+      somewhere\ close\ to\ erfurt\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        Polygon\ convex\ intersection\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.4  .6\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \ \[IndentingNewLine]Added\ a\ check\ for\ imsConvexIntersect\
+\ if\ polygons\ are\ in\ counterclockwise\ \(\(orientation\)\(.\)\); \
+\[IndentingNewLine]Introduced\ compatability\ stuff\ for\ mma6  .0; \
+\[IndentingNewLine]Introduced\ imsCenterOfMass\ for\ nD\ polygons; \
+\[IndentingNewLine]Area\ computed\ real\ solutions\ for\ integer\ input\  - \ 
+        fixed\ that; \[IndentingNewLine]Made\ name\ change\ from\ MakeGraph\ \
+to\ imsMakeNexus; \[IndentingNewLine]Prof . \ J . \ G . \ 
+          Korvink\ contributed\ the\ PolygonToGraph; \[IndentingNewLine]Prof \
+. \ J . \ G . \ 
+          Korvink\ contributed\ the\ imsTriangulatePolygon; \
+\[IndentingNewLine]imsMonotoneSplitPolygon, \ 
+      imsTriangulateMonotonePolygon\ to\ version\ 0.4  .0; \
+\[IndentingNewLine]Bug\ fix; \[IndentingNewLine]Added\ some\ special\ cases\
+\[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Sources : "\<Computation Geometry in C\>", \ 
+      J . O`Rourke\ \ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Limitations : \ \ ConvexPolygonIntersect\ is\ on\ J . 
+            O`Rourke\ and\ his\ copyright\ conditions\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Polygon`\>", \ \
+{"\<Imtek`Graph`\>"}\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Polygon2DQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Polygon3DQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PolygonQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PointInPolygonQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Area, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ClosePolygon, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ConvexIntersect, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        EdgeLength, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MonotoneSplitPolygon, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PolygonizeCircle, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PolygonToNexus, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangulateMonotonePolygon, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangulatePolygon, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]
+    \(imsPolygon2DQ::usage\  = \ \[IndentingNewLine]"\<imsPolygon2DQ[ expr ] \
+returns true if expr is a 2D polygon.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsPolygon3DQ::usage\  = \[IndentingNewLine]"\<imsPolygon3DQ[ expr ] \
+returns true if expr is a 3D polygon.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsPolygonQ::usage\  = \[IndentingNewLine]"\<imsPolygonQ[ expr ] \
+returns true if expr is a \
+polygon.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    imsPointInPolygonQ::usage\  = \ "\<imsPointInPolygonQ[ point, polygon, n \
+] returns True if the point is within the Polygon. You can set the precision \
+with n. Default is \
+$MachinePrecision.\>"\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]\[IndentingNewLine]
+    imsArea::usage\  = \ "\<imsArea[ polygon ] returns the Area of the \
+polygon.\>"\ \[IndentingNewLine]\[IndentingNewLine]
+    \(imsCenterOfMass::usage\  = \ "\<imsCenterOfMass[ polygon ] returns the \
+center of mass for the polygon.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    imsClosePolygon::usage\  = \ "\<imsClosePolygon[ polygon ] appends the \
+first coordinate of polygon to its end.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsConvexIntersect::usage\  = \ \[IndentingNewLine]"\<imsConvexIntersect[ \
+{ polygon, polygon } ] returns the intersection of the two polygons. You can \
+set the precision with n. Default is $MachinePrecision.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsEdgeLength::usage = "\<imsEdgeLength[ polygon ] gives edge length \
+making up polygon.\>"\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMonotoneSplitPolygon::usage = "\<imsMonotoneSplitPolygon[ polygon ] \
+splits the general planar polygon into nonoverlapping vertically monotone \
+polygons.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    imsPolygonizeCircle::usage\  = \ "\<imsPolygonizeCircle[ Circle, n ] \
+returns a polygonized version of the circle specified. The polygon is made up \
+from n points on the circumference of the circle.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsPolygonToNexus::usage = "\<PolygonToGraph[ polygon ] triangulates \
+polygon and and returns the result as imsNexus.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsTriangulateMonotonePolygon::usage = \
+"\<imsTriangulateMonotonePolygon[ polygon ] triangulates the monotone polygon \
+into nonoverlapping polygons.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsTriangulatePolygon::usage = "\<imsTriangulatePolygon[ polygon ] \
+triangulates the general planar polygon into nonoverlapping triangles.\>";\)\
+\[IndentingNewLine]\n
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(yIntersection::"\<outOfRange\>" = "\<Edge out of range\>";\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(makePolygonUnique::"\<nonUnique\>" = "\<Polygon has duplicate \
+vertices. These will be removed before continuing.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(\(makePolygonUnique::"\<notAPoly\>" = "\<The number of unique \
+vertices of the polygon are less than 3.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsTriangulatePolygon::"\<notA3DPoly\>" = "\<The polygon should have \
+3D vertex coordinates.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsTriangulatePolygon::"\<notAPoly\>" = "\<The polygon should have at \
+least 3 vertices.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsTriangulatePolygon::"\<notAPlanarPoly\>" = "\<The polygon is not \
+planar.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsConvexIntersect::"\<clockwiseOrientation\>"\  = \ "\<Polygon `1` \
+should be given in counter clockwise orientation. Use Revers[].\>";\)\)}], \
+"Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[{
+    \(\(If[$VersionNumber\  \[LessEqual] \ 5.2, \ 
+        Get["\<Geometry`Rotations`\>"], \(Null;\)];\)\), \
+"\[IndentingNewLine]", 
+    \(\(Needs[\ "\<Imtek`Point`\>"\ ];\)\), "\[IndentingNewLine]", 
+    \(\(Needs[\ "\<Imtek`LineSegment`\>"\ ];\)\), "\n", 
+    \(\(Needs["\<Imtek`Nodes`\>"];\)\), "\n", 
+    \(\(Needs["\<Imtek`MeshElementLibrary`\>"];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(imsPolygon2DQ[\ {\ {\ _, \ _\ \
+} ... \ }\ ]\  := \ True\ \[IndentingNewLine]
+    imsPolygon2DQ[\ ___\ ]\  := \ False\[IndentingNewLine]
+    imsPolygon3DQ[\ {\ {\ _, _, \ _\ }\  ... \ }\ ]\  := \ 
+      True\[IndentingNewLine]
+    \(imsPolygon3DQ[\ ___\ ]\  := \ False;\)\[IndentingNewLine]
+    \(imsPolygonQ[\ expr_\ ]\  := \ 
+        imsPolygon2DQ[\ expr\ ]\  || \ 
+          imsPolygon3DQ[\ expr\ ];\)\[IndentingNewLine]
+    \(imsPolygonQ[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPointInPolygonQ[\ point_, \ polygon_, \ 
+          n_:  $MachinePrecision\ ]\  := \ 
+        And\  @@ \ \((\ \(imsCollinearQ[\ #, \ point, \ GreaterEqual, \ 
+                  n\ ] &\)\  /@ \ 
+              Partition[\ polygon, \ 2, \ 
+                1, \ {\ 1\ }\ ]\ )\);\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      version\ dependent\ definition\ of\ rotate\ function\ for\ mma6  .0\ \
+*) \)\(\n\)\(If[\ $VersionNumber\  \[LessEqual] \ 
+        5.2, \[IndentingNewLine]versionRotate2D[\ v_, \ t_, \ c_\ \ ]\  := \ 
+        Rotate2D[\ v, \ t, \ c\ ], \[IndentingNewLine]versionRotate2D[\ v_, \ 
+          t_, \ c_\ \ ]\  := \ \ c\  + \ 
+          RotationMatrix[\ \(-t\)\ ] . \((v - 
+                c)\)\[IndentingNewLine]]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["imsCenterOfMass", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsCenterOfMass[\ a : {\ {_, \ ___\ }\  .. \ }\ ]\  := \ 
+      1/Length[\ a\ ]\ *\ \ Plus @@@ \ Transpose[\ a\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsClosePolygon", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsClosePolygon[p : {{_, _} .. }] := 
+        Join[p, {p[\([1]\)]}];\)\), "\n", 
+    \(\(imsClosePolygon[p : {{_, _, _} .. }] := 
+        Join[p, {p[\([1]\)]}];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsEdgeLength", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsEdgeLength[\ a_\ ]\  /; \ 
+          imsPolygonQ[\ a\ ] := \[IndentingNewLine]MapThread[\ 
+          imsDistance[\ {\ #1, \ #2\ }\ ] &, \ {\ a, \ 
+            RotateLeft[\ a, \ 1\ ]\ }\ ]\ ;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsArea", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ triangle\ imsArea\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      2  D\ *) \)\(\n\)\(\(imsArea[\ {\ {\ xi_, \ yi_\ }, \ {\ xj_, \ 
+              yj_\ }, \ {\ xk_, \ yk_\ }\ }\ ]\  := \[IndentingNewLine]1/
+            2\ \ *\ \((\ 
+            xi\ *\ \((\ yj\  - \ yk\ )\)\  + \ 
+              xj\ *\ \((\ yk\  - yi\ )\)\  + \ 
+              xk\ *\ \((\ yi\  - \ yj\ )\)\ )\);\)\[IndentingNewLine]\n (*\ 
+      3  D\ *) \[IndentingNewLine]
+    \(imsArea[\ {\ {\ xi_, \ yi_, \ zi_\ }, \ {\ xj_, \ yj_, \ zj_\ }, \ {\ 
+              xk_, \ yk_, \ zk_}\ }\ ] := 
+        1/2*Sqrt[\ \((\((xj\ *\ yi - xk\ *\ yi - xi\ *\ yj + xk\ *\ yj + 
+                      xi\ *\ yk - xj\ *\ yk)\)^2 + \((xj\ *\ zi - xk\ *\ zi - 
+                      xi\ *\ zj + xk\ *\ zj + xi\ *\ zk - 
+                      xj\ *\ zk)\)^2 + \((yj\ *\ zi - yk\ *\ zi - yi\ *\ zj + 
+                      yk\ *\ zj + yi\ *\ zk - 
+                      yj\ *\ zk)\)^2)\)\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 2  D\ polygon\ area\ *) \[IndentingNewLine]
+    \(imsArea[\ a_\ ]\  /; \ imsPolygon2DQ[\ a\ ]\  := \ 
+        1/2\ *\ Plus\  @@ 
+            Apply[\ Function[\ {\ x1, \ y1, \ x2, \ 
+                  y2\ }, \ \ \((\ x1\  + \ x2\ )\)\ *\ \((\ 
+                    y2\  - \ y1\ )\)\ ], \ 
+              Partition[\ Flatten[\ a\ ], \ 4, \ 2, \ {\ 1, 1\ }\ ], \ 
+              1\ ]\ ;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolygonize", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsPolygonizeCircle[\ Circle[\ {\ x_, \ y_\ }, \ r_\ ], \ 
+          n_\ ]\  := \ 
+        With[\[IndentingNewLine]{\ 
+            theta\  = \ 
+              2\ Pi\ /\ n, \[IndentingNewLine]vec\  = \ \ {\ 
+                x\  + r\ *\ Cos[\ 2\ Pi\ /\ n\ ], \ 
+                y\  + \ r\ *\ 
+                    Sin[\ 2\ Pi\ /\ 
+                          n\ ]\ }\ }, \[IndentingNewLine]\(versionRotate2D[\ 
+                vec\ , \ theta\ *\ #, \ \ {x, \ y\ }\ \ ] &\)\  /@ \ 
+            Range[\ n\ , 1, \ \(-1\)\ ]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsConvexIntersect", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsConvexIntersect[\ {\ p_, \ q_\ }, \ 
+            accugoal_:  $MachinePrecision\ ]\  /; \ 
+          imsPolygon2DQ[\ p\ ]\  && \ imsPolygon2DQ[\ q\ ] := \ 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]n\  = \ 
+              Length[\ p\ ], \[IndentingNewLine]m\  = \ 
+              Length[\ q\ ], \[IndentingNewLine]a\  = \ 1, \ b\  = \ 1, \ 
+            aa\  = \ 0, \ ba\  = \ 0, A, \ B, \[IndentingNewLine]pointA, \ 
+            pointA1, \ pointB, \ 
+            pointB1, \[IndentingNewLine]inFlag\  = \ Unknown, 
+            FirstPoint\  = \ True, \[IndentingNewLine]cross, \ aHB, \ 
+            bHA, \[IndentingNewLine]Origin\  = \ {\ 0, \ 
+                0\ }, \[IndentingNewLine]intersecPoint, \
+\[IndentingNewLine]newPolygonPoints\  = \ {}\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            check\ if\ orientation\ is\ counter\ clockwise, \ 
+            else\ reverse\ polygon\ *) \[IndentingNewLine]If[\ 
+            imsArea[\ p\ ]\  < \ 0, \ 
+            Message[imsConvexIntersect::"\<clockwiseOrientation\>", \ 1\ ]; \ 
+            Abort[];\ ]; \[IndentingNewLine]If[\ imsArea[\ q\ ]\  < \ 0, \ 
+            Message[imsConvexIntersect::"\<clockwiseOrientation\>", \ 2\ ]; \ 
+            Abort[];\ ]; \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]While[\[IndentingNewLine]\((\ \((\ 
+                    aa\  < \ n\ )\)\  || \ \((\ 
+                    ba\  < \ m\ )\)\ )\)\  && \ \ \((\ 
+                aa\  < \ 2*n\ )\)\  && \ \((\ 
+                ba\  < \ 
+                  2*m\ )\), \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]a1\  = \ 
+              Mod[\ a\  + \ n\  - 2, \ n\ ]\  + \ 
+                1; \[IndentingNewLine]b1\  = \ 
+              Mod[\ b\  + \ m\  - 2, \ m\ ]\  + \ 
+                1; \[IndentingNewLine] (*\ \(Print[\ "\< a: \>", \ 
+                  a, \ "\< a1: \>", \ a1, \ "\< b: \>", \ b, \ "\< b1: \>", \ 
+                  b1\ ];\)\ *) \[IndentingNewLine]\[IndentingNewLine]pointA\  \
+= \ \ p[\([\ a\ ]\)]\ ; \[IndentingNewLine]pointA1\  = \ 
+              p[\([\ a1\ ]\)]; \[IndentingNewLine]pointB\  = \ \ q[\([\ 
+                  b\ ]\)]; \[IndentingNewLine]pointB1\  = \ \ q[\([\ 
+                  b1\ ]\)]; \[IndentingNewLine] (*\ \(Print[\ "\< pointA: \
+\>", \ pointA, \ "\< pA1: \>", \ pointA1, \ "\< pB: \>", \ 
+                  pointB, \ "\< pB1: \>", \ 
+                  
+                  pointB1\ ];\)\ *) \[IndentingNewLine]\[IndentingNewLine]A\  \
+= \ pointA\  - \ pointA1; \[IndentingNewLine]B\  = \ 
+              pointB\  - \ 
+                pointB1; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              these\ are\ triangle\ areas\ *) \[IndentingNewLine]cross\  = \ \
+\ Sign[\ Chop[\ imsArea[\ {\ Origin, \ A, \ B\ }\ \ ], \ 
+                  10^\(-accugoal\)\ ]\ ]; \[IndentingNewLine]aHB\  = \ 
+              Sign[\ Chop[\ imsArea[\ {\ pointB1, \ pointB, \ pointA\ }\ ], \ 
+                  10^\(-accugoal\)\ ]\ ]; \[IndentingNewLine]bHA\  = \ 
+              Sign[\ Chop[\ imsArea[\ {\ pointA1, \ pointA, \ pointB\ }\ ], \ 
+                  10^\(-accugoal\)\ ]\ ]; \[IndentingNewLine] (*\ \(Print[\ 
+                  cross, \ "\< \>", \ 
+                  aHB, \ "\< \>", \ \ bHA\ ];\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]intersecPoint\  = 
+              imsLineSegmentIntersect[\ {\ {\ pointA1, \ pointA\ }, \ {\ 
+                    pointB1, \ pointB\ }\ }, \ 
+                accugoal\ ]; \[IndentingNewLine]\[IndentingNewLine]If[\ 
+              imsCoord2DQ[\ intersecPoint\ ], \[IndentingNewLine]If[\ 
+                inFlag\  === \ Unknown\  && \ 
+                  FirstPoint, \[IndentingNewLine]aa\  = \ \(ba\  = \ 
+                    0\); \[IndentingNewLine]FirstPoint\  = \ 
+                  False;\[IndentingNewLine]]; \
+\[IndentingNewLine]newPolygonPoints\  = \ {\ newPolygonPoints, \ 
+                  intersecPoint\ }; \[IndentingNewLine]If[\ aHB\  > \ 0, \ 
+                inFlag\  = \ Pin\ ]; \[IndentingNewLine]If[\ bHA\  > \ 0, \ 
+                inFlag\  = \ 
+                  Qin\ ];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[\ 
+              imsLineSegmentQ[\ intersecPoint\ ]\  && \ 
+                A . B\  < \ 0, \[IndentingNewLine]\(Return[\ 
+                  intersecPoint\ ];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine] (*\ 
+              If[\ cross\  \[Equal] \ 0\  && \ aHB\  < \ 0\  && \ 
+                  bHA\  < \ 0, \ 
+                Return[\ 
+                  List[]\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine]If[\ 
+                cross\  \[Equal] \ 0\  && \ aHB\  \[Equal] \ 0\  && \ 
+                  bHA\  \[Equal] \ 0, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \[IndentingNewLine]\(ba++\); \ 
+                  b\  = \ Mod[\ b, \ m\ ]\  + \ 
+                      1, \[IndentingNewLine]\(aa++\); 
+                  a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                      
+                      1;\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ 
+                cross\  \[Equal] \ 0\  && \ aHB\  \[LessEqual] \ 0\  && \ 
+                  bHA\  \[GreaterEqual] \ 0, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \[IndentingNewLine]\(ba++\); \ 
+                  b\  = \ Mod[\ b, \ m\ ]\  + \ 
+                      1, \[IndentingNewLine]\(aa++\); 
+                  a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                      1\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ 
+                cross\  \[Equal] \ 0\  && \ aHB\  \[GreaterEqual] \ 0\  && \ 
+                  bHA\  \[GreaterEqual] \ 0, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \[IndentingNewLine]\(ba++\); \ 
+                  b\  = \ Mod[\ b, \ m\ ]\  + \ 
+                      1, \[IndentingNewLine]\(aa++\); 
+                  a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                      1\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ 
+                cross\  \[Equal] \ 0\  && \ aHB\  > \ \ 0\  && \ 
+                  bHA\  < \ \ 0, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \[IndentingNewLine]\(ba++\); \ 
+                  b\  = \ Mod[\ b, \ m\ ]\  + \ 
+                      1, \[IndentingNewLine]\(aa++\); 
+                  a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                      1\[IndentingNewLine]]\[IndentingNewLine]];\
+\[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]If[\ 
+              cross\  \[Equal] \ 
+                0, \[IndentingNewLine]Which[\[IndentingNewLine]aHB\  < \ 
+                    0\  && \ bHA\  < \ 0, \ \ Return[\ 
+                  List[]\ ], \[IndentingNewLine]\[IndentingNewLine]True, \ 
+                If[\ inFlag\  === \ Pin, \[IndentingNewLine]\(ba++\); \ 
+                  b\  = \ Mod[\ b, \ m\ ]\  + \ 
+                      1, \[IndentingNewLine]\(aa++\); 
+                  a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                      1\[IndentingNewLine]]\[IndentingNewLine]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[\ cross\  > \ \ 0, \ 
+              If[\ bHA\  > \ \ 0, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \ 
+                  newPolygonPoints\  = \ {\ newPolygonPoints, \ 
+                      p[\([\ a\ ]\)]\ }\ ]; \ \(aa++\); 
+                a\  = \ Mod[\ a, \ n\ ]\  + \ 1, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Qin, \ 
+                  newPolygonPoints\  = \ {\ newPolygonPoints, \ 
+                      q[\([\ b\ ]\)]\ }\ ]; \ \(ba++\); \ 
+                b\  = \ 
+                  Mod[\ b, \ m\ ]\  + \ 
+                    1\ ;\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ cross\  < \ 0, \ 
+              If[\ aHB\  > \ 0, \[IndentingNewLine]If[\ inFlag\  === \ Qin, \ 
+                  newPolygonPoints\  = \ {\ newPolygonPoints, \ 
+                      q[\([\ b\ ]\)]\ }\ ]; \ \(ba++\); \ 
+                b\  = \ Mod[\ b, \ m\ ]\  + \ 1, \[IndentingNewLine]If[\ 
+                  inFlag\  === \ Pin, \ 
+                  newPolygonPoints\  = \ {\ newPolygonPoints, \ 
+                      p[\([\ a\ ]\)]\ }\ ]; \ \(aa++\); \ 
+                a\  = \ Mod[\ a, \ n\ ]\  + \ 
+                    1\ ;\[IndentingNewLine]]\[IndentingNewLine]];\
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]newPolygonPoints\  = 
+            Partition[\ Flatten[\ Union[\ newPolygonPoints\ ]\ ], \ 
+              2\ ]; \[IndentingNewLine]\[IndentingNewLine]If[\ 
+            inflag\  \[Equal] \ Unknown, \ 
+            Return[\ List[]\ ]\ ]; \[IndentingNewLine] (*\ 
+            if\ a\ point\ is\ found\ it\ can\ appear\ duplicate\ \
+*) \[IndentingNewLine]Return[\ 
+            newPolygonPoints\ \ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Prof Korvinks Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Utilities: uniqueVerticiesQ, makePolygonUnique, collinearQ, \
+polygonArea, replacePolygonNodesByOriginals\
+\>", "Subsection"],
+
+Cell[BoxData[{
+    \(\(uniqueVerticiesQ[poly_Polygon] := 
+        uniqueVerticiesQ[poly[\([1]\)]];\)\), "\[IndentingNewLine]", 
+    \(\(uniqueVerticiesQ[poly_List] := 
+        Union[Chop[poly]] === Chop[N[poly]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(makePolygonUnique[poly_List] := 
+        Module[{oldPoly, newPoly}, \[IndentingNewLine]oldPoly = 
+            Chop[poly]; \[IndentingNewLine]newPoly = 
+            Union[oldPoly]; \[IndentingNewLine]If[
+            Length[newPoly] != Length[oldPoly], \[IndentingNewLine]Message[
+              makePolygonUnique::"\<nonUnique\>"]; \[IndentingNewLine]newPoly \
+= Part[oldPoly, 
+                Complement[
+                  Range[Length[
+                      oldPoly]], \((Flatten[\(Drop[#, 
+                            1] &\) /@ \((\(Flatten[#] &\) /@ 
+                            Select[\((\(Position[oldPoly, #] &\) /@ 
+                                  newPoly)\), \((Length[#] > 
+                                    1)\) &])\)])\)]]; \[IndentingNewLine]If[
+              Length[newPoly] < 3, \[IndentingNewLine]Message[
+                makePolygonUnique::"\<notAPoly\>"]; \
+\[IndentingNewLine]Abort[]\[IndentingNewLine]], \[IndentingNewLine]newPoly = 
+              oldPoly\[IndentingNewLine]]; \[IndentingNewLine]Return[
+            newPoly]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(collinearQ[a_List, b_List, c_List] := 
+        Return[Chop[Cross[b - a, c - a]] == {0. , 0. , 0. }];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(polygonArea[poly_List] := 
+        Module[{i, j, n = Length[poly], cg}, \[IndentingNewLine]cg = 
+            poly[\([1]\)]; \[IndentingNewLine]Return[\((Plus @@ 
+                  Table[j = 
+                      Mod[i, n] + 
+                        1; \[IndentingNewLine]\((poly[\([i, 1]\)] - 
+                            cg[\([1]\)])\)*\((poly[\([j, 2]\)] - 
+                            cg[\([2]\)])\) - \((poly[\([i, 2]\)] - 
+                            cg[\([2]\)])\)*\((poly[\([j, 1]\)] - 
+                            cg[\([1]\)])\), {i, 1, n}])\)/
+              2. ]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(makePolygonVerticallyUnique[badPoly_List] := 
+        Module[{newPoly = badPoly, Theta = 0, Theta1 = N[E^1]/25. }, 
+          While[Length[
+                N[IntegerPart[Sort[\((10^12*#1[\([2]\)] &)\) /@ newPoly]]/
+                      10^12] //. {x___, a_, a_, y___} \[Rule] {x, a, 
+                      y}] \[NotEqual] Length[newPoly], 
+            Theta += N[E^1]/
+                25. ; \[IndentingNewLine]newPoly = \(({{Cos[
+                            Theta], \(-Sin[Theta]\)}, {Sin[Theta], 
+                          Cos[Theta]}} . #1 &)\) /@ 
+                newPoly]; \[IndentingNewLine]Return[{Theta, 
+              newPoly}]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(vertexArea[a_List, b_List, c_List] := 
+        a[\([1]\)]*b[\([2]\)] - 
+          a[\([2]\)]*b[\([1]\)] + \[IndentingNewLine]a[\([2]\)]*c[\([1]\)] - 
+          a[\([1]\)]*c[\([2]\)] + \[IndentingNewLine]b[\([1]\)]*c[\([2]\)] - 
+          b[\([2]\)]*c[\([1]\)];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(vectorEqualQ[a : {_, \((_)\) .. }, 
+          b : {_, \((_)\) .. }] := \((\((a - b)\) . \((a - 
+                  b)\) < \((Epsilon^2)\))\);\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(replacePolygonNodesByOriginals[
+          originalInputPolygon : {{_, \((_)\) .. } .. }, 
+          polygonWithModifiedCoordinates : {{_, \((_)\) .. } .. }] := 
+        Module[{makeRule}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Here\ we\ create\ some\ variant\ rules\ \
+*) \[IndentingNewLine]makeRule[lhs_, {rhs_}] := 
+            Sequence[lhs \[Rule] rhs, N[lhs] \[Rule] rhs, 
+              Chop[lhs] \[Rule] rhs, {lhs[\([1]\)], N[lhs[\([2]\)]]} \[Rule] 
+                rhs, {N[lhs[\([1]\)]], lhs[\([2]\)]} \[Rule] 
+                rhs]; \[IndentingNewLine]\(originalInputPolygon[\([#]\)] &\) /@ \
+\((polygonWithModifiedCoordinates /. 
+                MapIndexed[makeRule, 
+                  originalInputPolygon])\)\[IndentingNewLine]];\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsMonotoneSplitPolygon", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      xIntersection[y, 
+          edge]\ has\ a\ potential\ \(problem!\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      If\ edge\ is\ parallel\ to\ the\ x - 
+        axis\ \ \ \ \ \ \ \ \ \ \ \ \ \ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      I\ simply\ return\ the\ center\ of\ the\ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      edge\ as\ the\ intersection\ point\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *) \
+\)\)\)], "Input"],
+
+Cell[BoxData[{
+    \(\(\(imsMonotoneSplitPolygon[imsPolygon[poly_], 
+          rotatePoly_:  True] := \(imsPolygon[#] &\) /@ 
+          imsMonotoneSplitPolygon[poly, rotatePoly];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsMonotoneSplitPolygon[Line[poly_], 
+          rotatePoly_:  True] := \(Line[#] &\) /@ 
+          imsMonotoneSplitPolygon[poly, rotatePoly];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsMonotoneSplitPolygon[
+          polyList : {\((_Line | _Polygon | {{_, _} .. })\) .. }, 
+          rotatePoly_:  
+            True] := \(imsMonotoneSplitPolygon[#, rotatePoly] &\) /@ 
+          polyList;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMonotoneSplitPolygon[poly : {{_, _} .. }, rotatePoly_:  True] := 
+        Module[{sortedCoordRules, aAboveQ, cAboveQ, aLeftQ, classRules, 
+              vertexClassRules, sortedVertices, vertexBlockRules, 
+              blockUpSupportVertexRules, xIntersection, sideOfEdgeQ, 
+              sideOfBlockQ, gobbleRules, insertPositionQ, processVertex, 
+              planeSweepTable = Table[{}, {Length[sortedVertices]}], 
+              edgesBlockRules = {}, blockEdgesRules = {}, upBlockRules = {}, 
+              downBlockRules = {}, criticalVertexClassRules, splits, 
+              splitPositions, newPolys, splitRun, newPoly, myDebug = False, 
+              i, Theta = 
+                0\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine]newPoly = 
+              makePolygonUnique[poly]; \[IndentingNewLine]If[
+              rotatePoly, \[IndentingNewLine]{Theta, newPoly} = 
+                makePolygonVerticallyUnique[
+                  newPoly]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]sortedCoordRules = 
+              Sort[\(\((C[#[\([1]\)]] \[Rule] #[\([2]\)])\) &\) /@ 
+                  Transpose[{Table[i, {i, 1, Length[newPoly]}], 
+                      newPoly}], \((#1[\([2, 2]\)] > #2[\([2, 
+                            2]\)] || \((#1[\([2, 1]\)] < #2[\([2, 
+                                1]\)] && #1[\([2, 2]\)] == #2[\([2, 
+                                2]\)])\))\) &]; \[IndentingNewLine]\
+\[IndentingNewLine]aAboveQ[{a_, b_, c_}] := 
+              a[\([2]\)] > 
+                b[\([2]\)]; \[IndentingNewLine]cAboveQ[{a_, b_, c_}] := 
+              c[\([2]\)] >= 
+                b[\([2]\)]; \[IndentingNewLine]aLeftQ[{a_, b_, c_}] := 
+              a[\([1]\)] < 
+                c[\([1]\)]; \[IndentingNewLine]classRules = {{False, False, 
+                    False} \[Rule] UpTip, {False, False, True} \[Rule] 
+                  BelowCusp, {False, True, False} \[Rule] 
+                  RightFlank, {False, True, True} \[Rule] 
+                  RightFlank, {True, False, False} \[Rule] 
+                  LeftFlank, {True, False, True} \[Rule] 
+                  LeftFlank, {True, True, False} \[Rule] 
+                  AboveCusp, {True, True, True} \[Rule] 
+                  DownTip}; \[IndentingNewLine]vertexClassRules = \(\((VCR[#[\
+\([1]\)]] \[Rule] #[\([2]\)])\) &\) /@ 
+                Transpose[{Table[
+                      i, {i, 1, 
+                        Length[
+                          newPoly]}], \((\(\(({aAboveQ[#], cAboveQ[#], 
+                                aLeftQ[#]})\) &\) /@ 
+                          Transpose[{RotateRight[newPoly], newPoly, 
+                              RotateLeft[newPoly]}])\) /. 
+                      
+                      classRules}]; \
+\[IndentingNewLine]\[IndentingNewLine]sortedVertices = \((\(\((#[\([1]\)] /. 
+                        C[v_] \[Rule] v)\) &\) /@ 
+                  sortedCoordRules)\); \[IndentingNewLine]vertexBlockRules = \
+\(\((VBR[#[\([1]\)]] \[Rule] #[\([2]\)])\) &\) /@ 
+                Transpose[{sortedVertices, \((numBlocks = 
+                        0; \[IndentingNewLine]\(\((If[# === 
+                                DownTip, {Null}, \[IndentingNewLine]If[# === 
+                                  BelowCusp, \
+\[IndentingNewLine]{\(++numBlocks\), \(++numBlocks\)}\[IndentingNewLine], \
+\[IndentingNewLine]{\(++numBlocks\)}]\[IndentingNewLine]])\) &\) /@ \
+\((\(\((VCR[#])\) &\) /@ sortedVertices /. 
+                            vertexClassRules)\))\)}]; \[IndentingNewLine]\
+\[IndentingNewLine]blockUpSupportVertexRules = 
+              Complement[
+                Flatten[\(If[#[\([2, 1]\)] =!= Null, 
+                        If[Length[#[\([2]\)]] \[Equal] 
+                            2, \[IndentingNewLine]{\((BUV[#[\([2, 
+                                      1]\)]] \[Rule] \((#[\([1]\)] /. 
+                                    VBR[v_] \[Rule] v)\))\), \((BUV[#[\([2, 
+                                      2]\)]] \[Rule] \((#[\([1]\)] /. 
+                                    VBR[v_] \[Rule] 
+                                      v)\))\)}, \
+\[IndentingNewLine]\((BUV[#[\([2, 1]\)]] \[Rule] \((#[\([1]\)] /. 
+                                  VBR[v_] \[Rule] 
+                                    v)\))\)\[IndentingNewLine]]] &\) /@ 
+                    vertexBlockRules], {Null}]; \[IndentingNewLine]\
+\[IndentingNewLine]xIntersection[y_, edge_] := 
+              Module[{p1, p2, 
+                  t}, \[IndentingNewLine]p1 = \((C[\((Mod[edge - 1, 
+                              Length[sortedVertices]] + 1)\)] /. 
+                      sortedCoordRules)\); \[IndentingNewLine]p2 = \
+\((C[\((Mod[edge, Length[sortedVertices]] + 1)\)] /. 
+                      sortedCoordRules)\); \[IndentingNewLine]If[
+                  p2[\([2]\)] != 
+                    p1[\([2]\)], \[IndentingNewLine]t = \((y - 
+                          p1[\([2]\)])\)/\((p2[\([2]\)] - 
+                          p1[\([2]\)])\); \[IndentingNewLine]If[
+                    t < \(-10^\((\(-9\))\)\) || 
+                      t > 1 + 
+                          10^\((\(-9\))\), \[IndentingNewLine]Print["\<pt1: \
+\>", p1, "\< pt2: \>", p2, "\< t: \>", t, "\< edge: \>", 
+                      edge, "\< y-coord: \>", y]; \[IndentingNewLine]Message[
+                      yIntersection::"\<outOfRange\>"]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+                    p1[\([1]\)] + 
+                      t \((p2[\([1]\)] - 
+                            p1[\([1]\)])\)], \[IndentingNewLine]Return[
+                    p1[\([1]\)] + 
+                      0.5 \((p2[\([1]\)] - 
+                            p1[\([1]\)])\)]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]sideOfEdgeQ[
+                vertex_, edge_] := 
+              Module[{vertexCoord, diff}, \[IndentingNewLine]vertexCoord = 
+                  C[vertex] /. sortedCoordRules; \[IndentingNewLine]diff = 
+                  Chop[vertexCoord[\([1]\)] - 
+                      xIntersection[vertexCoord[\([2]\)], 
+                        edge]]; \[IndentingNewLine]If[diff < 0, 
+                  Return[AtLeft[edge]]]; \[IndentingNewLine]If[diff > 0, 
+                  Return[AtRight[edge]]]; \[IndentingNewLine]If[
+                  diff \[Equal] 0, 
+                  Return[OnEdge[
+                      edge]]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]sideOfBlockQ[vertex_, block_List] := 
+              Module[{}, \[IndentingNewLine]\(Head[#] &\) /@ \((\(sideOfEdgeQ[
+                            vertex, #] &\) /@ block)\) /. {{AtLeft, 
+                        AtLeft} \[Rule] AtLeft[1], {AtRight, AtRight} \[Rule] 
+                      AtRight[1], {AtRight, AtLeft} \[Rule] 
+                      SplitBlock[1], {OnEdge, AtLeft} \[Rule] 
+                      LeftOn[1], {AtRight, OnEdge} \[Rule] 
+                      RightOn[1], {OnEdge, OnEdge} \[Rule] 
+                      DropBlock[1], _ \[Rule] 
+                      Error}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]gobbleRules = {\[IndentingNewLine]{x___, a_AtRight, 
+                    b_AtRight, y___} \[RuleDelayed] {x, 
+                    AtRight[a[\([1]\)] + b[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_AtRight, b_RightOn, 
+                    y___} \[RuleDelayed] {x, 
+                    RightOn[a[\([1]\)] + b[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_AtLeft, b_AtLeft, 
+                    y___} \[Rule] {x, a, y}, \[IndentingNewLine]{x___, 
+                    a_AtRight, b_SplitBlock, y___} \[RuleDelayed] {x, 
+                    SplitBlock[a[\([1]\)] + b[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_SplitBlock, b_AtLeft, 
+                    y___} \[RuleDelayed] {x, a, y}, \[IndentingNewLine]{x___, 
+                    a_LeftOn, b_AtLeft, y___} \[Rule] {x, a, 
+                    y}, \[IndentingNewLine]{x___, a_RightOn, b_LeftOn, 
+                    y___} \[RuleDelayed] {x, MergeToRight[a[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_AtRight, b_AtLeft, 
+                    y___} \[RuleDelayed] {x, InsertAfter[a[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_AtRight, b_LeftOn, 
+                    y___} \[RuleDelayed] {x, LeftOn[a[\([1]\)] + b[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_AtRight, b_DropBlock, 
+                    y___} \[RuleDelayed] {x, 
+                    DropBlock[a[\([1]\)] + b[\([1]\)]], 
+                    y}, \[IndentingNewLine]{x___, a_DropBlock, b_AtLeft, 
+                    y___} \[RuleDelayed] {x, a, y}, \[IndentingNewLine]{x___, 
+                    a_RightOn, b_AtLeft, y___} \[RuleDelayed] {x, a, 
+                    y}\[IndentingNewLine]}; \[IndentingNewLine]\
+\[IndentingNewLine]insertPositionQ[vertex_, sweepLine_List] := 
+              Module[{where, pos = 0, n = Length[sweepLine], 
+                  scanned}, \[IndentingNewLine]scanned = 
+                  Table[sideOfBlockQ[vertex, sweepLine[\([i]\)]], {i, 1, n}] //. 
+                    gobbleRules; \[IndentingNewLine]Return[
+                  scanned[\([1]\)]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]processVertex[v_] := 
+              Module[{currentBlock, n = Length[sortedVertices], positionV, 
+                  insPos, edgeLeft, edgeRight, 
+                  tmp}, \[IndentingNewLine]currentBlock = 
+                  VBR[v] /. \[InvisibleSpace]vertexBlockRules; \
+\[IndentingNewLine]positionV = \(Flatten[
+                      Position[sortedVertices, 
+                        v]]\)[\([1]\)]; \[IndentingNewLine]{edgeLeft, 
+                    edgeRight} = {Mod[v - 1, n] + 1, 
+                    Mod[v - 2, n] + 
+                      1}; \[IndentingNewLine]\[IndentingNewLine]If[
+                  positionV == 
+                    1, \[IndentingNewLine]blockEdgesRules = {blockEdgesRules, 
+                      BER[currentBlock[\([1]\)]] \[Rule] {edgeLeft, 
+                          edgeRight}}; \[IndentingNewLine]edgesBlockRules = \
+{edgesBlockRules, EBR[edgeLeft, edgeRight] \[Rule] 
+                        currentBlock[\([1]\)]}; \
+\[IndentingNewLine]upBlockRules = {upBlockRules, 
+                      UBR[currentBlock[\([1]\)]] \[Rule] {Null}}; \
+\[IndentingNewLine]tmp = {{edgeLeft, 
+                        edgeRight}}; \
+\[IndentingNewLine]planeSweepTable[\([positionV]\)] = 
+                    tmp; \[IndentingNewLine]Return[
+                    tmp]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[
+                  positionV > 1, \[IndentingNewLine]tmp = 
+                    planeSweepTable[\([positionV - 
+                          1]\)]; \[IndentingNewLine]\[IndentingNewLine]If[
+                    tmp =!= {}, \[IndentingNewLine]insPos = 
+                      insertPositionQ[v, 
+                        planeSweepTable[\([positionV - 
+                              1]\)]]; \[IndentingNewLine]If[
+                      myDebug, \[IndentingNewLine]Print["\<processing: \>", 
+                        v]; \[IndentingNewLine]Print["\<insPos: \>", 
+                        insPos]\[IndentingNewLine]], \[IndentingNewLine]Print[
+                      positionV, "\< Failure\>"]; \
+\[IndentingNewLine]Return[{}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Switch[
+                    VCR[v] /. \[InvisibleSpace]vertexClassRules, \
+\[IndentingNewLine]\[IndentingNewLine]UpTip, \
+\[IndentingNewLine]blockEdgesRules = 
+                      Flatten[{blockEdgesRules, 
+                          BER[currentBlock[\([1]\)]] \[Rule] {edgeLeft, 
+                              edgeRight}}]; \
+\[IndentingNewLine]edgesBlockRules = 
+                      Flatten[{edgesBlockRules, 
+                          EBR[edgeLeft, edgeRight] \[Rule] 
+                            currentBlock[\([1]\)]}]; 
+                    upBlockRules = 
+                      Flatten[{upBlockRules, 
+                          UBR[currentBlock[\([1]\)]] \[Rule] {Null}}]; 
+                    If[insPos === AtLeft[1], \[IndentingNewLine]tmp = 
+                        Join[{{edgeLeft, edgeRight}}, 
+                          tmp]\[IndentingNewLine]]; \[IndentingNewLine]If[
+                      insPos === 
+                        AtRight[Length[tmp]], \[IndentingNewLine]tmp = 
+                        Join[tmp, {{edgeLeft, 
+                              edgeRight}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                      Head[insPos] === InsertAfter, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]tmp = 
+                        Join[Take[tmp, i], {{edgeLeft, edgeRight}}, 
+                          Take[tmp, \(-\((Length[tmp] - 
+                                  i)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]DownTip, \[IndentingNewLine]If[
+                      Head[insPos] === DropBlock, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]downBlockRules = \
+{downBlockRules, DBR[\((EBR @@ tmp[\([i]\)])\) /. 
+                                edgesBlockRules] \[Rule] {Null}}; \
+\[IndentingNewLine]tmp = 
+                        Join[Take[tmp, i - 1], 
+                          Take[tmp, \(-\((Length[tmp] - 
+                                  i)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]LeftFlank, \[IndentingNewLine]If[
+                      Head[insPos] === LeftOn, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]blockEdgesRules = 
+                        Flatten[{blockEdgesRules, 
+                            BER[currentBlock[\([1]\)]] \[Rule] {edgeLeft, 
+                                tmp[\([i, 2]\)]}}]; 
+                      edgesBlockRules = 
+                        Flatten[{edgesBlockRules, 
+                            EBR[edgeLeft, tmp[\([i, 2]\)]] \[Rule] 
+                              currentBlock[\([1]\)]}]; 
+                      upBlockRules = 
+                        Flatten[{upBlockRules, 
+                            UBR[currentBlock[\([1]\)]] \[Rule] {\((EBR @@ 
+                                      tmp[\([i]\)])\) /. edgesBlockRules}}]; 
+                      downBlockRules = {downBlockRules, 
+                          DBR[\((EBR @@ tmp[\([i]\)])\) /. 
+                                edgesBlockRules] \[Rule] \
+{currentBlock[\([1]\)]}}; \[IndentingNewLine]tmp = 
+                        Join[Take[tmp, i - 1], {{edgeLeft, tmp[\([i, 2]\)]}}, 
+                          Take[tmp, \(-\((Length[tmp] - 
+                                  i)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]RightFlank, \[IndentingNewLine]If[
+                      Head[insPos] === RightOn, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]blockEdgesRules = 
+                        Flatten[{blockEdgesRules, 
+                            BER[currentBlock[\([1]\)]] \[Rule] {tmp[\([i, 
+                                    1]\)], 
+                                edgeRight}}]; \
+\[IndentingNewLine]edgesBlockRules = 
+                        Flatten[{edgesBlockRules, 
+                            EBR[tmp[\([i, 1]\)], edgeRight] \[Rule] 
+                              currentBlock[\([1]\)]}]; 
+                      upBlockRules = 
+                        Flatten[{upBlockRules, 
+                            UBR[currentBlock[\([1]\)]] \[Rule] {\((EBR @@ 
+                                      tmp[\([i]\)])\) /. edgesBlockRules}}]; 
+                      downBlockRules = {downBlockRules, 
+                          DBR[\((EBR @@ tmp[\([i]\)])\) /. 
+                                edgesBlockRules] \[Rule] \
+{currentBlock[\([1]\)]}}; \[IndentingNewLine]tmp = 
+                        Join[Take[tmp, 
+                            i - 1], {{tmp[\([i, 1]\)], edgeRight}}, 
+                          Take[tmp, \(-\((Length[tmp] - 
+                                  i)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]AboveCusp, \[IndentingNewLine]If[
+                      Head[insPos] === MergeToRight, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]blockEdgesRules = 
+                        Flatten[{blockEdgesRules, 
+                            BER[currentBlock[\([1]\)]] \[Rule] {tmp[\([i, 
+                                    1]\)], 
+                                tmp[\([i + 1, 
+                                    2]\)]}}]; \
+\[IndentingNewLine]edgesBlockRules = 
+                        Flatten[{edgesBlockRules, 
+                            EBR[tmp[\([i, 1]\)], tmp[\([i + 1, 2]\)]] \[Rule] 
+                              currentBlock[\([1]\)]}]; 
+                      upBlockRules = 
+                        Flatten[{upBlockRules, 
+                            UBR[currentBlock[\([1]\)]] \[Rule] {\((EBR @@ 
+                                      tmp[\([i]\)])\) /. 
+                                  edgesBlockRules, \((EBR @@ 
+                                      tmp[\([i + 1]\)])\) /. 
+                                  edgesBlockRules}}]; \
+\[IndentingNewLine]downBlockRules = {downBlockRules, 
+                          DBR[\((EBR @@ tmp[\([i]\)])\) /. 
+                                edgesBlockRules] \[Rule] \
+{currentBlock[\([1]\)]}, DBR[\((EBR @@ tmp[\([i + 1]\)])\) /. 
+                                edgesBlockRules] \[Rule] \
+{currentBlock[\([1]\)]}}; \[IndentingNewLine]tmp = 
+                        Join[Take[tmp, 
+                            i - 1], {{tmp[\([i, 1]\)], tmp[\([i + 1, 2]\)]}}, 
+                          Take[tmp, \(-\((Length[tmp] - i - 
+                                  1)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]BelowCusp, \[IndentingNewLine]If[
+                      Head[insPos] === SplitBlock, \[IndentingNewLine]i = 
+                        insPos[\([1]\)]; \[IndentingNewLine]blockEdgesRules = 
+                        Flatten[{blockEdgesRules, 
+                            BER[currentBlock[\([1]\)]] \[Rule] {tmp[\([i, 
+                                    1]\)], edgeRight}, 
+                            BER[currentBlock[\([2]\)]] \[Rule] {edgeLeft, 
+                                tmp[\([i, 
+                                    2]\)]}}]; \
+\[IndentingNewLine]edgesBlockRules = 
+                        Flatten[{edgesBlockRules, 
+                            EBR[tmp[\([i, 1]\)], edgeRight] \[Rule] 
+                              currentBlock[\([1]\)], 
+                            EBR[edgeLeft, tmp[\([i, 2]\)]] \[Rule] 
+                              currentBlock[\([2]\)]}]; \
+\[IndentingNewLine]upBlockRules = 
+                        Flatten[{upBlockRules, 
+                            UBR[currentBlock[\([1]\)]] \[Rule] {\((EBR @@ 
+                                      tmp[\([i]\)])\) /. edgesBlockRules}, 
+                            UBR[currentBlock[\([2]\)]] \[Rule] {\((EBR @@ 
+                                      tmp[\([i]\)])\) /. 
+                                  edgesBlockRules}}]; \
+\[IndentingNewLine]downBlockRules = {downBlockRules, 
+                          DBR[\((EBR @@ tmp[\([i]\)])\) /. 
+                                edgesBlockRules] \[Rule] 
+                            currentBlock}; \[IndentingNewLine]tmp = 
+                        Join[Take[tmp, 
+                            i - 1], {{tmp[\([i, 1]\)], edgeRight}, {edgeLeft, 
+                              tmp[\([i, 2]\)]}}, 
+                          Take[tmp, \(-\((Length[tmp] - 
+                                  i)\)\)]]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]_, \[IndentingNewLine]Print["\<ERROR: \
+Otherwise positionV \>", 
+                      positionV]; \[IndentingNewLine]Return[{}]\
+\[IndentingNewLine]]; \[IndentingNewLine]planeSweepTable[\([positionV]\)] = 
+                    tmp; \[IndentingNewLine]Return[
+                    tmp]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]planeSweepTable = 
+              Table[{}, {Length[
+                    sortedVertices]}]; \[IndentingNewLine]edgesBlockRules = \
+{}; \[IndentingNewLine]blockEdgesRules = {}; \[IndentingNewLine]upBlockRules \
+= {}; \[IndentingNewLine]downBlockRules = {}; \
+\[IndentingNewLine]\((processVertex[#1] &)\) /@ 
+              sortedVertices; \[IndentingNewLine]blockEdgesRules = 
+              Flatten[blockEdgesRules]; \[IndentingNewLine]edgesBlockRules = 
+              Flatten[edgesBlockRules]; \[IndentingNewLine]upBlockRules = 
+              Flatten[upBlockRules]; \[IndentingNewLine]downBlockRules = 
+              Flatten[downBlockRules]; \
+\[IndentingNewLine]\[IndentingNewLine]criticalVertexClassRules = 
+              Drop[Union[\(\((If[#[\([2]\)] === BelowCusp || #[\([2]\)] === 
+                              AboveCusp, #, {}])\) &\) /@ vertexClassRules], 
+                1]; \[IndentingNewLine]splits = \(If[#[\([2]\)] === 
+                      AboveCusp, \
+\[IndentingNewLine]{BUV[\((DBR[\((VBR[#[\([1, 1]\)]] /. 
+                                        vertexBlockRules)\)[\([1]\)]] /. 
+                                downBlockRules)\)[\([1]\)]] //. 
+                        blockUpSupportVertexRules, #[\([1, 
+                          1]\)]}, \[IndentingNewLine]If[#[\([2]\)] === 
+                        BelowCusp, \[IndentingNewLine]{#[\([1, 1]\)], 
+                        BUV[\((UBR[\((VBR[#[\([1, 1]\)]] /. 
+                                        vertexBlockRules)\)[\([1]\)]] /. 
+                                  upBlockRules)\)[\([1]\)]] //. 
+                          blockUpSupportVertexRules}\[IndentingNewLine]]\
+\[IndentingNewLine]] &\) /@ 
+                criticalVertexClassRules; \[IndentingNewLine]\
+\[IndentingNewLine]splitRun[l_List, pos_List] := 
+              Module[{p1, p2}, \[IndentingNewLine]{p1, p2} = 
+                  Sort[pos]; \[IndentingNewLine]List[
+                  Join[Take[l, {1, p1}], Take[l, {p2, Length[l]}]], 
+                  Take[l, {p1, 
+                      p2}]]\[IndentingNewLine]]; \[IndentingNewLine]splitRun[
+                l_List, pos_] := 
+              If[pos === 
+                  Null, {l}]; \[IndentingNewLine]\[IndentingNewLine]newPolys \
+= {Table[i, {i, 1, Length[
+                      newPoly]}]}; \[IndentingNewLine]Table[\
+\[IndentingNewLine]splitPositions = 
+                Transpose[{Flatten[\((\(Position[#, splits[\([j, 1]\)]] &\) /@ 
+                              newPolys)\) /. {} \[Rule] 
+                            Null], \
+\[IndentingNewLine]Flatten[\((\(Position[#, splits[\([j, 2]\)]] &\) /@ 
+                              newPolys)\) /. {} \[Rule] Null]}] /. {{a_, 
+                        Null} \[Rule] Null, {Null, a_} \[Rule] 
+                      Null}; \[IndentingNewLine]newPolys = 
+                Flatten[
+                  Table[splitRun[newPolys[\([i]\)], 
+                      splitPositions[\([i]\)]], {i, 1, 
+                      Length[splitPositions]}], 
+                  1]; \[IndentingNewLine]newPolys\[IndentingNewLine], {j, 1, 
+                Length[splits]}]; \[IndentingNewLine]newPolys = \(\((Part[
+                      newPoly, #])\) &\) /@ 
+                newPolys; \[IndentingNewLine]\[IndentingNewLine]If[
+              myDebug, \[IndentingNewLine]Print["\<processing: \>", 
+                v]; \[IndentingNewLine]Print["\<vertexBlockRules: \>", 
+                vertexBlockRules]; \
+\[IndentingNewLine]Print["\<vertexClassRules: \>", 
+                vertexClassRules]; \
+\[IndentingNewLine]Print["\<blockUpSupportVertexRules: \>", 
+                blockUpSupportVertexRules]; \
+\[IndentingNewLine]Print["\<planeSweepTable: \>", 
+                planeSweepTable]; \
+\[IndentingNewLine]Print["\<blockEdgesRules: \>", 
+                blockEdgesRules]; \
+\[IndentingNewLine]Print["\<edgesBlockRules: \>", 
+                edgesBlockRules]; \[IndentingNewLine]Print["\<upBlockRules: \
+\>", upBlockRules]; \[IndentingNewLine]Print["\<downBlockRules: \>", 
+                downBlockRules]; \
+\[IndentingNewLine]Print["\<criticalVertexClassRules: \>", 
+                criticalVertexClassRules]; \
+\[IndentingNewLine]Print["\<newPolys: \>", 
+                newPolys]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[Depth[newPolys] == 3, 
+              newPolys = {newPolys}]; \[IndentingNewLine]If[
+              Theta \[NotEqual] 0, 
+              newPolys = 
+                Map[{{Cos[\(-Theta\)], \(-Sin[\(-Theta\)]\)}, \
+{Sin[\(-Theta\)], Cos[\(-Theta\)]}} . #1 &, 
+                  newPolys, {2}]]; \
+\[IndentingNewLine]Return[\(replacePolygonNodesByOriginals[poly, #] &\) /@ 
+                newPolys]\[IndentingNewLine]] /; 
+          Depth[poly] \[Equal] 3;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPolygonToGraph", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsPolygonToNexus[\ imsPolygon[\ poly_\ ]\ ] := 
+        PolygonToGraph[\ poly\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsPolygonToNexus[\ Line[\ poly\ ]\ ] := 
+        PolygonToGraph[\ poly, opts\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsPolygonToNexus[\ 
+          polyList : {\((_Line | _Polygon | {{_, _} .. }\ )\) .. }\ ] := \
+\(PolygonToGraph[\ #, opts\ ] &\)\  /@ \ polyList;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      2  D\ case\ *) \)\(\[IndentingNewLine]\)\(imsPolygonToNexus[\ 
+          poly : {{_, _} .. }\ ] := \[IndentingNewLine]Module[{vertices, 
+            unsortedUnion, vertexRules, makeIndexedRule, createNode, 
+            createElement, triangulation, \ nodes, \ 
+            elements}, \[IndentingNewLine]\[IndentingNewLine]unsortedUnion[
+              x_] := Module[{f}, f[y_] := \((f[y] = Sequence[]; y)\); 
+              f /@ x]; \[IndentingNewLine]\[IndentingNewLine]makeIndexedRule[
+              lhs_, {rhs_}] := 
+            lhs \[Rule] rhs; \[IndentingNewLine]createNode[
+              coord_, {nodeNumber_}] := 
+            imsMakeNode[\ 
+              nodeNumber, \ \ coord]; \[IndentingNewLine]createElement[
+              nodes : {_, _, _}, {elementNumber_}] := 
+            imsMakeTriangleLinear1DOF[elementNumber, 
+              nodes, {}]; \[IndentingNewLine]\[IndentingNewLine]triangulation \
+= imsTriangulatePolygon[poly]; \[IndentingNewLine]vertices = 
+            unsortedUnion[
+              Flatten[triangulation, 1]]; \[IndentingNewLine]vertexRules = 
+            MapIndexed[makeIndexedRule, 
+              vertices]; \[IndentingNewLine]\[IndentingNewLine]nodes = 
+            MapIndexed[createNode, vertices]; \[IndentingNewLine]elements = 
+            MapIndexed[createElement, 
+              triangulation /. 
+                vertexRules]; \
+\[IndentingNewLine]\[IndentingNewLine]imsMakeNexus[nodes, {}, 
+            elements]\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsTriangulateMonotonePolygon", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsTriangulateMonotonePolygon[imsPolygon[poly_], 
+          rotatePoly_:  True] := \(imsPolygon[#] &\) /@ 
+          imsTriangulateMonotonePolygon[poly, rotatePoly];\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsTriangulateMonotonePolygon[Line[poly_], 
+          rotatePoly_:  True] := \(Line[#] &\) /@ 
+          imsTriangulateMonotonePolygon[poly, rotatePoly];\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsTriangulateMonotonePolygon[
+          polyList : {\((_Line | _Polygon | {{_, _} .. })\) .. }, 
+          rotatePoly_:  
+            True] := \(imsTriangulateMonotonePolygon[#, rotatePoly] &\) /@ 
+          polyList;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsTriangulateMonotonePolygon[poly : {{_, _} .. }, 
+          rotatePoly_:  True] := 
+        Module[{maxVertex, minVertex, n, sortedCoordRules, onLeftChainQ, 
+            onRightChainQ, whichChain, connectorRules = {}, currentVertex, 
+            vertexCounter, reflexChain, newPoly, Theta = 0, tmp}, 
+          newPoly = makePolygonUnique[poly]; n = Length[newPoly]; 
+          If[n == 3, Return[{newPoly}]]; 
+          If[False && n == 4, \[IndentingNewLine]tmp = 
+              Union[\(\((vertexArea @@ #)\) &\) \
+/@ \[InvisibleSpace]Transpose[{RotateRight[newPoly], newPoly, 
+                      RotateLeft[newPoly]}]]; \[IndentingNewLine]If[
+              Min[tmp] < 0, 
+              tmp = \(Flatten[Position[tmp, Min[tmp]]]\)[\([1]\)], 
+              tmp = \(Flatten[Position[tmp, Min[tmp]]]\)[\([1]\)]]; 
+            Return[{{newPoly[\([tmp]\)], newPoly[\([Mod[tmp, 4] + 1]\)], 
+                  newPoly[\([Mod[tmp + 1, 4] + 
+                        1]\)]}, {newPoly[\([Mod[tmp + 1, 4] + 1]\)], 
+                  newPoly[\([Mod[tmp + 2, 4] + 1]\)], 
+                  newPoly[\([Mod[tmp + 3, 4] + 
+                        1]\)]}}]]; \[IndentingNewLine]If[
+            rotatePoly, \[IndentingNewLine]{Theta, newPoly} = 
+              makePolygonVerticallyUnique[
+                newPoly]\[IndentingNewLine]]; \
+\[IndentingNewLine]sortedCoordRules = 
+            Sort[\((C[#1[\([1]\)]] \[Rule] #1[\([2]\)] &)\) /@ 
+                Transpose[{Table[i, {i, 1, Length[newPoly]}], 
+                    newPoly}], #1[\([2, 2]\)] > #2[\([2, 
+                        2]\)] || #1[\([2, 1]\)] < #2[\([2, 1]\)] && #1[\([2, 
+                          2]\)] == #2[\([2, 2]\)] &]; {maxVertex, 
+              minVertex} = {sortedCoordRules[\([1, 1, 1]\)], 
+              sortedCoordRules[\([n, 1, 1]\)]}; 
+          If[minVertex > maxVertex, 
+            onLeftChainQ[v_] := 
+              If[v \[LessEqual] minVertex && v \[GreaterEqual] maxVertex, 
+                True, False]; 
+            onRightChainQ[v_] := 
+              If[v \[GreaterEqual] minVertex || v \[LessEqual] maxVertex, 
+                True, False], 
+            onLeftChainQ[v_] := 
+              If[v \[GreaterEqual] maxVertex || v \[LessEqual] minVertex, 
+                True, False]; 
+            onRightChainQ[v_] := 
+              If[v \[LessEqual] maxVertex && v \[GreaterEqual] minVertex, 
+                True, False]]; 
+          whichChain[v_] := If[onLeftChainQ[v], leftChain, rightChain]; 
+          strictlyConvex[v_] := 
+            Module[{vMinus = Mod[v - 2, n] + 1, vPlus = Mod[v, n] + 1, a, b, 
+                c}, a = C[vMinus] //. \[InvisibleSpace]sortedCoordRules; 
+              b = C[v] //. \[InvisibleSpace]sortedCoordRules; 
+              c = C[vPlus] //. \[InvisibleSpace]sortedCoordRules; 
+              Return[a[\([1]\)]\ b[\([2]\)] - a[\([2]\)]\ b[\([1]\)] + 
+                    a[\([2]\)]\ c[\([1]\)] - a[\([1]\)]\ c[\([2]\)] + 
+                    b[\([1]\)]\ c[\([2]\)] - b[\([2]\)]\ c[\([1]\)] > 0]]; 
+          reflexChain = {sortedCoordRules[\([1, 1, 1]\)], 
+              sortedCoordRules[\([2, 1, 1]\)]}; vertexCounter = 3; 
+          currentVertex = sortedCoordRules[\([vertexCounter, 1, 1]\)]; 
+          While[currentVertex != minVertex, 
+            currentChain = whichChain[reflexChain[\([\(-1\)]\)]]; 
+            Switch[currentChain === whichChain[currentVertex], \nFalse, 
+              connectorRules = {connectorRules, 
+                  Polygon[\((C[#1] &)\) /@ {currentVertex, 
+                          reflexChain[\([2]\)], 
+                          reflexChain[\([1]\)]}] \
+//. \[InvisibleSpace]sortedCoordRules}; reflexChain = Drop[reflexChain, 1]; 
+              If[Length[reflexChain] == 1, 
+                reflexChain = 
+                  Join[reflexChain, {currentVertex}]; \(++vertexCounter\); 
+                currentVertex = 
+                  sortedCoordRules[\([vertexCounter, 1, 1]\)]], \nTrue, 
+              If[strictlyConvex[Last[reflexChain]], 
+                connectorRules = {connectorRules, 
+                    Polygon[\((C[#1] &)\) /@ {currentVertex, 
+                            reflexChain[\([\(-1\)]\)], 
+                            reflexChain[\([\(-2\)]\)]}] \
+//. \[InvisibleSpace]sortedCoordRules}; 
+                reflexChain = Drop[reflexChain, \(-1\)]; 
+                If[Length[reflexChain] == 1, 
+                  reflexChain = 
+                    Join[reflexChain, {currentVertex}]; \(++vertexCounter\); 
+                  currentVertex = 
+                    sortedCoordRules[\([vertexCounter, 1, 1]\)]], 
+                reflexChain = 
+                  Join[reflexChain, {currentVertex}]; \(++vertexCounter\); 
+                currentVertex = 
+                  sortedCoordRules[\([vertexCounter, 1, 1]\)]]]]; 
+          While[Length[reflexChain] > 1, 
+            connectorRules = {connectorRules, 
+                Polygon[\((C[#1] &)\) /@ {minVertex, 
+                        reflexChain[\([\(-1\)]\)], 
+                        reflexChain[\([\(-2\)]\)]}] \
+//. \[InvisibleSpace]sortedCoordRules}; 
+            reflexChain = Drop[reflexChain, \(-1\)]]; 
+          newPoly = \((#1[\([1]\)] &)\) /@ 
+              Flatten[connectorRules]; \
+\[IndentingNewLine]\[IndentingNewLine]If[Depth[newPoly] == 3, 
+            newPoly = {newPoly}]; \[IndentingNewLine]If[
+            Theta \[NotEqual] 0, \[IndentingNewLine]newPoly = 
+              Map[{{Cos[\(-Theta\)], \(-Sin[\(-Theta\)]\)}, {Sin[\(-Theta\)], 
+                        Cos[\(-Theta\)]}} . #1 &, 
+                newPoly, {2}]\[IndentingNewLine]]; \[IndentingNewLine]Return[\
+\(replacePolygonNodesByOriginals[poly, #] &\) /@ 
+              newPoly]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsTriangulatePolygon", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsTriangulatePolygon[imsPolygon[poly_]] := \(imsPolygon[#] &\) /@ 
+          imsTriangulatePolygon[poly];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsTriangulatePolygon[Line[poly_]] := \(Line[#] &\) /@ 
+          imsTriangulatePolygon[poly];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsTriangulatePolygon[
+          polyList : {\((_Line | _Polygon | {{_, _} .. } | {{_, _, _} .. })\) \
+.. }, rotatePoly_:  True] := \(imsTriangulatePolygon[#, rotatePoly] &\) /@ 
+          polyList;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsTriangulatePolygon[
+          poly : {{_, _} .. }] := \[IndentingNewLine]Module[{newPoly, 
+            Theta}, \[IndentingNewLine]{Theta, newPoly} = 
+            makePolygonVerticallyUnique[poly]; \[IndentingNewLine]newPoly = 
+            imsMonotoneSplitPolygon[newPoly, 
+              False]; \[IndentingNewLine]newPoly = 
+            Join @@ \((\(imsTriangulateMonotonePolygon[#, 
+                      False] &\) /@ \[IndentingNewLine]newPoly)\); \
+\[IndentingNewLine]If[Depth[newPoly] == 3, 
+            newPoly = {newPoly}]; \[IndentingNewLine]If[
+            Theta \[NotEqual] 0, \[IndentingNewLine]newPoly = 
+              Map[{{Cos[\(-Theta\)], \(-Sin[\(-Theta\)]\)}, {Sin[\(-Theta\)], 
+                        Cos[\(-Theta\)]}} . #1 &, 
+                newPoly, {2}]\[IndentingNewLine]]; \[IndentingNewLine]Return[\
+\(replacePolygonNodesByOriginals[poly, #] &\) /@ 
+              newPoly]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell["\<\
+Trick, for 3D, find the dominant 2 coordinates, and run the \
+triangulation through the 2D algorithm! No need to project, and very high \
+speed.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(imsTriangulatePolygon[
+          poly : {{_, _, _} .. }] := \[IndentingNewLine]Module[{poly2D, 
+            vertexRules, ranges, polyTranspose, 
+            retainCoordinates}, \[IndentingNewLine]polyTranspose = 
+            Transpose[
+              poly]; \[IndentingNewLine]ranges = \((\(Max[#] &\) /@ 
+                  polyTranspose)\) - \((\(Min[#] &\) /@ 
+                  polyTranspose)\); \[IndentingNewLine]retainCoordinates = \
+\[IndentingNewLine]Complement[{1, 2, 3}, 
+              Flatten[Position[ranges, 
+                  Min[ranges]]]]; \[IndentingNewLine]poly2D = \
+\(\((#[\([retainCoordinates]\)])\) &\) /@ 
+              poly; \[IndentingNewLine]vertexRules = \(\((Rule @@ #)\) &\) /@ 
+              Transpose[{poly2D, 
+                  poly}]; \[IndentingNewLine]imsTriangulatePolygon[poly2D] /. 
+            vertexRules\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{859, 785},
+WindowMargins->{{96, Automatic}, {Automatic, 96}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 35, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1836, 57, 31, 0, 74, "Section"],
+Cell[1870, 59, 2196, 36, 475, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4103, 100, 32, 0, 44, "Section"],
+Cell[4138, 102, 191, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4366, 112, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[4443, 116, 26, 0, 38, "Subsection"],
+Cell[4472, 118, 4417, 78, 1275, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8926, 201, 36, 0, 30, "Subsection"],
+Cell[8965, 203, 173, 4, 59, "Input",
+  InitializationCell->True],
+Cell[9141, 209, 1074, 19, 203, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10264, 234, 32, 0, 44, "Section"],
+Cell[10299, 236, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10424, 243, 42, 0, 44, "Section"],
+Cell[10469, 245, 412, 8, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10918, 258, 26, 0, 44, "Section"],
+Cell[10947, 260, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11163, 269, 27, 0, 44, "Section"],
+Cell[11193, 271, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11309, 278, 29, 0, 44, "Section"],
+Cell[11341, 280, 921, 19, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12299, 304, 41, 0, 44, "Section"],
+Cell[12343, 306, 489, 9, 91, "Input",
+  InitializationCell->True],
+Cell[12835, 317, 165, 3, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[13025, 324, 40, 0, 28, "Subsubsection"],
+Cell[13068, 326, 174, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13279, 334, 40, 0, 22, "Subsubsection"],
+Cell[13322, 336, 227, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13586, 346, 38, 0, 22, "Subsubsection"],
+Cell[13627, 348, 258, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13922, 358, 32, 0, 22, "Subsubsection"],
+Cell[13957, 360, 1438, 25, 283, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15432, 390, 38, 0, 22, "Subsubsection"],
+Cell[15473, 392, 600, 12, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16110, 409, 43, 0, 22, "Subsubsection"],
+Cell[16156, 411, 8935, 152, 2059, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25140, 569, 55, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[25220, 573, 135, 3, 56, "Subsection"],
+Cell[25358, 578, 256, 5, 43, "Input",
+  InitializationCell->True],
+Cell[25617, 585, 1132, 20, 267, "Input",
+  InitializationCell->True],
+Cell[26752, 607, 165, 3, 27, "Input",
+  InitializationCell->True],
+Cell[26920, 612, 658, 12, 107, "Input",
+  InitializationCell->True],
+Cell[27581, 626, 703, 13, 123, "Input",
+  InitializationCell->True],
+Cell[28287, 641, 325, 6, 59, "Input",
+  InitializationCell->True],
+Cell[28615, 649, 205, 4, 27, "Input",
+  InitializationCell->True],
+Cell[28823, 655, 822, 15, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29682, 675, 45, 0, 30, "Subsection"],
+Cell[29730, 677, 469, 10, 75, "Input"],
+Cell[30202, 689, 707, 14, 139, "Input",
+  InitializationCell->True],
+Cell[30912, 705, 24713, 420, 4363, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55662, 1130, 39, 0, 30, "Subsection"],
+Cell[55704, 1132, 516, 10, 107, "Input",
+  InitializationCell->True],
+Cell[56223, 1144, 1551, 28, 347, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[57811, 1177, 51, 0, 30, "Subsection"],
+Cell[57865, 1179, 709, 14, 139, "Input",
+  InitializationCell->True],
+Cell[58577, 1195, 5777, 103, 891, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[64391, 1303, 43, 0, 30, "Subsection"],
+Cell[64437, 1305, 605, 11, 107, "Input",
+  InitializationCell->True],
+Cell[65045, 1318, 987, 17, 203, "Input",
+  InitializationCell->True],
+Cell[66035, 1337, 168, 4, 54, "Text"],
+Cell[66206, 1343, 929, 17, 171, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[67184, 1366, 30, 0, 44, "Section"],
+Cell[67217, 1368, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[67366, 1375, 30, 0, 44, "Section"],
+Cell[67399, 1377, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

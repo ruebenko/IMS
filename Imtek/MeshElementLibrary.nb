@@ -1,0 +1,2223 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     86715,       1917]*)
+(*NotebookOutlinePosition[     87379,       1940]*)
+(*  CellTagsIndexPosition[     87335,       1936]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MeshElementLibrary Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ MeshElementLibrary . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 21.3  .2006, \ 
+      Freiburg\ on\ the\ way\ to\ Leipzig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        elements\ for\ graph\ package\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.4  .6\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]Added\ Chop\ and\ delta\ in\ \
+imsInsideElementQ; \[IndentingNewLine]Added\ imsInsideElementQ; \
+\[IndentingNewLine]Bug\ fix\ in\ imsDrawElement\ for\ imsLineQuadratic; \
+\[IndentingNewLine]Added\ drawing\ of\ quadratic\ tets\ and\ hexes; \
+\[IndentingNewLine]Intorduced\ more\ elements\ and\ new\ functionality; \
+\[IndentingNewLine]Bug\ fix\ in\ SetIncidentIds; \[IndentingNewLine]Changed\ \
+the\ element\ names; \[IndentingNewLine]Added\ 1  
+        DOF\ quadratic\ triangle\ Serendepity\ and\ 2  
+        DOF\ linear\ triangle; \[IndentingNewLine]Public\ export\ of\ \
+construtor\ symbols;\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      elements\ for\ graph\ package\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Plublic\ import\ of\ other\ packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      to\ avoid\ name\ conflics\ we\ load\ Nodes`\ *) \)\(\[IndentingNewLine]\
+\)\(BeginPackage[\ "\<Imtek`MeshElementLibrary`\>", \ "\<Imtek`Nodes`\>", \ "\
+\<Imtek`Graph`\>"\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Needs["\<Imtek`Maintenance`\>"]\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeTriangleLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeQuadLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeTriangleLinear2DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeTriangleQuadratic1DOFSerendipity, \ $Context\ ];\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeTetrahedronLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MakeHexahedronLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangleLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        QuadLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangleLinear2DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangleQuadratic1DOFSerendipity, \ $Context\ ];\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TetrahedronLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TriangleLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        QuadLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        HexahedronLinear1DOF, \ $Context\ ];\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(imsCreateObsoleteFunctionInterface[\ 
+          GetIds, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(imsCreateObsoleteFunctionInterface[\ 
+          
+          GetIncidentsIds, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(imsCreateObsoleteFunctionInterface[\ 
+          GetMarkers, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(imsCreateObsoleteFunctionInterface[\ 
+          GetDatas, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SetIds, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SetIncidentsIds, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SetMarkers, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SetDatas, \ $Context\ \
+];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MeshElementQ, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        RefinableElementQ, \ $Context\ ];\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ElementSplitRule, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ElementIncidents, \ $Context\ ];\)\(\[IndentingNewLine]\)
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MeshElements, \ $Context\ ];\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\(imsCreateObsoleteFunctionInterface[\ 
+          DrawElements, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(imsCreateObsoleteFunctionInterface[\ 
+          DrawElementIdText, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(imsCreateObsoleteFunctionInterface[\ 
+          DrawElementSolution, \ $Context\ ];\)\ *) \)\(\[IndentingNewLine]\)\
+\(\[IndentingNewLine]\)\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)
+    \( (*\ *) \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["1D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 1  D\ elements\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeLineLinear1DOF::usage\  \
+= \ "\<imsMakeLineLinear1DOF[ id, nodeIds, marker, data ] returns a \
+imsLineLinear1DOF with Integer id and a List of nodeIdes. Marker defaults to \
+0. Optionally data can be given.\>";\)\[IndentingNewLine]
+    \(imsLineLinear1DOF::usage\  = \ "\<imsLineLinear1DOF is the \
+datastructure returned by imsMakeLineLinear1DOF.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ quadratic\ *) \[IndentingNewLine]
+    \(imsMakeLineQuadratic1DOF::usage\  = \ "\<imsMakeLineQuadratic1DOF[ id, \
+nodeIds, marker, data ] returns a imsLineQuadratic1DOF with Integer id and a \
+List of nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\
+\[IndentingNewLine]
+    \(imsLineQuadratic1DOF::usage\  = "\<imsLineQuadratic1DOF is the \
+datastructure returned by imsMakeLineQuadratic1DOF.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ cubic\ *) \[IndentingNewLine]
+    \(imsMakeLineCubic1DOF::usage\  = \ "\<imsMakeLineCubic1DOF[ id, nodeIds, \
+marker, data ] returns a imsLineCubic1DOF with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\
+\[IndentingNewLine]
+    \(imsLineCubic1DOF::usage\  = "\<imsLineCubic1DOF is the datastructure \
+returned by imsMakeLineCubic1DOF.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["2D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      2  D\ elements\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)\(\(\
+imsMakeTriangleLinear1DOF::usage = "\<imsMakeTriangleLinear1DOF[ id, nodeIds, \
+marker, data ] returns a imsTriangleLinear1DOF with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\(\
+\[IndentingNewLine]\)
+    \(imsTriangleLinear1DOF::usage\  = \ "\<imsTriangleLinear1DOF is the \
+datastructure returned by imsMakeTriangleLinear1DOF.\>";\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsMakeQuadLinear1DOF::usage = "\<imsMakeQuadLinear1DOF[ id, nodeIds, \
+marker, data ] returns a imsQuadLinear1DOF with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\(\
+\[IndentingNewLine]\)
+    \(imsQuadLinear1DOF::usage\  = \ "\<imsQuadLinear1DOF is the \
+datastructure returned by imsMakeQuadLinear1DOF.\>";\)\(\[IndentingNewLine]\)\
+\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      2\ DOF\ *) \)\(\[IndentingNewLine]\)
+    \(imsMakeTriangleLinear2DOF::usage\  = \ "\<imsMakeTriangleLinear2DOF[ \
+id, nodeIds, marker, data ] returns a imsTriangleLinear2DOF with Integer id \
+and a List of nodeIdes. Marker defaults to 0. Optionally data can be \
+given.\>";\)\(\[IndentingNewLine]\)
+    \(imsTriangleLinear2DOF::usage "\<imsTriangleLinear2DOF is the \
+datastructure returned by imsMakeTriangleLinear2DOF.\>";\)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      quadratic\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1\ DOF\ *) \)\(\[IndentingNewLine]\)
+    \(imsMakeTriangleQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsMakeTriangleQuadratic1DOFSerendipity[ id, nodeIds, marker, data ] \
+returns a imsTriangleQuadratic1DOFSerendipity with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\(\
+\[IndentingNewLine]\)
+    \(imsTriangleQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsTriangleQuadratic1DOFSerendipity is the datastructure returned by \
+MakeSerendipityElement.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsMakeQuadQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsMakeQuadQuadratic1DOFSerendipity[ id, nodeIds, marker, data ] returns a \
+imsQuadQuadratic1DOFSerendipity with Integer id and a List of nodeIdes. \
+Marker defaults to 0. Optionally data can be \
+given.\>";\)\(\[IndentingNewLine]\)
+    \(imsQuadQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsQuadQuadratic1DOFSerendipity is the datastructure returned by \
+imsMakeQuadQuadratic1DOFSerendipity.\>";\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ cubic\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)
+    \( (*\[IndentingNewLine]imsMakeTriangleCubic1DOFSerendipity::usage\  = \ \
+"\<imsMakeTriangleCubic1DOFSerendipity[ id, nodeIds, marker, data ] returns a \
+imsTriangleCubic1DOFSerendipity with Integer id and a List of nodeIdes. \
+Marker defaults to 0. Optionally data can be given.\>"; \
+\[IndentingNewLine]imsTriangleCubi1DOFSerendipity::usage\  = \ \
+"\<imsTriangleCubi1DOFSerendipity is the datastructure returned by \
+imsMakeTriangleCubic1DOFSerendipity.\>"; \[IndentingNewLine]\
+\[IndentingNewLine]imsMakeQuadCubic1DOFSerendipity::usage\  = \ \
+"\<imsMakeQuadCubic1DOFSerendipity[ id, nodeIds, marker, data ] returns a \
+imsQuadCubic1DOFSerendipity with Integer id and a List of nodeIdes. Marker \
+defaults to 0. Optionally data can be given.\>"; \
+\[IndentingNewLine]imsQuadCubic1DOFSerendipity::usage\  = \ \
+"\<imsQuadCubic1DOFSerendipity is the datastructure returned by \
+imsMakeQuadCubic1DOFSerendipity.\>";\[IndentingNewLine]*) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["3D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 3  D\ elements\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1\ DOF\ *) \)\(\[IndentingNewLine]\)\(\(\
+imsMakeTetrahedronLinear1DOF::usage = "\<imsMakeTetrahedronLinear1DOF[ id, \
+nodeIds, marker, data ] returns a imsTetrahedronLinear1DOF with Integer id \
+and a List of nodeIdes. Marker defaults to 0. Optionally data can be \
+given.\>";\)\[IndentingNewLine]
+    \(imsTetrahedronLinear1DOF::usage\  = \ "\<imsTetrahedronLinear1DOF is \
+the datastructure returned by imsMakeTetrahedronLinear1DOF.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeHexahedronLinear1DOF::usage = "\<imsMakeHexahedronLinear1DOF[ \
+id, nodeIds, marker, data ] returns a imsHexahedronLinear1DOF with Integer id \
+and a List of nodeIdes. Marker defaults to 0. Optionally data can be \
+given.\>";\)\[IndentingNewLine]
+    \(imsHexahedronLinear1DOF::usage\  = \ "\<imsHexahedronLinear1DOF is the \
+datastructure returned by imsMakeHexahedronLinear1DOF.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ quadratic\ *) \[IndentingNewLine]
+    \(imsMakeTetrahedronQuadratic1DOFSerendipity::usage = \
+"\<imsMakeTetrahedronQuadratic1DOFSerendipity[ id, nodeIds, marker, data ] \
+returns a imsTetrahedronQuadratic1DOFSerendipity with Integer id and a List \
+of nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\
+\[IndentingNewLine]
+    \(imsTetrahedronQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsTetrahedronLinear1DOFSerendipity is the datastructure returned by \
+imsMakeTetrahedronQuadratic1DOFSerendipity.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeHexahedronQuadratic1DOFSerendipity::usage = \
+"\<imsMakeHexahedronQuadratic1DOFSerendipity[ id, nodeIds, marker, data ] \
+returns a imsHexahedronQuadratic1DOFSerendipity with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\
+\[IndentingNewLine]
+    \(imsHexahedronQuadratic1DOFSerendipity::usage\  = \ \
+"\<imsHexahedronQuadratic1DOFSerendipity is the datastructure returned by \
+imsMakeHexahedronQuadratic1DOFSerendipity.\>";\)\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mixed 2D P2P1", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsMakeTriangleP2::usage\  = \ "\<imsMakeTriangleP2[ id, nodeIds, \
+marker, data ] returns a imsTriangleP2 with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(\(imsTriangleP2::usage\  = \ "\<imsTriangleP2 is the datastructure \
+returned by imsMakeTriangleP2.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsMakeTriangleP1::usage\  = \ "\<imsMakeTriangleP1[ id, nodeIds, \
+marker, data ] returns a imsTriangleP1 with Integer id and a List of \
+nodeIdes. Marker defaults to 0. Optionally data can be given.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsTriangleP1::usage\  = \ "\<imsTriangleP1 is the datastructure \
+returned by imsMakeTriangleP1.\>";\)\[IndentingNewLine]\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(imsP2P1TriangleSerendipityPrimary::usage = \
+"\<imsP2P1TriangleSerendipityPrimary is a symbol attached to a coupled P2P1 \
+element specifiing which is the primary element.\>";\)\), \
+"\[IndentingNewLine]", 
+    \(\(imsP2P1TriangleSerendipitySecondary::usage = \
+"\<imsP2P1TriangleSerendipityPrimary is a symbol attached to a coupled P2P1 \
+element specifiing which is the secondary element.\>";\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selectors", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\(imsGetIds::usage = \
+"\<imsGetIds[ elements ] returns the elements id.\>";\)\[IndentingNewLine]
+    \(imsGetIncidentsIds::usage = "\<imsGetIncidentsIds[ elements ] returns \
+the elements nodeIds.\>";\)\n
+    \(imsGetMarkers::usage = "\<imsGetMarkers[ elements ] returns the \
+elements marker.\>";\)\[IndentingNewLine]
+    \(imsGetDatas::usage = "\<imsGetDatas[ elements ] returns the element's \
+data, if any are present.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutators", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      mutators\ *) \)\(\[IndentingNewLine]\)\(\(imsSetIds::usage = \
+"\<imsSetIds[ element, newId ] returns the element with id replaced by newId.\
+\>";\)\[IndentingNewLine]
+    \(imsSetIncidentsIds::usage = "\<imsSetIncidentsIds[ element, \
+newIncidentsIds ] returns the element with incidentsIds replaced by \
+newIncidentsIds.\>";\)\[IndentingNewLine]
+    \(imsSetMarkers::usage = "\<imsSetMarkers[ element, newMarkers ] returns \
+the element with markers replaced by newMarkers.\>";\)\[IndentingNewLine]
+    \(imsSetDatas::usage = "\<imsSetDatas[ element, newDatas ] returns the \
+element with datas replaced by newDatas.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\(imsMeshElementQ::usage = \
+"\<imsMeshElementQ[ expr ] returns True if expr is a mesh element.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsRefinableElementQ::usage\  = \ "\<imsRefinableElementQ[ expr ] \
+returns True if an imsElementSplitRule exists.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsInsideElementQ::usage\  = "\<imsInsideElementQ[ elementCords, \
+testCoords, delta ] returns True if testCoords are in elementCoords. \
+Precision can be controlled with delta which defaults to \
+10-^10.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\(imsElementSplitRule::usage\  \
+= \ "\<imsElementSplitRule[ element ] returns a split rule for element.\>";\)\
+\[IndentingNewLine]
+    \(imsElementIncidents::usage\  = \ "\<imsElementIncidents[ element ] \
+returns the number of incidents an element can \
+carry.\>";\)\[IndentingNewLine]
+    imsMeshElements::usage = "\<imsMeshElements[] returns a List of all \
+available mesh elements.\>"\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPrimaryElement::usage = "\<imsPrimaryElement[ element ] returns the \
+primary element for a couppled element.\>";\)\[IndentingNewLine]
+    \(imsSecondaryElement::usage\  = "\<imsSecondaryElement[ element ] \
+returns the secondary element for a couppled \
+element.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementFamily::usage\  = \ "\<imsElementFamily[ element ] returns \
+the element family type an element belongs to.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements::usage = \
+"\<imsDrawElements[ element, nodes ] will draw the element consisting of \
+nodes.\>";\)\[IndentingNewLine]
+    \(imsDrawElementIdText::usage = "\<imsDrawElementIdText[ element, nodes ] \
+will draw the element's id as text. The element is made up from nodes.\>";\)\
+\[IndentingNewLine]
+    \(imsDrawElementSolution::usage = "\<imsDrawElementSolution[ element, \
+part, nodes ] will draw part of the solution contained in nodes over the \
+corresponding element. part defaults to Sequence[ 1 ].\>";\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ doc\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsDrawElementSolution::"\<nimpl\>" = "\<This \
+functionality is not yet implemented.\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["1D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 1  D\ elements\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeLineLinear1DOF[\ 
+          id_Integer, nodesIds_List, \ marker_Integer:  0, \ 
+          datas___\ ]\  := \ 
+        imsLineLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      quadratic\ *) \[IndentingNewLine]
+    \(imsMakeLineQuadratic1DOF[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsLineQuadratic1DOF[\ id, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      cubic\ *) \[IndentingNewLine]
+    \(imsMakeLineCubic1DOF[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsLineCubic1DOF[\ id, \ nodesIds, \ marker, \ 
+          datas\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["2D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      2  D\ elements\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeTriangleLinear1DOF[\ 
+          id_Integer, nodesIds_List, \ marker_Integer:  0, \ 
+          datas___\ ]\  := \ 
+        imsTriangleLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          datas\ ];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsMakeQuadLinear1DOF[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsQuadLinear1DOF[\ id, \ nodesIds, \ \ marker, \ 
+          datas\ ];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      2\ DOF\ *) \)\(\[IndentingNewLine]\)
+    \(imsMakeTriangleLinear2DOF[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTriangleLinear2DOF[\ id, nodesIds, \ marker, \ 
+          datas\ ];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      quadratic\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)
+    \(imsMakeTriangleQuadratic1DOFSerendipity[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsMakeQuadQuadratic1DOFSerendipity[\ id_Integer, nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ];\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      cubic\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)
+    \( (*\[IndentingNewLine]imsMakeTriangleCubic1DOFSerendipity[\ id_Integer, 
+          nodesIds_List, \ marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]imsMakeQuadCubic1DOFSerendipity[\ 
+          id_Integer, nodesIds_List, \ marker_Integer:  0, \ 
+          datas___\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ];\[IndentingNewLine]*) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["3D", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 3  D\ elements\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      linear\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      1  DOF\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeTetrahedronLinear1DOF[\ 
+          id_Integer, \ nodesIds_List, \ marker_Integer:  0, \ 
+          datas___\ ]\  := \ 
+        imsTetrahedronLinear1DOF[\ id, \ nodesIds, \ \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeHexahedronLinear1DOF[\ id_Integer, \ nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsHexahedronLinear1DOF[\ id, \ nodesIds, \ \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      quadratic\ *) \[IndentingNewLine] (*\ 1  DOF\ *) \[IndentingNewLine]
+    \(imsMakeTetrahedronQuadratic1DOFSerendipity[\ id_Integer, 
+          nodesIds_List, \ marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTetrahedronQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeHexahedronQuadratic1DOFSerendipity[\ id_Integer, 
+          nodesIds_List, \ marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsHexahedronQuadratic1DOFSerendipity[\ id, nodesIds, \ marker, \ 
+          datas\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mixed 2D P2P1", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsMakeTriangleP2[\ id_Integer, \ nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTriangleP2[\ id, \ nodesIds, \ \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsMakeTriangleP1[\ id_Integer, \ nodesIds_List, \ 
+          marker_Integer:  0, \ datas___\ ]\  := \ 
+        imsTriangleP1[\ id, \ nodesIds, \ \ marker, \ datas\ ];\)\)}], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(Needs[\ "\<Imtek`Polygon`\>"\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\(\(SetAttributes[\ 
+        imsGetIncidentsIds, \ 
+        Listable\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]imsGetIds[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        nodesIds; \[IndentingNewLine]imsGetMarkers[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        marker; \[IndentingNewLine]imsGetDatas[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas; \[IndentingNewLine]\[IndentingNewLine]imsGetIds[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        id; \[IndentingNewLine]imsGetIncidentsIds[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        nodesIds; \[IndentingNewLine]imsGetMarkers[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ 
+        marker; \[IndentingNewLine]imsGetDatas[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ datas_\ ]\ ]\  := \ 
+        datas;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetIds[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ id;\)\[IndentingNewLine]
+    \(imsGetIncidentsIds[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ nodesIds;\)\[IndentingNewLine]
+    \(imsGetMarkers[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ]\ ]\  := \ marker;\)\[IndentingNewLine]
+    \(imsGetDatas[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ datas_\ ]\ ]\  := \ 
+        datas;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mutators", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      mutatros\ *) \)\(\[IndentingNewLine]\)\(\(SetAttributes[\ imsSetIds, \ 
+        Listable\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ elem_List, \ new_List\ ]\  := \ 
+        MapThread[\ 
+          imsSetIncidentsIds, \ {\ elem, \ new\ }\ ];\)\[IndentingNewLine]
+    \(SetAttributes[\ imsSetMarkers, \ Listable\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ elem_List, \ new_List\ ]\  := \ 
+        MapThread[\ 
+          imsSetDatas, \ {\ elem, \ 
+            new\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsLineLinear1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsLineLinear1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsLineLinear1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsLineLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsLineLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsLineQuadratic1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsLineQuadratic1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsLineQuadratic1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsLineQuadratic1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsLineQuadratic1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsLineCubic1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsLineCubic1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsLineCubic1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsLineCubic1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsLineCubic1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTriangleLinear1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleLinear1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTriangleLinear1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTriangleLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsQuadLinear1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsQuadLinear1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ new, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsQuadLinear1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsQuadLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsQuadLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleLinear2DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleLinear2DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTriangleLinear2DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTriangleLinear2DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleLinear2DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTriangleQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleQuadratic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsQuadQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsQuadQuadratic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]imsSetIds[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleCubic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ]; \[IndentingNewLine]imsSetIncidentsIds[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleCubic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ]; \[IndentingNewLine]imsSetMarkers[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTriangleCubic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ]; \[IndentingNewLine]imsSetDatas[\ 
+          imsTriangleCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTriangleCubic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ]; \[IndentingNewLine]\[IndentingNewLine]imsSetIds[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsQuadCubic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ]; \[IndentingNewLine]imsSetIncidentsIds[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsQuadCubic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ]; \[IndentingNewLine]imsSetMarkers[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsQuadCubic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ]; \[IndentingNewLine]imsSetDatas[\ 
+          imsQuadCubic1DOFSerendipity[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsQuadCubic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTetrahedronLinear1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTetrahedronLinear1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTetrahedronLinear1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTetrahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsTetrahedronLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsHexahedronLinear1DOF[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsHexahedronLinear1DOF[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_Integer\ ]\  := \ 
+        imsHexahedronLinear1DOF[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsHexahedronLinear1DOF[\ id_, \ nodesIds_, \ marker_, \ 
+            datas___\ ], \ new_\ ]\  := \ 
+        imsHexahedronLinear1DOF[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsTetrahedronQuadratic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTetrahedronQuadratic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_Integer\ ]\  := \ 
+        imsTetrahedronQuadratic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTetrahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsTetrahedronQuadratic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsHexahedronQuadratic1DOFSerendipity[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsHexahedronQuadratic1DOFSerendipity[\ id, \ new, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_Integer\ ]\  := \ 
+        imsHexahedronQuadratic1DOFSerendipity[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsHexahedronQuadratic1DOFSerendipity[\ id_, \ nodesIds_, \ 
+            marker_, \ datas___\ ], \ new_\ ]\  := \ 
+        imsHexahedronQuadratic1DOFSerendipity[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsTriangleP2[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleP2[\ id, \ new, \ marker, \ datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsTriangleP2[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTriangleP2[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsTriangleP2[\ id, \ nodesIds, \ marker, \ 
+          new\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSetIds[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsTriangleP1[\ new, \ nodesIds, \ marker, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetIncidentsIds[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new : List[\ _Integer .. \ ]\ ]\  := \ 
+        imsTriangleP1[\ id, \ new, \ marker, \ datas\ ];\)\[IndentingNewLine]
+    \(imsSetMarkers[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_Integer\ ]\  := \ 
+        imsTriangleP1[\ id, \ nodesIds, \ new, \ 
+          datas\ ];\)\[IndentingNewLine]
+    \(imsSetDatas[\ 
+          imsTriangleP1[\ id_, \ nodesIds_, \ marker_, \ datas___\ ], \ 
+          new_\ ]\  := \ 
+        imsTriangleP1[\ id, \ nodesIds, \ marker, \ new\ ];\)\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\(imsMeshElementQ[\ \
+_imsLineLinear1DOF\ ]\  := \ True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsLineQuadratic1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsLineCubic1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTriangleLinear1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTriangleLinear2DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsQuadLinear1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTriangleQuadratic1DOFSerendipity\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsQuadQuadratic1DOFSerendipity\ ]\  := \ 
+        True;\)\[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]imsMeshElementQ[\ _imsTriangleCubic1DOFSerendipity\ ]\  \
+:= \ True; \[IndentingNewLine]imsMeshElementQ[\ _imsQuadCubic1DOFSerendipity\ \
+]\  := \ True;\[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTetrahedronLinear1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsHexahedronLinear1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTetrahedronQuadratic1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsHexahedronQuadratic1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTriangleP2\ ]\  := \ True;\)\[IndentingNewLine]
+    \(imsMeshElementQ[\ _imsTriangleP1\ ]\  := \ 
+        True;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshElementQ[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(RefinableElement[\ _imsTriangleLinear1DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(RefinableElement[\ _imsTriangleLinear2DOF\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(RefinableElement[\ ___\ ]\  := \ 
+        False;\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      line\ *) \[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_}, \ b : {_}, \ ___\ }, \ testPoint_, \ 
+        delta_:  10^\(-10\)\ ] := 
+      Chop[\ \(Min[\ #, \ 1 - #\ ] &\)[\ 
+            LinearSolve[\ 
+              Join[\ Transpose[\ {a, b\ }\ ], \ {\ {\ 1. , 1. \ }\ }\ ], \ 
+              Join[\ testPoint, \ {1. }\ ]\ ]\ ], \ 
+          delta\ ] \[GreaterEqual] \ 
+        0\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      triangle\ *) \[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _}, \ b : {_, _}, \ c : {_, _}\ }, \ 
+        testPoint_, \ delta_:  10^\(-10\)\ ] := 
+      Chop[\ \(Min[\ #, \ 1 - #\ ] &\)[\ 
+            LinearSolve[\ 
+              Join[\ Transpose[\ {a, b, c}\ ], \ {\ {\ 1. , 1. , 
+                    1. \ }\ }\ ], \ Join[\ testPoint, \ {1. }\ ]\ ]\ ], \ 
+          delta\ ] \[GreaterEqual] \ 0\[IndentingNewLine]\[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _}, \ b : {_, _}, \ 
+          c : {_, _}, _, _, _\ }, \ testPoint_, \ delta_:  10^\(-10\)\ ] := 
+      Chop[\ \(Min[\ #, \ 1 - #\ ] &\)[\ 
+            LinearSolve[\ 
+              Join[\ Transpose[\ {a, b, c}\ ], \ {\ {\ 1. , 1. , 
+                    1. \ }\ }\ ], \ Join[\ testPoint, \ {1. }\ ]\ ]\ ], \ 
+          delta\ ] \[GreaterEqual] \ 
+        0\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      quad\ *) \[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _}, \ b : {_, _}, \ c : {_, _}, \ 
+          d : {_, _}\ }, \ testPoint_, \ delta_:  10^\(-10\)\ ] := 
+      Or[\ imsInsideElementQ[\ {a, b, c}, \ testPoint, \ delta\ ], \ 
+        imsInsideElementQ[\ {a, c, d}, \ testPoint, \ 
+          delta\ ]\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _}, \ b : {_, _}, \ c : {_, _}, \ 
+          d : {_, _}, \ _, \ _, \ _, \ _\ }, \ testPoint_, \ 
+        delta_:  10^\(-10\)\ ] := 
+      Or[\ imsInsideElementQ[\ {a, b, c}, \ testPoint, \ delta\ ], \ 
+        imsInsideElementQ[\ {a, c, d}, \ testPoint, \ 
+          delta\ ]\ ]\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      tet\ *) \[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _, _}, \ b : {_, _, _}, \ c : {_, _, _}, \ 
+          d : {_, _, _}\ }, \ testPoint_, \ delta_:  10^\(-10\)\ ] := 
+      Chop[\ \(Min[\ #, \ 1 - #\ ] &\)[\ 
+            LinearSolve[\ 
+              Join[\ Transpose[\ {a, b, c, \ d}\ ], \ {\ {\ 1. , 1. , 1. , 
+                    1. \ }\ }\ ], \ Join[\ testPoint, \ {1. }\ ]\ ]\ ], \ 
+          delta\ ] \[GreaterEqual] \ 0\[IndentingNewLine]\[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _, _}, \ b : {_, _, _}, \ c : {_, _, _}, \ 
+          d : {_, _, _}, \ _, \ _, \ _, \ _, \ _, \ _\ }, \ testPoint_, \ 
+        delta_:  10^\(-10\)\ ] := 
+      Chop[\ \(Min[\ #, \ 1 - #\ ] &\)[\ 
+            LinearSolve[\ 
+              Join[\ Transpose[\ {a, b, c, \ d}\ ], \ {\ {\ 1. , 1. , 1. , 
+                    1. \ }\ }\ ], \ Join[\ testPoint, \ {1. }\ ]\ ]\ ], \ 
+          delta\ ] \[GreaterEqual] \ 
+        0\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      hex\ *) \[IndentingNewLine]
+    imsInsideElementQ[\ {a : {_, _, _}, \ b : {_, _, _}, \ c : {_, _, _}, \ 
+          d : {_, _, _}, \ e : {_, \ _, \ _}, \ f : {_, _, _}, \ 
+          g : {_, _, _}, \ h : {_, _, _}, \ ___\ }, \ testPoint_, \ 
+        delta_:  10^\(-10\)\ ] := \ 
+      Or[\ \[IndentingNewLine]imsInsideElementQ[\ {e, \ f, \ h, \ a\ }, \ 
+          testPoint, \ 
+          delta\ ], \[IndentingNewLine]imsInsideElementQ[\ {f, \ g, \ h, \ 
+            c\ }, \ testPoint, \ 
+          delta\ ], \[IndentingNewLine]imsInsideElementQ[\ {h, \ a, \ c, \ 
+            d\ }, \ testPoint, \ 
+          delta\ ], \[IndentingNewLine]imsInsideElementQ[\ {f, \ b, \ c, \ 
+            a\ }, \ testPoint, \ 
+          delta\ ], \[IndentingNewLine]imsInsideElementQ[\ {h, \ f, \ c, \ 
+            a\ }, \ testPoint, \ delta\ ]\[IndentingNewLine]]\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsElementIncidents[\ imsLineLinear1DOF\ ]\  = \ 
+        2;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsLineQuadratic1DOF\ ]\  = \ 
+        3;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsLineCubic1DOF\ ]\  = \ 4;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTriangleLinear1DOF\ ]\  = \ 
+        3;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTriangleLinear2DOF\ ]\  = \ 
+        6;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsQuadLinear1DOF\ ]\  = \ 
+        4;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTriangleQuadratic1DOFSerendipity\ ]\  = \ 
+        6;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsQuadQuadratic1DOFSerendipity\ ]\  = \ 
+        8;\)\[IndentingNewLine] (*\[IndentingNewLine]imsElementIncidents[\ 
+          imsTriangleCubic1DOFSerendipity\ ]\  = \ 
+        7; \[IndentingNewLine]imsElementIncidents[\ 
+          imsQuadCubic1DOFSerendipity\ ]\  = \ \((Print["\<Check: \
+ElementIncidents for quad cubic\>"]; 
+          9)\);\[IndentingNewLine]*) \[IndentingNewLine]
+    \(imsElementIncidents[\ imsTetrahedronLinear1DOF\ ]\  = \ 
+        4;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsHexahedronLinear1DOF\ ]\  = \ 
+        8;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTetrahedronQuadratic1DOFSerendipity\ ]\  = \ 
+        10;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsHexahedronQuadratic1DOFSerendipity\ ]\  = \ 
+        20;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTriangleP2\ ]\  = \ 6;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsTriangleP1\ ]\  = \ 
+        3;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementIncidents[\ imsP2P1TriangleSerendipityPrimary\ ]\  = \ 
+        6;\)\[IndentingNewLine]
+    \(imsElementIncidents[\ imsP2P1TriangleSerendipitySecondary\ ]\  = \ 
+        3;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPrimaryElement[\ imsTriangleP2\ ]\  := \ 
+        imsP2P1TriangleSerendipityPrimary;\)\[IndentingNewLine]
+    \(imsSecondaryElement[\ imsTriangleP2\ ]\  := \ 
+        imsP2P1TriangleSerendipitySecondary;\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMeshElements[]\  := \ {\ imsLineLinear1DOF, \ 
+          imsLineQuadratic1DOF, \ imsLineCubic1DOF, \ 
+          imsTriangleLinear1DOF, \ imsTriangleLinear2DOF, \ 
+          imsQuadLinear1DOF, \ imsTriangleQuadratic1DOFSerendipity, \ 
+          imsQuadQuadratic1DOFSerendipity, \ \ imsTetrahedronLinear1DOF, \ 
+          imsHexahedronLinear1DOF, \ 
+          imsTetrahedronQuadratic1DOFSerendipity, \ 
+          imsHexahedronQuadratic1DOFSerendipity, \ imsTriangleP2, \ 
+          imsTriangleP1\ };\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementFamily[\ 
+          imsLineLinear1DOF\ ]\  = \ \(imsElementFamily[\ 
+            imsLineQuadratic1DOF\ ]\  = \ \(imsElementFamily[\ 
+              imsLineCubic1DOF\ ]\  = "\<imsLine\>"\)\);\)\[IndentingNewLine]
+    \(imsElementFamily[\ 
+          imsTriangleLinear1DOF\ ]\  = \ \(imsElementFamily[\ 
+            imsTriangleLinear2DOF\ ]\  = \ \(imsElementFamily[\ 
+              imsTriangleQuadratic1DOFSerendipity\ ]\  = \ \
+"\<imsTriangle\>"\)\);\)\[IndentingNewLine]
+    \(imsElementFamily[\ 
+          imsQuadLinear1DOF\ ]\  = \ \(imsElementFamily[\ 
+            imsQuadQuadratic1DOFSerendipity\ ]\  = \ "\<imsQuad\>"\);\)\
+\[IndentingNewLine]
+    \(imsElementFamily[\ 
+          imsTetrahedronLinear1DOF\ ]\  = \(imsElementFamily[\ 
+            imsTetrahedronQuadratic1DOFSerendipity\ ]\  = \ "\<imsTetrahedron\
+\>"\);\)\[IndentingNewLine]
+    \(imsElementFamily[\ 
+          imsHexahedronLinear1DOF\ ]\  = \ \(imsElementFamily[\ 
+            imsHexahedronQuadratic1DOFSerendipity\ ]\  = \ \
+"\<imsHexahedron\>"\);\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell["Element Split Rules", "Subsection",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors (reWork!)", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\(\(SetAttributes[\ 
+        imsDrawElementSolution, \ SequenceHold\ ];\)\[IndentingNewLine]
+    \(Default[\ imsDrawElementSolution, \ 2\ ]\  = \ 
+        Sequence[\ 1\ ];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Line", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      line\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          te_imsLineLinear1DOF, \ nodes_\ ] := \ 
+        Line[\ imsGetCoords[\ 
+              nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsLineLinear1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ 
+                nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                  0\ }\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsLineLinear1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Line[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ imsGetCoords[\ nodes\ ]\ \ ], \ {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes, \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ te_imsLineQuadratic1DOF, \ nodes_\ ] := \ 
+        Line[\ imsGetCoords[\ 
+              nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsLineQuadratic1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ 
+                nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                  0\ }\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsLineQuadratic1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Line[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ imsGetCoords[\ nodes\ ]\ ], \ {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes, \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ te_imsLineCubic1DOF, \ nodes_\ ] := \ 
+        Line[\ imsGetCoords[\ 
+              nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsLineCubic1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ 
+                nodes\ ] /. \ {x_?NumericQ}\  \[Rule] \ {\ x, \ 
+                  0\ }\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsLineCubic1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Line[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ imsGetCoords[\ nodes\ ]\ ], \ {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes, \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Triangle", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      triangle\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          te_imsTriangleLinear1DOF, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes\ ]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsTriangleLinear1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsTriangleLinear1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ 
+                  imsGetCoords[\ nodes\ ]\ ]\ \ ], \ {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes, \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Triangle 2DOF", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      imsTriangleLinear2DOF\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\
+\ te_imsTriangleLinear2DOF, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes\ ]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsDrawElementIdText[\ te_imsTriangleLinear2DOF, \ nodes_\ ]\  := \ 
+      Text[\ \ ToString[\ 
+          imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+          imsGetCoords[\ nodes[\([\ {\ 1, 2, 3}\ ]\)]\ ]\ ], \ {\ \(-1\), \ 
+          0\ }\ ]\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsTriangleLinear2DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Line[\ imsClosePolygon[\[IndentingNewLine]imsGetCoords[\ 
+                nodes\ ]\  + \ 
+              imsGetValues[\ nodes, \ 
+                part\ ]\ ]\ \[IndentingNewLine]];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quad", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      quad\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          qe_imsQuadLinear1DOF, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes\ ]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ qe_imsQuadLinear1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ qe\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ qe_imsQuadLinear1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ imsGetCoords[\ nodes\ ]\ ]\ \ ], {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes, \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Triangle quadratic", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      imsTriangleQuadratic1DOFSerendipity\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          te_imsTriangleQuadratic1DOFSerendipity, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes[\([\ {\ 1, 4, 2, \ 5, \ 3, \ 
+                    6\ }\ ]\)]\ ]\ ]\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsTriangleQuadratic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes[\([\ {\ 1, 2, 3}\ ]\)]\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsTriangleQuadratic1DOFSerendipity, \ 
+          part_. , \ nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ 
+                  imsGetCoords[\ 
+                    nodes[\([\ {\ 1, \ 2, \ 3\ }\ ]\)]\ ]\ ]\ \ ], {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes[\([\ {\ 1, \ 2, \ 3\ }\ ]\)], \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quad quadratic", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsDrawElements[\ qe_imsQuadQuadratic1DOFSerendipity, \ 
+          nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes[\([\ {\ 1, \ 5, \ 2, \ 6, \ 3, \ 7, \ 4, \ 
+                    8\ }\ ]\)]\ ]\ ]\ ];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsDrawElementIdText[\ qe_imsQuadQuadratic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ qe\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsDrawElementSolution[\ qe_imsQuadQuadratic1DOFSerendipity, \ 
+          part_. , \ nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ 
+                  imsGetCoords[\ 
+                    nodes[\([\ {\ 1, 2, 3, 4\ }\ ]\)]\ ]\ ]\ \ ], {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes[\([\ {\ 1, 2, 3, 4\ }\ ]\)], \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\), "\
+\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Triangle cubic", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      cubic\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          te_imsTriangleCubic1DOFSerendipity, \ nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes[\([\ 
+                  Range[\ 
+                    3\ ]\ ]\)]\ ]\ ]\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDrawElementIdText[\ te_imsTriangleCubic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ te\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ 
+              nodes[\([\ {\ 1, \ 2, \ 3\ }\ ]\)]\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ te_imsTriangleCubic1DOFSerendipity, \ 
+          part_. , \ nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ 
+                  imsGetCoords[\ 
+                    nodes[\([\ {\ 1, \ 2, \ 3\ }\ ]\)]\ ]\ ]\ \ ], {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes[\([\ {\ 1, \ 2, \ 3\ }\ ]\)], \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quad cubic", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\(imsDrawElements[\ qe_imsQuadCubic1DOF, \ 
+          nodes_\ ] := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes[\([\ 
+                  Range[\ 
+                    4\ ]\ ]\)]\ ]\ ]\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDrawElementIdText[\ qe_imsQuadCubic1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ qe\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ qe_imsQuadCubic1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Polygon[\ \[IndentingNewLine]Transpose[\ 
+            Join[\ Transpose[\ 
+                Map[\ Take[\ #, 2\ ] &, \ 
+                  imsGetCoords[\ nodes[\([{1, 2, 3, 4}]\)]\ ]\ ]\ \ ], {\ 
+                Flatten[\ 
+                  imsGetValues[\ nodes[\([{1, 2, 3, 4}]\)], \ 
+                    part\ ]\ ]\ }\ ]\ ]\ \[IndentingNewLine]];\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Tet", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      imsTetrahedron\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          tet_imsTetrahedronLinear1DOF, \ nodes_\ ]\  := \ 
+        imsTetrahedron[\ 
+          imsGetCoords[\ nodes\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ tet_imsTetrahedronLinear1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ tet\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ tet_imsTetrahedronLinear1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        CompoundExpression[\ 
+          Message[\ 
+            imsDrawElementSolution::"\<nimpl\>"\ ], \ {}\ ];\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      this\ will\ \(\(move\ !!\)!\)\ *) \[IndentingNewLine]
+    \(imsTetrahedron[\ {\ a_, \ b_, \ c_, \ d_\ }\ ]\  := \ {\ 
+          Line[\ {\ a, b, c, a\ }\ ], \ Line[\ {a, \ d}\ ], \ 
+          Line[\ {\ b, d\ }\ ], \ Line[\ {\ c, d\ }\ ]\ \ };\)\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Hex", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Hexahedron\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          hex_imsHexahedronLinear1DOF, \ nodes_\ ]\  := \ 
+        Hexahedron[\ 
+          imsGetCoords[\ nodes\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ hex_imsHexahedronLinear1DOF, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ hex\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ hex_imsHexahedronLinear1DOF, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        CompoundExpression[\ 
+          Message[\ 
+            imsDrawElementSolution::"\<nimpl\>"\ ], \ {}\ ];\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      this\ will\ \(\(move\ !!\)!\)\ *) \[IndentingNewLine]
+    Hexahedron[\ {\ a_, \ b_, \ c_, \ d_, \ e_, \ f_, \ g_, \ 
+          h_\ }\ ]\  := \ {\ Line[\ {\ a, \ b, \ c, \ d, \ a\ }\ ], \ 
+        Line[\ {\ e, \ f, \ g, \ h, \ e\ }\ ], \ Line[\ {a, \ e\ }\ ], \ 
+        Line[\ {\ b, \ f\ }\ ], \ Line[\ {\ c, \ g\ }\ ], \ 
+        Line[\ {\ d, \ h\ }\ ]\ }\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["tet quadrati", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      quadratic\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          tet_imsTetrahedronQuadratic1DOFSerendipity, \ nodes_\ ]\  := \ 
+        imsTetrahedron[\ 
+          imsGetCoords[\ 
+            nodes[\([\ 
+                Range[\ 
+                  4\ ]\ ]\)]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ tet_imsTetrahedronQuadratic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ tet\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ tet_imsTetrahedronQuadratic1DOFSerendipity, \ 
+          part_. , \ nodes_\ ]\  := \ 
+        CompoundExpression[\ 
+          Message[\ 
+            imsDrawElementSolution::"\<nimpl\>"\ ], \ {}\ ];\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Hex quadratic", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsDrawElements[\ hex_imsHexahedronQuadratic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Hexahedron[\ 
+          imsGetCoords[\ 
+            nodes[\([\ 
+                Range[\ 
+                  8\ ]\ ]\)]\ ]\ ];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsDrawElementIdText[\ hex_imsHexahedronQuadratic1DOFSerendipity, \ 
+          nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ hex\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsDrawElementSolution[\ hex_imsHexahedronQuadratic1DOFSerendipity, \ 
+          part_. , \ nodes_\ ]\  := \ 
+        CompoundExpression[\ 
+          Message[\ 
+            imsDrawElementSolution::"\<nimpl\>"\ ], \ {}\ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mixed p2 p1", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      mixed\ 2  
+        d\ p2p1\ elements\ *) \)\(\[IndentingNewLine]\)\(\(imsDrawElements[\ 
+          tri_imsTriangleP2, \ nodes_\ ]\  := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes[\([\ {\ 1, \ 2, \ 
+                    3\ }\ ]\)]\ ]\ ]\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsDrawElementIdText[\ tri_imsTriangleP2, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ tri\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ tri_imsTriangleP2, \ part_. , \ 
+          nodes_\ ]\  := \ \ Polygon[\ \(Transpose[\ 
+              Join[Transpose[
+                  Map[Take[#, 2] &, imsGetCoords[nodes]]], {Flatten[
+                    imsGetValues[nodes, part]]}]\ ]\)[\([\ {\ 1, \ 2, \ 
+                3\ }\ ]\)]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElements[\ tri_imsTriangleP1, \ nodes_\ ]\  := \ 
+        Line[\ imsClosePolygon[\ 
+            imsGetCoords[\ 
+              nodes\ ]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementIdText[\ tri_imsTriangleP1, \ nodes_\ ]\  := \ 
+        Text[\ \ ToString[\ 
+            imsGetIds[\ tri\ ]\ ], \ \(Plus\  @@ \ \((#/Length[#])\) &\)\ [
+            imsGetCoords[\ nodes\ ]\ ], \ {\ \(-1\), \ 
+            0\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawElementSolution[\ tri_imsTriangleP1, \ part_. , \ 
+          nodes_\ ]\  := \ 
+        Polygon[Transpose[
+            Join[Transpose[
+                Map[Take[#, 2] &, imsGetCoords[nodes]]], {Flatten[
+                  imsGetValues[nodes, part]]}]]];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1100, 848},
+WindowMargins->{{47, Automatic}, {Automatic, 34}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 46, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1847, 57, 31, 0, 74, "Section"],
+Cell[1881, 59, 1845, 29, 459, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3751, 92, 35, 0, 28, "Subsubsection"],
+Cell[3789, 94, 534, 8, 70, "Input",
+  InitializationCell->True],
+Cell[4326, 104, 1783, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6158, 140, 32, 0, 44, "Section"],
+Cell[6193, 142, 409, 7, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6639, 154, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6716, 158, 26, 0, 38, "Subsection"],
+Cell[6745, 160, 3962, 75, 715, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[10732, 239, 27, 0, 28, "Subsubsection"],
+Cell[10762, 241, 1479, 23, 315, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12278, 269, 27, 0, 22, "Subsubsection"],
+Cell[12308, 271, 3794, 61, 859, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16139, 337, 27, 0, 22, "Subsubsection"],
+Cell[16169, 339, 2184, 36, 523, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18390, 380, 38, 0, 22, "Subsubsection"],
+Cell[18431, 382, 1299, 22, 283, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19767, 409, 34, 0, 22, "Subsubsection"],
+Cell[19804, 411, 551, 10, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20392, 426, 33, 0, 22, "Subsubsection"],
+Cell[20428, 428, 705, 12, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21170, 445, 35, 0, 22, "Subsubsection"],
+Cell[21208, 447, 648, 12, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21893, 464, 34, 0, 22, "Subsubsection"],
+Cell[21930, 466, 996, 17, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22963, 488, 37, 0, 22, "Subsubsection"],
+Cell[23003, 490, 676, 13, 155, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23728, 509, 34, 0, 30, "Subsection"],
+Cell[23765, 511, 168, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23970, 519, 36, 0, 30, "Subsection"],
+Cell[24009, 521, 289, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24347, 532, 32, 0, 44, "Section"],
+Cell[24382, 534, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24507, 541, 30, 0, 44, "Section"],
+Cell[24540, 543, 256, 5, 91, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[24821, 552, 27, 0, 28, "Subsubsection"],
+Cell[24851, 554, 965, 18, 219, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25853, 577, 27, 0, 22, "Subsubsection"],
+Cell[25883, 579, 2285, 39, 507, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28205, 623, 27, 0, 22, "Subsubsection"],
+Cell[28235, 625, 1296, 21, 267, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29568, 651, 38, 0, 22, "Subsubsection"],
+Cell[29609, 653, 471, 9, 91, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30129, 668, 42, 0, 44, "Section"],
+Cell[30174, 670, 97, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30308, 677, 26, 0, 44, "Section"],
+Cell[30337, 679, 202, 4, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30576, 688, 27, 0, 44, "Section"],
+Cell[30606, 690, 10474, 210, 1355, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41117, 905, 27, 0, 44, "Section"],
+Cell[41147, 907, 16493, 323, 2395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[57677, 1235, 29, 0, 44, "Section"],
+Cell[57709, 1237, 5976, 110, 1067, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63722, 1352, 41, 0, 44, "Section"],
+Cell[63766, 1354, 3920, 73, 635, "Input",
+  InitializationCell->True],
+Cell[67689, 1429, 176, 4, 59, "Input",
+  InitializationCell->True],
+Cell[67868, 1435, 69, 1, 38, "Subsection",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[67974, 1441, 41, 0, 44, "Section"],
+Cell[68018, 1443, 296, 6, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[68339, 1453, 29, 0, 28, "Subsubsection"],
+Cell[68371, 1455, 3048, 61, 459, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[71456, 1521, 33, 0, 22, "Subsubsection"],
+Cell[71492, 1523, 1041, 22, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[72570, 1550, 38, 0, 22, "Subsubsection"],
+Cell[72611, 1552, 925, 18, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[73573, 1575, 29, 0, 22, "Subsubsection"],
+Cell[73605, 1577, 1004, 21, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[74646, 1603, 43, 0, 22, "Subsubsection"],
+Cell[74692, 1605, 1310, 28, 203, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[76039, 1638, 39, 0, 22, "Subsubsection"],
+Cell[76081, 1640, 1230, 26, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[77348, 1671, 39, 0, 22, "Subsubsection"],
+Cell[77390, 1673, 1266, 28, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[78693, 1706, 35, 0, 22, "Subsubsection"],
+Cell[78731, 1708, 1101, 24, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[79869, 1737, 28, 0, 22, "Subsubsection"],
+Cell[79900, 1739, 1126, 22, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[81063, 1766, 28, 0, 22, "Subsubsection"],
+Cell[81094, 1768, 1226, 23, 219, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[82357, 1796, 37, 0, 22, "Subsubsection"],
+Cell[82397, 1798, 976, 22, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[83410, 1825, 38, 0, 22, "Subsubsection"],
+Cell[83451, 1827, 906, 20, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[84394, 1852, 36, 0, 22, "Subsubsection"],
+Cell[84433, 1854, 1804, 36, 299, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[86286, 1896, 30, 0, 44, "Section"],
+Cell[86319, 1898, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[86468, 1905, 30, 0, 44, "Section"],
+Cell[86501, 1907, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

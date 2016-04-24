@@ -1,0 +1,403 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      8404,        272]*)
+(*NotebookOutlinePosition[      9066,        295]*)
+(*  CellTagsIndexPosition[      9022,        291]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ShowStatus Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ShowStatus . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Author : oliver\ ruebenkoenig, \ 
+      christian\ moosmann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 28.2  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        Some\ long\ numerical\ computations\ need\ a\ way\ to\ tell\ their\ \
+status\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .3\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \ 
+        This\ is\ from\ a\ Mathematica\ new\ group\ and\ i\ think\ from\ \
+Theodoy\ Gray, \ 
+      the\ second\ part\ is\ from\ Mark\ Fisher\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`ShowStatus`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(createObsoleteFunctionInterface[\ 
+        ShowStatus, \ $Context\ ];\)\[IndentingNewLine]
+    \(createObsoleteFunctionInterface[\ 
+        ClearStatus, \ $Context\ ];\)\[IndentingNewLine]
+    \(createObsoleteFunctionInterface[\ 
+        ShowStatusNotebook, \ $Context\ ];\)\[IndentingNewLine]
+    \(createObsoleteFunctionInterface[\ 
+        ClearStatusNotebook, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    imsShowStatus::usage\  = \ \[IndentingNewLine]"\<imsShowStatus[ expr ] \
+prints expr in the status bar of the FrontEnd.\>"\ \[IndentingNewLine]\
+\[IndentingNewLine]
+    imsClearStatus::usage\  = \ "\<imsClearStatus[] clears the status bar of \
+the FrontEnd.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsShowStatusNotebook::usage\  = \ \
+\[IndentingNewLine]"\<imsShowStatusNotebook[ expr ] prints expr in a status \
+Notebook.\>"\ \[IndentingNewLine]\[IndentingNewLine]
+    imsClearStatusNotebook::usage\  = \ "\<imsClearStatusNotekook[] clears \
+the status Notebook.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(\(imsShowStatus[status_] := 
+        LinkWrite[$ParentLink, 
+          SetNotebookStatusLine[FrontEnd`EvaluationNotebook[], \ 
+            ToString[\ 
+              status\ ]\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsClearStatus[] := \ 
+        imsShowStatus["\<\>"];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsShowStatusNotebook[\ 
+        expr_\ ] := \((If[\ Head[\ imsStatusNotebook] \[Equal] Symbol, 
+          imsStatusNotebook = 
+            NotebookCreate[
+              WindowSize \[Rule] {400, 
+                  150}]]; \[IndentingNewLine]NotebookWrite[imsStatusNotebook, 
+          Cell[ToString[expr], "\<Text\>"], 
+          All];)\)\[IndentingNewLine]\[IndentingNewLine]
+    imsClearStatusNotebook[] := \((NotebookClose[imsStatusNotebook]; 
+        Clear[imsStatusNotebook])\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{55, Automatic}, {Automatic, 59}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 38, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1839, 57, 31, 0, 74, "Section"],
+Cell[1873, 59, 1387, 24, 315, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3297, 88, 32, 0, 44, "Section"],
+Cell[3332, 90, 169, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3538, 100, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[3615, 104, 26, 0, 38, "Subsection"],
+Cell[3644, 106, 1492, 27, 411, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5173, 138, 34, 0, 30, "Subsection"],
+Cell[5210, 140, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5416, 148, 36, 0, 30, "Subsection"],
+Cell[5455, 150, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5647, 158, 32, 0, 44, "Section"],
+Cell[5682, 160, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5807, 167, 42, 0, 44, "Section"],
+Cell[5852, 169, 54, 1, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5943, 175, 30, 0, 44, "Section"],
+Cell[5976, 177, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6269, 187, 26, 0, 44, "Section"],
+Cell[6298, 189, 179, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6514, 198, 27, 0, 44, "Section"],
+Cell[6544, 200, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6660, 207, 29, 0, 44, "Section"],
+Cell[6692, 209, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6810, 216, 41, 0, 44, "Section"],
+Cell[6854, 218, 930, 19, 187, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7821, 242, 31, 0, 44, "Section"],
+Cell[7855, 244, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7975, 251, 30, 0, 44, "Section"],
+Cell[8008, 253, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8157, 260, 30, 0, 44, "Section"],
+Cell[8190, 262, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

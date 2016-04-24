@@ -1,0 +1,527 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     14840,        386]*)
+(*NotebookOutlinePosition[     15502,        409]*)
+(*  CellTagsIndexPosition[     15458,        405]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Geometric FDM Solver Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ GeometricFDMSolver . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 28.8  .2005, Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ package\ for\ geometric\ finite\ difference\ \
+method\ \((FDM)\)\ based\ solver\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]Integer\ Input\  \[Rule] \ 
+        Integer\ Output\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Geometric\ finite\ difference\ method\ based\ Helmholtz\ solver\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ Oliver\ R\[UDoubleDot]benk\[ODoubleDot]nig\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`GeometricFDMSolver`\>"];\)\
+\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        HelmholtzGeometricSORStep, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        HelmholtzGeometricSORSolve, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        HelmholtzResidualMatrixStencil, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \n\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    imsHelmholtzGeometricSORStep::usage\  = \ \
+\[IndentingNewLine]"\<imsHelmholtzGeometricSORStep[ guess, load, lhsStencil, \
+rhsStencil, omega ] advances the guess of the solution to a Helmholtz type \
+equation with load by one step. lhsStencil is a 3x3 matrix which discretizes \
+the left hand side. rhsStencil is 3x3 matrix which discretizes the load \
+matrix. omega is the ralxation factor defaulting to 1.\>"\ \
+\[IndentingNewLine]\[IndentingNewLine]
+    imsHelmholtzGeometricSORSolve::usage\  = \ \
+"\<imsHelmholtzGeometricSORSolve[ guess, load, lhsStencil, rhsStencil,  n, \
+omega ] advamces imsHelmholtzGeometricSORStep n times.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsHelmholtzResidualMatrixStencil::usage\  = \ \
+\[IndentingNewLine]"\<imsHelmholtzResidualMatrixStencil[ u, f, lhsStencil, \
+rhsStencil ] computes the residual r = f - Au. A is the discetization matrix \
+made up from lhsStencil and rhsStencil.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\
+imsHelmholtzGeometricSORStep[\ uGuess_, \ 
+          f_, \ {{\ s11_, \ s12_, \ s13_\ }, \ {\ s21_, \ s22_, \ 
+              s23_\ }, \ {\ s31_, \ s32_, \ s33_\ }\ }, {{\ t11_, \ t12_, \ 
+              t13_\ }, \ {\ t21_, \ t22_, \ t23_\ }, \ {\ t31_, \ t32_, \ 
+              t33_\ }\ }, \ omega_:  1\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ 
+            u\  = \ uGuess, \[IndentingNewLine]cols\  = \ 
+              Length[\ First[\ uGuess\ ]\ ]\  - \ 
+                1, \[IndentingNewLine]rows\  = \ 
+              Length[\ uGuess\ ]\  - \ 
+                1, \[IndentingNewLine]omegaFactor\  = \ 
+              1 - omega, \[IndentingNewLine]omegaRatio\  = \ 
+              omega/s22, \[IndentingNewLine]hh\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine]hh\  = \ 
+            1/\((\ cols\ \ *\ 
+                  rows\ )\); \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]u[\([\ r, \ c\ ]\)]\  = \ 
+              omegaFactor\ *\ 
+                  u[\([\ r, \ 
+                      c\ ]\)]\  + \ \ omegaRatio\ *\ \((\ \ \
+\[IndentingNewLine]hh\ *\ \[IndentingNewLine]\((\ \ \ t11\ *\ 
+                              f[\([\ r + 1, \ c - 1\ ]\)]\  + \ 
+                            t12\ *\ f[\([\ r + 1, \ c\ ]\)]\  + \ 
+                            t13\ *\ 
+                              f[\([\ r + 1, \ 
+                                  c + 1\ ]\)]\[IndentingNewLine] + \ 
+                            t21\ *\ f[\([\ r, \ c - 1\ ]\)]\  + \ 
+                            t22\ *\ f[\([\ r, \ c\ ]\)]\  + \ 
+                            t23\ *\ 
+                              f[\([\ r, \ 
+                                  c + 1\ ]\)]\ \ \[IndentingNewLine] + \ 
+                            t31\ *\ f[\([\ r - 1, \ c - 1\ ]\)]\  + \ 
+                            t32\ *\ f[\([\ r - 1, \ c\ ]\)] + \ 
+                            t33\ *\ 
+                              f[\([\ r - 1, \ 
+                                  c + 1\ ]\)]\ )\)\[IndentingNewLine]\  - \ 
+                      s11\ *\ u[\([\ r + 1, \ c - 1\ ]\)]\  - \ 
+                      s12\ *\ u[\([\ r + 1, \ c\ ]\)]\  - \ 
+                      s13\ *\ u[\([\ r + 1, \ 
+                            c + 1\ ]\)]\ \[IndentingNewLine] - \ 
+                      s21\ *\ u[\([\ r, \ c - 1\ ]\)]\  - \ 
+                      s23\ *u[\([\ r, \ c + 1\ ]\)]\ \[IndentingNewLine] - \ 
+                      s31\ *\ u[\([\ r - 1, \ c - 1\ ]\)]\  - \ 
+                      s32\ *\ u[\([\ r - 1, \ c\ ]\)]\  - \ 
+                      s33\ *\ u[\([\ r - 1, \ 
+                            c + 1]\)]\ )\)\[IndentingNewLine]\
+\[IndentingNewLine], {\ r, 2, \ rows\ }, \ {\ c, \ 2, \ 
+              cols\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ u\ ];\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsHelmholtzGeometricSORSolve[\ uGuess_, \ f_, \ stencil1_, \ 
+          stencil2_, \ \ n_, \ omega_:  1\ ]\  := \ 
+        Nest[\ imsHelmholtzGeometricSORStep[\ #, \ f, \ stencil1, \ 
+              stencil2, \ omega\ ] &, \ uGuess, \ n\ ];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsHelmholtzResidualMatrixStencil[\ u_, \ 
+        f_, \ \[IndentingNewLine]{{\ s11_, \ s12_, \ s13_\ }, \ {\ s21_, \ 
+            s22_, \ s23_\ }, \ {s31_, \ s32_, \ s33_\ }\ }, {{\ t11_, \ 
+            t12_, \ t13_\ }, \ {\ t21_, \ t22_, \ t23_\ }, \ {\ t31_, \ 
+            t32_, \ t33_\ }\ }\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ residual, \ rows, \ 
+          cols\ }, \[IndentingNewLine]cols\  = \ 
+          Length[\ First[\ u\ ]\ ]\  - \ 1; \[IndentingNewLine]rows\  = \ 
+          Length[\ u\ ]\  - \ 1; \[IndentingNewLine]residual\  = \ 
+          Table[\ 0, \ {\ rows\  + \ 1\ }, \ {\ 
+              cols\  + \ 
+                1\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine] (*\ 
+            r\  = \ f\  - \ 
+                Au\ *) \[IndentingNewLine]\(residual[\([\ r, \ 
+                  c\ ]\)]\  = \ \[IndentingNewLine]f[\([\ r, \ 
+                    c\ ]\)]\  - \ \((\ 
+                    cols\ *\ rows\ )\)\ *\ \((\[IndentingNewLine]\ 
+                    s31\ *\ u[\([\ r - 1, \ c - 1\ ]\)]\  + \ 
+                      s32\ *\ u[\([\ r - 1, \ c\ ]\)]\  + \ 
+                      s33\ *\ u[\([\ r - 1, \ 
+                            c + 1]\)]\ \[IndentingNewLine] + \ 
+                      s21\ *\ u[\([\ r, \ c - 1\ ]\)]\  + \ \ s22\ *\ 
+                        u[\([\ r, \ c\ ]\)] + \ 
+                      s23\ *\ u[\([\ r, \ 
+                            c + 1\ ]\)]\ \[IndentingNewLine] + \ 
+                      s11\ *\ u[\([\ r + 1, \ c - 1\ ]\)]\  + \ 
+                      s12\ *\ u[\([\ r + 1, \ c\ ]\)]\  + \ 
+                      s13\ *\ u[\([\ r + 1, \ 
+                            c + 1\ ]\)]\ \[IndentingNewLine])\);\)\
+\[IndentingNewLine], \ {\ r, \ 2, \ rows\ }, \ {\ c, \ 
+            2, \ \ cols\ }]; \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]Return[\ residual\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{56, Automatic}, {Automatic, 34}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 48, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1849, 57, 31, 0, 74, "Section"],
+Cell[1883, 59, 1320, 21, 315, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3228, 84, 35, 0, 28, "Subsubsection"],
+Cell[3266, 86, 1834, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5149, 122, 32, 0, 44, "Section"],
+Cell[5184, 124, 177, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5398, 134, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5475, 138, 26, 0, 38, "Subsection"],
+Cell[5504, 140, 1796, 30, 475, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7337, 175, 34, 0, 30, "Subsection"],
+Cell[7374, 177, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7580, 185, 36, 0, 30, "Subsection"],
+Cell[7619, 187, 143, 2, 70, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7811, 195, 32, 0, 44, "Section"],
+Cell[7846, 197, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7971, 204, 42, 0, 44, "Section"],
+Cell[8016, 206, 54, 1, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8107, 212, 30, 0, 44, "Section"],
+Cell[8140, 214, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8433, 224, 26, 0, 44, "Section"],
+Cell[8462, 226, 202, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8701, 235, 27, 0, 44, "Section"],
+Cell[8731, 237, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8847, 244, 29, 0, 44, "Section"],
+Cell[8879, 246, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8997, 253, 41, 0, 44, "Section"],
+Cell[9041, 255, 2928, 53, 491, "Input",
+  InitializationCell->True],
+Cell[11972, 310, 305, 5, 43, "Input",
+  InitializationCell->True],
+Cell[12280, 317, 1940, 34, 363, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14257, 356, 31, 0, 44, "Section"],
+Cell[14291, 358, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14411, 365, 30, 0, 44, "Section"],
+Cell[14444, 367, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14593, 374, 30, 0, 44, "Section"],
+Cell[14626, 376, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

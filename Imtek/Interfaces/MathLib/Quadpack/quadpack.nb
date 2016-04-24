@@ -1,0 +1,719 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 4.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     14470,        522]*)
+(*NotebookOutlinePosition[     15107,        544]*)
+(*  CellTagsIndexPosition[     15063,        540]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[TextData[{
+  "The goal of this section is to discuss the performance of NIntegrate. We \
+will use an example from the NIntegrate manual: ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          SubsuperscriptBox["\[Integral]", 
+            StyleBox["\<\"-1000\"\>",
+              "TI"], "1000"], " ", \(e\^\(-x\^2\)\ dx\)}], 
+        TraditionalForm]]],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[Exp[\(-x\^2\)], {x, \(-1000\), 1000}] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate::"ploss" \(\(:\)\(\ \)\) 
+      "Numerical integration stopping due to loss of precision. Achieved \
+neither the requested PrecisionGoal nor AccuracyGoal; suspect one of the \
+following: highly oscillatory integrand or the true value of the integral is \
+0. If your integrand is oscillatory try using the option Method->Oscillatory \
+in NIntegrate."\)], "Message"],
+
+Cell[BoxData[
+    \({0.020000000000000018`\ Second, 1.349459419118114`*^-26}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[Exp[\(-x\^2\)], {x, \(-1000\), 1000}, 
+        MinRecursion \[Rule] 3] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate::"ncvb" \(\(:\)\(\ \)\) 
+      "NIntegrate failed to converge to prescribed accuracy after \!\(7\) \
+recursive bisections in \!\(x\) near \!\(x\) = \!\(7.8125`\)."\)], "Message"],
+
+Cell[BoxData[
+    \({0.020000000000000018`\ Second, 0.9918695225369039`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[Exp[\(-x\^2\)], {x, \(-1000\), 1000}, 
+        MinRecursion \[Rule] 3, MaxRecursion \[Rule] 10] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.010000000000000009`\ Second, 1.772453850905782`}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Let us research how many function evaluation NIntegrate makes in \
+each case.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(counter\  = \ 0;\)\), "\[IndentingNewLine]", 
+    \(NIntegrate[\((\(counter++\); Exp[\(-x\^2\)])\), {x, \(-1000\), 
+        1000}]; \ counter\), "\[IndentingNewLine]", 
+    \(\)}], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate::"ploss" \(\(:\)\(\ \)\) 
+      "Numerical integration stopping due to loss of precision. Achieved \
+neither the requested PrecisionGoal nor AccuracyGoal; suspect one of the \
+following: highly oscillatory integrand or the true value of the integral is \
+0. If your integrand is oscillatory try using the option Method->Oscillatory \
+in NIntegrate."\)], "Message"],
+
+Cell[BoxData[
+    \(33\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(counter\  = \ 0;\)\), "\[IndentingNewLine]", 
+    \(NIntegrate[\((\(counter++\); Exp[\(-x\^2\)])\), {x, \(-1000\), 1000}, \ 
+      MinRecursion \[Rule] 3]; \ counter\)}], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate::"ncvb" \(\(:\)\(\ \)\) 
+      "NIntegrate failed to converge to prescribed accuracy after \!\(7\) \
+recursive bisections in \!\(x\) near \!\(x\) = \!\(7.8125`\)."\)], "Message"],
+
+Cell[BoxData[
+    \(176\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(counter\  = \ 0;\)\), "\[IndentingNewLine]", 
+    \(NIntegrate[\((\(counter++\); Exp[\(-x\^2\)])\), {x, \(-1000\), 1000}, \ 
+      MinRecursion \[Rule] 3, MaxRecursion \[Rule] 10]; \ counter\)}], "Input"],
+
+Cell[BoxData[
+    \(440\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "So, NIntegrate needs 440 functions evaluations to accurately (relative \
+precision ",
+  Cell[BoxData[
+      \(TraditionalForm\`10\^\(-6\)\)]],
+  ") evaluate the integral and it takes it "
+}], "Text"],
+
+Cell[BoxData[
+    \(<< Imtek`Utilities`ExtendedTiming`\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AveragedTiming[
+      NIntegrate[Exp[\(-x\^2\)], {x, \(-1000\), 1000}, \ 
+        MinRecursion \[Rule] 3, MaxRecursion \[Rule] 10], 500]\)], "Input"],
+
+Cell[BoxData[
+    \(0.016`\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(myAveragedTiming[expr_, \ 
+        n_]\  := \ \(ExtendedTiming[Do\ [expr, \ {n}]]\)[\([1]\)]/
+        n\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Attributes[myAveragedTiming] = {HoldAll}\)], "Input"],
+
+Cell[BoxData[
+    \({HoldAll}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myAveragedTiming[
+      NIntegrate[Exp[\(-x\^2\)], {x, \(-1000\), 1000}, \ 
+        MinRecursion \[Rule] 3, MaxRecursion \[Rule] 10], \ 500]\)], "Input"],
+
+Cell[BoxData[
+    \(0.014`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+I would say that the last result is the most accurate. Let us take \
+it.\
+\>", "Text"],
+
+Cell["\<\
+Now let us take Quadpack. For simplicity, we will deal with DQAGS \
+subroutine only. From Quadpack manual\
+\>", "Text"],
+
+Cell["\<\
+C 3. Guidelines for the use of QUADPACK
+C----------------------------------
+C Here it is not our purpose to investigate the question when
+C automatic quadrature should be used.We shall rather attempt
+C to help the user who already made the decision to use QUADPACK,
+C with selecting an appropriate routine or a combination of
+C several routines for handling his problem.
+C
+...
+C For both quadrature over finite and over infinite intervals,
+C one of the first questions to be answered by the user is
+C related to the amount of computer time he wants to spend,
+C versus his-own-time which would be needed,for example,for
+C manual subdivision of the interval or other analytic
+C manipulations.C
+...
+C (1) The user may not care about computer time,or not be
+C willing to do any analysis of the problem.especially when
+C only one or a few integrals must be calculated,this attitude
+C can be perfectly reasonable.In this case it is clear that
+C either the most sophisticated of the routines for finite
+C intervals,QAGS,must be used,or its analogue for infinite
+C intervals,GAGI.These routines are able to cope with
+C rather difficult,even with improper integrals.
+C This way of proceeding may be expensive.But the integrator
+C is supposed to give you an answer in return,with additional
+C information in the case of a failure,through its error
+C estimate and flag.Yet it must be stressed that the programs
+C cannot be totally reliable....\
+\>", "Text"],
+
+Cell[TextData[{
+  "When we run the integral from a completely compiled program (exp2.cpp in \
+the quadpack/ex, make NAME=exp2), it shows that DQAGS make 735 function \
+evaluations to estimate the integral with the relative precision ",
+  Cell[BoxData[
+      \(TraditionalForm\`10\^\(-6\)\)]],
+  "and this happens for 0.00037 s"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(0.014/0.00037\)], "Input"],
+
+Cell[BoxData[
+    \(37.83783783783784`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Thus, we could have a speedup by about 40 times if we use Quadpack \
+instead of NIntegrate for work with double precision numbers.\
+\>", "Text"],
+
+Cell["\<\
+We have implemented several functions to show what is possible to \
+do under Mathlink:
+integralExp - to integrate the above integral over Matlink
+integral - to evaluate arbitrary function over Mathlink
+functionCall - to estimate Mathlink overhead\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SetDirectory["\<~/user/cp/math/mathlink/integral\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("/Volumes/user/cp/math/mathlink/integral"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lnk\  = \ Install[\ "\<integral\>"\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(LinkObject["./integral", 3, 3]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(LinkPatterns[lnk]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        TagBox[\(integral[str_String, a_Real, b_Real, epsabs_Real, 
+            epsrel_Real]\),
+          HoldForm], ",", 
+        TagBox[\(integralExp[a_Real, b_Real, epsabs_Real, epsrel_Real]\),
+          HoldForm], ",", 
+        TagBox[\(functionCall[n_Integer]\),
+          HoldForm]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["Let us start with integralExp:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integralExp[\(-1000. \), \ 1000. , 0. , 1.*^-5] // Timing\)], "Input"],
+
+Cell[BoxData[
+    \({0.`\ Second, {1.7724538509055159`, 7.768295457420693`*^-9, 735, 0, 
+        18}}\)], "Output"]
+}, Open  ]],
+
+Cell["Let us measure time more accurately", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myAveragedTiming[integralExp[\(-1000. \), \ 1000. , 0. , 1.*^-5], \ 
+      5000]\)], "Input"],
+
+Cell[BoxData[
+    \(0.0012`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This is three times more than running in the compiled form because \
+of the Mathlink overhead but still\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(0.014/0.0012\)], "Input"],
+
+Cell[BoxData[
+    \(11.666666666666668`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+much faster than NIntegrate. For high dimensional problems when the \
+ number of funcion evaluations required increases, the situation will improve \
+and approach the compiled form as the Mathlink overhead does is constant in \
+this case.\
+\>", "Text"],
+
+Cell["\<\
+The solution above is not flexible at all, because when one needs \
+to change a function to integrate he/she must program a new function and to \
+recompile the interface. However, for high dimensional problems this is quite \
+a reasonable solution.\
+\>", "Text"],
+
+Cell[TextData[{
+  "Now time for a flexible solution: (it is necessary to improve ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " interface). A user defines a ",
+  StyleBox["Mathematica's ",
+    FontSlant->"Italic"],
+  StyleBox["function",
+    FontVariations->{"CompatibilityType"->0}]
+}], "Text"],
+
+Cell[BoxData[
+    \(fun1[x_]\  := \ x*3\)], "Input"],
+
+Cell["and integrates it with DQAGS over Mathlink", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun1\>", \ 0. , \ 10. , \ 0. , 1.*^-6]\)], "Input"],
+
+Cell[BoxData[
+    \({149.99999999999997`, 1.6653345369377344`*^-12, 21, 0, 1}\)], "Output"]
+}, Open  ]],
+
+Cell["To check:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NIntegrate[fun1[x], \ {x, \ 0, \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(150.00000000000003`\)], "Output"]
+}, Open  ]],
+
+Cell["Let us try our example", "Text"],
+
+Cell[BoxData[
+    \(fun2[x_]\  := \ Exp[\(-x^2\)]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun2\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-6]\)], "Input"],
+
+Cell[BoxData[
+    \({1.7724538509055159`, 7.768295457420693`*^-9, 735, 0, 18}\)], "Output"]
+}, Open  ]],
+
+Cell["and measure time", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myAveragedTiming[
+      integral["\<fun2\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-6], \ 
+      50]\)], "Input"],
+
+Cell[BoxData[
+    \(0.96`\)], "Output"]
+}, Open  ]],
+
+Cell["Oups! This is already ", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(0.96/0.14\)], "Input"],
+
+Cell[BoxData[
+    \(6.857142857142857`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+much slower than by NInegrate. Well, first we have forgotten that \
+NIntegrate compiles the function. Let us do it.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fun3\  = \ Compile[{x}, \ Exp[\(-x^2\)]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(CompiledFunction[{x}, \[ExponentialE]\^\(-x\^2\), 
+        "-CompiledCode-"]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(integral["\<fun3\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-6]\)], "Input"],
+
+Cell[BoxData[
+    \({1.7724538509055159`, 7.768295457420693`*^-9, 735, 0, 18}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myAveragedTiming[
+      integral["\<fun3\>", \ \(-1000. \), \ 1000. , 0. , 1.*^-6], \ 
+      50]\)], "Input"],
+
+Cell[BoxData[
+    \(0.52`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Well, it is still slower than NIntegrate but it is already better \
+than above. Do not forget that the number of function evaluations is\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(735. /440\)], "Input"],
+
+Cell[BoxData[
+    \(1.6704545454545454`\)], "Output"]
+}, Open  ]],
+
+Cell["more than in NIntegrate.", "Text"],
+
+Cell["\<\
+The final step is to understand why it is so slow. Let us estimate \
+the Mathlink overhead\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myAveragedTiming[functionCall[735], \ 50]\)], "Input"],
+
+Cell[BoxData[
+    \(0.48`\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The above function uses Mathlink (see the code) to transfer back \
+and forth a double 735 times and you can see that this makes almost all the \
+time in the previous step.\
+\>", "Text"],
+
+Cell[TextData[{
+  "Conclusions:\n1) Numericals libraries much faster than ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  ".\n2) The overhead of Mathlink (interprocess call) is quite high.\n3) As a \
+result, one should choose either flexibility or perfomace. You cannot have \
+both. "
+}], "Text"]
+},
+FrontEndVersion->"4.2 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 705}},
+WindowSize->{520, 583},
+WindowMargins->{{16, Automatic}, {Automatic, 19}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 380, 11, 73, "Text"],
+
+Cell[CellGroupData[{
+Cell[2159, 66, 91, 1, 55, "Input"],
+Cell[2253, 69, 395, 6, 153, "Message"],
+Cell[2651, 77, 90, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2778, 83, 124, 2, 55, "Input"],
+Cell[2905, 87, 209, 3, 81, "Message"],
+Cell[3117, 92, 86, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3240, 98, 149, 2, 74, "Input"],
+Cell[3392, 102, 85, 1, 33, "Output"]
+}, Open  ]],
+Cell[3492, 106, 101, 3, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[3618, 113, 212, 4, 111, "Input"],
+Cell[3833, 119, 395, 6, 153, "Message"],
+Cell[4231, 127, 36, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4304, 133, 202, 3, 92, "Input"],
+Cell[4509, 138, 209, 3, 81, "Message"],
+Cell[4721, 143, 37, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4795, 149, 227, 3, 111, "Input"],
+Cell[5025, 154, 37, 1, 33, "Output"]
+}, Open  ]],
+Cell[5077, 158, 218, 6, 56, "Text"],
+Cell[5298, 166, 67, 1, 33, "Input"],
+
+Cell[CellGroupData[{
+Cell[5390, 171, 169, 3, 73, "Input"],
+Cell[5562, 176, 40, 1, 33, "Output"]
+}, Open  ]],
+Cell[5617, 180, 136, 3, 52, "Input"],
+
+Cell[CellGroupData[{
+Cell[5778, 187, 73, 1, 33, "Input"],
+Cell[5854, 190, 43, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5934, 196, 173, 3, 92, "Input"],
+Cell[6110, 201, 40, 1, 33, "Output"]
+}, Open  ]],
+Cell[6165, 205, 96, 3, 36, "Text"],
+Cell[6264, 210, 129, 3, 55, "Text"],
+Cell[6396, 215, 1456, 30, 568, "Text"],
+Cell[7855, 247, 339, 7, 94, "Text"],
+
+Cell[CellGroupData[{
+Cell[8219, 258, 46, 1, 33, "Input"],
+Cell[8268, 261, 52, 1, 33, "Output"]
+}, Open  ]],
+Cell[8335, 265, 154, 3, 55, "Text"],
+Cell[8492, 270, 270, 6, 112, "Text"],
+
+Cell[CellGroupData[{
+Cell[8787, 280, 85, 1, 52, "Input"],
+Cell[8875, 283, 75, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8987, 289, 70, 1, 33, "Input"],
+Cell[9060, 292, 64, 1, 33, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9161, 298, 50, 1, 33, "Input"],
+Cell[9214, 301, 355, 9, 90, "Output"]
+}, Open  ]],
+Cell[9584, 313, 46, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[9655, 317, 90, 1, 52, "Input"],
+Cell[9748, 320, 115, 2, 36, "Output"]
+}, Open  ]],
+Cell[9878, 325, 51, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[9954, 329, 113, 2, 71, "Input"],
+Cell[10070, 333, 41, 1, 33, "Output"]
+}, Open  ]],
+Cell[10126, 337, 127, 3, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[10278, 344, 45, 1, 33, "Input"],
+Cell[10326, 347, 53, 1, 33, "Output"]
+}, Open  ]],
+Cell[10394, 351, 262, 5, 93, "Text"],
+Cell[10659, 358, 272, 5, 93, "Text"],
+Cell[10934, 365, 307, 9, 55, "Text"],
+Cell[11244, 376, 52, 1, 33, "Input"],
+Cell[11299, 379, 58, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[11382, 383, 83, 1, 33, "Input"],
+Cell[11468, 386, 91, 1, 36, "Output"]
+}, Open  ]],
+Cell[11574, 390, 25, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[11624, 394, 70, 1, 33, "Input"],
+Cell[11697, 397, 53, 1, 33, "Output"]
+}, Open  ]],
+Cell[11765, 401, 38, 0, 36, "Text"],
+Cell[11806, 403, 62, 1, 33, "Input"],
+
+Cell[CellGroupData[{
+Cell[11893, 408, 91, 1, 33, "Input"],
+Cell[11987, 411, 91, 1, 36, "Output"]
+}, Open  ]],
+Cell[12093, 415, 32, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[12150, 419, 129, 3, 71, "Input"],
+Cell[12282, 424, 39, 1, 33, "Output"]
+}, Open  ]],
+Cell[12336, 428, 38, 0, 36, "Text"],
+
+Cell[CellGroupData[{
+Cell[12399, 432, 42, 1, 33, "Input"],
+Cell[12444, 435, 52, 1, 33, "Output"]
+}, Open  ]],
+Cell[12511, 439, 139, 3, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[12675, 446, 73, 1, 33, "Input"],
+Cell[12751, 449, 154, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12942, 458, 91, 1, 33, "Input"],
+Cell[13036, 461, 91, 1, 36, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13164, 467, 129, 3, 71, "Input"],
+Cell[13296, 472, 39, 1, 33, "Output"]
+}, Open  ]],
+Cell[13350, 476, 162, 4, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[13537, 484, 42, 1, 33, "Input"],
+Cell[13582, 487, 53, 1, 33, "Output"]
+}, Open  ]],
+Cell[13650, 491, 40, 0, 36, "Text"],
+Cell[13693, 493, 114, 3, 55, "Text"],
+
+Cell[CellGroupData[{
+Cell[13832, 500, 74, 1, 33, "Input"],
+Cell[13909, 503, 39, 1, 33, "Output"]
+}, Open  ]],
+Cell[13963, 507, 195, 4, 74, "Text"],
+Cell[14161, 513, 305, 7, 112, "Text"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,502 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13733,        368]*)
+(*NotebookOutlinePosition[     14395,        391]*)
+(*  CellTagsIndexPosition[     14351,        387]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Solver Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Solver . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 1.3  .2005, \ Freiburg, IL\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ Mathematica\ Ax = 
+        f\ solver\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          4.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ Ax = 
+        f\ solver\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2003 - 
+        2005\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \
+\(This\ program\ is\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`AlgebraicSolver`\>"];\)\)\
+\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        JacobiStep, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        JacobiSolve, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GaussSeidelStep, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        GaussSeidelSolve, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SORStep, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SORSolve, \ $Context\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \n\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    imsJacobiStep::usage\  = \ "\<imsJacobiStep[ matrix, load, guess, omega ] \
+advances the solution of the matrix equation with load by one step. starting \
+from guess and with given omega.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsJacobiSolve::usage\  = \ \[IndentingNewLine]"\<imsJacobiSolve[ matrix, \
+load, guess, iterations, omega ] tries to solve the system given by the \
+matrix and load vector it uses guess to start and proceeds number of \
+iterations. Optionaly a different omega can be supplied, the default is 1.\>"\
+\ \[IndentingNewLine]\[IndentingNewLine]
+    imsGaussSeidelStep::usage\  = \ "\<imsGaussSeidelStep[ matrix, load, \
+guess ] advances the solution of the matrix equation with load by one step, \
+starting from guess.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsGaussSeidelSolve::usage\  = \ \
+\[IndentingNewLine]"\<imsGaussSeidelSolve[ matrix, load, guess, iterations ] \
+tries to solve the system given by the matrix and load vector it uses guess \
+to start and proceeds number of iterations.\>"\ \[IndentingNewLine]\
+\[IndentingNewLine]
+    imsSORStep::usage\  = \ "\<imsSORStep[ matrix, load, guess, omega ] \
+advances the solution of the matrix equation with load by one step. starting \
+from guess and with given omega.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsSORSolve::usage\  = \ \[IndentingNewLine]"\<imsSORSolve[ matrix, load, \
+guess, iterations, omega ] tries to solve the system given by the matrix and \
+load vector it uses guess to start and proceeds number of iterations. \
+Optionaly a different omega can be supplied, the default is 1.\>"\ \
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell["Needs - Public Imports", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Jacobi\ *) \)\(\[IndentingNewLine]\)\(\(JacobiRowStep[\ row_, \ 
+          loadi_, \ guess_, \ i_\ ]\  := \ 
+        loadi\  - \ 
+          Plus\  @@ \ Drop[\ 
+              row\ *\ guess, \ {i}\ \
+];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsJacobiStep[\ matrix_, \ load_, \ guess_, \ 
+          omega_\ ]\  := \[IndentingNewLine]Module[\[IndentingNewLine]{\ 
+            i\  = \ 1\ }, \[IndentingNewLine]\((\ 1\  - \ omega)\)\ *\ 
+              guess\  + 
+            Map[\ \ omega/matrix[\([\ i, \ i\ ]\)]\ *\ 
+                  JacobiRowStep[\ #, \ load[\([\ i\ ]\)], \ 
+                    guess, \ \(i++\)\ ] &, \ 
+              matrix\ ]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsJacobiSolve[\ matrix_, \ load_, \ \ guess_, \ iter_, \ 
+        omega_:  1.0\ ]\  := \ 
+      Nest[\ imsJacobiStep[\ matrix, \ load, \ #, \ omega\ ] &, \ 
+          N[\ guess\ ], \ iter\ ]\  /; \ 
+        MatrixQ[\ matrix\ ]\  && \ 
+          Length[\ guess\ ]\  \[Equal] \ Length[\ load\ ]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Gauss\ Seidel\ *) \)\(\[IndentingNewLine]\)\(\(imsGaussSeidelStep[\ 
+          matrix_, \ load_, \ guess_\ ]\  := \[IndentingNewLine]imsSORStep[\ 
+          matrix, \ load, \ guess, \ 
+          1.0\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsGaussSeidelSolve[\ matrix_, \ load_, \ guess_, \ iter_\ ]\  := \ 
+      Nest[\ imsGaussSeidelStep[\ matrix, \ load, \ #\ ] &, \ N[\ guess\ ], 
+          iter\ ] /; \ 
+        MatrixQ[\ matrix\ ]\  && \ 
+          Length[\ guess\ ]\  \[Equal] \ Length[\ load\ ]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      SOR\ *) \)\(\[IndentingNewLine]\)\(\(imsSORStep[\ matrix_, \ load_, \ 
+          guessIn_, \ 
+          omega_\ ]\  := \[IndentingNewLine]Module[\[IndentingNewLine]{\ 
+            i\  = \ 1, \ 
+            guess\  = \ 
+              guessIn\ }, \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]\(guess[\([i]\)]\  = \ \((1 - omega)\)*\ 
+                    guess[\([i]\)]\  + \ 
+                  omega/\ matrix[\([\ i, \ i\ ]\)]\ *\ 
+                    JacobiRowStep[\ \ matrix[\([\ i\ ]\)], 
+                      load[\([\ i\ ]\)], \ guess, \ 
+                      i\ ];\)\[IndentingNewLine], {\ i, \ 
+              Last[\ Dimensions[\ 
+                  matrix\ ]\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[\ 
+            guess\ ];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsSORSolve[\ matrix_, \ load_, \ guess_, \ iter_, \ 
+        omega_:  1.0\ ]\  := \ 
+      Nest[\ imsSORStep[\ matrix, \ load, \ #, \ omega\ ] &, \ N[\ guess\ ], 
+          iter\ ] /; \ 
+        MatrixQ[\ matrix\ ]\  && \ 
+          Length[\ guess\ ]\  \[Equal] \ Length[\ load\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{811, 600},
+WindowMargins->{{85, Automatic}, {Automatic, 57}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 34, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1835, 57, 31, 0, 74, "Section"],
+Cell[1869, 59, 1175, 19, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3069, 82, 35, 0, 28, "Subsubsection"],
+Cell[3107, 84, 618, 10, 171, "Input",
+  InitializationCell->True],
+Cell[3728, 96, 1782, 31, 507, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5559, 133, 32, 0, 44, "Section"],
+Cell[5594, 135, 174, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5805, 145, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5882, 149, 26, 0, 38, "Subsection"],
+Cell[5911, 151, 2728, 45, 731, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8676, 201, 34, 0, 30, "Subsection"],
+Cell[8713, 203, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8919, 211, 36, 0, 30, "Subsection"],
+Cell[8958, 213, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+Cell[9158, 221, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[9224, 225, 30, 0, 74, "Section"],
+Cell[9257, 227, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9550, 237, 32, 0, 44, "Section"],
+Cell[9585, 239, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[9688, 244, 42, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[9755, 248, 26, 0, 74, "Section"],
+Cell[9784, 250, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10000, 259, 27, 0, 44, "Section"],
+Cell[10030, 261, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10146, 268, 29, 0, 44, "Section"],
+Cell[10178, 270, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10296, 277, 41, 0, 44, "Section"],
+Cell[10340, 279, 1139, 23, 70, "Input",
+  InitializationCell->True],
+Cell[11482, 304, 591, 11, 70, "Input",
+  InitializationCell->True],
+Cell[12076, 317, 1191, 25, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13304, 347, 30, 0, 44, "Section"],
+Cell[13337, 349, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13486, 356, 30, 0, 44, "Section"],
+Cell[13519, 358, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

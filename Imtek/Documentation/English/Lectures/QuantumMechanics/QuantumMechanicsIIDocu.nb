@@ -1,0 +1,4831 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    163615,       4326]*)
+(*NotebookOutlinePosition[    164764,       4361]*)
+(*  CellTagsIndexPosition[    164720,       4357]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+  "Quantum mechanics for micro- and nano-system engineers II\n",
+  StyleBox["after the equally named lecture by Prof.Dr.O.Paul (held SS04 at \
+IMTEK in Freiburg)",
+    FontSize->12]
+}], "Title"],
+
+Cell[TextData[{
+  "By Christian Bretthauer\n<bretthau -at- imtek.de>\n",
+  StyleBox["Version",
+    FontWeight->"Bold"],
+  ": 2.1\n(17.11.2005)"
+}], "Author"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at:  ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2004-2006 Christian Bretthauer
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Version Stuff", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(If[\ $VersionNumber\  \[LessEqual] \ 
+          5.2, \ \ Needs["\<Calculus`VectorAnalysis`\>"], \ 
+        Needs["\<VectorAnalysis`\>"]\ ];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Index", "Subtitle"],
+
+Cell[TextData[{
+  StyleBox["Chapter 6:",
+    FontSize->16],
+  "\n\t-The harmonic oscillator\n\t\t-classical solution\n\t\t-solving with \
+operators\n\t\t-expectation values and variances using operators\n\t-The \
+vibrating lattice as an other \"oscillator-problem\"\n\t\n",
+  StyleBox["Chapter 7:",
+    FontSize->16],
+  "\n\t-Operators and vector spaces\n\t\t-Basics (example 1 a,b)\n\t\t-more \
+operators ",
+  Cell[BoxData[
+      \(TraditionalForm\`\((P, D\_\[CapitalDelta]x, x\&^, p\&^\_x, 
+        L\_z)\)\)]],
+  "\n\t-Compatibility of operators\n\t\tcommute? (example 2)\n\t-Operators \
+and measurement\n\t\t-measurement and expectation values (example 3)\n\t\t\
+-time dependence of expectation values\n\t\t-consecutive measurement of \
+different observables (example 4)\n\t\t-the uncertainty principle\n\t\
+-Particle-wave duality\n\t\n",
+  StyleBox["Chapter 8:",
+    FontSize->16],
+  "\n\t-Two-state systems\n\t\t-The ionized ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(H\_2\) molecule\)]],
+  "\n\t\t\t-numerical approximation of the energy splitting\n\t\t-The double \
+well potential\n\t\t\t-reprise single well\n\t\t\t-computation of energy \
+splitting\n\t\t-The ammonia-molecule and the first MASER\n\t\t-Time \
+dependency of two-state systems\n\t\t\n",
+  StyleBox["Chapter 9:",
+    FontSize->16],
+  "\n\t-Radioactive transitions\n\t\n",
+  StyleBox["Chapter 10:",
+    FontSize->16],
+  "\n\t-The Hydrogen atom and its angular momentum\n\t\t-The hydrogen atom \n\
+\t\t\t-plot of spherical-harmonics\n\t\t\t-plot of orbitals\n\t\t-angular \
+momentum"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Chapter 6", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["The harmonic Oscillator 1D", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Classical Solution of differential equation", "Subsection"],
+
+Cell[TextData[{
+  "The harmonic oscillator is defined by a potential ",
+  Cell[BoxData[
+      \(TraditionalForm\`V(x) = \[Beta]\ x\^2\)]],
+  ". Usually the parameter \[Beta] is defined as ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Beta] = \(m\ \[Omega]\^2\)\/2\)]],
+  ". Starting with the Schr\[ODoubleDot]dinger-Equation (SEQ)\n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\(\[HBar]\^2\/\(2\ m\)\)\) \(\[Psi](
+                x)\)'' + \(\(m\ \[Omega]\^2\)\/2\) \(x\^2\) \(\[Psi](
+              x)\) = \(\(E\)\(\ \)\(\[Psi](x)\)\(\ \)\)\)]],
+  "\n \nSubstituting: ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Zeta] = \(\(\@\(\(m\ \[Omega]\)\/\[HBar]\)\) 
+            x\ \ \ \ or\ \ \ x = \(\@\(\[HBar]\/\(m\ \[Omega]\)\)\) \[Zeta]\)\
+\)]],
+  "  we have"
+}], "Text"],
+
+Cell[BoxData[
+    \(eq1 = \[PartialD]\_\(\[Zeta], \[Zeta]\)\[Psi][\[Zeta]] + \((\(2\ \
+\[CapitalEpsilon]\)\/\(\[HBar]\ \[Omega]\) - \[Zeta]\^2)\) \[Psi][\[Zeta]] == 
+        0\)], "Input"],
+
+Cell[TextData[{
+  "A first approach for solving this is ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](\[Zeta]) = \(\[Phi](\[Zeta])\)\ \
+\[ExponentialE]\^\(\(-\[Zeta]\^2\)/2\)\)]],
+  ". The idea behind this is, that \[Psi](x) has to be normalized and \
+therefore drops exponentially. Furthermore  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Zeta]\^2\)]],
+  " will come down as we have to calculate the second derivative and \
+hopefully cancels out with the ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Zeta]\^2\)]],
+  " from the potential function. So inserting this first guess we get:"
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{"eq2", "=", 
+      RowBox[{
+        RowBox[{"eq1", "/.", 
+          RowBox[{"{", 
+            
+            RowBox[{\(\[Psi][\[Zeta]] \[Rule] \ \[Phi][\[Zeta]]\ Exp[\(-\
+\[Zeta]\^2\)/2]\), ",", 
+              RowBox[{
+                RowBox[{
+                  RowBox[{
+                    SuperscriptBox["\[Psi]", "\[Prime]\[Prime]",
+                      MultilineFunction->None], "[", "\[Zeta]", "]"}], 
+                  "\[Rule]", \(D[\[Phi][\[Zeta]]\ Exp[\(-\[Zeta]\^2\)/
+                          2], {\[Zeta], 2}]\)}], "//", "Simplify"}]}], 
+            "}"}]}], "//", "Simplify"}]}]], "Input"],
+
+Cell[BoxData[
+    \(Devided\ by\ \[ExponentialE]\^\(\(-\[Zeta]\^2\)/2\)\ and\ multiplied\ \
+by\ \[Omega]\ \[HBar]\ we\ finally\ end\ up\ with\ a\ pretty\ nice\ and\ \
+concise\ \(\(equation\)\(:\)\)\)], "Text",
+  FontFamily->"Times New Roman"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"eq2", "=", 
+        RowBox[{
+          RowBox[{
+            
+            StyleBox[\(\((\(2\ \[CapitalEpsilon]\)\/\(\[Omega]\ \[HBar]\) - 
+                    1)\)\ \[Phi][\[Zeta]]\),
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox["-",
+              FontColor->RGBColor[0, 0, 1]], 
+            StyleBox[
+              RowBox[{"2", " ", "\[Zeta]", " ", 
+                RowBox[{
+                  SuperscriptBox["\[Phi]", "\[Prime]",
+                    MultilineFunction->None], "[", "\[Zeta]", "]"}]}],
+              FontColor->RGBColor[0, 0, 1]], 
+            StyleBox["+",
+              FontColor->RGBColor[0, 1, 0]], 
+            StyleBox[
+              RowBox[{
+                SuperscriptBox["\[Phi]", "\[Prime]\[Prime]",
+                  MultilineFunction->None], "[", "\[Zeta]", "]"}],
+              FontColor->RGBColor[0, 1, 0]]}], "\[Equal]", "0"}]}], 
+      ";"}]], "Input"],
+
+Cell[TextData[{
+  "From experience we choose an exponential series expansion for \[Phi][\
+\[Zeta]] i.e. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Phi][\[Zeta]] = \[Sum]\+\(n = 0.  . \[Infinity]\)a\
+\_n\ \[Zeta]\^n\)]],
+  ". Inserting this into the last equation we get:"
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"eq2", "=", 
+        RowBox[{
+          RowBox[{\(\[Sum]\+\(n = 0\)\%\[Infinity]\), 
+            RowBox[{"(", 
+              RowBox[{
+                
+                StyleBox[\(\((\(2\ \[CapitalEpsilon]\)\/\(\[Omega]\ \[HBar]\) \
+- 1)\) \(a\_n\) \[Zeta]\^n\),
+                  FontColor->RGBColor[1, 0, 0]], 
+                StyleBox["-",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[\(2  n\ \(a\_n\) \[Zeta]\^n\),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox["+",
+                  FontColor->RGBColor[0, 1, 0]], 
+                StyleBox[\(n\ \((n - 1)\)\ a\_n\ \[Zeta]\^\(n - 2\)\),
+                  FontColor->RGBColor[0, 1, 0]]}], ")"}]}], "\[Equal]", 
+          "0"}]}], ";"}]], "Input"],
+
+Cell["\<\
+The \"green\" part is only meaningful for n\[GreaterEqual]2 which \
+is why we simply replace n\[Rule] n+2. The result is:\
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"eq2", "=", 
+        RowBox[{
+          RowBox[{\(\[Sum]\+\(n = 0\)\%\[Infinity]\), 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{
+                    RowBox[{
+                      StyleBox["(",
+                        FontColor->RGBColor[1, 0, 0]], 
+                      RowBox[{
+                        
+                        StyleBox[\(\(2\ \[CapitalEpsilon]\)\/\(\[Omega]\ \
+\[HBar]\)\),
+                          FontColor->RGBColor[1, 0, 0]], 
+                        StyleBox["-",
+                          FontColor->RGBColor[1, 0, 0]], 
+                        StyleBox["1",
+                          FontColor->RGBColor[1, 0, 0]], 
+                        StyleBox["-",
+                          FontColor->RGBColor[0, 0, 1]], 
+                        StyleBox[\(2  n\),
+                          FontColor->RGBColor[0, 0, 1]]}], 
+                      StyleBox[")",
+                        FontColor->RGBColor[0, 0, 1]]}], 
+                    StyleBox[" ",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    StyleBox[\(a\_n\),
+                      FontColor->RGBColor[0, 0, 1]]}], 
+                  StyleBox["+",
+                    FontColor->RGBColor[0, 1, 0]], 
+                  StyleBox[\(\((n + 2)\)\ \((n + 1)\)\ a\_\(n + 2\)\),
+                    FontColor->RGBColor[0, 1, 0]]}], ")"}], 
+              "*", \(\[Zeta]\^n\)}]}], "\[Equal]", "0"}]}], ";"}]], "Input"],
+
+Cell[TextData[{
+  "We notice that everything within the black brackets has to become 0, which \
+leads us to a recursion formula for ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(n + 2\)\)]],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{"Solve", "[", 
+      RowBox[{
+        RowBox[{
+          RowBox[{
+            RowBox[{
+              RowBox[{
+                StyleBox["(",
+                  FontColor->RGBColor[1, 0, 0]], 
+                RowBox[{
+                  
+                  StyleBox[\(\(2\ \[CapitalEpsilon]\)\/\(\[Omega]\ \
+\[HBar]\)\),
+                    FontColor->RGBColor[1, 0, 0]], 
+                  StyleBox["-",
+                    FontColor->RGBColor[1, 0, 0]], 
+                  StyleBox["1",
+                    FontColor->RGBColor[1, 0, 0]], 
+                  StyleBox["-",
+                    FontColor->RGBColor[0, 0, 1]], 
+                  StyleBox[\(2  n\),
+                    FontColor->RGBColor[0, 0, 1]]}], 
+                StyleBox[")",
+                  FontColor->RGBColor[0, 0, 1]]}], 
+              StyleBox[" ",
+                FontColor->RGBColor[0, 0, 1]], 
+              StyleBox[\(a\_n\),
+                FontColor->RGBColor[0, 0, 1]]}], 
+            StyleBox["+",
+              FontColor->RGBColor[0, 1, 0]], 
+            StyleBox[\(\((n + 2)\)\ \((n + 1)\)\ a\_\(n + 2\)\),
+              FontColor->RGBColor[0, 1, 0]]}], "==", "0"}], 
+        ",", \(a\_\(n + 2\)\)}], "]"}]], "Input"],
+
+Cell[BoxData[
+    \(a\_\(2 + n\) = \(-\(\(\((\(2\ \[CapitalEpsilon]\)\/\(\[HBar]\ \
+\[Omega]\) - 1 - 2\ n)\)\ a\_n\)\/\(\((2 + 3\ n + 
+                n\^2)\)\(\ \)\)\)\)\)], "Input"],
+
+Cell[TextData[{
+  "As a further demand the exponential series has to stop at some point, \
+otherwise it will grow faster than ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ExponentialE]\^\(\(-\[Zeta]\^2\)/2\)\)]],
+  " can drop which would destroy normalization. In other words we need an ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_n = 0\)]],
+  " since all following coefficients will then be zero too! We therefore set \
+the numerator to 0 and solve for the energy E:"
+}], "Text"],
+
+Cell[BoxData[
+    \(Solve[\(-\((\(2\ \[CapitalEpsilon]\)\/\(\[HBar]\ \[Omega]\) - 1 - 
+              2\ n)\)\) \[Equal] 0, \[CapitalEpsilon]]\)], "Input"],
+
+Cell[TextData[{
+  "Thus we know now the Eigenvalues ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_n\)]],
+  " of the oscillator, the only thing remaining are the \[Phi][\[Zeta]]. But \
+we can easily compute them using the recursion formula. These \[Phi][\[Zeta]] \
+are also known as Hermite-polynomials. They are also available within ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " as HermiteH[n,\[Zeta]]. Let's have a look at the first 6 of them :"
+}], "Text"],
+
+Cell[BoxData[
+    StyleBox[\(TableForm[Table[HermiteH[n, \[Zeta]], {n, 0, 5}]]\),
+      FontVariations->{"Underline"->False}]], "Input",
+  FontVariations->{"Underline"->True}],
+
+Cell[TextData[StyleBox["Finally we can put everything together to receive \
+\[Psi][x] ",
+  FontVariations->{"Underline"->False}]], "Text"],
+
+Cell[BoxData[
+    StyleBox[\(\[Psi][x_, n_] = 
+          HermiteH[
+              n, \(\@\(\(m\ \[Omega]\)\/\[HBar]\)\) 
+                x]\ \[ExponentialE]\^\(\(-\(\(m\ \[Omega]\)\/\(2  \[HBar]\)\)\
+\) x\^2\);\),
+      FontVariations->{"Underline"->False}]], "Input",
+  FontVariations->{"Underline"->True}],
+
+Cell[TextData[StyleBox["We only need to normalize this and are done:",
+  FontVariations->{"Underline"->False}]], "Text"],
+
+Cell[BoxData[
+    StyleBox[\(\( (*\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\( 
+                  Abs[\[Psi][
+                    x]]\^2\) \[DifferentialD]x*) \)\(\ \)\( (*\ \ \ \ \ Is\ \
+not\ as\ easy\ as\ it\ seemed\ to\ be, \ 
+        but\ the\ solution\ is\ \@\(2\^n\ \(n!\)\)\/\((\(m\ \[Omega]\)\/\(\
+\[HBar]\ \[Pi]\))\)\^\(1/4\)\ \ \ \ *) \)\),
+      FontVariations->{"Underline"->False}]], "Input",
+  FontVariations->{"Underline"->True}],
+
+Cell[TextData[{
+  "It is interesting to see that all these wave functions define an \
+orthogonal basis i.e. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_\(-\[Infinity]\)\%\[Infinity] \[Psi]\&_\
+\_n*\(\[Psi]\_m\) \[DifferentialD]x = \[Delta]\_\(n, m\)\)]],
+  ". \nChecking both statements by computing all the combinations of the \
+first 3 wavefunctions:"
+}], "Text"],
+
+Cell[BoxData[
+    \(Table[
+        Integrate[\((\@\(2\^i\ \(i!\)\)\/\((\(m\ \[Omega]\)\/\(\[HBar]\ \[Pi]\
+\))\)\^\(1/4\))\)\^\(-1\)*\[Psi][x, 
+              i]*\((\@\(\(2\^j\) \(j!\)\)\/\((\(m\ \[Omega]\)\/\(\[HBar]\ \
+\[Pi]\))\)\^\(1/4\))\)\^\(-1\)*\[Psi][x, 
+              j], {x, \(-\[Infinity]\), \[Infinity]}, 
+          Assumptions \[Rule] \ Re[\(m\ \[Omega]\)\/\[HBar]] > 0], {i, 0, 
+          3}, {j, 0, 3}] // TableForm\)], "Input"],
+
+Cell["\<\
+It seems to be right. Let's have a look at the first 4 solutions:\
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Graphical setup", "Subsubsection"],
+
+Cell[BoxData[
+    \(f[n_] := 
+      Plot[{\((\((\@\(2\^n\ \(n!\)\)\/\((\(m\ \[Omega]\)\/\(\[HBar]\ \[Pi]\))\
+\)\^\(1/4\))\)\^\(-1\)*\[Psi][x, n])\) /. {m \[Rule] 1, \[Omega] \[Rule] 
+                1, \[HBar] \[Rule] 
+                1}, \((\((\@\(2\^n\ \(n!\)\)\/\((\(m\ \[Omega]\)\/\(\[HBar]\ \
+\[Pi]\))\)\^\(1/4\))\)\^\(-1\)*\[Psi][x, n])\)\^2 /. {m \[Rule] 
+                1, \[Omega] \[Rule] 1, \[HBar] \[Rule] 1}}, {x, \(-4\), 4}, 
+        PlotLabel -> \*"\"\<|\[Psi]\!\(\( | \^2\)\) & \[Psi] n=\>\"" <> 
+            ToString[n], 
+        PlotStyle \[Rule] \ {RGBColor[0, 0, 1], RGBColor[1, 0, 0]}, 
+        Ticks \[Rule] None, DisplayFunction \[Rule] Identity]\)], "Input"],
+
+Cell[BoxData[
+    \(Show[
+      GraphicsArray[Table[f[n], {n, 0, 3}], 
+        DisplayFunction \[Rule] $DisplayFunction]]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solving with creation- and annihilation-operators", "Subsection"],
+
+Cell[TextData[{
+  "If we separate the Hamiltonian into 2 separate operators a & a+ we are \
+able to obtain the solution for the harmonic oscillator far more easily. Lets \
+define the operators first:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`a = \(\(\@\(\(m\ \[Omega]\)\/\(2\ \[HBar]\)\)\) \((x \
++ \(\[ImaginaryI]\ p\)\/\(\(m\)\(\ \)\(\[Omega]\)\(\ \)\))\) = \(\@\(\(m\ \
+\[Omega]\)\/\(2\ \[HBar]\)\)\) \((x + \(\[HBar]\/\(\(m\)\(\ \)\(\[Omega]\)\(\ \
+\)\)\) \[PartialD]\_x)\)\)\)]],
+  "  \n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(a\^+\) = \(\(\@\(\(m\ \[Omega]\)\/\(2\ \[HBar]\)\)\
+\) \((x - \(\[ImaginaryI]\ p\)\/\(\(m\)\(\ \)\(\[Omega]\)\(\ \)\))\) = \(\@\(\
+\(m\ \[Omega]\)\/\(2\ \[HBar]\)\)\) \((x - \(\[HBar]\/\(\(m\)\(\ \)\(\[Omega]\
+\)\(\ \)\)\) \[PartialD]\_x)\)\)\)]],
+  "\n"
+}], "Text"],
+
+Cell[BoxData[{
+    RowBox[{\(Off[General::"\<spell1\>"]; Clear[f];\), 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{\(a[f_]\), ":=", 
+      FormBox[\(\(\@\(\(m\ \[Omega]\)\/\(2\ \[HBar]\)\)\) \((x\ f + \(\[HBar]\
+\/\(\(m\)\(\ \)\(\[Omega]\)\(\ \)\)\) \[PartialD]\_x f)\)\),
+        "TraditionalForm"]}], "\[IndentingNewLine]", 
+    RowBox[{\(aPlus[f_]\), ":=", 
+      FormBox[\(\(\@\(\(m\ \[Omega]\)\/\(2\ \[HBar]\)\)\) \((x\ f - \(\[HBar]\
+\/\(\(m\)\(\ \)\(\[Omega]\)\(\ \)\)\) \[PartialD]\_x f)\)\),
+        "TraditionalForm"]}]}], "Input"],
+
+Cell[TextData[{
+  "Computing ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\[CenterDot]\(a\^+\)\)]],
+  " we see that it equals exactly  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(1\/\(\[HBar]\ \[Omega]\)\) H\  + 1\/2\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(a[aPlus[f[x]]] // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(a[aPlus[
+            f[x]]] \[Equal] \(1\/\(\[HBar]\ \[Omega]\)\) \((\(\(-\[HBar]\^2\) \
+\[PartialD]\_\(x, x\)f[x]\)\/\(2\ m\) + \(\(m\ \[Omega]\^2\)\/2\) 
+                  x\^2\ f[x])\) + \(1\/2\) f[x] // Simplify\)], "Input"],
+
+Cell[TextData[{
+  "This means we can rewrite the SEQ in terms of these operators:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(a\^+\) 
+          a\ \[Psi]\_n = \((\[CapitalEpsilon]\_n\/\(\[HBar]\ w\) - 
+              1\/2)\) \[Psi]\_n\)]],
+  "\n\nWe see that this equation has eigenstates ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_n\)]],
+  " with corresponding eigenvalues ",
+  Cell[BoxData[
+      \(TraditionalForm\`\((\[CapitalEpsilon]\_n\/\(\[HBar]\ w\) - 
+          1\/2)\)\)]],
+  ". Additionally we find that ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\[CenterDot]\(a\^+\) - \(a\^+\) a = 1\)]],
+  ". Operators with this property  are called commutative:"
+}], "Text"],
+
+Cell[BoxData[
+    \(a[aPlus[f[x]]] - aPlus[a[f[x]]] // Simplify\)], "Input"],
+
+Cell["Considering the following experiment:", "Text"],
+
+Cell[TextData[Cell[BoxData[
+    \(TraditionalForm\`\(a\^+\) 
+        a\ \[CenterDot]\(a\^+\) \[Psi]\_n = \(\(\(a\^+\)(
+            1 + \(a\^+\) 
+                a)\)\ \[Psi]\_n = \(\(a\^+\)(\[Psi]\_n + \((\[CapitalEpsilon]\
+\_n\/\(\[HBar]\ w\) - 1\/2)\) \[Psi]\_n) = \(\(\(a\^+\)(
+                1 + \[CapitalEpsilon]\_n\/\(\[HBar]\ w\) - 
+                  1\/2)\) \[Psi]\_n = \((\[CapitalEpsilon]\_n\/\(\[HBar]\ w\) \
+- 1\/2 + 1)\)\ \(a\^+\) \[Psi]\_n\)\)\)\)]]], "Text"],
+
+Cell[TextData[{
+  "This means that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(a\^+\) \[Psi]\_\(\(n\)\(\ \)\)\)]],
+  "is also an eigenstate of the SEQ but with a higher energy. The same can be \
+shown for ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\[CenterDot]\[Psi]\_n\)]],
+  " but this time lowering the energy. But we know that there has to be a \
+groundstate ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_\(\(0\)\(\ \)\)\)]],
+  "which can not be lowered in its energy, i.e. a ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_0 = 0\)]],
+  ". This fact can simply be obtained by setting ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_0\)]],
+  " to ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalEpsilon]\_0 = \(1\/2\) \[HBar]\ \
+\[Omega]\)]],
+  ". Thereby we obtain the following simple DEQ:   \n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\[CenterDot]\[Psi]\_0 = 0\[CenterDot]\[Psi]\_0\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(a[\[Psi][x]] \[Equal] 0\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\ \)\(DSolve[a[\[Psi][x]] \[Equal] 0, \[Psi][x], x]\)\)\)], "Input"],
+
+Cell[TextData[{
+  "This means we found the ground state: ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\(\[Psi]\_0\)(x)\)\(=\)\)\)]],
+  Cell[BoxData[
+      \(\(\(c\_\(\(0\)\(\ \)\)\) \(\[ExponentialE]\^\(-\(\(m\ x\^2\ \
+\[Omega]\)\/\(2\ \[HBar]\)\)\)\)\(\ \)\)\)]],
+  "\nAll higher states can now simply be computed by applying ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(a\^+\)\)]],
+  "onto ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_0\)]],
+  " as often as necessary. Let's do it:"
+}], "Text"],
+
+Cell[BoxData[{
+    \(\(\[Psi] = \[ExponentialE]\^\(-\(\(m\ x\^2\ \[Omega]\)\/\(2\ \
+\[HBar]\)\)\)\ ;\)\), "\[IndentingNewLine]", 
+    \(Do[\[Psi] = 
+        aPlus[\[Psi]]\ \ ; \
+\[IndentingNewLine]Print[\[Psi]/\[ExponentialE]\^\(-\(\(m\ x\^2\ \[Omega]\)\/\
+\(2\ \[HBar]\)\)\)\  // FullSimplify];\[IndentingNewLine], {i, 1, 
+        5}]\)}], "Input"],
+
+Cell["Again we have found the  Hermite-polynomials !", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Expectation values and variances using operators", "Subsection"],
+
+Cell[TextData[{
+  "Also the computation of expectation values and variances becomes very easy \
+by using operators. Using the fact that \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\@\(\[HBar]\/\(2\ m\ \[Omega]\)\)\) \((a + \
+\(a\^+\))\) = x\)]],
+  "  \n\nwe can rewrite the expectation value to\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\(<\)\(x\)\( > \_n\)\), "=", 
+          RowBox[{
+            RowBox[{"\[Integral]", 
+              RowBox[{
+                
+                FormBox[\(\(\[Psi]\&_\_n\ \[CenterDot]
+                        x\[CenterDot]\[Psi]\_n\ dx\)\(=\)\),
+                  
+                  "TraditionalForm"], \(\[Integral]\[Psi]\&_\_n\ \[CenterDot]\
+\@\(\[HBar]\/\(2\ m\ \[Omega]\)\) \((\[Psi]\_\(n - 1\) + \[Psi]\_n1)\)\ \
+dx\)}]}], 
+            "=", \(\[Integral]\[Psi]\&_\_n\ \[CenterDot]\@\(\[HBar]\/\(2\ m\ \
+\[Omega]\)\) \((\[Psi]\_\(n - 1\) + \[Psi]\_n1)\)\ dx = 0\)}]}], 
+        TraditionalForm]]],
+  "\n\n since all ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_n\)]],
+  " define an orthonormal basis.\n\nSimilarly we can compute the variance: \n\
+\n",
+  Cell[BoxData[{
+      FormBox[
+        RowBox[{\(\(<\)\(x\^2\)\( > \_n\)\), "=", 
+          RowBox[{
+            
+            FormBox[\(\[Integral]\[Psi]\&_\_n\ \[CenterDot]\((\(\(x\)\(-\)\) \
+< x > )\)\^2\[CenterDot]\[Psi]\_n\ dx\[IndentingNewLine]
+               = \),
+              
+              "TraditionalForm"], \(\[Integral]\[Psi]\&_\_n\ \[CenterDot]
+                  x\^2\[CenterDot]\[Psi]\_n\ dx\)}]}], TraditionalForm], 
+    "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{
+          "      ", \(\(=\)\(\[Integral]\[Psi]\&_\_n\ \
+\[CenterDot]\[HBar]\/\(2\ m\ \[Omega]\)\[CenterDot]\((a\ a\  + \ 
+                      a\ \(a\^+\) + \(a\^+\) 
+                        a + \(a\^+\) \(a\^+\))\) \[Psi]\_n\ dx\)\)}], 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{
+          "      ", \(\(=\)\(\[Integral]\[Psi]\&_\_n\ \
+\[CenterDot]\[HBar]\/\(2\ m\ \[Omega]\)\[CenterDot]\((\[Psi]\_\(n - 2\)\  + 
+                        2\ \[Psi]\_n + \[Psi]\_\(n + 2\))\) 
+                  dx = \[HBar]\/\(m\ \[Omega]\)\)\)}], TraditionalForm]}]]
+}], "Text"],
+
+Cell[TextData[{
+  " PS: in the groundstate the variance is about a factor 1/2 smaller since  \
+",
+  Cell[BoxData[
+      \(TraditionalForm\`\(a\^+\) a\ \[Psi]\_0 = 0\)]],
+  "!"
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The vibrating lattice as an other \"oscillator-problem\"", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["The vibrating lattice", "Subsection"],
+
+Cell[TextData[{
+  "In the case of a vibrating lattice we simply have a large sum of single \
+oscillators coupled with each other. The Hamiltonian of such a lattice is \
+therefore: \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H = \[Sum]\+\(i = 1\)\%N\(\( p\_i\)\& \[Rule] \
+\)\^2\/\(2\ m\_i\) + \[Sum]\+\(i \[NotEqual] j\)\%N 
+              V(\(\(R\_i\)\& \[Rule] \) - \(\(R\_j\)\& \[Rule] \))\)]],
+  "\t\t(N = # of atoms,  ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_i\)]],
+  " = individual mass, ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(R\_j\)\& \[Rule] \)\)]],
+  " = position of atom j )\n\nIf we reduce the problem a little bit by \
+assuming only next-neighbor interaction and atoms with all the same mass, and \
+a spring like repulsion, the equation changes to:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H = \[Sum]\+\(i = 1\)\%N\(\( p\_i\)\& \[Rule] \
+\)\^2\/\(2\ m\) + \[Sum]\+i\%N\( 1\/2\) 
+              k\ \((2\ x\_j\^2 - \(x\_j\) x\_\(j - 1\) - \(x\_j\) 
+                    x\_\(j + 1\))\)\)]],
+  "\n\n(in fact we should write ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Delta]x\_j\)]],
+  " ..., since it represents a deflection of the atom from its equilibrium \
+position.)\nLet's further assume a cyclic chain with distance ",
+  StyleBox["L",
+    FontSlant->"Italic"],
+  " between neighbored atoms we can define creation and annihilation \
+operators ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(b\_q\^+\), \ b\_q\)]],
+  "\n\n",
+  Cell[BoxData[{
+      FormBox[
+        RowBox[{\(b\_q\), "=", 
+          RowBox[{\(1\/\@N\), 
+            RowBox[{\(\[Sum]\+\(j = 1\)\%N\), 
+              RowBox[{\(\@\(\(m\ \[Omega]\_q\)\/\(2\ \[HBar]\)\)\), " ", 
+                RowBox[{
+                  SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{
+                      RowBox[{
+                        StyleBox["-",
+                          FontColor->RGBColor[1, 0, 0]], "\[ImaginaryI]"}], 
+                      " ", "q", " ", "j", " ", "L"}]], 
+                  
+                  "(", \(x\_j + \[ImaginaryI] \(\( p\_j\)\(\ \)\)\/\(m\ \
+\[Omega]\_q\)\), ")"}]}]}]}]}], TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{\(\(b\^+\)\_q\), "=", 
+          RowBox[{\(1\/\@N\), 
+            RowBox[{\(\[Sum]\+\(j = 1\)\%N\), 
+              RowBox[{\(\@\(\(m\ \[Omega]\_q\)\/\(2\ \[HBar]\)\)\), " ", 
+                
+                RowBox[{\(\[ExponentialE]\^\(\[ImaginaryI]\ q\ j\ L\)\), "(", 
+                  
+                  RowBox[{\(x\_j\), 
+                    StyleBox["-",
+                      FontColor->RGBColor[1, 0, 
+                      0]], \(\[ImaginaryI] \(\( p\_j\)\(\ \)\)\/\(m\ \[Omega]\
+\_q\)\)}], ")"}]}]}]}]}], TraditionalForm]}]],
+  "\t\t\[DoubleLeftRightArrow]  \t\t   ",
+  Cell[BoxData[{
+      FormBox[
+        RowBox[{\(x\_j\), "=", 
+          RowBox[{\(1\/\@N\), 
+            RowBox[{\(\[Sum]\+\(n = 1\)\%N\), 
+              RowBox[{\(\@\(\[HBar]\/\(2\ m\ \[Omega]\_q\)\)\), 
+                
+                RowBox[{\(\[ExponentialE]\^\(\[ImaginaryI]\ q\ j\ L\)\), "(", 
+                  
+                  RowBox[{\(b\_q\), "+", 
+                    SubscriptBox[\(b\^+\), 
+                      RowBox[{
+                        StyleBox["-",
+                          FontColor->RGBColor[1, 0, 0]], "q"}]]}], 
+                  ")"}]}]}]}]}], TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{\(x\_j\), "=", 
+          RowBox[{\(1\/\@N\), 
+            RowBox[{\(\[Sum]\+\(n = 1\)\%N\), 
+              RowBox[{\(\@\(\[HBar]\/\(2\ m\ \[Omega]\_q\)\)\), 
+                
+                RowBox[{\(\[ExponentialE]\^\(\[ImaginaryI]\ q\ j\ L\)\), "(", 
+                  
+                  RowBox[{\(b\_q\), 
+                    StyleBox["-",
+                      FontColor->RGBColor[1, 0, 0]], 
+                    SubscriptBox[\(b\^+\), 
+                      RowBox[{
+                        StyleBox["-",
+                          FontColor->RGBColor[1, 0, 0]], "q"}]]}], 
+                  ")"}]}]}]}]}], TraditionalForm]}]],
+  " \n\nWith this redefinition of ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_i\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\_i\)]],
+  " we can rewrite the hamiltonian:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H = \(-\(1\/4\)\) \(\[Sum]\+q \[HBar]\ \[Omega]\_q\
+\ \ \((b\_q - \(b\^+\)\_\(-q\))\) \((b\_\(-q\) - \(b\^+\)\_q)\)\) + \(1\/4\) \
+\(\[Sum]\+q \[HBar]\/\[Omega]\_q\[CenterDot]k\/m \((b\_q + \
+\(b\^+\)\_\(-q\))\) \((b\_\(-q\) + \(b\^+\)\_q)\)\[CenterDot]\((2 - \
+\[ExponentialE]\^\(\[ImaginaryI]\ q\ L\) - \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ q\ L\))\)\)\)]],
+  "\n\nIf we use the commutation relations ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(b\_q\) \(b\^+\)\_q - \(\(b\^+\)\_q\) 
+            b\_q = \(1\ \ \ and\ \ \ \(\[Sum]\+q\(\( b\^+\)\_\(-q\)\) 
+                b\_\(-q\)\) = \[Sum]\+q\(\( b\^+\)\_q\) b\_q\)\)]],
+  " and choose ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Omega]\_q\)]],
+  " to be\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Omega]\_q = k\/m\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\((2 - \[ExponentialE]\^\(\[ImaginaryI]\ q\ L\) - \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ q\ L\))\) = \(\(2\ k\)\/m\) \((1 - 
+              cos(q\ L))\)\)]],
+  " \n\nH simplifies to:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H = \(\[Sum]\+q\( \[HBar]\ \
+\[Omega]\_q\)\/2\ \ \((\(b\_q\) \(b\^+\)\_q + \(\(b\^+\)\_q\) 
+                    b\_q)\) = \[Sum]\+q \[HBar]\ \[Omega]\_q\ \ \((\(\(b\^+\)\
+\_q\) b\_q + 1\/2)\)\)\)],
+    FontColor->RGBColor[0, 0, 1]],
+  "\n\nThis means that the hamiltonian is a sum of single oscillators with \
+wavenumber ",
+  StyleBox["q",
+    FontSlant->"Italic"],
+  " and energy:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[HBar]\ \(\[Omega](
+            q)\) = \[HBar]\ \@\(\(\(2\ k\)\/m\) \((1 - cos(q\ \
+L))\)\)\ \ \ \ \ q\ \[Epsilon] {\(-\[Pi]\)/L, \[Pi]/L}\)]],
+  "\n\nEach oscillator has its own ground energy ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(1\/2\) \[HBar]\ \(\[Omega](q)\)\)]],
+  " and can be excited into states of  ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_\(q, n\) = \((n + 1\/2)\)\ \[HBar]\ \(\[Omega](
+            q)\)\)]],
+  ". These oscillations are called ",
+  StyleBox["phonons",
+    FontSlant->"Italic"],
+  "."
+}], "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Chapter 7", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Operators and Vectorspaces", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Basics", "Subsection"],
+
+Cell[TextData[{
+  "In chapter 6 we have already talked about eigenstates and their \
+eigenvalues. This terminology is usually used in linear algebra, but in this \
+chapter we will see how methods and principles from linear algebra can be \
+extrapolated onto functions and therefore are extremely helpful for QM. First \
+of all let's have a look to the eigenvalues and eigenstates of the \
+Hamiltonian:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H\[CenterDot]\[Psi]\_n = E\_n\ \[Psi]\_n\)]],
+  "\n\nIf we compute\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\[Psi]\&_\_m\ H\[CenterDot]\[Psi]\_n  
+            dx = \(\[Integral]\[Psi]\&_\_m\ E\_n\[CenterDot]\[Psi]\_n  
+              dx = \(\(E\_n\) \(\[Integral]\[Psi]\&_\_m\ \(\[Psi]\_n\) 
+                  dx\)\( = \&! \)\(\[Integral]H\[CenterDot]\[Psi]\&_\_m\ \(\
+\[Psi]\_n\) dx = \(E\_m\) \(\[Integral]\[Psi]\&_\_m\ \[Psi]\_n\)\)\)\)\)]],
+  "\n\nwe see that if  ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_n \[NotEqual] E\_m\)]],
+  " the integral",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\ \)\(\[Integral]\(\(\[Psi]\&_\_m\)\(\ \
+\)\(\[Psi]\_n\)\(\ \)\)\)\)\)]],
+  "has to be zero. This means the states are orthonormal ! The Hamiltonian \
+therefore defines a set of orthogonal functions, that can be used to define \
+any arbitrary state \[Psi] as a linear combination of these base functions:\n\
+\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](
+          x) = \[Sum]\+\(n = 1\)\%\[Infinity] c\_n\ \(\(\[Psi]\_n\)(x)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "This property reminds strongly on the definition of an orthogonal basis as \
+we know it from vector spaces. An arbitrary vector is also always defined by \
+a linear combination of basevectors . The in this case even complex \
+coefficients ",
+  Cell[BoxData[
+      \(TraditionalForm\`c\_n\)]],
+  " can be obtained by the so called scalar product. It describes the \
+projection of one vector into the direction of a second vector, and in this \
+case this is the base vector. \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`c\_n = 
+        v\&\(\(\[Rule]\)\(\ \)\)\[CenterDot]\(\(e\_n\)\& \[Rule] \)\)]],
+  " \n\nUsing this, a vector can also be written as follows: \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`v\&\(\(\[Rule]\)\(\ \)\) = \[Sum]\+\(n = 1\)\%\
+\[Infinity]\(\( 
+                    e\_n\)\& \[Rule] \)\ \((v\&\(\(\[Rule]\)\(\ \)\)\
+\[CenterDot]\(\(e\_n\)\& \[Rule] \))\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "In order to separate an arbitrary state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\)\(>\)\)\)\)]],
+  " (this notation goes back to Dirac and is called \"bra\" for ",
+  Cell[BoxData[
+      \(TraditionalForm\` < \)],
+    FontColor->RGBColor[1, 0, 0]],
+  StyleBox["\[Psi]|",
+    FontColor->RGBColor[1, 0, 0]],
+  " and \"cet\" for ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\)\(>\)\)\)\)],
+    FontColor->RGBColor[1, 0, 0]],
+  StyleBox[" ",
+    FontColor->RGBColor[1, 0, 0]],
+  ") into its base functions we need to define a scalar product for \
+functions. This scalar product is: \n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          StyleBox[\(\(<\)\(\[Psi]\)\),
+            FontColor->RGBColor[1, 0, 0]], 
+          StyleBox["|",
+            FontColor->RGBColor[1, 0, 0]], 
+          RowBox[{
+            StyleBox["\[Phi]",
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox[">",
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox[" ",
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox["\[Congruent]",
+              FontColor->RGBColor[1, 0, 0]], " ", 
+            RowBox[{
+              StyleBox["\[Integral]",
+                FontColor->RGBColor[1, 0, 0]], 
+              RowBox[{
+                RowBox[{
+                  StyleBox[\(\[Psi]\&_\),
+                    FontColor->RGBColor[1, 0, 0]], 
+                  StyleBox["\[CenterDot]",
+                    FontSize->16,
+                    FontColor->RGBColor[1, 0, 0]], 
+                  StyleBox["\[Phi]",
+                    FontSize->16,
+                    FontColor->RGBColor[1, 0, 0]]}], 
+                StyleBox[" ",
+                  FontSize->16,
+                  FontColor->RGBColor[1, 0, 0]], 
+                StyleBox["dx",
+                  FontSize->16,
+                  FontColor->RGBColor[1, 0, 0]]}]}]}]}], TraditionalForm]],
+    FontSize->16]
+}], "Text"],
+
+Cell[TextData[{
+  "We can easily show that this definition does exactly what we wanted i.e. \
+computes the ",
+  Cell[BoxData[
+      \(TraditionalForm\`c\_n\)]],
+  ":"
+}], "Text"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\(<\)\(\[Psi]\_m\)\) | \(\(\[Psi]\)\(>\)\)\  = \ \(\
+\[Integral]\[Psi]\&_\_m\[CenterDot]\[Psi]\ dx = \(\[Sum]\+\(n = 1\)\%\
+\[Infinity]\[Integral]\[Psi]\&_\_m\[CenterDot]c\_n\[CenterDot]\[Psi]\_n  
+                dx = \(\(\[Delta]\_\(n, m\)\ c\_n\)\(=\)\(c\_m\)\(\ \
+\)\)\)\)\)], "Text"],
+
+Cell[TextData[{
+  "Now we can write \[Psi] as:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\[Psi] >= \[Sum]\+\(n = \
+1\)\%\[Infinity]\)\(|\)\(\[Psi] >  < \[Psi]\&_\_n\)\(|\)\(\(\[Psi]\)\(>\)\)\)\
+\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "It can be shown that the sum over  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(c\_n\)\( | \^2\)\)\)]],
+  " equals 1, which is why the ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(c\_n\)\( | \^2\)\)\)]],
+  " are usually interpreted as the probability to find  \[Psi] in the \
+eigenstate  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_n\)]],
+  " . Just very quickly the proof:  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`1 = \(\(\(<\)\(\[Psi]\)\) | \[Psi] >= \[Sum]\+\(n, m\
+\)\(\(<\)\(\[Psi]\)\) | \[Psi]\_m >  < \[Psi]\_m | \[Psi]\_n >  < \[Psi]\_n | \
+\(\(\[Psi]\)\(>\)\)\[IndentingNewLine]
+        \t\ \ \ \ \(\(=\)\(\[Sum]\+\(n, m\)\(\(<\)\(\[Psi]\)\) | \[Psi]\_m > \
+\[Delta]\_\(n, m\) < \[Psi]\_n | \(\(\[Psi]\)\(>\)\)\[IndentingNewLine]
+          \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\(=\)\(\[Sum]\+n\(\(<\)\(\[Psi]\)\
+\) | \[Psi]\_n >  < \[Psi]\_n | \(\(\[Psi]\)\(>\)\)\[IndentingNewLine]
+            \ \ \ \ \ \ \ \ \ \ \ \ \(\(=\)\(\[Sum]\+n\(\(|\)\(\(<\)\(\[Psi]\)\
+\)\(|\)\(\(\[Psi]\_n\)\(>\)\)\( | \^2\)\) = \(\[Sum]\+n\(\(|\)\(c\_n\)\( | \
+\^2\)\) = 1\)\)\)\)\)\)\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Another idea that comes originally from linear algebra but can be \
+transferred to quantummechanical problems, is the following:\n\nA matrix ",
+  StyleBox["H",
+    FontWeight->"Bold"],
+  " with the property ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(n, m\) = H\&_\_\(m, n\)\)]],
+  " (complex-conjugated- skew symmetric) can be decomposed by use of \
+eigenvectors ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[\(e\&\(\(\[Rule]\)\(\ \)\)\_n\),
+            "TraditionalForm"], ",", \(e\&\(\(\[Rule]\)\(\ \)\)\_m\)}], 
+        TraditionalForm]]],
+  " into ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(\(n\)\(,\)\(m\)\(\ \)\)\)]],
+  ":\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(n, m\) = \(\(\(\(e\& \[Rule] \)\(\ \)\)\_n\) \
+\((H\[CenterDot]\(\(e\_m\)\& \[Rule] \))\) = \(\(<\)\(n\)\) | 
+            H | \(\(m\)\(>\)\)\)\)]],
+  "\n\nFurthermore a fundamental theorem states that every symmetrical matrix \
+",
+  StyleBox["H",
+    FontWeight->"Bold"],
+  " can be transferred to a diagonal matrix by an appropriate rotation of its \
+base vectors! By this rotation the new base vectors become eigenvectors of ",
+  StyleBox["H",
+    FontWeight->"Bold"],
+  " with the eigenvalues as the diagonal matrix elements."
+}], "Text"],
+
+Cell[TextData[{
+  "What does this mean for QM? Well, let's choose a set of arbitrary base \
+functions (e.g. the solutions of the harmonic oscillator) and by use of them \
+create a symmetrical matrix  ",
+  StyleBox["H",
+    FontWeight->"Bold"],
+  " with ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(n, m\) = \(\(<\)\(\[Psi]\_n\)\) | 
+          H | \(\(\[Psi]\_m\)\(>\)\)\)]],
+  "  (certainly this Matrix would have infinite dimension, but as we will see \
+finite dimension will be accurate enough for most problems). ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\)]],
+  " is the Hamiltonian of an arbitrary potential V(x). If V(x) is the \
+harmonic oscillator potential the matrix will be diagonalized immediately \
+with eigenvalues on the diagonal. But with a potential V(x) which is not the \
+one of the harmonic oscillator, we will obtain off-diagonal entries. By \
+rotating the matrix and its base functions ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_n\)]],
+  " , we can obtain a diagonal form for ",
+  StyleBox["H",
+    FontWeight->"Bold"],
+  ". By this rotation we get the eigenvalues of the Hamiltonian on the \
+diagonal and new eigenvectors, describing the eigenstates. \nTo make this \
+idea a bit clearer we will compute the Energies for a cubic potential V(x) = \
+a |",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(x\)\( | \^3\)\)\)]],
+  "   and the Band-structure of a 1D-lattice, using a Kroning-Penny \
+potential."
+}], "Text"],
+
+Cell["Example 1 (a,b)", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["1.a the cubic potential", "Subsubsection"],
+
+Cell["\<\
+Choose the solution of the harmonic oscillator as a set of base \
+functions:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Remove["\<Global`*\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\[Psi][n_] := \(1\/\@\(\(2\^n\) \(n!\)\ \[Pi]\)\) 
+          Exp[\(-x\^2\)/2]\ HermiteH[n, x];\)\)], "Input"],
+
+Cell[TextData[{
+  "The ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(n, m\) = \(\(<\)\(\[Psi][n]\)\) | 
+          H | \(\(\[Psi][m]\)\(>\)\)\)]],
+  " are computed in 2 steps; first the potential part of the Hamiltonian and \
+afterwards the kinetic part."
+}], "Text"],
+
+Cell[BoxData[
+    \(\(Vpot[N_] := 
+        Table[Integrate[\(-\[Psi][n]\) \(x\^3\) \[Psi][
+                  m], {x, \(-\[Infinity]\), 0}] + 
+            Integrate[\[Psi][n]\ \(x\^3\) \[Psi][m], {x, 
+                0, \[Infinity]}], {n, 0, N}, {m, 0, N}];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Ekin[
+          N_] := \(-Table[
+            Integrate[\[Psi][n] 
+                D[\[Psi][m], {x, 
+                    2}], {x, \(-\[Infinity]\), \[Infinity]}], {n, 0, N}, {m, 
+              0, N}]\);\)\)], "Input"],
+
+Cell["Here an expansion up to 10 base functions should be enough:", "Text"],
+
+Cell[BoxData[
+    \(V10 = Vpot[10]; MatrixForm[V10] // N\)], "Input"],
+
+Cell[BoxData[
+    \(E10 = Ekin[10]; MatrixForm[E10] // N\)], "Input"],
+
+Cell[BoxData[
+    \(H = E10 + V10; MatrixForm[H] // N\)], "Input"],
+
+Cell[BoxData[
+    \(Energy = Eigenvalues[H] // N\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot[Reverse[Energy], PlotStyle \[Rule] PointSize[0.02], 
+      AxesLabel \[Rule] {"\<n\>", "\<Energy\>"}, 
+      Ticks \[Rule] None]\)], "Input"],
+
+Cell["\<\
+The energy rises not linearly anymore as with the harmonic \
+oscillator. Note that there will always be a numerical error due to the \
+limited expansion of H to a 10x10 instead of a \[Infinity]x\[Infinity] \
+matrix. This error increases with increasing energy (so, don't trust the last \
+energy values)\
+\>", "Text"],
+
+Cell["Let's see how the first 6 Eigenstates look like", "Text"],
+
+Cell[BoxData[
+    \(\(EigenVectors = Eigenvectors[N[H]];\)\)], "Input"],
+
+Cell["The first eigenvector:", "Text"],
+
+Cell[BoxData[
+    \(EigenVectors[\([1]\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\[Psi][m_, x_] := 
+        Sum[\[Psi][n]*EigenVectors[\([11 - m, n]\)], {n, 1, 
+            11}];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Show[
+      GraphicsArray[
+        Partition[
+          Table[Plot[Abs[\[Psi][n, x]], {x, \(-10\), 10}, Ticks \[Rule] None, 
+              PlotRange \[Rule] \ {0, 1}, 
+              PlotLabel \[Rule] "\<n=\>" <> ToString[n], 
+              DisplayFunction \[Rule] Identity], {n, 0, 5}], 3]]]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["1.b Bandstructure", "Subsubsection"],
+
+Cell[TextData[{
+  "Let's find the band-structure in the case of an 1D-lattice using the \
+Kroning-Penny-model.\nIn this model the potential of each atom is \
+approximated by a DiracDelta function \[Delta](x-sa) whereby ",
+  StyleBox["s",
+    FontSlant->"Italic"],
+  " is an Integer and ",
+  StyleBox["a",
+    FontSlant->"Italic"],
+  " the lattice constant. Assuming ",
+  StyleBox["N",
+    FontSlant->"Italic"],
+  " atoms and cyclic boundary conditions (in order to have an infinite \
+crystal) we can start decomposing the solution with plane waves. Let's simply \
+write down what we have:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](x, k) = \(1\/\@\(N\ a\)\) 
+          Exp[\[ImaginaryI]\ k\ x]\)]],
+  "\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`V(
+          x) = \(-\(\[Sum]\+\(s = 1\)\%N \[Delta](x - a\ s)\)\)\)]],
+  "\n\nsince we have cyclic boundary conditions ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](0, 
+          k)\( = \&! \)\(\[Psi](N\ a, 
+              k)\ \ \  \[Implies] \ \ \ k = \ \(2\ \[Pi]\ m\)\/\(N\ \
+a\)\)\)]],
+  "\n\nThe entries of H will therefore be:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(k\_1\)\) | 
+          H | \(\(k\_2\)\(>\)\)\  = \(1\/\(N\ a\)\) \(\[Integral]\_0\%\(N\ \
+a\)Exp[\(-\[ImaginaryI]\)\ k\_1\ x]*\((\[PartialD]\_\(x\^2\)\(+\(V(x)\)\))\)*
+              Exp[\[ImaginaryI]\ k\_2\ x] \[DifferentialD]x\)\)]],
+  "\n\nBut for the potential part we only need to evaluate the integral at \
+the points ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(x\_s\)\(=\)\(\ \)\(sa\)\(\ \)\)\)]],
+  "  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[Implies]\)\(\ \ \ \)\(\[Sum]\+\(s = 0\)\%N\(\( \
+\[Psi](x\_s, \(-k\_1\))\)\(\ \)\(\[Psi](x\_s, k\_2)\)\(\ \)\)\)\)\)]],
+  "\n\nFor the kinetic part we use the fact that the wavefunctions form an \
+orthonormal base i.e.\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_0\%\(N\ a\)\(\[Psi](
+              x, \(-k\_1\))\)\ \[PartialD]\_\(x\^2\)\(\[Psi](x, 
+                
+                k\_2)\)\ \[DifferentialD]x = \(\[Integral]\_0\%\(N\ a\)\(\
+\[Psi](x, \(-k\_1\))\)\ \[CenterDot]
+                k\_2\^2\[CenterDot]\(\[Psi](x, 
+                  k\_2)\)\ \[DifferentialD]x = \(k\_2\^2\) \(\[Delta](\(k\_\(\
+\(1\)\(,\)\)\) k\_2)\)\)\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(Remove["\<Global`*\>"]\)], "Input"],
+
+Cell[BoxData[{
+    \(\(\[Psi][x_, m_] := \(1\/\@\(Nx\ a\)\) 
+          Exp[\(\(\[ImaginaryI]\ 2\ \[Pi]\)\/\(Nx\ a\)\) 
+              m];\)\), "\[IndentingNewLine]", 
+    \(\(PotEnergy[m1_, 
+          m2_] := \[Sum]\+\(s = 1\)\%L \[Psi][x[\([s]\)], \(-m1\)]\ \ \[Psi][
+              x[\([s]\)], m2];\)\), "\[IndentingNewLine]", 
+    \(\(KinEnergy[m1_, m2_] := 
+        KroneckerDelta[m1, 
+            m2]*\((\(m1\ \ 2  \[Pi]\)\/\(Nx\ a\))\)\^2;\)\)}], "Input"],
+
+Cell["\<\
+We assume 20 atoms, a lattice constant of 1 and decompose up to a \
+wavevector being 4 times longer than the first Brillouin-zone!\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(Nx = 40;\)\), "\[IndentingNewLine]", 
+    \(\(a = 1;\)\), "\[IndentingNewLine]", 
+    \(\(L = Nx\ a;\)\), "\[IndentingNewLine]", 
+    \(\(mmax\  = \ 4\ Nx/2;\)\), "\[IndentingNewLine]", 
+    \(\(mmin\  = \ 0;\)\), "\[IndentingNewLine]", 
+    \(\(x = Table[n\ a, {n, 0, 4  Nx\/2 - 1, 1}];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(\(H = 
+        Table[PotEnergy[m1, m2] + KinEnergy[m1, m2], {m1, mmin, mmax}, {m2, 
+            mmin, mmax}];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(HNumeric = H // N;\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(EigenEnergies = 
+        Partition[Reverse[Eigenvalues[HNumeric]], Nx/2];\)\)], "Input"],
+
+Cell[BoxData[
+    \(EigenEnergiesSorted = {EigenEnergies[\([1]\)], 
+        Reverse[EigenEnergies[\([2]\)]], EigenEnergies[\([3]\)], 
+        Reverse[EigenEnergies[\([4]\)]]}\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot[
+      Partition[
+        Flatten[\({\(Transpose[{\(-Range[0, Nx/2 - 1]\), #}] &\) /@ 
+                  EigenEnergiesSorted, 
+                Transpose[{Range[0, Nx/2 - 1], #}]} &\) /@ 
+            EigenEnergiesSorted], 2], PlotLabel -> "\<Bandstructure\>", 
+      AxesLabel \[Rule] \ {"\<k\>", "\<\>"}, 
+      Ticks \[Rule] {{{\(-L\)/2 + 
+                0.1, \*"\"\<-\!\(\(N\\\ a\)\/2\)\>\""}, {L/2 - 
+                0.1, \*"\"\<\!\(\(N\\\ a\)\/2\)\>\""}}, None}]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["More Operators", "Subsection"],
+
+Cell["\<\
+Apart from the Hamiltonian, the creation and annihilation-operators \
+there is a whole bunch of other operators used in QM. All these operators \
+have their own eigenstates and corresponding eigenvalues. In the following \
+passage we will discuss some other operators and their properties as \
+\"Hermitian\" for instance (what this means is explained now)\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Hermitian ?", "Subsubsection"],
+
+Cell[TextData[{
+  "An operator ",
+  StyleBox["Op",
+    FontWeight->"Bold"],
+  " is called",
+  StyleBox[" Hermitian ",
+    FontSlant->"Italic"],
+  "if it has the following property:\n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(\[Psi]\)\) | 
+          Op | \(\(\[Phi]\)\(>\)\)\  = \(\(\(<\)\(\[Phi]\)\) | Op | \
+\(\(\[Psi]\)\(>\)\)\)\&_\)]],
+  "\n\nThe Hamiltonian is Hermitian:\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(\(<\)\(\[Psi]\)\) | 
+          H | \(\(\[Phi]\)\(>\)\)\  = \
+\(\[Integral]\(\(\[Psi]\&_\)(\[PartialD]\_\(x, x\)\(+V\))\) \[Phi]\ dx = \
+\[Integral]\[Psi]\&_\[CenterDot]\[PartialD]\_\(x, x\)\[Phi]dx + \[Integral]\(\
+\[Psi]\&_\) V\ \[Phi]\ dx\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\( = \&\(part . 
+              Int\)\)\(\ \ \)\(\(-\(\[Integral]\((\[PartialD]\_x \[Psi]\&_)\) \
+\((\[PartialD]\_x \[Phi])\) 
+                  dx\)\) + \(\[Integral]\[Psi]\ V\ \(\[Phi]\&_\) dx\)\&_\( = \
+\&\(part . 
+                Int\)\)\[Integral]\((\[PartialD]\_\(x, x\)\[Psi]\&_)\)\ \
+\[Phi]\ dx + \(\[Integral]\[Psi]\ V\ \(\[Phi]\&_\) dx\)\&_\)\)\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\(=\)\(\(\[Integral]\[Phi]\&_\ \
+\((\[PartialD]\_\(x, x\)\[Psi])\)\ dx\)\&_ + \(\[Integral]\(\[Phi]\&_\) V\ \
+\[Psi]\ \ dx\)\&_\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\(=\)\(\(\(\(<\)\(\[Phi]\)\) | 
+              H | \(\(\[Psi]\)\(>\)\)\)\&_\)\)\)}]]
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["(Reminder: ",
+    FontSize->10],
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\[Phi]' \[Psi]\ dx = \[Phi]\ \[Psi] | \(-\
+\(\[Integral]\[Phi]\ \[Psi]'\ dx\)\)\)],
+    FontSize->10],
+  StyleBox[" )",
+    FontSize->10]
+}], "Text"],
+
+Cell[TextData[{
+  "This property ensures that the ",
+  StyleBox["H ",
+    FontWeight->"Bold"],
+  "matrix is conjugated-complex-skew symmetric and therefore can be \
+diagonalized. Non Hermitian operators can not use this property!"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Der Parityoperator: P", "Subsubsection"],
+
+Cell[TextData[{
+  "The Parity-operator is defined as: ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\[CenterDot]\(\[Psi](x)\) = \[Psi](\(-x\))\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Hermitian?:\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\[Psi]\&_\ P\ \[Phi]\ dx = \(\[Integral]\
+\[Psi]\&_\ \((x)\)\[CenterDot]\ \(\[Phi](\(-x\))\)\ dx = \
+\(\[Integral]\[Psi]\&_\ \((\(-x\))\)\[CenterDot]\ \(\[Phi](
+                    x)\)\ dx = \(\(\[Integral]\[Psi]\ \
+\((\(-x\))\)\[CenterDot]\ \(\(\[Phi]\&_\)(x)\)\ dx\)\&_ = \(hermitian\ \
+!\)\)\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenvalues \[Lambda]:\t",
+  Cell[BoxData[
+      \(TraditionalForm\`P\^2 | \(\(\[Psi]\_\[Lambda]\)\(>\)\)\  = \(P | \(\(\
+\(\[Psi]\_\[Lambda]\)(\(-x\))\)\(>\)\)\  = \
+\(\(\(|\)\(\(\[Psi]\_\[Lambda]\)\(>\)\)\)\  = \ \[Lambda]\^2 | \(\(\[Psi]\_\
+\[Lambda]\)\(>\)\)\)\)\)]],
+  "    \[Implies]   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Lambda]\_\(1/2\) = \(\[PlusMinus]1\)\)]],
+  "      Only 2 eigenvalues!"
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenstates:\tfor ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Lambda]\_1 = 1\)]],
+  "     follows   ",
+  Cell[BoxData[
+      \(TraditionalForm\`P | \(\(\(\[Psi]\_1\)(
+              x)\)\(>\)\)\  = \(\(\(1\)\(\[CenterDot]\)\) | \(\(\(\[Psi]\_1\)(
+                x)\)\(>\)\)\  = \(\[Psi]\_1\)(\(-x\))\)\)]],
+  "     which means \[Psi]  is symmetric\n\t\tfor ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Lambda]\_2 = \(-1\)\)]],
+  "  follows   ",
+  Cell[BoxData[
+      \(TraditionalForm\`P | \(\(\(\[Psi]\_2\)(
+              x)\)\(>\)\)\  = \(\(\(-1\)\(\[CenterDot]\)\) | \
+\(\(\(\[Psi]\_2\)(x)\)\(>\)\)\  = \(\[Psi]\_2\)(\(-x\))\)\)]],
+  "   which means \[Psi]  is skew symmetric"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Translationoperator: ",
+  Cell[BoxData[
+      \(TraditionalForm\`D\_\[CapitalDelta]x\)]]
+}], "Subsubsection"],
+
+Cell[TextData[{
+  "The Translation-operator is defined as: ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(D\_\[CapitalDelta]x\) \(\[Psi](x)\)\  = \ \[Psi](
+          x + \[CapitalDelta]x)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Hermitian? :",
+  Cell[BoxData[{
+      FormBox[\(\[Integral]\[Psi]\&_\ D\_\[CapitalDelta]x\ \[Phi]\ dx = \(\
+\[Integral]\(\(\[Psi]\&_\)(x)\)\ \ \(\[Phi](
+                  x + \[CapitalDelta]x)\)\ dx = \[Integral]\(\(\[Psi]\&_\)(
+                  x - \[CapitalDelta]x)\)\ \ \(\[Phi](x)\)\ dx\)\), 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{"=", 
+          
+          RowBox[{\(\(\[Integral]\(\(\[Phi]\&_\)(x)\)\[CenterDot]\ \(\[Psi](
+                        x - \[CapitalDelta]x)\)\ \ dx\)\&_\), "=", 
+            RowBox[{
+              OverscriptBox[
+                RowBox[{"\[Integral]", 
+                  RowBox[{\(\[Phi]\&_\), " ", 
+                    SubscriptBox["D", 
+                      RowBox[{
+                        StyleBox["-",
+                          FontColor->RGBColor[1, 0, 0]], 
+                        "\[CapitalDelta]x"}]], " ", "\[Psi]", " ", "dx"}]}], 
+                "_"], "=", \(non\ \(hermitian\ !\)\)}]}]}], 
+        TraditionalForm]}]],
+  " \n\t\nThis means a matrix ",
+  StyleBox["D ",
+    FontWeight->"Bold"],
+  "could not be diagonalized. There are therefore no eigenstates and \
+eigenvalues!"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Positionoperator: ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\)]]
+}], "Subsubsection"],
+
+Cell[TextData[{
+  "The Position-operator is defined as: ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\ \(\[Psi](x)\)\  = \ x\ \(\[Psi](x)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Hermitian? : ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\(\(\[Psi]\&_\)(x)\)\ x\&^\ \(\[Phi](
+              x)\)\ dx = \ \(\[Integral]\(\(\[Psi]\&_\)(x)\)\ x\ \(\[Phi](
+                x)\)\ dx = \(\[Integral]\(\[Phi](x)\)\ x\ \(\(\[Psi]\&_\)(
+                  x)\)\ dx = \(\(\[Integral]\(\(\[Phi]\&_\)(x)\)\ x\ \
+\(\[Psi](x)\)\ dx\)\&_ = \(\(\[Integral]\(\(\[Phi]\&_\)(x)\)\ x\&^\ \
+\(\[Psi](x)\)\ dx\)\&_ = \(hermitian!\)\)\)\)\)\)]]
+}], "Text"],
+
+Cell["Eigenvalues:   x' ", "Text"],
+
+Cell[TextData[{
+  "Eigenstates:       ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\_\(x'\)\)(x) = \@\(\[Delta](x - x')\)\)]],
+  "\tsince   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(x\&^\) \(\(\[Psi]\_\(x'\)\)(
+            x)\) = \(x\ \@\(\[Delta](x - x')\) = 
+          x' \@\(\[Delta](x - x')\)\)\)]],
+  "     "
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Momentumoperator: ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\&^\_x\)]]
+}], "Subsubsection"],
+
+Cell[TextData[{
+  "The momentumoperator is defined as: ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\&^\_x = \(-\[ImaginaryI]\)\ \[HBar]\ \
+\[PartialD]\_x\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Hermitian? :   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\[ImaginaryI]\)\ \[HBar]\ \(\[Integral]\[Psi]\&_\ \
+\[PartialD]\_x\ \[Phi]\ dx\)\( = \&\(part . 
+              Int\)\)\(\[ImaginaryI]\ \[HBar]\ \(\[Integral]\[PartialD]\_x \
+\[Psi]\&_\ \[CenterDot]\ \[Phi]\ dx\) = \(\(\(-\[ImaginaryI]\)\ \[HBar]\ \(\
+\[Integral]\[Phi]\&_\ \[PartialD]\_x \[Psi]\ dx\)\)\&_ = \
+\(hermitian!\)\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenvalues: continuous ",
+  StyleBox["p",
+    FontWeight->"Bold"]
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenstates:  ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(p\&^\  | \(\(\[Psi]\)\(>\)\)\), " ", "=", 
+          RowBox[{
+            StyleBox["p",
+              FontWeight->"Bold"], "|", \(\(\[Psi]\)\(>\)\(\ \)\)}]}], 
+        TraditionalForm]]],
+  "   \[DoubleLeftRightArrow]\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\(-\[ImaginaryI]\)\ \[HBar]\ \[Psi]'\), "=", 
+          RowBox[{
+            StyleBox["p",
+              FontWeight->"Bold"], 
+            StyleBox[" ",
+              FontWeight->"Bold"], 
+            StyleBox["\[Psi]",
+              FontWeight->"Plain"]}]}], TraditionalForm]]],
+  "\t\n\t         For this DEQ there is a simple solution, the plain waves    \
+    ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\[Psi](x)\), "=", 
+          SuperscriptBox["\[ExponentialE]", 
+            RowBox[{
+              FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  StyleBox["p",
+                    FontWeight->"Bold"], " "}], "\[HBar]"], "x"}]]}], 
+        TraditionalForm]]]
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Angularmomentumoperator: ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z\)]]
+}], "Subsubsection"],
+
+Cell[TextData[{
+  "The angularmomentum operator is defined as: ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z = x\ p\&^\_y - y\ p\&^\_x\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Hermitian? : Change to cylindrical coordinates  {x,y,z} \[Rule] {r,\
+\[CurlyPhi],z}  with ",
+  Cell[BoxData[
+      \(TraditionalForm\`r = \@\(x\^2 + y\^2\)\)]],
+  "   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CurlyPhi] = arctan(y/x)\)]],
+  " \[Implies] ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z = \(-i\)\ \[HBar]\ \
+\[PartialD]\_\[CurlyPhi]\)]],
+  "\n\t\n\t",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[Integral]\(\(\[Psi]\&_\)(r, \[CurlyPhi], 
+              z)\)\ L\_z\ \(\[Phi](r, \[CurlyPhi], 
+              z)\)\ dx = \(-\[ImaginaryI]\)\ \[HBar]\ \(\[Integral]\(\(\[Psi]\
+\&_\)(r, \[CurlyPhi], 
+                z)\)\ \((\ \[PartialD]\_\[CurlyPhi]\ \(\[Phi](r, \[CurlyPhi], 
+                    z)\)\ )\) dx\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\(=\)\(\[ImaginaryI]\ \[HBar]\ \(\[Integral]\((\
+\[PartialD]\_\[CurlyPhi]\(\( \[Psi]\&_\)(r, \[CurlyPhi], z)\)\ )\)\ \(\[Phi](
+                  r, \[CurlyPhi], 
+                  z)\)\ dx\) = \(\(\[Integral]\(\(\[Phi]\&_\)(r, \[CurlyPhi], \
+z)\)\ \((\(-\[ImaginaryI]\)\ \[HBar]\ \[PartialD]\_\[CurlyPhi]\( \[Psi](r, \
+\[CurlyPhi], z)\))\)\ dx\)\&_\  = \(hermitian\ !\)\)\)\)\)}]]
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenstates:  ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z\ \[Psi] = \(\(-\[ImaginaryI]\)\ \[HBar]\ \
+\[PartialD]\_\[CurlyPhi] \[Psi] = \[Lambda]\ \[Psi]\)\)]],
+  "  \n\t      similar to momentum states we solve DEQ     ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](r, \[CurlyPhi], 
+          z) = \(\[Psi](r, 
+            z)\)\[CenterDot]\[ExponentialE]\^\(\[ImaginaryI] \( \[Lambda]\/\
+\[HBar]\) \[CurlyPhi]\)\)]],
+  ".\n\t     Additionally it has to be:  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](r, \[Phi] + 2\ \[Pi], z)\( = \&! \)\[Psi](
+          r, \[Phi], z)\)]],
+  " which means that \[Lambda] can only be a multiple of \[HBar]  i.e.    \t  \
+    ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Lambda] = m\ \[HBar]\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "Eigenvalues: are therefore  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Lambda] = m\ \[HBar]\)]],
+  ". i.e. the angular momentum is quantized!"
+}], "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Compatibility of Operators", "Section"],
+
+Cell[TextData[{
+  "We have seen that Hermitian operators always define a certain preferred \
+view in respect to function space. Is it still possible that two or even more \
+operators can have the same basis? The answer is \"Yes\", if they commute, \
+i.e. \n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{
+            RowBox[{"[", 
+              RowBox[{"A", 
+                StyleBox[",",
+                  FontWeight->"Bold"], "B"}], 
+              StyleBox["]",
+                FontWeight->"Bold"]}], "\[Congruent]", 
+            RowBox[{\(A\ B\), 
+              StyleBox["-",
+                FontWeight->"Plain"], "BA"}]}], "=", "0"}], 
+        TraditionalForm]]]
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Proof:",
+    FontSlant->"Italic"],
+  " If ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\_n\)\(>\)\)\)\)]],
+  " is a basis of B, with eigenvalues ",
+  Cell[BoxData[
+      \(TraditionalForm\`b\_n\)]],
+  ", than is on the one hand true that ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\ B\  | \(\(\[Psi]\_n\)\(>\)\)\  = \ \(A\ b\_n | \(\
+\(\[Psi]\_n\)\(>\)\)\  = \ b\_n\ A | \(\(\[Psi]\_n\)\(>\)\)\)\)]],
+  "  on the other hand, due to the definition of commutativity, must be true \
+that:  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(b\_n\) A | \[Psi]\_n >  \[Congruent] 
+          B\ A | \(\(\[Psi]\_n\)\(>\)\)\)]],
+  " We can see that ",
+  Cell[BoxData[
+      \(TraditionalForm\`A | \(\(\[Psi]\_n\)\(>\)\)\)]],
+  " has to be eigenstate of  B , which in turn means that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_\(\(n\)\(\ \)\)\)]],
+  "mst be eigenstate of A. A and B therefore have the same basis ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_\(\(n\)\(\ \)\)\)]],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Example 2", "Subsubsection"],
+
+Cell[TextData[{
+  StyleBox["Do P and H commute under a symmetrical potential V(x)=V(-x) ?",
+    FontColor->RGBColor[0, 0, 1]],
+  "\nSimply compute: \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\([P, H]\) \(f(x)\) = \(P\ H\ \(f(x)\) - 
+            H\ P\ \(f(x)\) = \(P\ \((\[PartialD]\_\(x, x\)f + \(V(x)\) f)\) - 
+              H(f(\(-x\))) = \ \[IndentingNewLine]\t\(\[PartialD]\_\(\(-x\), \
+\(-x\)\)f + \(V(\(-x\))\) 
+                  f - \((\[PartialD]\_\(x, x\)\(+\(V(
+                          x)\)\))\)\[CenterDot]\((f(\(-x\)))\) = \(\((\
+\[PartialD]\_\(x, x\)\(+\(V(
+                            x)\)\))\) \(f(\(-x\))\) - \((\[PartialD]\_\(x, \
+x\)\(+\(V(x)\)\))\) \(f(\(-x\))\) = 0\)\)\)\)\)]]
+}], "Text"],
+
+Cell["\<\
+There seems to be a common base for P and H. For instance the \
+harmonic oscillator; its eigenstates are all either symmetric or skew \
+symmetric and therefore also eigenstates of the parity operator.\
+\>", "Text"],
+
+Cell[TextData[{
+  StyleBox["Do ",
+    FontColor->RGBColor[0, 0, 1]],
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\)],
+    FontColor->RGBColor[0, 0, 1]],
+  StyleBox[" and ",
+    FontColor->RGBColor[0, 0, 1]],
+  Cell[BoxData[
+      \(TraditionalForm\`p\&^\)],
+    FontColor->RGBColor[0, 0, 1]],
+  StyleBox[" commute?\n",
+    FontColor->RGBColor[0, 0, 1]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\([x\&^, p\&^]\) \(f(x)\)\)\(=\)\)\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\[ImaginaryI]\)\ \[HBar] 
+             x\&^\ \[PartialD]\_x\( f(x)\) - 
+          p\&^\ x\ \(f(
+              x)\) = \(\(-\[ImaginaryI]\)\ \[HBar]\ x\ \[PartialD]\_x\( f(
+                  x)\) + \[ImaginaryI]\ \[HBar]\ \((f(x) + 
+                  x\ \[PartialD]\_x\( f(
+                        x)\))\) = \(\[ImaginaryI]\ \[HBar]\ \(f(x)\)\  = \ 
+            No\)\), they\ do\ \(not!\)\)]],
+  "\n\nThis means that there is no such state with defined momentum and \
+defined position!"
+}], "Text"],
+
+Cell[TextData[{
+  "With the same procedure it is possible to show that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\([L\_z, H]\)\_\(V(r)\) = 0\)]],
+  " . But ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z\)]],
+  " H and P only commute pairwise."
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Operators and measurement", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Measurement and expectation values", "Subsection"],
+
+Cell[TextData[{
+  "1. Associated with every physical observable is a corresponding Hermitian \
+operator ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  ", from which results of measurements of the observable on a state \[Psi] \
+may be deduced."
+}], "Text"],
+
+Cell["\<\
+2. The only possible result of such a measurement is an eigenstate \
+of the operator.\
+\>", "Text"],
+
+Cell[TextData[{
+  "3. If \[Psi] is eigenstate of  ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " , in fact ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_n\)]],
+  " , then the result of measurement will be the corresponding eigenvalue ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_n\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "4. If \[Psi] is not an eigenstate of ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " , then we can only compute the probability of measuring ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_n\)]],
+  ", namely  ",
+  Cell[BoxData[
+      \(TraditionalForm\`P(
+          a\_n) = \(\(|\)\(\(<\)\(\[Psi]\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \
+\^2\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "From 4. we can see, that repeated measurements on one and the same state \
+will result in different eigenvalues ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(\(n\)\(\ \)\)\)]],
+  " and it is therefore useful to introduce an expectation value ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(A\&^\)\(>\)\)\)]],
+  " for a measurement with operator ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " :\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(A\&^\)\(>\)\)\)],
+    FontSize->16],
+  StyleBox["\[Congruent]",
+    FontSize->16],
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\+\(\(n\)\(\ \ \)\)a\_n\ \(P(
+              a\_n)\) = \(\[Sum]\+n\ \ a\_n\  | \(\(<\)\(\[Psi]\_n\)\) | \(\(\
+\[Psi]\)\(>\)\)\( | \^2\) = \(\(<\)\(\[Psi]\)\) | 
+            A\&^ | \(\(\[Psi]\)\(>\)\)\)\)],
+    FontSize->16]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Example 3", "Subsubsection"],
+
+Cell[TextData[{
+  "A particle in the harmonic oscillator was pushed to the right hand side of \
+the oscillator at the moment t=0 i.e. its wavefunction is given by ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Phi](x) = \(\@2\) \(\(\[Psi]\_1\)(x)\)\)]],
+  " for x>0 and 0 elsewhere. What are the expectation values for the \
+measurement of location, momentum and parity?"
+}], "Text"],
+
+Cell[BoxData[
+    \(Remove["\<Global`*\>"]\)], "Input"],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"m", "=", 
+        StyleBox["9.10938188`*^-31",
+          NumberMarks->False]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"\[HBar]", "=", 
+        StyleBox["1.0545715964207855`*^-34",
+          NumberMarks->False]}], 
+      StyleBox[";",
+        NumberMarks->False]}], "\[IndentingNewLine]", 
+    RowBox[{
+      StyleBox[\(w = 1\),
+        NumberMarks->False], ";"}]}], "Input"],
+
+Cell[BoxData[{
+    \(\(\(\[Psi][n_, 
+          x_] = \(1\/\@\(2\^n\ \(n!\)\)\) \(\((\(m\ w\)\/\(\[HBar]\ \
+\[Pi]\))\)\^0.25\) 
+          Exp[\(-\(\(m\ w\ x\^2\)\/\(\(2\)\(\ \)\(\[HBar]\)\(\ \)\)\)\)]\ \
+HermiteH[n, x];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\[Phi][x_] = \(\@2\) \[Psi][1, x]\ UnitStep[x];\)\)}], "Input"],
+
+Cell[TextData[{
+  "In order to find the ",
+  StyleBox["expectation value of local measurement ",
+    FontSlant->"Italic",
+    FontColor->RGBColor[0, 0, 1]],
+  "  we separate \[Phi](x) in eigenstates of the local operator  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\@\(\[Delta](x - x0)\)\)]],
+  ". Since the location has continuos values we have ",
+  Cell[BoxData[
+      \(TraditionalForm\`P(
+          x0) = \(\(|\)\(\[Integral]\(\@\(\[Delta](x - x0)\)\) \(\[Phi](
+                x)\)\ dp\)\( | \^2\)\)\)]],
+  " and therefore an expectation value ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(p\)\(>\)\)\  = \
+\[Integral]\((\(\(x0\)\(*\)\) | \[Integral]\(\@\(\[Delta](
+                          x - x0)\)\) \(\[Phi](x)\)\ dp\( | \^2\)\ )\) 
+            dx0\)]],
+  ":"
+}], "Text"],
+
+Cell[BoxData[
+    \(LocExpValue = 
+      NIntegrate[
+        x0*Abs[\[Integral]\_0\%\[Infinity] DiracDelta[x - x0] \[Phi][x] \
+\[DifferentialD]x]\^2, {x0, 0, 36}]\)], "Input"],
+
+Cell[TextData[{
+  "The integral could not be solved analytically, that is why I used \
+NIntegrate. Also the upper limit can not be bigger than 36, otherwise we get \
+numerical errors. Furthermore I had to leave  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\@\[Placeholder]\)]],
+  " out because of other error messages. :-("
+}], "Text"],
+
+Cell[TextData[{
+  "In order to find the ",
+  StyleBox["expectation value of momentum",
+    FontSlant->"Italic",
+    FontColor->RGBColor[0, 0, 1]],
+  " we separate \[Phi](x) in terms of momentum-eigenstates i.e. plane waves. \
+Since the momentum can be continuos we have  ",
+  Cell[BoxData[
+      \(TraditionalForm\`P(
+          p) = \(\(|\)\(\[Integral]\[ExponentialE]\^\(\[ImaginaryI]\ p\/\
+\[HBar]\ x\)\ \(\[Phi](x)\)\ dp\)\( | \^2\)\)\)]],
+  " resulting in an expectation value of ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(p\)\(>\)\)\  = \[Integral]\((\(\(p\)\(*\)\) \
+| \[Integral]\[ExponentialE]\^\(\[ImaginaryI]\ p\/\[HBar]\ x\)\ \(\[Phi](
+                      x)\)\ dp\( | \^2\)\ )\) dp\)]],
+  ":"
+}], "Text"],
+
+Cell[BoxData[
+    \(MomentumExpValue = 
+      NIntegrate[
+        p*Abs[\[Integral]\_0\%\[Infinity] Exp[\(-\[ImaginaryI]\)\ p\ x]\ \
+\[Phi][x] \[DifferentialD]x]\^2, {p, 0, 10\^6}]\)], "Input"],
+
+Cell[TextData[{
+  "The integral could not be solved analytically, that is why I used \
+NIntegrate. Also the upper limit can not grow bigger than ",
+  Cell[BoxData[
+      \(TraditionalForm\`10\^6\)]],
+  ", otherwise we get numerical errors. Furthermore I had to leave  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\)]],
+  " out because of other numerical error messages. :-("
+}], "Text"],
+
+Cell[TextData[{
+  "In order to find the ",
+  StyleBox["expectation value of parity",
+    FontSlant->"Italic",
+    FontColor->RGBColor[0, 0, 1]],
+  " we simply take the solution of the harmonic oscillator as a basis. By \
+this it is possible to compute the ",
+  StyleBox["expectation value of energy ",
+    FontSlant->"Italic",
+    FontColor->RGBColor[0, 0, 1]],
+  "at the same time",
+  ":"
+}], "Text"],
+
+Cell[BoxData[
+    \(Off[Integrate::"\<gener\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Psi]nProbability = 
+      Table[Abs[\[Integral]\_0\%\[Infinity] \[Phi][x] \[Psi][i - 1, x] \
+\[DifferentialD]x]\^2, {i, 1, 20}]\)], "Input"],
+
+Cell[BoxData[
+    \(ParityExpvalue = \[Sum]\+\(n = 1\)\%10\((1*\[Psi]nProbability[\([2  n - 
+                    1]\)])\) + \[Sum]\+\(n = \
+1\)\%10\((\(-1\)*\[Psi]nProbability[\([2  n]\)])\)\)], "Input"],
+
+Cell[BoxData[
+    \(EnergyExpValue = \[Sum]\+\(n = 1\)\%20\((1 + \(1\/2\) 
+                n)\) \[HBar]\ w*\[Psi]nProbability[\([n]\)]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Time dependence of expectation values", "Subsection"],
+
+Cell[TextData[{
+  "How does the expectation value change with time, or does it change at all? \
+Maybe, since ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi] = \[Psi](x, t)\)]],
+  ". Additionally the operator itself could be time-dependent as well. So \
+let's simply compute:\n\n ",
+  Cell[BoxData[{
+      StyleBox[
+        RowBox[{
+          
+          FormBox[\(\[PartialD]\_t\(\(<\)\(A\&^\)\(>\)\)\  = \(\[PartialD]\_t\
+\(\(<\)\(\[Psi]\)\) | 
+                  A\&^ | \(\(\[Psi]\)\(>\)\)\( = \&\(product\ rule\)\)\((\(\
+\[PartialD]\_t\ \(\(<\)\(\[Psi](t)\)\)\)\(|\))\)\ \ \(\(A\&^\)(t)\) | \[Psi](
+                      t) > \(+\(\(<\)\(\[Psi](
+                          t)\)\)\) | \[PartialD]\_t\( A(t)\)\&^ | \[Psi](
+                      t) > \(+\(\(<\)\(\[Psi](t)\)\)\) | \(\(A(
+                          t)\)\&^\) \((\(|\)\(\(\[PartialD]\_t\( \[Psi](
+                              t)\)\)\(>\)\))\)\)\),
+            "TraditionalForm"], "\[IndentingNewLine]"}],
+        FontFamily->"Times New Roman"], "\[IndentingNewLine]", 
+      StyleBox[
+        FormBox[\(since\ \ \[PartialD]\_t\ \[Psi] = \(1\/\(\[ImaginaryI]\ \
+\[HBar]\)\) 
+              H\ \[Psi]\ \ \ \ we\ have\ \ \ \ \ \ \ \[IndentingNewLine]\ \ \ \
+\[IndentingNewLine]
+          \(\(=\)\(\ \)\(1\/\(\[ImaginaryI]\ \[HBar]\) < \[Psi](
+                    t) | \ \(-H\)\ \(\(A\&^\)(t)\) | \[Psi](
+                    t) > \(+\(\(<\)\(\[Psi](
+                        t)\)\)\) | \[PartialD]\_t\( A(t)\)\&^ | \[Psi](
+                    t) > \(+\(1\/\(\[ImaginaryI]\ \[HBar]\)\)\) < \[Psi](
+                    t) | \ \(\(A\&^\)(t)\) 
+                  H | \(\(\[Psi](
+                    t)\)\(>\)\)\ \  = \((1\/\(\[ImaginaryI]\ \[HBar]\) < \([A\
+\&^, H]\) > \ \(+\ \(\(<\)\(\[PartialD]\_t\ \(\(A\&^\)(
+                            t)\)\)\(>\)\)\))\)\ \(\[Psi](t)\)\)\)\),
+          "TraditionalForm"],
+        FontFamily->"Times New Roman"]}]],
+  "\n "
+}], "Text"],
+
+Cell[TextData[{
+  "We see that in the case of a non explicit timed-dependent operator  (as ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z, \ P, \ p\&^, \ x\&^\)]],
+  ") that commutes with H we will not have a time-dependent expectation \
+value!"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Consecutive measurement of different observables", "Subsection"],
+
+Cell["\<\
+In contrast to classical mechanics in quantummechanics it does \
+matter in what order measurements of different observably are performed. \
+Probably the most well known example is the so called uncertainty relation \
+that states that we can not measure momentum and location of a particle at \
+the same time better than a certain limited accuracy. In other words, an \
+exact measurement of momentum leads to maximum of uncertainty regarding the \
+location and vice versa. In the following section we will try to find out, \
+which kind of measurements interact with each other in such way and which do \
+not:\
+\>", "Text"],
+
+Cell[TextData[{
+  "1. Let's imagine that a measurement with an operator ",
+  Cell[BoxData[
+      \(TraditionalForm\`O\&^\)]],
+  " on a state \[Psi] leads to a collapse of \[Psi] into an eigenstate ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[Psi]\_n\)\(\ \)\)\)]],
+  " of ",
+  Cell[BoxData[
+      \(TraditionalForm\`O\&^\)]],
+  " with a probability ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(<\)\(\[Psi]\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\
+\( | \^2\)\)\)]],
+  ".\n\n2. Consequently a consecutive measurement with two commuting \
+operators ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " on \[Psi] leads to:\n\n\tStep 1:  <",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(A\&^\)\(>\)\)\  = \[Sum]\(\(|\)\(\(<\)\(\(\[Psi]\
+\^\(A, B\)\)\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \^2\)\(\(\[CenterDot]\)\(\ \)\
+\(a\_n\)\)\)\)]],
+  "   i.e. \[Psi] collapses with the probability ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_1 = \(\(|\)\(\(<\)\(\(\[Psi]\^\(A, 
+                    B\)\)\_1\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \^2\)\)\)]],
+  " to the \n\t\tfirst excited state of ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " and so on ...\n\t\t     \n\tStep 2: A subsequent measurement with ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " will therefore be deduced with a probability ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_n\)]],
+  " on a state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\^\(A, B\)\)\_n\)]],
+  ". \n\t\tWith this the expectation value of ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " will simply be:  \n\t\t<",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(B\&^\)\(>\)\)\  = \ \(\(\[Sum]W\_n\ \
+b\_n\)\(=\)\)\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\(\(|\)\(\(<\)\(\(\[Psi]\^\(A, 
+                    B\)\)\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \^2\)\(\(\
+\[CenterDot]\)\(\ \)\(b\_n\)\)\)\)]],
+  "\n\t               \n\tStep 3: But what would be the expectation value of \
+",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " if we measure it first ?  \n\t\t<",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(B\&^\)\(>\)\)\  = \ \(\(\(\(<\)\(\[Psi]\)\) | 
+            B\&^ | \(\(\[Psi]\)\(>\)\)\)\(\ \)\(=\)\)\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\(\(|\)\(\(<\)\(\(\[Psi]\^\(A, 
+                    B\)\)\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \^2\)\(\(\
+\[CenterDot]\)\(\ \)\(b\_n\)\)\)\)]],
+  "   \n\n\t           ",
+  StyleBox["We see it is exactly the same!",
+    FontColor->RGBColor[0, 0, 1]],
+  "\n\t\n\tConclusion: If ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " commute it does not matter in which order the two measurements are \
+performed.\n"
+}], "Text"],
+
+Cell[TextData[{
+  "\t\n3. But if ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " do not commute, there can not be a common basis ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\^\(A, B\)\)\_n\)]],
+  " for both operators. For a consecutive measure \n    ment with ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " we get in this case:\n\n\tStep 1:  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(A\&^\)\(>\)\)\  = \ \
+\[Sum]\(\(|\)\(\(<\)\(\(\[Psi]\^A\)\_n\)\)\(|\)\(\(\[Psi]\)\(>\)\)\( | \
+\^2\)\(\ \)\(a\_n\)\)\)]],
+  "   i.e.  \[Psi] collapses with a probability ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_n = \(\(|\)\(\(<\)\(\(\[Psi]\^A\)\_n\)\)\(|\)\(\(\
+\[Psi]\)\(>\)\)\( | \^2\)\)\)]],
+  " in a state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\^A\)\_n\)]],
+  " \n\t\tand so on.\n\t\n\tStep 2: A measurement with ",
+  Cell[BoxData[
+      \(TraditionalForm\`B\&^\)]],
+  " on ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\^A\)\_n\)]],
+  " will be deduced with probability ",
+  Cell[BoxData[
+      \(TraditionalForm\`W\_n\)]],
+  ":\n\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\ \ \)\(\(\(<\)\(B\&^\)\(>\)\)\  = \(\[Sum]\+n W\
+\_n\  < \(\[Psi]\^A\)\_n | 
+            B\&^ | \(\[Psi]\^A\)\_n >= \[Sum]\+n\( 
+                      W\_n\) \[Sum]\_m | \(\(<\)\(\(\[Psi]\^B\)\_m\)\) | \(\(\
+\(\[Psi]\^A\)\_n\)\(>\)\)\( | \^2\)b\_n = \[Sum]\_\(m, n\)\(\(|\)\(\(<\)\(\(\
+\[Psi]\^B\)\_m\)\)\(|\)\(\(\(\[Psi]\^A\)\_n\)\(>\)\)\( | \
+\^2\)\(\(\[CenterDot]\)\(\(|\)\(\(<\)\(\(\[Psi]\^A\)\_n\)\)\(|\)\(\(\[Psi]\)\(\
+>\)\)\( | \^2\)\(\(\[CenterDot]\)\(b\_n\)\)\)\)\)\)\)\)\)]],
+  "\n\t\t\n\tStep 3: ",
+  StyleBox["But this result is different from",
+    FontColor->RGBColor[0, 0, 1]],
+  "    <",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(B\&^\)\(>\)\)\  = \ \(\(\(\(<\)\(\[Psi]\)\) | 
+            B\&^ | \(\(\[Psi]\)\(>\)\)\)\(\ \)\(=\)\)\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\[Sum]\(\(|\)\(\(<\)\(\(\[Psi]\^B\)\_m\)\)\(|\)\(\(\
+\[Psi]\)\(>\)\)\( | \^2\)\(\(\[CenterDot]\)\(\ \)\(b\_m\)\)\)\)]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Example 4", "Subsubsection"],
+
+Cell[TextData[{
+  "Measurement of ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\&^\)]],
+  " and conscutive measurement of ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\)]],
+  " on a plane wave ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi] = \[ExponentialE]\^\(\[ImaginaryI]\ k\ \
+x\)\)]],
+  ":\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(\[Psi]\)\) | 
+          p\&^ | \(\(\[Psi]\)\(>\)\)\  = \ \[HBar]\ k\)]],
+  "\n\n\[Psi]  was not changed by measurement ! Consecutive measurement of ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\)]],
+  " results in:  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(\[Psi]\)\) | 
+          x\&^ | \(\(\[Psi]\)\(>\)\)\  = \ \(\[Integral]\[Psi]\&_\ x\ \[Psi]\ \
+dx = 0\)\)]],
+  "\n\nIf we measure the location first, ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi] = \[ExponentialE]\^\(\(\[ImaginaryI]\)\(\ \
+\)\(k\)\(\ \)\(x\)\(\ \)\)\)]],
+  " will collapse into a state",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(x'\)\(>\)\)\)\)]],
+  " (the expectation value remains unchanged i.e. 0). But a consecutive \
+measurement of momentum results in:  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(x'\)\) | p\&^ | \(\(x'\)\(>\)\)\  = \ 
+        0 \[NotEqual] \[HBar]\ k\)]],
+  "   The measurement of location has destroyed the momentum information!"
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The uncertainty principle", "Subsection"],
+
+Cell[TextData[{
+  "The variance of a measurement with an operator ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^\)]],
+  " is defined as follows:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]A\^2 \[Congruent]  < \
+\((\(\(A\)\(-\)\) < A > )\)\^2 \[GreaterEqual] \[Integral]\[Psi]\&_\ \
+\(\((\(\(A\)\(-\)\) < A > )\)\^2\) \[Psi]\ dx\)]],
+  "    \n\nWith the so called Schwarz-inequality:\n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\(\(|\)\(f\)\( | \
+\^2\)\(dx*\[Integral]\)\(|\)\(g\)\( | \^2\)\(\(dx\)\(\[GreaterEqual]\)\)\(\ \
+\)\(|\)\(\[Integral]f\&_\ g\ dx\)\(|\)\)\)]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(f\)\) | f > \  < g | 
+        g > \  \[GreaterEqual] \  | \(\(<\)\(f\)\) | \(\(g\)\(>\)\)\( | \^2\)\
+\)]],
+  "\n\nWith this we can estimate ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]A\^2\)]],
+  " using: ",
+  Cell[BoxData[
+      \(TraditionalForm\`f\( = \&^\)\(\(\((\(\(A\)\(-\)\) < 
+                    A > )\) | \(\(\[Psi]\)\(>\)\)\ \ \ \  &\)\ \ \ \ \ \ g\( \
+= \&^\)\((\(\(B\)\(-\)\) < B > )\) | \(\(\[Psi]\)\(>\)\)\)\)]],
+  "   ",
+  "\n",
+  "\n",
+  Cell[BoxData[{
+      FormBox[\(\(\(\[CapitalDelta]A\^2\[CenterDot]\[CapitalDelta]B\^2\)\(\
+\[GreaterEqual]\)\)\  | \(\(<\)\(\[Psi]\)\) | \((\(\(A\)\(-\)\) < 
+                  A > )\) \((\(\(B\)\(-\)\) < 
+                  B > )\) | \(\(\[Psi]\)\(>\)\)\( | \^2\) = \(\(|\)\(\(<\)\(\
+\[Psi]\)\)\(|\)\(A\ B\)\(|\)\(\[Psi] > \
+\(-\(\(<\)\(A\)\(>\)\(\(*\)\(\(<\)\(B\)\(>\)\)\)\)\)\)\( | \^2\)\)\),
+        "TraditionalForm"], "\[IndentingNewLine]", 
+      RowBox[{
+        "             ", \(\(=\)\(\(|\)\(\(<\)\(\[Psi]\)\)\(|\)\(\(A\ B\)\/2 \
+- \(B\ A\)\/2\)\(|\)\(\[Psi] > \(+\(\(<\)\(\[Psi]\)\)\)\)\(|\)\(\(A\ B\)\/2 + \
+\(B\ A\)\/2\)\(|\)\(\[Psi] > \(-\(\(<\)\(A\)\(>\)\(\(*\)\(\(<\)\(B\)\(>\)\)\)\
+\)\)\)\( | \^2\)\)\)}]}]],
+  "\n\nWe can show that ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\ B - B\ A = \[ImaginaryI]\ C\)]],
+  " (see auxiliary calculation) , whereby A, B and C have to be Hermitian \
+operators. With this, the inequality can be further simplified:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]A\^2\[CenterDot]\[CapitalDelta]B\^2 \
+\[GreaterEqual] \ 
+            1\/4 | \(\(<\)\(\[Psi]\)\) | \[ImaginaryI]\ C | \(\(\[Psi]\)\(>\)\
+\)\( | \^2\) = 1\/4 | \(\(<\)\(C\)\(>\)\)\( | \^2\)\)]],
+  "   \n\nor   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]A\ \[CapitalDelta]B \[GreaterEqual] \ 
+          1\/2 | \(\(<\)\([A, B]\)\(>\)\) | \)]],
+  "    respectively\n\nThis means, a measurement with two operators that do \
+not commute can not have two exact results, for instance ",
+  Cell[BoxData[
+      \(TraditionalForm\`\([x\&^, 
+          p\&^]\) = \[ImaginaryI]\ \[HBar]\ \ \  \[Implies] \ \ \ \
+\[CapitalDelta]  x\&^\ \[CapitalDelta]  p\&^ \[GreaterEqual] \ 1\/2\)]],
+  "\[HBar]"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Auxiliary calculation", "Subsubsection"],
+
+Cell[TextData[{
+  "If A and B a Hermitian operators:  \n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(\(<\)\(\[Psi]\)\) | 
+          A\ B | \[Psi] > \(-\(\(<\)\(\[Psi]\)\)\) | 
+          B\ A | \(\(\[Psi]\)\(>\)\)\  = \ \(\(\(<\)\(B\ \[Psi]\)\) | \ \(\(A\
+\ \[Psi]\)\(>\)\)\)\&_ - \(\(\(<\)\(A\ \[Psi]\)\)\  | \ \(\(B\ \
+\[Psi]\)\(>\)\)\)\&\(\(_\)\(\ \)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\(=\)\(\ \)\(\[ImaginaryI]\ \((\(-2\)\ {\(Re(
+                        B\ \[Psi])\)*\(Im(A\ \[Psi])\) - \(Re(
+                        A\ \[Psi])\)\ \(Im(
+                        B\ \[Psi])\)})\) = \[ImaginaryI]\ C\)\)\)}]]
+}], "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Particle-Wave duality", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Basic idea", "Subsection"],
+
+Cell[TextData[{
+  "Consider a gaussian wave-packet defining a particle.  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\_x0\)(
+          x) = \((2\/\[Pi])\)\^\(1/4\)\ a\^\(\(-1\)/2\)\ \[ExponentialE]\^\(-\
+\((\(x - x0\)\/a)\)\^2\)\)]],
+  "\n\nThe parameter ",
+  StyleBox["a",
+    FontSlant->"Italic"],
+  " defines the width of the gaussian curve. For ",
+  Cell[BoxData[
+      \(TraditionalForm\`a \[Rule] \ 0\)]],
+  " we end up with an eigenstate ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(x'\)\(>\)\)\)\)]],
+  " of the location operator ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\)]],
+  "."
+}], "Text"],
+
+Cell[BoxData[{
+    RowBox[{\(\[Psi][a_, x0_, x_]\), ":=", 
+      FormBox[\(\((2\/\[Pi])\)\^\(1/4\)\ a\^\(\(-1\)/2\)\ \
+\[ExponentialE]\^\(-\((\(x - x0\)\/a)\)\^2\)\),
+        "TraditionalForm"]}], "\[IndentingNewLine]", \(Show[
+      GraphicsArray[
+        Partition[
+          Table[Plot[\[Psi][a, 0, x]\^2, {x, \(-10\), 10}, 
+              PlotRange \[Rule] \ {0, 1}, 
+              PlotLabel \[Rule] "\<a=\>" <> ToString[a], Ticks \[Rule] None, 
+              DisplayFunction \[Rule] Identity], {a, 0.1, 6}], 
+          3]\[IndentingNewLine]]\[IndentingNewLine]]\)}], "Input"],
+
+Cell[TextData[{
+  "At the same time we can see the packet from the perspective of momentum. \
+This means we can decompose it into plane waves\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\_x0\)(
+          x) = \(\[Sum]\(\(|\)\(p > \  < 
+                p\)\(|\)\(\(\[Psi]\_x0\)\(>\)\)\)\  = \ \[Integral]\(\
+\[ExponentialE]\^\(\(-\ \[ImaginaryI]\)\ k\ x\)\) \
+\(\[Integral]\[ExponentialE]\^\(\[ImaginaryI]\ k\ x\)*\(\[Psi]\_x0\) 
+                  dx\ dp\)\)\)]],
+  "\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(p\)\) | \(\(\[Psi]\_x0\)\(>\)\)\)]],
+  " can be solved analytically ",
+  Cell[BoxData[
+      \(\@a\ \[ExponentialE]\^\(-\(\(p\ \((a\^2\ p - 4\ \[ImaginaryI]\ x0\ \
+\[HBar])\)\)\/\(4\ \[HBar]\^2\)\)\)\ \((2\ \[Pi])\)\^\(1/4\)\)]],
+  ". We note that the probability amplitudes of momentum are localized around \
+0. The width of this momentum distribution drops with increasing a. This \
+means that the broader the location distribution gets the sharper the \
+momentum distribution will be."
+}], "Text"],
+
+Cell[BoxData[{
+    \(Clear[\[HBar]]\), "\[IndentingNewLine]", 
+    \(\[Psi][a_, x0_, p_] = 
+      Integrate[\[Psi][a, x0, 
+            x]*\[ExponentialE]\^\(\(\(\(\[ImaginaryI]\)\(\ \)\)\/\[HBar]\) p\ \
+x\), {x, \(-\[Infinity]\), \[Infinity]}, 
+        Assumptions \[Rule] \ a > 0]\)}], "Input"],
+
+Cell[BoxData[{
+    RowBox[{\(\[HBar] = 0.2\), 
+      StyleBox[";",
+        NumberMarks->False]}], "\[IndentingNewLine]", \(Show[
+      GraphicsArray[
+        Partition[
+          Table[Plot[\[Psi][a, 0, p]\^2, {p, \(-5\), 5}, 
+              PlotRange \[Rule] \ All, AxesOrigin \[Rule] {0, 0}, 
+              PlotLabel \[Rule] "\<a=\>" <> ToString[a], Ticks \[Rule] None, 
+              DisplayFunction \[Rule] Identity], {a, 0.1, 1.6, 
+              0.3}]\[IndentingNewLine], 3]]]\)}], "Input"],
+
+Cell["\<\
+An eigenfunction of the location operator consists of all \
+momentum-eigenstates, all with the same probability amplitude. The other way \
+around eigenfunctions of momentum can be decomposed by all eigenfunctions of \
+location with equal weight.\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The double-slit experiment", "Subsection"],
+
+Cell["\<\
+Remember the double slit experiment: A particle coming from the \
+left as a plane wave with defined momentum p hits a screen (yellow line at \
+x=0) with two slits (blue points). The wave gets partially reflected and \
+transmitted. The propagating waves will form an interference pattern on the \
+second screen (green line= z-axis) at distance d. But if we try to detect \
+through which slit the particle has gone, the interference disappears!\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell["Graphical Setup", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(F = 
+        ContourPlot[
+          If[x < 0, Cos[10\ x], 
+            Cos[10\ \@\(x\^2 + \((y + 1.5)\)\^2\)] + 
+              Cos[10\ \@\(x\^2 + \((y - 1.5)\)\^2\)]], {x, \(-3\), 
+            6}, {y, \(-3\), 3}, 
+          PlotLabel \[Rule] "\<Double-slit experiment\>", \ 
+          Contours \[Rule] 10, PlotPoints \[Rule] \ 50, 
+          ContourLines \[Rule] False, DisplayFunction \[Rule] Identity, 
+          Epilog \[Rule] \ {{Thickness[ .01], RGBColor[1, 0, 0], 
+                Line[{{\(-3\), 0}, {6, 0}}]}, {Thickness[ .01], 
+                RGBColor[1, 1, 0], 
+                Line[{{0, 3}, {0, \(-3\)}}]}, {Thickness[ .01], 
+                RGBColor[0, 1, 0], 
+                Line[{{6, \(-3\)}, {6, 
+                      3}}]}, \[IndentingNewLine]{PointSize[ .02], 
+                RGBColor[0, 0, 1], Point[{0, \(-1.5\)}]}, {PointSize[ .02], 
+                RGBColor[0, 0, 1], 
+                Point[{0, 1.5}]}}];\)\), "\[IndentingNewLine]", 
+    \(\(G = 
+        ContourPlot[
+          Abs[\[ExponentialE]\^\(\[ImaginaryI]\ k\ \@\(x\^2 + \((\(-d\)/2 - \
+y2)\)\^2 + z2\^2\)\)\/\@\(x\^2 + \((\(-d\)/2 - y2)\)\^2 + z2\^2\) + \
+\[ExponentialE]\^\(\[ImaginaryI]\ k\ \@\(x\^2 + \((d/2 - y2)\)\^2 + z2\^2\)\)\
+\/\@\(x\^2 + \((d/2 - y2)\)\^2 + z2\^2\)] //. {x \[Rule] 6, d \[Rule] \ 3, 
+              k \[Rule] \ 10}, {z2, \(-3\), 3}, {y2, \(-3\), 3}, 
+          PlotLabel \[Rule] "\<Interference pattern\>", 
+          PlotPoints \[Rule] 100, ContourLines \[Rule] False, 
+          DisplayFunction \[Rule] Identity];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[GraphicsArray[{F, G}]]\)], "Input"],
+
+Cell[TextData[{
+  "Quantummechanically we have the following situation: we have an incoming \
+wave from the left ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\^p\)\(>\)\)\)\)]],
+  ". We measure the z-position of the particle at the second screen with \
+operator ",
+  Cell[BoxData[
+      FormBox[
+        OverscriptBox[
+          FormBox[\(z\_d\),
+            "TraditionalForm"], "^"], TraditionalForm]]],
+  ". This operator has eigenstates ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(z\_d\)\(>\)\)\)\)]],
+  ". Additionally we can detect which slit the particle has passed through at \
+x=0. Again we have 2 situations: either we measure the location at x=0 and \
+subsequently at x=d, or we do not measure at x=0 but only at x=d."
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["1.Situation:",
+    FontColor->RGBColor[0, 0, 1]],
+  "  We note that  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\^p\)]],
+  "  splits up into 2 possible states, upper slit ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(u\)\(>\)\)\)\)]],
+  " or lower slit ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(l\)\(>\)\)\)\)]],
+  ", with equal probabilities\n \n \[Implies]  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\^p\)\(>\)\)\)\  = \ \(1\/\@2\) \((\
+\(|\)\(u\  > +\)\(|\)\(\(l\)\(>\)\))\)\)]],
+  "\n \nThe probanbility to find the particle at ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\_d\)]],
+  " after it has passed the upper or lower slit is thererfore given by\n \n \
+",
+  Cell[BoxData[
+      \(TraditionalForm\`\(P\_u\)(
+          z\_d) = \(\(|\)\(\(<\)\(u\)\)\(|\)\(\(z\_d\)\(>\)\)\( | \
+\^2\)\)\)]],
+  "\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(P\_l\)(
+          z\_d) = \(\(|\)\(\(<\)\(l\)\)\(|\)\(\(z\_d\)\(>\)\)\( | \
+\^2\)\)\)]],
+  ".\n \nThe total probability of finding the particle at ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\_d\)]],
+  " is therefore: \n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\(P\_tot\)(z\_d)\), "=", 
+          
+          RowBox[{\(\(1\/2\) \(\(P\_u\)(z\_d)\) + \(1\/2\) \(\(P\_l\)(
+                  z\_d)\)\), "=", 
+            
+            StyleBox[\(1\/2 | \(\(<\)\(u\)\) | \(\(z\_d\)\(>\)\)\( | \^2\)\(+\
+\(\(|\)\(\(<\)\(l\)\)\(|\)\(\(z\_d\)\(>\)\)\( | \^2\)\)\)\),
+              FontColor->RGBColor[0, 0, 1]]}]}], TraditionalForm]]],
+  "   \n\nWe see that both cases do not couple with each other \[Implies] no \
+interference. By measuring at the first screen the wave has collapsed!"
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["2.Situation: ",
+    FontColor->RGBColor[0, 0, 1]],
+  "If we do not measure at the first screen the wavefunction will be left \
+untouched i.e.\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Psi]\^p\)\(>\)\)\)\  = \ \(1\/\@2\) \((\
+\(|\)\(u\  > +\)\(|\)\(\(l\)\(>\)\))\)\)]],
+  "\n\nThe probability of finding the particle at ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\_d\)]],
+  " in this case is therefore: \n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\(P\_tot\)(z\_d)\), "=", 
+          
+          RowBox[{\(\(|\)\(\(\(<\)\(\[Psi]\^p\)\) || \(\(z\_d\)\(>\)\)\)\( | \
+\^2\)\), "=", 
+            
+            RowBox[{\(\(|\)\(1\/\@2 < 
+                  u\)\(|\)\(z\_d > \(+\(\(\(1\)\(\ \)\)\/\@2\)\) < 
+                  l\)\(|\)\(\(z\_d\)\(>\)\)\(\ \)\( | \^2\)\), "=", 
+              
+              StyleBox[\(1\/2 | \(\(<\)\(u\)\) | 
+                  z\_d > \(+\(\(<\)\(l\)\)\) | \(\(z\_d\)\(>\)\)\( | \^2\)\),
+                FontColor->RGBColor[0, 0, 1]]}]}]}], TraditionalForm]]],
+  "\n\nIn this case the probability amplitudes are added before we take the \
+absolute value! This means that in this case we do have interferenc"
+}], "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Chapter 8", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Two-state systems", "Section"],
+
+Cell["\<\
+In this chapter we will talk about systems where symmetry has an \
+essential influence on the energy spectrum:\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "The ionized ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(H\_2\)\(\ \)\)\)]],
+  "molecule"
+}], "Subsection"],
+
+Cell[TextData[{
+  "In an ionized ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(H\_2\)\(-\)\(molecule\)\(\ \)\)\)]],
+  "we have the following situation: 2 protons with distance d, both with a \
+coulomb-potential defining ",
+  Cell[BoxData[
+      \(TraditionalForm\`V(r) = \(V\_1\)(r) + \(V\_2\)(r)\)]],
+  ". The one and only electron in this system can take two extreme \
+situations, either localized around the first proton ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(1\)\(>\)\)\)\)]],
+  " or around the second one ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(2\)\(>\)\)\)\)]],
+  " with well known ground state wavefunctions:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\_0\)(r) = 
+        2\ a\_0\^\(\(-3\)/2\)*\[ExponentialE]\^\(\(-r\)/a\_0\)\)]],
+  " \n\n whereby ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(\(0\)\(\ \)\)\)]],
+  "is the BohrRadius and the energy of these state is ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_0 = \(\(-13.6\)\ eV = 1  Rydberg\)\)]],
+  "."
+}], "Text"],
+
+Cell[BoxData[{\(Remove["\<Global`*\>"]\), "\[IndentingNewLine]", \(V1[x_, y_, 
+          z_, p1_] := \(-\(q\^2\/\(4\ \[Pi]\ \[Epsilon]\ \@\(\((p1[\([1]\)] - \
+x)\)\^2 + \((p1[\([2]\)] - y)\)\^2 + \((p1[\([3]\)] - z)\)\^2\)\)\)\);\), "\
+\[IndentingNewLine]", \(V2[x_, y_, z_, 
+        p2_] := \(-\(q\^2\/\(4\ \[Pi]\ \[Epsilon]\ \@\(\((p2[\([1]\)] - \
+x)\)\^2 + \((p2[\([2]\)] - y)\)\^2 + \((p2[\([3]\)] - z)\)\^2\)\)\)\)\), "\
+\[IndentingNewLine]", 
+    RowBox[{"Show", "[", 
+      RowBox[{"GraphicsArray", "[", 
+        RowBox[{"{", 
+          RowBox[{
+            RowBox[{"ContourPlot", "[", 
+              RowBox[{
+                
+                RowBox[{\(V1[x, y, 0, {\(-2\), 0, 0}] + 
+                    V1[x, y, 0, {2, 0, 0}]\), "/.", 
+                  RowBox[{"{", 
+                    RowBox[{\(q \[Rule] 1.6\ 10\^\(-19\)\), ",", 
+                      RowBox[{"\[Epsilon]", "\[Rule]", 
+                        StyleBox["8.854187817`*^-12",
+                          NumberMarks->False]}]}], "}"}]}], 
+                ",", \({x, \(-5\), 5}\), ",", \({y, \(-5\), 5}\), 
+                ",", \(PlotLabel \[Rule] "\<V(x,y)\>"\), 
+                ",", \(DisplayFunction \[Rule] Identity\)}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Plot", "[", 
+              RowBox[{
+                
+                RowBox[{\(V1[x, 0, 0, {\(-2\), 0, 0}] + 
+                    V1[x, 0, 0, {2, 0, 0}]\), "/.", 
+                  RowBox[{"{", 
+                    RowBox[{\(q \[Rule] 1.6\ 10\^\(-19\)\), ",", 
+                      RowBox[{"\[Epsilon]", "\[Rule]", 
+                        StyleBox["8.854187817`*^-12",
+                          NumberMarks->False]}]}], "}"}]}], 
+                ",", \({x, \(-5\), 5}\), ",", \(Ticks \[Rule] None\), 
+                ",", \(PlotLabel \[Rule] "\<V(x)\>"\), 
+                ",", \(DisplayFunction \[Rule] Identity\)}], "]"}]}], "}"}], 
+        "]"}], "]"}]}], "Input"],
+
+Cell["\<\
+These two states can not be eigenstates of the Hamilton operator \
+since they are not symmetric. Nevertheless these states can be helpful if we \
+take them as a set of basefunctions leading to a H-matrix that can be \
+diagonalized afterwards.\
+\>", "Text"],
+
+Cell[TextData[{
+  "Let's decompose the hamilton-operator into:     \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`H = \(\(T\)\(+\)\(V1\)\(+\)\(V2\)\(\ \ \ \ \)\)\)]],
+  "      (with\t",
+  Cell[BoxData[
+      \(TraditionalForm\`T = \(p\^2/2  
+            m = \(\(-\(\[HBar]\^2\/\(2  
+                      m\)\)\) \[CapitalDelta]\ \ \ \ \ \ \ \ \ V1 = \
+\(q\^2\/\(4\ \[Pi]\ \[Epsilon]0\  | \(r\& \[Rule] \) - \(r2\& \[Rule] \) | \
+\)\ \ \ \ and\ \ V1 = \ 
+              q\^2\/\(4\ \[Pi]\ \[Epsilon]0\  | \(r\& \[Rule] \) - \(r1\& \
+\[Rule] \) | \)\)\)\)\)]],
+  " )\n\t\n\[Implies]\t",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(1, 1\) = \(\(\(<\)\(1\)\) | T + V1 | 
+            1 > \(+\(\(<\)\(1\)\)\) | 
+            V2 | \(\(1\)\(>\)\)\  = \ \(\(\(<\)\(2\)\) | T + V2 | 
+              2 > \(+\(\(<\)\(2\)\)\) | V1 | \(\(2\)\(>\)\)\  = \ 
+            H\_\(2, 2\)\)\)\)]],
+  "\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_\(1, 2\) = \ \(\(\(<\)\(1\)\) | 
+            T + V1 + V2 | \(\(2\)\(>\)\)\  = \ \(H\_\(2, 1\)\)\&_\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "If the protons are far away from each other  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\(|\)\(\(1\)\(>\)\)\)\  &\)\  | \
+\(\(2\)\(>\)\)\)]],
+  " will not overlap crucial, i.e.",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(1\)\) | 
+          H | \(\(2\)\(>\)\)\  = \(\(\(<\)\(2\)\) | H | \(\(1\)\(>\)\)\)\&_ \
+\[Rule] \ 0\)]],
+  " and also ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(1\)\) | 
+          V2 | \(\(1\)\(>\)\)\  = \ \(\(<\)\(2\)\) | 
+            V1 | \(\(2\)\(>\)\)\  \[Rule] \ 0\)]],
+  " since the potentials are almost zero at the location of the wavefunction \
+and the other way around. i.e. for ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(r2\& \[Rule] \) - \(r1\& \[Rule] \
+\)\)\(|\)\) \[Rule] \ \[Infinity]\)]],
+  " the H-matrix tends to be ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"H", "=", 
+          RowBox[{"(", GridBox[{
+                {\(E\_0\), "0"},
+                {"0", \(E\_0\)}
+                }], ")"}]}], TraditionalForm]]]
+}], "Text"],
+
+Cell[TextData[{
+  "For small distances on the other hand we will have diagonal entries:\n\n \
+",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"H", "=", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {\(E(d)\), \(A(d)\)},
+                  {\(\(A(d)\)\&_\), \(E(d)\)}
+                  }], ")"}], "=", 
+            RowBox[{"(", GridBox[{
+                  {\(E\_0'\), "A"},
+                  {"A", \(E\_0'\)}
+                  }], ")"}]}]}], TraditionalForm]]],
+  "    (A is purely real and we can therefore neglect the complex \
+conjugation). \n\n The eigenvalues and eigenvector of this matrix can simply \
+be computed by: \n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_I = E\_0\)]],
+  "'+A    \[LeftRightArrow]  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\  = \(1\/\@2\) \((\(|\)\(1 > \
++\)\(|\)\(\(2\)\(>\)\))\)\)]],
+  "\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_II = E\_0\)]],
+  "'-A    \[LeftRightArrow]  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(II\)\(>\)\)\)\  = \(1\/\@2\) \((\(|\)\(1 \
+> -\)\(|\)\(\(2\)\(>\)\))\)\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(Eigensystem[{{E0, A}, {A, E0}}] // TableForm\)], "Input"],
+
+Cell[TextData[{
+  "The new basis diagonalizes the H-matrix and is therefore a set of \
+eigenstates of H. We note that",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(I > \ \ is\ symmetric\ and\)\(\ \)\(|\)\(II \
+> \ \ skew\ \(\(symmetric\)\(:\)\)\)\)\)]],
+  " "
+}], "Text"],
+
+Cell[BoxData[{\(Off[General::"\<spell1\>"]\), "\[IndentingNewLine]", 
+    RowBox[{\(\[Psi][z_, \[Rho]_] = \(\@\(1/\((8  \[Pi])\)\)\) 
+          Exp[\(-\(\@\(z\^2 + \[Rho]\^2\)\/2\)\)]\), ";", 
+      StyleBox[\( (*the\ wavefunction\ in\ cylinder\ coordinates*) \),
+        FontColor->RGBColor[0, 0, 1]], 
+      "\[IndentingNewLine]", \(\[Psi]1[z_, \[Rho]_, d_] = \[Psi][
+          z - d/2, \[Rho]]\), 
+      ";"}], "\n", \(\[Psi]2[z_, \[Rho]_, d_] = \[Psi][
+          z + d/2, \[Rho]];\), "\[IndentingNewLine]", \(\[Psi]I[z_, \[Rho]_, 
+          d_] = \[Psi]1[z, \[Rho], d] + \[Psi]2[z, \[Rho], 
+            d];\), "\[IndentingNewLine]", \(\[Psi]II[z_, \[Rho]_, 
+          d_] = \[Psi]1[z, \[Rho], d] - \[Psi]2[z, \[Rho], d];\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[
+      GraphicsArray[{{Plot3D[\[Psi]I[z, \[Rho], 2], {z, \(-2\), 
+                2}, {\[Rho], \(-1\), 1}, PlotLabel -> "\<\[Psi]I\>", 
+              DisplayFunction \[Rule] Identity], 
+            Plot3D[\[Psi]II[z, \[Rho], 2], {z, \(-2\), 2}, {\[Rho], \(-1\), 
+                1}, PlotLabel -> "\<\[Psi]II\>", 
+              DisplayFunction \[Rule] 
+                Identity]}, {Plot3D[\[Psi]I[z, \[Rho], 2]\^2, {z, \(-2\), 
+                2}, {\[Rho], \(-1\), 1}, 
+              PlotLabel -> \*"\"\<|\[Psi]I\!\(\( | \^2\)\)\>\"", 
+              DisplayFunction \[Rule] Identity], 
+            Plot3D[\[Psi]II[z, \[Rho], 2]\^2, {z, \(-2\), 
+                2}, {\[Rho], \(-1\), 1}, 
+              PlotLabel -> \*"\"\<|\[Psi]I\!\(\( | \^2\)\)\>\"", 
+              DisplayFunction \[Rule] Identity]}}]]\)], "Input"],
+
+Cell[TextData[{
+  "In order to calculate the energy-splitting as a function of distance d we \
+could think that we only need to compute ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(H(d) | \(\(I(d)\)\(>\)\)\)\/\(\(|\)\(\(I(d)\)\(>\)\
+\)\)\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(H(d) | \(\(II(d)\)\(>\)\)\)\/\(\(|\)\(\(II(d)\)\(>\
+\)\)\)\)]],
+  " respectively and add the energy of the proton-proton repulsion (by the \
+way, this is the dominant factor). But we cheated a little bit since |I> and \
+|II> are not really eigenstates. In fact we have only a decomposition of \
+order 2 ! We would need a lot more states (in fact \[Infinity]) to accurately \
+compute the energy.  As an approximation we can still compute the entries of \
+the H matrix and afterward its eigenvalues. (see next section in detail)"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Numerical approximation of the energy splitting in detail", \
+"Subsubsection"],
+
+Cell[TextData[{
+  "Instead of really integrating the wavefunctions ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\(\
+\[Integral]\_0\%\[Infinity] 
+            2\ \[Pi]\ \[Rho]\ \[Psi]\&_\[CenterDot]\[Psi] \[DifferentialD]\
+\[Rho] \(\(\[DifferentialD]z\)\(\ \)\)\)\)]],
+  " we approximate the integral by a Riemann-sum:"
+}], "Text"],
+
+Cell[BoxData[
+    \(WavefunctionIntegral[f_, g_, zmin_, 
+        zmax_, \[CapitalDelta]z_, \[Rho]min_, \[Rho]max_, \[CapitalDelta]\
+\[Rho]_] := 
+      Sum[2  \[Pi]\ \[Rho]\ f\ g, {z, zmin, 
+            zmax, \[CapitalDelta]z}, {\[Rho], \[Rho]min, \[Rho]max, \
+\[CapitalDelta]\[Rho]}]\ *\((\[CapitalDelta]z\ \[CapitalDelta]\[Rho])\)\)], \
+"Input"],
+
+Cell[BoxData[
+    \(WI[f_, g_] := 
+      Module[{}, \[IndentingNewLine]ff = Evaluate[f]; \[IndentingNewLine]gg = 
+          Evaluate[g]; \[IndentingNewLine]WavefunctionIntegral[ff, gg, 
+          zminVal, 
+          zmaxVal, \[CapitalDelta]zVal, \[Rho]minVal, \[Rho]maxVal, \
+\[CapitalDelta]\[Rho]Val]\[IndentingNewLine]]\)], "Input"],
+
+Cell["The Hamilton operator in cylindrical coordinates is:", "Text"],
+
+Cell[BoxData[
+    \(H[f_, 
+        d_] := \(-\(1\/\[Rho]\)\) \[PartialD]\_\[Rho]\ \((\[Rho] \
+\[PartialD]\_\[Rho]\ f)\) - \[PartialD]\_\(z, z\)f - 
+        f\/\@\(\((z - d/2)\)\^2 + \[Rho]\^2\) - 
+        f\/\@\(\((z + d/2)\)\^2 + \[Rho]\^2\)\)], "Input"],
+
+Cell[TextData[{
+  "The H-Matrix will then be (we know, that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\ \)\(H\_12 = H\_21\)\)\)]],
+  "):"
+}], "Text"],
+
+Cell[BoxData[
+    \(HMatrix[d_] := 
+      Module[{}, \[IndentingNewLine]H11 = 
+          WI[\[Psi]I[z, \[Rho], d], 
+            H[\[Psi]I[z, \[Rho], d], d]]; \[IndentingNewLine]H22 = 
+          WI[\[Psi]II[z, \[Rho], d], 
+            H[\[Psi]II[z, \[Rho], d], d]]; \[IndentingNewLine]H12 = 
+          WI[\[Psi]I[z, \[Rho], d], 
+            H[\[Psi]II[z, \[Rho], d], d]]; \[IndentingNewLine]Return[
+          Chop[{{H11, H12}, {H12, H22}}]]\[IndentingNewLine]]\)], "Input"],
+
+Cell["\<\
+As we know, the energy is stored in the eigenvalues, but \
+additionally we need to add the potential energy of the coulomb potential as \
+well:\
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{\(EnergySplitting[d_]\), ":=", "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({}\), ",", "\[IndentingNewLine]", 
+          
+          RowBox[{\(M = HMatrix[d] // N\), ";", 
+            "\[IndentingNewLine]", \(Energies1 = Eigenvalues[M]\), ";", 
+            "\[IndentingNewLine]", \(Energies2 = Energies1 + 1/d {1, 1}\), 
+            StyleBox[" ",
+              FontColor->RGBColor[1, 0, 
+              0]], \( (*here\ we\ add\ the\ coulomb\ potential\ qualitatively\
+*) \), ";", "\[IndentingNewLine]", \(Return[{Energies1, Energies2}]\)}]}], 
+        "\[IndentingNewLine]", "]"}]}]], "Input"],
+
+Cell["\<\
+Let's start a rough computation (it takes long enough).  If you \
+want a smoothed Plot you need to decrease the stepsize in the Table. To \
+increase computational accuracy you need to decrease values of \
+\[CapitalDelta]z and \[CapitalDelta]\[Rho] !\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(\(\(zminVal = \(-10\)\) \)\(;\)\(\(zmaxVal = \ \(+10\)\) \)\(;\)\(\(\
+\[CapitalDelta]zVal = 0.2\) \)\(;\)\(\(\[CapitalDelta]\[Rho]Val = 
+        0.2\) \)\(;\)\(\(\[Rho]minVal = \ \[CapitalDelta]\[Rho]Val\) \
+\)\(;\)\(\(\[Rho]maxVal = \ \(+5\)\) \)\(;\)\( (*\[Rho]min = 
+        0\ would\ cause\ \(problems\ !\)*) \)\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(EnergySplittingList = 
+        Table[{n, EnergySplitting[n]}, {n, 0.5, 12, 0.5}];\)\)], "Input"],
+
+Cell[TextData[{
+  "Now we have a list with entries like this: {d,",
+  StyleBox["{",
+    FontColor->RGBColor[1, 0, 0]],
+  StyleBox["{",
+    FontColor->RGBColor[0, 0, 1]],
+  "Eigenergy1,Eigenergy2",
+  StyleBox["}",
+    FontColor->RGBColor[0, 0, 1]],
+  ",",
+  StyleBox["{",
+    FontColor->RGBColor[0, 0, 1]],
+  "Eigenergy1+Coulombenergy,Eigenergy2+Coulombenergy",
+  StyleBox["}",
+    FontColor->RGBColor[0, 0, 1]],
+  StyleBox["}",
+    FontColor->RGBColor[1, 0, 0]],
+  "} . We like to rearrange it to pairs of {d, Eigenergy1+Coulombenergy} and \
+{d,Eigenergy2+Coulombenergy}"
+}], "Text"],
+
+Cell[BoxData[
+    \(\(TrueEnergies = \[IndentingNewLine]Transpose[\[IndentingNewLine]Table[\
+\[IndentingNewLine]{{EnergySplittingList[\([n, 1]\)], 
+                EnergySplittingList[\([n, 2, 2, 
+                    1]\)]}, {EnergySplittingList[\([n, 1]\)], 
+                EnergySplittingList[\([n, 2, 2, 2]\)]}}, {n, 
+              Length[EnergySplittingList]}]];\)\)], "Input"],
+
+Cell["\<\
+In order to smooth the plots I use Interpolation[] instead of \
+simply doing a ListPlot of the energies.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(p1 = 
+        Plot[\(Interpolation[TrueEnergies[\([1]\)]]\)[d], {d, 0.5, 12}, 
+          PlotStyle \[Rule] {RGBColor[1, 0, 0]}, 
+          PlotLabel \[Rule] \ \*"\"\<Energysplitting in the ionized \
+\!\(H\_2\) (qualitatively)\>\"", AxesLabel \[Rule] {"\<d\>", "\<\>"}, 
+          DisplayFunction \[Rule] Identity];\)\), "\[IndentingNewLine]", 
+    \(\(p2 = 
+        Plot[\(Interpolation[TrueEnergies[\([2]\)]]\)[d], {d, 0.5, 12}, 
+          PlotStyle \[Rule] {RGBColor[0, 0, 1]}, 
+          PlotLabel \[Rule] \ \*"\"\<Energysplitting in the ionized \
+\!\(H\_2\) (qualitatively)\>\"", AxesLabel \[Rule] {"\<d\>", "\<\>"}, 
+          DisplayFunction \[Rule] Identity];\)\), "\[IndentingNewLine]", 
+    \(Show[{p1, p2}, DisplayFunction \[Rule] $DisplayFunction]\)}], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The double well potential", "Subsection"],
+
+Cell[TextData[{
+  "With a double well potential  (distance d, width a) we have a similar \
+situation as in the ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_2\)]],
+  "-molecule : "
+}], "Text"],
+
+Cell[BoxData[{
+    \(V[x_, d_, a_, V0_] := 
+      V0\ \((UnitStep[x - d/2 - a] - UnitStep[x - d/2] - 
+            UnitStep[x + d/2 + a] + 
+            UnitStep[x + d/2])\)\), "\[IndentingNewLine]", 
+    \(Plot[V[x, 1, 2, 1], {x, \(-3\), 3}, AspectRatio \[Rule] Automatic, 
+      PlotStyle \[Rule] Dashing[{0.01, 0.01}], 
+      Ticks \[Rule] \ {{{0.5, "\<d/2\>"}, {2.5, "\<d/2+a\>"}, {\(-0.5\), \
+"\<-d/2\>"}, {\(-2.5\), "\<-d/2-a\>"}}, {{\(-1\), "\<-V0\>"}}}]\)}], "Input"],
+
+Cell[TextData[{
+  "As a first set of basefunctions we take the two ground states of single \
+potential wells",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(1\)\(>\)\(\ \)\)\)\)]],
+  "and ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(2\)\(>\)\)\)\)]],
+  ". If both wavefunctions are close enough, meaning d<1/q  (q is the \
+imaginary wavevector outside each well, and 1/q therefore the decay length) \
+we can not neglect ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(<\)\(1\)\) | \(\(2\)\(>\)\)\)]],
+  " and therefore do have diagonal entries in the H-matrix! Again holds:\n\n\
+",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_0' = \(\(\(<\)\(1\)\) | T + V1 | 
+            1 > \(+\(\(<\)\(1\)\)\) | 
+            v2 | \(\(1\)\(>\)\)\  = \ \(E\_0 + \[CapitalDelta]E = \ \(H\_11 = 
+              H\_22\)\)\)\)]],
+  "\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`A = \(\(\(<\)\(1\)\) | 
+            T + V1 + V2 | \(\(2\)\(>\)\)\  = \ \(\(\(<\)\(1\)\) | V1 | 
+              2 > \ \(+\ \(\(<\)\(1\)\)\) | 
+              E\_0 | \(\(2\)\(>\)\)\  = \ \(\(\(<\)\(1\)\) | 
+                V1 | \(\(2\)\(>\)\)\  = \ \(H\_12 = \(H\_21\)\&_\)\)\)\)\)]],
+  "     \n\n( note that  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(E\_0 < 
+            1 | \(\(2\)\(>\)\)\)\(\ \)\(=\)\(0\)\(\ \)\)\)]],
+  ")\n\nWith these entries we get an orthonormal basis:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\  = \ \(\(1\/\@2\) \
+\((\(|\)\(1 > +\)\(|\)\(\(2\)\(>\)\))\)\ \ \ \ with\ \ \ E\_I = 
+          E\_0 + \[CapitalDelta]E + A\)\)]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(II\)\(>\)\)\)\  = \ \(\(1\/\@2\) \((\(|\)\
+\(1 > +\)\(|\)\(\(2\)\(>\)\))\)\ \ \ \ with\ \ \ E\_II = 
+          E\_0 + \[CapitalDelta]E - A\)\)]],
+  "\n\nSince A and \[CapitalDelta]E are both negative, ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\)]],
+  " is the groundstate (symmetric) and ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(II\)\(>\)\(\ \)\)\)\)]],
+  "first excited state (skew symmetric)"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Reprise: bound states in a potential well", "Subsubsection"],
+
+Cell[TextData[{
+  "The solution for \[Psi](x) is seperated into three areas A,B,C:   \n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(\[Psi]\_A\)(
+          x) = \[Alpha]\ \[ExponentialE]\^\(q\ \
+x\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\
+or\ x < \(\(\(-a\)/2\)\(\ \ \ \ \)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\[Psi]\_B\)(
+          x) = \(\[Beta]\ \((\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ k\ x\) + \
+\[ExponentialE]\^\(\[ImaginaryI]\ kx\))\) = 
+          2\ \[Beta]\ \(cos(
+                  k\ x)\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\  \
+- \ a/2 < x < 
+            a/2\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\[Psi]\_C\)(
+          x) = \[Gamma]\ \[ExponentialE]\^\(q\ \
+x\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e\
+lse\)}]],
+  "\n\nThe function and its derivation have to be continuos at the borders:\n\
+\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Psi]\_A\)(\(-a\)/
+            2) = \(\(\(\[Psi]\_B\)(\(-a\)/2)\)\(:\)\)\)]],
+  "\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Alpha]\ \[ExponentialE]\^\(\(-\ q\)\ \(\(a/2\)\(\ \
+\)\)\) = 2\ \[Beta]\ \(cos(\(-k\)\ a/2\ )\)\)]],
+  "\t\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi]\_A' \((\(-a\)/
+              2)\) = \(\(\[Psi]\_B' \((\(-a\)/2)\)\)\(:\)\)\)]],
+  "\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\[Alpha]\)\ q\ \[ExponentialE]\^\(\(-q\)\ a/2\) = 
+        2\ \[Beta]\ k\ \(sin(\(-k\)\ a/2)\)\)]],
+  "\n\nDivision of both equations leads to:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`q = k\ \ \(tan(k\ a/2)\)\)]],
+  "\t(since    ",
+  Cell[BoxData[
+      \(TraditionalForm\`q~\(\@\(-E\_n\)\)\)]],
+  "   and   ",
+  Cell[BoxData[
+      \(TraditionalForm\`k~\(\@\(-\((V0 + E\_n)\)\)\)\)]],
+  "   )\n\nThis means: under given V0 we will find ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_n\)]],
+  "! The amplitudes \[Alpha] and \[Beta] are given by:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Beta]\  = \ \(\[ExponentialE]\^\(\(-q\)\ \
+a/2\)\/\(2\ \(cos(k\ a/2)\)\)\ \[Alpha]\ \ \ \ \ \ \ \ \ \ \ \ \ \[Alpha] = \
+\((\(\@\(\((1 + q\^2\/k\^2)\) \((a\/2 + 1\/q)\)\)\) \[ExponentialE]\^\(\(-q\)\
+\ a/2\))\)\^\(-1\)\)\)]]
+}], "Text"],
+
+Cell[BoxData[{
+    \(\(a = 1;\)\), "\[IndentingNewLine]", 
+    \(\(V0 = 8;\)\), "\[IndentingNewLine]", 
+    \(\(k = \@\(-\((V0 + Energy)\)\);\)\), "\[IndentingNewLine]", 
+    \(\(q = \@\(-Energy\);\)\), "\[IndentingNewLine]", 
+    \(Energy = 
+      Re[Energy /. 
+          FindRoot[
+            q \[Equal] 
+              k\ Tan[k\ a/2], {Energy, \(-10\)}]]\), "\[IndentingNewLine]", 
+    \(k\), "\[IndentingNewLine]", 
+    \(q\)}], "Input"],
+
+Cell[BoxData[{
+    \(\[Alpha] = \((\(\@\(\((1 + q\^2\/k\^2)\) \((a\/2 + 1\/q)\)\)\) Exp[\(-q\
+\)\ a/2])\)\^\(-1\)\), "\[IndentingNewLine]", 
+    \(\[Beta] = \(Exp[\(-q\)\ a/2]\/\(2\ Cos[k\ a/2]\)\) \[Alpha]\)}], "Input"],
+
+Cell[BoxData[
+    \(\[Psi][x_] := 
+      Which[x < \(-a\)/2, \[Alpha]\ Exp[q\ x], \(-a\)/2 \[LessEqual] \ 
+          x \[LessEqual] \ a/2, 2\ \[Beta]\ Cos[k\ x], 
+        x > a/2, \[Alpha]\ Exp[\(-q\)\ x]]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[\[Psi][x], {x, \(-a\) - 2, a + 2}, Ticks \[Rule] None]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Computation of the energy splitting", "Subsubsection"],
+
+Cell["\<\
+(in the following computation we simply ignored all constants)
+First some plots of \[Psi]I and \[Psi]II\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(Off[General::"\<spell1\>"]\), "\[IndentingNewLine]", 
+    \(\[Psi]I[x_, 
+        d_] := \[Psi][x - d/2] + \[Psi][
+          x + d/2]; \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Do[
+      Plot[\[Psi]I[x, d], {x, \(-4\), 4}, PlotRange \[Rule] All, 
+        PlotLabel \[Rule] \ "\<\[Psi]I\>"], {d, 4, 1, \(-0.2\)}]\)}], "Input"],
+
+Cell[BoxData[{
+    \(Off[General::"\<spell1\>"]\), "\[IndentingNewLine]", 
+    \(\[Psi]II[x_, 
+        d_] := \[Psi][x - d/2] - \[Psi][
+          x + d/2]; \ \ \ \ \ \ \ \ Do[\ \ Plot[\[Psi]II[x, d], {x, \(-4\), 
+          4}, PlotLabel \[Rule] \ "\<\[Psi]II\>"], {d, 4, 
+        1, \(-0.2\)}]\)}], "Input"],
+
+Cell["\<\
+Computing the overlap integrals \[CapitalDelta]E=<1|V2|1>=<2|V1|2>  \
+ and  A=<1|V1|2>=<2|V2|1>   \
+\>", "Text"],
+
+Cell[BoxData[
+    \(\[CapitalDelta]E[d_] := 
+      NIntegrate[\[Psi][x - d]*\((\(-V0\))\)*\[Psi][x - d], {x, \(-d\)/2 - 
+            a, \(-d\)/2}]\)], "Input"],
+
+Cell[BoxData[
+    \(A[d_] := \ 
+      NIntegrate[\[Psi][x - d]*\((\(-V0\))\)*\[Psi][x + d], {x, \(-d\)/2 - 
+            a, \(-d\)/2}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[{\[CapitalDelta]E[d] + A[d], \[CapitalDelta]E[d] - A[d]}, {d, 1, 
+        2}, PlotStyle \[Rule] \ {RGBColor[1, 0, 0], RGBColor[0, 0, 1]}, 
+      PlotLabel \[Rule] "\<(red=\[CapitalDelta]E+A, \
+blue=\[CapitalDelta]E-A)\>", 
+      AxesLabel \[Rule] \ {"\<d\>", "\<Energy\>"}]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The amonia-molecule and the first MASER", "Subsection"],
+
+Cell[TextData[{
+  "Molecules can also have symmetrical effects leading to energy splitting. \
+The ammonia molecule ",
+  Cell[BoxData[
+      \(TraditionalForm\`NH\_3\)]],
+  " can theoretically exist in two equivalent states, either with the \
+N-molecule on the right hand side or on the left hand side with respect to \
+the 3 H-atoms."
+}], "Text"],
+
+Cell[BoxData[{
+    \(F[x_, y_, z_] := 
+      ParametricPlot3D[{x + Cos[u]\ Cos[v], y + Sin[u]\ Cos[v], 
+          z + Sin[v]}, {u, 0, 2  \[Pi]}, {v, \(-\[Pi]\)/2, \[Pi]/2}, 
+        DisplayFunction \[Rule] Identity]\), "\[IndentingNewLine]", 
+    \(Show[{F[0, 2, \(-2\)], F[0, \(-2\), \(-2\)], F[0, 0, 2], F[2, 0, 0], 
+        Graphics3D[{AbsoluteThickness[5], Line[{{0, 2, \(-2\)}, {2, 0, 0}}], 
+            Line[{{0, \(-2\), \(-2\)}, {2, 0, 0}}], 
+            Line[{{0, 0, 2}, {2, 0, 0}}]}]}, 
+      DisplayFunction \[Rule] $DisplayFunction, 
+      ViewPoint -> {\(-0.042\), \ 3.212, \ 1.064}]\)}], "Input"],
+
+Cell[TextData[{
+  "These energy-equivalent states (degenerated) are not orthogonal and again \
+we have diagonal entries in the H-matrix. These entries result from the \
+overlap integral of the nitrogen-wavefunctions.Again we have eigenvalues  \n\n\
+",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_I = \(E\_0 + A\ \ \ \ and\ E\_II = 
+          E\_0 - A\)\)]],
+  "   \n\nwith corresponding eigenstates\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\  = \ \(\(1\/\@2\) \
+\((\(|\)\(I > \ +\)\(|\)\(\(II\)\(>\)\))\)\ \ \ \ and\ \ \  | \(\(II\)\(>\)\)\
+\  = \ \(1\/\@2\) \((\(|\)\(I > \ -\)\(|\)\(\(II\)\(>\)\))\)\)\)]],
+  "\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(I > \ 
+          is\ symmetric\)\), \ \(\(|\)\(II > \ \ skew\ \(\(symmetric\)\(.\)\)\
+\)\)\)]],
+  " In both states the nitrogen atom is distributed equally left and right \
+around the H-atoms. The energy difference of both states is ",
+  Cell[BoxData[
+      \(TraditionalForm\`2  A = \(\(h\)\(\ \)\(\[Nu]\)\(\ \ \)\)\)]],
+  "with the corresponding frequency ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Nu] = 24\ GHz\)]],
+  ". This energy difference is the basis of the so called ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(NH\_3\)\(-\)\(MASER\)\(\ \)\)\)]],
+  "(Microwave amplification by stimulated emission radiation)"
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Time dependency of two-state systems", "Subsection"],
+
+Cell[TextData[{
+  "In the last chapters we have discussed about eigenstates of two-state \
+systems. These states are apart from their ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \[Omega]\_I\ \
+t\)\)]],
+  " or  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \[Omega]\_II\ \
+t\)\)]],
+  " dependency stationary. But how about an arbitrary state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Phi]\)\(>\)\)\)\)]],
+  " ?"
+}], "Text"],
+
+Cell[TextData[{
+  "An arbitrary state \[Phi](x,t=0) can be constructed by linear combination \
+of eigenstates",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(I > \ 
+          und\)\(\ \)\(|\)\(\(II\)\(>\)\(\ \)\)\)\)]],
+  ":\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Phi](0)\)\(>\)\)\)\  = \ 
+        c\_I\  | I > \(+\ c\_II\) | \(\(II\)\(>\)\)\)]],
+  "\t\t\n\nWhat would be the probability amplitude of finding ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Phi](t)\)\(>\)\)\)\)]],
+  " in one of the extreme states |1> or |2>  respectively? Just decompose it:\
+\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(\[Phi](
+              t)\)\(>\)\)\)\  = \ \(\(\(|\)\(1 > \  < 
+              1\)\(|\)\(\[Phi] > +\)\(\ \)\(|\)\(2 >  < 
+              2\)\(|\)\(\(\[Phi]\)\(>\)\)\)\  = \ \(c\_1\)(t)\  | 
+            1 > \ \(+\(\(c\_2\)(t)\)\)\  | \(\(2\)\(>\)\)\)\)]],
+  "\n\nAdditionally we know that  \[Phi] has to solve the \
+Schr\[ODoubleDot]diungerequation i.e.:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t\  | \
+\(\(\[Phi](t)\)\(>\)\)\  = \ H\  | \(\(\[Phi](t)\)\(>\)\)\)]],
+  "\t\n\nin other words:  \n\n ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{"\[ImaginaryI]", " ", "\[HBar]", " ", 
+            RowBox[{"(", GridBox[{
+                  {\(c\& . \_1\)},
+                  {\(c\& . \_2\)}
+                  }], ")"}]}], "=", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {\(E\_0'\), "A"},
+                  {"A", \(E\_0'\)}
+                  }], ")"}], "\[CenterDot]", " ", 
+            RowBox[{"(", GridBox[{
+                  {\(c\_1\)},
+                  {\(c\_2\)}
+                  }], ")"}]}]}], TraditionalForm]]],
+  "      \n \nor even more extensive         \n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ c\& . \_1 = \ 
+        E\_0' c\_1 + A\ c\_2\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ c\& . \_2 = \ 
+        A\ c\_1 + E\_0'\ c\_2\)}]],
+  "\n\nBuilding the sum and the difference we get:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \((\ 
+            c\& . \_1 + 
+              c\& . \_2)\) = \(\((E\_0' + A)\)\ \((c\_1 + 
+                c\_2)\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ and\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[ImaginaryI]\ \[HBar]\ \((\ 
+              c\& . \_1 - c\& . \_2)\) = \((E\_0' - A)\)\ \((c\_1 - 
+                c\_2)\)\)\)]],
+  "          \n\nNow we can see solutions for this DEQ:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(c\_1\)(t) + \(c\_2\)(
+            t) = \(\(C\_\[Sum]\)\[CenterDot]\ \[ExponentialE]\^\(\(-\
+\[ImaginaryI]\)\ \(E\_0'\  + A\)\/\[HBar]\ \
+t\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ and\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\(c\_1\)(t)\) - \(c\_2\)(t) = 
+          C\_\[CapitalDelta]\[CenterDot]\ \[ExponentialE]\^\(\(-\[ImaginaryI]\
+\)\ \(E\_0'\  - A\)\/\[HBar]\ t\)\)\)]],
+  "      \n\nwhereby ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(C\_\[Sum]\) = \(\(c\_1\)(
+              0) + \(\(c\_2\)(
+                0)\)\ \ \ \ \ \ and\ \ \ \ \ C\_\[CapitalDelta] = \
+\(\(\(c\_1\)(0)\)\(-\)\(\(c\_2\)(0)\)\(\ \ \)\)\)\)]],
+  " define the initial condition.\nConsider a particle in the extreme state",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(1\)\(>\)\)\)\)]],
+  " at t=0, meaning ",
+  Cell[BoxData[
+      \(TraditionalForm\`C = \(\(C\_\[Sum]\) = \(C\_\[CapitalDelta] = 
+            1\)\)\)]],
+  " \[Implies] the equation simplifies to:\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(c\_1\)(
+          t) = \(\(1\/2\) \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(E\_0'\/\
+\[HBar]\) t\)\ \((\(C\_\[Sum]\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \(A\/\
+\[HBar]\) t\) + \(C\_\[CapitalDelta]\) \[ExponentialE]\^\(\[ImaginaryI]\ \
+\(A\/\[HBar]\) t\))\) = \[ExponentialE]\^\(\(-\[ImaginaryI]\) \
+\(E\_0'\/\[HBar]\) t\)\ \(cos(A\ t/\[HBar])\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(c\_2\)(
+          t) = \(\(1\/2\) \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(E\_0'\/\
+\[HBar]\) t\)\ \((\(C\_\[Sum]\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \(A\/\
+\[HBar]\) t\) - \(C\_\[CapitalDelta]\) \[ExponentialE]\^\(\[ImaginaryI]\ \
+\(A\/\[HBar]\) t\))\) = \(-\[ImaginaryI]\)\ \[ExponentialE]\^\(\(-\
+\[ImaginaryI]\) \(E\_0'\/\[HBar]\) t\)\ \(sin(A\ t/\[HBar])\)\)\)}]],
+  "\n\nSince the probability of finding the particle in state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(1\)\(>\)\)\)\)]],
+  " or ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(2\)\(>\)\)\)\)]],
+  " is given by ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(c\_1\)(
+          t)\)\( | \^2\)\(\ \ \)\(and\)\(\ \)\(|\)\(\(c\_2\)(
+          t)\)\( | \^2\)\)\)]],
+  "  this means that a particle starting in an extreme state will couple with \
+a frequency ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Nu] = A\/\(2\ \[Pi]\ \[HBar]\)\)]],
+  " between ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(1 > \ and\)\(\ \)\(|\)\(\(2\)\(>\)\)\)\)]],
+  " !"
+}], "Text"],
+
+Cell[BoxData[
+    \(Plot[{Cos[t]\^2, Sin[t]\^2}, {t, 0, \[Pi]}, 
+      PlotStyle \[Rule] {RGBColor[1, 0, 0], RGBColor[0, 0, 1]}, 
+      PlotLabel -> \*"\"\<red=|\!\(c\_1\)(t)\!\(\( | \
+\^2\)\),blue=|\!\(c\_2\)(t)\!\(\( | \^2\)\)\>\""]\)], "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Chapter 9", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Radioactive transitions", "Section"],
+
+Cell[TextData[{
+  "In this chapter we will try to answer the question, why quantummechanical \
+systems can be exited or deexited into higher or lower energetic states by \
+stimulation of electromagnetic radiation. To keep it as simple as possible we \
+look again at the two-state system of the ",
+  Cell[BoxData[
+      \(TraditionalForm\`NH\_3 - molecule\)]],
+  ":"
+}], "Text"],
+
+Cell[TextData[{
+  "The ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(NH\_3\)\(-\)\(molecule\)\(\ \)\)\)]],
+  "has an unequally distributed chargedensity, whereby the N is slightly more \
+negative than the ",
+  Cell[BoxData[
+      \(TraditionalForm\`H\_3\)]],
+  ". This leads to a so called dipole moment  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Micro]\& \[Rule] \)\)]],
+  " (defined from - to +) similar to the one in the water-molecule. To \
+further simplify the problem we assume that the molecule under an external \
+electrical field ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[ScriptCapitalE]\&\(\(\[Rule]\)\(\ \)\)\)\(\ \)\
+\)\)]],
+  " will have only two possible configurations: parallel or antiparallel to \
+the ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ScriptCapitalE]\&\(\(\[Rule]\)\(\ \)\)\)]],
+  "-field! This leads to an additional contribution in energy ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Micro]\& \[Rule] \)\[CenterDot]\(\
+\[ScriptCapitalE]\& \[Rule] \)\)]],
+  ", i.e. the energy is lowered in the parallel ",
+  Cell[BoxData[
+      \(TraditionalForm\`state | \(\(2\)\(>\)\)\)]],
+  " or enhanced in the antiparallel state",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(1\)\(>\)\(\ \)\)\)\)]],
+  "by a factor \[Micro] \[ScriptCapitalE] leading to a total difference in \
+energy  \[CapitalDelta]E = 2 \[Micro] \[ScriptCapitalE]\nWith this the \
+H-matrix is: \n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"H", "=", 
+          RowBox[{"(", GridBox[{
+                {\(E\_0 + \[Micro]\ \[ScriptCapitalE]\), \(-A\)},
+                {\(-A\), \(E\_0 - \[Micro]\ \[ScriptCapitalE]\)}
+                }], ")"}]}], TraditionalForm]]],
+  "\n\nThe corresponding eigenenergies are :                      \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_I = \(E\_0 + \@\(\((\[Micro]\ \
+\[ScriptCapitalE])\)\^2 + A\^2\)\ \ \ \ und\ \ \ \ \ E\_I = 
+          E\_0 - \@\(\((\[Micro]\ \[ScriptCapitalE])\)\^2 + A\^2\)\)\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(Plot[{1 + \@\(\((\[Micro]\[ScriptCapitalE])\)\^2 + 1\), 
+        1 - \@\(\((\[Micro]\[ScriptCapitalE])\)\^2 + 1\), 
+        1}, {\[Micro]\[ScriptCapitalE], 0, 5}, 
+      PlotStyle \[Rule] {RGBColor[1, 0, 0], RGBColor[0, 0, 1], 
+          RGBColor[0, 1, 0]}, 
+      PlotLabel \[Rule] \ \*"\"\<red=\!\(E\_I\)(\[ScriptCapitalE]),blue=\!\(E\
+\_II\)(\[ScriptCapitalE]),green=\!\(E\_0\)\>\"", 
+      AxesLabel \[Rule] {"\<\[Micro]\[ScriptCapitalE]\>", "\<Energy\>"}, 
+      Ticks \[Rule] {{}, {{1, 
+              E0}, {2, "\<E0+A\>"}, {0.1, "\<E0-A\>"}}}]\)], "Input"],
+
+Cell[TextData[{
+  "In the case of small fields the eigenenergies will certainly equal to the \
+ones in the fieldfree case ",
+  Cell[BoxData[
+      \(TraditionalForm\`E \[TildeTilde] E\_0 \[PlusMinus] A\)]],
+  ". With extremely strong fields we can neglect the overlap integrals in \
+respect to the additional energy term of the field, meaning  ",
+  Cell[BoxData[
+      \(TraditionalForm\`E \[TildeTilde] 
+        E\_0 \[PlusMinus] \[Micro]\ \[ScriptCapitalE]\)]],
+  ". Technically these fields are almost not realizable and in most cases we \
+will be in a range where  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\((\[Micro]\ \[ScriptCapitalE])\)\(\ \)\)\^2\) << \
+\(A\^2\)\)]],
+  "  i.e. the eigenstates of the system will be pretty similar to the ones of \
+the undisturbed system. To make the following computation a bit easier we \
+develop the eigenenergies around \[Micro]\[ScriptCapitalE]=0 with a Taylor \
+series:"
+}], "Text"],
+
+Cell[BoxData[
+    \(Series[{\[CapitalEpsilon]\_0 - \@\(\((\[Micro]\[ScriptCapitalE])\)\^2 + \
+A\^2\), \[CapitalEpsilon]\_0 + \@\(\((\[Micro]\[ScriptCapitalE])\)\^2 + \
+A\^2\)}, {\[Micro]\[ScriptCapitalE], 0, 2}] // FullSimplify\)], "Input"],
+
+Cell[TextData[{
+  "We can therefore approximate:  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_I = \(E\_0 + 
+            A + \((\[Micro]\ \[ScriptCapitalE])\)\^2\/\(2\ \
+A\)\ \ \ \ and\ \ \ \ E\_II = 
+          E\_0 + A - \((\[Micro]\ \[ScriptCapitalE])\)\^2\/\(2\ A\)\)\)]],
+  "\n\nIn an inhomogeneous \[ScriptCapitalE]-field each of these eigenstates \
+will try to minimize its energy and is therefore driven by a force: \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(F\& \[Rule] \)\_\(I, II\) = \(\(-\[Del]\ 
+              E\_\(I, II\)\) = \(\[MinusPlus]\(\(\(\ \)\(\[Micro]\^2\)\)\/\(2\
+\ A\)\)\) \[Del]\((\[ScriptCapitalE]\^2)\)\)\)]],
+  "\n\nWith this force a jet of ",
+  Cell[BoxData[
+      \(TraditionalForm\`NH\_3 - gas\)]],
+  " can be separated into two purified jets, one only containing state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\)]],
+  " and another one only containing state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(II\)\(>\)\)\)\)]],
+  ". What will happen if we lead the  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\)]],
+  "  jet through a cavity with an oscillating electrical field of frequency \
+\[Omega] ?\n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ScriptCapitalE](
+          t) = \[ScriptCapitalE]\_0\ \(cos(\[Omega])\)\)]],
+  "\n\nRemember chapter 8 and the time dependency of states:\n\n ",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t\ 
+            c\_1 = \(\(H\_11\) c\_1 + 
+            H\_12\ c\_2 = \((E\_0 + \[Micro]\ \(\[ScriptCapitalE](
+                      t)\))\)\ c\_1 - A\ c\_2\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t\ 
+            c\_2 = \(\(H\_22\) c\_1 + 
+            H\_21\ c\_2 = \((E\_0 - \[Micro]\ \(\[ScriptCapitalE](
+                      t)\))\)\ c\_2 - A\ c\_1\)\)}]],
+  "   \n\nUnfortunately in this case we have ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(H\_11 \[NotEqual] H\_22\)\(\ \)\(,\)\)\)]],
+  "which makes things far more complicated than in chapter 8. Nevertheless we \
+proceed exactly as in chapter 8, building the sum and the difference...\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t\((c\_1 + 
+                c\_2)\) = \((E\_0 - A)\)\ \((c\_1 + 
+                c\_2)\) + \[Micro]\ \[ScriptCapitalE]\ \((c\_1 - c\_2)\)\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t\((c\_1 - 
+                c\_2)\) = \((E\_0 + A)\)\ \((c\_1 - 
+                c\_2)\) + \[Micro]\ \[ScriptCapitalE]\ \((c\_1 + 
+                c\_2)\)\)}]],
+  "\n\nwith ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(c\_I\)(
+          t) = \(\(c\_1\)(
+              t) + \(\(c\_2\)(2)\)\ \ \ \ \ \ and\ \ \(\(c\_II\)(
+                t)\) = \(\(\(c\_1\)(t) - \(c\_2\)(
+                t)\)\(\ \ \)\(\[Implies]\)\(\ \ \ \ \)\)\)\)]],
+  "\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(c\_I\)\& .  = \((E\_0 - 
+                A)\)\ c\_I + \[Micro]\ \[ScriptCapitalE]\ c\_II\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(c\_II\)\& .  = \((E\_0 + 
+                A)\)\ c\_II + \[Micro]\ \[ScriptCapitalE]\ \ c\_I\)}]],
+  "\n\nWe now have a system of coupled differential alternations with \
+timedependent coefficients. For weak fields we can simply neglect the  \
+\[Micro]\[ScriptCapitalE]-term and solve the system. \
+\[Micro]\[ScriptCapitalE] is just a distribution. We therefore make the \
+assumption that the total solution can be described as a product of the \
+solution in the undisturbed case with a slightly timedependent term ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[Gamma]\_\(I, II\)\)(t)\)]],
+  ".\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(c\_I\)(
+          t) = \(\(\(\[Gamma]\_I\)(
+              t)\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(\(E\_0 - A\)\/\
+\[HBar]\) t\) = \(\(\[Gamma]\_I\)(
+              t)\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(E\_I\/\[HBar]\) t\
+\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(c\_II\)(
+          t) = \(\(\(\[Gamma]\_II\)(
+              
+              t)\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(\(E\_0 + A\)\/\
+\[HBar]\) t\) = \(\(\[Gamma]\_II\)(
+              t)\)\ \[ExponentialE]\^\(\(-\[ImaginaryI]\) \(E\_II\/\[HBar]\) \
+t\)\)\)}]],
+  "\n\nInserting this approach into the differential equation we get\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\((\[Omega]\_0 = \(2 
+               A/\[HBar] = \(\[CapitalDelta]E\_\(I, II\)/\[HBar] = 
+              natural\ coupling\ frequency\ \ from | 
+                I > \ to\  | \(\(II\)\(>\)\)\)\))\)\)]],
+  ":\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_I\)\& . \)(
+            t)\) = \[Micro]\ \[ScriptCapitalE]\ \((t)\)\ \[ExponentialE]\^\(\
+\[ImaginaryI]\ w\_0\ t\)\ \ \(\(\[Gamma]\_II\)(t)\)\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_II\)\& . \)(
+            t)\) = \[Micro]\ \[ScriptCapitalE]\ \((t)\)\ \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ w\_0\ t\)\ \ \(\(\[Gamma]\_I\)(
+            t)\)\)}]],
+  "        \n\nwith ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ScriptCapitalE](
+          t) = \(\(\[ScriptCapitalE]\_0\) \(cos(
+              w\ t)\) = \(\(1\/2\ \
+\(\(\[ScriptCapitalE]\_0\)(\[ExponentialE]\^\(\[ImaginaryI]\ \[Omega]\ t\) + \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \[Omega]\ t\))\)\)\(\ \ \ \ \ \)\(\
+\[Implies]\)\(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \)\)\)\)]],
+  "\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_I\)\& . \)(
+            t)\) = \(1\/2\) \[Micro]\ \(\[ScriptCapitalE]\_0\) {\
+\[ExponentialE]\^\(\[ImaginaryI]\ \((\[Omega] + w\_0)\)\ t\) + \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \((\[Omega] - w\_0)\)\ t\)}\ \(\(\
+\[Gamma]\_II\)(t)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_II\)\& . \)(
+            t)\) = \(1\/2\) \[Micro]\ \(\[ScriptCapitalE]\_0\) {\
+\[ExponentialE]\^\(\[ImaginaryI]\ \((\[Omega] - w\_0)\)\ t\) + \
+\[ExponentialE]\^\(\(-\[ImaginaryI]\)\ \((\[Omega] + w\_0)\)\ t\)}\ \(\(\
+\[Gamma]\_I\)(t)\)\)}],
+    FontColor->RGBColor[1, 0, 0]],
+  "\n\nSolving this system is not easy! We therefore start to argue:  \
+\[Micro]\[ScriptCapitalE] has to be small (remember, we used a Taylor series) \
+and the derivative of \[Gamma](t) has to be small as well in this case, \
+meaning ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Gamma]\_\(I, II\)\)]],
+  " vary only slowly. On the other hand ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[PlusMinus]\((\[Omega] + \[Omega]\_0)\)\)\ and\  \
+\[PlusMinus] \ \((\[Omega] - \[Omega]\_0)\)\)]],
+  " vary very fast but do cancel each other out in most cases. Only if ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Omega] \[TildeTilde] \[Omega]\_0\)]],
+  " , i.e. the excitation frequency is close to the natural flipping \
+frequency these terms gain influence. This is why we are especially \
+interested in the resonant case where ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Omega] = \(\(\[Omega]\_0\)\(:\)\)\)]],
+  "\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_I\)\& . \)(
+            t)\) \[TildeTilde] \[Micro]\ \[ScriptCapitalE]\_0\ \ \(\(\[Gamma]\
+\_II\)(t)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\[ImaginaryI]\ \[HBar]\ \(\(\(\[Gamma]\_II\)\& . \)(
+            t)\) \[TildeTilde] \[Micro]\ \(\(\[ScriptCapitalE]\)\(\ \)\)\_0\
+\ \ \(\(\[Gamma]\_I\)(t)\)\)}]],
+  "\n\nThis system has constant coefficients and can be solved:"
+}], "Text"],
+
+Cell[BoxData[{
+    \(\(Off[General::"\<spell1\>"];\)\), "\[IndentingNewLine]", 
+    \(DSolve[{\[ImaginaryI]\ \[HBar]\ \[PartialD]\_t \[Gamma]I[
+                t] \[Equal] \[Micro]\[ScriptCapitalE]\ \[Gamma]II[
+              t], \[ImaginaryI]\ \[HBar]\ \[PartialD]\_t \[Gamma]II[
+                t] \[Equal] \[Micro]\[ScriptCapitalE]\ \[Gamma]I[
+              t]}, {\[Gamma]I[t], \[Gamma]II[t]}, t]\)}], "Input"],
+
+Cell[TextData[{
+  "In other words  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\((whereby\ \[CurlyPhi]\_0\ is\ an\ arbitrary\ \
+phaseterm\ depending\ on\ the\ initial\ condition)\)\)]],
+  ":\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(\[Gamma]\_I\)(t) = 
+        cos(\[Micro]\ \[ScriptCapitalE]\ t/\[HBar] + \[CurlyPhi]\_0)\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\[Gamma]\_II\)(
+          t) = \(-\[ImaginaryI]\)\ \(sin(\[Micro]\ \[ScriptCapitalE]\ t/\
+\[HBar] + \[CurlyPhi]\_0)\)\)}]],
+  "\n\nWe therefore have ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(c\_I\)(
+          t)\)\( | \^2\)\(\ \)\(and\)\(\ \)\(|\)\(\(c\_II\)(
+          t)\)\( | \^2\)\)\)]],
+  "\n\n",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(\(|\)\(\(c\_I\)(
+            t)\)\( | \^2\)\) = \(\(\(|\)\(\(\[Gamma]\_I\)(
+              t)\)\( | \^2\)\) = \(cos(\[Micro]\ \[ScriptCapitalE]\ t/\[HBar] \
++ \[CurlyPhi]\_0)\)\^2\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\(\(|\)\(\(c\_II\)(
+            t)\)\( | \^2\)\) = \(\(\(|\)\(\(\[Gamma]\_II\)(
+              t)\)\( | \^2\)\) = \(sin(\[Micro]\ \[ScriptCapitalE]\ t/\[HBar] \
++ \[CurlyPhi]\_0)\)\^2\)\)}]],
+  "\n\nUsing an excitation frequency that corresponds to the eigenfrequency \
+of the molecule we can change a state",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(I\)\(>\)\)\)\)]],
+  " to a state ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(II\)\(>\)\)\)\)]],
+  " in a time ",
+  Cell[BoxData[
+      \(TraditionalForm\`t = \(\[Pi]\ \[HBar]\)\/\(2  \[Micro]\ \
+\[ScriptCapitalE]\)\)]],
+  ". Since there is a difference in energy of ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]E = 2  A\)]],
+  " between these two states, this transition will either absorb or release \
+this energy. This is what we call absorption and emission, and is exactly \
+what happens in LASERs or in this case the first MASER."
+}], "Text"],
+
+Cell[BoxData[
+    \(Plot[{Sin[x]\^2, Cos[x]\^2}, {x, 0, \[Pi]}, 
+      PlotStyle \[Rule] {RGBColor[1, 0, 0], RGBColor[0, 0, 1]}, 
+      Ticks \[Rule] {{{\[Pi]/
+                2, \(\[Pi]\ \[HBar]\)\/\(2\ \[Micro]\ \[ScriptCapitalE]\)}}, \
+{}}, PlotLabel \[Rule] \ \*"\"\<red=|\!\(c\_II\)\!\(\( | \
+\^2\)\),blue=|\!\(c\_I\)\!\(\( | \^2\)\)\>\"", 
+      AxesLabel \[Rule] {"\<t\>", None}]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Chapter 10", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["The Hydrogen atom and its angular momentum", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["The Hydrogen atom", "Subsection"],
+
+Cell[TextData[{
+  "The Hydrogen atom is the most simple atom since it has only one proton and \
+one electron. This is why it is often used to give an introduction into the \
+theory of orbitals. Because there is only one proton we have a radial \
+symmetric Coulomb-potential ",
+  Cell[BoxData[
+      \(TraditionalForm\`V = \(V(r)\)~\(-\[Alpha]\)/r\)]],
+  " . It is therefore natural to switch to spherical coordinates.\nThe \
+Laplacian in spherical coordinates is given by:"
+}], "Text"],
+
+Cell[BoxData[
+    \(Laplacian[f[r, \[CurlyPhi], \[Theta]], 
+        Spherical[r, \[CurlyPhi], \[Theta]]] // FullSimplify\)], "Input"],
+
+Cell[TextData[{
+  "Written a bit more clearly:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]\ f = \(1\/r\^2\) \
+\((\[PartialD]\_r\((\(r\^2\) \[PartialD]\_r\ \ f)\) + \
+\(1\/\(sin(\[Theta])\)\) \[PartialD]\_\[Theta]\((\(sin(\[Theta])\) \
+\[PartialD]\_\[Theta] 
+                        f)\) + \(1\/\(\(sin\^2\)(\[Theta])\)\) \
+\[PartialD]\_\(\[CurlyPhi], \[CurlyPhi]\)f)\)\)]],
+  "\n\nNote that it can be decomposed into a purely radius dependent part ",
+  Cell[BoxData[
+      \(TraditionalForm\`Op\_r\)]],
+  " and a purely angular dependent part ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(Op\_\(\[CurlyPhi], \[Theta]\)\)\(\ \)\)\)]],
+  ". We can therefore assume that the solution of the SEQ can be separated \
+into these parts too:\n\nWith:\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Psi](
+          r, \[CurlyPhi], \[Theta]) = \(\(R(
+                r)\)\[CenterDot]\(\[CapitalTheta](\[CurlyPhi], \
+\[Theta])\)\ \ \ \ \ \ \ and\ \ \ \ \ \ \ \ \[CapitalDelta] = 
+          Op\_r + \(1\/r\^2\) Op\_\(\[CurlyPhi], \[Theta]\)\)\)]],
+  "\t\[Implies]                                                  \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\
+\[CenterDot]\((\(-\(\[HBar]\^2\/\(2\ m\_e\)\)\))\)\ \(Op\_r\) \(R(
+              r)\) + \(1\/r\^2\) \(R(
+                r)\)\[CenterDot]\((\(-\(\[HBar]\^2\/\(2\ m\_e\)\)\))\)\
+\[CenterDot]
+              Op\_\(\[CurlyPhi], \[Theta]\)\ \(\[CapitalTheta](\[CurlyPhi], \
+\[Theta])\) + \(V(r)\)\[CenterDot]\(R(
+              r)\)\[CenterDot]\(\[CapitalTheta](\[CurlyPhi], \[Theta])\) \
+\[Equal] E\ \(R(r)\)\[CenterDot]\(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\)],
+    
+    FontColor->RGBColor[1, 0, 0]],
+  "\n\nDevided by R(r)\[CapitalTheta](\[CurlyPhi],\[Theta]) we have:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\(\[HBar]\^2\/\(2\ \
+m\_e\)\)\)\[CenterDot]\(\(Op\_r\) \(R(r)\)\)\/\(R(r)\) + 
+          V(r) - \(1\/r\^2\) \[HBar]\^2\/\(2\ m\_e\)\[CenterDot]\(\(Op\_\(\
+\[CurlyPhi], \[Theta]\)\) \(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\)\/\(\
+\[CapitalTheta](\[CurlyPhi], \[Theta])\) = E\)]],
+  "\n\nWe note that the angular dependent part has to be constant in order to \
+receive a constant energy E. i.e.\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(Op\_\(\[CurlyPhi], \[Theta]\)\) \
+\(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\)\/\(\[CapitalTheta](\[CurlyPhi], \
+\[Theta])\)\( = \&! \)\(\(const\)\(.\)\)\)]],
+  "\n\nThe solution of this differential equation are the spherical harmonics \
+",
+  Cell[BoxData[
+      \(TraditionalForm\`\(Y\_\(l, m\)\)(\[CurlyPhi], \[Theta])\)]],
+  ". The indices ",
+  StyleBox["l",
+    FontSlant->"Italic"],
+  " and ",
+  StyleBox["m",
+    FontSlant->"Italic"],
+  " are both integers with the condition:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(m\)\(|\)\(\(\[LessEqual]\)\(l\)\)\)\)]],
+  "\n\nAn general computation of ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(Op\_\(\[CurlyPhi], \[Theta]\)\) \
+\(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\)\/\(\[CapitalTheta](\[CurlyPhi], \
+\[Theta])\)\)]],
+  "is not possible with ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " but we can at least check the following statement for some combinations \
+of m and l (table):\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(Op\_\(\[CurlyPhi], \[Theta]\)\) \
+\(\[CapitalTheta](\[CurlyPhi], \[Theta])\)\)\/\(\[CapitalTheta](\[CurlyPhi], \
+\[Theta])\)\( = \&! \)\(\(\(const\)\(.\)\) = \(-\(l(l + 1)\)\)\)\)]],
+  "\n\nBy the way, all spherical harmonics are ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[ExponentialE]\^\(\[ImaginaryI]\ m\ \
+\[CurlyPhi]\)\)]],
+  " dependent!"
+}], "Text"],
+
+Cell[BoxData[
+    \(Op\[CurlyPhi]\[Theta][
+        f_] := \(1\/Sin[\[Theta]]\) \[PartialD]\_\[Theta]\((Sin[\[Theta]] \
+\[PartialD]\_\[Theta] 
+                  f)\) + \(1\/Sin[\[Theta]]\^2\) \(\(\[PartialD]\_\(\
+\[CurlyPhi], \[CurlyPhi]\)f\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"Table", "[", 
+          RowBox[{
+            RowBox[{"{", 
+              
+              RowBox[{\(Op\[CurlyPhi]\[Theta][
+                    SphericalHarmonicY[l, 
+                      m, \[Theta], \[CurlyPhi]]]/\((SphericalHarmonicY[l, 
+                      m, \[Theta], \[CurlyPhi]])\)\), ",", 
+                RowBox[{"\"\<\!\(\*
+StyleBox[\"l\",\nFontColor->RGBColor[0, 0, 1]]\)\!\(\*
+StyleBox[\"=\",\nFontColor->RGBColor[0, 0, 1]]\)\>\"", 
+                  "<>", \(ToString[l]\)}], ",", 
+                RowBox[{"\"\<\!\(\*
+StyleBox[\"m\",\nFontColor->RGBColor[1, 0, 0]]\)\!\(\*
+StyleBox[\"=\",\nFontColor->RGBColor[1, 0, 0]]\)\>\"", 
+                  "<>", \(ToString[m]\)}]}], "}"}], ",", \({l, 0, 4}\), 
+            ",", \({m, \(-l\), l}\)}], "]"}], "//", "Simplify"}], "//", 
+      "TableForm"}]], "Input"],
+
+Cell[BoxData[
+    \(Op\[CurlyPhi]\[Theta][
+          SphericalHarmonicY[l, 
+            m, \[Theta], \[CurlyPhi]]]/\((SphericalHarmonicY[l, 
+            m, \[Theta], \[CurlyPhi]])\) // FullSimplify\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Look at some plots of Spherical Harmonics !",
+  FontColor->RGBColor[1, 0, 0]]], "Subsubsection"],
+
+Cell[TextData[{
+  "This is a plot of the absolute value of ",
+  Cell[BoxData[
+      \(TraditionalForm\`Y\_\(l, m\)\)]],
+  ". The phase of ",
+  Cell[BoxData[
+      \(TraditionalForm\`Y\_\(l, m\)\)]],
+  "is color coded:"
+}], "Text"],
+
+Cell[BoxData[{
+    StyleBox[\(<< Graphics`ParametricPlot3D`\),
+      FontSize->6], "\[IndentingNewLine]", 
+    StyleBox[\(n = \[Pi]\/128; 
+      Show[{Graphics[\(({Hue[#1\/\(2\ \[Pi] - n\)], 
+                    Disk[{0, 0}, 1, {#1, #1 + n}]} &)\) /@ 
+              Range[0, 2\ \[Pi] - n, n], AspectRatio \[Rule] Automatic], 
+          Graphics[{Text["\<0|2\[Pi]\>", {2, 0}, {4, 0}]}], 
+          Graphics[{Text["\<\[Pi]\>", {\(-2\), 0}, {\(-12\), 0}]}], 
+          Graphics[{Text["\<3/2 \[Pi]\>", {0, 1.1}, {0, 
+                  0}]}], \[IndentingNewLine]Graphics[{Text["\<1/2 \[Pi]\>", \
+{0, \(-1.1\)}, {0, 0}]}]}]; Clear[n]\),
+      FontSize->6], "\[IndentingNewLine]", 
+    StyleBox[\(Off[Arg::"\<indet\>"]\),
+      FontSize->6], "\[IndentingNewLine]", 
+    StyleBox[\(Show[
+        GraphicsArray[
+          Table[ParametricPlot3D[{Abs[
+                    SphericalHarmonicY[l, m, \[Theta], \[CurlyPhi]]]*
+                  Cos[\[CurlyPhi]]\ Sin[\[Theta]], 
+                Abs[SphericalHarmonicY[l, m, \[Theta], \[CurlyPhi]]]*
+                  Sin[\[CurlyPhi]]\ Sin[\[Theta]], 
+                Abs[SphericalHarmonicY[l, m, \[Theta], \[CurlyPhi]]]*
+                  Cos[\[Theta]], 
+                FaceForm[
+                  Hue[\((Arg[
+                          SphericalHarmonicY[l, 
+                            m, \[Theta], \[CurlyPhi]]])\)/\((2\ \[Pi])\)]]}, \
+{\[CurlyPhi], 0, 2\ Pi}, {\[Theta], 0, Pi}, Compiled \[Rule] True, 
+              Lighting \[Rule] False, Boxed \[Rule] False, 
+              Axes \[Rule] False, BoxRatios \[Rule] {1, 1, 1}, \ 
+              PlotLabel -> "\<l=\>" <> ToString[l] "\<, m=\>" <> ToString[m], 
+              DisplayFunction \[Rule] Identity], {l, 0, 3}, {m, \(-l\), 
+              l}]]\[IndentingNewLine]]\),
+      FontSize->6]}], "Input"],
+
+Cell[TextData[{
+  "Lets go back to the radial part, now that we have found a solution for the \
+angular dependent part.\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(-\(\[HBar]\^2\/\(2\ m\_e\)\)\)\[CenterDot]Op\_r \( 
+              R(r)\) + {V(
+                  r)\  + \(1\/r\^2\) \[HBar]\^2\/\(2\ m\_e\)\[CenterDot]\(l(
+                      l + 1)\)}\[CenterDot]\(R(r)\) = E\)]],
+  "\n\nWe note that the potential V(r) gets an additional term by the angular \
+part. This offset is often interpreted as a centrifugal force. We will \
+further see that the parameter ",
+  StyleBox["l",
+    FontSlant->"Italic"],
+  " describes the angular momentum!\nDepending on the potential V(r) the \
+equation has a typical solution. In our case we are particularly interested \
+in the case of a Coulomb-potential: ",
+  Cell[BoxData[
+      \(TraditionalForm\`V(
+          r) = \(-\(\(Z\ q\^2\)\/\(4\ \[Pi]\ \(\[Epsilon]\_0\) r\)\)\)\)]],
+  "     \n(Z is the atomic number, q the charge of an electron and ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Epsilon]\_0\)]],
+  " dielectric constant in vacuum.) This potential has the solution:\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(R\_\(n, l\)\)(
+          r) = \(N\_\(n, 
+              l\)\) \[Rho]\^l\[CenterDot]\(\(L\_\(n, 
+                  l\)\)(\[Rho])\)\[CenterDot]\[ExponentialE]\^\(-\(\[Rho]\/2\)\
+\)\)]],
+  "\t\t\n\nwith normalized radius ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Rho] = \(\(2\ Z\)\/\(n\ a\_0\)\) r\)]],
+  "   normalization factor ",
+  Cell[BoxData[
+      \(TraditionalForm\`N\_\(n, l\)\)]],
+  "   and Bohr-radius ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_0 = \(\(4\ \[Pi]\ \(\[Epsilon]\_0\) \
+\[HBar]\^2\)\/\(\(m\_e\) q\^2\) = 0.0529  nm\)\)]],
+  "\n\nThe functions ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(L\_\(n, l\)\)(\[Rho])\)]],
+  " are called Laguerre-polynomials. "
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{"TableForm", "[", 
+      RowBox[{"Table", "[", 
+        RowBox[{
+          RowBox[{"{", 
+            RowBox[{\(LaguerreL[\((n - l - 1)\), 2\ l + 1, \[Rho]]\), ",", 
+              RowBox[{"\"\<\!\(\*
+StyleBox[\"n\",\nFontColor->RGBColor[0, 0, 1]]\)\!\(\*
+StyleBox[\"=\",\nFontColor->RGBColor[0, 0, 1]]\)\>\"", 
+                "<>", \(ToString[n]\)}], ",", 
+              RowBox[{"\"\<\!\(\*
+StyleBox[\"l\",\nFontColor->RGBColor[1, 0, 0]]\)\!\(\*
+StyleBox[\"=\",\nFontColor->RGBColor[1, 0, 0]]\)\>\"", 
+                "<>", \(ToString[l]\)}]}], "}"}], ",", \({n, 1, 4}\), 
+          ",", \({l, 0, n - 1}\)}], "]"}], "]"}]], "Input"],
+
+Cell[TextData[{
+  "Now we put both solutions together resulting in the general solution:\n\t\t\
+\t\t\t\t\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          
+          FormBox[\(\(\(\[Psi]\_\(n, l, m\)\)(
+                r, \[CurlyPhi], \[Theta])\)\(=\)\),
+            "TraditionalForm"], 
+          RowBox[{
+            
+            FormBox[\(\(N\_\(n, 
+                    l\)\) \[Rho]\^l\[CenterDot]\(\(L\_\(n, 
+                        l\)\)(\[Rho])\)\[CenterDot]\[ExponentialE]\^\(-\(\
+\[Rho]\/2\)\)\),
+              "TraditionalForm"], 
+            "\[CenterDot]", \(\(Y\_\(l, m\)\)(\[CurlyPhi], \[Theta])\)}]}], 
+        TraditionalForm]],
+    FontSize->16,
+    FontColor->RGBColor[0, 0, 1]],
+  "\n\nThe energies of these states are:\n\t\t\t\t\t\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_n = \(\(-\(\(\(Z\^2\) \(m\_e\) 
+                    q\^4\)\/\(32\ \(\[Pi]\^2\) \[Epsilon]\_0\^2\ \[HBar]\^2\)\
+\)\)\[CenterDot]1\/n\^2 = \(\(-13.6\)\ eV\[CenterDot]1\/n\^2 = \(-1\) 
+              Ry\[CenterDot]1\/n\^2\)\)\)],
+    FontSize->16,
+    FontColor->RGBColor[0, 0, 1]]
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plot of some Orbital-cuts", "Subsubsection"],
+
+Cell[BoxData[{\(\[Psi][n_, l_, m_, 
+          r_, \[CurlyPhi]_, \[Theta]_] := \(\((\(\(2\ Z\)\/\(n\ a\_0\)\) 
+                  r)\)\^l\) 
+          LaguerreL[\((n - l - 1)\), 
+            2\ l + 1, \(\(2\ Z\)\/\(n\ a\_0\)\) 
+              r]\ Exp[\(-\(Z\/\(n\ a\_0\)\)\) r]\ SphericalHarmonicY[l, 
+            m, \[Theta], \[CurlyPhi]];\), "\[IndentingNewLine]", \(Z = 1; 
+    a\_0 = \ 0.059\ 10\^\(-9\); 
+    r = \@\(x\^2 + y\^2 + z\^2\); \[Theta] = \ 
+      ArcSin[\@\(\(x\^2 + y\^2\)\/\(x\^2 + y\^2 + z\^2\)\)]; 
+    y = 0; \[CurlyPhi] = 
+      0;\), "\[IndentingNewLine]", \(Box = {4, 12, 32, 
+          60};\), "\[IndentingNewLine]", \(L = {};\), "\[IndentingNewLine]", 
+    RowBox[{"Do", "[", 
+      RowBox[{
+        RowBox[{"L", "=", 
+          RowBox[{"Append", "[", 
+            RowBox[{"L", ",", 
+              RowBox[{"ContourPlot", "[", 
+                
+                RowBox[{\(Abs[\[Psi][n, l, m, r, \[CurlyPhi], \[Theta]]]\^2\),
+                   ",", \({x, \(-Box[\([n]\)]\) a\_0, Box[\([n]\)]\ a\_0}\), 
+                  ",", \({z, \(-Box[\([n]\)]\)\ a\_0, Box[\([n]\)]\ a\_0}\), 
+                  ",", \(PlotPoints \[Rule] 80\), 
+                  ",", \(Contours \[Rule] 20\), 
+                  ",", \(ContourLines \[Rule] \ False\), 
+                  ",", \(FrameTicks \[Rule] None\), ",", 
+                  RowBox[{"PlotLabel", "\[Rule]", " ", 
+                    RowBox[{"\"\<\!\(\*
+StyleBox[\"n\",\nFontSize->10,\nFontColor->RGBColor[0, 0, 1]]\)\!\(\*
+StyleBox[\"=\",\nFontSize->10,\nFontColor->RGBColor[0, 0, 1]]\)\>\"", 
+                      "<>", \(ToString[n]\), "<>", "\"\< \!\(\*
+StyleBox[\"l\",\nFontSize->10,\nFontColor->RGBColor[1, 0, 0]]\)\!\(\*
+StyleBox[\"=\",\nFontSize->10,\nFontColor->RGBColor[1, 0, 0]]\)\>\"", 
+                      "<>", \(ToString[l]\), "<>", "\"\< \!\(\*
+StyleBox[\"m\",\nFontSize->10,\nFontColor->RGBColor[0, 1, 0]]\)\!\(\*
+StyleBox[\"=\",\nFontSize->10,\nFontColor->RGBColor[0, 1, 0]]\)\!\(\*
+StyleBox[\"\[PlusMinus]\",\nFontSize->10,\nFontColor->RGBColor[0, 1, \
+0]]\)\>\"", "<>", \(ToString[m]\)}]}], 
+                  ",", \(DisplayFunction \[Rule] Identity\)}], "]"}]}], 
+            "]"}]}], ",", "\[IndentingNewLine]", \({n, 1, 4}\), 
+        ",", \({l, 0, n - 1}\), ",", \({m, 0, l}\)}], 
+      "]"}], "\[IndentingNewLine]", \(Show[
+      GraphicsArray[{L[\([Range[1]]\)], L[\([Range[2, 4]]\)], 
+          L[\([Range[5, 10]]\)], L[\([Range[10, 20]]\)]}], 
+      DisplayFunction \[Rule] \ $DisplayFunction]\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Attempt to calculate ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\_n\)]]
+}], "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\(-\[HBar]\^2\)\/\(2\ me\)\) 
+          Laplacian[\[Psi][n, 0, 
+              0, \(\(2\ Z\)\/\(n\ a\_0\)\) r, \[CurlyPhi], \[Theta]], 
+            Spherical[r, \[CurlyPhi], \[Theta]]] - \(1\/r\^2\) \[Psi][n, 0, 
+              0, \(\(2\ Z\)\/\(n\ a\_0\)\) 
+                r, \[CurlyPhi], \[Theta]]/\((\[Psi][n, 0, 
+                0, \(\(2\ Z\)\/\(n\ a\_0\)\) r, \[CurlyPhi], \[Theta]])\) // 
+      FullSimplify\)], "Input"],
+
+Cell[TextData[{
+  "Again it is not as easy as it seemed to be. Anyway we can see that the \
+energy is only ",
+  StyleBox["n",
+    FontSlant->"Italic"],
+  " dependent. We therefore associate each value of ",
+  StyleBox["n",
+    FontSlant->"Italic"],
+  " with a corresponding \"shell\" (K,L,M,N...). The parameter ",
+  StyleBox["l",
+    FontSlant->"Italic"],
+  " corresponds to the different angular momentums and ",
+  StyleBox["m",
+    FontSlant->"Italic"],
+  " is something like an orbital number. We can simply see that radioactive \
+transitions can only have energies of  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[CapitalDelta]E\_\(n1, n2\) = \(\((1\/n1\^2 - 
+                1\/n2\^2)\)\[CenterDot]Ry = h\ \[Nu]\)\)]],
+  ". Some of these series have their own name e.g.:\n",
+  Cell[BoxData[
+      \(TraditionalForm\`n1 = 1\  \[Rule] \ Lyman, \ 
+      n1 = \(2 \[Rule] \ Balmer\ and\ n1 = 3 \[Rule] \ Paschen\ series\)\)]],
+  "."
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Angular momentum", "Subsection"],
+
+Cell[TextData[{
+  "Remember the angular momentum operator  ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_\(x, y, z\) = \((\(r\& \[Rule] \)\[Cross]\(p\& \
+\[Rule] \))\)\_\(x, y, z\)\)]],
+  "  or explicit:   \n\n ",
+  Cell[BoxData[{
+      \(TraditionalForm\`L\_x = \(y\ p\&^\_z - 
+            z\ p\&^\_y = \(-\[ImaginaryI]\)\ \[HBar]\ \((y\ \
+\[PartialD]\_z\(-z\) \[PartialD]\_y)\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`L\_y = \(z\ p\&^\_x - 
+            x\ p\&^\_z = \(-\[ImaginaryI]\)\ \[HBar]\ \((z\ \
+\[PartialD]\_x\(-x\) \[PartialD]\_z)\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`L\_z = \(x\ p\&^\_y - 
+            y\ p\&^\_x = \(-\[ImaginaryI]\)\ \[HBar]\ \((x\ \
+\[PartialD]\_y\(-y\) \[PartialD]\_x)\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`L\^2 = L\_x\^2 + L\_y\^2 + L\_z\^2\)}]],
+  "\n\n A symmetric hamiltonian H (meaning V(r))  all these operators commute \
+with H:\n\n ",
+  Cell[BoxData[
+      \(TraditionalForm\`\([H, 
+          L\_x]\) = \(\([H, L\_y]\) = \(\([H, L\_z]\) = 0\)\)\)]],
+  " "
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Proof", "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z\)]],
+  " in polar coordinates becomes   ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z = \(L\_\[CurlyPhi] = \(-\[ImaginaryI]\)\ \
+\[HBar]\ \[PartialD]\_\[CurlyPhi]\)\)]],
+  ". This operator obviously commutes with H:\n\n ",
+  Cell[BoxData[{
+      FormBox[\(H\[CenterDot]\((\(L\_\[CurlyPhi]\) \(\[Psi](
+                  r, \[CurlyPhi], \[Theta])\))\) - \(L\_\[CurlyPhi]\)(
+            H\[CenterDot]\(\[Psi](r, \[CurlyPhi], \[Theta])\))\), 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[\(\(=\)\({\[CapitalDelta]\_\(r, \[CurlyPhi], \[Theta]\) + 
+                  V(r)}\[CenterDot]\((\(-\[ImaginaryI]\)\ \[HBar]\ \
+\[PartialD]\_\[CurlyPhi]\( \[Psi](
+                      r, \[CurlyPhi], \[Theta])\))\) - \((\(-\[ImaginaryI]\)\ \
+\[HBar]\ \[PartialD]\_\[CurlyPhi]\((\[CapitalDelta]\_\(r, \[CurlyPhi], \
+\[Theta]\) + \(V(r)\)\[CenterDot]\(\[Psi](
+                          r, \[CurlyPhi], \[Theta])\))\))\)\)\), 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{\(\(=\)\(\(\[CapitalDelta]\_\(r, \[CurlyPhi], \[Theta]\)\) \
+\((\(-\[ImaginaryI]\)\ \[HBar]\ \[PartialD]\_\[CurlyPhi] \[Psi])\) - \(V \
+\((r)\)\)\[CenterDot]\[ImaginaryI]\ \[HBar]\ \[PartialD]\_\[CurlyPhi] \[Psi] \
++ \[ImaginaryI]\ \[HBar]\ \[PartialD]\_\[CurlyPhi]\((\[CapitalDelta]\_\(r, \
+\[CurlyPhi], \[CurlyPhi]\))\)\ \[Psi] + \[ImaginaryI]\ \[HBar]\ \[PartialD]\_\
+\[CurlyPhi]\ \(V \((r)\)\)\ \[Psi]\)\), "\[IndentingNewLine]"}], 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{
+          RowBox[{
+            RowBox[{"since", 
+              StyleBox[" ",
+                FontSize->9], 
+              StyleBox[\(V(r)\),
+                FontSize->9]}], 
+            StyleBox["\[NotEqual]",
+              FontSize->9], 
+            
+            StyleBox[\(\(f(\[CurlyPhi])\)\ we\ can\ take\ it\ out\ of\ the\ \
+derivative\),
+              FontSize->9]}], 
+          StyleBox[",",
+            FontSize->9], 
+          StyleBox[" ",
+            FontSize->9], 
+          RowBox[{
+            
+            StyleBox[\(\(and\ because\ of\ Fubini\ the\ order\ of\ \
+derivatives\ does\ not\ matter\)\(\ \)\(\[Implies]\)\),
+              FontSize->9], 
+            StyleBox["\[IndentingNewLine]",
+              FontSize->9], "\[IndentingNewLine]", 
+            "=", \(\(-\[ImaginaryI]\)\ \[HBar]\ \[PartialD]\_\[CurlyPhi]\((\
+\[CapitalDelta]\_\(r, \[CurlyPhi], \[CurlyPhi]\))\)\ \[Psi] + \[ImaginaryI]\ \
+\[HBar]\ \[PartialD]\_\[CurlyPhi]\((\[CapitalDelta]\_\(r, \[CurlyPhi], \
+\[CurlyPhi]\))\)\ \[Psi] - \(V(
+                      r)\)\[CenterDot]\[ImaginaryI]\ \[HBar]\ \[PartialD]\_\
+\[CurlyPhi] \[Psi] + \(V(
+                      r)\)\[CenterDot]\[ImaginaryI]\ \[HBar]\ \[PartialD]\_\
+\[CurlyPhi] \[Psi] = 0\)}]}], TraditionalForm], "\[IndentingNewLine]", 
+      FormBox["Null", TraditionalForm]}]],
+  "\nSince ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_x\ and\ \ L\_y\)]],
+  "are simply rotations of ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_z\)]],
+  " by ",
+  Cell[BoxData[
+      \(TraditionalForm\`90  \[Degree]\)]],
+  " this behavior holds for them as well."
+}], "Text"],
+
+Cell[TextData[{
+  "In spherical coordinates we can rewrite ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\^2\)]],
+  "\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`L\^2 = \(-\[HBar]\^2\) {\(1\/\(sin(\[Theta])\)\) \
+\[PartialD]\_\[Theta]\ \ \(sin(\[Theta])\)\ \[PartialD]\_\[Theta]\ \ \(+\(1\/\
+\(\(sin\^2\)(\[Theta])\)\)\) \[PartialD]\_\(\[CurlyPhi], \[CurlyPhi]\)\ \ \
+}\)]],
+  "\n\nRemembering the  hamiltonian in spherical coordinates we can rewrite H \
+using ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\^2\)]],
+  ":\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"H", "=", 
+          RowBox[{
+            RowBox[{
+              RowBox[{\(\(-\[HBar]\^2\)\/\(2\ m\_e\)\[CenterDot]1\/r\^2\), 
+                RowBox[{"(", 
+                  
+                  RowBox[{\(\[PartialD]\_r\((\(r\^2\) \[PartialD]\_r\ \ \ )\)\
+\), "+", 
+                    
+                    StyleBox[\(\(1\/\(sin(\[Theta])\)\) \[PartialD]\_\[Theta]\
+\((\(sin(\[Theta])\) \[PartialD]\_\[Theta]\ \ )\)\),
+                      FontColor->RGBColor[1, 0, 0]], 
+                    StyleBox["+",
+                      FontColor->RGBColor[1, 0, 0]], 
+                    
+                    StyleBox[\(\(1\/\(\(sin\^2\)(\[Theta])\)\) \
+\[PartialD]\_\(\[CurlyPhi], \[CurlyPhi]\)\),
+                      FontColor->RGBColor[1, 0, 0]]}], 
+                  StyleBox["  ",
+                    FontColor->RGBColor[1, 0, 0]], ")"}]}], "+", \(V(r)\)}], 
+            "=", 
+            RowBox[{"(", 
+              
+              RowBox[{\(\(\(-\[HBar]\^2\)\/\(2\ m\_e\ r\^2\)\) \[PartialD]\_r\
+\((\(r\^2\) \[PartialD]\_r\ \ \ )\)\), "+", 
+                FractionBox[
+                  StyleBox[\(L\^2\),
+                    FontColor->RGBColor[1, 0, 0]], \(2\ m\_e\)], 
+                "+", \(V(r)\)}], ")"}]}]}], TraditionalForm]]],
+  "\n\nNow we can see that  H and ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\^2\)]],
+  " commute, since they have the same eigenstates ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(R\_\(n, l\)\)(
+          r)\)\[CenterDot]\(\(Y\_\(l, m\)\)(\[CurlyPhi], \[Theta])\)\)]],
+  ". The same holds for ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_\(x, y, z\)\)]],
+  "\n\n",
+  Cell[BoxData[{
+      FormBox[
+        RowBox[{\(\(L\_z\) \((R\_\(n, l\)\[CenterDot]\(\(Y\_\(l, 
+                      m\)\) \((\[CurlyPhi], \[Theta])\)\))\)\), "=", 
+          RowBox[{
+            StyleBox[\(m\[CenterDot]\ \[HBar]\),
+              FontColor->RGBColor[1, 0, 0]], 
+            " ", \(R\_\(n, l\)\[CenterDot]Y\_\(l, m\)\)}]}], TraditionalForm],
+     "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{\(\(L\^2\) \((R\_\(n, l\)\[CenterDot]\(\(Y\_\(l, 
+                      m\)\) \((\[CurlyPhi], \[Theta])\)\))\)\), "=", " ", 
+          RowBox[{
+            StyleBox[\(+\(l(l + 1)\)\),
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox[" ",
+              FontColor->RGBColor[1, 0, 0]], 
+            StyleBox[\(\(\(\[HBar]\)\(\ \)\)\^2\),
+              FontColor->RGBColor[1, 0, 0]], 
+            "  ", \(R\_\(n, l\)\[CenterDot]Y\_\(l, m\)\)}]}], 
+        TraditionalForm], "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{\(H \((R\_\(n, l\)\[CenterDot]\(\(Y\_\(l, 
+                      m\)\) \((\[CurlyPhi], \[Theta])\)\))\)\), "=", 
+          RowBox[{
+            StyleBox[\(E\_n\),
+              FontColor->RGBColor[1, 0, 0]], 
+            "   ", \(R\_\(n, l\)\[CenterDot]Y\_\(l, m\)\)}]}], 
+        TraditionalForm]}]]
+}], "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+WindowSize->{978, 874},
+WindowMargins->{{87, Automatic}, {Automatic, 30}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PaperSize"->{597.562, 842.375},
+"PaperOrientation"->"Portrait",
+"PostScriptOutputFile":>FrontEnd`FileName[{"mobile", "ruebenko"}, \
+"FDM_introDocu.nb.ps", CharacterEncoding -> "iso8859-1"],
+"Magnification"->1},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 210, 5, 170, "Title"],
+Cell[1989, 60, 157, 5, 114, "Author"],
+
+Cell[CellGroupData[{
+Cell[2171, 69, 35, 0, 30, "Subsubsection"],
+Cell[2209, 71, 925, 27, 28, "Text"],
+Cell[3137, 100, 448, 8, 76, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3622, 113, 38, 0, 24, "Subsubsection"],
+Cell[3663, 115, 176, 3, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3876, 123, 25, 0, 33, "Subtitle"],
+Cell[3904, 125, 1569, 35, 662, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5510, 165, 29, 0, 33, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[5564, 169, 45, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[5634, 173, 65, 0, 39, "Subsection"],
+Cell[5702, 175, 774, 18, 136, "Text"],
+Cell[6479, 195, 188, 3, 49, "Input"],
+Cell[6670, 200, 606, 14, 52, "Text"],
+Cell[7279, 216, 627, 15, 36, "Input"],
+Cell[7909, 233, 242, 4, 35, "Text"],
+Cell[8154, 239, 947, 24, 49, "Input"],
+Cell[9104, 265, 286, 7, 28, "Text"],
+Cell[9393, 274, 797, 19, 67, "Input"],
+Cell[10193, 295, 145, 3, 28, "Text"],
+Cell[10341, 300, 1510, 35, 67, "Input"],
+Cell[11854, 337, 211, 6, 28, "Text"],
+Cell[12068, 345, 1225, 32, 49, "Input"],
+Cell[13296, 379, 183, 3, 57, "Input"],
+Cell[13482, 384, 484, 10, 51, "Text"],
+Cell[13969, 396, 154, 2, 49, "Input"],
+Cell[14126, 400, 473, 10, 44, "Text"],
+Cell[14602, 412, 175, 3, 32, "Input"],
+Cell[14780, 417, 138, 2, 28, "Text"],
+Cell[14921, 421, 306, 7, 55, "Input"],
+Cell[15230, 430, 120, 1, 28, "Text"],
+Cell[15353, 433, 444, 8, 55, "Input"],
+Cell[15800, 443, 378, 8, 45, "Text"],
+Cell[16181, 453, 441, 8, 88, "Input"],
+Cell[16625, 463, 91, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[16741, 470, 40, 0, 30, "Subsubsection"],
+Cell[16784, 472, 682, 11, 109, "Input"],
+Cell[17469, 485, 134, 3, 32, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17652, 494, 71, 0, 39, "Subsection"],
+Cell[17726, 496, 809, 16, 146, "Text"],
+Cell[18538, 514, 564, 10, 133, "Input"],
+Cell[19105, 526, 234, 7, 36, "Text"],
+Cell[19342, 535, 63, 1, 32, "Input"],
+Cell[19408, 538, 248, 4, 56, "Input"],
+Cell[19659, 544, 687, 17, 124, "Text"],
+Cell[20349, 563, 76, 1, 32, "Input"],
+Cell[20428, 566, 53, 0, 28, "Text"],
+Cell[20484, 568, 474, 8, 36, "Text"],
+Cell[20961, 578, 927, 25, 100, "Text"],
+Cell[21891, 605, 56, 1, 32, "Input"],
+Cell[21950, 608, 92, 1, 32, "Input"],
+Cell[22045, 611, 507, 14, 54, "Text"],
+Cell[22555, 627, 349, 7, 121, "Input"],
+Cell[22907, 636, 62, 0, 28, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23006, 641, 70, 0, 39, "Subsection"],
+Cell[23079, 643, 2210, 53, 350, "Text"],
+Cell[25292, 698, 187, 6, 28, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25528, 710, 75, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[25628, 714, 43, 0, 39, "Subsection"],
+Cell[25674, 716, 6303, 151, 671, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32038, 874, 29, 0, 33, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[32092, 878, 45, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[32162, 882, 28, 0, 39, "Subsection"],
+Cell[32193, 884, 1518, 30, 239, "Text"],
+Cell[33714, 916, 919, 19, 168, "Text"],
+Cell[34636, 937, 1951, 54, 81, "Text"],
+Cell[36590, 993, 178, 6, 28, "Text"],
+Cell[36771, 1001, 327, 5, 54, "Text"],
+Cell[37101, 1008, 224, 6, 61, "Text"],
+Cell[37328, 1016, 1140, 23, 139, "Text"],
+Cell[38471, 1041, 1276, 33, 151, "Text"],
+Cell[39750, 1076, 1451, 32, 125, "Text"],
+Cell[41204, 1110, 40, 0, 30, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[41269, 1114, 48, 0, 30, "Subsubsection"],
+Cell[41320, 1116, 100, 3, 28, "Text"],
+Cell[41423, 1121, 55, 1, 32, "Input"],
+Cell[41481, 1124, 131, 2, 54, "Input"],
+Cell[41615, 1128, 269, 7, 28, "Text"],
+Cell[41887, 1137, 271, 5, 36, "Input"],
+Cell[42161, 1144, 238, 6, 32, "Input"],
+Cell[42402, 1152, 75, 0, 28, "Text"],
+Cell[42480, 1154, 69, 1, 32, "Input"],
+Cell[42552, 1157, 69, 1, 32, "Input"],
+Cell[42624, 1160, 66, 1, 32, "Input"],
+Cell[42693, 1163, 61, 1, 32, "Input"],
+Cell[42757, 1166, 170, 3, 32, "Input"],
+Cell[42930, 1171, 326, 6, 44, "Text"],
+Cell[43259, 1179, 63, 0, 28, "Text"],
+Cell[43325, 1181, 71, 1, 32, "Input"],
+Cell[43399, 1184, 38, 0, 28, "Text"],
+Cell[43440, 1186, 54, 1, 32, "Input"],
+Cell[43497, 1189, 134, 3, 32, "Input"],
+Cell[43634, 1194, 324, 7, 80, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[43995, 1206, 42, 0, 30, "Subsubsection"],
+Cell[44040, 1208, 2282, 53, 385, "Text"],
+Cell[46325, 1263, 55, 1, 32, "Input"],
+Cell[46383, 1266, 459, 9, 140, "Input"],
+Cell[46845, 1277, 154, 3, 28, "Text"],
+Cell[47002, 1282, 326, 6, 130, "Input"],
+Cell[47331, 1290, 144, 3, 32, "Input"],
+Cell[47478, 1295, 55, 1, 32, "Input"],
+Cell[47536, 1298, 110, 2, 32, "Input"],
+Cell[47649, 1302, 187, 3, 48, "Input"],
+Cell[47839, 1307, 509, 10, 101, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[48397, 1323, 36, 0, 39, "Subsection"],
+Cell[48436, 1325, 379, 6, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[48840, 1335, 36, 0, 30, "Subsubsection"],
+Cell[48879, 1337, 1430, 32, 196, "Text"],
+Cell[50312, 1371, 262, 9, 26, "Text"],
+Cell[50577, 1382, 242, 6, 28, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[50856, 1393, 46, 0, 30, "Subsubsection"],
+Cell[50905, 1395, 157, 4, 28, "Text"],
+Cell[51065, 1401, 402, 9, 32, "Text"],
+Cell[51470, 1412, 440, 11, 30, "Text"],
+Cell[51913, 1425, 713, 18, 44, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52663, 1448, 128, 4, 30, "Subsubsection"],
+Cell[52794, 1454, 202, 5, 28, "Text"],
+Cell[52999, 1461, 1202, 29, 83, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54238, 1495, 110, 4, 30, "Subsubsection"],
+Cell[54351, 1501, 158, 4, 28, "Text"],
+Cell[54512, 1507, 479, 9, 32, "Text"],
+Cell[54994, 1518, 34, 0, 28, "Text"],
+Cell[55031, 1520, 336, 10, 30, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55404, 1535, 113, 4, 31, "Subsubsection"],
+Cell[55520, 1541, 170, 5, 29, "Text"],
+Cell[55693, 1548, 425, 9, 35, "Text"],
+Cell[56121, 1559, 97, 4, 28, "Text"],
+Cell[56221, 1565, 1072, 32, 53, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[57330, 1602, 117, 4, 30, "Subsubsection"],
+Cell[57450, 1608, 153, 4, 31, "Text"],
+Cell[57606, 1614, 1190, 26, 92, "Text"],
+Cell[58799, 1642, 775, 19, 74, "Text"],
+Cell[59577, 1663, 176, 5, 28, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[59814, 1675, 45, 0, 67, "Section"],
+Cell[59862, 1677, 702, 19, 74, "Text"],
+Cell[60567, 1698, 1044, 28, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[61636, 1730, 34, 0, 30, "Subsubsection"],
+Cell[61673, 1732, 716, 14, 93, "Text"],
+Cell[62392, 1748, 224, 4, 44, "Text"],
+Cell[62619, 1754, 988, 27, 91, "Text"],
+Cell[63610, 1783, 259, 8, 30, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63918, 1797, 44, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[63987, 1801, 56, 0, 39, "Subsection"],
+Cell[64046, 1803, 264, 7, 47, "Text"],
+Cell[64313, 1812, 109, 3, 28, "Text"],
+Cell[64425, 1817, 315, 10, 31, "Text"],
+Cell[64743, 1829, 385, 12, 31, "Text"],
+Cell[65131, 1843, 852, 23, 85, "Text"],
+
+Cell[CellGroupData[{
+Cell[66008, 1870, 34, 0, 30, "Subsubsection"],
+Cell[66045, 1872, 382, 7, 46, "Text"],
+Cell[66430, 1881, 55, 1, 32, "Input"],
+Cell[66488, 1884, 437, 13, 68, "Input"],
+Cell[66928, 1899, 349, 7, 95, "Input"],
+Cell[67280, 1908, 789, 20, 48, "Text"],
+Cell[68072, 1930, 175, 4, 50, "Input"],
+Cell[68250, 1936, 335, 7, 46, "Text"],
+Cell[68588, 1945, 728, 17, 59, "Text"],
+Cell[69319, 1964, 193, 4, 50, "Input"],
+Cell[69515, 1970, 407, 9, 45, "Text"],
+Cell[69925, 1981, 401, 12, 44, "Text"],
+Cell[70329, 1995, 60, 1, 32, "Input"],
+Cell[70392, 1998, 162, 3, 50, "Input"],
+Cell[70557, 2003, 203, 3, 59, "Input"],
+Cell[70763, 2008, 147, 2, 69, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[70959, 2016, 59, 0, 39, "Subsection"],
+Cell[71021, 2018, 1930, 40, 185, "Text"],
+Cell[72954, 2060, 259, 6, 28, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[73250, 2071, 70, 0, 39, "Subsection"],
+Cell[73323, 2073, 631, 10, 76, "Text"],
+Cell[73957, 2085, 2798, 76, 337, "Text"],
+Cell[76758, 2163, 2188, 57, 217, "Text"],
+
+Cell[CellGroupData[{
+Cell[78971, 2224, 34, 0, 30, "Subsubsection"],
+Cell[79008, 2226, 1341, 36, 173, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[80398, 2268, 47, 0, 39, "Subsection"],
+Cell[80448, 2270, 2875, 64, 390, "Text"],
+
+Cell[CellGroupData[{
+Cell[83348, 2338, 46, 0, 30, "Subsubsection"],
+Cell[83397, 2340, 646, 12, 80, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[84104, 2359, 40, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[84169, 2363, 32, 0, 39, "Subsection"],
+Cell[84204, 2365, 631, 19, 108, "Text"],
+Cell[84838, 2386, 579, 11, 168, "Input"],
+Cell[85420, 2399, 1034, 21, 139, "Text"],
+Cell[86457, 2422, 295, 6, 61, "Input"],
+Cell[86755, 2430, 494, 10, 128, "Input"],
+Cell[87252, 2442, 269, 5, 44, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[87558, 2452, 48, 0, 39, "Subsection"],
+Cell[87609, 2454, 468, 8, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[88102, 2466, 40, 0, 30, "Subsubsection"],
+Cell[88145, 2468, 1564, 29, 222, "Input"],
+Cell[89712, 2499, 60, 1, 32, "Input"],
+Cell[89775, 2502, 767, 18, 60, "Text"],
+Cell[90545, 2522, 1729, 46, 259, "Text"],
+Cell[92277, 2570, 1200, 28, 186, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[93550, 2606, 29, 0, 33, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[93604, 2610, 36, 0, 67, "Section"],
+Cell[93643, 2612, 134, 3, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[93802, 2619, 129, 5, 39, "Subsection"],
+Cell[93934, 2626, 1027, 26, 126, "Text"],
+Cell[94964, 2654, 1938, 38, 254, "Input"],
+Cell[96905, 2694, 266, 5, 44, "Text"],
+Cell[97174, 2701, 1045, 24, 139, "Text"],
+Cell[98222, 2727, 1027, 28, 62, "Text"],
+Cell[99252, 2757, 1115, 31, 185, "Text"],
+Cell[100370, 2790, 77, 1, 32, "Input"],
+Cell[100450, 2793, 277, 7, 28, "Text"],
+Cell[100730, 2802, 738, 11, 138, "Input"],
+Cell[101471, 2815, 841, 15, 110, "Input"],
+Cell[102315, 2832, 837, 16, 85, "Text"],
+
+Cell[CellGroupData[{
+Cell[103177, 2852, 84, 1, 30, "Subsubsection"],
+Cell[103264, 2855, 370, 8, 30, "Text"],
+Cell[103637, 2865, 346, 7, 48, "Input"],
+Cell[103986, 2874, 334, 6, 96, "Input"],
+Cell[104323, 2882, 68, 0, 28, "Text"],
+Cell[104394, 2884, 255, 5, 60, "Input"],
+Cell[104652, 2891, 155, 5, 28, "Text"],
+Cell[104810, 2898, 472, 9, 112, "Input"],
+Cell[105285, 2909, 167, 4, 28, "Text"],
+Cell[105455, 2915, 644, 12, 128, "Input"],
+Cell[106102, 2929, 273, 5, 44, "Text"],
+Cell[106378, 2936, 352, 5, 48, "Input"],
+Cell[106733, 2943, 118, 2, 32, "Input"],
+Cell[106854, 2947, 583, 19, 44, "Text"],
+Cell[107440, 2968, 382, 6, 96, "Input"],
+Cell[107825, 2976, 128, 3, 28, "Text"],
+Cell[107956, 2981, 795, 13, 128, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[108800, 3000, 47, 0, 39, "Subsection"],
+Cell[108850, 3002, 193, 6, 28, "Text"],
+Cell[109046, 3010, 473, 8, 64, "Input"],
+Cell[109522, 3020, 2063, 48, 294, "Text"],
+
+Cell[CellGroupData[{
+Cell[111610, 3072, 66, 0, 30, "Subsubsection"],
+Cell[111679, 3074, 2503, 54, 334, "Text"],
+Cell[114185, 3130, 440, 11, 138, "Input"],
+Cell[114628, 3143, 220, 3, 114, "Input"],
+Cell[114851, 3148, 218, 4, 32, "Input"],
+Cell[115072, 3154, 92, 1, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[115201, 3160, 60, 0, 30, "Subsubsection"],
+Cell[115264, 3162, 127, 3, 44, "Text"],
+Cell[115394, 3167, 333, 6, 64, "Input"],
+Cell[115730, 3175, 307, 6, 64, "Input"],
+Cell[116040, 3183, 122, 3, 28, "Text"],
+Cell[116165, 3188, 159, 3, 32, "Input"],
+Cell[116327, 3193, 146, 3, 32, "Input"],
+Cell[116476, 3198, 311, 5, 48, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[116836, 3209, 61, 0, 39, "Subsection"],
+Cell[116900, 3211, 346, 8, 44, "Text"],
+Cell[117249, 3221, 609, 10, 96, "Input"],
+Cell[117861, 3233, 1336, 29, 221, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[119234, 3267, 58, 0, 39, "Subsection"],
+Cell[119295, 3269, 513, 14, 44, "Text"],
+Cell[119811, 3285, 5056, 114, 690, "Text"],
+Cell[124870, 3401, 247, 4, 56, "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[125178, 3412, 29, 0, 33, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[125232, 3416, 42, 0, 67, "Section"],
+Cell[125277, 3418, 377, 8, 44, "Text"],
+Cell[125657, 3428, 1981, 46, 227, "Text"],
+Cell[127641, 3476, 582, 10, 77, "Input"],
+Cell[128226, 3488, 936, 19, 77, "Text"],
+Cell[129165, 3509, 240, 3, 41, "Input"],
+Cell[129408, 3514, 7727, 156, 984, "Text"],
+Cell[137138, 3672, 412, 6, 48, "Input"],
+Cell[137553, 3680, 1914, 45, 235, "Text"],
+Cell[139470, 3727, 399, 7, 73, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[139918, 3740, 30, 0, 33, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[139973, 3744, 61, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[140059, 3748, 39, 0, 39, "Subsection"],
+Cell[140101, 3750, 485, 9, 60, "Text"],
+Cell[140589, 3761, 133, 2, 32, "Input"],
+Cell[140725, 3765, 3658, 81, 551, "Text"],
+Cell[144386, 3848, 262, 5, 52, "Input"],
+Cell[144651, 3855, 877, 20, 48, "Input"],
+Cell[145531, 3877, 210, 4, 32, "Input"],
+
+Cell[CellGroupData[{
+Cell[145766, 3885, 120, 1, 30, "Subsubsection"],
+Cell[145889, 3888, 230, 8, 29, "Text"],
+Cell[146122, 3898, 1792, 34, 203, "Input"],
+Cell[147917, 3934, 1869, 43, 295, "Text"],
+Cell[149789, 3979, 658, 14, 32, "Input"],
+Cell[150450, 3995, 1101, 29, 118, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[151588, 4029, 50, 0, 30, "Subsubsection"],
+Cell[151641, 4031, 2499, 45, 273, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[154177, 4081, 113, 4, 30, "Subsubsection"],
+Cell[154293, 4087, 446, 8, 71, "Input"],
+Cell[154742, 4097, 947, 24, 84, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[155738, 4127, 38, 0, 39, "Subsection"],
+Cell[155779, 4129, 1059, 23, 203, "Text"],
+
+Cell[CellGroupData[{
+Cell[156863, 4156, 30, 0, 30, "Subsubsection"],
+Cell[156896, 4158, 3191, 73, 207, "Text"],
+Cell[160090, 4233, 3461, 86, 256, "Text"]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

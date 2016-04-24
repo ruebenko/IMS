@@ -1,0 +1,899 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     18848,        646]*)
+(*NotebookOutlinePosition[     20358,        697]*)
+(*  CellTagsIndexPosition[     20260,        690]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Partial Differential Eqautions (PDEs) - An introduction", "Title"],
+
+Cell[TextData[{
+  "By Oliver R\[UDoubleDot]benk\[ODoubleDot]nig\n<ruebenko -at- \
+imtek.de.removeme>\n",
+  StyleBox["Version",
+    FontWeight->"Bold"],
+  ": 0.1.4"
+}], "Author"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2005-2006 Oliver R\[UDoubleDot]benk\[ODoubleDot]nig
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell["List of important equations ( and analalytic solutions )", "Section"],
+
+Cell["Differential Equations ( from trip to simland )", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Classification of PDEs  (Eigenwerte and other)", "Section"],
+
+Cell["Order", "Subsubsection"],
+
+Cell["Linearity", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Elliptic, Parabolic, Hyperbolic", "Subsubsection"],
+
+Cell["\<\
+Partial Differential Equations (PDEs) can be classified into \
+elliptic, parabolic, hyperbolic and mixed type of equations. Each of the \
+different types has different difficulties and hence different procedures \
+while solving them.\
+\>", "Text"],
+
+Cell["Second order PDEs are of the form", "Text"],
+
+Cell[BoxData[
+    \(a\_11\ u\_xx\  + \ 2\ a\_12\ u\_xy\  + \ a\_22\ u\_yy\  + \ 
+        D\ u\_x\  + \ E\ u\_y\  + \ F\  = 0\)], "DisplayFormula"],
+
+Cell["\<\
+Linear second order PDE are classified into elliptic, parabolic and \
+hyperbolic according to the following matrix\
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{"m", " ", "=", " ", 
+      RowBox[{"(", GridBox[{
+            {\(a\_11\), \(a\_12\)},
+            {\(a\_12\), \(a\_22\)}
+            }], ")"}]}]], "DisplayFormula"],
+
+Cell["\<\
+A PDE is said to be elliptic if m is positive definite (det(m)>0). \
+It is parabolic if det(m)=0 and hyperbolic if det(m) < 0. \
+\>", "Text"]
+}, Closed]],
+
+Cell["Different behaviour of different PDE types", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Exercise", "Subsubsection"],
+
+Cell["Classify the following equations:", "Text"],
+
+Cell[BoxData[{
+    \(\(\(\[Del]\^2 u = f\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(\(\[PartialD]\/\[PartialD]t\) u + \[Del]\^2 u = 
+      f\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\[PartialD]\^2\/\[PartialD]t\^2\) u = \[Del]\^2 
+        u\)}], "DisplayFormula"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsubsection"],
+
+Cell["Poisson (Elliptic)", "Text"],
+
+Cell[BoxData[
+    \(\[Del]\^2 u = f\)], "Text"],
+
+Cell[BoxData[{
+    \(u\_xx + u\_yy - f = 0\), "\[IndentingNewLine]", 
+    \(a\_11 = 1, \ a\_22 = 1, \ a\_12 = 0\)}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(m = {{1, 0}, {0, 1}};\)\), "\[IndentingNewLine]", 
+    \(Det[m]\)}], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell["Diffusion (Parabolic)", "Text"],
+
+Cell[BoxData[
+    \(\(\[PartialD]\/\[PartialD]t\) u + \[Del]\^2 u = f\)], "Text"],
+
+Cell[BoxData[{
+    \(u\_t + u\_xx - f = 0\), "\[IndentingNewLine]", 
+    \(a\_11 = 1, \ a\_22 = 0, \ a\_12 = 0\)}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(m = {{1, 0}, {0, 0}};\)\), "\[IndentingNewLine]", 
+    \(Det[m]\)}], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell["Wave (Hyperbolic)", "Text"],
+
+Cell[BoxData[
+    \(\(\[PartialD]\^2\/\[PartialD]t\^2\) u = \[Del]\^2 u\)], "Text"],
+
+Cell[BoxData[{
+    \(u\_tt - u\_xx = 0\), "\[IndentingNewLine]", 
+    \(a\_11 = 1, \ a\_22 = \(-1\), \ a\_12 = 0\)}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(m = {{1, 0}, {0, \(-1\)}};\)\), "\[IndentingNewLine]", 
+    \(Det[m]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(-1\)\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constraints for DEs", "Section"],
+
+Cell["\<\
+If you analytically solve an ordinary differential equations (ODE) \
+of n-the order - for example by integration - you will get n integration \
+constants.\
+\>", "Text"],
+
+Cell["fun = y /. DSolve[ y''[x] == y[x] + 1, y, x ][[1]]", "Input",
+  CellTags->"S1.5.9"],
+
+Cell["\<\
+Sine this is a general solution ( the integration constant C[1], \
+C[2] is there ) you will not be able to find a numeric value, which you can \
+for example plot.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(fun[\ 0.5\ ]\)], "Input"],
+
+Cell["\<\
+The function needs additional information, and then will be able to \
+find a specific solution of the many found so far.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(fun = 
+      y /. \(DSolve[\ {\ \(y''\)[x] \[Equal] y[x] + 1, \ y[0] \[Equal] 0, \ 
+              y[1] \[Equal] 0}, y, x]\)[\([1]\)]\)], "Input"],
+
+Cell[BoxData[
+    \(fun[\ 0.5\ ]\)], "Input"],
+
+Cell["These additional information are called constraints.", "Text"],
+
+Cell["\<\
+For PDEs the integration constants will become integration \
+functions. Now there is different ways to specify this integration functions. \
+We differentiate between boundary conditions and initial conditions.\
+\>", \
+"Text"],
+
+Cell["\<\
+For elliptical problems we have pure boundary value problems. For \
+parabolic equations in which the independent variable where only the first \
+derivative and not the second derivative is present and is interpreted as \
+time, we need initial conditions of the first kind. They specify the solution \
+at t=0. For hyperbolic equations we need to specify the an initial value at \
+t=0 and the derivative at t=0.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Boundary Conditions (BCs)", "Subsection"],
+
+Cell["\<\
+If we have PDE that involves spacial derivatives, we set so called \
+boundary conditions. For second order PDEs the two most important boundary \
+conditions are Dirichlet conditions and Neumann conditions.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Dirichlet conditions", "Subsubsection"],
+
+Cell["\<\
+We speak of Dirichlet conditions when we specify the function at \
+the boundary, in this case at the two endpoints.\
+\>", "Text"],
+
+Cell["\<\
+fun = y /. DSolve[ { y''[x] == y[x] + 1, y[0]==0, y[1]==0}, y, x \
+][[1]]\
+\>", "Input",
+  CellTags->"S1.5.9"],
+
+Cell["Now we can evaluate the function to a numeric value.", "Text"],
+
+Cell[BoxData[
+    \(fun[\ 0.5\ ]\)], "Input"],
+
+Cell["\<\
+Please note that the endpoints 0 and 1 the function evaluates \
+exactly to the prescribed values.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(fun[\ 0\ ]\), "\[IndentingNewLine]", 
+    \(fun[\ 1\ ]\)}], "Input"],
+
+Cell["\<\
+We can plot the solution. (Note that the plot range of the function \
+is outside the specified domain. This is possible because DSolve returns an \
+analytical solution.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Plot[\ fun[\ x\ ], \ {\ x, \ \(-0.1\), \ 1.1\ }\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Neumann boundary conditions", "Subsubsection"],
+
+Cell["\<\
+An important alternative to Dirichlet conditions are so called \
+Neumann conditions. Now we prescribe the derivative of the function.\
+\>", \
+"Text"],
+
+Cell["\<\
+fun = y /. DSolve[ { y''[x] == y[x] + 1, y'[0]==1, y'[1]==-0.1}, y, \
+x ][[1]]\
+\>", "Input",
+  CellTags->"S1.5.9"],
+
+Cell[BoxData[
+    \(Plot[\ fun[\ x\ ], \ {\ x, \ \(-0.1\), \ 1.1\ }\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Exercise - Robin (mixed) boundary conditions", "Subsubsection"],
+
+Cell["\<\
+You should now specify a Dirichlet boundary condition at x=0 and \
+also an Neumann boundary condition x=0. The combination of Dirichlet and \
+Neumann boundary conditions is called Robin (or mixed ) boundary condition. \
+Start with both Dirichlet and Neumann values of 0 and play with them. What do \
+you observe?\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsubsection"],
+
+Cell["\<\
+fun = y /. DSolve[ { y''[x] == y[x] + 1, y[0]==0, y'[0]==0}, y, x \
+][[1]]\
+\>", "Input",
+  CellTags->"S1.5.9"],
+
+Cell[BoxData[
+    \(Plot[\ fun[\ x\ ], \ {\ x, \ \(-0.1\), \ 1.1\ }\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Initial conditions (ICs)", "Subsection"],
+
+Cell["\<\
+Initial conditions are quite similar to boundary conditions. \
+Initial conditions are used in connection with time dependent problems.\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell["Initial Conditions of the second kind", "Subsubsection"],
+
+Cell["This is the wave equation:", "Text"],
+
+Cell[BoxData[
+    \(\(\[PartialD]\^2\/\[PartialD]t\^2\) u = \(c\^2\) \[Del]\^2 u\)], "Input",\
+
+  Evaluatable->False],
+
+Cell[TextData[{
+  "In ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " the wave equation looks like this"
+}], "Text"],
+
+Cell["\<\
+eqn = D[u[t,x,y],{t,2}] == 0.5^2 * ( D[u[t, x, y], {x, 2} ] + \
+D[u[t, x, y], {y, 2}] )\
+\>", "Input",
+  CellTags->"S3.9.7"],
+
+Cell["\<\
+Since the equation has spacial and temporal variables we first \
+specify the boundary conditions. Please note these boundary conditions are \
+functions (not scalar values) on the simulation boundary\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(boundaryCondition1\  = \ 
+        u[t, \(-5\), y] \[Equal] u[t, 5, y] \[Equal] 
+          0;\)\), "\[IndentingNewLine]", 
+    \(\(boundaryCondition2\  = \ 
+        u[t, x, \(-5\)] \[Equal] u[t, x, 5] \[Equal] 0;\)\)}], "Input"],
+
+Cell["\<\
+And the initial conditions of the second kind. The first conditions \
+specifies the state, the position of the initial system. The second condition \
+specifies the derivative, the initial velocity of the initial state.\
+\>", \
+"Text"],
+
+Cell[BoxData[{
+    \(\(initialCondition1\  = \ 
+        u[0, x, y] \[Equal] 
+          Exp[\(-\((x^2 + y^2)\)\)];\)\), "\[IndentingNewLine]", 
+    \(\(initialCondition2\  = \ \(\(Derivative[1, 0, 0]\)[u]\)[0, x, 
+            y] \[Equal] 0;\)\)}], "Input"],
+
+Cell["To solve the wave equation we use NDSolve", "Text"],
+
+Cell["\<\
+waveEquationSol = u /. NDSolve[{
+eqn,
+boundaryCondition1, boundaryCondition2,
+initialCondition1 ,initialCondition2
+}, u, {t, 0, 4}, {x, -5, 5}, {y, -5, 5}][[1]]\
+\>", "Input",
+  CellTags->"S3.9.7"],
+
+Cell["\<\
+And to plot the result we use Plot3D at different time steps from 0 \
+to 4 in 0.25 steps\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(Plot3D[\ 
+          waveEquationSol[\ #, \ x, \ y\ ]\ , {x, \(-5\), 5}, {y, \(-5\), 5}, 
+          PlotRange \[Rule] {\ {\ \(-5\), \ 5\ }, \ {\ \(-5\), \ 
+                5\ }, \ {\ \(-1\), \ 2\ }\ }, PlotPoints \[Rule] \ 100, 
+          Mesh \[Rule] False, \ Boxed\  \[Rule] \ False] &\)\  /@ \ 
+      Range[\ 0, \ 4, \ 0.25\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Exercise: Initial Conditions of the first kind", "Subsubsection"],
+
+Cell["\<\
+You should now specify constraints for, and solve the diffusion \
+equation in 1 space and 1 time dimension.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(\[PartialD]\/\[PartialD]t\) u = k \[Del]\^2 u\)], "DisplayFormula"],
+
+Cell["\<\
+Imagine a rod of unit length[0,1]. The diffusion constant k=0.01. \
+On the left hand boundary a doping concentration of 1 is given and on the \
+right hand side a concentration of 0 is assumed. The initial concentration is \
+given according to the following function\
+\>", "Text"],
+
+Cell[BoxData[
+    \(e\^\(\(-100\)\ x\^2\)\)], "DisplayFormula"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsubsection"],
+
+Cell[BoxData[
+    \(Remove["\<u\>"]\)], "Input"],
+
+Cell["eqn = D[u[t,x ],{t,1}] == 0.01 * D[u[t, x], {x, 2}]", "Input",
+  CellTags->"S3.9.7"],
+
+Cell[BoxData[{
+    \(\(boundaryCondition1\  = \ 
+        u[t, 0\ ] \[Equal] 1;\)\), "\[IndentingNewLine]", 
+    \(\(boundaryCondition2\  = \ u[t, 1\ ] \[Equal] 0;\)\)}], "Input"],
+
+Cell[BoxData[
+    \(\(initialCondition1\  = \ 
+        u[0, x\ ] \[Equal] Exp[\(-100\) \((x^2)\)];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[\ Exp[\(-100\) \((x^2)\)], \ {\ x, \ 0, \ 1\ }, \ 
+      PlotRange\  \[Rule] \ All\ ]\)], "Input"],
+
+Cell["\<\
+diffusionEquationSol = u /. NDSolve[{
+eqn,
+boundaryCondition1, boundaryCondition2,
+initialCondition1
+}, u, {t, 0, 4}, {x, 0, 1} ][[1]]\
+\>", "Input",
+  CellTags->"S3.9.7"],
+
+Cell[BoxData[
+    \(\(Plot[\ diffusionEquationSol[\ #, \ x\ ]\ , {x, 0, 1\ }, 
+          PlotRange \[Rule] {\ {\ 0, \ 1\ }, \ {\ \(-0.5\), \ 1.5\ }\ }, 
+          PlotPoints \[Rule] \ 20\ ] &\)\  /@ \ 
+      Range[\ 0, \ 1, \ 0.1\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell["Table from joppich - which bcs and ics for which type of eqs", \
+"Subsection"]
+}, Closed]],
+
+Cell["Naive solutions ( by inverse )", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Generating test cases for DEs", "Section"],
+
+Cell[TextData[{
+  "Imagine you have written a computer program to solve Partial Differential \
+Equations (PDEs). Now you would like to test your program. We are now \
+developing a mechanism for generating test cases for a PDE solver. For the \
+purpose of illustration we would like to test ",
+  StyleBox["Mathematica'",
+    FontSlant->"Italic"],
+  "s DSolve. Every PDE solver needs as input the PDE.\nWe look at the \
+following PDE:"
+}], "Text"],
+
+Cell[BoxData[
+    \(\[Del]\ u\  = \ f\)], "DisplayFormula"],
+
+Cell["\<\
+The PDE consists of two parts. The left hand side (lhs) and the \
+right hand side (rhs). Here u is the unknown dependant variable (which we try \
+to find) and f is known and a so called load. To be more specific we consider \
+the 2D case and the dependant variable u is a function of x and y and also f \
+can be a function of x and y. So we write:\
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"(", GridBox[{
+              {\(\[PartialD]\/\[PartialD]x\)},
+              {\(\[PartialD]\/\[PartialD]y\)}
+              }], ")"}], "u", \((x, y)\)}], "=", 
+      " ", \(f \((x, y)\)\)}]], "DisplayFormula"],
+
+Cell["\<\
+A desirable property of such a test case would be that we have an \
+analytical solution to the PDE we consider.  We could then compare the \
+(numeric) result from our solver and the analytical solution from our test \
+case.
+To construct a PDE to which we know the analytical solution we proceed in two \
+steps: First we choose an arbitrary function u(x,y) and insert that function \
+into the PDE. Applying the differential operators from the lhs to the chosen \
+u will produce some terms. Since the PDE is an equation (lhs=rhs), these \
+terms are equal to f(x,y). This means: our assumed u solves the PDE for the \
+given f.
+Now, in the second step we put the PDE with the generated f into the solver. \
+And we test weather the solver now finds our assumed u.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Exercise", "Subsubsection"],
+
+Cell["\<\
+You should first choose some function for u (e.g. sin(x+y) ), then \
+compute f and put f  and the PDE in DSolve and see weather the found solution \
+is u. Comment on the solution obtained by DSolve\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsubsection"],
+
+Cell["\<\
+Step 1: Let us choose u(x,y) = sin(x+y) and compute the right hand \
+side (rhs)\
+\>", "Text"],
+
+Cell[BoxData[
+    \(u[x_, \ y_\ ] := \ Sin[\ x\  + y\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(f[\ x_, \ y_\ ] = \ 
+      D[\ u[\ x, \ y\ ], \ {\ x, \ 1\ }\ ]\  + \ 
+        D[\ u[\ x, \ y\ ], \ {\ y, \ 1\ }\ ]\)], "Input"],
+
+Cell["Step 2: test the solver", "Text"],
+
+Cell["First we give the input to DSolve", "Text"],
+
+Cell[BoxData[
+    \(dSol\  = \ 
+      DSolve[\ {\ 
+          D[\ v[x, y], \ {x, 1}\ ] + \ 
+              D[\ v[x, y], \ {y, 1\ }\ ]\  \[Equal] \ 
+            f[\ x, y\ ]\[IndentingNewLine]\ }, \ 
+        v[\ x, \ y\ ], \ {\ x, \ y\ }\ ]\)], "Input"],
+
+Cell["Next we extract and simplify the solution", "Text"],
+
+Cell[BoxData[
+    \(FullSimplify[\ v[\ x, \ y\ ]\  /. dSol[\([\ 1, 1]\)]\ ]\)], "Input"],
+
+Cell["\<\
+We see that DSolve returns an integration constant. This is an \
+analytical, general solution to the PDE. In most cases it is not possible to \
+find analytical solutions, not to mention general solutions. To find specific \
+solutions, the integration constant must be specified. This is done via so \
+called Boundary Conditions.\
+\>", "Text"]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+WindowSize->{904, 599},
+WindowMargins->{{89, Automatic}, {Automatic, 156}},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "S1.5.9"->{
+    Cell[6940, 245, 89, 1, 32, "Input",
+      CellTags->"S1.5.9"],
+    Cell[8893, 307, 120, 4, 32, "Input",
+      CellTags->"S1.5.9"],
+    Cell[9883, 347, 125, 4, 32, "Input",
+      CellTags->"S1.5.9"],
+    Cell[10612, 374, 121, 4, 32, "Input",
+      CellTags->"S1.5.9"]},
+  "S3.9.7"->{
+    Cell[11462, 413, 134, 4, 32, "Input",
+      CellTags->"S3.9.7"],
+    Cell[12642, 448, 207, 7, 92, "Input",
+      CellTags->"S3.9.7"],
+    Cell[14146, 501, 90, 1, 32, "Input",
+      CellTags->"S3.9.7"],
+    Cell[14662, 517, 181, 7, 92, "Input",
+      CellTags->"S3.9.7"]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"S1.5.9", 19672, 668},
+  {"S3.9.7", 19959, 677}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 76, 0, 142, "Title"],
+Cell[1855, 55, 177, 6, 98, "Author"],
+
+Cell[CellGroupData[{
+Cell[2057, 65, 35, 0, 30, "Subsubsection"],
+Cell[2095, 67, 924, 27, 28, "Text"],
+Cell[3022, 96, 469, 8, 76, "Text"]
+}, Open  ]],
+Cell[3506, 107, 75, 0, 67, "Section"],
+Cell[3584, 109, 66, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[3675, 113, 65, 0, 67, "Section"],
+Cell[3743, 115, 30, 0, 30, "Subsubsection"],
+Cell[3776, 117, 34, 0, 30, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[3835, 121, 56, 0, 30, "Subsubsection"],
+Cell[3894, 123, 257, 5, 44, "Text"],
+Cell[4154, 130, 49, 0, 28, "Text"],
+Cell[4206, 132, 146, 2, 23, "DisplayFormula"],
+Cell[4355, 136, 138, 3, 28, "Text"],
+Cell[4496, 141, 190, 5, 41, "DisplayFormula"],
+Cell[4689, 148, 151, 3, 28, "Text"]
+}, Closed]],
+Cell[4855, 154, 67, 0, 24, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[4947, 158, 33, 0, 30, "Subsubsection"],
+Cell[4983, 160, 49, 0, 28, "Text"],
+Cell[5035, 162, 315, 7, 130, "DisplayFormula"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5387, 174, 33, 0, 24, "Subsubsection"],
+Cell[5423, 176, 34, 0, 28, "Text"],
+Cell[5460, 178, 47, 1, 29, "Text"],
+Cell[5510, 181, 124, 2, 43, "Text"],
+
+Cell[CellGroupData[{
+Cell[5659, 187, 100, 2, 48, "Input"],
+Cell[5762, 191, 35, 1, 47, "Output"]
+}, Open  ]],
+Cell[5812, 195, 37, 0, 28, "Text"],
+Cell[5852, 197, 81, 1, 43, "Text"],
+Cell[5936, 200, 123, 2, 43, "Text"],
+
+Cell[CellGroupData[{
+Cell[6084, 206, 100, 2, 48, "Input"],
+Cell[6187, 210, 35, 1, 47, "Output"]
+}, Open  ]],
+Cell[6237, 214, 33, 0, 28, "Text"],
+Cell[6273, 216, 83, 1, 46, "Text"],
+Cell[6359, 219, 125, 2, 43, "Text"],
+
+Cell[CellGroupData[{
+Cell[6509, 225, 105, 2, 48, "Input"],
+Cell[6617, 229, 40, 1, 47, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6718, 237, 38, 0, 41, "Section"],
+Cell[6759, 239, 178, 4, 28, "Text"],
+Cell[6940, 245, 89, 1, 32, "Input",
+  CellTags->"S1.5.9"],
+Cell[7032, 248, 186, 4, 28, "Text"],
+Cell[7221, 254, 45, 1, 32, "Input"],
+Cell[7269, 257, 144, 3, 28, "Text"],
+Cell[7416, 262, 165, 3, 32, "Input"],
+Cell[7584, 267, 45, 1, 32, "Input"],
+Cell[7632, 270, 68, 0, 28, "Text"],
+Cell[7703, 272, 235, 5, 44, "Text"],
+Cell[7941, 279, 433, 7, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[8399, 290, 47, 0, 39, "Subsection"],
+Cell[8449, 292, 229, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[8703, 300, 45, 0, 30, "Subsubsection"],
+Cell[8751, 302, 139, 3, 28, "Text"],
+Cell[8893, 307, 120, 4, 32, "Input",
+  CellTags->"S1.5.9"],
+Cell[9016, 313, 68, 0, 28, "Text"],
+Cell[9087, 315, 45, 1, 32, "Input"],
+Cell[9135, 318, 121, 3, 28, "Text"],
+Cell[9259, 323, 89, 2, 48, "Input"],
+Cell[9351, 327, 192, 4, 44, "Text"],
+Cell[9546, 333, 83, 1, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9666, 339, 52, 0, 24, "Subsubsection"],
+Cell[9721, 341, 159, 4, 28, "Text"],
+Cell[9883, 347, 125, 4, 32, "Input",
+  CellTags->"S1.5.9"],
+Cell[10011, 353, 83, 1, 32, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10131, 359, 69, 0, 24, "Subsubsection"],
+Cell[10203, 361, 336, 6, 60, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10576, 372, 33, 0, 24, "Subsubsection"],
+Cell[10612, 374, 121, 4, 32, "Input",
+  CellTags->"S1.5.9"],
+Cell[10736, 380, 83, 1, 32, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10868, 387, 46, 0, 23, "Subsection"],
+Cell[10917, 389, 160, 4, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[11102, 397, 62, 0, 30, "Subsubsection"],
+Cell[11167, 399, 42, 0, 28, "Text"],
+Cell[11212, 401, 117, 3, 51, "Input",
+  Evaluatable->False],
+Cell[11332, 406, 127, 5, 28, "Text"],
+Cell[11462, 413, 134, 4, 32, "Input",
+  CellTags->"S3.9.7"],
+Cell[11599, 419, 222, 4, 44, "Text"],
+Cell[11824, 425, 250, 5, 48, "Input"],
+Cell[12077, 432, 244, 5, 44, "Text"],
+Cell[12324, 439, 255, 5, 48, "Input"],
+Cell[12582, 446, 57, 0, 28, "Text"],
+Cell[12642, 448, 207, 7, 92, "Input",
+  CellTags->"S3.9.7"],
+Cell[12852, 457, 112, 3, 28, "Text"],
+Cell[12967, 462, 363, 6, 48, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13367, 473, 71, 0, 24, "Subsubsection"],
+Cell[13441, 475, 131, 3, 28, "Text"],
+Cell[13575, 480, 89, 1, 39, "DisplayFormula"],
+Cell[13667, 483, 289, 5, 44, "Text"],
+Cell[13959, 490, 63, 1, 28, "DisplayFormula"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14059, 496, 33, 0, 24, "Subsubsection"],
+Cell[14095, 498, 48, 1, 32, "Input"],
+Cell[14146, 501, 90, 1, 32, "Input",
+  CellTags->"S3.9.7"],
+Cell[14239, 504, 178, 3, 48, "Input"],
+Cell[14420, 509, 113, 2, 32, "Input"],
+Cell[14536, 513, 123, 2, 32, "Input"],
+Cell[14662, 517, 181, 7, 92, "Input",
+  CellTags->"S3.9.7"],
+Cell[14846, 526, 245, 4, 48, "Input"]
+}, Closed]]
+}, Closed]],
+Cell[15118, 534, 84, 1, 23, "Subsection"]
+}, Closed]],
+Cell[15217, 538, 49, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[15291, 542, 48, 0, 67, "Section"],
+Cell[15342, 544, 445, 9, 76, "Text"],
+Cell[15790, 555, 59, 1, 23, "DisplayFormula"],
+Cell[15852, 558, 371, 6, 60, "Text"],
+Cell[16226, 566, 265, 7, 55, "DisplayFormula"],
+Cell[16494, 575, 782, 13, 108, "Text"],
+
+Cell[CellGroupData[{
+Cell[17301, 592, 33, 0, 30, "Subsubsection"],
+Cell[17337, 594, 221, 4, 44, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17595, 603, 33, 0, 24, "Subsubsection"],
+Cell[17631, 605, 103, 3, 28, "Text"],
+Cell[17737, 610, 68, 1, 32, "Input"],
+Cell[17808, 613, 148, 3, 32, "Input"],
+Cell[17959, 618, 39, 0, 28, "Text"],
+Cell[18001, 620, 49, 0, 28, "Text"],
+Cell[18053, 622, 249, 6, 48, "Input"],
+Cell[18305, 630, 57, 0, 28, "Text"],
+Cell[18365, 632, 88, 1, 32, "Input"],
+Cell[18456, 635, 352, 6, 60, "Text"]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

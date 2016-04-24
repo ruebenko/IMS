@@ -1,0 +1,645 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     18060,        472]*)
+(*NotebookOutlinePosition[     18722,        495]*)
+(*  CellTagsIndexPosition[     18678,        491]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Tetrahedron Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : imsTetrahedron . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ r\[UDoubleDot]benk\[ODoubleDot]nig\ with\ comments\ \
+from\ darius\ koziol\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 1.3  .2005, \ Imtek, \ Freiburg, \ 
+      Germany\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ triangle\ utilities\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ Sources : \ \[IndentingNewLine]imsCircumcenter\ was\ taken\ with\ respect\
+\ \(from : \[IndentingNewLine]Geometry\ \(Junkyard : \ \(\(http\)\(:\)\)\)\) // \
+\(\(www . ics . uci . edu/\(\(~\)\(eppstein\)\)\)/junkyard\)/
+            circumcenter . 
+              html\[IndentingNewLine]imsVolume\ and\ imsSubVolume\ are\ from\ \
+Prof . \ J . G . \ 
+            Korvink\[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ provides\ triangle\ utilities\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2003 - 
+        2005\ oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Tetrahedron`\>", \ \
+"\<Imtek`Polygon`\>", \ "\<Imtek`Triangle`\>", \ "\<Imtek`Point`\>"\ \
+];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        TetrahedronQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Area, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Circumcenter, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        SubVolume, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Volume, \ $Context\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]
+    \(imsTetrahedronQ::usage\  = \ "\<imsTetrahedronQ[ expr ] returns True if \
+expr is a tetrahedron.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*function\
+\ usage*) \[IndentingNewLine]
+    imsArea::usage = "\<imsArea[ tetrahedron ] returns the surface area of \
+tetrahedron.\>"\[IndentingNewLine]\n
+    \(imsCircumcenter::usage = "\<imsCircumcenter[ tetrahedron ] gives the \
+circumference mid point of tetrahedron.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCenterOfMass::usage\  = \ "\<imsCenterOfMass[ tetrahedron ] returns \
+the center of mass for the tetrahedron.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsSubVolume::usage\  = \ "\<imsSubVolume[ tetrahedron, point ] returns \
+the four sub volumes made up from the tetrahedron vertices to point.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsVolume::usage\  = \ "\<imsVolume[ tetrahedron ] returns the volume of \
+tetrahedron.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ message\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsTetrahedron::"\<badarg\>" = "\<Hello?! - What is \
+this supposed to become?
+You called `1` with wrong argument!\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(Options[\ 
+        imsTetrahedron\ ]\  = \ {\ 
+        Primitive\  \[Rule] \ Line\ }\)\(\[IndentingNewLine]\)
+    \( (*\ end\ define\ options\ *) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs", "Section"],
+
+Cell[BoxData[
+    \(\(Needs["\<Utilities`FilterOptions`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ Selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\(imsTetrahedronQ[\ {{_, _, _}, {_, _, _}, \
+{_, _, _}, {_, _, _}\ }]\  := \ True;\)\[IndentingNewLine]
+    \(imsTetrahedronQ[\ ___\ ]\  := \ False;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["imsArea", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsArea[{a : {_, _, _}, b : {_, _, _}, c : {_, _, _}, 
+            d : {_, _, _}}] := {imsArea[{a, b, c}], imsArea[{a, d, b}], 
+          imsArea[{a, c, d}], imsArea[{b, d, c}]};\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsCenterOfMass", "Subsection"],
+
+Cell[BoxData[
+    \(imsCenterOfMass[\ {\ {\ ax_, \ ay_, \ az_\ }, \ {\ bx_, \ by_, \ 
+            bz_\ }, \ {\ cx_, \ cy_, \ cz_\ }, \ {\ dx_, \ dy_, \ 
+            dz_\ }\ }\ \ ] := 
+      1/4\ *\ {\ ax\  + \ bx\  + \ cx\  + \ dx, \ 
+          ay\  + \ by\  + \ cy\  + \ dy, \ 
+          az\  + \ bz\  + \ cz\  + dz\ }\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsCircumcenter", "Subsection"],
+
+Cell[BoxData[
+    \(imsCircumcenter[\ {\ {\ ax_, \ ay_, \ az_\ }, \ {\ bx_, \ by_, \ 
+            bz_\ }, \ {\ cx_, \ cy_, \ cz_\ }, \ {\ dx_, \ dy_, \ 
+            dz_\ }\ }\ ]\  := \ 
+      Block[\[IndentingNewLine]{\ xba, \ yba, \ zba, \ xca, \ yca, \ zca, \ 
+          xda, \ yda, \ zda, \[IndentingNewLine]balength, \ calength, \ 
+          dalength, \ xcrosscd, \ ycrosscd, \ zcross, \ xcrossdb, \ 
+          ycrossdb, \ zcrossdb, \ xcrossbc, \ ycrossbc, \ zcrossbc, \ 
+          denominator\ , \ xcirca, \ ycirca, \ 
+          zcirca\ }, \[IndentingNewLine]xba\  = \ 
+          bx\  - \ ax; \[IndentingNewLine]yba\  = \ 
+          by\  - \ ay; \[IndentingNewLine]zba\  = \ 
+          bz\  - \ az; \[IndentingNewLine]xca\  = \ 
+          cx\  - \ ax; \[IndentingNewLine]yca\  = \ 
+          cy\  - \ ay; \[IndentingNewLine]zca\  = \ 
+          cz\  - \ az; \[IndentingNewLine]xda\  = \ 
+          dx\  - \ ax; \[IndentingNewLine]yda\  = \ 
+          dy\  - \ ay; \[IndentingNewLine]zda\  = \ 
+          dz\  - \ az; \[IndentingNewLine]\[IndentingNewLine]balength = 
+          xba*xba + yba*yba + zba*zba; \[IndentingNewLine]calength = 
+          xca*xca + yca*yca + zca*zca; \[IndentingNewLine]dalength = 
+          xda*xda + yda*yda + 
+            zda*zda; \[IndentingNewLine]\[IndentingNewLine]xcrosscd = 
+          yca*zda - yda*zca; \[IndentingNewLine]ycrosscd = 
+          zca*xda - zda*xca; \[IndentingNewLine]zcrosscd = 
+          xca*yda - xda*yca; \[IndentingNewLine]xcrossdb = 
+          yda*zba - yba*zda; \[IndentingNewLine]ycrossdb = 
+          zda*xba - zba*xda; \[IndentingNewLine]zcrossdb = 
+          xda*yba - xba*yda; \[IndentingNewLine]xcrossbc = 
+          yba*zca - yca*zba; \[IndentingNewLine]ycrossbc = 
+          zba*xca - zca*xba; \[IndentingNewLine]zcrossbc = 
+          xba*yca - 
+            xca*yba; \[IndentingNewLine]\[IndentingNewLine]denominator = \((1/
+                2)\)/\((xba*xcrosscd + yba*ycrosscd + 
+                zba*zcrosscd)\); \[IndentingNewLine]\[IndentingNewLine]xcirca \
+= \((balength*xcrosscd + calength*xcrossdb + dalength*xcrossbc)\)*
+            denominator; \[IndentingNewLine]ycirca = \((balength*ycrosscd + 
+                calength*ycrossdb + dalength*ycrossbc)\)*
+            denominator; \[IndentingNewLine]zcirca = \((balength*zcrosscd + 
+                calength*zcrossdb + dalength*zcrossbc)\)*
+            denominator; \[IndentingNewLine]\[IndentingNewLine]Return[\ {\ 
+            ax\  + \ xcirca, \ ay\  + \ ycirca, \ 
+            az\  + \ zcirca\ }\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsSubVolume", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsSubVolume[\ {a : {_, _, _}, b : {_, _, _}, c : {_, _, _}, 
+              d : {_, _, _}}, pt_] /; imsCoord3DQ[pt] := {\ 
+          imsVolume[\ {\ a, \ b, \ c, \ pt\ }\ ], 
+          imsVolume[\ {\ a, \ d, \ b, \ pt\ }\ ], \ 
+          imsVolume[\ {\ a, \ c, \ d, \ pt\ }\ ], \ 
+          imsVolume[\ {\ b, \ d, \ c, \ pt\ }\ ]\ };\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsVolume", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsVolume[{a : {_, _, _}, b : {_, _, _}, c : {_, _, _}, 
+            d : {_, _, _}}] := 
+        Det[Join[Transpose[{a, b, c, d}], {{1, 1, 1, 1}}]]/6;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Graphics", "Subsection"],
+
+Cell[BoxData[
+    \({\ {\ ax_, \ ay_, \ az_\ }, \ {\ bx_, \ by_, \ bz_\ }, \ {\ cx_, \ 
+        cy_, \ cz_\ }, \ {\ dx_, \ dy_, \ dz_\ }\ }\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Graphics3D", "Subsection"],
+
+Cell[BoxData[{
+    \(\(Unprotect[\ Graphics3D\ ];\)\), "\[IndentingNewLine]", 
+    \(\(Graphics3D[\ a_imsTetrahedron, \ opts___\ ]\  := \ 
+        Graphics3D[\ {\ {\ a\ }\ }, \ 
+          opts\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(Graphics3D[\ {\ a_imsTetrahedron, \ restGraphics3D___\ }, \ 
+          opts___\ ]\  := \ 
+        Graphics3D[\ {\ {\ a\ }, \ restGraphics3D\ }, \ 
+          opts\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(Graphics3D[\ {\ primitiveOpts___\ , \ a_imsTetrahedron\ }, \ 
+          opts___\ ]\  := \ 
+        Graphics3D[\ {\ {\ primitiveOpts, \ a\ }\ }\ , \ 
+          opts\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(Graphics3D[\ {\ {\ primitiveOpts___\ , \ 
+              imsTetrahedron[\ {\ a_, \ b_, \ c_, \ d_\ }\ ]\ }, 
+            restGraphics3D___\ \ }, \ graphics3DOpts___\ ]\  := \ 
+        With[\ \[IndentingNewLine]{\[IndentingNewLine]primitive\ \  = \ \
+\(Primitive\  /. \ {\ graphics3DOpts\ }\)\  /. \ 
+                Options[
+                  imsTetrahedron]\[IndentingNewLine]}, \ \[IndentingNewLine]\
+\[IndentingNewLine]Which[\[IndentingNewLine]primitive\  === \ 
+                imsPolygon\  || \ 
+              primitive\  === \ {imsPolygon}, \
+\[IndentingNewLine]\(Graphics3D[\ #, \ 
+                  FilterOptions[\ Graphics3D, \ 
+                    graphics3DOpts\ ]\ ] &\)\  /@ \ {\ \ {\ 
+                  primitiveOpts\ , \ imsPolygon[\ {\ a, b, c\ }\ ], 
+                  imsPolygon[\ {\ a, b, d\ }\ ], \ 
+                  imsPolygon[\ {\ a, c, d\ }\ ], \ 
+                  imsPolygon[\ {\ b, c, \ d\ }\ ]\ \ }, \ 
+                restGraphics3D\ }\ , \
+\[IndentingNewLine]\[IndentingNewLine]primitive\  === \ Line\ \  || \ 
+              primitive\  === \ {Line}, \[IndentingNewLine]\(Graphics3D[\ #, \
+\ FilterOptions[\ Graphics3D, \ graphics3DOpts\ ]\ ] &\)\  /@ \ {\ {\ 
+                  primitiveOpts\ , \ Line[\ {\ a, \ b\ }\ ], \ 
+                  Line[\ {\ a, \ c\ }\ ], \ Line[\ {\ a, \ d\ }\ ], \ 
+                  Line[\ {\ b, \ c\ }\ ], \ Line[\ {\ b, \ d\ }\ ], \ 
+                  Line[\ {\ c, \ d\ }\ ]\ }, \ 
+                restGraphics3D\ }, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              else\ *) \[IndentingNewLine]True, \ \(Print["\<Something is \
+wrong in the graphics 3D part of the imsTetrahedron package.\>"];\)\
+\[IndentingNewLine]]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(Protect[\ Graphics3D\ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(EndPackage[]\)\(\ \
+\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{875, 591},
+WindowMargins->{{Automatic, 49}, {Automatic, 47}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 39, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1840, 57, 31, 0, 74, "Section"],
+Cell[1874, 59, 1652, 29, 363, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3551, 92, 35, 0, 28, "Subsubsection"],
+Cell[3589, 94, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4210, 106, 1814, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6073, 143, 32, 0, 44, "Section"],
+Cell[6108, 145, 245, 6, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6390, 156, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6467, 160, 26, 0, 38, "Subsection"],
+Cell[6496, 162, 1853, 33, 507, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8386, 200, 34, 0, 30, "Subsection"],
+Cell[8423, 202, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8629, 210, 36, 0, 30, "Subsection"],
+Cell[8668, 212, 317, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9034, 224, 26, 0, 44, "Section"],
+Cell[9063, 226, 379, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9479, 238, 32, 0, 44, "Section"],
+Cell[9514, 240, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9639, 247, 24, 0, 44, "Section"],
+Cell[9666, 249, 103, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9806, 256, 30, 0, 44, "Section"],
+Cell[9839, 258, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10132, 268, 27, 0, 44, "Section"],
+Cell[10162, 270, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10278, 277, 29, 0, 44, "Section"],
+Cell[10310, 279, 242, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10589, 288, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[10655, 292, 29, 0, 38, "Subsection"],
+Cell[10687, 294, 243, 4, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10967, 303, 37, 0, 30, "Subsection"],
+Cell[11007, 305, 360, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11404, 317, 37, 0, 30, "Subsection"],
+Cell[11444, 319, 2588, 43, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14069, 367, 34, 0, 30, "Subsection"],
+Cell[14106, 369, 397, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14540, 381, 31, 0, 30, "Subsection"],
+Cell[14574, 383, 215, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14826, 392, 30, 0, 30, "Subsection"],
+Cell[14859, 394, 152, 2, 27, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15048, 401, 32, 0, 38, "Subsection"],
+Cell[15083, 403, 2514, 43, 507, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17646, 452, 30, 0, 44, "Section"],
+Cell[17679, 454, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17828, 461, 30, 0, 44, "Section"],
+Cell[17861, 463, 171, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

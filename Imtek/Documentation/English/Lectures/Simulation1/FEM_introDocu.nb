@@ -1,0 +1,3487 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     89344,       3103]*)
+(*NotebookOutlinePosition[     90749,       3144]*)
+(*  CellTagsIndexPosition[     90705,       3140]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Finite Element Method (FEM) - An introduction", "Title"],
+
+Cell["\<\
+By Zhenyu Liu <zhenyu -at- imtek.de>
+Version: 0.1.4\
+\>", "Text"],
+
+Cell["Minor Code revision for Version 0.1.2 by Oliver R\[UDoubleDot]benk\
+\[ODoubleDot]nig", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2004 - 2006 Zehnyu Liu
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Overview", "Section 1"],
+
+Cell[TextData[{
+  "The Finite element method (FEM) is a method for solving differential \
+equations by approximating continuous quantities as a set of quantities at \
+discretized points. [?] The computational domain is often discretized into a \
+set of grids and meshes. Because the finite element method can be adapted to \
+problems with general geometry, it is an extremely powerful tool for  PDE \
+from different areas, such as mechanics, heat transfer, and/or fluid \
+problems.\nThe basic idea of the FEM is to choose a finite number of shape \
+functions (also called trial functions) and by using (?linear) combinations \
+of these shape functions to approxiamte the true solution. This is also \
+called ",
+  StyleBox["Ritz-Galerkin",
+    FontWeight->"Bold"],
+  " approximation. The approximations can be written in matrix form"
+}], "Text"],
+
+Cell[BoxData[
+    \(\((A)\) . \((x)\) = \((f)\)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Problem", "Section"],
+
+Cell["\<\
+The problem we investigate is to find a numerical approximation for \
+the following DE\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(\( \[Nor] \^2\)\(u \((x)\)\)\) = \(u'' \((x)\)\  = \ 
+        f \((x)\)\)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["The analytical solution for this is", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(analyticalSol\  = \ 
+      DSolve[\ \(u''\)[\ x\ ] \[Equal] \ f[\ x\ ], \ u[\ x\ ], \ 
+        x\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{u[x] \[Rule] 
+          C[1] + x\ C[
+                2] + \[Integral]\_1\%x\((\[Integral]\_1\%K$55 f[
+                        K$36] \[DifferentialD]K$36)\) \
+\[DifferentialD]K$55}}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["Please note",
+    FontWeight->"Bold"],
+  ": This is a general analytical solution. In numerics, we will not look for \
+general solutions but for specific solutions. We need additional information \
+to constraint the infinitely many solutions to one specific solution. This is \
+done with so called ",
+  StyleBox["boundary conditions",
+    FontWeight->"Bold"],
+  ". Generally there are three kinds of boundary conditions which are called \
+imsDirichlet -, Neumman - and Robin boundary conditions."
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Meshing ", "Section"],
+
+Cell["\<\
+We first mesh the domain with equal spaced one-dimension \
+elements.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(<< Graphics`Arrow`\), "\n", 
+    \(\(start = {0, 0};\)\), "\n", 
+    \(\(\(stop = {1, 0};\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(Show[\[IndentingNewLine]Graphics[\[IndentingNewLine]{Line[{start, 
+              stop}], \[IndentingNewLine]{PointSize[0.03], Hue[0.97], 
+            Point[start]}, \[IndentingNewLine]Text["\<x=0\>", {0, \(-0.1\)}], 
+          Text["\<x=8\>", {1, \(-0.1\)}], \
+\[IndentingNewLine]Text["\<Ele=1\>", {0.15, \(-0.05\)}], 
+          Text["\<Ele=2\>", {0.40, \(-0.05\)}], 
+          Text["\<Ele=3\>", {0.65, \(-0.05\)}], 
+          Text["\<Ele=4\>", {0.90, \(-0.05\)}], \[IndentingNewLine]{PointSize[
+              0.03], Hue[0.97], Point[stop]}, Text["\<i=1\>", {0.00, 0.05}], 
+          Text["\<i=2\>", {0.25, 0.05}], Text["\<i=3\>", {0.50, 0.05}], 
+          Text["\<i=4\>", {0.75, 0.05}], 
+          Text["\<i=5\>", {1.00, 
+              0.05}], \(({PointSize[0.03], Hue[0.7], Point[{#1, 0}]} &)\) /@ 
+            Range[0.25, 0.75, 0.25], 
+          Arrow[{0.35, \(-0.1\)}, {0.25, \(-0.1\)}], 
+          Text["\<h\>", {0.38, \(-0.1\)}], 
+          Arrow[{0.40, \(-0.1\)}, {0.50, \(-0.1\)}]}, PlotRange \[Rule] All, 
+        AspectRatio \[Rule] Automatic]\[IndentingNewLine]]\)}], "Input",
+  CellOpen->False],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .15 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.952381 0.0988095 0.952381 [
+[.02381 .00357 -11 -4.90625 ]
+[.02381 .00357 11 4.90625 ]
+[.97619 .00357 -11 -4.90625 ]
+[.97619 .00357 11 4.90625 ]
+[.16667 .05119 -17 -4.90625 ]
+[.16667 .05119 17 4.90625 ]
+[.40476 .05119 -17 -4.90625 ]
+[.40476 .05119 17 4.90625 ]
+[.64286 .05119 -17 -4.90625 ]
+[.64286 .05119 17 4.90625 ]
+[.88095 .05119 -17 -4.90625 ]
+[.88095 .05119 17 4.90625 ]
+[.02381 .14643 -11 -5.0625 ]
+[.02381 .14643 11 5.0625 ]
+[.2619 .14643 -11 -5.0625 ]
+[.2619 .14643 11 5.0625 ]
+[.5 .14643 -11 -5.0625 ]
+[.5 .14643 11 5.0625 ]
+[.7381 .14643 -11 -5.0625 ]
+[.7381 .14643 11 5.0625 ]
+[.97619 .14643 -11 -5.0625 ]
+[.97619 .14643 11 5.0625 ]
+[.38571 .00357 -5 -4.90625 ]
+[.38571 .00357 5 4.90625 ]
+[ 0 0 0 0 ]
+[ 1 .15 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+% Start of user PostScript
+/mathtops {
+gsave
+MBeginOrig
+moveto
+MEndOrig
+currentpoint
+grestore
+} bind def
+/MAtocoords {
+mathtops 4 2 roll mathtops
+4 copy pop pop
+3 -1 roll sub
+/arry exch def
+exch sub
+/arrx exch def
+arrx dup mul
+arry dup mul
+add sqrt
+/arrl exch def
+translate
+} bind def
+/MAarrowhead1 {
+gsave
+MAtocoords
+arrl 0. eq
+{ 0 0 Mdot }
+{
+[ arrx arrl div
+arry arrl div
+-1 arry mul arrl div
+arrx arrl div
+0 0 ]
+concat
+-0.05 0.0125 moveto 0 0 lineto
+-0.05 -0.0125 lineto fill
+-0.05 0.0125 moveto 0 0 lineto
+-0.05 -0.0125 lineto
+-0.05 0.0125 lineto stroke
+} ifelse
+grestore
+} def
+% End of user PostScript
+0 g
+.5 Mabswid
+[ ] 0 setdash
+.02381 .09881 m
+.97619 .09881 L
+s
+1 0 .18 r
+.03 w
+.02381 .09881 Mdot
+0 g
+gsave
+.02381 .00357 -72 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(x) show
+69.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(0) show
+81.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.97619 .00357 -72 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(x) show
+69.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(8) show
+81.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.16667 .05119 -78 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(Ele) show
+81.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(1) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.40476 .05119 -78 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(Ele) show
+81.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(2) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.64286 .05119 -78 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(Ele) show
+81.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(3) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.88095 .05119 -78 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(Ele) show
+81.000 11.250 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+87.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(4) show
+93.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+1 0 .18 r
+.97619 .09881 Mdot
+0 g
+gsave
+.02381 .14643 -72 -9.0625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(i) show
+69.000 11.562 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(1) show
+81.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.2619 .14643 -72 -9.0625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(i) show
+69.000 11.562 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(2) show
+81.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.5 .14643 -72 -9.0625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(i) show
+69.000 11.562 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(3) show
+81.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.7381 .14643 -72 -9.0625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(i) show
+69.000 11.562 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(4) show
+81.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+gsave
+.97619 .14643 -72 -9.0625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 18.125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(i) show
+69.000 11.562 moveto
+%%IncludeResource: font Mathematica1Mono
+%%IncludeFont: Mathematica1Mono
+/Mathematica1Mono findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(=) show
+75.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(5) show
+81.000 11.562 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+.2 0 1 r
+.2619 .09881 Mdot
+.5 .09881 Mdot
+.7381 .09881 Mdot
+0 g
+.5 Mabswid
+.35714 .00357 m
+.2619 .00357 L
+s
+% Start of user PostScript
+0.35 -0.1 0.25 -0.1 MAarrowhead1
+% End of user PostScript
+gsave
+.38571 .00357 -66 -8.90625 Mabsadd m
+1 1 Mabs scale
+currentpoint translate
+0 17.8125 translate 1 -1 scale
+/g { setgray} bind def
+/k { setcmykcolor} bind def
+/p { gsave} bind def
+/r { setrgbcolor} bind def
+/w { setlinewidth} bind def
+/C { curveto} bind def
+/F { fill} bind def
+/L { lineto} bind def
+/rL { rlineto} bind def
+/P { grestore} bind def
+/s { stroke} bind def
+/S { show} bind def
+/N {currentpoint 3 -1 roll show moveto} bind def
+/Msf { findfont exch scalefont [1 0 0 -1 0 0 ] makefont setfont} bind def
+/m { moveto} bind def
+/Mr { rmoveto} bind def
+/Mx {currentpoint exch pop moveto} bind def
+/My {currentpoint pop exch moveto} bind def
+/X {0 rmoveto} bind def
+/Y {0 exch rmoveto} bind def
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+63.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+(h) show
+69.000 11.250 moveto
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10.000 scalefont
+[1 0 0 -1 0 0 ] makefont setfont
+0.000 0.000 0.000 setrgbcolor
+0.000 0.000 rmoveto
+1.000 setlinewidth
+grestore
+.40476 .00357 m
+.5 .00357 L
+s
+% Start of user PostScript
+0.4 -0.1 0.5 -0.1 MAarrowhead1
+% End of user PostScript
+0 0 m
+1 0 L
+1 .15 L
+0 .15 L
+closepath
+clip
+newpath
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{285.812, 42.8125},
+  ImageMargins->{{84.3125, 0}, {0, 3.75}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40005U0000=A000`40n007h00OooooI_oo003ooomV
+ool00?ooofKoo`00Nooo0`009_oo0`00__oo000Qool30002ool30009ool40011ool7000@ool30002
+ool3000>ool70021ool30002ool30009ool4000Tool002?oo`04003ooooo0002ool60002ool20002
+ool2000kool<000Aool00`00ooooo`02ool00`00ooooo`0=ool<001nool01000ooooo`000_oo1P00
+0_oo00<00?ooool00_oo00<00?ooool08Ooo000Tool2000;ool00`00ooooo`02ool00`00ooooo`0f
+oolL0004ool00`00ooooo`02ool00`00ooooo`0L001lool2000;ool00`00ooooo`02ool00`00oooo
+o`0Qool002Coo`8000?oo`H000;oo`03003ooooo00;oo`03003ooooo03Soo`d0017oo`03003ooooo
+00;oo`03003ooooo00goo`d007koo`8000?oo`H000;oo`8000;oo`8002?oo`008ooo00@00?ooool0
+00[oo`03003ooooo00;oo`03003ooooo03coo`T0017oo`8000?oo`03003ooooo00goo`T0087oo`04
+003ooooo000;ool4000Tool0027oo`<000;oo`<000Soo`03003ooooo00;oo`03003ooooo03ooo`H0
+017oo`03003oo`000080013oo`H008;oo`<000;oo`<000Soo`03003ooooo00;oo`03003ooooo027o
+o`00<Ooo0P000_oo0P00AOoo0P004Ooo00<00?ooool04_oo0P00U_oo00<00?ooool00_oo00<00?oo
+ool08Ooo000bool4001Hool2002]ool4000Tool00?ooofKoo`00ooooI_oo003ooomVool00?ooofKo
+o`00ooooI_oo003ooomVool004?oo`L000;oo`D000?oo`D000Woo`D001koo`L000;oo`D000?oo`D0
+00Soo`H001ooo`L000;oo`D000?oo`D000Soo`@0027oo`L000;oo`D000?oo`D000[oo`<003Ooo`00
+A?oo00<00?ooool00_oo00<00?ooool00_oo00<00?ooool00_oo00<00?ooool00ooo1P001Ooo00<0
+0?ooool07ooo00<00?ooool00_oo00<00?ooool00_oo00<00?ooool00_oo00<00?ooool01?oo1P00
+0_oo00D00?ooooooo`00023oo`03003ooooo00;oo`03003ooooo00;oo`03003ooooo00;oo`03003o
+oooo00?oo`H000Koo`03003ooooo01ooo`03003ooooo00;oo`03003ooooo00;oo`03003ooooo00;o
+o`03003ooooo00?oo`H000Goo`03003ooooo03Koo`00A?oo00<00?ooool00_oo00<00?ooool00_oo
+00<00?ooool00_oo00<00?ooool03_oo00<00?ooool07ooo00<00?ooool00_oo00<00?ooool00_oo
+00<00?ooool00_oo00<00?ooool03Ooo0P008_oo00<00?ooool00_oo00<00?ooool00_oo00<00?oo
+ool00_oo00<00?ooool03ooo00<00?ooool07ooo00<00?ooool00_oo00<00?ooool00_oo00<00?oo
+ool00_oo00<00?ooool02ooo1@00=ooo0014ool01000ooooo`001_oo00<00?ooool00_oo30001Ooo
+00<00?ooool07ooo00@00?ooool000Koo`03003ooooo00;oo`H00003ool0000000@000Goo`03003o
+oooo01ooo`04003ooooo0006ool00`00ooooo`02ool<0006ool00`00ooooo`0Oool01000ooooo`00
+1_oo00<00?ooool00_oo30000_oo00@00?ooool003Soo`00A?oo10001_oo00<00?ooool00_oo00<0
+0?ooool00_oo00<00?ooool02Ooo00<00?ooool07ooo10001_oo00<00?ooool00_oo00<00?ooool0
+0_oo00<00?ooool02ooo00<00?ooool07_oo10001_oo00<00?ooool00_oo00<00?ooool00_oo00<0
+0?ooool02?oo0P008_oo10001_oo00<00?ooool00_oo00<00?ooool00_oo00<00?ooool01ooo00<0
+0?oo0000>?oo0014ool01000ooooo`001_oo00<00?ooool00ooo10003?oo00<00?ooool07ooo00@0
+0?ooool000Koo`03003ooooo00?oo`@000koo`03003ooooo01koo`04003ooooo0006ool00`00oooo
+o`03ool4000=ool00`00ooooo`0Oool01000ooooo`001_oo00<00?ooool00ooo10002_oo00<00?oo
+0000>?oo0014ool00`00ooooo`02ool00`00ooooo`02ool00`00ooooo`0Cool00`00ooooo`0Oool0
+0`00ooooo`02ool00`00ooooo`02ool00`00ooooo`0@ool00`00ooooo`02ool00`00ooooo`0Nool0
+0`00ooooo`02ool00`00ooooo`02ool00`00ooooo`0Dool00`00ooooo`0Oool00`00ooooo`02ool0
+0`00ooooo`02ool00`00ooooo`0Bool2000hool004?oo`L000;oo`<001Coo`80023oo`L000;oo`<0
+01?oo`@0023oo`L000;oo`<001?oo`<0027oo`L000;oo`<001Goo`03003ooooo03Koo`00ooooI_oo
+003ooomVool00?ooofKoo`00ooooI_oo000Zool5n0Dnool5<1lnool5<1lnool5<1lmool5n0D[ool0
+02Woo`Oh1Ccoo`L`7ccoo`L`7ccoo`L`7c_oo`Oh1B[oo`00:Ooo1oP5??oo1c0O??oo1c0O??oo1c0O
+>ooo1oP5:_oo000Xool8n0Dk0008<1lk0008<1lk0008<1lj0008n0DZool002Woo`Oh1Ccoo`L`7cco
+o`L`7ccoo`L`7c_oo`Oh1B[oo`00:Ooo1oP5??oo1c0O??oo1c0O??oo1c0O>ooo1oP5:_oo000Zool5
+n0Dnool5<1lnool5<1lnool5<1lmool5n0D[ool002coo`03n0Gooooo043oo`03<1oooooo043oo`03
+<1oooooo043oo`03<1oooooo03ooo`03n0Gooooo02_oo`00ooooI_oo003ooomVool00?ooofKoo`00
+ooooI_oo003ooomVool00?ooofKoo`008ooo1@002_oo1@00;ooo1@002Ooo1P00;_oo1@002Ooo1000
+<Ooo1@002ooo0`00<?oo1@002_oo10009?oo000Uool01000oooooooo1P001Ooo00<00?ooool0<Ooo
+00@00?ooooooo`H000?oo`05003oooooool0000`ool00`00ooooo`02ool60005ool00`00ooooo`0`
+ool00`00ooooo`02ool60004ool00`00ooooo`0aool01000oooooooo1P001ooo00<00?ooool08Ooo
+000Uool00`00ooooo`0<ool00`00ooooo`0aool00`00ooooo`0;ool2000bool00`00ooooo`0=ool0
+0`00ooooo`0`ool00`00ooooo`09ool5000bool00`00ooooo`0>ool00`00ooooo`0Qool002Goo`04
+003oooooool60005ool00`00ooooo`0aool01000oooooooo1P001_oo00<00?ooool0;ooo00<00?oo
+ool00_oo1P001Ooo00<00?ooool0<?oo00<00?ooool00_oo1P0000Goo`00ooooo`0003?oo`04003o
+ooooool60007ool00`00ooooo`0Qool002Goo`03003ooooo00coo`03003ooooo037oo`03003ooooo
+00koo`03003ooooo02koo`03003ooooo00_oo`8003?oo`03003ooooo00[oo`03003oo`0003?oo`03
+003ooooo00[oo`03003ooooo008002?oo`008ooo0`003_oo00<00?ooool0;ooo0`004?oo00<00?oo
+ool0;?oo0`003ooo00<00?ooool0;_oo0`003?oo00<00?oo0000<Ooo0`003?oo10009?oo000dool0
+0`00ooooo`0mool00`00ooooo`02ool00`00ooooo`0nool00`00ooooo`0nool20010ool00`00oooo
+o`0Uool002Goo`03003ooooo00_oo`8003?oo`03003ooooo00[oo`@0037oo`03003ooooo00[oo`<0
+03?oo`03003ooooo00coo`03003ooooo037oo`03003ooooo00[oo`D002?oo`009Ooo00<00?ooool0
+@?oo00<00?ooool0?ooo00<00?ooool0@?oo00<00?ooool0@?oo00<00?ooool0<_oo0000\
+\>"],
+  ImageRangeCache->{{{0, 356.25}, {52.5, 0}} -> {-0.167337, -0.122979, \
+0.00468307, 0.00468307}}],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Polynomial shape functions", "Section"],
+
+Cell["\<\
+Basically one can choose any type mathematical function to \
+construct the shape function. The most commonly used functions are \
+polynomials, which have an established and mature theory to analyse the \
+computational errors made.
+Here we introduce the Lagrange type shape functions. Finite element \
+calculations are usually best carried out by developing the matrices of a \
+single element in detail, then repeating the calculation without modification \
+for each element.
+The shape functions are expressed by the isoparametic coordinate \[Zeta] , \
+instead of the physical coordinate \[ScriptX]. The relationship between these \
+two coordinates can be expressed as the Jacobian matrix. In a 1-dimension \
+case, it is simplified as:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\[Zeta] = \(x - \((x\_i + x\_j)\)/2\)\/\(\((x\_j - x\_i)\)/2\)\)], \
+"Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Where ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_i\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_j\)]],
+  "are the two end points of the element."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Plot[\(x - \((x\_i + x\_j)\)/2\)\/\(\((x\_j - x\_i)\)/2\) /. {x\_i \
+\[Rule] \(-1\), x\_j \[Rule] 1}, {x, \(-1\), 1}]\)], "Input",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.5 0.476191 0.309017 0.294302 [
+[.02381 .29652 -6 -9 ]
+[.02381 .29652 6 0 ]
+[.2619 .29652 -12 -9 ]
+[.2619 .29652 12 0 ]
+[.7381 .29652 -9 -9 ]
+[.7381 .29652 9 0 ]
+[.97619 .29652 -3 -9 ]
+[.97619 .29652 3 0 ]
+[.4875 .01472 -12 -4.5 ]
+[.4875 .01472 0 4.5 ]
+[.4875 .16187 -24 -4.5 ]
+[.4875 .16187 0 4.5 ]
+[.4875 .45617 -18 -4.5 ]
+[.4875 .45617 0 4.5 ]
+[.4875 .60332 -6 -4.5 ]
+[.4875 .60332 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.02381 .30902 m
+.02381 .31527 L
+s
+[(-1)] .02381 .29652 0 1 Mshowa
+.2619 .30902 m
+.2619 .31527 L
+s
+[(-0.5)] .2619 .29652 0 1 Mshowa
+.7381 .30902 m
+.7381 .31527 L
+s
+[(0.5)] .7381 .29652 0 1 Mshowa
+.97619 .30902 m
+.97619 .31527 L
+s
+[(1)] .97619 .29652 0 1 Mshowa
+.125 Mabswid
+.07143 .30902 m
+.07143 .31277 L
+s
+.11905 .30902 m
+.11905 .31277 L
+s
+.16667 .30902 m
+.16667 .31277 L
+s
+.21429 .30902 m
+.21429 .31277 L
+s
+.30952 .30902 m
+.30952 .31277 L
+s
+.35714 .30902 m
+.35714 .31277 L
+s
+.40476 .30902 m
+.40476 .31277 L
+s
+.45238 .30902 m
+.45238 .31277 L
+s
+.54762 .30902 m
+.54762 .31277 L
+s
+.59524 .30902 m
+.59524 .31277 L
+s
+.64286 .30902 m
+.64286 .31277 L
+s
+.69048 .30902 m
+.69048 .31277 L
+s
+.78571 .30902 m
+.78571 .31277 L
+s
+.83333 .30902 m
+.83333 .31277 L
+s
+.88095 .30902 m
+.88095 .31277 L
+s
+.92857 .30902 m
+.92857 .31277 L
+s
+.25 Mabswid
+0 .30902 m
+1 .30902 L
+s
+.5 .01472 m
+.50625 .01472 L
+s
+[(-1)] .4875 .01472 1 0 Mshowa
+.5 .16187 m
+.50625 .16187 L
+s
+[(-0.5)] .4875 .16187 1 0 Mshowa
+.5 .45617 m
+.50625 .45617 L
+s
+[(0.5)] .4875 .45617 1 0 Mshowa
+.5 .60332 m
+.50625 .60332 L
+s
+[(1)] .4875 .60332 1 0 Mshowa
+.125 Mabswid
+.5 .04415 m
+.50375 .04415 L
+s
+.5 .07358 m
+.50375 .07358 L
+s
+.5 .10301 m
+.50375 .10301 L
+s
+.5 .13244 m
+.50375 .13244 L
+s
+.5 .1913 m
+.50375 .1913 L
+s
+.5 .22073 m
+.50375 .22073 L
+s
+.5 .25016 m
+.50375 .25016 L
+s
+.5 .27959 m
+.50375 .27959 L
+s
+.5 .33845 m
+.50375 .33845 L
+s
+.5 .36788 m
+.50375 .36788 L
+s
+.5 .39731 m
+.50375 .39731 L
+s
+.5 .42674 m
+.50375 .42674 L
+s
+.5 .4856 m
+.50375 .4856 L
+s
+.5 .51503 m
+.50375 .51503 L
+s
+.5 .54446 m
+.50375 .54446 L
+s
+.5 .57389 m
+.50375 .57389 L
+s
+.25 Mabswid
+.5 0 m
+.5 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.5 Mabswid
+.02381 .01472 m
+.06244 .03859 L
+.10458 .06463 L
+.14415 .08909 L
+.18221 .11261 L
+.22272 .13765 L
+.26171 .16175 L
+.30316 .18736 L
+.34309 .21204 L
+.3815 .23578 L
+.42237 .26104 L
+.46172 .28536 L
+.49955 .30874 L
+.53984 .33364 L
+.57861 .3576 L
+.61984 .38308 L
+.65954 .40762 L
+.69774 .43123 L
+.73838 .45635 L
+.77751 .48053 L
+.81909 .50623 L
+.85916 .53099 L
+.89771 .55482 L
+.93871 .58016 L
+.97619 .60332 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40005X0000gQ000`40n007h00O/ooo00<00?ooool0
+/_oo002cool00`00ooooo`2bool00;?oo`03003ooooo0;;oo`00ZOoo1@001Ooo00<00?ooool0/_oo
+002[ool00`00ooooo`05ool00`00ooooo`2bool00:_oo`03003ooooo00Goo`03003ooooo0;;oo`00
+2Ooo00<00?ooool0Wooo00<00?ooool01Ooo0`00/_oo000:ool2002Fool30006ool00`00ooooo`05
+ool00`00ooooo`2bool000coo`8009goo`03003ooooo00Goo`03003ooooo0;;oo`003_oo0P00Vooo
+00<00?ooool01Ooo00<00?ooool0/_oo000@ool00`00ooooo`2Gool20007ool00`00ooooo`2bool0
+017oo`800:3oo`03003ooooo0;;oo`004ooo0P00W_oo00<00?ooool0/_oo000Eool2002Lool00`00
+ooooo`2bool001Ooo`03003ooooo09Woo`03003ooooo0;;oo`006?oo0P00VOoo00<00?ooool0/_oo
+000Jool00`00ooooo`2Fool2002cool001_oo`8009Koo`03003ooooo0;;oo`007Ooo00<00?ooool0
+Tooo00<00?ooool0/_oo000Nool2002Cool00`00ooooo`2bool0023oo`03003ooooo093oo`03003o
+oooo0;;oo`008Ooo0P00T?oo00<00?ooool0/_oo000Sool00`00ooooo`2=ool00`00ooooo`2bool0
+02Coo`8008goo`03003ooooo0;;oo`009_oo00<00?ooool0R_oo00<00?ooool0/_oo000Wool2002:
+ool00`00ooooo`2bool002Woo`8008Soo`03003ooooo0;;oo`00:ooo0P00Q_oo0P00/ooo000]ool0
+0`00ooooo`23ool00`00ooooo`2bool002koo`8008?oo`03003ooooo0;;oo`00<?oo0P00POoo00<0
+0?ooool0/_oo000bool2001oool00`00ooooo`2bool003Coo`03003ooooo07coo`03003ooooo0;;o
+o`00=Ooo0P00O?oo00<00?ooool0/_oo000gool00`00ooooo`1iool00`00ooooo`2bool003Soo`80
+07Woo`03003ooooo0;;oo`00>_oo00<00?ooool0M_oo00<00?ooool0/_oo000kool2001fool2002c
+ool003goo`8007Coo`03003ooooo0;;oo`00?ooo00<00?ooool0LOoo00<00?ooool0/_oo0010ool2
+001aool00`00ooooo`2bool004;oo`03003ooooo06koo`03003ooooo0;;oo`00@ooo0P00K_oo00<0
+0?ooool0/_oo0015ool00`00ooooo`1[ool00`00ooooo`2bool004Koo`8006_oo`03003ooooo0;;o
+o`00B?oo00<00?ooool0J?oo00<00?ooool0/_oo0019ool2001Xool00`00ooooo`2bool004_oo`80
+06Koo`03003ooooo0;;oo`00COoo00<00?ooool0Hooo0P00/ooo001>ool2001Sool00`00ooooo`2b
+ool0053oo`03003ooooo063oo`03003ooooo0;;oo`00DOoo0P00H?oo00<00?ooool0/_oo001Cool2
+001Nool00`00ooooo`2bool005Goo`8005coo`03003ooooo0;;oo`00Eooo00<00?ooool0FOoo00<0
+0?ooool0/_oo001Hool2000oool40005ool20005ool40006ool00`00ooooo`2bool005[oo`8003co
+o`8000;oo`8000Coo`8000Woo`03003ooooo00?oo`03003ooooo0;;oo`00G?oo0P00>_oo00<00?oo
+ool00_oo00<00?ooool03Ooo00<00?ooool00ooo00<00?ooool0/_oo001Nool00`00ooooo`0gool0
+0`00ooooo`02ool00`00ooooo`0=ool00`00ooooo`03ool3002bool005ooo`80037oo`<000?oo`03
+003ooooo00;oo`03003ooooo00Woo`03003ooooo008000Goo`03003ooooo0;;oo`00HOoo0P00=Ooo
+00<00?ooool00_oo00<00?ooool02Ooo10001_oo00<00?ooool0/_oo001Sool00`00ooooo`0bool2
+0002ool2000;ool00`00ooooo`07ool00`00ooooo`2bool006Coo`8003?oo`@000coo`D000Goo`03
+003ooooo0;;oo`00I_oo0P00Booo00<00?ooool0/_oo001Xool00`00ooooo`18ool00`00ooooo`2b
+ool006Woo`8004Soo`03003ooooo0;;oo`00Jooo0P00A_oo00<00?ooool0/_oo001]ool00`00oooo
+o`13ool00`00ooooo`2bool006koo`8004?oo`03003ooooo0;;oo`00L?oo00<00?ooool0@?oo0P00
+/ooo001aool20010ool00`00ooooo`2bool007?oo`03003ooooo03goo`03003ooooo0;;oo`00M?oo
+0P00?Ooo00<00?ooool0/_oo001fool2000kool00`00ooooo`2bool007Soo`03003ooooo03Soo`03
+003ooooo0;;oo`00NOoo0P00>?oo00<00?ooool0/_oo001kool00`00ooooo`0eool00`00ooooo`2b
+ool007coo`8003Goo`03003ooooo0;;oo`00O_oo00<00?ooool0<_oo00<00?ooool0/_oo001oool2
+000bool2002cool0087oo`03003ooooo02ooo`03003ooooo0;;oo`00P_oo0P00;ooo00<00?ooool0
+/_oo0024ool2000]ool00`00ooooo`2bool008Koo`03003ooooo02[oo`03003ooooo0;;oo`00Qooo
+0P00:_oo00<00?ooool0/_oo0029ool00`00ooooo`0Wool00`00ooooo`2bool008[oo`8002Ooo`03
+003ooooo0;;oo`00S?oo00<00?ooool09?oo00<00?ooool0/_oo002=ool2000Tool00`00ooooo`2b
+ool008ooo`03003ooooo027oo`03003ooooo0;;oo`00T?oo0P008Ooo0P00/ooo002Bool2000Oool0
+0`00ooooo`2bool009Coo`03003ooooo01coo`03003ooooo0;;oo`00UOoo0P007?oo00<00?ooool0
+/_oo002Gool00`00ooooo`0Iool00`00ooooo`2bool009Soo`8001Woo`03003ooooo0;;oo`002ooo
+1@00B?oo10001Ooo0P001Ooo1000;_oo0P005ooo00<00?ooool0B?oo10001Ooo0P001Ooo1000BOoo
+1@002?oo000=ool00`00ooooo`17ool20002ool20004ool20009ool00`00ooooo`0]ool2000Eool0
+0`00ooooo`17ool20002ool20004ool20009ool00`00ooooo`18ool00`00ooooo`08ool000goo`03
+003ooooo04Ooo`03003ooooo00;oo`03003ooooo00goo`03003ooooo02ooo`03003ooooo01;oo`03
+003ooooo04Ooo`03003ooooo00;oo`03003ooooo00goo`03003ooooo04Soo`03003ooooo00Soo`00
+3Ooo00<00?ooool0Aooo00<00?ooool00_oo00<00?ooool03Ooo00<00?ooool0<?oo0P004_oo00<0
+0?ooool0Aooo00<00?ooool00_oo00<00?ooool03Ooo00<00?ooool0B?oo00<00?ooool02?oo0004
+ool30006ool00`00ooooo`11ool30003ool00`00ooooo`02ool00`00ooooo`09ool00`00ooooo`02
+000dool2000@ool20018ool00`00ooooo`02ool00`00ooooo`09ool00`00ooooo`02001:ool00`00
+ooooo`08ool000goo`03003ooooo04Ooo`03003ooooo00;oo`03003ooooo00Woo`@003Ooo`8000ko
+o`03003ooooo04Ooo`03003ooooo00;oo`03003ooooo00Woo`@004_oo`03003ooooo00Soo`003Ooo
+00<00?ooool0Aooo0P000_oo0P002ooo00<00?ooool0>_oo00<00?ooool02ooo00<00?ooool0Aooo
+0P000_oo0P002ooo00<00?ooool0C?oo00<00?ooool02?oo000<ool2001:ool4000<ool5000iool2
+000;ool00`00ooooo`18ool4000<ool50019ool2000:ool00:Soo`03003ooooo00Soo`03003ooooo
+0;;oo`00ZOoo0P002?oo00<00?ooool0/_oo002[ool00`00ooooo`05ool00`00ooooo`2bool00:co
+o`8000Goo`03003ooooo0;;oo`00[_oo0P000ooo00<00?ooool0/_oo002`ool01000ooooo`00]?oo
+002aool3002dool00003ool000000?l006@000;oo`002Ooo00<00?ooool03_oo00<00?ooool03_oo
+00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo
+00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo0`003_oo00<00?ooool03_oo00<00?oo
+ool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?oo
+ool03_oo00<00?ooool03_oo00<00?ooool03_oo00<00?ooool02?oo0009ool00`00ooooo`1Bool0
+0`00ooooo`1Bool01000ooooo`00DOoo00<00?ooool0D_oo00<00?ooool02?oo002cool01000oooo
+oooo0P00[ooo002cool00`00ooooo`03ool00`00ooooo`2/ool00;?oo`03003ooooo00Coo`800:co
+o`00/ooo00<00?ooool01_oo0P00Z_oo002cool00`00ooooo`08ool00`00ooooo`2Wool00;?oo`03
+003ooooo00Woo`800:Ooo`00/ooo00<00?ooool02ooo00<00?ooool0Y?oo002cool2000=ool2002T
+ool00;?oo`03003ooooo00koo`800:;oo`00/ooo00<00?ooool04?oo0P00X?oo002cool00`00oooo
+o`0Bool00`00ooooo`2Mool00;?oo`03003ooooo01?oo`8009goo`00/ooo00<00?ooool05Ooo0P00
+Vooo002cool00`00ooooo`0Gool2002Iool00;?oo`03003ooooo01Woo`03003ooooo09Koo`00/ooo
+00<00?ooool06_oo0P00U_oo002cool00`00ooooo`0Lool2002Dool00;?oo`03003ooooo01koo`03
+003ooooo097oo`00/ooo0P008?oo0P00TOoo002cool00`00ooooo`0Qool2002?ool00;?oo`03003o
+oooo02?oo`03003ooooo08coo`00/ooo00<00?ooool09?oo0P00S?oo002cool00`00ooooo`0Vool2
+002:ool00;?oo`03003ooooo02Soo`03003ooooo08Ooo`00/ooo00<00?ooool0:Ooo0P00Qooo002c
+ool00`00ooooo`0[ool00`00ooooo`24ool00;?oo`03003ooooo02coo`8008Coo`00/ooo00<00?oo
+ool0;_oo00<00?ooool0POoo002cool2000`ool20021ool00;?oo`03003ooooo037oo`8007ooo`00
+/ooo00<00?ooool0<ooo00<00?ooool0O?oo002cool00`00ooooo`0dool2001lool00;?oo`03003o
+oooo03Koo`03003ooooo07Woo`00/ooo00<00?ooool0=ooo0P00NOoo002cool00`00ooooo`0iool2
+001gool00;?oo`03003ooooo03_oo`8007Goo`00/ooo00<00?ooool0?Ooo00<00?ooool0L_oo002c
+ool00`00ooooo`0nool2001bool00;?oo`03003ooooo043oo`80073oo`00/ooo0P00@ooo0P00K_oo
+002cool00`00ooooo`14ool00`00ooooo`1[ool00;?oo`03003ooooo04Goo`8006_oo`00/ooo00<0
+0?ooool0Aooo00<00?ooool0J?oo002cool00`00ooooo`18ool2001Xool00;?oo`03003ooooo04[o
+o`03003ooooo06Goo`00/ooo00<00?ooool0Booo0P00IOoo002Iool40005ool20005ool40006ool0
+0`00ooooo`1=ool2001Sool009Soo`8000;oo`8000Coo`8000Woo`03003ooooo00?oo`03003ooooo
+04ooo`03003ooooo063oo`00V?oo00<00?ooool00_oo00<00?ooool03Ooo00<00?ooool00ooo00<0
+0?ooool0D?oo0P00H?oo002Hool00`00ooooo`02ool00`00ooooo`0=ool00`00ooooo`03ool3001B
+ool00`00ooooo`1Mool009Soo`03003ooooo00;oo`03003ooooo00Woo`03003ooooo008000Goo`03
+003ooooo05?oo`8005goo`00V?oo00<00?ooool00_oo00<00?ooool02Ooo10001_oo00<00?ooool0
+EOoo00<00?ooool0F_oo002Hool20002ool2000;ool00`00ooooo`07ool00`00ooooo`1Fool2001J
+ool009Woo`@000coo`D000Goo`03003ooooo05Soo`03003ooooo05Ooo`00/ooo00<00?ooool0FOoo
+0P00Eooo002cool00`00ooooo`1Kool2001Eool00;?oo`03003ooooo05goo`03003ooooo05;oo`00
+/ooo00<00?ooool0G_oo0P00D_oo002cool00`00ooooo`1Pool00`00ooooo`1?ool00;?oo`03003o
+oooo067oo`8004ooo`00/ooo0P00I?oo0P00COoo002cool00`00ooooo`1Uool00`00ooooo`1:ool0
+0;?oo`03003ooooo06Koo`8004[oo`00/ooo00<00?ooool0J?oo0P00B?oo002cool00`00ooooo`1Z
+ool00`00ooooo`15ool00;?oo`03003ooooo06_oo`8004Goo`00/ooo00<00?ooool0KOoo0P00@ooo
+002cool00`00ooooo`1_ool00`00ooooo`10ool00;?oo`03003ooooo073oo`80043oo`00/ooo00<0
+0?ooool0L_oo00<00?ooool0?Ooo002cool2001dool2000mool00;?oo`03003ooooo07Goo`03003o
+oooo03[oo`00/ooo00<00?ooool0M_oo0P00>_oo002cool00`00ooooo`1hool2000hool00;?oo`03
+003ooooo07[oo`03003ooooo03Goo`00/ooo00<00?ooool0Nooo0P00=Ooo002cool00`00ooooo`1m
+ool00`00ooooo`0bool00;?oo`03003ooooo07koo`8003;oo`00/ooo00<00?ooool0P?oo00<00?oo
+ool0;ooo002cool00`00ooooo`21ool2000_ool00;?oo`03003ooooo08?oo`03003ooooo02coo`00
+/ooo0P00QOoo0P00;?oo002cool00`00ooooo`26ool2000Zool00;?oo`03003ooooo08Soo`03003o
+oooo02Ooo`00/ooo00<00?ooool0ROoo0P009ooo002cool00`00ooooo`2;ool00`00ooooo`0Tool0
+0;?oo`03003ooooo08coo`8002Coo`00/ooo00<00?ooool0S_oo0P008_oo002cool00`00ooooo`2@
+ool00`00ooooo`0Oool00;?oo`03003ooooo097oo`8001ooo`00/ooo00<00?ooool0Tooo0P007Ooo
+002cool2002Fool00`00ooooo`0Jool00;?oo`03003ooooo09Koo`8001[oo`00/ooo00<00?ooool0
+V?oo0P006?oo002cool00`00ooooo`2Jool00`00ooooo`0Eool00;?oo`03003ooooo09_oo`8001Go
+o`00/ooo00<00?ooool0WOoo0P004ooo002cool00`00ooooo`2Oool00`00ooooo`0@ool00;?oo`03
+003ooooo0:3oo`80013oo`00ZOoo1@001Ooo00<00?ooool0X_oo00<00?ooool03Ooo002[ool00`00
+ooooo`05ool00`00ooooo`2Sool2000=ool00:_oo`03003ooooo00Goo`03003ooooo0:Goo`8000_o
+o`00Zooo00<00?ooool01Ooo0`00Yooo00<00?ooool02?oo002[ool00`00ooooo`05ool00`00oooo
+o`2bool00:_oo`03003ooooo00Goo`03003ooooo0;;oo`00Zooo00<00?ooool01Ooo00<00?ooool0
+/_oo002Zool20007ool00`00ooooo`2bool00;?oo`03003ooooo0;;oo`00\
+\>"],
+  ImageRangeCache->{{{0, 359}, {221.375, 0}} -> {-1.05592, -1.05353, \
+0.00735319, 0.0118977}}],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The shape function is used to interpolate the solution inside each \
+element. Note: We compute the solutuion ",
+  StyleBox["at",
+    FontSlant->"Italic"],
+  " the node points and use an interpolation by shape functions to compute \
+values ",
+  StyleBox["between",
+    FontSlant->"Italic"],
+  " those node points. And the accuracy of the numerical solution is heavily \
+depending on which kind of shape functions you have chosen.  "
+}], "Text"],
+
+Cell["\<\
+A linear shape function is the simplest shape function to \
+interpolates the solution. For example:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(u \((\[Zeta])\) = \(\((1 - \[Zeta])\)\/2\) 
+          u\_1 + \(\((1 + \[Zeta])\)\/2\) u\_2\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+Quadratic shape functions use a full quadratic polynomial to \
+interpolate the solution\
+\>", "Text"],
+
+Cell[BoxData[
+    \(u \((\[Zeta])\) = \(\((\[Zeta]\^2 - \[Zeta])\)\/2\) 
+          u\_1 + \((1 - \[Zeta]\^2)\) 
+          u\_2 + \(\((\[Zeta]\^2 + \[Zeta])\)\/2\) u\_3\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Variational formulation of the problem", "Section"],
+
+Cell["Consider the energy form J(u) of the problem", "Text"],
+
+Cell[BoxData[
+    \(J \((u)\) = \[Integral]\((\(1\/2\) \((u')\)\^T\[Star]u' - 
+              f \((x)\) u \((x)\))\) dx\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+ In each element, the solution of u(x)  can be expressed  as \
+:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(u \((x)\)\  = \ \(N\_i\) \((\[Zeta])\)*u\_i\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+Where N(\[Xi]) are the shape functions.\
+\>", "Text"],
+
+Cell["Then the energy form can be expressed as: ", "Text"],
+
+Cell[BoxData[
+    \(\(\(J \((u)\) = \(\[Integral]\((\(1\/2\) \((u')\)\^T\[Star]u' - 
+                f\[Star]u)\) 
+            dx = \(\[Integral]\((\(1\/2\) \((N' u\_i)\)\^T\[Star]\((N' 
+                        u\_i)\) - f\[Star]\((N \((\[Zeta])\) u\_i)\))\) 
+              dx = \(1\/2\) \(u\_i\^T\) \
+\((\[Integral]\((N')\)\^T\[Star]\((N')\) dx)\) 
+              u\_i - \((\[Integral]\((f\[Star]N)\) dx)\) 
+              u\_i\)\)\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "So we can get an expression for an ",
+  StyleBox["element stiffness",
+    FontWeight->"Bold"],
+  " matrix and the ",
+  StyleBox["element load vector",
+    FontWeight->"Bold"],
+  " as:  "
+}], "Text"],
+
+Cell[BoxData[
+    \(K\^e = \((\[Integral]\((N')\)\^T\[Star]\((N')\) dx)\), \ 
+    F\^e = \((\[Integral]\((f\[Star]N)\) dx)\)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["And finally the inital problem can be solved as:", "Text"],
+
+Cell[BoxData[
+    \(\((\[Sum]\(K\^e\)\_i)\) U = \[Sum]\(F\^e\)\_i\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Linear Elements", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Local Assembly - Linear Element Stiffness Matrix", "Subsection"],
+
+Cell["\<\
+Take the derivative of with respect to \[Zeta]\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(N\_1\) \((\[Zeta])\) = \((1 - \[Zeta])\)\/2, \ \(N\_2\) \((\[Zeta])\) \
+= \((1 + \[Zeta])\)\/2\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["and obtain", "Text"],
+
+Cell[BoxData[
+    \(\(\(N'\)\_1\) \((\[Zeta])\) = \(-1\)\/2, \ \(\(N'\)\_2\) \((\[Zeta])\) \
+= 1\/2\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+For a linear, 1-dimension standard element, the element stiffness \
+matrix is: \
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{\(K\^e\), "=", 
+      RowBox[{
+        RowBox[{
+          StyleBox[\(\[Integral]\_\(-1\)\%\(+1\)\),
+            ScriptLevel->0], 
+          RowBox[{\(\((\(-1\)\/2, 1\/2)\)\^T\), \((\(-1\)\/2, 1\/2)\), 
+            StyleBox["\[ThinSpace]",
+              ScriptLevel->0], 
+            StyleBox[\(\[DifferentialD]x\),
+              ScriptLevel->0]}]}], 
+        StyleBox["=",
+          ScriptLevel->0], 
+        RowBox[{
+          FractionBox[
+            StyleBox["1",
+              ScriptLevel->0], "2"], 
+          RowBox[{"(", GridBox[{
+                {"1", \(-1\)},
+                {\(-1\), "1"}
+                }], ")"}]}]}]}]], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Global Assembly", "Subsection"],
+
+Cell["\<\
+Arrange the sequence of the node numbers and the element numbers:  \
+{Element Number, Element Node1, Element \
+Node2}\[Rule]{{1,1,2},{2,2,3},{3,3,4},{4,4,5}}.\
+\>", "Text"],
+
+Cell["\<\
+Each element of the stiffness matrix is assembled to sum up a \
+global stiffness matrix. \
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(elements = 4; 
+    gridPoints\  = \ elements + 1;\ \), "\[IndentingNewLine]", 
+    \(MatrixForm[\ 
+      gindex = Table[{i, i, i + 1}, {i, 1, elements}]\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", "1", "2"},
+            {"2", "2", "3"},
+            {"3", "3", "4"},
+            {"4", "4", "5"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["The global stiffness matrix looks like this:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(elementNumbers = 2;\)\), "\[IndentingNewLine]", 
+    \(\(\(matrix = 
+        Table[\ 0.0, {\ gridPoints\ }, {\ 
+            gridPoints\ }\ \ ];\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(ske = {{1, \(-1\)}, {\(-1\), 1}}/2;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(Do[\ 
+        matrix[\([\ gindex[\([k, i + 1]\)]\ , 
+              gindex[\([k, j + 1]\)]\ ]\)]\  += \ ske[\([i, j]\)], \ {\ i, 1, 
+          elementNumbers}, {j, 1, elementNumbers}, {k, 1, 
+          elements}];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(matrix\  // \ MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0.5`", \(-0.5`\), "0.`", "0.`", "0.`"},
+            {\(-0.5`\), "1.`", \(-0.5`\), "0.`", "0.`"},
+            {"0.`", \(-0.5`\), "1.`", \(-0.5`\), "0.`"},
+            {"0.`", "0.`", \(-0.5`\), "1.`", \(-0.5`\)},
+            {"0.`", "0.`", "0.`", \(-0.5`\), "0.5`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Let RHS be : f(x)=1, then the load vector for the linear system of \
+equations is\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(\(loadVector = 
+        Table[\ 0.0, \ {\ gridPoints\ }\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(fe = {1, 1};\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(Do[\ 
+        loadVector[\([\ gindex[\([k, i + 1]\)]]\)] += \ fe[\([i]\)], \ {\ i, 
+          1, elementNumbers}, \ {k, 1, elements}\ ];\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(loadVector\  // \ MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {"1.`"},
+              {"2.`"},
+              {"2.`"},
+              {"2.`"},
+              {"1.`"}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Boundary Conditions", "Subsection"],
+
+Cell[TextData[{
+  "Before we solve our system of equations, we need to give additional \
+information, so called boundary conditions. For simplicity we choose to set \
+two so called imsDirichlet Boundary conditions. A imsDirichlet boundary \
+condition specifies the unknown function ",
+  Cell[BoxData[
+      \(TraditionalForm\`u\)]],
+  " at any one of the discrete points in computational domain to a real \
+value. For example we can say that ",
+  Cell[BoxData[
+      \(TraditionalForm\`u(0) = 0.0\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`u(8) = 0.0\)]],
+  ". The solution of the system of equations should reflect this. The \
+algorithm to build imsDirichlet boundary values into a matrix and load vector \
+is given below."
+}], "Text"],
+
+Cell[BoxData[
+    \(Needs[\ "\<Imtek`BoundaryConditions`\>"\ ]\)], "Input"],
+
+Cell["\<\
+Setting the imsDirichlet value\[Rule] u( x=0)\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(imsDirichlet[\ {\ matrix, \ loadVector\ }, \ 1, 0.0\ ];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(imsDirichlet[\ {\ matrix, \ loadVector\ }, \ gridPoints, 
+        0.0\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(matrix\  // \ MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.`", "0.`", "0.`", "0.`", "0.`"},
+            {"0.`", "1.`", \(-0.5`\), "0.`", "0.`"},
+            {"0.`", \(-0.5`\), "1.`", \(-0.5`\), "0.`"},
+            {"0.`", "0.`", \(-0.5`\), "1.`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", "1.`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(loadVector\  // \ MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {"0.`"},
+              {"2.`"},
+              {"2.`"},
+              {"2.`"},
+              {"0.`"}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsection"],
+
+Cell["As promised the solving is a one-liner", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(numericalSol\  = \ LinearSolve[\ matrix, \ loadVector\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.`, 6.`, 7.999999999999999`, 5.999999999999999`, 0.`}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Analytical versus Numerical Solution", "Subsection"],
+
+Cell["\<\
+The analytical solution with two additional imsDirichlet boundary \
+conditions and f(x)=1\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(analyticalSol\  = \ 
+      DSolve[\ {\(u''\)[\ x\ ] \[Equal] \ \(-1\), \ u[\ 0\ ]\  \[Equal] 0, \ 
+          u[2*elements] \[Equal] \ 0\ }, \ u[\ x\ ], \ x\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{u[x] \[Rule] 1\/2\ \((8\ x - x\^2)\)}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+To get the numerical solution in a form suitable for ListPlot we do \
+the following transformation:\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(plotSol\  = \ 
+      Inner[\ List, \ Range[\ 0, \ 2*elements, \ 2\ ], \ numericalSol, \ 
+        List\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{0, 0.`}, {2, 6.`}, {4, 7.999999999999999`}, {6, 
+        5.999999999999999`}, {8, 0.`}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[\[IndentingNewLine]ListPlot[\[IndentingNewLine]plotSol, \
+\[IndentingNewLine]PlotJoined\  \[Rule] \ True, \ 
+        PlotStyle\  \[Rule] \ Hue[\ 0.9\ ], \ 
+        DisplayFunction \[Rule] 
+          Identity\[IndentingNewLine]], \[IndentingNewLine]Plot[\
+\[IndentingNewLine]u[\ x\ ]\  /. \ analyticalSol, \ {\ x, \ 0, \ 
+          8\ }, \[IndentingNewLine]\ 
+        PlotStyle\  \[Rule] \ Dashing[\ {\ 0.15, \ 0.01}\ ], \ 
+        DisplayFunction \[Rule] 
+          Identity\[IndentingNewLine]], \[IndentingNewLine]DisplayFunction \
+\[Rule] $DisplayFunction\[IndentingNewLine]]\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.119048 0.0147151 0.0735755 [
+[.2619 .00222 -3 -9 ]
+[.2619 .00222 3 0 ]
+[.5 .00222 -3 -9 ]
+[.5 .00222 3 0 ]
+[.7381 .00222 -3 -9 ]
+[.7381 .00222 3 0 ]
+[.97619 .00222 -3 -9 ]
+[.97619 .00222 3 0 ]
+[.01131 .16187 -6 -4.5 ]
+[.01131 .16187 0 4.5 ]
+[.01131 .30902 -6 -4.5 ]
+[.01131 .30902 0 4.5 ]
+[.01131 .45617 -6 -4.5 ]
+[.01131 .45617 0 4.5 ]
+[.01131 .60332 -6 -4.5 ]
+[.01131 .60332 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.2619 .01472 m
+.2619 .02097 L
+s
+[(2)] .2619 .00222 0 1 Mshowa
+.5 .01472 m
+.5 .02097 L
+s
+[(4)] .5 .00222 0 1 Mshowa
+.7381 .01472 m
+.7381 .02097 L
+s
+[(6)] .7381 .00222 0 1 Mshowa
+.97619 .01472 m
+.97619 .02097 L
+s
+[(8)] .97619 .00222 0 1 Mshowa
+.125 Mabswid
+.08333 .01472 m
+.08333 .01847 L
+s
+.14286 .01472 m
+.14286 .01847 L
+s
+.20238 .01472 m
+.20238 .01847 L
+s
+.32143 .01472 m
+.32143 .01847 L
+s
+.38095 .01472 m
+.38095 .01847 L
+s
+.44048 .01472 m
+.44048 .01847 L
+s
+.55952 .01472 m
+.55952 .01847 L
+s
+.61905 .01472 m
+.61905 .01847 L
+s
+.67857 .01472 m
+.67857 .01847 L
+s
+.79762 .01472 m
+.79762 .01847 L
+s
+.85714 .01472 m
+.85714 .01847 L
+s
+.91667 .01472 m
+.91667 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.02381 .16187 m
+.03006 .16187 L
+s
+[(2)] .01131 .16187 1 0 Mshowa
+.02381 .30902 m
+.03006 .30902 L
+s
+[(4)] .01131 .30902 1 0 Mshowa
+.02381 .45617 m
+.03006 .45617 L
+s
+[(6)] .01131 .45617 1 0 Mshowa
+.02381 .60332 m
+.03006 .60332 L
+s
+[(8)] .01131 .60332 1 0 Mshowa
+.125 Mabswid
+.02381 .0515 m
+.02756 .0515 L
+s
+.02381 .08829 m
+.02756 .08829 L
+s
+.02381 .12508 m
+.02756 .12508 L
+s
+.02381 .19865 m
+.02756 .19865 L
+s
+.02381 .23544 m
+.02756 .23544 L
+s
+.02381 .27223 m
+.02756 .27223 L
+s
+.02381 .3458 m
+.02756 .3458 L
+s
+.02381 .38259 m
+.02756 .38259 L
+s
+.02381 .41938 m
+.02756 .41938 L
+s
+.02381 .49296 m
+.02756 .49296 L
+s
+.02381 .52974 m
+.02756 .52974 L
+s
+.02381 .56653 m
+.02756 .56653 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+1 0 .6 r
+.5 Mabswid
+.02381 .01472 m
+.2619 .45617 L
+.5 .60332 L
+.7381 .45617 L
+.97619 .01472 L
+s
+0 g
+[ .15 .01 ] 0 setdash
+.02381 .01472 m
+.06244 .10635 L
+.10458 .19746 L
+.14415 .27463 L
+.18221 .34117 L
+.22272 .40374 L
+.26171 .45593 L
+.30316 .50274 L
+.34309 .53941 L
+.3815 .56687 L
+.40095 .57785 L
+.42237 .58767 L
+.44268 .59479 L
+.45178 .59728 L
+.46172 .59951 L
+.4671 .60051 L
+.4721 .6013 L
+.47727 .60198 L
+.48196 .60247 L
+.48658 .60285 L
+.4887 .60299 L
+.49093 .60311 L
+.49332 .6032 L
+.49438 .60324 L
+.49552 .60327 L
+.49675 .60329 L
+.49789 .60331 L
+.49859 .60331 L
+.49925 .60332 L
+.50049 .60332 L
+.50163 .60331 L
+.50286 .6033 L
+.50401 .60328 L
+.50508 .60325 L
+.50754 .60317 L
+.51014 .60305 L
+.51268 .6029 L
+.51504 .60273 L
+.5204 .60224 L
+.5293 .60109 L
+.53882 .59941 L
+.54906 .59707 L
+.56016 .59392 L
+.58032 .58657 L
+.60019 .57726 L
+.62123 .56517 L
+.65912 .5376 L
+.69946 .50005 L
+.73829 .45593 L
+.77956 .40045 L
+Mistroke
+.81932 .33864 L
+.85757 .27144 L
+.89827 .19159 L
+.93745 .1066 L
+.97619 .01472 L
+Mfstroke
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quadratic Elements", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Local Assembly - Quadratic Element Stiffness Matrix", "Subsection"],
+
+Cell["\<\
+Take the derivative of with respect to \[Zeta]\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(N\_1\) \((\[Zeta])\) = \((\[Zeta]\^2 - \[Zeta])\)\/2; \(N\_2\) \((\
+\[Zeta])\) = \((1 - \[Zeta]\^2)\); \(N\_3\) \((\[Zeta])\) = \((\[Zeta]\^2 + \
+\[Zeta])\)\/2;\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["and obtain", "Text"],
+
+Cell[BoxData[
+    \(\(\(N'\)\_1\) \((\[Zeta])\) = \[Xi] - 
+        1\/2; \ \ \(\(N'\)\_2\) \((\[Zeta])\) = \(-2\) \[Xi]; \ \(\(N'\)\_2\) \
+\((\[Zeta])\) = \[Xi] + 1\/2;\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+For linear 1-dimension standard element, the element stiffness \
+matrix is: \
+\>", "Text"],
+
+Cell[BoxData[
+    RowBox[{\(K\^e\), "=", 
+      RowBox[{
+        RowBox[{
+          StyleBox[\(\[Integral]\_\(-1\)\%\(+1\)\),
+            ScriptLevel->0], 
+          
+          RowBox[{\(\((\[Xi] - 1\/2, \(-2\) \[Xi], \[Xi] + 1\/2)\)\^T\), 
+            "*", \((\[Xi] - 1\/2, \(-2\) \[Xi], \[Xi] + 1\/2)\), 
+            StyleBox["\[ThinSpace]",
+              ScriptLevel->0], 
+            StyleBox[\(\[DifferentialD]x\),
+              ScriptLevel->0]}]}], 
+        StyleBox["=",
+          ScriptLevel->0], 
+        RowBox[{
+          RowBox[{
+            StyleBox[\(\[Integral]\_\(-1\)\%\(+1\)\),
+              ScriptLevel->0], 
+            StyleBox["\[ThinSpace]",
+              ScriptLevel->0], 
+            RowBox[{
+              FormBox[
+                TagBox[
+                  RowBox[{"(", "\[NoBreak]", GridBox[{
+                        {\(\((\[Xi] - 1\/2)\)\^2\), \(\[Xi] - 
+                            2\ \[Xi]\^2\), \(\[Xi]\^2 - 1\/4\)},
+                        {\(\[Xi] - 
+                            2\ \[Xi]\^2\), \(4\ \[Xi]\^2\), \(\(-\[Xi]\)\ \
+\((2\ \[Xi] + 1)\)\)},
+                        {\(\[Xi]\^2 - 
+                            1\/4\), \(\(-\[Xi]\)\ \((2\ \[Xi] + 
+                                1)\)\), \(\((\[Xi] + 1\/2)\)\^2\)}
+                        }], "\[NoBreak]", ")"}],
+                  Function[ BoxForm`e$, 
+                    MatrixForm[ BoxForm`e$]]],
+                "TraditionalForm"], 
+              StyleBox[\(\[DifferentialD]x\),
+                ScriptLevel->0]}]}], 
+          StyleBox["=",
+            ScriptLevel->0], 
+          FormBox[
+            RowBox[{"(", "\[NoBreak]", GridBox[{
+                  {\(7\/6\), \(-\(4\/3\)\), \(1\/6\)},
+                  {\(-\(4\/3\)\), \(8\/3\), \(-\(4\/3\)\)},
+                  {\(1\/6\), \(-\(4\/3\)\), \(7\/6\)}
+                  },
+                ColumnAlignments->{Decimal}], "\[NoBreak]", ")"}],
+            "TraditionalForm"]}]}]}]], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Global Assembly", "Subsection"],
+
+Cell["\<\
+Arrange the sequence of the node numbers and the element numbers:  \
+{Element Number, Element Node1, Element Node2,  Element \
+Node3}\[Rule]{{1,1,2,3},{2,3,4,5},{3,5,6,7},{4,7,8,9}...}.\
+\>", "Text"],
+
+Cell["\<\
+Each element of the stiffness matrix is assembled to sum up a \
+global stiffness matrix. \
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(elements = 4;\)\), "\[IndentingNewLine]", 
+    \(\(gridPoints\  = \ 2*elements + 1\ ;\)\), "\[IndentingNewLine]", 
+    \(gindex = 
+      Table[{i, 1 + \((i - 1)\)*2, 2 + \((i - 1)\)*2, 3 + \((i - 1)\)*2}, {i, 
+          1, elements}]\)}], "Input"],
+
+Cell[BoxData[
+    \({{1, 1, 2, 3}, {2, 3, 4, 5}, {3, 5, 6, 7}, {4, 7, 8, 9}}\)], "Output"]
+}, Open  ]],
+
+Cell["The global stiffness matrix looks like this:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(elementNumbers = 3;\), "\[IndentingNewLine]", 
+    RowBox[{\(matrix = 
+          Table[\ 0.0, {\ gridPoints\ }, {\ gridPoints\ }\ \ ];\), 
+      "\n"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{
+        RowBox[{"ske", "=", 
+          FormBox[
+            RowBox[{"(", "\[NoBreak]", GridBox[{
+                  {\(7\/6\), \(-\(4\/3\)\), \(1\/6\)},
+                  {\(-\(4\/3\)\), \(8\/3\), \(-\(4\/3\)\)},
+                  {\(1\/6\), \(-\(4\/3\)\), \(7\/6\)}
+                  },
+                ColumnAlignments->{Decimal}], "\[NoBreak]", ")"}],
+            "TraditionalForm"]}], ";"}], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{\(Do[\ 
+          matrix[\([\ gindex[\([k, i + 1]\)]\ , 
+                gindex[\([k, j + 1]\)]\ ]\)]\  += \ ske[\([i, j]\)], \ {\ i, 
+            1, elementNumbers}, {j, 1, elementNumbers}, {k, 1, elements}];\), 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", \(matrix\  // \ 
+      MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.1666666666666667`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`", "0.`", "0.`", "0.`", "0.`", "0.`", 
+              "0.`"},
+            {\(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", "0.`", 
+              "0.`", "0.`", "0.`", "0.`"},
+            {"0.16666666666666666`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`", "0.`", "0.`", "0.`", "0.`"},
+            {"0.`", "0.`", \(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", "0.`", 
+              "0.`", "0.`"},
+            {"0.`", "0.`", "0.16666666666666666`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`", "0.`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", \(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", 
+              "0.16666666666666666`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`"},
+            {"0.`", "0.`", "0.`", "0.`", "0.`", 
+              "0.`", \(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\)},
+            {"0.`", "0.`", "0.`", "0.`", "0.`", "0.`", 
+              "0.16666666666666666`", \(-1.3333333333333333`\), 
+              "1.1666666666666667`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Let RHS is : f(x)=1, then the load vector for the linear system of \
+equations is\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(\(loadVector = 
+        Table[\ 0.0, \ {\ gridPoints\ }\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(fe = {1\/3, 4\/3, 1\/3};\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(Do[\ 
+        loadVector[\([\ gindex[\([k, i + 1]\)]]\)] += \ fe[\([i]\)], \ {\ i, 
+          1, elementNumbers}, \ {k, 1, elements}\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(loadVector\  // \ MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {"0.3333333333333333`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.3333333333333333`"}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Boundary Conditions", "Subsection"],
+
+Cell[TextData[{
+  "Again the boundary conditions must be set. For simplicity we choose to set \
+two so called imsDirichlet Boundary conditions. A imsDirichlet boundary \
+condition specifies the unknown function ",
+  Cell[BoxData[
+      \(TraditionalForm\`u\)]],
+  " at any one of the discrete points in computational domain to a real \
+value. For example we can say that ",
+  Cell[BoxData[
+      \(TraditionalForm\`u(0) = 0.0\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`u(8) = 0.0\)]],
+  ".The solution of the system of equations should reflect this. The \
+algorithm to build imsDirichlet boundary values into a matrix and load vector \
+is given below."
+}], "Text"],
+
+Cell[BoxData[
+    \(Needs[\ "\<Imtek`BoundaryConditions`\>"\ ]\)], "Input"],
+
+Cell["\<\
+Setting the imsDirichlet value\[Rule] u( x=0)\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(imsDirichlet[\ {\ matrix, \ loadVector\ }, \ 1, 
+        0.0\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsDirichlet[\ {\ matrix, \ loadVector\ }, \ gridPoints, 
+        0.0\ ];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(matrix\  // \ MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.`", "0.`", "0.`", "0.`", "0.`", "0.`", "0.`", "0.`", "0.`"},
+            {"0.`", "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", 
+              "0.`", "0.`", "0.`", "0.`", "0.`"},
+            {"0.`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`", "0.`", "0.`", "0.`", "0.`"},
+            {"0.`", "0.`", \(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", "0.`", 
+              "0.`", "0.`"},
+            {"0.`", "0.`", "0.16666666666666666`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), 
+              "0.16666666666666666`", "0.`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", \(-1.3333333333333333`\), 
+              "2.6666666666666665`", \(-1.3333333333333333`\), "0.`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", 
+              "0.16666666666666666`", \(-1.3333333333333333`\), 
+              "2.3333333333333335`", \(-1.3333333333333333`\), "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", "0.`", 
+              "0.`", \(-1.3333333333333333`\), "2.6666666666666665`", "0.`"},
+            {"0.`", "0.`", "0.`", "0.`", "0.`", "0.`", "0.`", "0.`", "1.`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(loadVector\  // \ MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", 
+        TagBox[GridBox[{
+              {"0.`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.6666666666666666`"},
+              {"1.3333333333333333`"},
+              {"0.`"}
+              },
+            RowSpacings->1,
+            ColumnAlignments->{Left}],
+          Column], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solution", "Subsection"],
+
+Cell["As promised the solving is a one-liner", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(numericalSol\  = \ LinearSolve[\ matrix, \ loadVector\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.`, 3.4999999999999964`, 5.999999999999994`, 7.499999999999993`, 
+      7.999999999999991`, 7.499999999999993`, 5.999999999999995`, 
+      3.4999999999999973`, 0.`}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Analytical versus Numerical Solution", "Subsection"],
+
+Cell["\<\
+The analytical solution with two additional imsDirichlet boundary \
+conditions and f(x)=1\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(analyticalSol\  = \ 
+      DSolve[\ {\(u''\)[\ x\ ] \[Equal] \ \(-1\), \ u[\ 0\ ]\  \[Equal] 0, \ 
+          u[2*elements] \[Equal] \ 0}, \ u[\ x\ ], \ x\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{u[x] \[Rule] 1\/2\ \((8\ x - x\^2)\)}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+To get the numerical solution in a form suitable for ListPlot we do \
+the following transformation:\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(plotSol\  = \ 
+      Inner[\ List, \ Range[\ 0, \ 2*elements, \ 1\ ], \ numericalSol, \ 
+        List\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{0, 0.`}, {1, 3.4999999999999964`}, {2, 5.999999999999994`}, {3, 
+        7.499999999999993`}, {4, 7.999999999999991`}, {5, 
+        7.499999999999993`}, {6, 5.999999999999995`}, {7, 
+        3.4999999999999973`}, {8, 0.`}}\)], "Output"]
+}, Open  ]],
+
+Cell["We do the interpolation for the first element:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Clear[interpolationEle1, \[Zeta], x]\), "\[IndentingNewLine]", 
+    \(N\_1[\[Zeta]_] = \((\[Zeta]\^2 - \[Zeta])\)\/2; 
+    N\_2[\[Zeta]_] = \((1 - \[Zeta]\^2)\); 
+    N\_3[\[Zeta]_] = \((\[Zeta]\^2 + \[Zeta])\)\/2;\), "\[IndentingNewLine]", \
+
+    \(interpolationEle1 = 
+      N\_1[\[Zeta]]*\ numericalSol[\([1]\)] + 
+            N\_2[\[Zeta]]*\ numericalSol[\([2]\)] + 
+            N\_3[\[Zeta]]*\ numericalSol[\([3]\)] /. {\[Zeta] -> x - 1} // 
+        Simplify\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 3.999999999999996`\ x - 
+      0.49999999999999956`\ x\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[\[IndentingNewLine]ListPlot[\[IndentingNewLine]plotSol, \
+\[IndentingNewLine]PlotJoined\  \[Rule] \ True, \ 
+        PlotStyle\  \[Rule] \ Hue[\ 0.9\ ], \ 
+        DisplayFunction \[Rule] 
+          Identity\[IndentingNewLine]], \[IndentingNewLine]Plot[\
+\[IndentingNewLine]u[\ x\ ]\  /. \ analyticalSol, \ {\ x, \ 0, \ 
+          8\ }, \[IndentingNewLine]\ 
+        PlotStyle\  \[Rule] \ Dashing[\ {\ 0.15, \ 0.01}\ ], \ 
+        DisplayFunction \[Rule] 
+          Identity\[IndentingNewLine]], \[IndentingNewLine]DisplayFunction \
+\[Rule] $DisplayFunction\[IndentingNewLine]]\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.119048 0.0147151 0.0735755 [
+[.2619 .00222 -3 -9 ]
+[.2619 .00222 3 0 ]
+[.5 .00222 -3 -9 ]
+[.5 .00222 3 0 ]
+[.7381 .00222 -3 -9 ]
+[.7381 .00222 3 0 ]
+[.97619 .00222 -3 -9 ]
+[.97619 .00222 3 0 ]
+[.01131 .16187 -6 -4.5 ]
+[.01131 .16187 0 4.5 ]
+[.01131 .30902 -6 -4.5 ]
+[.01131 .30902 0 4.5 ]
+[.01131 .45617 -6 -4.5 ]
+[.01131 .45617 0 4.5 ]
+[.01131 .60332 -6 -4.5 ]
+[.01131 .60332 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.2619 .01472 m
+.2619 .02097 L
+s
+[(2)] .2619 .00222 0 1 Mshowa
+.5 .01472 m
+.5 .02097 L
+s
+[(4)] .5 .00222 0 1 Mshowa
+.7381 .01472 m
+.7381 .02097 L
+s
+[(6)] .7381 .00222 0 1 Mshowa
+.97619 .01472 m
+.97619 .02097 L
+s
+[(8)] .97619 .00222 0 1 Mshowa
+.125 Mabswid
+.08333 .01472 m
+.08333 .01847 L
+s
+.14286 .01472 m
+.14286 .01847 L
+s
+.20238 .01472 m
+.20238 .01847 L
+s
+.32143 .01472 m
+.32143 .01847 L
+s
+.38095 .01472 m
+.38095 .01847 L
+s
+.44048 .01472 m
+.44048 .01847 L
+s
+.55952 .01472 m
+.55952 .01847 L
+s
+.61905 .01472 m
+.61905 .01847 L
+s
+.67857 .01472 m
+.67857 .01847 L
+s
+.79762 .01472 m
+.79762 .01847 L
+s
+.85714 .01472 m
+.85714 .01847 L
+s
+.91667 .01472 m
+.91667 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.02381 .16187 m
+.03006 .16187 L
+s
+[(2)] .01131 .16187 1 0 Mshowa
+.02381 .30902 m
+.03006 .30902 L
+s
+[(4)] .01131 .30902 1 0 Mshowa
+.02381 .45617 m
+.03006 .45617 L
+s
+[(6)] .01131 .45617 1 0 Mshowa
+.02381 .60332 m
+.03006 .60332 L
+s
+[(8)] .01131 .60332 1 0 Mshowa
+.125 Mabswid
+.02381 .0515 m
+.02756 .0515 L
+s
+.02381 .08829 m
+.02756 .08829 L
+s
+.02381 .12508 m
+.02756 .12508 L
+s
+.02381 .19865 m
+.02756 .19865 L
+s
+.02381 .23544 m
+.02756 .23544 L
+s
+.02381 .27223 m
+.02756 .27223 L
+s
+.02381 .3458 m
+.02756 .3458 L
+s
+.02381 .38259 m
+.02756 .38259 L
+s
+.02381 .41938 m
+.02756 .41938 L
+s
+.02381 .49296 m
+.02756 .49296 L
+s
+.02381 .52974 m
+.02756 .52974 L
+s
+.02381 .56653 m
+.02756 .56653 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+1 0 .6 r
+.5 Mabswid
+.02381 .01472 m
+.14286 .27223 L
+.2619 .45617 L
+.38095 .56653 L
+.5 .60332 L
+.61905 .56653 L
+.7381 .45617 L
+.85714 .27223 L
+.97619 .01472 L
+s
+0 g
+[ .15 .01 ] 0 setdash
+.02381 .01472 m
+.06244 .10635 L
+.10458 .19746 L
+.14415 .27463 L
+.18221 .34117 L
+.22272 .40374 L
+.26171 .45593 L
+.30316 .50274 L
+.34309 .53941 L
+.3815 .56687 L
+.40095 .57785 L
+.42237 .58767 L
+.44268 .59479 L
+.45178 .59728 L
+.46172 .59951 L
+.4671 .60051 L
+.4721 .6013 L
+.47727 .60198 L
+.48196 .60247 L
+.48658 .60285 L
+.4887 .60299 L
+.49093 .60311 L
+.49332 .6032 L
+.49438 .60324 L
+.49552 .60327 L
+.49675 .60329 L
+.49789 .60331 L
+.49859 .60331 L
+.49925 .60332 L
+.50049 .60332 L
+.50163 .60331 L
+.50286 .6033 L
+.50401 .60328 L
+.50508 .60325 L
+.50754 .60317 L
+.51014 .60305 L
+.51268 .6029 L
+.51504 .60273 L
+.5204 .60224 L
+.5293 .60109 L
+.53882 .59941 L
+.54906 .59707 L
+.56016 .59392 L
+.58032 .58657 L
+.60019 .57726 L
+.62123 .56517 L
+.65912 .5376 L
+.69946 .50005 L
+.73829 .45593 L
+.77956 .40045 L
+Mistroke
+.81932 .33864 L
+.85757 .27144 L
+.89827 .19159 L
+.93745 .1066 L
+.97619 .01472 L
+Mfstroke
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Problem", "Section 1"],
+
+Cell["\<\
+The problem is to solve the Laplace Equation in 2 space \
+dimensions\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\[PartialD]\^2\ u[\ x, \ y\ ]\/\(\(\[PartialD]x\^2\)\(\ \)\) + \
+\[PartialD]\^2\ u[\ x, \ y\ ]\/\(\(\[PartialD]y\^2\)\(\ \)\) = 0\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["General Solution", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(analyticalSol\  = \ 
+      DSolve[\ \(\(Derivative[\ 2, 0\ ]\)[\ u\ ]\)[\ x, \ 
+              y\ ]\  + \ \(\(Derivative[\ 0, 2\ ]\)[\ u\ ]\)[\ x, \ 
+              y\ ] \[Equal] \ 0, \ 
+        u[\ x, \ y\ ], \ {\ x, \ y\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{u[x, 
+            y] \[Rule] \(C[1]\)[\[ImaginaryI]\ x + y] + \(C[
+                2]\)[\(-\[ImaginaryI]\)\ x + y]}}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell["Specific Solution", "Section"],
+
+Cell["Discretization", "Section 1"],
+
+Cell[CellGroupData[{
+
+Cell["Jacobian Matrix", "Section"],
+
+Cell[TextData[{
+  "For 2-diemnsion problems, one should be using the Jacobian Matrix to do \
+the isoparametric transformation between the physical (x-y) coordinate and \
+the computational (\[Zeta]-\[Eta]) coordinate:   \n                           \
+                                                              J=",
+  Cell[BoxData[
+      RowBox[{"(", GridBox[{
+            {\(\[PartialD]x\/\[PartialD]\[Zeta]\), \
+\(\[PartialD]y\/\[PartialD]\[Zeta]\)},
+            {\(\[PartialD]x\/\[PartialD]\[Eta]\), \(\[PartialD]y\/\[PartialD]\
+\[Eta]\)}
+            }], ")"}]]],
+  "=",
+  Cell[BoxData[
+      RowBox[{"(", GridBox[{
+            {\(\[Sum]\(\[PartialD]N'\/\[PartialD]\[Zeta]\) 
+                  x\_i\), \(\[Sum]\(\[PartialD]N'\/\[PartialD]\[Zeta]\) 
+                  y\_i\)},
+            {\(\[Sum]\(\[PartialD]N'\/\[PartialD]\[Eta]\) 
+                  x\_i\), \(\[Sum]\(\[PartialD]N'\/\[PartialD]\[Eta]\) 
+                  y\_i\)}
+            }], ")"}]]]
+}], "Text",
+  TextAlignment->Left,
+  TextJustification->1]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Element Stiffness Matrix", "Section"],
+
+Cell["\<\
+For triangular elements, one just needs to give the (x-y) \
+coordinate for the three nodes in each element:\
+\>", "Text"],
+
+Cell[TextData[{
+  "See also ",
+  ButtonBox["shape functions",
+    ButtonStyle->"AddOnsLink"]
+}], "Text"],
+
+Cell[BoxData[
+    \(\(Needs["\<Imtek`Triangle`\>"];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(triangularStiffness[\ {\ {\ x1_, \ y1_\ }, \ {\ x2_, \ \ y2_\ }, \ {\ 
+              x3_, \ y3_\ }\ }\ ]\  := \ 
+        With[\[IndentingNewLine]{\[IndentingNewLine]triArea = \ 
+              imsArea[\ \ {\ {\ x1, \ y1\ }, \ {\ x2, \ \ y2\ }, \ {\ x3, \ 
+                    y3\ }\ }\ ], \[IndentingNewLine]\[IndentingNewLine] (*\ \
+\(ai = x2*y3 - x3*y2\)\(,\)\ *) \[IndentingNewLine]bi = 
+              y2 - y3, \[IndentingNewLine]ci = 
+              x3 - x2, \[IndentingNewLine] (*\ \(aj = 
+                x3*y1 - y3*x1\)\(,\)\ *) \[IndentingNewLine]bj = 
+              y3 - y1, \[IndentingNewLine]cj = 
+              x1 - x3, \[IndentingNewLine] (*\ \(ak = 
+                x1*y2 - x2*y1\)\(,\)\ *) \[IndentingNewLine]bk = 
+              y1 - y2, \[IndentingNewLine]ck = 
+              x2 - x1\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine]\(Return[\ {\ \[IndentingNewLine]{\ bi\ bi + ci\ ci, 
+                    bj\ bi + cj\ ci, bk\ bi + ck\ ci}, \[IndentingNewLine]{\ 
+                    bj\ bi + cj\ ci, bj\ bj + cj\ cj, 
+                    bk\ bj + ck\ cj}, \[IndentingNewLine]{\ bk\ bi + ck\ ci, 
+                    bk\ bj + ck\ cj, 
+                    bk\ bk + ck\ ck}\[IndentingNewLine]}/\((4.0*
+                    triArea)\)\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["You can choose the coordinate value freely.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\((triangular = triangularStiffness[{{0, 0}, {1, 0}, {0, 1}}\ ])\) // 
+      MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.`", \(-0.5`\), \(-0.5`\)},
+            {\(-0.5`\), "0.5`", "0"},
+            {\(-0.5`\), "0", "0.5`"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+For quadrilaterial elements, one just needs to give the (x-y) \
+coordinate for the four nodes in each element:\
+\>", "Text"],
+
+Cell["\<\
+elementStiffnessMatrix[cx_, cy_] := Module[
+{cof, a, b, ja, dja, base, bmat, ske},
+ cof = {{-1, 1, 1, -1}, {1, -1, 1, -1}, {-1, -1, 1, 1},{1, 1, 1, 1}}/4; 
+ a = cx . Transpose[cof]; 
+ b = cy . Transpose[cof]; 
+ ja = {a[[1]]*b[[3]] - a[[3]]*b[[1]], a[[1]]*b[[2]] - a[[2]]*b[[1]], \
+a[[2]]*b[[3]] - a[[3]]*b[[2]]}; 
+ dja[\[Xi]_, \[Eta]_] = {{a[[1]] + a[[2]]*\[Eta], b[[1]] + b[[2]]*\[Eta]}, \
+{a[[3]] + a[[2]]*\[Xi], b[[3]] + b[[2]]*\[Xi]}}; 
+ base[\[Xi]_, \[Eta]_] = {((1 - \[Xi])*(1 - \[Eta]))/4,((1 + \[Xi])*(1 - \
+\[Eta]))/4, ((1 + \[Xi])*(1 + \[Eta]))/4,((1 - \[Xi])*(1 + \[Eta]))/4}; 
+ bmat = Inverse[dja[\[Xi], \[Eta]]].{D[base[\[Xi], \[Eta]], {\[Xi], 1}], \
+D[base[\[Xi], \[Eta]], {\[Eta], 1}]}; 
+ ske = Integrate[(Transpose[bmat].bmat)*Det[dja[\[Xi], \
+\[Eta]]],{\[Xi],-1,1},{\[Eta],-1,1}]; 
+ Return[ske];];\
+\>", "Input",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["You can choose the coordinate value freely.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+(single = elementStiffnessMatrix[{-1, 1, 1, -1}, {-1, -1, 1, \
+1}])//MatrixForm\
+\>", "Input",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(2\/3\), \(-\(1\/6\)\), \(-\(1\/3\)\), \(-\(1\/6\)\)},
+            {\(-\(1\/6\)\), \(2\/3\), \(-\(1\/6\)\), \(-\(1\/3\)\)},
+            {\(-\(1\/3\)\), \(-\(1\/6\)\), \(2\/3\), \(-\(1\/6\)\)},
+            {\(-\(1\/6\)\), \(-\(1\/3\)\), \(-\(1\/6\)\), \(2\/3\)}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Global Assembly", "Section 1"],
+
+Cell["As above", "Text"]
+}, Closed]],
+
+Cell["Boundary Conditions", "Section 1",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["Solution", "Section 1"],
+
+Cell["Analytical versus. Numerical Solution", "Section 1"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+WindowSize->{892, 593},
+WindowMargins->{{Automatic, 1}, {Automatic, 55}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PrintingMargins"->{{54, 54}, {72, 72}},
+"PaperSize"->{597.562, 842.375},
+"PaperOrientation"->"Portrait",
+"PrintCellBrackets"->False,
+"PrintRegistrationMarks"->False,
+"PrintMultipleHorizontalPages"->False,
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "usr", "local", \
+"mathematica4", "AddOns", "Applications", "Imtek", "Documentation", \
+"English", "Lectures", "Simulation1"}, "FDM_intro.nb.ps", CharacterEncoding \
+-> "iso8859-1"],
+"Magnification"->1},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 66, 0, 142, "Title"],
+Cell[1845, 55, 75, 3, 44, "Text"],
+Cell[1923, 60, 100, 1, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[2048, 65, 35, 0, 30, "Subsubsection"],
+Cell[2086, 67, 924, 27, 28, "Text"],
+Cell[3013, 96, 440, 8, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3490, 109, 29, 0, 70, "Section 1"],
+Cell[3522, 111, 844, 14, 56, "Text"],
+Cell[4369, 127, 131, 4, 56, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4537, 136, 26, 0, 41, "Section"],
+Cell[4566, 138, 110, 3, 56, "Text"],
+Cell[4679, 143, 179, 5, 56, "Input",
+  Evaluatable->False],
+Cell[4861, 150, 51, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[4937, 154, 132, 3, 56, "Input"],
+Cell[5072, 159, 216, 5, 56, "Output"]
+}, Open  ]],
+Cell[5303, 167, 536, 11, 56, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5876, 183, 27, 0, 41, "Section"],
+Cell[5906, 185, 92, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[6023, 192, 1265, 23, 56, "Input",
+  CellOpen->False],
+Cell[7291, 217, 27366, 931, 56, 22257, 864, "GraphicsData", "PostScript", \
+"Graphics"],
+Cell[34660, 1150, 130, 3, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[34839, 1159, 45, 0, 41, "Section"],
+Cell[34887, 1161, 758, 13, 56, "Text"],
+Cell[35648, 1176, 168, 5, 56, "Input",
+  Evaluatable->False],
+Cell[35819, 1183, 195, 8, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[36039, 1195, 199, 4, 56, "Input"],
+Cell[36241, 1201, 12632, 343, 56, 3014, 220, "GraphicsData", "PostScript", \
+"Graphics"],
+Cell[48876, 1546, 130, 3, 56, "Output"]
+}, Open  ]],
+Cell[49021, 1552, 462, 11, 56, "Text"],
+Cell[49486, 1565, 123, 3, 56, "Text"],
+Cell[49612, 1570, 194, 5, 56, "Input",
+  Evaluatable->False],
+Cell[49809, 1577, 111, 3, 56, "Text"],
+Cell[49923, 1582, 251, 6, 56, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[50211, 1593, 57, 0, 41, "Section"],
+Cell[50271, 1595, 60, 0, 56, "Text"],
+Cell[50334, 1597, 202, 5, 56, "Input",
+  Evaluatable->False],
+Cell[50539, 1604, 88, 3, 56, "Text"],
+Cell[50630, 1609, 147, 4, 56, "Input",
+  Evaluatable->False],
+Cell[50780, 1615, 63, 2, 56, "Text"],
+Cell[50846, 1619, 58, 0, 56, "Text"],
+Cell[50907, 1621, 546, 12, 56, "Input",
+  Evaluatable->False],
+Cell[51456, 1635, 217, 8, 56, "Text"],
+Cell[51676, 1645, 208, 5, 56, "Input",
+  Evaluatable->False],
+Cell[51887, 1652, 64, 0, 56, "Text"],
+Cell[51954, 1654, 149, 4, 56, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52140, 1663, 34, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[52199, 1667, 70, 0, 56, "Subsection"],
+Cell[52272, 1669, 70, 2, 56, "Text"],
+Cell[52345, 1673, 200, 5, 56, "Input",
+  Evaluatable->False],
+Cell[52548, 1680, 26, 0, 56, "Text"],
+Cell[52577, 1682, 183, 5, 56, "Input",
+  Evaluatable->False],
+Cell[52763, 1689, 103, 3, 56, "Text"],
+Cell[52869, 1694, 738, 23, 56, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53644, 1722, 37, 0, 56, "Subsection"],
+Cell[53684, 1724, 182, 4, 56, "Text"],
+Cell[53869, 1730, 113, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[54007, 1737, 190, 4, 56, "Input"],
+Cell[54200, 1743, 386, 12, 56, "Output"]
+}, Open  ]],
+Cell[54601, 1758, 60, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[54686, 1762, 640, 14, 56, "Input"],
+Cell[55329, 1778, 549, 13, 56, "Output"]
+}, Open  ]],
+Cell[55893, 1794, 105, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[56023, 1801, 427, 10, 56, "Input"],
+Cell[56453, 1813, 397, 14, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[56899, 1833, 41, 0, 56, "Subsection"],
+Cell[56943, 1835, 747, 17, 56, "Text"],
+Cell[57693, 1854, 75, 1, 56, "Input"],
+Cell[57771, 1857, 69, 2, 56, "Text"],
+Cell[57843, 1861, 92, 1, 56, "Input"],
+Cell[57938, 1864, 110, 2, 56, "Input"],
+
+Cell[CellGroupData[{
+Cell[58073, 1870, 57, 1, 56, "Input"],
+Cell[58133, 1873, 531, 13, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[58701, 1891, 61, 1, 56, "Input"],
+Cell[58765, 1894, 397, 14, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[59211, 1914, 30, 0, 56, "Subsection"],
+Cell[59244, 1916, 54, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[59323, 1920, 89, 1, 56, "Input"],
+Cell[59415, 1923, 89, 1, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[59553, 1930, 58, 0, 56, "Subsection"],
+Cell[59614, 1932, 113, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[59752, 1939, 191, 3, 56, "Input"],
+Cell[59946, 1944, 74, 1, 56, "Output"]
+}, Open  ]],
+Cell[60035, 1948, 123, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[60183, 1955, 137, 3, 56, "Input"],
+Cell[60323, 1960, 123, 2, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[60483, 1967, 615, 11, 56, "Input"],
+Cell[61101, 1980, 3533, 240, 56, 3410, 236, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[64637, 2222, 130, 3, 56, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[64828, 2232, 37, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[64890, 2236, 73, 0, 38, "Subsection"],
+Cell[64966, 2238, 70, 2, 29, "Text"],
+Cell[65039, 2242, 266, 6, 52, "Input",
+  Evaluatable->False],
+Cell[65308, 2250, 26, 0, 29, "Text"],
+Cell[65337, 2252, 252, 6, 49, "Input",
+  Evaluatable->False],
+Cell[65592, 2260, 100, 3, 29, "Text"],
+Cell[65695, 2265, 2009, 51, 134, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[67741, 2321, 37, 0, 21, "Subsection"],
+Cell[67781, 2323, 209, 4, 56, "Text"],
+Cell[67993, 2329, 113, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[68131, 2336, 270, 5, 56, "Input"],
+Cell[68404, 2343, 90, 1, 56, "Output"]
+}, Open  ]],
+Cell[68509, 2347, 60, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[68594, 2351, 999, 21, 56, "Input"],
+Cell[69596, 2374, 1817, 35, 56, "Output"]
+}, Open  ]],
+Cell[71428, 2412, 105, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[71558, 2419, 439, 10, 56, "Input"],
+Cell[72000, 2431, 633, 18, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[72682, 2455, 41, 0, 21, "Subsection"],
+Cell[72726, 2457, 675, 16, 56, "Text"],
+Cell[73404, 2475, 75, 1, 56, "Input"],
+Cell[73482, 2478, 69, 2, 56, "Text"],
+Cell[73554, 2482, 214, 4, 56, "Input"],
+
+Cell[CellGroupData[{
+Cell[73793, 2490, 57, 1, 56, "Input"],
+Cell[73853, 2493, 1536, 28, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[75426, 2526, 61, 1, 56, "Input"],
+Cell[75490, 2529, 601, 18, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[76140, 2553, 30, 0, 21, "Subsection"],
+Cell[76173, 2555, 54, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[76252, 2559, 89, 1, 56, "Input"],
+Cell[76344, 2562, 200, 3, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[76593, 2571, 58, 0, 21, "Subsection"],
+Cell[76654, 2573, 113, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[76792, 2580, 189, 3, 56, "Input"],
+Cell[76984, 2585, 74, 1, 56, "Output"]
+}, Open  ]],
+Cell[77073, 2589, 123, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[77221, 2596, 137, 3, 56, "Input"],
+Cell[77361, 2601, 258, 4, 56, "Output"]
+}, Open  ]],
+Cell[77634, 2608, 62, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[77721, 2612, 498, 10, 56, "Input"],
+Cell[78222, 2624, 126, 2, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[78385, 2631, 615, 11, 56, "Input"],
+Cell[79003, 2644, 3597, 244, 56, 3474, 240, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[82603, 2890, 130, 3, 56, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[82794, 2900, 28, 0, 44, "Section 1"],
+Cell[82825, 2902, 92, 3, 56, "Text"],
+Cell[82920, 2907, 233, 5, 56, "Input",
+  Evaluatable->False]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[83190, 2917, 35, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[83250, 2921, 258, 5, 56, "Input"],
+Cell[83511, 2928, 152, 3, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+Cell[83690, 2935, 36, 0, 41, "Section"],
+Cell[83729, 2937, 35, 0, 70, "Section 1"],
+
+Cell[CellGroupData[{
+Cell[83789, 2941, 34, 0, 69, "Section"],
+Cell[83826, 2943, 1019, 24, 56, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[84882, 2972, 43, 0, 42, "Section"],
+Cell[84928, 2974, 131, 3, 56, "Text"],
+Cell[85062, 2979, 104, 4, 56, "Text"],
+Cell[85169, 2985, 66, 1, 56, "Input"],
+Cell[85238, 2988, 1359, 22, 56, "Input"],
+Cell[86600, 3012, 59, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[86684, 3016, 120, 2, 56, "Input"],
+Cell[86807, 3020, 389, 11, 56, "Output"]
+}, Open  ]],
+Cell[87211, 3034, 134, 3, 56, "Text"],
+Cell[87348, 3039, 886, 19, 56, "Input"],
+Cell[88237, 3060, 59, 0, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[88321, 3064, 151, 5, 56, "Input"],
+Cell[88475, 3071, 546, 12, 56, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[89070, 3089, 36, 0, 45, "Section 1"],
+Cell[89109, 3091, 24, 0, 56, "Text"]
+}, Closed]],
+Cell[89148, 3094, 87, 2, 45, "Section 1"],
+Cell[89238, 3098, 29, 0, 72, "Section 1"],
+Cell[89270, 3100, 58, 0, 72, "Section 1"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

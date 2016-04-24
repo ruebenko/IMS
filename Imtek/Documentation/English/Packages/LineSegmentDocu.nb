@@ -1,0 +1,1278 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     37373,       1147]*)
+(*NotebookOutlinePosition[     38086,       1172]*)
+(*  CellTagsIndexPosition[     38042,       1168]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`4000480000>R000`400?l00000o`00003oooooool9
+ooooo`00ooooool9ooooo`001ooooolE0?ooo`0?0>[/m@2a]mX0Phg305m//`11D:@0;CjJ01l`U00K
+;I807BnC02/kV@0nCJ80FFJ`07j8`@2`]]T0k>gf0=@0oooo2Oooool000Oooooo4P3oool0103Gfn`0
+Qi76041?X`0A8hd=00lRS004010SS@0nCZ<0RI;60=gPkm40oooo2Oooool000Oooooo3`3oool00`3Y
+jo@0SIK803Y9X00D00lRS004010RS012DJD0YjkE0?_koAL0oooo00D0g=o_0;VogP2i_mh0k^og0=gP
+k`020:F/e0060>o`m`3oool0oooo0?ooo`39cND0h>?`0`3oool00`37bn@0YJcD0:Z`eP020?ooo`04
+0>?UlP2i_mh0^KoN0>GWl`<0oooo00<0g=o^0;VogP2i_mh0102i_mh01@37c>D0oooo0<G:i02i_mh0
+a<WS00@0oooo00@0`<GQ0;VogP2i_mh0bLgU0`3oool00`3onOT0onc/0?ooo`0>0?ooo`030?oOg`3o
+f=P0ooOg00H0oooo00<0on3P0?ooo`3oool00P3oool01P3oknl0oooo0?ooo`3oool0ooWi0?ogm`@0
+oooo00<0on3P0?ooo`3oool00`3oool01P3oh>00oooo0?ooo`3oool0onSX0?ogm`@0oooo00<0on3P
+0?ogm`3oool00P3oool00`3omoL0on3P0?ooo`020?ooo`030?oXj03omoL0oooo00<0oooo00<0ooWi
+0?oPh03oool0103oool00`3oj>P0ooOg0?ooo`040?ooo`030?oPh03of=P0ono_00D0oooo0P3omoL3
+0?ooo`030?ogm`3oj>P0oooo01d0oooo2Oooool000Oooooo3@3oool00`3cm?T0Q8k401T[T@0I00lR
+S00302hnV`3;cnH0oooo01D0oooo00D0Qi7600lRS00?8X`0`lSR0<76h@0200lRS0060;Nmg@3oool0
+oooo0?gmoP0W>9P0KgZj0`3oool00`1EHjh03b:<02loV`020?ooo`0409nWd@0?8X`03b:<0:F/e0<0
+oooo00<0Qi7600lRS00?8X`0100?8X`01@0oCZ<0oooo03M7W`0?8X`0<d>M00<0oooo00D0];[K00lR
+S00?8X`04BB=0;c2g`020?ooo`040?ogm`3nEU80oSPd0?oWiP`0oooo00@0oY2=0?hY9@3n;RX0oWAa
+0P3nJfL0203of]T0oooo0?ooo`3oool0okFc0?hG4P3nCd/0om[I0P3oool01`3n:RD0oS<^0?ooo`3o
+ool0olW80?hG4P3nQX@00P3oool0103odM00oQLB0?i5@@3odM020?ooo`080?nIU`3n5a80oUEA0?of
+mP3oool0oRXU0?hY9@3o]K<30?ooo`030?hP6`3n:BD0okFc0080oooo00P0oVYW0?hG4P3nF5@0on?S
+0?ooo`3nAD40oRTU0?ne/`<0oooo00@0oWAa0?hG4P3nAD40olO60`3oool00`3n:RD0oRTU0?nRX002
+0?ooo`070?ogm`3nF5@0oQLB0?hY9@3n?3P0oVYW0?oPh0030?ooo`030?o7aP3n5a80oX>10080oooo
+00@0oWej0?hG4P3nHEh0ong/703oool9ooooo`001oooool<0?ooo`030:fcf00V=iL03b:<01/03b:<
+00<072jB0<?8hP3oool0503oool01@27TLH03b:<00lRS033b>80jnce00803b:<00L0U9c<0?ooo`3o
+ool0a<SS00lRS00V=iL0oOgn0080oooo00<0>dZQ00lRS01;FJT00P3oool0102OYm403b:<00lRS02U
+[=@30?ooo`0308NAaP0?8X`03b:<00@03b:<00D0?djS0?ooo`0gAil03b:<03=3W@020?ooo`050?Gf
+nP0^?i/03b:<00lRS01oRL800P3oool01P3onOT0oUIB0?hG4P3n5a80oSPd0?oWiP/0oooo00<0oUQD
+0?n6Q03oool00P3oool00`3om_H0oTE10?o7aP020?ooo`090?nn_@3n5a80oTE10?idL@3o/[00oooo
+0?iQGP3n5a80om[I0080oooo01<0oRXU0?hc;P3oool0oooo0?o/k03n5a80oRhZ0?imNP3nVIL0oooo
+0?nIU`3n5a80oeeI0?imNP3om_H0oTE10?hG4P3nQX@0ojZX0080oooo0P3n5a801@3nOGX0oi>@0?oo
+o`3nAD40oQLB0080oV5N00D0onSW0?i5@@3n5a80ohJ40?j6Q0020?ooo`050?iTH@3n5a80ogej0?iZ
+I`3nOGX00P3oool03@3n<bh0oQLB0?j6Q03nJVL0ooKf0?nb/03n5a80oS<^0?ofmP3oool0oiVG0?h^
+:P3oalH00`3oool02@3n:RD0oTe90?ooo`3oool0oi2=0?hG4P3nCd/0oWAa0?oHf00K0?ooo`Wooooo
+0007ooooo`X0oooo00<0k^og05aY/@0?8X`07P0?8X`00`0H:Y00`<GQ0?ooo`0C0?ooo`0808NAaP0?
+8X`03b:<0<?8hP3oool08cBF00lRS01^N[X20?ooo`04075l^`0?8X`03b:<0<76h@80oooo00<07S2C
+00lRS01VL[H00P3oool0102OYm403b:<00lRS02U[=@30?ooo`0408NAaP0?8X`03b:<0:2WdP<0fmk^
+00D0h^Ga0?ooo`0gAil03b:<03=3W@020?ooo`05071k^P0?8X`03b:<04MEY`3knod00P3oool00`3n
+K6T0oQLB0?hG4P020?hG4P030?hh=03ojnX0oooo00T0oooo00<0oXJ40?oAd03oool00`3oool03@3o
+VIL0oRXU0?o`k`3oool0onc/0?hG4P3nAD40oooo0?ogm`3oool0oiVG0?hG4P3oVIL00P3oool00`3n
+JfL0oQLB0?oAd0020?ooo`090?i?B`3n9b80oooo0?ofmP3oool0olO60?hG4P3oO7T0ooKf0080oWej
+00<0oQLB0?oAd03omoL00P3oool03P3nAD40oQLB0?ooo`3omoL0oooo0?iHE03n5a80oj:P0?ofmP3o
+O7T0oWej0?hG4P3ok>`0ooKf0P3oool01@3oRhT0oQLB0?nn_@3oool0ong/0080oooo00P0oV5N0?hG
+4P3odM00ooKf0?ooo`3oRhT0oQLB0?idL@<0oooo00<0oRhZ0?hl>03oool00P3oool02@3nF5@0oQlJ
+0?ooo`3oool0olO60?hG4P3nF5@0oooo0?ogm`0K0?ooo`Wooooo0007ooooo`T0oooo00<0f=_/02`l
+VP0?8X`0800?8X`00`0H:Y00a<SS0?ooo`0B0?ooo`0;08NAaP0?8X`03b:<0<?8hP3oool0C5ZY00lR
+S01:FJT0oooo0?cloP0T=IH00P0?8X`00`1WLkH0oooo0??dn@0200lRS004086;``3oool0oooo09nW
+d@803b:<00D0YJcD0?ooo`3oool0oooo08NAaP0200lRS0030;VogP3oool0oooo00<0oooo00T0=dNO
+00lRS00c@id0oooo0;Fkf`0@8h`03b:<020aU03SiO800P3oool00`3nOGX0oQLB0?hG4P040?hG4P03
+0?i;A`3omoL0oooo00P0oooo00<0om[I0?o/k03oool00`3oool00`3oVIL0oQLB0?nZZ0020?ooo`03
+0?hl>03n5a80onc/0080oooo00<0om7@0?hG4P3nAD400P3oool00`3oZjX0oQLB0?j6Q0020?ooo`03
+0?j6Q03n5a80on?S00<0oooo00L0oR0K0?i=B@3oool0om[I0?i?B`3n5a80oj^Z00<0oooo00<0oV]W
+0?hG4P3odM000P3oool0203nQX@0oQLB0?imNP3oool0olW80?i[I`3n5a80okjm0`3oool00`3o^KP0
+oQLB0?n@S@040?ooo`030?nIU`3n5a80oi2=0080oooo00<0oi>@0?hG4P3nM7400`3oool00`3nK6T0
+oQLB0?ne/`020?ooo`030?n@S@3n5a80okFc0080oooo00<0oR0K0?hZ9@3oool0703oool9ooooo`00
+1oooool80?ooo`030=KIj`0V=iL03b:<02803b:<00<072jB0=CGjP3oool04@3oool02P27TLH03b:<
+00lRS033b>80oooo07Ao_00?8X`09CNG0?ooo`31a^4200lRS004010SS00I:i40m?Gj0=SKk0803b:<
+00@0W:C@0?ooo`3oool0WjOA0P0?8X`01@2U[=@0oooo0?ooo`3oool0Qi7600803b:<00<0^KoN0?oo
+o`3oool00`3oool0200gAil03b:<03=3W@3WjO@08S>E00lRS00@8h`0^;gM0P3oool00`3nOGX0oQLB
+0?hG4P060?hG4P030?iFDP3omoL0oooo00`0oooo00@0om7@0?hc;P3n5a80oh^90P3oool00`3nOGX0
+oQLB0?ne/`030?ooo`0<0?hP6`3n<bh0okjm0?ooo`3ohn<0oQLB0?hc;P3ok>`0oooo0?nn_@3n5a80
+oj:P0`3oool01`3nHEh0oQlJ0?ooo`3oool0oWej0?hG4P3nJfL00`3oool00`3oVIL0oQLB0?nRX002
+0?ooo`030?nn_@3n5a80oS`h0080oooo00<0oVYW0?hG4P3nQX@00`3oool00`3oh=l0oQLB0?iQGP04
+0?ooo`030?oJf@3n5a80oUQD0080oooo00<0okVh0?hG4P3nCd/00`3oool00`3oTi00oQLB0?i[I`02
+0?ooo`030?o7aP3n5a80oUQD0080oooo00<0oUQD0?hG4P3of]T0703oool9ooooo`001oooool70?oo
+o`030;_0g`0M;i<03b:<02@03b:<00<09cRH0=CGjP3oool0403oool01P27TLH03b:<00lRS033b>80
+oooo0:2XdP803b:<00P0k^og06Ue]`0?8X`0:cbJ05m//`0?8X`0WJC@0;Vng@803b:<00@0^l3N0?oo
+o`3oool0WjOA0P0?8X`01@2U[=@0oooo0?ooo`3oool0Qi7600803b:<00X0UYk=0<gAi`3=dNL0cM7W
+0>7Sl@3oool0=dNO00lRS00]?IX0AUFV0P0?8X`0101fPKd0oooo0?oin@3nK6T:0?hG4P030?i;B03o
+jnX0oooo00P0oooo00<0olG40?idL@3n;RX00`3n5a801P3oZjX0oooo0?ooo`3o^KP0oQLB0?idL@<0
+oooo00P0oTe90?h^:P3nRhT0onGU0?ooo`3n;RX0oUEA0?n3P@80ooOg00<0oQhI0?iMF@3oool00P3o
+ool01`3oXZ00oQLB0?o1`03oool0onSW0?hG4P3n;RX00`3oool00`3of=P0oQLB0?iTH@030?ooo`07
+0?hf<P3n5a80onSW0?ooo`3oh>00oQLB0?iED@040?ooo`030?hV8P3n;RX0oooo00@0oooo00D0oRhZ
+0?hO6P3omoL0oooo0?oblP020?hO6P060?ogm`3oool0oooo0?nb/03n5a80oTE10`3oool01`3n91l0
+ofaY0?nRX03oool0oiZH0?hG4P3oTi00703oool9ooooo`001oooool60?ooo`030;g2g`0E:8l03b:<
+02H03b:<00<072jB0<_?iP3oool03`3oool01P27TLH03b:<00lRS033b>80oooo0<gAi`803b:<00P0
+_<;O01X/T@0?8X`0RiC70;2ff@0?8X`0>TZQ09bTc`803b:<00@0fMc]0?ooo`3oool0WjOA0P0?8X`0
+1@2U[=@0oooo0?ooo`3oool0Qi7600H03b:<00<0KgZj0?ooo`0gAil0100?8X`0100iBJ00n?Sl0?oo
+o`3nIF8<0?hG4P030?hl=`3oool0oooo00H0oooo00<0okFc0?hG4P3n5a800P3n5a805`3n81/0oWej
+0?ooo`3ok>`0oi2=0?ofmP3n5a80oRXU0?ooo`3o]K<0om[I0?idL@3n5a80on?S0?ilN@3okN`0oV5N
+0?hP6`3ohn<0oVYW0?ofmP3n?SX0oR0K0080oooo00@0oi2=0?oSh`3n5a80oXJ40P3oool00`3nF5@0
+oQLB0?oPg`030?ooo`030?hZ9@3n<bh0oooo0080oooo00<0olO60?hP6`3oT8d00P3oool00`3nCd/0
+oQLB0?ofmP030?ooo`030?iQGP3n5a80on?S0080oooo00D0ojZX0?oSh`3nJfL0oQLB0?ne/`020?oo
+o`030?n@S@3n5a80ojbZ0080oooo00d0ojZX0?hG4P3nCd/0oooo0?ne/`3of]T0oUEA0?iHE03oalH0
+ojbZ0?oAd03n5a80oTm;01`0oooo2Oooool000Oooooo1@3oool00`3Ig>d07BnC00lRS00X00lRS003
+01h`T`3@e>T0oooo00h0oooo0100Qi7600lRS00?8X`0`lSR0?ooo`3dmOX042>=00lRS01CHJ`03b:<
+010SS@3Ri?40l_?i01DXS`0?8X`0DUn/0P0?8X`0103emOX0oooo0?ooo`2OYm4200lRS0050:F/e03o
+ool0oooo0?ooo`27TLH01P0?8X`01@1_N[X0oooo03M7W`0?8X`04bF>00803b:<00D0JGFg0?ooo`3o
+ool0om;A0?hW8`0:0?hG4P030?hJ5P3o/:h0oooo00L0oooo00H0oUQD0?hG4P3n:BD0oXJ40?nn_@3o
+m_H30?ooo`0I0?oAd03nF5@0oQLB0?hG4P3oh=l0oooo0?j@S@3n:BD0oQLB0?ne/`3oj>L0oUQD0?hP
+6`3n5a80om[I0?oSh`3nCT/0oQlJ0?hG4P3odM00oooo0?oJf@3nCd/0oQLB0?i?B`020?ooo`030?n@
+S@3n5a80oj:P00<0oooo00<0oUQD0?hG4P3ol>l00`3oool03@3odM00oS`h0?nb/03o_[d0oTE10?hG
+4P3o_[d0oooo0?oSh`3oXZ00oUQD0?hG4P3oM7400P3oXZ001@3omoL0oWej0?hY9@3n5a80oWej00<0
+oooo0140oiVG0?hl>03of]T0ooKf0?iMF@3n5a80oiVG0?ooo`3om_H0oXJ40?hV8P3n:RD0oooo0?o7
+aP3n?3P0oQLB0?hP6`0L0?ooo`Wooooo0007ooooo`@0oooo00<0m_Ok03Q8X00?8X`0:P0?8X`00`0P
+<Y@0d=CY0?ooo`0=0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00D0:3VH00lRS00@8h`03b:<04eK
+ZP020?ooo`0505]X/00?8X`03b:<00lRS00S=9H00`3oool0102OYm403b:<00lRS02U[=@30?ooo`04
+08NAaP0?8X`03b:<08nHb@<0`lSR00H0fmk^0?ooo`0gAil03b:<03=3W@1VL[H200lRS0050:bbe`3o
+ool0oooo0?oBd@3n9b<0203n5a800`3n6QH0ok2^0?ooo`080?ooo`030?i5@@3n9b80ooKf00L0oooo
+00@0ooKf0?nIU`3nCT/0onSW0P3oool03@3oalH0oUQD0?nn_@3oool0ooKf0?nIU`3nCT/0onc/0?oo
+o`3om_H0oi>A0?i>B`3ok>`00P3oool00`3om_H0oX>10?idL@020?ooo`030?oJf@3nOGX0oiZH00<0
+oooo00<0oi2=0?hG4P3o`L00103oool0303om_H0oWai0?i5@@3nHEh0oiVG0?ne/`3oool0ooKf0?o1
+`03nM740oQLB0?hl>080oWAa00D0oo3_0?ooo`3oalH0oV5N0?jIU`040?ooo`050?oJf@3nOGX0oTE1
+0?iED@3oVIL0103oool01`3o/[00oTi;0?ooo`3oool0on?S0?iZI`3nHEh0703oool9ooooo`001ooo
+ool40?ooo`0307N2_P0?8X`03b:<02/03b:<00<083:D0=OJk03oool0303oool01027TLH03b:<00lR
+S033b>820?ooo`0504YHZ00?8X`03b:<00lRS02U[=@00P3oool01@2`]mT03b:<00lRS00?8X`0A5>U
+00<0oooo00@0WjOA00lRS00?8X`0YJcD0`3oool01027TLH03b:<00lRS02i_mh50?ooo`0803M7W`0?
+8X`0<d>M0?CenP0b@Yd03b:<01laU03Ri?420?ooo`030?oBd@3n9b<0oQLB00D0oQLB00<0oQXE0?n`
+[P3oool02@3oool00`3nM740oShj0?ooo`040?ooo`030?nj^03oool0oooo0200oooo00<0okjm0?hG
+4P3oViP03@3oool00`3ok>`0oQLB0?i?B`0g0?ooo`Wooooo0007ooooo`<0oooo00<0bloV014TS@0?
+8X`0;@0?8X`00`0Q<iD0dMGY0?ooo`0;0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00D0L7^j00lR
+S00?8X`08S>E0?Kgn`020?ooo`050?Wjo00T=IH03b:<00lRS01YM;L00`3oool0102OYm403b:<00lR
+S02U[=@30?ooo`0408NAaP0?8X`03b:<0;VogPD0oooo00T0=dNO00lRS00c@id0oooo0=SKk00O<9<0
+3b:<03A4WP3Xj_@00P3oool00`3ofMP0oS8]0?hG4P030?hG4P030?hJ5@3oZjT0oooo00X0oooo00<0
+on3P0?ha;@3oj>L00`3oool00`3omoL0oW5^0?ooo`020?ooo`030?oPh03nK6T0ok:`01`0oooo00<0
+ooOg0?hG4P3nI6403P3oool00`3nAD40oQLB0?o`k`040?ooo`030?n;R@3nM740oo3_02l0oooo2Ooo
+ool000Oooooo0`3oool00`1AGj`03b:<00lRS00^00lRS00305]X/03oool0oooo00X0oooo00@0Qi76
+00lRS00?8X`0`lSR0P3oool0102EWL`03b:<00lRS01jQ;l40?ooo`0507b7`00?8X`03b:<08bFb03<
+d>L00P0c@id0100U=YH03b:<00lRS00V=iL203=3W@050>3Sl027TLH03b:<00lRS00Y>IP00`0c@id0
+1@1LJK40oooo03M7W`0?8X`0<d>M0080oooo00D0^KkN010SS00?8X`0?DfR0?GfnP020?ooo`060?oI
+f@3n9b<0oQLB0?hG4P3n6QH0ok2^3@3oool01`3odM00oTE10?ne/`3odM00okFc0?i5@@3nEE400`3o
+ool00`3oZjX0oQLB0?hn>P0K0?ooo`040?o]k03odM00oQLB0?hf<Ph0oooo00<0on?S0?j6Q03oalH0
+103oool00`3n81/0oQLB0?nRX00_0?ooo`Wooooo0007ooooo`80oooo00<0e=OZ010SS@0?8X`0;`0?
+8X`00`0F:8l0k_3g0?ooo`0:0?ooo`0408NAaP0?8X`03b:<0<?8hP80oooo00@0][_L00lRS00?8X`0
+dmOZ103oool01@3AeNT03b:<00lRS02]/mP0`lSR00P03b:<00<0fmk^08NAaP0?8X`01@0?8X`01@0o
+CZ<0oooo03M7W`0?8X`0<d>M00<0oooo00@0Ig>f00lRS00?8X`0GV^b0`3oool0103od]40oRLS0?hJ
+5P3o/:h?0?ooo`060?ofmP3oZjX0oWAa0?idL@3oVIL0oo3_0`3oool00`3om_H0oXJ40?nb/00K0?oo
+o`050?oJf@3nOGX0oUQD0?hO6P3ok>`0503oool00`3o]K<0oWej0?o/k00_0?ooo`Wooooo0007oooo
+o`80oooo00<0Ig>f00lRS00?8X`0<00?8X`00`2KXll0oooo0?ooo`090?ooo`040;6gfP1SKk@0Hfnd
+0=WLk@80oooo00<0hnGb06mj^P20R/801P3oool0101lQ/00KgZj0=kQk`3Hfn`806=_]0030>SYm02a
+]mX0Hfnd00D0Hfnd00D0PXc30?ooo`1mQl40Hfnd07^5`0030?ooo`050>[/m@1TL;D0Hfnd06=_]03:
+c^H00`3oool00`3od]40ok:a0?ooo`0i0?ooo`030?o`k`3oool0oooo04D0oooo2Oooool000Oooooo
+00<0oooo0>g^mP0F:8l0<P0?8X`00`15E:H0oooo0?ooo`300?ooo`Wooooo0007ooooo`030?ooo`2J
+X/l03b:<03803b:<00<042>=0>W[m03oool0`03oool9ooooo`001oooool00`3oool0AE>V00lRS00K
+00lRS00301`^TP0?8X`03b:<00/03b:<00<052J>00lRS00?8X`01`0?8X`00`2NYM00oooo0?ooo`2o
+0?ooo`Wooooo0007ooooo`030>W[m@0@8hd03b:<01X03b:<00<0D5j[0?7bn01GI:l02`0?8X`00`16
+E:H0h^Ca03i=XP0800lRS00305]X/03oool0oooo0;l0oooo2Oooool000Oooooo00<0/KOJ00lRS00?
+8X`06@0?8X`01@1@GZ/0moSk0?ooo`3inO`0EfB_00T03b:<00D0AUBV0?;cn@3oool0k_3g03I6W`07
+00lRS00302HgU`3oool0oooo0;l0oooo2Oooool000Oooooo00<0P8[200lRS00?8X`0600?8X`00`15
+E:H0moSk0?ooo`020?ooo`030?Wio01GI:l03b:<00H03b:<00<0AUBV0?;cn@3oool00P3oool00`3N
+hNl09CJF00lRS00600lRS0030>c]mP3oool0oooo0;h0oooo2Oooool000Oooooo00<0F6F_00lRS00?
+8X`05`0?8X`00`0a@Y`0j^ce0?ooo`040?ooo`030?Wio01;FJT03b:<00@03b:<00<0?DbR0?;cn@3o
+ool0103oool00`3Gfn`09CJF00lRS00400lRS003051NZ`3hn?`0oooo0;l0oooo2Oooool000Oooooo
+00<0>DRP00lRS00?8X`05P0?8X`00`15E:H0j^ce0?ooo`060?ooo`030?3an01;FJT03b:<00803b:<
+00<0?DbR0>SZm03oool01P3oool00`3NhNl0=TJO00lRS00200lRS00306Mc]P3inO`0oooo0<00oooo
+2Oooool000Oooooo00<083:D00lRS00?8X`05@0?8X`00`1@GZ/0moSk0?ooo`080?ooo`050?Wio01G
+I:l03b:<04IDYP3bloT02@3oool0103^l?L0?TfR00lRS01WLkK30?ooo`Wooooo0007ooooo`0301@W
+S`0?8X`03b:<01@03b:<00<0@e:U0?Ohn`3oool02P3oool00`3inO`0PWfd0?;cn@0;0?ooo`030>k`
+m`1[MkP0nOWl00`0oooo00<0no_m0?ooo`3oool0]03oool9ooooo`001ooooolG00lRS00301PZT030
+aN40oooo00X0oooo00<0ol;10?hV8@3o^KP02`3oool00`2]]=P08cFF0=SKk@0;0?ooo`030:fdf018
+EjL0moSk0;D0oooo2Oooool000Oooooo00<05bV@00lRS00?8X`05@0?8X`00`0H:Y00`<GQ0?ooo`08
+0?ooo`050?o2`@3n81/0oQLB0?hM603o^KP02@3oool01@2]]=P04bF>00lRS00`@I`0jN_e00T0oooo
+00D0[KCH01<USP0?8X`0D5j[0?Ohn`2d0?ooo`Wooooo0007ooooo`0302<dUP0?8X`03b:<01H03b:<
+00<062Z@0<35h@3oool01P3oool00`3oc</0oR0K0?hG4P020?hG4P030?hM603oaL@0oooo00H0oooo
+00<0[KCH01<USP0?8X`00P0?8X`00`0gAil0jN_e0?ooo`060?ooo`030:fdf00C9Hh03b:<00803b:<
+00<0D5j[0?Ohn`3oool0/P3oool9ooooo`001oooool00`0mC:803b:<00lRS00G00lRS00301LYT02h
+_]d0oooo00@0oooo00<0olc;0?hY9@3n5a80103n5a800`3n9R40olG40?ooo`040?ooo`0309JNc@0B
+9Hd03b:<00@03b:<00<0<46L0=SKk03oool0103oool00`2FW/d04RF=00lRS00400lRS00304EDYP3Z
+k?D0oooo0;40oooo2Oooool000Oooooo00<0Gfbc00lRS00?8X`0600?8X`00`0G:I00`<GQ0?ooo`02
+0?ooo`030?o2`@3n81/0oQLB00H0oQLB00<0oQdH0?ni^03oool00P3oool00`2FW/d03b:<00lRS006
+00lRS003020bU03@e>T0oooo0080oooo00<0PH_300lRS00?8X`01P0?8X`00`0a@Y`0i^Sc0?ooo`2`
+0?ooo`Wooooo0007ooooo`0308VCa`0?8X`03b:<01T03b:<00D062Z@0<35h@3oool0ol;10?hP6`09
+0?hG4P050?hM603o^KP0oooo0:fdf00B9Hh02@0?8X`0100P<Y@0d=CY0?ooo`21Rl<:00lRS0030352
+W03Zk?D0oooo0:l0oooo2Oooool000Oooooo00<0^KoN00lRS00?8X`06P0?8X`00`0H:Y00bIfc0?hP
+6`0;0?hG4P030?hM602gQJ@04bF>00/03b:<00<083:D07^6`00?8X`02`0?8X`00`15E:H0nOWl0?oo
+o`2^0?ooo`Wooooo0007ooooo`030?7bn00C9Hh03b:<01X03b:<00<0AUBV0?;/l@3nEU802`3n5a80
+0`3nA400jM_T03M7W`0;00lRS00305MT[`2n`n005BR?00/03b:<00<0Ig>f0?ooo`3oool0[P3oool9
+ooooo`001oooool00`3oool0D5j[00lRS00I00lRS00505aX/@3emOX0oooo0?oin@3nK6T02@3n5a80
+1@3nFED0oo;a0?ooo`3]k_H0@E2T00T03b:<00D0KWZj0?[jo@3oool0`lSR024cU@0900lRS00306Mc
+]P3jn_d0oooo0:l0oooo2Oooool000Oooooo00<0oooo0:J]e@0?8X`0600?8X`00`1LJK40oOgn0?oo
+o`030?ooo`030?imNP3n5a80oQLB00D0oQLB00<0oVIS0?oln`3oool00P3oool00`3]k_L0=dNO00lR
+S00600lRS003086;``3oool0oooo0080oooo00<0em_/02DfUP0?8X`01P0?8X`00`1hPkh0oooo0?oo
+o`2`0?ooo`Wooooo0007ooooo`030?ooo`3dmOX06bfB01L03b:<00<0AUBV0?GenP3oool01@3oool0
+0`3nK6T0oQLB0?hG4P030?hG4P030?iIE@3oo?/0oooo00@0oooo00<0jN_e03M7W`0?8X`0100?8X`0
+0`21Rl<0oooo0?ooo`040?ooo`030=OKk00U=YH03b:<00@03b:<00<0N8>n0?ooo`3oool0/@3oool9
+ooooo`001oooool20?ooo`0307Ao_@0?8X`03b:<01@03b:<00<0AUBV0?;cn@3oool01P3oool00`3o
+nOT0oUIB0?hG4P020?hG4P030?i4@03ol_40oooo00H0oooo00<0jN_e03M7W`0?8X`00P0?8X`00`21
+Rl<0oooo0?ooo`060?ooo`030=OKk00U=YH03b:<00803b:<00<0N8>n0?ooo`3oool0/P3oool9oooo
+o`001oooool20?ooo`030=oQl00B9Hh03b:<01<03b:<00<0AUBV0?;cn@3oool0203oool01@3omoL0
+oUIB0?hG4P3nA400ono^00T0oooo00@0jN_e03M7W`0?8X`0KWZj2P3oool0103Gfn`09CJF00lRS01h
+Pkje0?ooo`Wooooo0007ooooo`<0oooo00<0Gf^b00lRS00?8X`04@0?8X`00`0`@9`0l_?i0?ooo`0:
+0?ooo`030?ogm`3gMGD0ono^00/0oooo00<0jN_e07M]Z03jn_d02`3oool00`3Gfn`0N8:n0?ooo`0;
+0?ooo`030?gmoP3hn?`0oooo0:L0oooo2Oooool000Oooooo0`3oool00`3Gf^`052N>00lRS00A00lR
+S003010RS022S<<0o_kn00X0oooo00<0^l3O02DfUP2Z/=H02`3oool00`3oTY00oQdI0?nc/@0H0?oo
+o`040?Kgn`1LJ;40AEBV0>[/mJL0oooo2Oooool000Oooooo103oool00`28TLH03b:<00lRS00B00lR
+S00306]g^03moOh0oooo00L0oooo00D0[KCH01<USP0?8X`042><09RQcP090?ooo`050?imNP3n5a80
+oQLB0?hL5`3o^KP05P3oool01P3moOh0G6Va00lRS00?8X`0<D:L0>KXljH0oooo2Oooool000Oooooo
+103oool00`3jnod0@U6T00lRS00C00lRS00306]g^03no_h0oooo00D0oooo00<0^l3O01<USP0?8X`0
+0P0?8X`00`0@8h`0Z[3F0?ooo`060?ooo`030?imNP3n5a80oQLB0080oQLB00<0oQdH0?ni^03oool0
+4`3oool00`3moOh0JgNh00lRS00300lRS0030352W03Vj?<0oooo0:@0oooo2Oooool000Oooooo1@3o
+ool00`3Qho408S>E00lRS00C00lRS00308:<``3oool0oooo00<0oooo00<0d=CY01d_T`0?8X`0100?
+8X`00`0G:I00`<GQ0?ooo`040?ooo`030?imNP3n5a80oQLB00@0oQLB00<0oQdH0?ni^03oool04@3o
+ool00`3moOh0JgNh00lRS00500lRS0030352W03Zk?D0oooo0:<0oooo2Oooool000Oooooo1P3oool0
+0`34bN<05BR?00lRS00B00lRS003010SS02HXLh0oooo0080oooo00<0d=CY020bU00?8X`01P0?8X`0
+0`0H:Y00`<GQ0?ooo`020?ooo`030?nBT03n5a80oQLB00H0oQLB00<0oQdH0?ni^03oool03`3oool0
+0`3moOh0JgNh00lRS00700lRS00304EDYP3gn?/0oooo0:80oooo2Oooool000Oooooo1`3oool00`2n
+`n007BnC00lRS00B00lRS005010RS022S<<0o_kn0;_0g`0M;i<02@0?8X`01@0G:I00Z[3F0?ooo`3o
+TY00oQPC00T0oQLB00<0oQ`G0?nSX@3oool03@3oool00`3emOX0G6Ra00lRS00900lRS00304EDYP3Z
+k?D0oooo0:40oooo2Oooool000Oooooo203oool00`3BeNX08S>E00lRS00C00lRS00304eLZP0C9Hh0
+3b:<00X03b:<00<042><09QFPP3n5a80303n5a800`3oclh0oooo0?ooo`0;0?ooo`0305]X/00?8X`0
+3b:<00X03b:<00<0=dNO0?cloP3oool0X03oool9ooooo`001oooool90?ooo`030=7Dj@0S=IH03b:<
+02003b:<00<072jB0>ETK03n5a802P3n5a800`3oQH<0oooo0?ooo`0<0?ooo`030=OKk00U=YH03b:<
+00T03b:<00<05BR?0;Nmg03oool0X@3oool9ooooo`001oooool:0?ooo`030>GWlP19EjP03b:<01h0
+3b:<00@0=DFN0=OJk03oool0oVaY2@3n5a800`3oQH<0oooo0?ooo`0>0?ooo`030=OKk00U=YH03b:<
+00L03b:<00<052N>0;Nmg03oool0XP3oool9ooooo`001oooool;0?ooo`030?gmoP2BVl/06B^A01/0
+3b:<00<042>=07=n_03em_X00P3oool00`3onOT0oUIB0?hG4P060?hG4P030?n5P`3oool0oooo0100
+oooo00<0em_/02DfUP0?8X`01P0?8X`00`2PZ=40oooo0?ooo`2R0?ooo`Wooooo0007ooooo`d0oooo
+00<0hnKb06Ea]@0A8hd0600?8X`00`0hB:00b<gU0?ooo`040?ooo`030?ogm`3nEU80oQLB00@0oQLB
+00<0ohF30?ooo`3oool04P3oool00`3Gfn`09CJF00lRS00400lRS00308fFb03oool0oooo0:<0oooo
+2Oooool000Oooooo3`3oool00`3CenX0Kg^j020bU00C00lRS004018TS@1>G:X0Z[7F0?[ko@L0oooo
+00H0ooWi0?i/J@3n5a80oQLB0?hJ5@3oVYLF0?ooo`060=kQk`0`@9`03b:<00lRS00G:I00YJcDYP3o
+ool9ooooo`001ooooolA0?ooo`040?Wjo02b^=X0HVjd01l`U0d03b:<00@042>=041?X`2?V<T0i>Kb
+303oool00`3nOGX0oQLB0?nJU`0H0?ooo`040=kQk`0U=YH062Z@0<35hJL0oooo2Oooool000Oooooo
+503oool03`3lo?h0b<gU08nHbP1ULKD0A5>U02`lVP0L;Y804RB=01LZT00R<iD0=dJO05=Q[@1iQ;l0
+Z:oE0>KXl`0@0?ooo`030?nk^@3oool0oooo01P0oooo00<0em_/0<;7hP3oool0Y`3oool9ooooo`00
+ooooool9ooooo`00\
+\>"], "Graphics",
+  ShowCellBracket->False,
+  CellMargins->{{0, 0}, {Inherited, 0}},
+  Evaluatable->False,
+  GeneratedCell->False,
+  CellAutoOverwrite->False,
+  ImageSize->{264, 58.75},
+  ImageMargins->{{0, 0}, {3, 3}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  Background->GrayLevel[1]],
+
+Cell[TextData[{
+  ButtonBox["Visit the IMTEK Simulation web page",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation"], None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->"http://www.imtek.uni-freiburg.de/simulation"],
+  " or ",
+  ButtonBox["Email us",
+    ButtonData:>{
+      URL[ "mailto:korvink@imtek.de"], None},
+    Active->True,
+    ButtonStyle->"Hyperlink"]
+}], "Text"],
+
+Cell[TextData[{
+  "This documentation is part of the ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["Author: Oliver R\[UDoubleDot]benk\[ODoubleDot]nig <ruebenko -at- \
+imtek.de>", "Text"],
+
+Cell["Status: Experimental", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Imtek`LineSegment`", "Section",
+  CellDingbat->"\[FilledSquare]"],
+
+Cell["\<\
+In this package you find utilities for line segments. Line segments \
+are lines consisting of a starting and an end point.\
+\>", "Text"],
+
+Cell[BoxData[GridBox[{
+        {\(imsLineSegmentQ[\ 
+            expr\ ]\), \(returns\ True\ if\ expr\ is\ of\ form\ \(\({\ 
+                coords, \ coords\ }\)\(.\)\)\)},
+        {\(imsLineSegment2DQ[\ 
+            expr\ ]\), \(returns\ True\ if\ expr\ is\ of\ form\ {\ coords, \ 
+              coords\ }\ and\ the\ coords\ are\ of\ 2  
+            D\ \(\(form\)\(.\)\)\)},
+        {\(imsLineSegment3DQ[\ 
+            expr\ ]\), \(returns\ True\ if\ expr\ is\ of\ form\ {\ coords, \ 
+              coords\ }\ and\ the\ coords\ are\ of\ 3  
+            D\ \(\(form\)\(.\)\)\)},
+        {\(imsCollinearQ[\ imsLineSegment, \ Point, \ Comparison, \ 
+            n\ ]\), \(returns\ True\ if\ the\ comparison\ is\ set\ to\ Equal\ \
+ - \ which\ is\ the\ default\  - \ 
+            and\ the\ Point\ is\ on\ the\ imsLineSegment . \ 
+                For\ a\ comparison\ Greater\ imsCollinearQ\ returns\ True\ if\
+\ the\ Point\ is\ to\ the\ left\ of\ imsLineSegment . \ 
+                You\ can\ set\ the\ precision\ with\ n . \ 
+                Default\ is\ \(\($MachinePrecision\)\(.\)\)\)},
+        {\(imsLineSegmentProperIntersectQ[\ {\ imsLineSegment, \ 
+              imsLineSegment\ }, \ 
+            n\ ]\), \(returns\ True\ if\ the\ line\ segments\ intersect; \ 
+          excluding\ the\ starting\ and\ end\ points . 
+              You\ can\ set\ the\ precision\ with\ n . \ 
+              Default\ is\ \(\($MachinePrecision\)\(.\)\)\)},
+        {\(imsLineSegmentIntersectQ[\ {\ imsLineSegment, \ 
+              imsLineSegment\ }, \ 
+            n\ ]\), \(returns\ True\ if\ the\ line\ segments\ intersect; \ 
+          including\ the\ starting\ and\ end\ points\ of\ the\ segments . \ 
+              You\ can\ set\ the\ precision\ with\ n . \ 
+              Default\ is\ \(\($MachinePrecision\)\(.\)\)\)},
+        {\(imsLineSegmentIntersect[\ {\ imsLineSegment, \ 
+              imsLineSegment\ }, \ 
+            n\ ]\), \(returns\ the\ Point\ or\ Line\ of\ intersection\ if\ \
+the\ lines\ do\ intersect . \ You\ can\ set\ the\ precision\ with\ n . \ 
+              Default\ is\ \(\($MachinePrecision\)\(.\)\)\)},
+        {\(imsDropCollinear[\ 
+            line\ ]\), \(returns\ a\ simplified\ line\ by\ dropping\ all\ \
+collinear\ points . \ 
+              imsDropCollinear[\ line\ , \ 
+                
+                accuracygoal\ ]\ performs\ the\ collinearity\ test\ with\ the\
+\ given\ accuracy\ goal . \ 
+              The\ default\ value\ is\ \(\($MachinePrecision\)\(.\)\)\)}
+        }]], "DefinitionBox"],
+
+Cell[" This will load the package", "Text",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[BoxData[
+    \(Needs["\<Imtek`LineSegment`\>"]\)], "Input",
+  CellLabel->"In[1]:="],
+
+Cell["We construct some points", "Text"],
+
+Cell[BoxData[{
+    \(\(a\  = \ {\ \(-1\), \ \ \(-1\)\ };\)\), "\[IndentingNewLine]", 
+    \(\(b\  = \ {\ 1, \ \ \(-1\)\ };\)\), "\[IndentingNewLine]", 
+    \(\(c\  = \ {\ \(-1\), \ \ 1\ };\)\), "\[IndentingNewLine]", 
+    \(\(d\  = \ {\ 1, \ \ 1\ };\)\)}], "Input",
+  CellLabel->"In[2]:="],
+
+Cell["And a first line segment", "Text"],
+
+Cell[BoxData[
+    \(\(firstLineSegment\  = \ {\ a, \ d\ };\)\)], "Input",
+  CellLabel->"In[6]:="],
+
+Cell["Is this a line segment?", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsLineSegmentQ[\ firstLineSegment\ ]\)], "Input",
+  CellLabel->"In[7]:="],
+
+Cell[BoxData[
+    \(True\)], "Output",
+  CellLabel->"Out[7]="]
+}, Open  ]],
+
+Cell["\<\
+Collinear test whether a point - for example b - is on the same \
+line as a line segment\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsCollinearQ[\ firstLineSegment, \ b\ ]\)], "Input",
+  CellLabel->"In[8]:="],
+
+Cell[BoxData[
+    \(False\)], "Output",
+  CellLabel->"Out[8]="]
+}, Open  ]],
+
+Cell["\<\
+imsCollinearQ can have other tests.  Greater test whether a point c \
+is to the left of the line segment\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsCollinearQ[\ firstLineSegment, \ c, \ Greater\ ]\)], "Input",
+  CellLabel->"In[9]:="],
+
+Cell[BoxData[
+    \(True\)], "Output",
+  CellLabel->"Out[9]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[\ 
+      Graphics[\ {\ Line[\ firstLineSegment\ ], \ 
+          Point[\ c\ ]\ }\ ]\ ]\)], "Input",
+  CellLabel->"In[10]:="],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.5 0.47619 0.309017 0.294302 [
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+0 g
+.5 Mabswid
+[ ] 0 setdash
+.02381 .01472 m
+.97619 .60332 L
+s
+.008 w
+.02381 .60332 Mdot
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  CellLabel->"From In[10]:=",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output",
+  CellLabel->"Out[10]="]
+}, Open  ]],
+
+Cell["Construction of a second line segment", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(secondLineSegment\  = \ {\ b, \ c\ }\)], "Input",
+  CellLabel->"In[11]:="],
+
+Cell[BoxData[
+    \({{1, \(-1\)}, {\(-1\), 1}}\)], "Output",
+  CellLabel->"Out[11]="]
+}, Open  ]],
+
+Cell["\<\
+ProperLineSegmentIntersectQ tests whether two segments intersect \
+not taking the edges into account\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsLineSegmentProperIntersectQ[\ {\ firstLineSegment, \ 
+        secondLineSegment\ }\ ]\)], "Input",
+  CellLabel->"In[12]:="],
+
+Cell[BoxData[
+    \(True\)], "Output",
+  CellLabel->"Out[12]="]
+}, Open  ]],
+
+Cell["To compute the point of intersection do", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsLineSegmentIntersect[\ {\ firstLineSegment, \ 
+        secondLineSegment\ }\ ]\)], "Input",
+  CellLabel->"In[13]:="],
+
+Cell[BoxData[
+    \({0, 0}\)], "Output",
+  CellLabel->"Out[13]="]
+}, Open  ]],
+
+Cell["A third segment", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\ \)\(thridLineSegment\  = \ {\ {\ 0.5, \ 0.5\ }, \ {\ 4, \ 
+          4\ }\ }\)\)\)], "Input",
+  CellLabel->"In[14]:="],
+
+Cell[BoxData[
+    \({{0.5`, 0.5`}, {4, 4}}\)], "Output",
+  CellLabel->"Out[14]="]
+}, Open  ]],
+
+Cell["\<\
+imsLineSegmentIntersect now returns a line segment of the \
+overlapping parts of the two segments\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(imsLineSegmentIntersect[\ {\ firstLineSegment, \ 
+        thridLineSegment\ }\ ]\)], "Input",
+  CellLabel->"In[15]:="],
+
+Cell[BoxData[
+    \({{0.5`, 0.5`}, {1, 1}}\)], "Output",
+  CellLabel->"Out[15]="]
+}, Open  ]],
+
+Cell["Here is a redundant rectangle", "Text"],
+
+Cell[BoxData[{
+    \(\(n = 100;\)\), "\[IndentingNewLine]", 
+    \(\(t = 
+        Join[{{0, 0}}, 
+          Sort[Table[{i, 0.0}, {i, n}]], \[IndentingNewLine]Sort[
+            Table[{n, i}, {i, n}]], \[IndentingNewLine]Sort[
+            Table[{i, n}, {i, n}]], \[IndentingNewLine]Reverse[
+            Sort[Table[{0.0, i}, {i, n}]]], {{0, 0}}];\)\)}], "Input",
+  CellLabel->"In[16]:="],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[Graphics[Line[t]]]\)], "Input",
+  CellLabel->"In[18]:="],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00952381 0.0147151 0.00588604 [
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+0 g
+.5 Mabswid
+[ ] 0 setdash
+.02381 .01472 m
+.03333 .01472 L
+.04286 .01472 L
+.05238 .01472 L
+.0619 .01472 L
+.07143 .01472 L
+.08095 .01472 L
+.09048 .01472 L
+.1 .01472 L
+.10952 .01472 L
+.11905 .01472 L
+.12857 .01472 L
+.1381 .01472 L
+.14762 .01472 L
+.15714 .01472 L
+.16667 .01472 L
+.17619 .01472 L
+.18571 .01472 L
+.19524 .01472 L
+.20476 .01472 L
+.21429 .01472 L
+.22381 .01472 L
+.23333 .01472 L
+.24286 .01472 L
+.25238 .01472 L
+.2619 .01472 L
+.27143 .01472 L
+.28095 .01472 L
+.29048 .01472 L
+.3 .01472 L
+.30952 .01472 L
+.31905 .01472 L
+.32857 .01472 L
+.3381 .01472 L
+.34762 .01472 L
+.35714 .01472 L
+.36667 .01472 L
+.37619 .01472 L
+.38571 .01472 L
+.39524 .01472 L
+.40476 .01472 L
+.41429 .01472 L
+.42381 .01472 L
+.43333 .01472 L
+.44286 .01472 L
+.45238 .01472 L
+.4619 .01472 L
+.47143 .01472 L
+.48095 .01472 L
+.49048 .01472 L
+Mistroke
+.5 .01472 L
+.50952 .01472 L
+.51905 .01472 L
+.52857 .01472 L
+.5381 .01472 L
+.54762 .01472 L
+.55714 .01472 L
+.56667 .01472 L
+.57619 .01472 L
+.58571 .01472 L
+.59524 .01472 L
+.60476 .01472 L
+.61429 .01472 L
+.62381 .01472 L
+.63333 .01472 L
+.64286 .01472 L
+.65238 .01472 L
+.6619 .01472 L
+.67143 .01472 L
+.68095 .01472 L
+.69048 .01472 L
+.7 .01472 L
+.70952 .01472 L
+.71905 .01472 L
+.72857 .01472 L
+.7381 .01472 L
+.74762 .01472 L
+.75714 .01472 L
+.76667 .01472 L
+.77619 .01472 L
+.78571 .01472 L
+.79524 .01472 L
+.80476 .01472 L
+.81429 .01472 L
+.82381 .01472 L
+.83333 .01472 L
+.84286 .01472 L
+.85238 .01472 L
+.8619 .01472 L
+.87143 .01472 L
+.88095 .01472 L
+.89048 .01472 L
+.9 .01472 L
+.90952 .01472 L
+.91905 .01472 L
+.92857 .01472 L
+.9381 .01472 L
+.94762 .01472 L
+.95714 .01472 L
+.96667 .01472 L
+Mistroke
+.97619 .01472 L
+.97619 .0206 L
+.97619 .02649 L
+.97619 .03237 L
+.97619 .03826 L
+.97619 .04415 L
+.97619 .05003 L
+.97619 .05592 L
+.97619 .0618 L
+.97619 .06769 L
+.97619 .07358 L
+.97619 .07946 L
+.97619 .08535 L
+.97619 .09123 L
+.97619 .09712 L
+.97619 .10301 L
+.97619 .10889 L
+.97619 .11478 L
+.97619 .12066 L
+.97619 .12655 L
+.97619 .13244 L
+.97619 .13832 L
+.97619 .14421 L
+.97619 .15009 L
+.97619 .15598 L
+.97619 .16187 L
+.97619 .16775 L
+.97619 .17364 L
+.97619 .17952 L
+.97619 .18541 L
+.97619 .1913 L
+.97619 .19718 L
+.97619 .20307 L
+.97619 .20895 L
+.97619 .21484 L
+.97619 .22073 L
+.97619 .22661 L
+.97619 .2325 L
+.97619 .23838 L
+.97619 .24427 L
+.97619 .25016 L
+.97619 .25604 L
+.97619 .26193 L
+.97619 .26781 L
+.97619 .2737 L
+.97619 .27959 L
+.97619 .28547 L
+.97619 .29136 L
+.97619 .29724 L
+.97619 .30313 L
+Mistroke
+.97619 .30902 L
+.97619 .3149 L
+.97619 .32079 L
+.97619 .32668 L
+.97619 .33256 L
+.97619 .33845 L
+.97619 .34433 L
+.97619 .35022 L
+.97619 .35611 L
+.97619 .36199 L
+.97619 .36788 L
+.97619 .37376 L
+.97619 .37965 L
+.97619 .38554 L
+.97619 .39142 L
+.97619 .39731 L
+.97619 .40319 L
+.97619 .40908 L
+.97619 .41497 L
+.97619 .42085 L
+.97619 .42674 L
+.97619 .43262 L
+.97619 .43851 L
+.97619 .4444 L
+.97619 .45028 L
+.97619 .45617 L
+.97619 .46205 L
+.97619 .46794 L
+.97619 .47383 L
+.97619 .47971 L
+.97619 .4856 L
+.97619 .49148 L
+.97619 .49737 L
+.97619 .50326 L
+.97619 .50914 L
+.97619 .51503 L
+.97619 .52091 L
+.97619 .5268 L
+.97619 .53269 L
+.97619 .53857 L
+.97619 .54446 L
+.97619 .55034 L
+.97619 .55623 L
+.97619 .56212 L
+.97619 .568 L
+.97619 .57389 L
+.97619 .57977 L
+.97619 .58566 L
+.97619 .59155 L
+.97619 .59743 L
+Mistroke
+.97619 .60332 L
+.03333 .60332 L
+.04286 .60332 L
+.05238 .60332 L
+.0619 .60332 L
+.07143 .60332 L
+.08095 .60332 L
+.09048 .60332 L
+.1 .60332 L
+.10952 .60332 L
+.11905 .60332 L
+.12857 .60332 L
+.1381 .60332 L
+.14762 .60332 L
+.15714 .60332 L
+.16667 .60332 L
+.17619 .60332 L
+.18571 .60332 L
+.19524 .60332 L
+.20476 .60332 L
+.21429 .60332 L
+.22381 .60332 L
+.23333 .60332 L
+.24286 .60332 L
+.25238 .60332 L
+.2619 .60332 L
+.27143 .60332 L
+.28095 .60332 L
+.29048 .60332 L
+.3 .60332 L
+.30952 .60332 L
+.31905 .60332 L
+.32857 .60332 L
+.3381 .60332 L
+.34762 .60332 L
+.35714 .60332 L
+.36667 .60332 L
+.37619 .60332 L
+.38571 .60332 L
+.39524 .60332 L
+.40476 .60332 L
+.41429 .60332 L
+.42381 .60332 L
+.43333 .60332 L
+.44286 .60332 L
+.45238 .60332 L
+.4619 .60332 L
+.47143 .60332 L
+.48095 .60332 L
+.49048 .60332 L
+Mistroke
+.5 .60332 L
+.50952 .60332 L
+.51905 .60332 L
+.52857 .60332 L
+.5381 .60332 L
+.54762 .60332 L
+.55714 .60332 L
+.56667 .60332 L
+.57619 .60332 L
+.58571 .60332 L
+.59524 .60332 L
+.60476 .60332 L
+.61429 .60332 L
+.62381 .60332 L
+.63333 .60332 L
+.64286 .60332 L
+.65238 .60332 L
+.6619 .60332 L
+.67143 .60332 L
+.68095 .60332 L
+.69048 .60332 L
+.7 .60332 L
+.70952 .60332 L
+.71905 .60332 L
+.72857 .60332 L
+.7381 .60332 L
+.74762 .60332 L
+.75714 .60332 L
+.76667 .60332 L
+.77619 .60332 L
+.78571 .60332 L
+.79524 .60332 L
+.80476 .60332 L
+.81429 .60332 L
+.82381 .60332 L
+.83333 .60332 L
+.84286 .60332 L
+.85238 .60332 L
+.8619 .60332 L
+.87143 .60332 L
+.88095 .60332 L
+.89048 .60332 L
+.9 .60332 L
+.90952 .60332 L
+.91905 .60332 L
+.92857 .60332 L
+.9381 .60332 L
+.94762 .60332 L
+.95714 .60332 L
+.96667 .60332 L
+Mistroke
+.97619 .60332 L
+.02381 .60332 L
+.02381 .59743 L
+.02381 .59155 L
+.02381 .58566 L
+.02381 .57977 L
+.02381 .57389 L
+.02381 .568 L
+.02381 .56212 L
+.02381 .55623 L
+.02381 .55034 L
+.02381 .54446 L
+.02381 .53857 L
+.02381 .53269 L
+.02381 .5268 L
+.02381 .52091 L
+.02381 .51503 L
+.02381 .50914 L
+.02381 .50326 L
+.02381 .49737 L
+.02381 .49148 L
+.02381 .4856 L
+.02381 .47971 L
+.02381 .47383 L
+.02381 .46794 L
+.02381 .46205 L
+.02381 .45617 L
+.02381 .45028 L
+.02381 .4444 L
+.02381 .43851 L
+.02381 .43262 L
+.02381 .42674 L
+.02381 .42085 L
+.02381 .41497 L
+.02381 .40908 L
+.02381 .40319 L
+.02381 .39731 L
+.02381 .39142 L
+.02381 .38554 L
+.02381 .37965 L
+.02381 .37376 L
+.02381 .36788 L
+.02381 .36199 L
+.02381 .35611 L
+.02381 .35022 L
+.02381 .34433 L
+.02381 .33845 L
+.02381 .33256 L
+.02381 .32668 L
+.02381 .32079 L
+Mistroke
+.02381 .3149 L
+.02381 .30902 L
+.02381 .30313 L
+.02381 .29724 L
+.02381 .29136 L
+.02381 .28547 L
+.02381 .27959 L
+.02381 .2737 L
+.02381 .26781 L
+.02381 .26193 L
+.02381 .25604 L
+.02381 .25016 L
+.02381 .24427 L
+.02381 .23838 L
+.02381 .2325 L
+.02381 .22661 L
+.02381 .22073 L
+.02381 .21484 L
+.02381 .20895 L
+.02381 .20307 L
+.02381 .19718 L
+.02381 .1913 L
+.02381 .18541 L
+.02381 .17952 L
+.02381 .17364 L
+.02381 .16775 L
+.02381 .16187 L
+.02381 .15598 L
+.02381 .15009 L
+.02381 .14421 L
+.02381 .13832 L
+.02381 .13244 L
+.02381 .12655 L
+.02381 .12066 L
+.02381 .11478 L
+.02381 .10889 L
+.02381 .10301 L
+.02381 .09712 L
+.02381 .09123 L
+.02381 .08535 L
+.02381 .07946 L
+.02381 .07358 L
+.02381 .06769 L
+.02381 .0618 L
+.02381 .05592 L
+.02381 .05003 L
+.02381 .04415 L
+.02381 .03826 L
+.02381 .03237 L
+.02381 .02649 L
+Mistroke
+.02381 .0206 L
+.02381 .01472 L
+Mfstroke
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  CellLabel->"From In[18]:=",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output",
+  CellLabel->"Out[18]="]
+}, Open  ]],
+
+Cell["To drop all collinear points", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(reducedLine\  = imsDropCollinear[t]\), "\[IndentingNewLine]", 
+    \(Show[Graphics[Line[\ reducedLine\ ]]]\)}], "Input",
+  CellLabel->"In[19]:="],
+
+Cell[BoxData[
+    \({{0, 0}, {100, 0.`}, {100, 100}, {0.`, 100}, {0, 0}}\)], "Output",
+  CellLabel->"Out[19]="],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00952381 0.0147151 0.00588604 [
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+0 g
+.5 Mabswid
+[ ] 0 setdash
+.02381 .01472 m
+.97619 .01472 L
+.97619 .60332 L
+.02381 .60332 L
+.02381 .01472 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  CellLabel->"From In[19]:=",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{0, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCacheValid->False],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output",
+  CellLabel->"Out[20]="]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{737, 600},
+WindowMargins->{{262, Automatic}, {Automatic, 99}},
+ShowCellBracket->True,
+ShowSelection->True,
+StyleDefinitions -> "HelpBrowser.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 17665, 225, 69, 17402, 216, "GraphicsData", "Bitmap", \
+"Graphics",
+  Evaluatable->False],
+Cell[19422, 278, 420, 13, 24, "Text"],
+Cell[19845, 293, 933, 27, 24, "Text"],
+Cell[20781, 322, 92, 1, 24, "Text"],
+Cell[20876, 325, 36, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[20937, 329, 71, 1, 66, "Section"],
+Cell[21011, 332, 146, 3, 24, "Text"],
+Cell[21160, 337, 2519, 45, 466, "DefinitionBox"],
+Cell[23682, 384, 82, 1, 24, "Text"],
+Cell[23767, 387, 88, 2, 26, "Input"],
+Cell[23858, 391, 40, 0, 24, "Text"],
+Cell[23901, 393, 289, 5, 74, "Input"],
+Cell[24193, 400, 40, 0, 24, "Text"],
+Cell[24236, 402, 97, 2, 26, "Input"],
+Cell[24336, 406, 39, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[24400, 410, 94, 2, 26, "Input"],
+Cell[24497, 414, 62, 2, 25, "Output"]
+}, Open  ]],
+Cell[24574, 419, 112, 3, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[24711, 426, 97, 2, 26, "Input"],
+Cell[24811, 430, 63, 2, 25, "Output"]
+}, Open  ]],
+Cell[24889, 435, 128, 3, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[25042, 442, 108, 2, 26, "Input"],
+Cell[25153, 446, 62, 2, 25, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[25252, 453, 148, 4, 26, "Input"],
+Cell[25403, 459, 831, 49, 184, 679, 44, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[26237, 510, 155, 4, 25, "Output"]
+}, Open  ]],
+Cell[26407, 517, 53, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[26485, 521, 94, 2, 26, "Input"],
+Cell[26582, 525, 85, 2, 25, "Output"]
+}, Open  ]],
+Cell[26682, 530, 124, 3, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[26831, 537, 146, 3, 26, "Input"],
+Cell[26980, 542, 63, 2, 25, "Output"]
+}, Open  ]],
+Cell[27058, 547, 55, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[27138, 551, 139, 3, 26, "Input"],
+Cell[27280, 556, 65, 2, 25, "Output"]
+}, Open  ]],
+Cell[27360, 561, 31, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[27416, 565, 144, 3, 26, "Input"],
+Cell[27563, 570, 81, 2, 25, "Output"]
+}, Open  ]],
+Cell[27659, 575, 121, 3, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[27805, 582, 138, 3, 26, "Input"],
+Cell[27946, 587, 81, 2, 25, "Output"]
+}, Open  ]],
+Cell[28042, 592, 45, 0, 24, "Text"],
+Cell[28090, 594, 384, 8, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[28499, 606, 81, 2, 26, "Input"],
+Cell[28583, 610, 7214, 455, 184, 7062, 450, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[35800, 1067, 155, 4, 25, "Output"]
+}, Open  ]],
+Cell[35970, 1074, 44, 0, 24, "Text"],
+
+Cell[CellGroupData[{
+Cell[36039, 1078, 166, 3, 42, "Input"],
+Cell[36208, 1083, 111, 2, 25, "Output"],
+Cell[36322, 1087, 865, 50, 184, 713, 45, "GraphicsData", "PostScript", \
+"Graphics",
+  ImageCacheValid->False],
+Cell[37190, 1139, 155, 4, 25, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

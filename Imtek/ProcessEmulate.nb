@@ -1,0 +1,4182 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    182736,       3720]*)
+(*NotebookOutlinePosition[    183405,       3743]*)
+(*  CellTagsIndexPosition[    183361,       3739]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Imtek`ProcessEmulate`", "Title"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Line . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : Jan\ G . \ Korvink\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 12.02  .2005, \ Karlsruhe\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ emulates\ a\ semiconductor\ Process*) \)\(\[IndentingNewLine]\)\
+\( (*\ Package\ \(Copyright : \ 
+          GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`ProcessEmulate`\>"];\)\)\)\
+], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(imsMakeStack::usage = \
+"\<imsMakeStack[ stack , lateralsize ] creates a layer layer stack based on \
+the stack specification. The stack is a list of lists, whereby the inner \
+list(s) contain a data pair of material head and layer thickness. Any number \
+of material layers can be specified. The lateral size is specified in 2D by a \
+pair of numbers { deltaX , nX } that characterize the lateral regular \
+discretization of each layer into nX segments of size deltaX. In 3D two pairs \
+of numbers { { deltaX , nX } , { deltaY , nY } } are required. The horizontal \
+raster determines the accuracy of subsequent processing. Also see Stack and \
+imsStackDraw.\>";\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStack::usage = "\<imsStack[ layers , lateralsize ] is a \
+representation for a semiconductor processed material stack. Each layer \
+consists of a material name as the head, and a list of number pairs { height \
+, thickness } in a 1D or 2D array, for 2D or 3D processing, that describe the \
+upper profile and the thickness profile of the material. The lateral size is \
+specified in 2D by a pair of numbers { deltaX , nX } that characterize the \
+lateral regular discretization of each layer into nX segments of size deltaX. \
+In 3D two pairs of numbers { { deltaX , nX } , { deltaY , nY } } are \
+required. Also see imsMakeStack, imsStackDraw and imsStackProcess.\>";\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsStackProcess::usage = \
+"\<imsStackProcess[ processsteps , imsStack ] applies a list of process steps \
+to the layer stack. One or more of the following process steps can be applied \
+in any order and as often as required: imsDeposit, imsPattern, imsReflow, \
+imsStrip, imsDrill, imsMill, imsPlanarize, imsErode, imsEmboss, imsWetEtch, \
+imsGrow, imsCut, imsBond, imsFlip, imsRotate, imsDispense. A step is \
+specified by a list containing the step specification followed by the step's \
+parameters, e.g. { imsDeposit , imsSilicon, 10 } specifies the deposition of \
+a 10 unit thick layer of silicon. All steps are individually available as \
+separate functions, and take exactly the same parameters as the functions \
+E.g., for imsDeposit, see the function imsStackDeposit. Also see imsStack, \
+imsMakeStack and imsStackDraw.\>";\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackDraw::usage = "\<imsStackDraw[ imsStack ] creates a Graphics \
+or Graphics3D picture of the stack. imsStackDraw[ {imsStack..} ] returns a \
+GraphicsArray object. The picture is controlled by options. Each known layer \
+is assigned a color. An alternative coloring scheme can be provided by \
+defining imsLayerColorRules={myLayerHead:>myColorDirective,...}. In addition, \
+the material layers can be outlined by specifying imsOutlineColor\
+\[RuleDelayed]myColor where myColor is a color directive. To draw only a \
+subset of the layer stack, specify imsCellRange->{i,j} for 2D or \
+imsCellRange->{{i,j},{k,l}} for 3D layer stacks. Also see imsMakeStack and \
+imsStackProcess.\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMaskDraw::usage = "\<imsMaskDraw[ mask , { delta , n } , vc ] and \
+imsMaskDraw[ mask , { { deltaX , nX } , { deltaY , nY } } , vc ] draws a \
+series of horizontal line segments or polygons to represent a mask. The \
+segments are placed at the given vertical coordinate value vc, so as to be \
+conveniently combined with other graphics.\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackDeposit::usage = "\<imsStackDeposit[ imsStack , material , \
+thickness ] adds a new material layer with the specified thickness on top of \
+the layer stack. The layer is anisotropically shaped from the vertical \
+direction. Its shape follows the shape of the layer immediately preceding it \
+on the layer stack. Also see imsStackReflow, imsStackPattern, imsStackStrip \
+and imsStackProcess.\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackPattern::usage = "\<imsStackPattern[ imsStack , material , \
+thickness , mask , field ] patterns the top material layer of the layer \
+stack. The layer is anisotropically thinned from above in the vertical \
+direction. It will only be shaped down to the layer immediately preceding it \
+on the layer stack. In this sense one can underetch and overetch without \
+affecting the other layers. The mask and the field variable specify where the \
+thickness shaping should be done. The mask is a 1D list of True/False \
+entries. If field==True, then the layer is shaped at positions where the mask \
+holds True entries, and vice versa. Also see imsStackReflow, imsStackStrip, \
+imsStackDeposit and imsStackProcess.\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsStackStrip::usage = "\<imsStackStrip[ imsStack , material ] \
+completely removes a layer from the material stack. A gap is left in the \
+stack, so that this step represents a typical sacrificial etch step as used \
+in MST processes. Also see imsStackReflow, imsStackPattern, imsStackDeposit \
+and imsStackProcess.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackReflow::usage = "\<imsStackReflow[ imsStack , material ] \
+smoothens the surface of a layer, as during thermal reflow treatment. Also \
+see imsStackStrip, imsStackPattern, imsStackDeposit and \
+imsStackProcess.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackDrill::usage = "\<imsStackDrill[ ls , holes ] drills holes \
+into the layer stack. Each hole is specified as a list consisting of \
+coordinates, the hole diameter and the hole depth: { {x,y,depth}, diameter}. \
+Any number of holes can be specified.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackMill::usage = "\<imsStackMill[ ls , millpaths ] mills, \
+using a vertical milling tool, along paths into the layer stack. Each path \
+consists of a list with a 3D line specification and a milling tool diameter: \
+{ {{x1,y2,z3}, ..., {xn,yn,zy}}, diameter}\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackPlanarize::usage = "\<imsStackPlanarize[ ls , height ] \
+emulates the action of lapping and chemical-mechanical polishing (CMP). Any \
+feature on any layer in the stack is chopped to the specified height. Any \
+empty upper layer is stripped from the stack.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackErode::usage = "\<imsStackErode[ ls , mask , field , height \
+] emulates the action of electrical discharge milling. All positions in mask \
+that corresponds to field are chopped to the specified height.\>";\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackEmboss::usage = "\<imsStackEmboss[ ls , material , \
+thickness ] emulates the action of hot embossing. The material of specified \
+thickness is pressed onto the layer stack. If the thickness is insufficient \
+for embossing, the height is automatically adjusted. Note that the new layer \
+stack is returned with its embossed surface pointing down.\>";\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackWetEtch::usage = "\<imsStackWetEtch[ ls , material , depth \
+] emulates the behaviour of wet etching processes such as Silicon in KOH. Its \
+behaviour can be controlled using specified options. The default imsMethod is \
+imsKOH.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackGrow::usage = "\<imsStackGrow[ ls , \
+attackMaterial->growMaterial , { tgrow , tconsume , wcovered } ] emulates the \
+action of thermal oxidation. An exposed material is partially consumed to \
+produce a new material. The new material has a thickness of tgrow. The \
+consumed material loses tconsume in thickness. At covered edges, there is a \
+smooth transition from zero thickness to tgrow.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackToNexus::usage = "\<imsStackToNexus[ ls ] generates an \
+imsGraph of the layer stack suitable for finite element modelling.\>";\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackToDomainNexus::usage = "\<imsStackToDomainNexus[ ls ] \
+generates an imsGraph of the layer stack boundaries suitable for mesh \
+generators.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackCut::usage = "\<imsStackCut[ ls , position ] divides the \
+layer stack into two pieces at the indicated cell position. The position must \
+lie in the range {2,...,n-1}, where n is the cell width of the layer \
+stack.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackFlip::usage = "\<imsStackFlip[ ls ] flips the layer stack \
+over. In 3D we may select the flip axis.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsStackRotate::usage = "\<imsStackFlip[ ls ] a 2D layer by 180 \
+degrees and a 3D stack by 90 degrees about the vertical axis.\>";\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsStackBond::usage = "\<imsStackFlip[ lsBottom , lsTop ] glues the \
+second stack on top of the first stack only if they have the same width and \
+number of cells. A single stack is returned.\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsGraphicsToBitMask::usage = "\<imsGraphicsToBitMask[ g , \[Delta] ] \
+creates a planar imsBitMask from the planar graphics picture g. The pixel \
+edge length is specified by \[Delta].\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsGraphics3DToBitMask::usage = "\<imsGraphics3DToBitMask[ g , \
+\[Delta] ] creates a planar imsBitMask from the 3d graphics picture g. The \
+pixel edge length is specified by \[Delta].\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsBitMaskQ::usage = "\<imsBitMaskQ[ m ] returns True if m is a valid \
+mask.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsBitMaskDimensions::usage = "\<imsBitMaskDimensions[ m ] returns \
+the lateral array dimensions of the bitmask m.\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackQ::usage = "\<imsStackQ[ ls ] returns True if ls is a valid \
+layer stack.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsStackDepth::usage = "\<imsStackDepth[ ls ] returns the number of \
+layers in the layer stack ls.\>";\)\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(imsStackLayers::usage = "\<imsStackLayers[ ls ] returns the list of \
+layers of the layer stack ls.\>";\)\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(imsStackDimensions::usage = "\<imsStackDimensions[ ls ] returns the \
+lateral array dimensions of the layer stack ls.\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackSize::usage = "\<imsStackSize[ ls ] returns the lateral \
+size(s) (length) of the layer stack.\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackMaterials::usage = "\<imsStackMaterials[ ls ] returns the \
+materials used in the layer stack in the order of the layers. Duplicate \
+materials in the stack appear duplicated in the list.\>";\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsAluminium::usage = "\<Predefined material layer imsAluminium for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsCopper::usage = "\<Predefined material layer imsCopper for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsGap::usage = "\<Predefined stripped material placeholder for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsGold::usage = "\<Predefined material layer imsGold for imsStack \
+processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsKOH::usage = "\<Predefined etchant imsKOH for imsStack \
+processing\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsNickel::usage = "\<Predefined material layer imsNickel for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsPolySilicon::usage = "\<Predefined material layer imsPolySilicon \
+for imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsSilicon::usage = "\<Predefined material layer imsSilicon for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsSiliconNitride::usage = "\<Predefined material layer \
+imsSiliconNitride for imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsSiliconOxide::usage = "\<Predefined material layer imsSiliconOxide \
+for imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsSU8::usage = "\<Predefined material layer imsSU8 for imsStack \
+processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsTiNi::usage = "\<Predefined material layer imsTiNi for imsStack \
+processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsTitanium::usage = "\<Predefined material layer imsTitanium for \
+imsStack processing.\>";\)\), "\[IndentingNewLine]", 
+    \(\(\(imsZinc::usage = "\<Predefined material layer imsZinc for imsStack \
+processing.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsBitMask::usage = "\<imsBitMask[ ( True | False ) .. ] and \
+imsBitMask[ { ( True | False ) .. } .. ] are boolean 1D or 2D arrays. Bit \
+masks can be used as if with a light-field or a dark-field resist, specified \
+when using the mask by selecting to pattern (etch) the True or False areas. \
+Currently a bitmask must have the same dimensions as the layer stack it is \
+used with.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsDeposit::usage = "\<imsDeposit is a symbol to select imsStack \
+deposition. For the required parameters, see imsStackDeposit.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsPattern::usage = "\<imsPattern is a symbol to select imsStack \
+patterning. For the required parameters, see imsStackPattern.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsReflow::usage = "\<imsReflow is a symbol to select imsStack \
+thermal reflow. For the required parameters, see imsStackReflow.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsStrip::usage = "\<imsStrip is a symbol to select imsStack material \
+stripping. For the required parameters, see imsStackStrip.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsDrill::usage = "\<imsDrill is a symbol to select imsStack hole \
+drilling. For the required parameters, see imsStackDrill.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsMill::usage = "\<imsMill is a symbol to select imsStack milling. \
+For the required parameters, see imsStackMill.\>";\)\), \
+"\[IndentingNewLine]", 
+    \(\(imsPlanarize::usage = "\<imsPlanarize is a symbol to select imsStack \
+planarizing. For the required parameters, see imsStackPlanarize.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsErode::usage = "\<imsErode is a symbol to select imsStack eroding. \
+For the required parameters, see imsStackErode.\>";\)\), \
+"\[IndentingNewLine]", 
+    \(\(imsEmboss::usage = "\<imsEmboss is a symbol to select imsStack \
+embossing. For the required parameters, see imsStackEmboss.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsWetEtch::usage = "\<imsWetEtch is a symbol to select imsStack wet \
+etching. For the required parameters, see imsStackWetEtch.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsGrow::usage = "\<imsGrow is a symbol to select imsStack layer \
+growing. For the required parameters, see imsStackGrow.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsCut::usage = "\<imsCut is a symbol to select imsStack cutting. For \
+the required parameters, see imsStackCut.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsBond::usage = "\<imsBond is a symbol to select imsStack bonding of \
+one layer stack to another. For the required parameters, see \
+imsStackBond.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsFlip::usage = "\<imsFlip is a symbol to select imsStack upside \
+down flipping. For the required parameters, see imsStackFlip.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(imsRotate::usage = "\<imsRotate is a symbol to select imsStack \
+rotation about the z axis. For the required parameters, see \
+imsStackRotate.\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsDispense::usage = "\<imsDispense is a symbol to select imsStack \
+droplet dispensing. For the required parameters, see \
+imsDispenseStack.\>";\)\), "\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ For\ releases, \ 
+      we\ inactivate\ this\ statement\ by\ toggling\ the\ Evaluatability\ of\ \
+the\ cell\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(evolveLayerEtchfront::"\<\
+Do not use! To be removed later.\>"; 
+    topmostLayer::usage = "\<Do not use! To be removed later.\>";\
+\[IndentingNewLine]
+    \(flattenStack::usage = "\<Do not use! To be removed later.\>";\)\
+\[IndentingNewLine]
+    \(ProcessStep::usage = "\<Do not use! To be removed later.\>";\)\
+\[IndentingNewLine]
+    \(dropEmptyLayersFromStack::usage = "\<Do not use! To be removed \
+later.\>";\)\[IndentingNewLine]
+    \(paintGrid::usage = "\<Do not use! To be removed later.\>";\)\
+\[IndentingNewLine]
+    \(evolveEtchfront::usage = "\<Do not use! To be removed \
+later.\>";\)\)\)\)], "Input",
+  Evaluatable->False,
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(MyOption::usage\  = "\<MyOption -> value is an option of \
+NameOfYourFunction1 that [...] \>";\)\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsLayerColorRules::usage = \
+"\<imsLayerColorRules -> { materialtag :> colordirective ...} specifies the \
+colour that a material layer will be rendered. The default value for the \
+imsLayerColorRules list is: imsLayerColorRules -> { imsSilicon :> \
+RGBColor[0.439207`,0.501999`,0.564699`],imsPolySilicon :> \
+RGBColor[0.415693`,0.352901`,0.803903`],imsAluminium :> \
+RGBColor[0.990005`,1.`,0.940001`] , imsSiliconOxide :> \
+RGBColor[0.640004`,0.580004`,0.5`] , imsSiliconNitride :> \
+RGBColor[0.5`,0.5`,0.410001`] , imsCopper :> \
+RGBColor[1.`,0.898053`,0.771844`] , imsGold :> RGBColor[1.`,0.843104`,0.`] , \
+imsTitanium :> RGBColor[0.990005`,1.`,0.940001`] , imsZinc :> \
+RGBColor[0.990005`,0.97`,1.`] , imsSU8 :> \
+RGBColor[0.6039`,0.803903`,0.196097`] } \>";\)\(\[IndentingNewLine]\)
+    \(imsOutlineColor::usage = "\<imsOutlineColor -> Colour will cause \
+imsStackDraw to draw a coloured outline for each material in the imsStack in \
+the specified colour. You can use any correct colour specification, such as \
+Hue, CMYKColor, GrayLevel or RGBColor.\>";\)\(\[IndentingNewLine]\)
+    \(imsMethod::usage = "\<imsMethod -> imsAnisotropic is an option of both \
+imsStackDeposit and imsStackPattern to affect the way in which layers are \
+modified. Currently it has no special effect.\>";\)\(\[IndentingNewLine]\)
+    \(imsAngle::usage = "\<imsAngle -> value is an option of both \
+imsStackDeposit and imsStackPattern with which to specify the angle of \
+deposition or etching. Currently it has no effect.\>";\)\(\[IndentingNewLine]\
+\)
+    \(imsTransition::usage = "\<imsTransition -> Ramp is a specification of \
+imsStackPattern to affect the way in which a step is covered. Currently it \
+has no effect.\>";\)\(\[IndentingNewLine]\)
+    \(imsShowAllSteps::usage = "\<imsShowAllSteps -> True will cause \
+imsStackProcess[..] to return the stack for each intermediate process step. \
+This is useful for didactic purposes when explaining process sequences.\>";\)\
+\(\[IndentingNewLine]\)
+    \(imsConformal::usage = "\<imsMethod -> imsConformal selects a conformal \
+growth algorithm for layer deposition.\>";\)\(\[IndentingNewLine]\)
+    \(imsAnisotropic::usage = "\<imsMethod -> imsAnisotropic selects an \
+anisotropic growth algorithm for layer deposition.\>";\)\(\[IndentingNewLine]\
+\)
+    \(imsCellRange::usage = "\<imsCellRange -> All selects the entire stack. \
+imsCellRange->{i,j} selects the 2D stack cells ranging from i to j. \
+imsCellRange->{{i,j},{l,m}} selects a range of stack cells from a 3D \
+stack.\>";\)\(\[IndentingNewLine]\)
+    \( (*\[IndentingNewLine]\(imsConvert::usage = "\<imsConvert->convert \
+specifies the path to the executable binary file convert, a renderer which is \
+used to generate accurate bitmaps from postscript files.\>";\)\
+\[IndentingNewLine]*) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error and Warning Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ and\ Warning\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\
+\(\[IndentingNewLine]\)\(\(Stack::mt = "\<Layer stack is empty.\>";\)\
+\[IndentingNewLine]
+    \(Stack::rng = "\<Layer stack range `1` has incorrect format or data.\>";\
+\)\[IndentingNewLine]
+    \(Stack::col = "\<Material <`1`> has no defined color, using red instead.\
+\>";\)\[IndentingNewLine]
+    \(Stack::incom = "\<The two layer stacks must have identical lateral \
+dimensions and cell numbers.\>";\)\[IndentingNewLine]
+    \(Stack::touch2d = "\<The two layer stacks must touch in at least 2 \
+points.\>";\)\[IndentingNewLine]
+    \(Stack::touch3d = "\<The two layer stacks must touch in at least 3 \
+points.\>";\)\[IndentingNewLine]
+    \(Stack::badmask = "\<The mask with dimensions `1` does not match the \
+layer stack with dimensions `2`.\>";\)\[IndentingNewLine]
+    \(Stack::etchpair = "\<Currently you can only wet etch Silicon with KOH. \
+No other material-etchant pairs are supported.\>";\)\[IndentingNewLine]
+    \(Stack::convert = "\<Attempting to convert the graphics with the \
+external program <convert>, called as:\n `1`\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(Needs["\<Imtek`Polygon`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Needs["\<Imtek`Nodes`\>"];\)\), "\n", 
+    \(\(Needs["\<Imtek`Graph`\>"];\)\), "\n", 
+    \(\(Needs["\<Imtek`MeshElementLibrary`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Needs["\<Imtek`DomainElementLibrary`\>"];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(Needs["\<Imtek`Voxel`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Needs["\<Imtek`Graphics3D`\>"];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(Needs["\<Utilities`FilterOptions`\>"];\)\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ \(MakeLine[\ 
+            a_?PointQ, \ b_?PointQ\ ]\  := \ 
+          Line[\ a, \ b\ ];\)\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(Options[
+          imsStackDraw] = {imsLayerColorRules \[Rule] {imsSilicon \
+\[RuleDelayed] RGBColor[0.439207`, 0.501999`, 0.564699`], 
+              imsPolySilicon \[RuleDelayed] 
+                RGBColor[0.415693`, 0.352901`, 0.803903`], 
+              imsAluminium \[RuleDelayed] 
+                RGBColor[0.990005`, 1.`, 0.940001`], 
+              imsSiliconOxide \[RuleDelayed] 
+                RGBColor[0.640004`, 0.580004`, 0.5`], 
+              imsSiliconNitride \[RuleDelayed] 
+                RGBColor[0.5`, 0.5`, 0.410001`], 
+              imsCopper \[RuleDelayed] RGBColor[1.`, 0.898053`, 0.771844`], 
+              imsGold \[RuleDelayed] RGBColor[1.`, 0.843104`, 0.`], 
+              imsTitanium :> RGBColor[0.990005`, 1.`, 0.940001`], 
+              imsZinc \[RuleDelayed] RGBColor[0.990005`, 0.97`, 1.`], 
+              imsSU8 \[RuleDelayed] RGBColor[0.6039`, 0.803903`, 0.196097`]}, 
+          imsOutlineColor \[RuleDelayed] headColor, 
+          imsCellRange \[Rule] All};\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[imsStackDeposit] = {imsMethod \[Rule] imsConformal, 
+          imsAngle \[Rule] 0};\)\n\[IndentingNewLine]
+    \(Options[imsStackPattern] = {imsMethod \[Rule] imsAnisotropic, 
+          imsAngle \[Rule] 0, 
+          imsTransition \[Rule] 
+            Ramp};\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsStackWetEtch] = {imsMethod \[Rule] 
+            imsKOH};\)\[IndentingNewLine]\n
+    \(Options[imsStackStrip] = {};\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsStackProcess] = {imsShowAllSteps \[Rule] 
+            False};\)\[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine]\(Options[
+            imsGraphicsToBitMask] = {imsConvert \[Rule] "\<convert\>"};\)\
+\[IndentingNewLine]*) \[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsGraphicsToBitMask] = \(Options[
+            imsGraphics3DToBitMask] = {imsPictureDimensions \[Rule] 
+              Automatic}\);\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Selectors", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(imsStackDepth[
+          imsStack[layers_, dims_]] := Length[layers];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackLayers[imsStack[layers_, dims_]] := layers;\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsStackDimensions[
+          imsStack[
+            layers_, {delta : \((_Integer | _Real)\), 
+              n_Integer}]] := {n};\)\), "\[IndentingNewLine]", 
+    \(\(imsStackDimensions[
+          imsStack[
+            layers_, {{deltaX : \((_Integer | _Real)\), 
+                nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                nY_Integer}}]] := {nX, nY};\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsStackSize[
+          imsStack[layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        delta*n;\)\), "\[IndentingNewLine]", 
+    \(\(imsStackSize[
+          imsStack[
+            layers_, {{deltaX : \((_Integer | _Real)\), 
+                nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                nY_Integer}}]] := {deltaX*nX, deltaY*nY};\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackMaterials[imsStack[layers_, dims_]] := \(Head[#] &\) /@ 
+          layers;\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsBitMaskQ[
+          m : imsBitMask[{\((_)\) .. } .. ]] := 
+        And @@ Flatten[
+            Map[\((\((#)\) || \((\(! #\))\))\) &, 
+              List @@ m, {2}]];\)\[IndentingNewLine]
+    \(imsBitMaskQ[m : imsBitMask[\((_)\) .. ]] := 
+        And @@ Map[\((\((#)\) || \((\(! #\))\))\) &, 
+            List @@ m];\)\[IndentingNewLine]
+    \(imsBitMaskQ[___] := False;\)\[IndentingNewLine]
+    \(imsBitMaskDimensions[m : imsBitMask[{\((_)\) .. } .. ]] := 
+        Dimensions[List @@ m];\)\[IndentingNewLine]
+    \(\(imsBitMaskDimensions[m : imsBitMask[\((_)\) .. ]] := 
+      Length[List @@ m]\)\(;\)\(imsBitMaskDimensions[___] := 
+      False\)\(;\)\(\[IndentingNewLine]\)\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsLayerAsListQ[
+          l : {{\((_Integer | _Real)\), \((_Integer | _Real)\)} .. }] := 
+        True;\)\), "\[IndentingNewLine]", 
+    \(\(imsLayerAsListQ[
+          l : {{{\((_Integer | _Real)\), \((_Integer | _Real)\)} .. } .. }] := 
+        True;\)\), "\[IndentingNewLine]", 
+    \(\(\(imsLayerAsListQ[\ ___\ ] := False;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsStackQ[
+          imsStack[layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        And @@ \((\(imsLayerAsListQ[List @@ #] &\) /@ 
+              layers)\);\)\), "\[IndentingNewLine]", 
+    \(\(imsStackQ[
+          imsStack[
+            layers_, {{deltaX : \((_Integer | _Real)\), 
+                nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                nY_Integer}}]] := 
+        And @@ \((\(imsLayerAsListQ[List @@ #] &\) /@ 
+              layers)\);\)\), "\[IndentingNewLine]", 
+    \(\(imsStackQ[\ ___\ ] := False;\)\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Functions", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Public Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Make Stack ; Format output", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ 2  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsMakeStack[
+          stack : {{_Symbol, \((_Integer | _Real)\)} .. }, {delta : \
+\((_Integer | _Real)\), n_Integer}] := 
+        Module[{height = 
+              0}, \[IndentingNewLine]imsStack @@ {\(Block[{}, 
+                    height += #[\([2]\)]; #[\([1]\)] @@ 
+                      Table[{height, #[\([2]\)]}, {n + 1}]] &\) /@ 
+                stack, {delta, n + 1}}\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsMakeStack[
+          stack : {{_Symbol, \((_Integer | _Real)\)} .. }, {{deltaX_, 
+              nX_Integer}, {deltaY_, nY_Integer}}] := 
+        Module[{height = 
+              0}, \[IndentingNewLine]imsStack @@ {\(Block[{}, 
+                    height += #[\([2]\)]; #[\([1]\)] @@ 
+                      Table[{height, #[\([2]\)]}, {nX + 1}, {nY + 1}]] &\) /@ 
+                stack, {{deltaX, nX + 1}, {deltaY, 
+                  nY + 1}}}\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ Formatting\ *) \)], "Input"],
+
+Cell[BoxData[{
+    \(\(Format[\ a_imsStack, StandardForm\ ] := 
+        DisplayForm[
+          RowBox[{"\<\[SkeletonIndicator]\>", "\<imsStack\>", "\<\
+\[SkeletonIndicator]\>"}]];\)\), "\[IndentingNewLine]", 
+    \(\(Format[\ a_imsBitMask, StandardForm\ ] := 
+        DisplayForm[
+          RowBox[{"\<\[SkeletonIndicator]\>", "\<imsBitMask\>", "\<\
+\[SkeletonIndicator]\>"}]];\)\), "\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Draw Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsStackDraw[s : {imsStack[__] .. }, opts___?OptionQ] := 
+        Block[{pics, plotRanges, extremalRange, mx = 0, my = 0, Mx = 0, 
+            My = 0, mz = 0, 
+            Mz = 0}, \
+\[IndentingNewLine]\[IndentingNewLine]extremalRange[{{x1_, x2_}, {y1_, 
+                  y2_}}] := 
+            Block[{}, \[IndentingNewLine]mx = 
+                Min[mx, x1]; \[IndentingNewLine]my = 
+                Min[my, y1]; \[IndentingNewLine]Mx = 
+                Max[Mx, x2]; \[IndentingNewLine]My = 
+                Max[My, 
+                  y2]\[IndentingNewLine]]; \
+\[IndentingNewLine]extremalRange[{{x1_, x2_}, {y1_, y2_}, {z1_, z2_}}] := 
+            Block[{}, \[IndentingNewLine]mx = 
+                Min[mx, x1]; \[IndentingNewLine]my = 
+                Min[my, y1]; \[IndentingNewLine]mz = 
+                Min[mz, z1]; \[IndentingNewLine]Mx = 
+                Max[Mx, x2]; \[IndentingNewLine]My = 
+                Max[My, y2]; \[IndentingNewLine]Mz = 
+                Max[Mz, 
+                  z2]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]pics = \(imsStackDraw[#, opts] &\) /@ 
+              s; \[IndentingNewLine]If[
+            Union[\(Head[#] &\) /@ 
+                  pics] \[Equal] {Graphics}, \[IndentingNewLine]plotRanges = \
+\(extremalRange[#] &\) /@ \((\(\((#[\([2]\)])\) &\) /@ 
+                    Flatten[\((\(Options[#, PlotRange] &\) /@ 
+                          pics)\)])\)\[IndentingNewLine]]; \
+\[IndentingNewLine]GraphicsArray[
+            Partition[
+              pics /. {Rule[PlotRange, a : {{_, _}, {_, _}}] -> 
+                    Rule[PlotRange, {{mx, Mx}, {my, My}}], 
+                  Rule[PlotRange, a : {{_, _}, {_, _}, {_, _}}] -> 
+                    Rule[PlotRange, {{mx, Mx}, {my, My}, {mz, Mz}}]}, 
+              1]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[{
+    \(\(range2dQ[{_Integer, _Integer}] := True;\)\), "\[IndentingNewLine]", 
+    \(\(range2dQ[___] := False;\)\), "\[IndentingNewLine]", 
+    \(\(range3dQ[{{_Integer, _Integer}, {_Integer, _Integer}}] := 
+        True;\)\), "\[IndentingNewLine]", 
+    \(\(range3dQ[___] := False;\)\), "\[IndentingNewLine]", 
+    \(\(rangeQ[{_Integer, _Integer}] := True;\)\), "\[IndentingNewLine]", 
+    \(\(rangeQ[{{_Integer, _Integer}, {_Integer, _Integer}}] := 
+        True;\)\), "\[IndentingNewLine]", 
+    \(\(rangeQ[___] := False;\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsStackDraw[
+          imsStack[layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          opts___?OptionQ] := 
+        Module[{drawLayer, xCoords, colors, picture, range, myOptions}, 
+          myOptions = {FilterOptions[imsStackDraw, 
+                opts]}; \[IndentingNewLine]colors = \(imsLayerColorRules /. 
+                myOptions\) /. 
+              Options[imsStackDraw]; \
+\[IndentingNewLine]\[IndentingNewLine]range = \(imsCellRange /. myOptions\) /. 
+              Options[imsStackDraw]; \[IndentingNewLine]If[
+            range \[Equal] 
+              All, \[IndentingNewLine]range = {1, 
+                n}, \[IndentingNewLine]If[\(! range2dQ[
+                  range]\), \[IndentingNewLine]Message[Stack::rng, 
+                range]; \[IndentingNewLine]Return[{}]\[IndentingNewLine]]; \
+\[IndentingNewLine]{i, j} = range; \[IndentingNewLine]If[
+              j \[LessEqual] i || i < 1 || j > n, \[IndentingNewLine]Message[
+                Stack::rng, 
+                range]; \[IndentingNewLine]Return[{}]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]drawLayer[l_] := 
+            Block[{top, bot, headColor, outlineColor}, \[IndentingNewLine]If[
+                Head[l] \[Equal] imsGap, 
+                Return[{}]]; \[IndentingNewLine]headColor = 
+                Evaluate[\((Head[l] /. colors)\)]; \[IndentingNewLine]If[
+                Head[headColor] =!= RGBColor && 
+                  Head[headColor] =!= CMYKColor && 
+                  Head[headColor] =!= 
+                    GrayLevel && \[IndentingNewLine]Head[headColor] =!= 
+                    Hue, \[IndentingNewLine]Message[Stack::col, 
+                  Head[l]]; \[IndentingNewLine]headColor = 
+                  RGBColor[1, 0, 
+                    0]\[IndentingNewLine]]; \[IndentingNewLine]outlineColor = 
+                Evaluate[\(imsOutlineColor /. myOptions\) /. 
+                    Options[imsStackDraw]]; \[IndentingNewLine]top = 
+                Transpose[{xCoords, \(\((#[\([1]\)])\) &\) /@ \((List @@ 
+                          l)\)}]; \[IndentingNewLine]bot = 
+                Transpose[{xCoords, \(\((#[\([1]\)] - #[\([2]\)])\) &\) /@ \
+\((List @@ l)\)}]; \[IndentingNewLine]curve = 
+                Join[top, 
+                  Reverse[
+                    bot], {top[\([1]\)]}]; \[IndentingNewLine]{headColor, 
+                Polygon[curve], 
+                If[outlineColor === headColor, {}, {outlineColor, 
+                    Line[curve]}]}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]xCoords = \(Table[
+                i\ delta, {i, 0, n - 1}]\)[\([Range @@ 
+                  range]\)]; \[IndentingNewLine]\[IndentingNewLine]picture = \
+\(drawLayer[#[\([Range @@ range]\)]] &\) /@ 
+              layers; \[IndentingNewLine]\[IndentingNewLine]If[
+            Length[Flatten[picture]] \[Equal] 0, \[IndentingNewLine]Message[
+              Stack::mt]; \[IndentingNewLine]picture = 
+              Line[\({#, 0} &\) /@ 
+                  xCoords]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]zmax = 
+            Max[Flatten[
+                Map[{#[\([1]\)]} &, \((\(\((List @@ #)\) &\) /@ 
+                      layers)\), {2}]]]; \[IndentingNewLine]Graphics[picture, 
+            PlotRange \[Rule] {{0, delta\ n}, {0, zmax}}, 
+            AspectRatio \[Rule] Automatic]\[IndentingNewLine]];\)\)}], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackDraw[
+          imsStack[
+            layers_, {{deltaX : \((_Integer | _Real)\), 
+                nX_Integer}, {deltaY : \((_Integer | _Real)\), nY_Integer}}], 
+          opts___?OptionQ] := 
+        Module[{drawLayer, xCoords, yCoords, colors, picture, rx, RX, ry, RY, 
+            range, myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackDraw, 
+                opts]}; \[IndentingNewLine]colors = \(imsLayerColorRules /. 
+                myOptions\) /. 
+              Options[imsStackDraw]; \
+\[IndentingNewLine]\[IndentingNewLine]range = \(imsCellRange /. myOptions\) /. 
+              Options[imsStackDraw]; \[IndentingNewLine]If[
+            range === All, \[IndentingNewLine]\[IndentingNewLine]{{rx, 
+                  RX}, {ry, 
+                  RY}} = \(range = {{1, nX}, {1, 
+                    nY}}\), \[IndentingNewLine]\[IndentingNewLine]If[\(! \
+range3dQ[range]\), \[IndentingNewLine]Message[Stack::rng, 
+                range]; \[IndentingNewLine]Print["\<a\>"]; \
+\[IndentingNewLine]Return[{}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]{{rx, RX}, {ry, RY}} = range; \[IndentingNewLine]If[
+              RX \[LessEqual] rx || rx < 1 || RX > nX || RY \[LessEqual] ry || 
+                ry < 1 || RY > nY, \[IndentingNewLine]Message[Stack::rng, 
+                range]; \[IndentingNewLine]Return[{}]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]drawLayer[l_] := 
+            Block[{top, topArray, bot, botArray, headColor, outlineColor, 
+                frontLine, backLine, leftLine, rightLine, topLine, botLine, 
+                closeLine, frontTop, frontBot, backTop, backBot, leftTop, 
+                leftBot, rightTop, rightBot, panel, 
+                drawLids}, \[IndentingNewLine]\[IndentingNewLine]If[
+                Head[l] \[Equal] imsGap, 
+                Return[{}]]; \[IndentingNewLine]\[IndentingNewLine]closeLine[
+                  m : {{_, _, _} .. }] := 
+                Join[m, {m[\([1]\)]}]; \
+\[IndentingNewLine]\[IndentingNewLine]panel[line1_, 
+                  line2_] := \(\((Polygon[closeLine[#]])\) &\) /@ 
+                  Partition[
+                    Flatten[
+                      Transpose[{Drop[
+                            Transpose[{line1, 
+                                RotateLeft[
+                                  line1]}], \(-1\)], \
+\[IndentingNewLine]\(Reverse[#] &\) /@ 
+                            Drop[Transpose[{line2, 
+                                  RotateLeft[
+                                    line2]}], \(-1\)]\[IndentingNewLine]}], 
+                      2], 
+                    4]; \[IndentingNewLine]\[IndentingNewLine]drawLids[{{z1_, 
+                      t1_}, {z2_, t2_}, {z3_, t3_}, {z4_, t4_}}, {m_, n_}] := 
+                If[\((t1 \[LessEqual] 0)\) && \((t2 \[LessEqual] 
+                        0)\) && \((t3 \[LessEqual] 0)\) && \((t4 \[LessEqual] 
+                        0)\), \[IndentingNewLine]{}, \
+\[IndentingNewLine]{Polygon[{{\((m)\) deltaX, \((n)\) deltaY, 
+                          z1}, {\((m + 1)\) deltaX, \((n)\) deltaY, 
+                          z2}, {\((m + 1)\) deltaX, \((n + 1)\) deltaY, 
+                          z3}, {\((m)\) deltaX, \((n)\) deltaY, 
+                          z1}}], \[IndentingNewLine]Polygon[{{\((m)\) 
+                            deltaX, \((n)\) deltaY, 
+                          z1}, {\((m + 1)\) deltaX, \((n + 1)\) deltaY, 
+                          z3}, {\((m)\) deltaX, \((n + 1)\) deltaY, 
+                          z4}, {\((m)\) deltaX, \((n)\) deltaY, 
+                          z1}}], \[IndentingNewLine]Polygon[{{\((m)\) 
+                            deltaX, \((n)\) deltaY, 
+                          z1 - t1}, {\((m + 1)\) deltaX, \((n)\) deltaY, 
+                          z2 - t2}, {\((m + 1)\) deltaX, \((n + 1)\) deltaY, 
+                          z3 - t3}, {\((m)\) deltaX, \((n)\) deltaY, 
+                          z1 - t1}}], \[IndentingNewLine]Polygon[{{\((m)\) 
+                            deltaX, \((n)\) deltaY, 
+                          z1 - t1}, {\((m + 1)\) deltaX, \((n + 1)\) deltaY, 
+                          z3 - t3}, {\((m)\) deltaX, \((n + 1)\) deltaY, 
+                          z4 - t4}, {\((m)\) deltaX, \((n)\) deltaY, 
+                          z1 - t1}}]}\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]lids = 
+                Table[Table[
+                    drawLids[{l[\([m, n]\)], l[\([m + 1, n]\)], 
+                        l[\([m + 1, n + 1]\)], 
+                        l[\([m, n + 1]\)]}, {rx + m - 1, ry + n - 1}], {n, 1, 
+                      RY - ry}], {m, 1, 
+                    RX - rx}]; \
+\[IndentingNewLine]\[IndentingNewLine]headColor = 
+                Evaluate[\((Head[l] /. 
+                      colors)\)]; \[IndentingNewLine]\[IndentingNewLine]If[
+                Head[headColor] =!= RGBColor && 
+                  Head[headColor] =!= CMYKColor && 
+                  Head[headColor] =!= 
+                    GrayLevel && \[IndentingNewLine]Head[headColor] =!= 
+                    Hue, \[IndentingNewLine]Message[Stack::col, 
+                  Head[l]]; \[IndentingNewLine]headColor = 
+                  RGBColor[1, 0, 
+                    0]\[IndentingNewLine]]; \[IndentingNewLine]outlineColor = 
+                Evaluate[\(imsOutlineColor /. myOptions\) /. 
+                    Options[
+                      imsStackDraw]]; \
+\[IndentingNewLine]\[IndentingNewLine]top = \(Graphics3D[
+                    SurfaceGraphics[
+                      topArray = 
+                        Map[\((#[\([1]\)])\) &, \((List @@ 
+                              l)\), {2}]]]\)[\([1]\)]; \[IndentingNewLine]bot \
+= \(Graphics3D[SurfaceGraphics[
+                      botArray = 
+                        Map[\((#[\([1]\)] - #[\([2]\)])\) &, \((List @@ 
+                              l)\), {2}]]]\)[\([1]\)]; \[IndentingNewLine]\
+\[IndentingNewLine]frontTop = 
+                Transpose[{Table[xCoords[\([1]\)], {i, ry, RY}], yCoords, 
+                    topArray[\([1]\)]}]; \[IndentingNewLine]frontBot = 
+                Transpose[{Table[xCoords[\([1]\)], {i, ry, RY}], yCoords, 
+                    botArray[\([1]\)]}]; \[IndentingNewLine]backTop = 
+                Transpose[{Table[xCoords[\([\(-1\)]\)], {i, ry, RY}], 
+                    yCoords, 
+                    topArray[\([\(-1\)]\)]}]; \[IndentingNewLine]backBot = 
+                Transpose[{Table[xCoords[\([\(-1\)]\)], {i, ry, RY}], 
+                    yCoords, 
+                    botArray[\([\(-1\)]\)]}]; \[IndentingNewLine]leftTop = 
+                Transpose[{xCoords, 
+                    Table[yCoords[\([1]\)], {i, rx, 
+                        RX}], \(\((#[\([1]\)])\) &\) /@ 
+                      topArray}]; \[IndentingNewLine]leftBot = 
+                Transpose[{xCoords, 
+                    Table[yCoords[\([1]\)], {i, rx, 
+                        RX}], \(\((#[\([1]\)])\) &\) /@ 
+                      botArray}]; \[IndentingNewLine]rightTop = 
+                Transpose[{xCoords, 
+                    Table[yCoords[\([\(-1\)]\)], {i, rx, 
+                        RX}], \(\((#[\([\(-1\)]\)])\) &\) /@ 
+                      topArray}]; \[IndentingNewLine]rightBot = 
+                Transpose[{xCoords, 
+                    Table[yCoords[\([\(-1\)]\)], {i, rx, 
+                        RX}], \(\((#[\([\(-1\)]\)])\) &\) /@ 
+                      botArray}]; \
+\[IndentingNewLine]\[IndentingNewLine]topLine = 
+                Polygon[
+                  Join @@ {frontTop, Drop[Drop[rightTop, 1], \(-1\)], 
+                      Reverse[backTop], 
+                      Reverse[
+                        Drop[leftTop, \(-1\)]]}]; \[IndentingNewLine]botLine \
+= Polygon[Join @@ {frontBot, Drop[Drop[rightBot, 1], \(-1\)], 
+                      Reverse[backBot], 
+                      Reverse[
+                        Drop[leftBot, \(-1\)]]}]; \[IndentingNewLine]\
+\[IndentingNewLine]frontLine = 
+                panel[frontTop, frontBot]; \[IndentingNewLine]backLine = 
+                panel[backTop, backBot]; \[IndentingNewLine]leftLine = 
+                panel[leftTop, leftBot]; \[IndentingNewLine]rightLine = 
+                panel[rightTop, 
+                  rightBot]; \
+\[IndentingNewLine]\[IndentingNewLine]Flatten[{FaceForm[
+                    SurfaceColor[headColor], SurfaceColor[headColor]], 
+                  EdgeForm[], lids, frontLine, backLine, leftLine, rightLine, 
+                  If[outlineColor === 
+                      headColor, {}, {outlineColor, 
+                        Line[closeLine[Join[frontTop, Reverse[frontBot]]]], 
+                        Line[closeLine[Join[backTop, Reverse[backBot]]]], 
+                        Line[closeLine[Join[rightTop, Reverse[rightBot]]]], 
+                        Line[closeLine[Join[leftTop, Reverse[leftBot]]]], 
+                        topLine, botLine} /. 
+                      Polygon \[Rule] 
+                        Line]}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]xCoords = 
+            Table[i\ deltaX, {i, rx, RX}]; \[IndentingNewLine]yCoords = 
+            Table[i\ deltaY, {i, ry, 
+                RY}]; \[IndentingNewLine]\[IndentingNewLine]picture = \
+\(drawLayer[#[\([Range[rx, RX], Range[ry, RY]]\)]] &\) /@ 
+              layers; \[IndentingNewLine]\[IndentingNewLine]If[
+            Length[Flatten[picture]] \[Equal] 0, \[IndentingNewLine]Message[
+              Stack::mt]; \[IndentingNewLine]picture = {Line[\({#, 0, 0} &\) /@ 
+                    xCoords], 
+                Line[\({0, #, 0} &\) /@ 
+                    yCoords]}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Graphics3D[picture, PlotRange \[Rule] All, 
+            Boxed \[Rule] False]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Draw Mask", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ 2  D\ *) \)], "Input"],
+
+Cell[BoxData[{
+    \(\(imsMaskDraw[
+          mask : imsBitMask[__], {delta : \((_Integer | _Real)\), n_Integer}, 
+          y : \((_Integer | _Real)\)] := 
+        Module[{drawBit}, \[IndentingNewLine]drawBit[b_, {m_}] := 
+            If[b \[Equal] True, 
+              Line[{{\((m - 1.5)\) delta, y}, {\((m -  .5)\) delta, 
+                    y}}], {}]; \[IndentingNewLine]Graphics[{Red, 
+              MapIndexed[drawBit, 
+                List @@ 
+                  mask]}]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsMaskDraw[
+          mask : imsBitMask[__], {{deltaX : \((_Integer | _Real)\), 
+              nX_Integer}, {deltaY : \((_Integer | _Real)\), nY_Integer}}, 
+          z : \((_Integer | _Real)\)] := 
+        Module[{drawBit}, \[IndentingNewLine]drawBit[b_, {n_, m_}] := 
+            If[b \[Equal] True, 
+              Polygon[{{\((m - 1.5)\) deltaX, \((n - 1.5)\) deltaY, 
+                    z}, {\((m -  .5)\) deltaX, \((n - 1.5)\) deltaY, 
+                    z}, {\((m -  .5)\) deltaX, \((n -  .5)\) deltaY, 
+                    z}, {\((m - 1.5)\) deltaX, \((n -  .5)\) deltaY, 
+                    z}, {\((m - 1.5)\) deltaX, \((n - 1.5)\) deltaY, 
+                    z}}], {}]; \[IndentingNewLine]Graphics3D[{FaceForm[
+                SurfaceColor[Red], SurfaceColor[Red]], EdgeForm[], 
+              MapIndexed[drawBit, 
+                List @@ mask, {2}]}]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Deposit Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsStackDeposit[
+          imsStack[layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          material_, thickness : \((_Integer | _Real)\), opts___?OptionQ] := 
+        Module[{top, theMethod, pairs, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackDeposit, 
+                opts]}; \[IndentingNewLine]theMethod = \(imsMethod /. 
+                myOptions\) /. 
+              Options[imsStackDeposit]; \[IndentingNewLine]top = \
+\((\(\((#[\([1]\)])\) &\) /@ \((List @@ \((layers[\([\(-1\)]\)])\))\))\); \
+\[IndentingNewLine]If[
+            theMethod === imsConformal, \[IndentingNewLine]pairs = 
+              growGrid[top, delta, thickness]; \[IndentingNewLine]pairs = 
+              Transpose[{pairs, pairs - top}], \[IndentingNewLine]If[
+              theMethod === 
+                imsAnisotropic, \[IndentingNewLine]pairs = \((\(\(({# + 
+                            thickness, thickness})\) &\) /@ 
+                    top)\)]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[
+            imsStack[
+              Join[layers, {material @@ pairs}], {delta, 
+                n}]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackDeposit[
+          imsStack[
+            layers_, {{deltaX : \((_Integer | _Real)\), 
+                nX_Integer}, {deltaY : \((_Integer | _Real)\), nY_Integer}}], 
+          material_, thickness : \((_Integer | _Real)\), opts___?OptionQ] := 
+        Module[{top, theMethod, pairs, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackDeposit, 
+                opts]}; \[IndentingNewLine]theMethod = \(imsMethod /. 
+                myOptions\) /. 
+              Options[imsStackDeposit]; \[IndentingNewLine]top = 
+            Map[#[\([1]\)] &, 
+              List @@ layers[\([\(-1\)]\)], {2}]; \[IndentingNewLine]\
+\[IndentingNewLine]If[
+            theMethod === imsConformal, \[IndentingNewLine]pairs = 
+              growGrid[top, deltaX, deltaY, 
+                thickness]; \[IndentingNewLine]\[IndentingNewLine]pairs = 
+              MapThread[{#1, #2} &, {pairs, pairs - top}, 
+                2], \[IndentingNewLine]If[
+              theMethod === imsAnisotropic, \[IndentingNewLine]pairs = 
+                Map[{# + thickness, thickness} &, 
+                  top, {2}]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[
+            imsStack[
+              Join[layers, {material @@ pairs}], {{deltaX, nX}, {deltaY, 
+                  nY}}]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Pattern Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsStackPattern[
+          ls : imsStack[
+              layers : {\((_)\) .. }, {delta : \((_Integer | _Real)\), 
+                n_Integer}], material_, thickness : \((_Integer | _Real)\), 
+          m : imsBitMask[\((_)\) .. ], field_, opts___?OptionQ] := 
+        Module[{top, rest, d, newTop, theTransition, dmask, dStack, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackPattern, 
+                opts]}; \[IndentingNewLine]If[\((dmask = 
+                  Dimensions[List @@ m])\) \[NotEqual] \((dStack = 
+                  imsStackDimensions[\ ls\ ])\), 
+            Message[Stack::badmask, dmask, dStack]; \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]theTransition = \
+\(imsTransition /. myOptions\) /. 
+              Options[imsStackPattern]; \[IndentingNewLine]top = 
+            layers[\([\(-1\)]\)]; \[IndentingNewLine]If[
+            Head[top] =!= material, \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]rest = 
+            Drop[layers, \(-1\)]; \[IndentingNewLine]d = \(\((If[# \[Equal] 
+                      field, {\(-thickness\), \(-thickness\)}, {0, 
+                      0}])\) &\) /@ \((List @@ 
+                  m)\); \[IndentingNewLine]newTop = 
+            material @@ \((\(\((If[#[\([2]\)] < 0, {#[\([1]\)] - #[\([2]\)], 
+                          0}, #])\) &\) /@ \((\((List @@ top)\) + 
+                      d)\))\); \[IndentingNewLine]imsStack[
+            Join[rest, {newTop}], {delta, 
+              n}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackPattern[
+          ls : imsStack[
+              layers : {\((_)\) .. }, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], material_, 
+          thickness : \((_Integer | _Real)\), 
+          m : imsBitMask[{\((_)\) .. } .. ], field_, opts___?OptionQ] := 
+        Module[{top, rest, d, newTop, theTransition, dmask, dStack, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackPattern, 
+                opts]}; \[IndentingNewLine]If[\((dmask = 
+                  Dimensions[List @@ m])\) \[NotEqual] \((dStack = 
+                  imsStackDimensions[\ ls\ ])\), 
+            Message[Stack::badmask, dmask, dStack]; \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]theTransition = \
+\(imsTransition /. myOptions\) /. 
+              Options[imsStackPattern]; \[IndentingNewLine]top = 
+            layers[\([\(-1\)]\)]; \[IndentingNewLine]If[
+            Head[top] =!= material, \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]rest = 
+            Drop[layers, \(-1\)]; \[IndentingNewLine]d = 
+            Map[If[# \[Equal] field, {\(-thickness\), \(-thickness\)}, {0, 
+                    0}] &, List @@ m, {2}]; \[IndentingNewLine]newTop = 
+            material @@ 
+              Map[If[#[\([2]\)] < 0, {#[\([1]\)] - #[\([2]\)], 
+                      0}, #] &, \((List @@ top)\) + 
+                  d, {2}]; \[IndentingNewLine]imsStack[
+            Join[rest, {newTop}], {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Strip Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsStackStrip[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          material_, opts___?OptionQ] := 
+        Module[{pos, 
+            newLayer}, \[IndentingNewLine]pos = \(Position[ls, 
+                material[___]]\)[\([1]\)]; \[IndentingNewLine]newLayer = 
+            imsGap @@ Extract[ls, pos]; \[IndentingNewLine]ReplacePart[ls, 
+            newLayer, pos]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackStrip[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], material_, opts___?OptionQ] := 
+        Module[{pos, 
+            newLayer}, \[IndentingNewLine]pos = \(Position[ls, 
+                material[___]]\)[\([1]\)]; \[IndentingNewLine]newLayer = 
+            imsGap @@ Extract[ls, pos]; \[IndentingNewLine]ReplacePart[ls, 
+            newLayer, pos]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Reflow Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ \(2  D\  &\)\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(imsStackReflow[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          material_, opts___?OptionQ] := 
+        Module[{top, rest, zVals, newTop, dVals}, \[IndentingNewLine]top = 
+            layers[\([\(-1\)]\)]; \[IndentingNewLine]If[
+            Head[top] =!= material, \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]rest = 
+            Drop[layers, \(-1\)]; \[IndentingNewLine]zVals = \
+\((\(\((#[\([1]\)])\) &\) /@ \((List @@ 
+                    top)\))\); \[IndentingNewLine]\[IndentingNewLine]dVals = 
+            Join[{zVals[\([1]\)]}, 
+              Drop[Drop[\((RotateRight[zVals] + 2.  zVals + 
+                        RotateLeft[zVals])\)/4. , \(-1\)], 
+                1], {zVals[\([\(-1\)]\)]}]; \[IndentingNewLine]newTop = 
+            material @@ 
+              Transpose[{dVals, \((\(\((#[\([2]\)])\) &\) /@ \((List @@ 
+                            top)\))\) - \((zVals - 
+                        dVals)\)}]; \
+\[IndentingNewLine]\[IndentingNewLine]imsStack[
+            Join[rest, {newTop}], {delta, 
+              n}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackReflow[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], material_, opts___?OptionQ] := 
+        Module[{top, rest, zVals, newTop, dVals, 
+            smoothPoint}, \[IndentingNewLine]smoothPoint[v_, {i_, j_}] := 
+            Block[{}, \[IndentingNewLine]If[
+                i > 1 && j > 1 && i < nX && j < nY, 
+                Return[\((zVals[\([i - 1, j]\)] + zVals[\([i + 1, j]\)] + 
+                        4.  zVals[\([i, j]\)] + zVals[\([i, j - 1]\)] + 
+                        zVals[\([i, j + 1]\)])\)/
+                    8. ]]; \[IndentingNewLine]\[IndentingNewLine]If[
+                i == 1 && j > 1 && j < nY, 
+                Return[\((zVals[\([i + 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j - 1]\)] + zVals[\([i, j + 1]\)])\)/
+                    7. ]]; \[IndentingNewLine]If[i > 1 && j == 1 && i < nX, 
+                Return[\((zVals[\([i - 1, j]\)] + zVals[\([i + 1, j]\)] + 
+                        4.  zVals[\([i, j]\)] + zVals[\([i, j + 1]\)])\)/
+                    7. ]]; \[IndentingNewLine]If[j > 1 && i == nX && j < nY, 
+                Return[\((zVals[\([i - 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j - 1]\)] + zVals[\([i, j + 1]\)])\)/
+                    7. ]]; \[IndentingNewLine]If[i > 1 && i < nX && j == nY, 
+                Return[\((zVals[\([i - 1, j]\)] + zVals[\([i + 1, j]\)] + 
+                        4.  zVals[\([i, j]\)] + zVals[\([i, j - 1]\)])\)/
+                    7. ]]; \[IndentingNewLine]\[IndentingNewLine]If[
+                i == 1 && j == 1, 
+                Return[\((zVals[\([i + 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j + 1]\)])\)/6. ]]; \[IndentingNewLine]If[
+                i == 1 && j == nY, 
+                Return[\((zVals[\([i + 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j - 1]\)])\)/6. ]]; \[IndentingNewLine]If[
+                i \[Equal] nX && j == 1, 
+                Return[\((zVals[\([i - 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j + 1]\)])\)/6. ]]; \[IndentingNewLine]If[
+                i == nX && j == nY, 
+                Return[\((zVals[\([i - 1, j]\)] + 4.  zVals[\([i, j]\)] + 
+                        zVals[\([i, j - 1]\)])\)/
+                    6. ]]; \[IndentingNewLine]\[IndentingNewLine]Return[
+                0]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]top = 
+            layers[\([\(-1\)]\)]; \[IndentingNewLine]If[
+            Head[top] =!= material, \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \[IndentingNewLine]rest = 
+            Drop[layers, \(-1\)]; \[IndentingNewLine]zVals = 
+            Map[\((#[\([1]\)])\) &, 
+              List @@ top, {2}]; \[IndentingNewLine]dVals = 
+            MapIndexed[smoothPoint, zVals, {2}]; \[IndentingNewLine]newTop = 
+            material @@ 
+              MapThread[{#1, #2} &, {dVals, 
+                  Map[\((#[\([2]\)])\) &, 
+                      List @@ top, {2}] - \((zVals - dVals)\)}, 
+                2]; \[IndentingNewLine]\[IndentingNewLine]imsStack[
+            Join[rest, {newTop}], {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Drill Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackDrill[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          holes : {{{\((_Integer | _Real)\), \((_Integer | _Real)\)}, \
+\((_Integer | _Real)\)} .. }] := 
+        Module[{newHeights, 
+            markHole}, \
+\[IndentingNewLine]\[IndentingNewLine]markHole[{xposition_, newHeight_}, 
+              diameter_] := 
+            Block[{leftStart, rightEnd}, \[IndentingNewLine]leftStart = 
+                Max[1, Round[\((xposition - \((diameter/2. )\))\)/
+                      delta]]; \[IndentingNewLine]rightEnd = 
+                Min[n, Round[\((xposition + \((diameter/2. )\))\)/
+                      delta]]; \[IndentingNewLine]\(\((newHeights[\([#]\)] = 
+                      newHeight)\) &\) /@ 
+                Range[leftStart, 
+                  rightEnd]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]newHeights = 
+            Table[Infinity, {n}]; \[IndentingNewLine]Map[\((markHole @@ #)\) \
+&, holes]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackDrill[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], 
+          holes : {{{\((_Integer | _Real)\), \((_Integer | _Real)\), \
+\((_Integer | _Real)\)}, \((_Integer | _Real)\)} .. }] := 
+        Module[{newHeights, 
+            markHole}, \
+\[IndentingNewLine]\[IndentingNewLine]markHole[{xposition_, yposition_, 
+                newHeight_}, diameter_] := 
+            Block[{leftStart, rightEnd, frontStart, backEnd, 
+                r = diameter/2}, \[IndentingNewLine]leftStart = 
+                Max[1, Round[\((xposition - \((diameter/2. )\))\)/
+                      deltaX]]; \[IndentingNewLine]frontStart = 
+                Max[1, Round[\((yposition - \((diameter/2. )\))\)/
+                      deltaY]]; \[IndentingNewLine]rightEnd = 
+                Min[nX, 
+                  Round[\((xposition + \((diameter/2. )\))\)/
+                      deltaX]]; \[IndentingNewLine]backEnd = 
+                Min[nY, 
+                  Round[\((yposition + \((diameter/2. )\))\)/
+                      deltaY]]; \[IndentingNewLine]\[IndentingNewLine]Map[
+                If[\((N[Sqrt[\((\((#*{deltaX, deltaY})\) - {xposition, 
+                                    yposition})\) . \((\((#*{deltaX, 
+                                        deltaY})\) - {xposition, 
+                                    yposition})\)]] < 
+                        r)\), \[IndentingNewLine]newHeights[\([Sequence @@ #]\
+\)] = newHeight\[IndentingNewLine]] &, 
+                Outer[List, Range[leftStart, rightEnd], 
+                  Range[frontStart, 
+                    backEnd]], {2}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]newHeights = 
+            Table[Infinity, {nX}, {nY}]; \[IndentingNewLine]Map[\((markHole @@ \
+#)\) &, holes]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Mill Stack", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Planarize Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackPlanarize[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          newz : \((_Integer | _Real)\)] := 
+        Module[{newHeights}, \[IndentingNewLine]newHeights = 
+            Table[newz, {n}]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackPlanarize[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], newz : \((_Integer | _Real)\)] := 
+        Module[{newHeights}, \[IndentingNewLine]newHeights = 
+            Table[newz, {nX}, {nY}]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Erode Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(\(imsStackErode[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          m : imsBitMask[\((_)\) .. ], field_, 
+          newHeight : \((_Integer | _Real)\)] := 
+        Module[{newHeights, 
+            markMask}, \[IndentingNewLine]\[IndentingNewLine]markMask[
+              v_, {i_}] := 
+            Block[{}, \[IndentingNewLine]If[
+                v \[Equal] field, \[IndentingNewLine]newHeights[\([i]\)] = 
+                  newHeight\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]newHeights = 
+            Table[Infinity, {n}]; \[IndentingNewLine]MapIndexed[markMask, 
+            List @@ m]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsStackErode[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], m : imsBitMask[{\((_)\) .. } .. ], field_, 
+          newHeight : \((_Integer | _Real)\)] := 
+        Module[{newHeights, 
+            markMask}, \[IndentingNewLine]\[IndentingNewLine]markMask[
+              v_, {i_, j_}] := 
+            Block[{}, \[IndentingNewLine]If[
+                v \[Equal] field, \[IndentingNewLine]newHeights[\([i, j]\)] = 
+                  newHeight\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]newHeights = 
+            Table[Infinity, {nX}, {nY}]; \[IndentingNewLine]MapIndexed[
+            markMask, List @@ m, {2}]; \[IndentingNewLine]trimStack[ls, 
+            newHeights]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Emboss Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(\(imsStackEmboss[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          material_Symbol, slabHeight : \((_Integer | _Real)\)] := 
+        Module[{mySkyline, volume, 
+            z0}, \[IndentingNewLine]\[IndentingNewLine]mySkyline = 
+            skyline[ls]; \[IndentingNewLine]volume = 
+            Plus @@ mySkyline; \[IndentingNewLine]z0 = 
+            volume/n; \[IndentingNewLine]imsStack[{material @@ \
+\((\({slabHeight, slabHeight - \((# - z0)\)} &\) /@ mySkyline)\)}, {delta, 
+              n}]\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsStackEmboss[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], material_Symbol, 
+          slabHeight : \((_Integer | _Real)\)] := 
+        Module[{mySkyline, volume, 
+            z0}, \[IndentingNewLine]\[IndentingNewLine]mySkyline = 
+            skyline[ls]; \[IndentingNewLine]volume = 
+            Plus @@ Flatten[mySkyline]; \[IndentingNewLine]z0 = 
+            volume/\((nX\ nY)\); \[IndentingNewLine]imsStack[{material @@ \
+\((Map[{slabHeight, slabHeight - \((# - z0)\)} &, 
+                    mySkyline, {2}])\)}, {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Wet Etch Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsStackWetEtch[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          attackMaterial_Symbol, depth : \((_Integer | _Real)\), 
+          opts___?OptionQ] := 
+        Module[{myMethod, pickCellLayer, processLayer, attackLayers, top, 
+            exposedLayers, exposedLayerCellsAreTop, processedLayers, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackWetEtch, 
+                opts]}; \[IndentingNewLine]pickCellLayer[{z_, t_, l_, m_}] := 
+            l; \[IndentingNewLine]processLayer[l_] := 
+            Map[markCell[#, l] &, 
+              top, {1}]; \[IndentingNewLine]markCell[{z_, t_, l_, m_}, ll_] := 
+            If[l === ll, True, 
+              False]; \[IndentingNewLine]\[IndentingNewLine]myMethod = \
+\(imsMethod /. myOptions\) /. Options[imsStackWetEtch]; \[IndentingNewLine]If[
+            myMethod != imsKOH || 
+              attackMaterial != Silicon, \[IndentingNewLine]Message[
+              Stack::etchpair]; \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]attackLayers = 
+            Flatten[Position[imsStackMaterials[ls], 
+                attackMaterial]]; \[IndentingNewLine]\[IndentingNewLine]top = 
+            topmostLayer[
+              ls]; \[IndentingNewLine]\[IndentingNewLine]exposedLayers = 
+            Union[Flatten[
+                Map[pickCellLayer, 
+                  top, {1}]]]; \
+\[IndentingNewLine]\[IndentingNewLine]exposedLayerCellsAreTop = 
+            Map[processLayer[#] &, 
+              attackLayers]; \
+\[IndentingNewLine]\[IndentingNewLine]processedLayers = 
+            MapThread[
+              evolveLayerEtchfront[#1, #2, delta, 
+                  depth] &, {layers[\([attackLayers]\)], 
+                exposedLayerCellsAreTop}]; \[IndentingNewLine]\
+\[IndentingNewLine]newLayers = 
+            layers; \[IndentingNewLine]MapThread[\((newLayers = 
+                  ReplacePart[newLayers, #1, #2])\) &, {processedLayers, 
+              attackLayers}]; \[IndentingNewLine]\[IndentingNewLine]imsStack[
+            newLayers, {delta, 
+              n}]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackWetEtch[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], attackMaterial_Symbol, 
+          depth : \((_Integer | _Real)\), opts___?OptionQ] := 
+        Module[{myMethod, pickCellLayer, processLayer, attackLayers, top, 
+            exposedLayers, exposedLayerCellsAreTop, processedLayers, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackWetEtch, 
+                opts]}; \[IndentingNewLine]pickCellLayer[{z_, t_, l_, m_}] := 
+            l; \[IndentingNewLine]processLayer[l_] := 
+            Map[markCell[#, l] &, 
+              top, {2}]; \[IndentingNewLine]markCell[{z_, t_, l_, m_}, ll_] := 
+            If[l === ll, True, 
+              False]; \[IndentingNewLine]\[IndentingNewLine]myMethod = \
+\(imsMethod /. myOptions\) /. Options[imsStackWetEtch]; \[IndentingNewLine]If[
+            myMethod != imsKOH || 
+              attackMaterial != Silicon, \[IndentingNewLine]Message[
+              Stack::etchpair]; \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]attackLayers = 
+            Flatten[Position[imsStackMaterials[ls], 
+                attackMaterial]]; \[IndentingNewLine]\[IndentingNewLine]top = 
+            topmostLayer[
+              ls]; \[IndentingNewLine]\[IndentingNewLine]exposedLayers = 
+            Union[Flatten[
+                Map[pickCellLayer, 
+                  top, {2}]]]; \
+\[IndentingNewLine]\[IndentingNewLine]exposedLayerCellsAreTop = 
+            Map[processLayer[#] &, 
+              attackLayers]; \
+\[IndentingNewLine]\[IndentingNewLine]processedLayers = 
+            MapThread[
+              evolveLayerEtchfront[#1, #2, deltaX, 
+                  depth] &, {layers[\([attackLayers]\)], 
+                exposedLayerCellsAreTop}]; \[IndentingNewLine]\
+\[IndentingNewLine]newLayers = 
+            layers; \[IndentingNewLine]MapThread[\((newLayers = 
+                  ReplacePart[newLayers, #1, #2])\) &, {processedLayers, 
+              attackLayers}]; \[IndentingNewLine]\[IndentingNewLine]imsStack[
+            newLayers, {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Cut Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackCut[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          position_Integer] := 
+        Module[{rangeLeft, rangeRight}, \[IndentingNewLine]If[
+            position <= 1 || position >= n, \[IndentingNewLine]Message[
+              Stack::rng, position]; \[IndentingNewLine]Return[
+              ls], \[IndentingNewLine]rangeLeft = {1, 
+                position}; \[IndentingNewLine]rangeRight = {position, 
+                n}\[IndentingNewLine]]; \
+\[IndentingNewLine]{imsStack[\(\((#[\([Range @@ rangeLeft]\)])\) &\) /@ 
+                layers, {delta, position}], 
+            imsStack[\(\((#[\([Range @@ rangeRight]\)])\) &\) /@ 
+                layers, {delta, 
+                n - position + 
+                  1}]}\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackCut[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], position : \((_Integer | {_Integer})\)] := 
+        Module[{rangeLeft, rangeRight, rangeFront, 
+            rangeBack}, \[IndentingNewLine]If[
+            Head[position] === Integer, \[IndentingNewLine]If[
+              position <= 1 || position >= nX, \[IndentingNewLine]Message[
+                Stack::rng, position]; \[IndentingNewLine]Return[
+                ls], \[IndentingNewLine]rangeLeft = {1, 
+                  position}; \[IndentingNewLine]rangeRight = {position, 
+                  nX}; \[IndentingNewLine]rangeFront = {1, 
+                  nY}; \[IndentingNewLine]rangeBack = {1, 
+                  nY};\[IndentingNewLine]], \[IndentingNewLine]If[
+              position[\([1]\)] <= 1 || 
+                position[\([1]\)] >= nY, \[IndentingNewLine]Message[
+                Stack::rng, position]; \[IndentingNewLine]Return[
+                ls], \[IndentingNewLine]rangeLeft = {1, 
+                  nX}; \[IndentingNewLine]rangeRight = {1, 
+                  nX}; \[IndentingNewLine]rangeFront = {1, 
+                  position[\([1]\)]}; \[IndentingNewLine]rangeBack = \
+{position[\([1]\)], 
+                  nY};\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]{imsStack[\(\((#[\([Range @@ rangeLeft, 
+                        Range @@ rangeFront]\)])\) &\) /@ 
+                layers, {{deltaX, 
+                  rangeLeft[\([2]\)] - rangeLeft[\([1]\)] + 1}, {deltaY, 
+                  rangeFront[\([2]\)] - rangeFront[\([1]\)] + 1}}], 
+            imsStack[\(\((#[\([Range @@ rangeRight, 
+                        Range @@ rangeBack]\)])\) &\) /@ 
+                layers, {{deltaX, 
+                  rangeRight[\([2]\)] - rangeRight[\([1]\)] + 1}, {deltaY, 
+                  rangeBack[\([2]\)] - rangeBack[\([1]\)] + 
+                    1}}]}\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Bond Stacks", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackBond[
+          lsBottom : 
+            imsStack[
+              layersBottom_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          lsTop : imsStack[
+              layersTop_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{separation, minSeparation, posSeparation, gapZ, gapT, newGap, 
+            newLsTop}, \[IndentingNewLine]separation = 
+            layersSeparation[layersBottom[\([\(-1\)]\)], 
+              layersTop[\([1]\)]]; \[IndentingNewLine]minSeparation = 
+            Min[separation]; \[IndentingNewLine]posSeparation = 
+            Flatten[Position[separation, 
+                minSeparation]]; \[IndentingNewLine]If[
+            Length[posSeparation] > 
+              1, \[IndentingNewLine]gapZ = \(\((#[\([1]\)] - #[\([1]\)])\) \
+&\) /@ \((List @@ layersTop[\([1]\)])\); \[IndentingNewLine]gapT = \(\((# - 
+                      minSeparation)\) &\) /@ 
+                separation; \[IndentingNewLine]newGap = 
+              imsGap @@ \((Transpose[{gapZ, 
+                      gapT}])\); \[IndentingNewLine]newLsTop = 
+              translateStack[
+                lsTop, \(-minSeparation\)]; \[IndentingNewLine]Return[
+              imsStack[
+                Join[layersBottom, {newGap}, newLsTop[\([1]\)]], {delta, 
+                  n}]]\[IndentingNewLine]]; \[IndentingNewLine]Message[
+            Stack::touch2d]; \[IndentingNewLine]{lsBottom, 
+            lsTop}\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackBond[
+          lsBottom : 
+            imsStack[
+              layersBottom_, {deltaBottom : \((_Integer | _Real)\), 
+                nBottom_Integer}], 
+          lsTop : imsStack[
+              layersTop_, {deltaTop : \((_Integer | _Real)\), 
+                nTop_Integer}]] := 
+        Module[{}, \[IndentingNewLine]Message[
+            Stack::incom]; \[IndentingNewLine]{lsBottom, 
+            lsTop}\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsStackBond[
+          lsBottom : 
+            imsStack[
+              layersBottom_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], 
+          lsTop : imsStack[
+              layersTop_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{separation, minSeparation, posSeparation, gapZ, gapT, newGap, 
+            newLsTop}, \[IndentingNewLine]separation = 
+            layersSeparation[layersBottom[\([\(-1\)]\)], 
+              layersTop[\([1]\)]]; \[IndentingNewLine]minSeparation = 
+            Min[separation]; \[IndentingNewLine]posSeparation = 
+            Position[separation, minSeparation]; \[IndentingNewLine]If[
+            Length[posSeparation] > 2, \[IndentingNewLine]gapZ = 
+              Map[\((#[\([1]\)] - #[\([1]\)])\) &, \((List @@ 
+                    layersTop[\([1]\)])\), {2}]; \[IndentingNewLine]gapT = 
+              Map[\((# - minSeparation)\) &, 
+                separation, {2}]; \[IndentingNewLine]newGap = 
+              imsGap @@ \((MapThread[{#1, #2} &, {gapZ, gapT}, 
+                    2])\); \[IndentingNewLine]newLsTop = 
+              translateStack[
+                lsTop, \(-minSeparation\)]; \[IndentingNewLine]Return[
+              imsStack[
+                Join[layersBottom, {newGap}, 
+                  newLsTop[\([1]\)]], {{deltaX, nX}, {deltaY, 
+                    nY}}]]\[IndentingNewLine]]; \[IndentingNewLine]Message[
+            Stack::touch3d]; \[IndentingNewLine]{lsBottom, 
+            lsTop}\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackBond[
+          lsBottom : 
+            imsStack[
+              layersBottom_, {{deltaXbottom : \((_Integer | _Real)\), 
+                  nXbottom_Integer}, {deltaYbottom : \((_Integer | _Real)\), 
+                  nYbottom_Integer}}], 
+          lsTop : imsStack[
+              layersTop_, {{deltaXtop : \((_Integer | _Real)\), 
+                  nXtop_Integer}, {deltaYtop : \((_Integer | _Real)\), 
+                  nYtop_Integer}}]] := 
+        Module[{}, \[IndentingNewLine]Message[
+            Stack::incom]; \[IndentingNewLine]{lsBottom, 
+            lsTop}\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Flip Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackFlip[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{newLayers, rearrangeCells, minMaxZ, minZ = Infinity, 
+            maxZ = \(-Infinity\)}, \
+\[IndentingNewLine]\[IndentingNewLine]minMaxZ[
+              l_] := \(Block[{}, \[IndentingNewLine]If[#[\([1]\)] > maxZ, 
+                    maxZ = #[\([1]\)]]; \[IndentingNewLine]If[\((#[\([1]\)] - \
+#[\([2]\)])\) < minZ, 
+                    minZ = \((#[\([1]\)] - #[\([2]\)])\)]\[IndentingNewLine]] \
+&\) /@ l; \[IndentingNewLine]rearrangeCells[
+              l_] := \({\(-\((#[\([1]\)] - #[\([2]\)])\)\) + maxZ + 
+                    minZ, #[\([2]\)]} &\) /@ 
+              l; \[IndentingNewLine]\[IndentingNewLine]\(minMaxZ[#] &\) /@ 
+            layers; \[IndentingNewLine]newLayers = 
+            Reverse[\(Reverse[rearrangeCells[#]] &\) /@ 
+                layers]; \[IndentingNewLine]imsStack[
+            newLayers, {delta, 
+              n}]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsStackFlip[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{newLayers, rearrangeCells, minMaxZ, minZ = Infinity, 
+            maxZ = \(-Infinity\)}, \
+\[IndentingNewLine]\[IndentingNewLine]minMaxZ[l_] := 
+            Map[Block[{}, \[IndentingNewLine]If[#[\([1]\)] > maxZ, 
+                    maxZ = #[\([1]\)]]; \[IndentingNewLine]If[\((#[\([1]\)] - \
+#[\([2]\)])\) < minZ, 
+                    minZ = \((#[\([1]\)] - #[\([2]\)])\)]\[IndentingNewLine]] \
+&, l, {2}]; \[IndentingNewLine]rearrangeCells[l_] := 
+            Map[{\(-\((#[\([1]\)] - #[\([2]\)])\)\) + maxZ + 
+                    minZ, #[\([2]\)]} &, 
+              l, {2}]; \[IndentingNewLine]\[IndentingNewLine]\(minMaxZ[#] &\) \
+/@ layers; \[IndentingNewLine]\[IndentingNewLine]newLayers = 
+            Reverse[\(rearrangeCells[Reverse[#]] &\) /@ 
+                layers]; \[IndentingNewLine]imsStack[
+            newLayers, {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Rotate Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(imsStackRotate[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        imsStack[\(Reverse[#] &\) /@ layers, {delta, 
+            n}];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsStackRotate[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        imsStack[
+          Map[Reverse[#] &, \((\(\((Head[#] @@ Transpose[List @@ #])\) &\) /@ 
+                layers)\), {2}], {{deltaX, nX}, {deltaY, nY}}];\)\)}], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell["Dispense Stack", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Grow Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsStackGrow[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          attackMaterial_Symbol -> 
+            growMaterial_Symbol, {tgrow : \((_Integer | _Real)\), 
+            tconsume : \((_Integer | _Real)\), 
+            wcovered : \((_Integer | _Real)\)}] := 
+        Module[{top, pickLayer, markCell, processLayer, exposedLayers, 
+            attackLayers, layerCellsAreTop, attackLayer, makeGrowLayer, 
+            newLayers = layers, adjustHeights, 
+            downProfileRules = {}}, \[IndentingNewLine]pickCellLayer[{z_, t_, 
+                l_, m_}] := 
+            l; \[IndentingNewLine]markCell[{z_, t_, l_, m_}, ll_] := 
+            If[l === ll, True, False]; \[IndentingNewLine]processLayer[l_] := 
+            Map[markCell[#, l] &, 
+              top, {1}]; \[IndentingNewLine]\[IndentingNewLine]attackLayer[
+              l_Integer] := 
+            Block[{profile, tProfile, zProfile, 
+                dProfile}, \[IndentingNewLine]profile = 
+                paintGrid[
+                  exposedLayerCellsAreTop[\([l]\)], {delta, 3  wcovered, 
+                    tconsume \((5/2)\) 
+                        Exp[\(-\((#^2)\)\)/\((2\ wcovered^2)\)]/\((\@\(2  \
+Pi\))\) &}]; \[IndentingNewLine]If[
+                Head[newLayers[\([l]\)]] === 
+                  attackMaterial, \[IndentingNewLine]tProfile = 
+                  List @@ \((\(#[\([2]\)] &\) /@ newLayers[\([l]\)])\) - 
+                    profile; \[IndentingNewLine]zProfile = 
+                  List @@ \((\(#[\([1]\)] &\) /@ newLayers[\([l]\)])\) - 
+                    profile; \[IndentingNewLine]If[
+                  Or @@ \((\(\((# < 0)\) &\) /@ 
+                        tProfile)\), \[IndentingNewLine]dProfile = \(\((If[# \
+> 0, 0, #])\) &\) /@ tProfile; \[IndentingNewLine]downProfileRules = 
+                    Join[downProfileRules, {l \[Rule] 
+                          dProfile}]; \[IndentingNewLine]tProfile = 
+                    tProfile - dProfile; \[IndentingNewLine]zProfile = 
+                    zProfile - 
+                      dProfile;\[IndentingNewLine]]; \[IndentingNewLine]Head[
+                    newLayers[\([l]\)]] @@ 
+                  Transpose[{zProfile, 
+                      tProfile}], \[IndentingNewLine]newLayers[\([l]\)]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]makeGrowLayer[l_Integer] := 
+            Block[{profile, dProfile}, \[IndentingNewLine]If[
+                Head[newLayers[\([l]\)]] === 
+                  attackMaterial, \[IndentingNewLine]profile = 
+                  paintGrid[
+                    exposedLayerCellsAreTop[\([l]\)], {delta, 3  wcovered, 
+                      tgrow \((5/2)\) 
+                          Exp[\(-\((#^2)\)\)/\((2\ wcovered^2)\)]/\((\@\(2  \
+Pi\))\) &}]; \[IndentingNewLine]If[dProfile = \((l /. downProfileRules)\); 
+                  Head[dProfile] === List, \[IndentingNewLine]profile = 
+                    profile + \((tgrow/tconsume)\) 
+                        dProfile\[IndentingNewLine]]; \
+\[IndentingNewLine]growMaterial @@ 
+                  Transpose[{profile + 
+                        List @@ \((\(#[\([1]\)] &\) /@ newLayers[\([l]\)])\), 
+                      profile}], \[IndentingNewLine]newLayers[\([l]\)]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]adjustHeights[myLayers : {\((_)\) .. }] := 
+            Block[{d, zLast, zNew}, \[IndentingNewLine]d = 
+                Length[myLayers]; \[IndentingNewLine]zLast = \(\((#[\([1]\)])\
+\) &\) /@ \((List @@ 
+                      myLayers[\([1]\)])\); \
+\[IndentingNewLine]Join[{myLayers[\([1]\)]}, \[IndentingNewLine]Table[
+                  t = \(#[\([2]\)] &\) /@ \((List @@ myLayers[\([l]\)])\); 
+                  zNew = t + zLast; \[IndentingNewLine]zLast = 
+                    zNew; \[IndentingNewLine]Head[myLayers[\([l]\)]] @@ 
+                    Transpose[{zNew, t}], {l, 2, 
+                    d}]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]attackLayers = 
+            Flatten[Position[imsStackMaterials[ls], 
+                attackMaterial]]; \
+\[IndentingNewLine]\[IndentingNewLine]insertGrowLayer[l_] := 
+            Block[{d = Length[newLayers], botL, 
+                topL}, \[IndentingNewLine]botL = 
+                newLayers[\([Range[1, l]]\)]; \[IndentingNewLine]topL = 
+                newLayers[\([Range[l + 1, d]]\)]; \[IndentingNewLine]Join[
+                botL, {makeGrowLayer[l]}, 
+                topL]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]top = 
+            topmostLayer[
+              ls]; \[IndentingNewLine]\[IndentingNewLine]exposedLayers = 
+            Union[Map[pickCellLayer, 
+                top, {1}]]; \
+\[IndentingNewLine]\[IndentingNewLine]exposedLayerCellsAreTop = \
+\(processLayer[#] &\) /@ 
+              attackLayers; \
+\[IndentingNewLine]\[IndentingNewLine]MapThread[\((newLayers = 
+                  ReplacePart[newLayers, #1, #2])\) &, {\(attackLayer[#] &\) /@ 
+                attackLayers, 
+              
+              attackLayers}]; \
+\[IndentingNewLine]\[IndentingNewLine]\(\((newLayers = 
+                  insertGrowLayer[#])\) &\) /@ 
+            attackLayers; \[IndentingNewLine]\[IndentingNewLine]newLayers = 
+            adjustHeights[
+              newLayers]; \[IndentingNewLine]\[IndentingNewLine]imsStack[
+            newLayers, {delta, n}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackGrow[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], 
+          attackMaterial_Symbol -> 
+            growMaterial_Symbol, {tgrow : \((_Integer | _Real)\), 
+            tconsume : \((_Integer | _Real)\), 
+            wcovered : \((_Integer | _Real)\)}] := 
+        Module[{top, pickLayer, markCell, processLayer, exposedLayers, 
+            attackLayers, layerCellsAreTop, attackLayer, makeGrowLayer, 
+            newLayers = layers, adjustHeights, 
+            downProfileRules = {}}, \[IndentingNewLine]pickCellLayer[{z_, t_, 
+                l_, m_}] := 
+            l; \[IndentingNewLine]markCell[{z_, t_, l_, m_}, ll_] := 
+            If[l \[Equal] ll, True, False]; \[IndentingNewLine]processLayer[
+              l_] := Map[markCell[#, l] &, 
+              top, {2}]; \[IndentingNewLine]\[IndentingNewLine]attackLayer[
+              l_Integer] := 
+            Block[{profile, tProfile, zProfile, 
+                dProfile}, \[IndentingNewLine]profile = 
+                paintGrid[
+                  exposedLayerCellsAreTop[\([l]\)], {deltaX, deltaY, 
+                    3  wcovered, 
+                    tconsume \((5/2)\) 
+                        Exp[\(-\((#^2)\)\)/\((2\ wcovered^2)\)]/\((\@\(2  \
+Pi\))\) &}]; \[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]If[
+                Head[newLayers[\([l]\)]] === 
+                  attackMaterial, \[IndentingNewLine]tProfile = 
+                  List @@ Map[#[\([2]\)] &, 
+                        List @@ newLayers[\([l]\)], {2}] - 
+                    profile; \[IndentingNewLine]zProfile = 
+                  List @@ Map[#[\([1]\)] &, 
+                        List @@ newLayers[\([l]\)], {2}] - 
+                    profile; \[IndentingNewLine]If[
+                  Or @@ Flatten[
+                      Map[\((# < 0)\) &, 
+                        tProfile, {2}]], \[IndentingNewLine]dProfile = 
+                    Map[\((If[# > 0, 0, #])\) &, 
+                      tProfile, {2}]; \[IndentingNewLine]downProfileRules = 
+                    Join[downProfileRules, {l \[Rule] 
+                          dProfile}]; \[IndentingNewLine]tProfile = 
+                    tProfile - dProfile; \[IndentingNewLine]zProfile = 
+                    zProfile - 
+                      dProfile;\[IndentingNewLine]]; \[IndentingNewLine]Head[
+                    newLayers[\([l]\)]] @@ 
+                  MapThread[{#1, #2} &, {zProfile, tProfile}, 
+                    2], \[IndentingNewLine]newLayers[\([l]\)]\
+\[IndentingNewLine]]\[IndentingNewLine]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]makeGrowLayer[l_Integer] := 
+            Block[{profile, dProfile}, \[IndentingNewLine]If[
+                Head[newLayers[\([l]\)]] === 
+                  attackMaterial, \[IndentingNewLine]profile = 
+                  paintGrid[
+                    exposedLayerCellsAreTop[\([l]\)], {deltaX, deltaY, 
+                      3  wcovered, 
+                      tgrow \((5/2)\) 
+                          Exp[\(-\((#^2)\)\)/\((2\ wcovered^2)\)]/\((\@\(2  \
+Pi\))\) &}]; \[IndentingNewLine]\[IndentingNewLine]If[
+                  dProfile = \((l /. downProfileRules)\); 
+                  Head[dProfile] === List, \[IndentingNewLine]profile = 
+                    profile + \((tgrow/tconsume)\) 
+                        dProfile\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]growMaterial @@ 
+                  MapThread[{#1, #2} &, {profile + 
+                        List @@ \((Map[#[\([1]\)] &, 
+                              newLayers[\([l]\)], {2}])\), profile}, 
+                    2], \[IndentingNewLine]newLayers[\([l]\)]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]adjustHeights[myLayers : {\((_)\) .. }] := 
+            Block[{d, zLast, zNew}, \[IndentingNewLine]d = 
+                Length[myLayers]; \[IndentingNewLine]zLast = 
+                Map[\((#[\([1]\)])\) &, \((List @@ 
+                      myLayers[\([1]\)])\), {2}]; \
+\[IndentingNewLine]Join[{myLayers[\([1]\)]}, \[IndentingNewLine]Table[
+                  t = Map[\((#[\([2]\)])\) &, \((List @@ 
+                          myLayers[\([l]\)])\), {2}]; 
+                  zNew = t + zLast; \[IndentingNewLine]zLast = 
+                    zNew; \[IndentingNewLine]Head[myLayers[\([l]\)]] @@ 
+                    MapThread[{#1, #2} &, {zNew, t}, 2], {l, 2, 
+                    d}]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]attackLayers = 
+            Flatten[Position[imsStackMaterials[ls], 
+                attackMaterial]]; \
+\[IndentingNewLine]\[IndentingNewLine]insertGrowLayer[l_] := 
+            Block[{d = Length[newLayers], botL, 
+                topL}, \[IndentingNewLine]botL = 
+                newLayers[\([Range[1, l]]\)]; \[IndentingNewLine]topL = 
+                newLayers[\([Range[l + 1, d]]\)]; \[IndentingNewLine]Join[
+                botL, {makeGrowLayer[l]}, 
+                topL]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]top = 
+            topmostLayer[
+              ls]; \[IndentingNewLine]\[IndentingNewLine]exposedLayers = 
+            Union[Flatten[
+                Map[pickCellLayer, 
+                  
+                  top, {2}]]]; \
+\[IndentingNewLine]\[IndentingNewLine]exposedLayerCellsAreTop = 
+            Map[processLayer[#] &, 
+              attackLayers]; \[IndentingNewLine]\[IndentingNewLine]MapThread[\
+\((newLayers = ReplacePart[newLayers, #1, #2])\) &, {\(attackLayer[#] &\) /@ 
+                attackLayers, 
+              attackLayers}]; \
+\[IndentingNewLine]\[IndentingNewLine]\(\((newLayers = 
+                  insertGrowLayer[#])\) &\) /@ 
+            attackLayers; \[IndentingNewLine]\[IndentingNewLine]newLayers = 
+            adjustHeights[
+              newLayers]; \[IndentingNewLine]\[IndentingNewLine]imsStack[
+            newLayers, {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Process Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsStackProcess[steps : {{___} .. }, ls_imsStack, opts___?OptionQ] := 
+        Module[{s = ls, showSteps, allSteps, 
+            myOptions}, \[IndentingNewLine]myOptions = {FilterOptions[
+                imsStackProcess, 
+                opts]}; \[IndentingNewLine]showSteps = \(imsShowAllSteps /. 
+                myOptions\) /. 
+              Options[imsStackProcess]; \[IndentingNewLine]If[
+            showSteps, \[IndentingNewLine]allSteps = \(\((s = 
+                      ProcessStep[s, #])\) &\) /@ 
+                steps; \[IndentingNewLine]Return[
+              allSteps], \[IndentingNewLine]\(\((\(s = 
+                      ProcessStep[s, #];\))\) &\) /@ 
+              steps; \[IndentingNewLine]Return[
+              flattenStack[
+                s]]\[IndentingNewLine]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsStackProcess[
+      ls : imsStack[layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+      attackMaterial_Symbol, growMaterial_Symbol, 
+      tgrow : \((_Integer | _Real)\), tconsume : \((_Integer | _Real)\), 
+      wexposed : \((_Integer | _Real)\), 
+      wcovered : \((_Integer | _Real)\)]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Convert Mask", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ 3  D\ *) \)], "Input"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      This\ is\ redundant\ code . \ 
+          Just\ kept\ as\ \(\(reminder\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\
+\(imsGraphicsToBitMask[g_Graphics, 
+          maskRange : {{xmin : \((_Integer | _Real)\), 
+                xmax : \((_Integer | _Real)\)}, {ymin : \((_Integer | \
+_Real)\), ymax : \((_Integer | _Real)\)}}, BitsPerUnit_Integer, 
+          opts___?OptionQ] := 
+        Module[{f = OpenTemporary[], fullopts, convert, bmp, cmd}, 
+          fullopts = 
+            Join[{opts}, 
+              Options@imsGraphicsToBitMask]; \[IndentingNewLine]convert = \
+\(imsConvert /. {opts}\) /. fullopts; \[IndentingNewLine]Close[
+            f]; \[IndentingNewLine]Export[First@f, 
+            g, "\<EPS\>"]; \[IndentingNewLine]cmd = 
+            StringForm["\<sh -c '\>" <> 
+                convert <> "\< -size `2` -colors 2 -colorspace GRAY -resize \
+`2` eps:`1` bmp:`1`'\>", First@f, 
+              Replace[{Round[\((xmax - xmin)\) BitsPerUnit], 
+                  Round[\((ymax - ymin)\) BitsPerUnit]}, {{a_, 
+                      b_} \[RuleDelayed] 
+                    StringForm["\<`1`x`2`!\>", a, 
+                      b]}]]; \[IndentingNewLine]Message[Stack::convert, 
+            cmd]; \[IndentingNewLine]Run@cmd; \[IndentingNewLine]bmp = 
+            Import[First@f, "\<BMP\>"]; \[IndentingNewLine]DeleteFile[
+            First@f]; \[IndentingNewLine]imsBitMask @@ \((\((bmp /. {Graphics[
+                          Raster[a_, r1___], g1___] \[Rule] 
+                        a})\) /. {1 \[Rule] False, 
+                  0 \[Rule] True})\)];\)\)\)], "Input"],
+
+Cell[BoxData[{
+    \(\(imsGraphicsToBitMask[g_Graphics, d_, opts___?OptionQ] := 
+        imsGraphics3DToBitMask[imsToGraphics3D[g], d, 
+          opts];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsGraphics3DToBitMask[g_Graphics3D, d_, opts___?OptionQ] := 
+        Module[{vm, dims, dx, dy, nx, ny}, \[IndentingNewLine] (*\ 
+            The\ graphics\ picture\ can\ draw\ all\ over\ the\ place . \ 
+                  We\ will\ project\ the\ converted\ voxel\ picture\ onto\ \
+the\ z = 0\ plane\ *) \[IndentingNewLine]dims = \(imsPictureDimensions /. \
+{opts}\) /. Options[imsGraphics3DToBitMask]; \[IndentingNewLine]vm = 
+            imsGraphics3DToVoxel[\ Graphics3D[Flatten[{g[\([1]\)]}]]\ , 
+              d]; \[IndentingNewLine]vm = 
+            Normal[SparseArray[\(\((# \[Rule] True)\) &\) /@ 
+                  Union[\((\(Drop[\ #, \ \(-1\)\ ] &\)\  /@ \ 
+                        imsVoxelMeshData[\ vm\ ]\ )\)\ ], \ 
+                Drop[\ imsVoxelMeshDimensions[\ vm\ ], \ \(-1\)\ ], \ 
+                False\ ]\[IndentingNewLine]]; \[IndentingNewLine]If[
+            dims \[NotEqual] Automatic && VectorQ[dims] && 
+              Length[dims] \[Equal] 2 && 
+              And @@ \((\(IntegerQ[#] &\) /@ dims)\), \[IndentingNewLine]{dx, 
+                dy} = Dimension[vm]; \[IndentingNewLine]{nx, ny} = 
+              dims; \[IndentingNewLine]If[
+              nx < dx, \[IndentingNewLine]vm = 
+                Map[Drop[#, nx - dx] &, vm, 
+                  1]\[IndentingNewLine]]; \[IndentingNewLine]If[
+              nx > dx, \[IndentingNewLine]vm = 
+                Map[Join[#, Table[False, {nx - dx}]] &, vm, 
+                  1]\[IndentingNewLine]]; \[IndentingNewLine]If[
+              ny < dy, \[IndentingNewLine]vm = 
+                Drop[vm, ny - dy]\[IndentingNewLine]]; \[IndentingNewLine]If[
+              ny > dy, \[IndentingNewLine]vm = 
+                Join[vm, 
+                  Table[False, {ny - 
+                        dy}]]\[IndentingNewLine]];\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+            imsBitMask @@ Transpose[vm]]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Mesh the Stack", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsStackToNexus[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{d, uniqueNodes, checkThickness, checkLayer, numberNodes, 
+            createNodes, resolveHangingNumbers, currentLayer, nodeNumber = 0, 
+            elementNumber = 0, meshNodeNumbers, generateElement, coordinates, 
+            nodes, elements}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            The\ local\ functions\ \
+*) \[IndentingNewLine]\[IndentingNewLine]checkThickness[{z_, 
+                thickness_}, {i_}] := 
+            If[thickness > 0, True, 
+              uniqueNodes[\([currentLayer, 
+                  i]\)]]; \[IndentingNewLine]checkLayer[l_] := 
+            Block[{}, \[IndentingNewLine]currentLayer = 
+                l + 1; \[IndentingNewLine]uniqueNodes[\([currentLayer]\)] = 
+                MapIndexed[checkThickness, 
+                  List @@ 
+                    layers[\([l]\)]]\[IndentingNewLine]]; \
+\[IndentingNewLine]numberNodes[val_] := 
+            If[val \[Equal] True, \(++nodeNumber\), 
+              False]; \[IndentingNewLine]\[IndentingNewLine]\
+resolveHangingNumbers[val_, {ilayer_, jcolumn_}] := 
+            If[\(! IntegerQ[val]\), 
+              If[ilayer > 1, 
+                meshNodeNumbers[\([ilayer, jcolumn]\)] = 
+                  meshNodeNumbers[\([ilayer - 1, jcolumn]\)], 
+                meshNodeNumbers[\([ilayer, jcolumn]\)] = val], 
+              meshNodeNumbers[\([ilayer, jcolumn]\)] = 
+                val]; \[IndentingNewLine]\[IndentingNewLine]generateElements[{\
+ilayer_, jcolumn_}] := \[IndentingNewLine]Block[{n1, n2, n3, 
+                n4}, \[IndentingNewLine]If[
+                Head[layers[\([ilayer]\)]] === imsGap, 
+                Return[{{}}]]; \[IndentingNewLine]{n1, n2, n3, 
+                  n4} = {meshNodeNumbers[\([ilayer, jcolumn]\)], 
+                  meshNodeNumbers[\([ilayer, jcolumn + 1]\)], 
+                  meshNodeNumbers[\([ilayer + 1, jcolumn]\)], 
+                  meshNodeNumbers[\([ilayer + 1, 
+                      jcolumn + 
+                        1]\)]}; \[IndentingNewLine]If[\(layers[\([ilayer, 
+                        jcolumn]\)]\)[\([2]\)] > 
+                  0, \[IndentingNewLine]If[\(layers[\([ilayer, 
+                          jcolumn + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]{imsMakeTriangleLinear1DOF[\(\
+++elementNumber\), List[n1, n2, n3], {}], 
+                    imsMakeTriangleLinear1DOF[\(++elementNumber\), 
+                      List[n2, n4, 
+                        n3], {}]}, \
+\[IndentingNewLine]imsMakeTriangleLinear1DOF[\(++elementNumber\), 
+                    List[n1, n2, 
+                      n3], {}]\[IndentingNewLine]], \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]imsMakeTriangleLinear1DOF[\(\
+++elementNumber\), List[n1, n2, 
+                      n4], {}], \[IndentingNewLine]{{}}\[IndentingNewLine]]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            The\ code\ *) \[IndentingNewLine]\[IndentingNewLine]d = 
+            imsStackDepth[ls]; \[IndentingNewLine]uniqueNodes = 
+            Table[False, {d + 1}, {n}]; \[IndentingNewLine]currentLayer = 
+            1; \[IndentingNewLine]uniqueNodes[\([currentLayer]\)] = 
+            MapIndexed[checkThickness, 
+              List @@ layers[\([1]\)]]; \[IndentingNewLine]\(checkLayer[#] \
+&\) /@ Range[d]; \[IndentingNewLine]\[IndentingNewLine]meshNodeNumbers = 
+            Map[numberNodes, uniqueNodes, {2}]; \[IndentingNewLine]MapIndexed[
+            resolveHangingNumbers, 
+            meshNodeNumbers, {2}]; \
+\[IndentingNewLine]\[IndentingNewLine]elements = 
+            Flatten[Map[generateElements, 
+                Flatten[Outer[List, Range[d], Range[n - 1]], 
+                  1]]]; \[IndentingNewLine]coordinates = \
+\(\((Transpose[{Table[\((i\ delta)\), {i, 0, n - 1}], #}])\) &\) /@ 
+              Join[{MapIndexed[\((#[\([1]\)] - #[\([2]\)])\) &, 
+                    List @@ layers[\([1]\)]]}, 
+                Map[#[\([1]\)] &, 
+                  Map[\((List @@ #)\) &, 
+                    layers], {2}]]; \[IndentingNewLine]nodeCoordinateRules = 
+            Flatten[Union[
+                MapThread[\((#1 \[Rule] #2)\) &, {meshNodeNumbers, 
+                    coordinates}, 
+                  2]]]; \[IndentingNewLine]nodes = \(\((imsMakeNode[#, # /. 
+                      nodeCoordinateRules])\) &\) /@ 
+              Range[nodeNumber]; \[IndentingNewLine]imsMakeNexus[nodes, {}, 
+            elements]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackToNexus[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{d, uniqueNodes, checkThickness, checkLayer, numberNodes, 
+            createNodes, resolveHangingNumbers, currentLayer, nodeNumber = 0, 
+            elementNumber = 0, meshNodeNumbers, generateElement, coordinates, 
+            nodes, elements}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            The\ local\ functions\ \
+*) \[IndentingNewLine]\[IndentingNewLine]checkThickness[{z_, 
+                thickness_}, {i_, j_}] := 
+            If[thickness > 0, True, 
+              uniqueNodes[\([currentLayer, i, 
+                  j]\)]]; \[IndentingNewLine]checkLayer[l_] := 
+            Block[{}, \[IndentingNewLine]currentLayer = 
+                l + 1; \[IndentingNewLine]uniqueNodes[\([currentLayer]\)] = 
+                MapIndexed[checkThickness, 
+                  List @@ 
+                    layers[\([l]\)], {2}]\[IndentingNewLine]]; \
+\[IndentingNewLine]numberNodes[val_] := 
+            If[val \[Equal] True, \(++nodeNumber\), 
+              False]; \[IndentingNewLine]\[IndentingNewLine]\
+resolveHangingNumbers[val_, {ilayer_, jcolumn_, krow_}] := 
+            If[\(! IntegerQ[val]\), 
+              If[ilayer > 1, 
+                meshNodeNumbers[\([ilayer, jcolumn, krow]\)] = 
+                  meshNodeNumbers[\([ilayer - 1, jcolumn, krow]\)], 
+                meshNodeNumbers[\([ilayer, jcolumn, krow]\)] = val], 
+              meshNodeNumbers[\([ilayer, jcolumn, krow]\)] = 
+                val]; \[IndentingNewLine]\[IndentingNewLine]generateElements[{\
+ilayer_, jcolumn_, krow_}] := \[IndentingNewLine]Block[{n1, n2, n3, n4, n5, 
+                n6, n7, n8}, \[IndentingNewLine]If[
+                Head[layers[\([ilayer]\)]] === imsGap, 
+                Return[{{}}]]; \[IndentingNewLine]{n1, n2, n3, n4, n5, n6, 
+                  n7, n8} = {meshNodeNumbers[\([ilayer, jcolumn, krow]\)], 
+                  meshNodeNumbers[\([ilayer, jcolumn + 1, krow]\)], 
+                  meshNodeNumbers[\([ilayer + 1, jcolumn, krow]\)], 
+                  meshNodeNumbers[\([ilayer + 1, jcolumn + 1, krow]\)], 
+                  meshNodeNumbers[\([ilayer, jcolumn, krow + 1]\)], 
+                  meshNodeNumbers[\([ilayer, jcolumn + 1, krow + 1]\)], 
+                  meshNodeNumbers[\([ilayer + 1, jcolumn, krow + 1]\)], 
+                  meshNodeNumbers[\([ilayer + 1, jcolumn + 1, 
+                      krow + 1]\)]}; \
+\[IndentingNewLine]\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, 
+                        n3], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, 
+                        n8], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n3, n4, n8, 
+                        n2], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n3, n8, n7, n5], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n5, n3, 
+                        n8], {}]}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n6, n5, 
+                        n7], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n6, 
+                        n4], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n4, n8, n6, n7], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n7, n4, 
+                        n6], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, 
+                        
+                        n3], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, 
+                        n8], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n3, n8, n7, n5], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n5, n3, 
+                        n8], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, 
+                        n3], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, 
+                        n8], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n3, n4, n8, n2], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n5, n3, 
+                        n8], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n6, n5, 
+                        n7], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n3, n7, 
+                        n4], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n6, n4], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n7, n4, 
+                        n6], {}]}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n5, n6, 
+                        n7], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n6, n2, 
+                        n7], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n8, 
+                        n7], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n6, 
+                        n4], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n5, n1, n6, 
+                        n4], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n5, n1, n3, 
+                        n4], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, 
+                        n8], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, n8], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n4, 
+                        n8], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, 
+                        n3], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, n3], {}], 
+                    imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n7, n5, n6, 
+                        n3], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n3, 
+                        n5], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n8, 
+                        n5], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n4, 
+                        n6], {}], \
+\[IndentingNewLine]imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n6, n5, 
+                        n7], {}]}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n2, n6, n5, 
+                        n8], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n5, 
+                        n3], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n2, n6, 
+                        n4], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[\(layers[\([ilayer, jcolumn, krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow]\)]\)[\([2]\)] == 
+                    0 && \(layers[\([ilayer, jcolumn, 
+                          krow + 1]\)]\)[\([2]\)] > 
+                    0 && \(layers[\([ilayer, jcolumn + 1, 
+                          krow + 1]\)]\)[\([2]\)] == 
+                    0, \[IndentingNewLine]Return[{\
+imsMakeTetrahedronLinear1DOF[\(++elementNumber\), 
+                      List[n1, n6, n5, 
+                        n7], {}]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[{{}}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            The\ code\ *) \[IndentingNewLine]\[IndentingNewLine]d = 
+            imsStackDepth[ls]; \[IndentingNewLine]uniqueNodes = 
+            Table[False, {d + 
+                  1}, {nX}, {nY}]; \[IndentingNewLine]currentLayer = 
+            1; \[IndentingNewLine]uniqueNodes[\([currentLayer]\)] = 
+            MapIndexed[checkThickness, 
+              List @@ layers[\([1]\)], {2}]; \[IndentingNewLine]Map[
+            checkLayer[#] &, 
+            Range[d]]; \[IndentingNewLine]\[IndentingNewLine]meshNodeNumbers \
+= Map[numberNodes, uniqueNodes, {3}]; \[IndentingNewLine]MapIndexed[
+            resolveHangingNumbers, 
+            meshNodeNumbers, {3}]; \
+\[IndentingNewLine]\[IndentingNewLine]elements = 
+            Flatten[Map[generateElements, 
+                Flatten[Outer[List, Range[d], Range[nX - 1], Range[nY - 1]], 
+                  2]]]; \[IndentingNewLine]coordinates = \
+\[IndentingNewLine]\(MapThread[
+                  Join, {Outer[List, Table[\((i\ deltaX)\), {i, 0, nX - 1}], 
+                      Table[\((i\ deltaY)\), {i, 0, nY - 1}]], #}, 
+                  2] &\) /@ \((Map[{#} &, 
+                  Join[{MapIndexed[\((#[\([1]\)] - #[\([2]\)])\) &, 
+                        List @@ layers[\([1]\)], {2}]}, 
+                    Map[#[\([1]\)] &, 
+                      Map[\((List @@ #)\) &, 
+                        layers], {3}]], {3}])\); \[IndentingNewLine]\
+\[IndentingNewLine]nodeCoordinateRules = 
+            Flatten[Union[
+                MapThread[\((#1 \[Rule] #2)\) &, {meshNodeNumbers, 
+                    coordinates}, 
+                  3]]]; \[IndentingNewLine]nodes = \(\((imsMakeNode[#, # /. 
+                      nodeCoordinateRules])\) &\) /@ 
+              Range[nodeNumber]; \
+\[IndentingNewLine]\[IndentingNewLine]imsMakeNexus[nodes, {}, 
+            elements]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["DomainMesh the Stack", "Subsubsection"],
+
+Cell["\<\
+Design decisions:
+1. Each layer is a unique imsDomainSegment
+2. Each imsGap is a unique imsDomainHoleSegment
+3. Only the Stack outer boundaries form the exteriour nodes
+4. WARNING: a simple indentation formed by an imsGap is output as a hole! \
+Logically this is no contradiction, but some mesh generators may have a \
+problem\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(imsStackToDomainNexus[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{nodes, layerToSegments, topCoords, botCoords, 
+            layerThickness}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            local\ functions\ *) \[IndentingNewLine]layerToSegments[l_] := 
+            Module[{h, newL}, \[IndentingNewLine]h = 
+                Head[l]; \[IndentingNewLine]newL = 
+                List @@ Split[
+                    h @@ MapIndexed[\((Join[{\((#2[\([1]\)] - 1)\) 
+                                  delta}, #1])\) &, \((List @@ 
+                            l)\)], \((\((#1[\([\(-1\)]\)] \[NotEqual] 
+                                0 && #2[\([\(-1\)]\)] \[NotEqual] 
+                                0)\) || \((#1[\([\(-1\)]\)] == 
+                                0 && #2[\([\(-1\)]\)] == 
+                                0)\))\) &]\[IndentingNewLine]]; \
+\[IndentingNewLine]topCoords[l_] := 
+            List @@ \((\(#[\([1]\)] &\) /@ l)\); \[IndentingNewLine]botCoords[
+              l_] := List @@ \((\(\((#[\([1]\)] - #[\([2]\)])\) &\) /@ 
+                  l)\); \[IndentingNewLine]layerThickness[l_] := 
+            List @@ \((\(#[\([2]\)] &\) /@ 
+                  l)\); \[IndentingNewLine]\[IndentingNewLine]t = 
+            Drop[\(topCoords[#] &\) /@ layers, 1]; \[IndentingNewLine]b = 
+            Drop[\(botCoords[#] &\) /@ 
+                layers, \(-1\)]; \[IndentingNewLine]h = \(layerThickness[#] &\
+\) /@ layers; \[IndentingNewLine]\[IndentingNewLine]Print[
+            t]; \[IndentingNewLine]Print[
+            MapThread[\((#1 - #2)\) &, {t, 
+                b}]]; \[IndentingNewLine]\[IndentingNewLine]\(layerToSegments[\
+#] &\) /@ layers\[IndentingNewLine] (*imsMakeNexus[nodes, {}, 
+              elements]*) \[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsStackToDomainNexus[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{}, \[IndentingNewLine]\[IndentingNewLine]imsMakeNexus[
+            nodes, {}, elements]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Private Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Process a step", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ imsDeposit, \ imsPattern, \ imsReflow, \ imsStrip, \ imsDrill, \ 
+      imsMill, \ imsPlanarize, \ imsErode, \ imsEmboss, \ imsWetEtch, \ 
+      imsGrow, \ imsCut, \ imsBond, \ imsFlip, \ imsRotate, \ 
+      imsDispense\ *) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(ProcessStep[
+          ls_imsStack, {imsDeposit, material_Symbol, 
+            thickness : \((_Integer | _Real)\)}] := 
+        imsStackDeposit[ls, material, 
+          thickness];\)\[IndentingNewLine]\), "\n", 
+    \(\(ProcessStep[
+          ls_imsStack, {imsPattern, material_Symbol, 
+            thickness : \((_Integer | _Real)\), mask_imsBitMask, 
+            field_Symbol}] := 
+        imsStackPattern[ls, material, thickness, mask, 
+          field];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsReflow, material_Symbol}] := 
+        imsStackReflow[ls, 
+          material];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsStrip, material_Symbol}] := 
+        imsStackStrip[ls, 
+          material];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsDrill, holes : {{__} .. }}] := 
+        imsStackDrill[ls, 
+          holes];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsMill, paths : {{__} .. }}] := 
+        imsStackMill[ls, 
+          paths];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsPlanarize, depth_}] := 
+        imsStackPlanarize[ls, 
+          depth];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[
+          ls_imsStack, {imsErode, mask_imsBitMask, field_, depth_}] := 
+        imsStackErode[ls, mask, field, 
+          depth];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[
+          ls_imsStack, {imsEmboss, material_Symbol, 
+            slicethickness : \((_Integer | _Real)\)}] := 
+        imsStackEmboss[ls, material, 
+          slicethickness];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[
+          ls_imsStack, {imsWetEtch, material_Symbol, 
+            depth : \((_Integer | _Real)\)}] := 
+        imsStackWetEtch[ls, material, 
+          depth];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[
+          ls_imsStack, {imsGrow, 
+            attackMaterial_Symbol -> 
+              growMaterial_Symbol, {tgrow : \((_Integer | _Real)\), 
+              tconsume : \((_Integer | _Real)\), 
+              wcovered : \((_Integer | _Real)\)}}] := 
+        imsStackGrow[ls, 
+          attackMaterial -> growMaterial, {tgrow, tconsume, 
+            wcovered}];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsCut, position_Integer}] := 
+        imsStackCut[ls, 
+          position];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[lsBottom_imsStack, {imsBond, lstop_imsStack}] := 
+        imsStackBond[lsBottom, 
+          lstop];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsFlip}] := 
+        imsStackFlip[ls];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsRotate}] := 
+        imsStackRotate[ls];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(ProcessStep[ls_imsStack, {imsDispense, data_List}] := 
+        imsDispenseStack[ls, material, data];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Extract the Skyline of a Layer Stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(skyline[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), 
+                n_Integer}]] := \[IndentingNewLine]Module[{processSite, 
+            layerDepth = 
+              Length[layers]}, \
+\[IndentingNewLine]\[IndentingNewLine]processSite[i_Integer] := 
+            Block[{height = layerDepth, z, t}, \[IndentingNewLine]While[
+                height > 
+                  0, \[IndentingNewLine]{z, 
+                    t} = \((List @@ \((layers[\([height]\)])\))\)[\([i]\)]; \
+\[IndentingNewLine]If[
+                  t \[Equal] 
+                    0, \[IndentingNewLine]\(--height\), \
+\[IndentingNewLine]Return[
+                    z]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+                0]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]\(processSite[#] &\) /@ 
+            Range[n]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(skyline[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := \[IndentingNewLine]Module[{processSite, 
+            layerDepth = 
+              Length[layers]}, \
+\[IndentingNewLine]\[IndentingNewLine]processSite[{i_Integer, j_Integer}] := 
+            Block[{height = layerDepth, z, t}, \[IndentingNewLine]While[
+                height > 
+                  0, \[IndentingNewLine]{z, 
+                    t} = \((List @@ \((layers[\([height]\)])\))\)[\([i, 
+                      j]\)]; \[IndentingNewLine]If[
+                  t \[Equal] 
+                    0, \[IndentingNewLine]\(--height\), \
+\[IndentingNewLine]Return[
+                    z]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+                0]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Map[processSite, 
+            Outer[List, Range[nX], 
+              Range[nY]], {2}]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Flatten a stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(flattenStack[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{height = Length[layers], processSite, currentLayer, nz, 
+            nt}, \[IndentingNewLine]processSite[{z_, 
+                t_}, {m_Integer}] := \[IndentingNewLine]If[\((t == 
+                      0)\) && \((layers[\([currentLayer, m + 1, 2]\)] == 
+                      0)\) && \((layers[\([currentLayer, m - 1, 2]\)] == 
+                      0)\), \[IndentingNewLine]{layers[\([currentLayer - 1, 
+                      m, 1]\)], 0}, \[IndentingNewLine]{z, 
+                  t}\[IndentingNewLine]] /; \((m > 1 && 
+                  m < n)\); \[IndentingNewLine]processSite[{z_, 
+                t_}, {m_Integer}] := \[IndentingNewLine]If[\((t == 
+                      0)\) && \((layers[\([currentLayer, m + 1, 2]\)] == 
+                      0)\), \[IndentingNewLine]{layers[\([currentLayer - 1, 
+                      m, 1]\)], 0}, \[IndentingNewLine]{z, 
+                  t}\[IndentingNewLine]] /; \((m == 
+                  1)\); \[IndentingNewLine]processSite[{z_, 
+                t_}, {m_Integer}] := \[IndentingNewLine]If[\((t == 
+                      0)\) && \((layers[\([currentLayer, m - 1, 2]\)] == 
+                      0)\), \[IndentingNewLine]{layers[\([currentLayer - 1, 
+                      m, 1]\)], 0}, \[IndentingNewLine]{z, 
+                  t}\[IndentingNewLine]] /; \((m == 
+                  n)\); \[IndentingNewLine]imsStack[
+            Join[{layers[\([1]\)]}, 
+              Table[MapIndexed[processSite, 
+                  layers[\([currentLayer]\)]], {currentLayer, 2, 
+                  height}]], {delta, 
+              n}]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(flattenStack[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := ls;\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Drop empty layers from stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(dropEmptyLayersFromStack[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{newLayers}, \
+\[IndentingNewLine]\[IndentingNewLine]processSite[{z_, 
+                t_}] := \[IndentingNewLine]If[\((t == 
+                  0)\), \[IndentingNewLine]True, \[IndentingNewLine]False\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Drop\ the\ collapsed\ layers\ *) \[IndentingNewLine]newLayers = 
+            Drop[layers, 
+              Flatten[Position[\(\((And @@ Map[processSite, #])\) &\) /@ 
+                    layers, 
+                  True]]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Drop\ any\ top\ imsGap\ \(layer : \ 
+                there\ may\ be\ many\ of\ \(them!\)\)\ \
+*) \[IndentingNewLine]While[
+            Length[newLayers] > 0 && 
+              Head[newLayers[\([\(-1\)]\)]] \[Equal] 
+                imsGap, \[IndentingNewLine]newLayers = 
+              Drop[newLayers, \(-1\)]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+            Length[newLayers] \[Equal] 0, \[IndentingNewLine]Message[
+              Stack::mt]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]imsStack[
+            newLayers, {delta, 
+              n}]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(dropEmptyLayersFromStack[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{height = Length[layers], processSite, currentLayer, nz, 
+            nt}, \[IndentingNewLine]\[IndentingNewLine]processSite[{z_, 
+                t_}] := \[IndentingNewLine]If[\((t == 
+                  0)\), \[IndentingNewLine]True, \[IndentingNewLine]False\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Drop\ the\ collapsed\ layers\ *) \[IndentingNewLine]newLayers = 
+            Drop[layers, 
+              Flatten[Position[\(\((And @@ 
+                          Flatten[List @@ Map[processSite, #, {2}]])\) &\) /@ 
+                    layers, 
+                  True]]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Drop\ any\ top\ imsGap\ \(layer : \ 
+                there\ may\ be\ many\ of\ \(them!\)\)\ \
+*) \[IndentingNewLine]While[
+            Length[newLayers] > 0 && 
+              Head[newLayers[\([\(-1\)]\)]] \[Equal] 
+                imsGap, \[IndentingNewLine]newLayers = 
+              Drop[newLayers, \(-1\)]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+            Length[newLayers] \[Equal] 0, \[IndentingNewLine]Message[
+              Stack::mt]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]imsStack[
+            newLayers, {{deltaX, nX}, {deltaY, 
+                nY}}]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Grow a grid", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(\(growGrid[g : {\((_)\) .. }, delta_, thickness_] := 
+        Module[{myCircle, n, m, addCircle, 
+            newGrid}, \[IndentingNewLine]newGrid = g; \[IndentingNewLine]m = 
+            Length[g]; \[IndentingNewLine]n = 
+            Floor[thickness/
+                delta]; \[IndentingNewLine]\[IndentingNewLine]addCircle[
+              z_, {i_}] := 
+            Block[{minG, minC, maxG, maxC, zTest, j, 
+                k}, \[IndentingNewLine]minC = 
+                Max[1, n - i + 1]; \[IndentingNewLine]maxC = 
+                Min[2  n - 1, \((m - i + n)\)]; \[IndentingNewLine]minG = 
+                Max[1, i - n + 1]; \[IndentingNewLine]maxG = 
+                Min[i + n, m]; \[IndentingNewLine]j = 
+                minC; \[IndentingNewLine]k = minG; \[IndentingNewLine]While[
+                j <= maxC, \[IndentingNewLine]zTest = \((z + 
+                      myCircle[\([j]\)])\); \[IndentingNewLine]If[
+                  newGrid[\([k]\)] < 
+                    zTest, \[IndentingNewLine]newGrid[\([k]\)] = 
+                    zTest\[IndentingNewLine]]; \[IndentingNewLine]\(++j\); \
+\[IndentingNewLine]\(++k\)\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+            n > 0, \[IndentingNewLine]myCircle = 
+              Table[Sqrt[thickness^2 - \((\((n - i)\) delta)\)^2] // N, {i, 
+                  1, 2  n - 1}]; \[IndentingNewLine]MapIndexed[addCircle, 
+              g], \[IndentingNewLine]\(newGrid = \(\((# + thickness)\) &\) /@ 
+                  g;\)\[IndentingNewLine]]; \[IndentingNewLine]newGrid\
+\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(growGrid[g : {{\((_)\) .. } .. }, deltaX_, deltaY_, thickness_] := 
+        Module[{mySphere, n, m, p, q, addSphere, 
+            newGrid}, \[IndentingNewLine]newGrid = g; \[IndentingNewLine]m = 
+            Length[g]; \[IndentingNewLine]n = 
+            Length[g[\([1]\)]]; \[IndentingNewLine]p = 
+            Floor[thickness/deltaX]; \[IndentingNewLine]q = 
+            Floor[thickness/
+                deltaY]; \[IndentingNewLine]\[IndentingNewLine]addSphere[
+              z_, {i_, j_}] := 
+            Block[{minGX, minCX, maxGX, maxCX, minGY, minCY, maxGY, maxCY, 
+                zTest, l, k, r, 
+                s}, \[IndentingNewLine]\[IndentingNewLine]minCX = 
+                Max[1, p - i + 1]; \[IndentingNewLine]maxCX = 
+                Min[2  p - 1, \((m - i + p)\)]; \[IndentingNewLine]minGX = 
+                Max[1, i - p + 1]; \[IndentingNewLine]maxGX = 
+                Min[i + p, m]; \[IndentingNewLine]\[IndentingNewLine]minCY = 
+                Max[1, q - j + 1]; \[IndentingNewLine]maxCY = 
+                Min[2  q - 1, \((n - j + q)\)]; \[IndentingNewLine]minGY = 
+                Max[1, j - q + 1]; \[IndentingNewLine]maxGY = 
+                Min[j + q, n]; \[IndentingNewLine]\[IndentingNewLine]l = 
+                minCX; \[IndentingNewLine]k = minGX; \[IndentingNewLine]While[
+                l <= maxCX, \[IndentingNewLine]r = 
+                  minCY; \[IndentingNewLine]s = 
+                  minGY; \[IndentingNewLine]While[
+                  r <= maxCY, \[IndentingNewLine]zTest = \((z + 
+                        mySphere[\([l, r]\)])\); \[IndentingNewLine]If[
+                    newGrid[\([k, s]\)] < 
+                      zTest, \[IndentingNewLine]newGrid[\([k, s]\)] = 
+                      zTest\[IndentingNewLine]]; \[IndentingNewLine]\(++r\); \
+\[IndentingNewLine]\(++s\)\[IndentingNewLine]]; \[IndentingNewLine]\(++l\); \
+\[IndentingNewLine]\(++k\)\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+            p == 0 || q \[Equal] 0, \[IndentingNewLine]mySphere = 
+              Table[If[\((rr = 
+                        N[thickness^2 - \((\((p - i)\) 
+                                  deltaX)\)^2 - \((\((q - j)\) 
+                                  deltaY)\)^2])\) < 0, 0, Sqrt[rr]], {i, 1, 
+                  2  p - 1}, {j, 1, 
+                  2  q - 1}]; \
+\[IndentingNewLine]\[IndentingNewLine]MapIndexed[addSphere, g, 
+              2], \[IndentingNewLine]\(newGrid = 
+                Map[\((# + thickness)\) &, 
+                  g, {2}];\)\[IndentingNewLine]]; \[IndentingNewLine]newGrid\
+\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Paint a grid", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(paintGrid[
+          g : {\((_Symbol)\) .. }, {delta_?NumericQ, radius_?NumericQ, 
+            brushForm_Function}] := 
+        Module[{myBrush, n, m, addBrush, newGrid}, \[IndentingNewLine]m = 
+            Length[g]; \[IndentingNewLine]newGrid = 
+            Table[0, {m}]; \[IndentingNewLine]n = 
+            Floor[radius/
+                delta]; \[IndentingNewLine]\[IndentingNewLine]addBrush[
+              z_, {i_}] := 
+            Block[{minG, minC, maxG, maxC, zTest, j, 
+                k}, \[IndentingNewLine]If[
+                z, \[IndentingNewLine]minC = 
+                  Max[1, n - i + 1]; \[IndentingNewLine]maxC = 
+                  Min[2  n - 1, \((m - i + n)\)]; \[IndentingNewLine]minG = 
+                  Max[1, i - n + 1]; \[IndentingNewLine]maxG = 
+                  Min[i + n, m]; \[IndentingNewLine]j = 
+                  minC; \[IndentingNewLine]k = minG; \[IndentingNewLine]While[
+                  j <= maxC, \[IndentingNewLine]zTest = \
+\((myBrush[\([j]\)])\); \[IndentingNewLine]If[
+                    newGrid[\([k]\)] < 
+                      zTest, \[IndentingNewLine]newGrid[\([k]\)] = 
+                      zTest\[IndentingNewLine]]; \[IndentingNewLine]\(++j\); \
+\[IndentingNewLine]\(++k\)\[IndentingNewLine]]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]If[
+            n > 0, \[IndentingNewLine]myBrush = 
+              Table[brushForm[\((n - i)\) delta] // N, {i, 1, 
+                  2  n - 1}]; \[IndentingNewLine]MapIndexed[addBrush, 
+              g], \[IndentingNewLine]\(newGrid = \(\((# + 
+                        brushForm[0])\) &\) /@ 
+                  newGrid;\)\[IndentingNewLine]]; \[IndentingNewLine]newGrid\
+\[IndentingNewLine]];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(paintGrid[
+          g : {{\((_Symbol)\) .. } .. }, {deltaX_?NumericQ, deltaY_?NumericQ, 
+            radius_?NumericQ, brushForm_Function}] := 
+        Module[{myBrush, n, m, p, q, addBrush, 
+            newGrid}, \[IndentingNewLine]m = 
+            Length[g]; \[IndentingNewLine]n = 
+            Length[g[\([1]\)]]; \[IndentingNewLine]newGrid = 
+            Table[0, {m}, {n}]; \[IndentingNewLine]p = 
+            Floor[radius/deltaX]; \[IndentingNewLine]q = 
+            Floor[radius/
+                deltaY]; \[IndentingNewLine]\[IndentingNewLine]addBrush[
+              z_, {i_, j_}] := 
+            Block[{minGX, minCX, maxGX, maxCX, minGY, minCY, maxGY, maxCY, 
+                zTest, l, k, r, s}, \[IndentingNewLine]\[IndentingNewLine]If[
+                z, \[IndentingNewLine]minCX = 
+                  Max[1, p - i + 1]; \[IndentingNewLine]maxCX = 
+                  Min[2  p - 1, \((m - i + p)\)]; \[IndentingNewLine]minGX = 
+                  Max[1, i - p + 1]; \[IndentingNewLine]maxGX = 
+                  Min[i + p, 
+                    m]; \[IndentingNewLine]\[IndentingNewLine]minCY = 
+                  Max[1, q - j + 1]; \[IndentingNewLine]maxCY = 
+                  Min[2  q - 1, \((n - j + q)\)]; \[IndentingNewLine]minGY = 
+                  Max[1, j - q + 1]; \[IndentingNewLine]maxGY = 
+                  Min[j + q, n]; \[IndentingNewLine]\[IndentingNewLine]l = 
+                  minCX; \[IndentingNewLine]k = 
+                  minGX; \[IndentingNewLine]While[
+                  l <= maxCX, \[IndentingNewLine]r = 
+                    minCY; \[IndentingNewLine]s = 
+                    minGY; \[IndentingNewLine]While[
+                    r <= maxCY, \[IndentingNewLine]zTest = \((myBrush[\([l, 
+                            r]\)])\); \[IndentingNewLine]If[
+                      newGrid[\([k, s]\)] < 
+                        zTest, \[IndentingNewLine]newGrid[\([k, s]\)] = 
+                        zTest\[IndentingNewLine]]; \
+\[IndentingNewLine]\(++r\); \[IndentingNewLine]\(++s\)\[IndentingNewLine]]; \
+\[IndentingNewLine]\(++l\); \[IndentingNewLine]\(++k\)\[IndentingNewLine]]\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[
+            p > 0 || q > 0, \[IndentingNewLine]myBrush = 
+              Table[N[brushForm[\@\(\((\((p - i)\) deltaX)\)^2 + \((\((q - j)\
+\) deltaY)\)^2\)]], {i, 1, 2  p - 1}, {j, 1, 
+                  2  q - 1}]; \
+\[IndentingNewLine]\[IndentingNewLine]MapIndexed[addBrush, g, 
+              2], \[IndentingNewLine]\(newGrid = 
+                Map[\((# + N[brushForm[0]])\) &, 
+                  newGrid, {2}];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]newGrid\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Trim a stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(trimStack[\ 
+          st : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          newHeights : {\((_)\) .. }] := 
+        Module[{nlayers, newLayers, 
+            processSite}, \
+\[IndentingNewLine]\[IndentingNewLine]processSite[{z_, t_}, {i_}] := 
+            Block[{znew = newHeights[\([i]\)], tnew}, \[IndentingNewLine]If[
+                znew \[Equal] Infinity || znew \[GreaterEqual] z, 
+                Return[{z, t}]]; \[IndentingNewLine]If[
+                znew < z, \[IndentingNewLine]If[\((tnew = 
+                          t - \((z - znew)\))\) > t || 
+                    tnew < 0, \[IndentingNewLine]Return[{z - t, 
+                      0}], \[IndentingNewLine]Return[{znew, 
+                      tnew}]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[{0, 
+                  0}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]nlayers = Length[layers]; \[IndentingNewLine]Return[
+            imsStack[
+              Table[MapIndexed[processSite, layers[\([l]\)]], {l, 1, 
+                  nlayers}], {delta, 
+                n}]]\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(trimStack[\ 
+          st : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], newHeights : {{\((_)\) .. } .. }] := 
+        Module[{nlayers, newLayers, 
+            processSite}, \
+\[IndentingNewLine]\[IndentingNewLine]processSite[{z_, t_}, {i_, j_}] := 
+            Block[{znew = newHeights[\([i, j]\)], 
+                tnew}, \[IndentingNewLine]If[
+                znew \[Equal] Infinity || znew \[GreaterEqual] z, 
+                Return[{z, t}]]; \[IndentingNewLine]If[
+                znew < z, \[IndentingNewLine]If[\((tnew = 
+                          t - \((z - znew)\))\) > t || 
+                    tnew < 0, \[IndentingNewLine]Return[{z - t, 
+                      0}], \[IndentingNewLine]Return[{znew, 
+                      tnew}]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[{0, 
+                  0}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]nlayers = Length[layers]; \[IndentingNewLine]Return[
+            imsStack[
+              Table[MapIndexed[processSite, layers[\([l]\)], {2}], {l, 1, 
+                  nlayers}], {{deltaX, nX}, {deltaY, 
+                  nY}}]]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Insert layers into a stack", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(insertLayers[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          newLayers_List, positions : {\((_Integer)\) .. }] := 
+        Module[{}, \[IndentingNewLine]If[\(! And @@ \((\(\((Length[#] \
+\[Equal] n)\) &\) /@ newLayers)\)\) || 
+              Length[newLayers] \[NotEqual] Length[positions] || 
+              Max[positions] > imsStackDepth[ls], \[IndentingNewLine]Return[
+              ls]\[IndentingNewLine]]\[IndentingNewLine]];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Interlayer separation", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(layersSeparation[bottomLayer_, topLayer_] := 
+        Module[{tl, bl}, \[IndentingNewLine]tl = List @@ topLayer; 
+          bl = List @@ bottomLayer; \[IndentingNewLine]If[
+            Depth[tl] \[Equal] 3, \[IndentingNewLine]Return[
+              Map[\((#[\([1]\)] - #[\([2]\)])\) &, tl] - 
+                Map[\((#[\([1]\)])\) &, 
+                  bl]]\[IndentingNewLine]]; \[IndentingNewLine]If[
+            Depth[tl] \[Equal] 4, \[IndentingNewLine]Return[
+              Map[\((#[\([1]\)] - #[\([2]\)])\) &, tl, {2}] - 
+                Map[\((#[\([1]\)])\) &, 
+                  bl, {2}]]\[IndentingNewLine]]; \[IndentingNewLine]{}\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Translate a stack", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(translateStack[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}], 
+          deltaZ : \((_Integer | _Real)\)] := 
+        imsStack[
+          Map[{#[\([1]\)] + deltaZ, #[\([2]\)]} &, layers, {2}], {delta, 
+            n}];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(translateStack[
+          ls : imsStack[
+              layers_, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}], deltaZ : \((_Integer | _Real)\)] := 
+        imsStack[
+          Map[{#[\([1]\)] + deltaZ, #[\([2]\)]} &, 
+            layers, {3}], {{deltaX, nX}, {deltaY, nY}}];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Silicon Etching Parameters", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(EtchAngle[Silicon, 100, 
+          KOH] = \((54.7\ Pi/
+              180. )\);\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(EtchStep[horizontalStep_] := 
+        Tan[EtchAngle[Silicon, 100, KOH]]*horizontalStep;\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Evolve Etchfront", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(\(maxdepth = 0;\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(evolveLayerEtchfront[l_, mask : {\((_Symbol)\) .. }, delta_, 
+          howDeep_] := 
+        Module[{etchFront, maskCell, deltaZ, digitizeZ, 
+            trimFront}, \[IndentingNewLine]\[IndentingNewLine]digitizeZ[z_] := 
+            Round[N[z/deltaZ]]; \[IndentingNewLine]normalizeZ[d_] := 
+            N[d*deltaZ]; \[IndentingNewLine]maskCell[
+              c : \((_MaskCell | _FreeCell)\), {i_}] := 
+            Module[{}, \[IndentingNewLine]If[
+                mask[\([i]\)], \[IndentingNewLine]c, \
+\[IndentingNewLine]MaskCell @@ 
+                  c\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]trimFront[newZ_, {oldZ_, oldT_}] := 
+            If[newZ < \((oldZ - oldT)\), \[IndentingNewLine]{oldZ - oldT, 
+                0}, {newZ, 
+                oldT - \((oldZ - 
+                      newZ)\)}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]deltaZ = EtchStep[delta]; \[IndentingNewLine]maxdepth = 
+            digitizeZ[
+              howDeep]; \[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            MapIndexed[maskCell, 
+              Map[FreeCell[digitizeZ[#[\([1]\)]]] &, \((List @@ 
+                    l)\)]]; \[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            Map[normalizeZ[#[\([1]\)]] &, 
+              Nest[evolveArray, etchFront, 
+                2  digitizeZ[
+                    howDeep]]]; \
+\[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            MapThread[
+              trimFront[#1, #2] &, {etchFront, 
+                List @@ l}]; \[IndentingNewLine]\[IndentingNewLine]Head[l] @@ 
+            etchFront\ \[IndentingNewLine]\[IndentingNewLine]];\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(evolveLayerEtchfront[l_, mask : {{\((_Symbol)\) .. } .. }, delta_, 
+          howDeep_] := 
+        Module[{etchFront, maskCell, deltaZ, digitizeZ, 
+            trimFront}, \[IndentingNewLine]\[IndentingNewLine]digitizeZ[z_] := 
+            Round[N[z/deltaZ]]; \[IndentingNewLine]normalizeZ[d_] := 
+            N[d*deltaZ]; \[IndentingNewLine]\[IndentingNewLine]maskCell[
+              c : \((_MaskCell | _FreeCell)\), {i_, j_}] := 
+            Module[{}, \[IndentingNewLine]If[
+                mask[\([i, 
+                    j]\)], \[IndentingNewLine]c, \[IndentingNewLine]MaskCell @@ 
+                  c\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]trimFront[newZ_, {oldZ_, oldT_}] := 
+            If[newZ < \((oldZ - oldT)\), \[IndentingNewLine]{oldZ - oldT, 
+                0}, {newZ, 
+                oldT - \((oldZ - 
+                      newZ)\)}\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]deltaZ = EtchStep[delta]; \[IndentingNewLine]maxdepth = 
+            digitizeZ[
+              howDeep]; \[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            MapIndexed[maskCell, 
+              Map[FreeCell[digitizeZ[#[\([1]\)]]] &, \((List @@ 
+                    l)\), {2}], {2}]; \
+\[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            Map[normalizeZ[#[\([1]\)]] &, 
+              Nest[evolveArray, etchFront, 
+                2  digitizeZ[
+                    howDeep]], {2}]; \
+\[IndentingNewLine]\[IndentingNewLine]etchFront = 
+            MapThread[trimFront[#1, #2] &, {etchFront, List @@ l}, 
+              2]; \[IndentingNewLine]\[IndentingNewLine]Head[l] @@ 
+            etchFront\ \[IndentingNewLine]\[IndentingNewLine]];\)\), "\
+\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(evolveArray[myArray : {\((_FreeCell | _MaskCell)\) .. }] := 
+        Module[{createEntryArray, etchRules, 
+            m}, \[IndentingNewLine]\[IndentingNewLine]m = 
+            Length[myArray]; \[IndentingNewLine]\[IndentingNewLine]etchRules \
+= {\[IndentingNewLine]{a_, b_, c_} /; 
+                  Block[{}, \((\((a[\([1]\)] \[Equal] \((b[\([1]\)] + 
+                                1)\))\) && \((\((c[\([1]\)])\) \[Equal] \
+\((\((b[\([1]\)])\) - 1)\))\))\)] \[Rule] \((b)\),  (*\ 
+                left\ wall\ *) \[IndentingNewLine]{a_, b_, c_} /; 
+                  Block[{}, \((\((\((a[\([1]\)])\) \[Equal] \((\((b[\([1]\)])\
+\) - 1)\))\) && \((\((c[\([1]\)])\) \[Equal] \((\((b[\([1]\)])\) + 
+                                1)\))\))\)] \[Rule] \((b)\),  (*\ 
+                right\ wall\ *) \[IndentingNewLine]{MaskCell[a_], 
+                    FreeCell[b_], _} /; 
+                  Block[{}, \((\((b)\) < \((a)\))\)] \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{_, 
+                  MaskCell[a_], _} \[Rule] \((MaskCell[a])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{FreeCell[b_], FreeCell[b_], 
+                  FreeCell[b_]} \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                flat\ *) \[IndentingNewLine]{_, b_, _} \[Rule] \((b)\) (*\ 
+                default\ *) \[IndentingNewLine]}; \[IndentingNewLine]\
+\[IndentingNewLine]createEntryArray[v_, {i_}] := 
+            Module[{fi}, \[IndentingNewLine]fi = 
+                myArray[\([i]\)]; \[IndentingNewLine]If[
+                i > 1 && i < 
+                    m, \[IndentingNewLine]Return[{myArray[\([i - 1]\)], fi, 
+                    myArray[\([i + 
+                          1]\)]}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]If[
+                i == 1, \[IndentingNewLine]Return[{fi, fi, 
+                    myArray[\([i + 
+                          1]\)]}]\[IndentingNewLine]]; \[IndentingNewLine]If[
+                i \[Equal] 
+                  m, \[IndentingNewLine]Return[{myArray[\([i - 1]\)], fi, 
+                    fi}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Infinity\[IndentingNewLine]]; \
+\[IndentingNewLine]MapIndexed[createEntryArray, myArray, {1}] /. 
+            etchRules\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(evolveArray[myArray : {{\((_FreeCell | _MaskCell)\) .. } .. }] := 
+        Module[{createEntryArray, etchRules, m, 
+            n}, \[IndentingNewLine]\[IndentingNewLine]{m, n} = 
+            Dimensions[
+              myArray]; \[IndentingNewLine]\[IndentingNewLine]etchRules = {\
+\[IndentingNewLine]{{a_, FreeCell[b_], c_}, {a_, FreeCell[b_], c_}, {a_, 
+                      FreeCell[b_], c_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                left\ wall\ *) \[IndentingNewLine]{{a_, FreeCell[b_], 
+                      c_}, {a_, FreeCell[b_], c_}, {a_, FreeCell[b_], 
+                      c_}} /; \((a[\([1]\)] \[Equal] b - 1 && 
+                      c[\([1]\)] \[Equal] b + 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                right\ wall\ *) \[IndentingNewLine]{{a_, a_, 
+                      a_}, {FreeCell[b_], FreeCell[b_], FreeCell[b_]}, {c_, 
+                      c_, c_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                back\ wall\ *) \[IndentingNewLine]{{a_, a_, 
+                      a_}, {FreeCell[b_], FreeCell[b_], FreeCell[b_]}, {c_, 
+                      c_, c_}} /; \((a[\([1]\)] \[Equal] b - 1 && 
+                      c[\([1]\)] \[Equal] b + 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                front\ wall\ *) \[IndentingNewLine]\[IndentingNewLine]{{a_, 
+                      a_, a_}, {a_, FreeCell[b_], FreeCell[b_]}, {a_, 
+                      FreeCell[b_], c_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                left - back\ corner\ *) \[IndentingNewLine]{{a_, a_, 
+                      a_}, {FreeCell[b_], FreeCell[b_], a_}, {c_, 
+                      FreeCell[b_], a_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                right - 
+                  back\ corner\ *) \[IndentingNewLine]{{a_, FreeCell[b_], 
+                      c_}, {a_, FreeCell[b_], FreeCell[b_]}, {a_, a_, 
+                      a_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                left - front\ corner\ *) \[IndentingNewLine]{{c_, 
+                      FreeCell[b_], a_}, {FreeCell[b_], FreeCell[b_], 
+                      a_}, {a_, a_, a_}} /; \((a[\([1]\)] \[Equal] b + 1 && 
+                      c[\([1]\)] \[Equal] b - 1)\) \[Rule] \((FreeCell[
+                    b])\),  (*\ 
+                right - 
+                  front\ corner\ \
+*) \[IndentingNewLine]\[IndentingNewLine]{{_, _, _}, {MaskCell[b_], 
+                    MaskCell[b_], 
+                    MaskCell[b_]}, {_, _, _}} \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{{_, MaskCell[b_], _}, {_, 
+                    MaskCell[b_], _}, {_, 
+                    MaskCell[b_], _}} \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{{_, _, _}, {FreeCell[a_], 
+                      MaskCell[b_], _}, {_, _, _}} /; \((b \[Equal] 
+                      a - 1)\) \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{{_, _, _}, {_, MaskCell[b_], 
+                      FreeCell[a_]}, {_, _, _}} /; \((b \[Equal] 
+                      a - 1)\) \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{{_, FreeCell[a_], _}, {_, 
+                      MaskCell[b_], _}, {_, _, _}} /; \((b \[Equal] 
+                      a - 1)\) \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]{{_, _, _}, {_, 
+                      MaskCell[b_], _}, {_, 
+                      FreeCell[a_], _}} /; \((b \[Equal] 
+                      a - 1)\) \[Rule] \((MaskCell[b])\),  (*\ 
+                mask\ *) \[IndentingNewLine]\[IndentingNewLine]{{_, 
+                      MaskCell[b_], _}, {MaskCell[b_], MaskCell[b_], 
+                      FreeCell[a_]}, {_, _, _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      MaskCell[b_], _}, {MaskCell[b_], MaskCell[b_], _}, {_, 
+                      FreeCell[a_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, _, _}, {MaskCell[
+                        b_], MaskCell[b_], FreeCell[a_]}, {_, 
+                      MaskCell[b_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      FreeCell[a_], _}, {MaskCell[b_], MaskCell[b_], _}, {_, 
+                      MaskCell[b_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      MaskCell[b_], _}, {FreeCell[a_], MaskCell[b_], 
+                      MaskCell[b_]}, {_, _, _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      MaskCell[b_], _}, {_, MaskCell[b_], MaskCell[b_]}, {_, 
+                      FreeCell[a_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, _, _}, {FreeCell[
+                        a_], MaskCell[b_], MaskCell[b_]}, {_, 
+                      MaskCell[b_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      FreeCell[a_], _}, {_, MaskCell[b_], MaskCell[b_]}, {_, 
+                      MaskCell[b_], _}} /; \((a < b && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ \
+*) \[IndentingNewLine]\[IndentingNewLine]{{_, FreeCell[a_], _}, {_, 
+                      MaskCell[b_], FreeCell[c_]}, {_, 
+                      FreeCell[d_], _}} /; \((\((a < b || c < b || d < b)\) && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, _, _}, {FreeCell[
+                        a_], MaskCell[b_], FreeCell[c_]}, {_, 
+                      FreeCell[d_], _}} /; \((\((a < b || c < b || d < b)\) && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      FreeCell[a_], _}, {FreeCell[c_] _, 
+                      MaskCell[b_], _}, {_, 
+                      FreeCell[d_], _}} /; \((\((a < b || c < b || d < b)\) && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]{{_, 
+                      FreeCell[d_], _}, {FreeCell[a_], MaskCell[b_], 
+                      FreeCell[
+                        c_]}, {_, _, _}} /; \((\((a < b || c < b || d < b)\) && 
+                      b > maxdepth)\) \[Rule] FreeCell[\((b - 1)\)],  (*\ 
+                mask\ underetch\ *) \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]{{FreeCell[a_], FreeCell[a_], 
+                      FreeCell[a_]}, {FreeCell[a_], FreeCell[a_], 
+                      FreeCell[a_]}, {FreeCell[a_], FreeCell[a_], 
+                      FreeCell[a_]}} /; \((a > maxdepth)\) \[Rule] 
+                FreeCell[a - 1],  (*\ 
+                flat\ *) \[IndentingNewLine]{{a_, b_, c_}, {d_, FreeCell[e_], 
+                      f_}, {g_, h_, i_}} /; \((e \[GreaterEqual] a[\([1]\)] && 
+                      e \[GreaterEqual] b[\([1]\)] && 
+                      e \[GreaterEqual] c[\([1]\)] && 
+                      e \[GreaterEqual] d[\([1]\)] && 
+                      e \[GreaterEqual] f[\([1]\)] && 
+                      e \[GreaterEqual] g[\([1]\)] && 
+                      e \[GreaterEqual] h[\([1]\)] && 
+                      e \[GreaterEqual] i[\([1]\)] && e > maxdepth)\) \[Rule] 
+                FreeCell[e - 1],  (*\ 
+                peak\ *) \[IndentingNewLine]{{_, _, _}, {_, 
+                    a_, _}, {_, _, _}} \[Rule] \((a)\) (*\ 
+                default\ *) \[IndentingNewLine]}; \[IndentingNewLine]\
+\[IndentingNewLine]createEntryArray[v_, {i_, j_}] := 
+            Module[{fij}, \[IndentingNewLine]fij = 
+                myArray[\([i, j]\)]; \[IndentingNewLine]If[
+                i > 1 && i < m && j > 1 && 
+                  j < n, \[IndentingNewLine]Return[{{myArray[\([i - 1, 
+                          j - 1]\)], myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j + 1]\)]}, {myArray[\([i, j - 1]\)], 
+                      fij, myArray[\([i, j + 1]\)]}, {myArray[\([i + 1, 
+                          j - 1]\)], myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+                i == 1  j == 
+                  1, \[IndentingNewLine]Return[{{fij, fij, 
+                      myArray[\([i, j + 1]\)]}, {fij, fij, 
+                      myArray[\([i, j + 1]\)]}, {myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                i == 1 && 
+                  j \[Equal] 
+                    n, \[IndentingNewLine]Return[{{myArray[\([i, j - 1]\)], 
+                      fij, fij}, {myArray[\([i, j - 1]\)], fij, 
+                      fij}, {myArray[\([i + 1, j - 1]\)], 
+                      myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j]\)]}}]\[IndentingNewLine]]; \[IndentingNewLine]If[
+                i \[Equal] m && 
+                  j \[Equal] 
+                    n, \[IndentingNewLine]Return[{{myArray[\([i - 1, 
+                          j - 1]\)], myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j]\)]}, {myArray[\([i, j - 1]\)], 
+                      fij, fij}, {myArray[\([i, j - 1]\)], fij, 
+                      fij}}]\[IndentingNewLine]]; \[IndentingNewLine]If[
+                i \[Equal] m && 
+                  j \[Equal] 
+                    1, \[IndentingNewLine]Return[{{myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j + 1]\)]}, {fij, fij, 
+                      myArray[\([i, j + 1]\)]}, {fij, fij, 
+                      myArray[\([i, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]If[
+                i == 1 && j > 1 && 
+                  j < n, \[IndentingNewLine]Return[{{myArray[\([i, j - 1]\)], 
+                      fij, myArray[\([i, j + 1]\)]}, {myArray[\([i, 
+                          j - 1]\)], fij, 
+                      myArray[\([i, j + 1]\)]}, {myArray[\([i + 1, j - 1]\)], 
+                      myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                i \[Equal] m && j > 1 && 
+                  j < n, \[IndentingNewLine]Return[{{myArray[\([i - 1, 
+                          j - 1]\)], myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j + 1]\)]}, {myArray[\([i, j - 1]\)], 
+                      fij, myArray[\([i, j + 1]\)]}, {myArray[\([i, 
+                          j - 1]\)], fij, 
+                      myArray[\([i, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                i > 1 && i < m && 
+                  j == 1, \[IndentingNewLine]Return[{{myArray[\([i - 1, 
+                          j]\)], myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j + 1]\)]}, {fij, fij, 
+                      myArray[\([i, j + 1]\)]}, {myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j + 1]\)]}}]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                i > 1 && i < m && 
+                  j == n, \[IndentingNewLine]Return[{{myArray[\([i - 1, 
+                          j - 1]\)], myArray[\([i - 1, j]\)], 
+                      myArray[\([i - 1, j]\)]}, {myArray[\([i, j - 1]\)], 
+                      fij, fij}, {myArray[\([i + 1, j - 1]\)], 
+                      myArray[\([i + 1, j]\)], 
+                      myArray[\([i + 1, 
+                          j]\)]}}]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Infinity\[IndentingNewLine]]; \
+\[IndentingNewLine]MapIndexed[createEntryArray, myArray, {2}] /. 
+            etchRules\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Sample a line 2D ONLY", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(sampleLine[l : {{_, _} .. }, m_Integer] := 
+        Module[{currentPoint, n, currentX, dX, samples, x0, x1, a, 
+            currentIndex}, \[IndentingNewLine]n = 
+            Length[l]; \[IndentingNewLine]currentX = 
+            l[\([1, 1]\)]; \[IndentingNewLine]dX = \((l[\([n, 1]\)] - 
+                  l[\([1, 1]\)])\)/\((m - 
+                  1)\); \[IndentingNewLine]\[IndentingNewLine]samples = \
+{l[\([1]\)]}; \[IndentingNewLine]currentPoint = 
+            2; \[IndentingNewLine]currentIndex = 1; \[IndentingNewLine]While[
+            currentPoint <= m, \[IndentingNewLine]currentX += 
+              dX; \[IndentingNewLine]While[
+              currentIndex < n, \[IndentingNewLine]If[
+                currentX \[GreaterEqual] \((x0 = l[\([currentIndex, 1]\)])\) && 
+                  currentX \[LessEqual] \((x1 = 
+                        l[\([currentIndex + 1, 
+                            1]\)])\), \[IndentingNewLine]a = \((currentX - 
+                        x0)\)/\((x1 - x0)\); \[IndentingNewLine]AppendTo[
+                  samples, {currentX, 
+                    l[\([currentIndex, 2]\)] + 
+                      a \((l[\([currentIndex + 1, 2]\)] - 
+                            l[\([currentIndex, 
+                                2]\)])\)}]; \
+\[IndentingNewLine]\(++currentPoint\); \[IndentingNewLine]Break[], \
+\[IndentingNewLine]\(++currentIndex\)\[IndentingNewLine]]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]Return[
+            samples]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Refine a line 2D ONLY", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(refineLine[l : {{_, _} .. }, s_Integer] := 
+        Module[{n}, \[IndentingNewLine]n = 
+            Length[l]; \[IndentingNewLine]Flatten[
+            Table[Table[
+                l[\([i]\)] + j \((\((l[\([i + 1]\)] - l[\([i]\)])\)/s)\), {j, 
+                  0. , s - 1}], {i, 1, n - 1}], 
+            1]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Topmost layer 2D ONLY", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Good\ to\ find\ out\ where\ an\ etchant\ could\ \(attack!\)\ *) \)\(\
+\[IndentingNewLine]\)\(\(topmostLayer[
+          ls : imsStack[
+              layers_, {delta : \((_Integer | _Real)\), n_Integer}]] := 
+        Module[{processZeroes}, \
+\[IndentingNewLine]\[IndentingNewLine]processZeroes[index_Integer] := 
+            Block[{height = Length[layers], z, t}, \[IndentingNewLine]While[
+                height > 
+                  0, \[IndentingNewLine]{z, 
+                    t} = \((List @@ \
+\((layers[\([height]\)])\))\)[\([index]\)]; \[IndentingNewLine]If[
+                  t \[Equal] 
+                    0, \[IndentingNewLine]\(--height\), \
+\[IndentingNewLine]Return[{z, t, height, 
+                      Head[layers[\([height]\)]]}]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]Return[
+                Null]\[IndentingNewLine]]; \
+\[IndentingNewLine]\(processZeroes[#] &\) /@ 
+            Range[n]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(topmostLayer[
+          ls : imsStack[
+              layers : {\((_)\) .. }, {{deltaX : \((_Integer | _Real)\), 
+                  nX_Integer}, {deltaY : \((_Integer | _Real)\), 
+                  nY_Integer}}]] := 
+        Module[{processZeroes}, \
+\[IndentingNewLine]\[IndentingNewLine]processZeroes[{i_Integer, j_Integer}] := 
+            Block[{height = Length[layers], z, t}, \[IndentingNewLine]While[
+                height > 
+                  0, \[IndentingNewLine]{z, 
+                    t} = \((List @@ \((layers[\([height]\)])\))\)[\([i, 
+                      j]\)]; \[IndentingNewLine]If[
+                  t \[Equal] 
+                    0, \[IndentingNewLine]\(--height\), \
+\[IndentingNewLine]Return[{z, t, height, 
+                      Head[layers[\([height]\)]]}]\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]Return[
+                Null]\[IndentingNewLine]]; \[IndentingNewLine]Map[
+            processZeroes[#] &, 
+            Outer[List, Range[nX], 
+              Range[nY]], \
+{2}]\[IndentingNewLine]\[IndentingNewLine]];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \({}\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Programmers Notes", "Section",
+  InitializationCell->True],
+
+Cell["\<\
+Work list:
+1) 3D Plotting should produce less polygons, always convex. Avoid interlayer \
+surfaces.
+2) Mesh generation should produce better meshes. We need a layer mesher. It \
+could work by considering a cell's aspect ratio, and decide to subdivide the \
+cell into n vertical or horizontal units. Once we know this for all cells, we \
+can peel of the units, layer by layer.
+3) Make drilling and milling similar in specs!
+4) Add a method to carry material data in a flexible manner. 
+5) Add implantation.
+6) Add more realistic dry etching.
+
+Improved data structure:
+We could build up on imsGraph. Call it imsLayerGraph. It groups a graph and \
+its upper and lower surfaces as additional surface graphs. Then all \
+processing can efficiently add new layers. Then a stack can quickly find an \
+upper layer, etc. To deposit, we grab the upper nodes of the top layer, then \
+simply grow a (conformal) layer. There is no geometical restriction any \
+longer!
+
+This could end up becoming nicely general! Mal sehen. Perhaps this is \
+something for a diploma thesis.
+
+Notes for me: For the processes that attack the entire stack, we set up a \
+global height array at the height of the uppermost layers, and then paint in \
+the new profile using the correct paint brush. Then we only need one routine \
+that clips the layer stack to the necessary height. This affects DrillStack, \
+MillStack, PlanarizeStack, ErodeStack, and some of EtchStack (Bosch). Here we \
+could also have a list of the attacked layers!!!\
+\>", "Text"]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Macintosh",
+ScreenRectangle->{{0, 1440}, {0, 874}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{713, 801},
+WindowMargins->{{17, Automatic}, {Automatic, 3}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 38, 0, 88, "Title"],
+
+Cell[CellGroupData[{
+Cell[1839, 57, 59, 1, 69, "Section",
+  InitializationCell->True],
+Cell[1901, 60, 1192, 20, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3118, 84, 63, 1, 28, "Subsubsection",
+  InitializationCell->True],
+Cell[3184, 87, 534, 8, 123, "Input",
+  InitializationCell->True],
+Cell[3721, 97, 1875, 31, 507, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5645, 134, 60, 1, 39, "Section",
+  InitializationCell->True],
+Cell[5708, 137, 173, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5918, 147, 80, 1, 39, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[6023, 152, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[6080, 155, 940, 14, 283, "Input",
+  InitializationCell->True],
+Cell[7023, 171, 738, 11, 203, "Input",
+  InitializationCell->True],
+Cell[7764, 184, 955, 14, 267, "Input",
+  InitializationCell->True],
+Cell[8722, 200, 751, 11, 203, "Input",
+  InitializationCell->True],
+Cell[9476, 213, 408, 6, 123, "Input",
+  InitializationCell->True],
+Cell[9887, 221, 467, 7, 123, "Input",
+  InitializationCell->True],
+Cell[10357, 230, 785, 11, 219, "Input",
+  InitializationCell->True],
+Cell[11145, 243, 6444, 105, 2027, "Input",
+  InitializationCell->True],
+Cell[17592, 350, 5090, 85, 1371, "Input",
+  InitializationCell->True],
+Cell[22685, 437, 858, 19, 171, "Input",
+  Evaluatable->False,
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23580, 461, 62, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[23645, 464, 3002, 47, 875, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26684, 516, 76, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[26763, 519, 1236, 21, 331, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28048, 546, 60, 1, 69, "Section",
+  InitializationCell->True],
+Cell[28111, 549, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28236, 556, 70, 1, 39, "Section",
+  InitializationCell->True],
+Cell[28309, 559, 596, 11, 171, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28942, 575, 58, 1, 69, "Section",
+  InitializationCell->True],
+Cell[29003, 578, 382, 7, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29422, 590, 54, 1, 39, "Section",
+  InitializationCell->True],
+Cell[29479, 593, 2215, 41, 571, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31731, 639, 56, 1, 69, "Section",
+  InitializationCell->True],
+Cell[31790, 642, 215, 5, 59, "Input",
+  InitializationCell->True],
+Cell[32008, 649, 116, 2, 27, "Input",
+  InitializationCell->True],
+Cell[32127, 653, 438, 10, 91, "Input",
+  InitializationCell->True],
+Cell[32568, 665, 425, 9, 91, "Input",
+  InitializationCell->True],
+Cell[32996, 676, 147, 3, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33180, 684, 57, 1, 39, "Section",
+  InitializationCell->True],
+Cell[33240, 687, 829, 17, 171, "Input",
+  InitializationCell->True],
+Cell[34072, 706, 999, 21, 171, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[35108, 732, 56, 1, 69, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[35189, 737, 38, 0, 38, "Subsection"],
+Cell[35230, 739, 175, 4, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[35430, 747, 51, 0, 28, "Subsubsection"],
+Cell[35484, 749, 47, 1, 27, "Input"],
+Cell[35534, 752, 462, 9, 123, "Input",
+  InitializationCell->True],
+Cell[35999, 763, 47, 1, 27, "Input"],
+Cell[36049, 766, 530, 10, 139, "Input",
+  InitializationCell->True],
+Cell[36582, 778, 53, 1, 27, "Input"],
+Cell[36638, 781, 455, 10, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[37130, 796, 35, 0, 22, "Subsubsection"],
+Cell[37168, 798, 61, 1, 27, "Input"],
+Cell[37232, 801, 1861, 36, 523, "Input",
+  InitializationCell->True],
+Cell[39096, 839, 61, 1, 27, "Input"],
+Cell[39160, 842, 4010, 70, 955, "Input",
+  InitializationCell->True],
+Cell[43173, 914, 9839, 171, 2155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[53049, 1090, 34, 0, 22, "Subsubsection"],
+Cell[53086, 1092, 47, 1, 27, "Input"],
+Cell[53136, 1095, 1486, 27, 331, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54659, 1127, 38, 0, 22, "Subsubsection"],
+Cell[54700, 1129, 61, 1, 27, "Input"],
+Cell[54764, 1132, 1243, 23, 251, "Input",
+  InitializationCell->True],
+Cell[56010, 1157, 1407, 27, 331, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[57454, 1189, 38, 0, 22, "Subsubsection"],
+Cell[57495, 1191, 61, 1, 27, "Input"],
+Cell[57559, 1194, 1648, 28, 347, "Input",
+  InitializationCell->True],
+Cell[59210, 1224, 1730, 30, 395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[60977, 1259, 36, 0, 22, "Subsubsection"],
+Cell[61016, 1261, 61, 1, 27, "Input"],
+Cell[61080, 1264, 500, 10, 123, "Input",
+  InitializationCell->True],
+Cell[61583, 1276, 578, 11, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[62198, 1292, 37, 0, 22, "Subsubsection"],
+Cell[62238, 1294, 61, 1, 27, "Input"],
+Cell[62302, 1297, 1209, 23, 315, "Input",
+  InitializationCell->True],
+Cell[63514, 1322, 3396, 56, 859, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[66947, 1383, 36, 0, 22, "Subsubsection"],
+Cell[66986, 1385, 3156, 59, 715, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[70157, 1447, 35, 0, 22, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[70217, 1451, 40, 0, 28, "Subsubsection"],
+Cell[70260, 1453, 869, 17, 251, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[71166, 1475, 36, 0, 22, "Subsubsection"],
+Cell[71205, 1477, 1754, 33, 507, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[72996, 1515, 37, 0, 22, "Subsubsection"],
+Cell[73036, 1517, 1435, 27, 395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[74508, 1549, 39, 0, 22, "Subsubsection"],
+Cell[74550, 1551, 2266, 43, 587, "Input",
+  InitializationCell->True],
+Cell[76819, 1596, 2365, 44, 603, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[79221, 1645, 34, 0, 22, "Subsubsection"],
+Cell[79258, 1647, 2921, 53, 683, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[82216, 1705, 36, 0, 22, "Subsubsection"],
+Cell[82255, 1707, 1999, 40, 491, "Input",
+  InitializationCell->True],
+Cell[84257, 1749, 2384, 46, 571, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[86678, 1800, 35, 0, 22, "Subsubsection"],
+Cell[86716, 1802, 2252, 42, 555, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[89005, 1849, 37, 0, 22, "Subsubsection"],
+Cell[89045, 1851, 673, 15, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[89733, 1869, 39, 0, 22, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[89797, 1873, 35, 0, 28, "Subsubsection"],
+Cell[89835, 1875, 5516, 100, 1312, "Input",
+  InitializationCell->True],
+Cell[95354, 1977, 6137, 113, 1472, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[101528, 2095, 38, 0, 22, "Subsubsection"],
+Cell[101569, 2097, 869, 16, 187, "Input",
+  InitializationCell->True],
+Cell[102441, 2115, 333, 6, 91, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[102811, 2126, 37, 0, 22, "Subsubsection"],
+Cell[102851, 2128, 47, 1, 27, "Input"],
+Cell[102901, 2131, 1603, 29, 379, "Input"],
+Cell[104507, 2162, 2146, 36, 571, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[106690, 2203, 39, 0, 22, "Subsubsection"],
+Cell[106732, 2205, 4683, 84, 1115, "Input",
+  InitializationCell->True],
+Cell[111418, 2291, 17407, 319, 3611, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[128862, 2615, 45, 0, 22, "Subsubsection"],
+Cell[128910, 2617, 350, 8, 110, "Text"],
+Cell[129263, 2627, 1887, 32, 427, "Input",
+  InitializationCell->True],
+Cell[131153, 2661, 399, 8, 123, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[131601, 2675, 39, 0, 38, "Subsection"],
+Cell[131643, 2677, 176, 4, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[131844, 2685, 39, 0, 28, "Subsubsection"],
+Cell[131886, 2687, 290, 5, 59, "Input",
+  InitializationCell->True],
+Cell[132179, 2694, 3161, 62, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[135377, 2761, 61, 0, 22, "Subsubsection"],
+Cell[135441, 2763, 2048, 44, 587, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[137526, 2812, 40, 0, 22, "Subsubsection"],
+Cell[137569, 2814, 2024, 35, 411, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[139630, 2854, 53, 0, 22, "Subsubsection"],
+Cell[139686, 2856, 2954, 57, 891, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[142677, 2918, 36, 0, 22, "Subsubsection"],
+Cell[142716, 2920, 4316, 73, 1307, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[147069, 2998, 37, 0, 22, "Subsubsection"],
+Cell[147109, 3000, 4523, 79, 1427, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[151669, 3084, 37, 0, 22, "Subsubsection"],
+Cell[151709, 3086, 2531, 48, 667, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[154277, 3139, 51, 0, 22, "Subsubsection"],
+Cell[154331, 3141, 523, 9, 155, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[154891, 3155, 46, 0, 22, "Subsubsection"],
+Cell[154940, 3157, 723, 13, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[155700, 3175, 42, 0, 22, "Subsubsection"],
+Cell[155745, 3177, 752, 16, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[156534, 3198, 51, 0, 22, "Subsubsection"],
+Cell[156588, 3200, 289, 6, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[156914, 3211, 41, 0, 22, "Subsubsection"],
+Cell[156958, 3213, 3561, 69, 1019, "Input",
+  InitializationCell->True],
+Cell[160522, 3284, 15529, 259, 2939, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[176088, 3548, 46, 0, 22, "Subsubsection"],
+Cell[176137, 3550, 1584, 27, 443, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[177758, 3582, 46, 0, 22, "Subsubsection"],
+Cell[177807, 3584, 392, 8, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[178236, 3597, 46, 0, 22, "Subsubsection"],
+Cell[178285, 3599, 2142, 44, 635, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[180488, 3650, 59, 1, 69, "Section",
+  InitializationCell->True],
+Cell[180550, 3653, 35, 1, 27, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[180622, 3659, 58, 1, 39, "Section",
+  InitializationCell->True],
+Cell[180683, 3662, 112, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[180832, 3669, 58, 1, 39, "Section",
+  InitializationCell->True],
+Cell[180893, 3672, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[181116, 3683, 64, 1, 39, "Section",
+  InitializationCell->True],
+Cell[181183, 3686, 1525, 30, 350, "Text"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,575 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     16971,        432]*)
+(*NotebookOutlinePosition[     17635,        455]*)
+(*  CellTagsIndexPosition[     17591,        451]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Trees", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Trees . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 20.4  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ kd - 
+          Trees\ for\ coordinates\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]Fixed\ export\ of\ $imsEmptyTree; \
+\[IndentingNewLine]Fixed\ the\ distance\ computation\ in\ \
+imsNearestneigbourSearch;\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Sources : \ \[IndentingNewLine]\(\(http\)\(:\)\) // \(\(\(\(forums . 
+                      wolfram . com/mathgroup\)/archive\)/2004\)/Jan\)/
+            msg00614 . 
+              html\ and\ Roman\ Maeders\ \(Book : "\<Computer Science with \
+Mathematica\>"\)\[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ provides\ kd - 
+        Trees\ for\ coordinates\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2006\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Trees`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeTreeNode::usage = \
+"\<imsMakeTreeNode[ info, left, right ] returns imsTreeNode with info and a \
+left and right subtree.\>";\)\[IndentingNewLine]
+    \(imsMakeKDTree::usage = "\<imsMakeKDTree[ {{x1, x2,..},..} ] returns a \
+balanced kd-Tree for nDimensional coordinate {x1,x2,..}.\>";\)\n
+    \(imsTreeNode::usage = "\<imsTreeNode is the data structure returned by \
+imsMakeTreeNode\>";\)\[IndentingNewLine]
+    \($imsEmptyTree::usage = "\<returns an empty tree.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ selectors\ *) \[IndentingNewLine]
+    \(imsGetInformation::usage = "\<imsGetInformation[ tree ] returns the \
+information of tree.\>";\)\[IndentingNewLine]
+    \(imsGetLeftTree::usage = "\<imsGetLeftTree[ tree ] returns the left \
+subtree.\>";\)\[IndentingNewLine]
+    \(imsGetRightTree::uase = "\<imsGetRightTree[ tree ] returns the right \
+subtree.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsInsertInKDTree::usage = "\<imsInsertInKDTree[ tree, info, dim ] \
+returns a tree with info with dimension dim \
+inserted.\>";\)\[IndentingNewLine]
+    \(imsRangeSearchKDTree::usage = "\<imsRangeSearchKDTree[ tree, lowBound, \
+highBound, dim] returns a list of all dim dimensional coordinates in tree \
+which are larger than lowBound and smaller than highBound.\>";\)\
+\[IndentingNewLine]
+    \(imsNearestPointSearchKDTree::usage = "\<imsNearestPointSearchKDTree[ \
+tree, coordinate ] returns the point in the tree which is closest to \
+coordinate.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Point`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\($imsEmptyTree\  = \ {};\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeTreeNode[\ \ info_, \ left_, \ right_\ ]\  := \ 
+        imsTreeNode[\ info, \ left, \ 
+          right\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    imsMakeKDTree[\ data_List\ ]\  := 
+      Fold[\ Function[\ {tree, info\ }, \ 
+          imsInsertInKDTree[\ tree, \ info, \ 
+            Last[\ Dimensions[\ data\ ]\ ]\ ]\ ], \ $imsEmptyTree, \ 
+        imsBalanceKDTree[\ data, \ 
+          Last[\ Dimensions[\ data\ ]\ ]\ \ ]\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\[IndentingNewLine]\
+\)\(\(imsGetInformation[\ imsTreeNode[\ info_, \ _, \ _\ ]\ ]\  := \ 
+        info;\)\[IndentingNewLine]
+    \(imsGetLeftTree[\ imsTreeNode[\ _, \ left_, \ _\ ]\ ]\  := \ 
+        left;\)\[IndentingNewLine]
+    \(imsGetRightTree[\ imsTreeNode[\ _, \ _, \ right_\ ]\ ]\  := \ 
+        right;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsBalanceKDTree[\ $imsEmptyTree, dim_, \ 
+          index_:  1\ ]\  := \ $imsEmptyTree;\)\n
+    imsBalanceKDTree[\ pts_, \ dim_, \ index_:  1\ ]\  := \ 
+      Block[\[IndentingNewLine]{\ 
+          mid\  = \ Ceiling[\ Length[\ pts\ ]\ /\ 2\ ], \ 
+          order\  = \ 
+            Ordering[\ 
+              pts[\([\ All, 
+                  index\ ]\)]\ ]\ }, \[IndentingNewLine]Join[\
+\[IndentingNewLine]pts[\([order[\([\ {\ 
+                    mid\ }\ ]\)]\ ]\)], \[IndentingNewLine]imsBalanceKDTree[\ 
+            pts[\([\ Take[\ order, \ {\ 1, \ mid\  - \ 1\ }\ ]\ ]\)], \ 
+            dim, \ Mod[\ index\  + \ 1, \ dim, 
+              1\ ]\ ], \[IndentingNewLine]imsBalanceKDTree[\ 
+            pts[\([\ Take[\ order, \ {\ mid\  + \ 1, \(-1\)\ }\ ]\ ]\)], \ 
+            dim, \ Mod[\ index\  + \ 1, \ dim, 
+              1\ ]\ ]\[IndentingNewLine]]\[IndentingNewLine]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsInsertInKDTree[\ $imsEmptyTree, \ info_, \ 
+          dim_, \ index_:  1\ ]\  := \ 
+        imsMakeTreeNode[\ 
+          info, \ $imsEmptyTree, \ $imsEmptyTree\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsInsertInKDTree[\ 
+            tree : imsTreeNode[\ treeInfo_, \ left_, \ right_\ ], \ info_, \ 
+            dim_, \ index_:  1\ ]\  /; \ 
+          Order[\ info, \ treeInfo\ ]\  \[Equal] 0\  := \ 
+        tree;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsInsertInKDTree[\ 
+            tree : imsTreeNode[\ treeInfo_, \ left_, \ right_\ ], \ info_, \ 
+            dim_, \ index_:  1\ ]\  /; \ 
+          info[\([\ index\ ]\)]\  < \ \ treeInfo[\([\ index\ ]\)]\  := \ 
+        imsMakeTreeNode[\[IndentingNewLine]treeInfo, \
+\[IndentingNewLine]imsInsertInKDTree[\ left, \ info, dim, \ 
+            Mod[\ index + 1, \ dim, \ 
+              1\ ]\ ], \[IndentingNewLine]right\[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsInsertInKDTree[\ 
+          tree : imsTreeNode[\ treeInfo_, \ left_, \ right_\ ], \ info_, \ 
+          dim_, \ \ index_:  1\ ] := \ 
+        imsMakeTreeNode[\[IndentingNewLine]treeInfo, \[IndentingNewLine]left, \
+\[IndentingNewLine]imsInsertInKDTree[\ right, \ info, \ dim, \ 
+            Mod[\ index + 1, \ dim, \ 
+              1\ ]\ ]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsRangeSearchKDTree[\ {}, \ lowBound_, \ highBound_, \ dim_, \ 
+          index_:  1\ ]\  := \ {};\)\[IndentingNewLine]\[IndentingNewLine]
+    imsRangeSearchKDTree[\ 
+        tree : imsTreeNode[\ info_, \ left_, \ right_\ ], \ lowBound_, \ 
+        highBound_, \ dim_, \ 
+        index_:  
+          1\ ]\  := \[IndentingNewLine]List[\[IndentingNewLine]If[\((And\  \
+@@ \ Thread[\ lowBound\  \[LessEqual] \ info\  \[LessEqual] \ 
+                  highBound\ ])\), {\ \ imsGetInformation[\ 
+              tree\ ]\ }, {}\ ], \[IndentingNewLine]If[\ \((lowBound[\([\ 
+                  index\ ]\)]\  \[LessEqual] \ info[\([\ index\ ]\)])\), \ 
+          imsRangeSearchKDTree[\ left, \ lowBound, \ highBound, \ dim, \ 
+            Mod[\ index\  + 1, \ dim, \ 
+              1\ ]\ ], {}], \[IndentingNewLine]If[\ \((info[\([\ 
+                  index\ ]\)]\  < \ highBound[\([\ index\ ]\)])\), \ 
+          imsRangeSearchKDTree[\ right, \ lowBound, \ highBound, \ dim, \ 
+            Mod[\ index\  + 1, \ dim, \ 
+              1\ ]\ ], {}]\[IndentingNewLine]]\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsNearestPointSearchKDTree[\ tree_, pnt_\ ] := 
+      Module[\[IndentingNewLine]{\ nspKD, \ 
+          lowBound = {\(-Infinity\), \(-Infinity\)}, \ 
+          highBound = {Infinity, Infinity}, \ d = Infinity, d2, nearestPnt, 
+          dim\ }, \[IndentingNewLine]\[IndentingNewLine]nspKD[{}, index_, \ 
+            dim_]\  := \ {}; \[IndentingNewLine]\[IndentingNewLine]nspKD[
+            imsTreeNode[\ info_, \ left_, \ right_\ ], index_, \ dim_] := \ 
+          CompoundExpression[\[IndentingNewLine]If[\((d2 = \ 
+                    imsDistance[\ {\ info, \ pnt\ }\ ])\) < d, d = d2; 
+              nearestPnt = 
+                info; {lowBound, highBound} = {pnt - d, 
+                  pnt + d};]; \[IndentingNewLine]If[\ 
+              lowBound[\([\ index\ ]\)] \[LessEqual] info[\([\ index\ ]\)], \ 
+              nspKD[\ left, \ Mod[\ index\  + 1, dim, \ 1\ ], \ 
+                dim\ ]\ ]; \[IndentingNewLine]If[\ 
+              info[\([\ index\ ]\)]\  < \ highBound[\([\ index\ ]\)], \ 
+              nspKD[\ right, \ Mod[\ index\  + \ 1, dim, 1\ ], \ 
+                dim\ ]\ ]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]dim\  = \ 
+          Last[\ Dimensions[\ 
+              imsGetInformation[\ tree\ ]\ ]\ ]; \[IndentingNewLine]nspKD[
+          tree, 1, \ dim]; \[IndentingNewLine]Return[\ 
+          nearestPnt\ ]\[IndentingNewLine]]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ Sqrt[\ Plus\  @@ \ \((\((info - pnt)\)^2)\)\ ]\ *) \)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1163, 897},
+WindowMargins->{{47, Automatic}, {Automatic, 41}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 25, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1826, 57, 31, 0, 74, "Section"],
+Cell[1860, 59, 1628, 27, 379, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3513, 90, 35, 0, 28, "Subsubsection"],
+Cell[3551, 92, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4172, 104, 1816, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6037, 141, 32, 0, 44, "Section"],
+Cell[6072, 143, 164, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6273, 153, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6350, 157, 26, 0, 38, "Subsection"],
+Cell[6379, 159, 1867, 31, 395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8283, 195, 34, 0, 30, "Subsection"],
+Cell[8320, 197, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8526, 205, 36, 0, 30, "Subsection"],
+Cell[8565, 207, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8787, 217, 32, 0, 44, "Section"],
+Cell[8822, 219, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8947, 226, 42, 0, 44, "Section"],
+Cell[8992, 228, 227, 4, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9256, 237, 30, 0, 44, "Section"],
+Cell[9289, 239, 832, 16, 219, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10158, 260, 26, 0, 44, "Section"],
+Cell[10187, 262, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10403, 271, 27, 0, 44, "Section"],
+Cell[10433, 273, 446, 9, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10916, 287, 29, 0, 44, "Section"],
+Cell[10948, 289, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11116, 297, 41, 0, 44, "Section"],
+Cell[11160, 299, 1047, 21, 187, "Input",
+  InitializationCell->True],
+Cell[12210, 322, 4010, 72, 699, "Input",
+  InitializationCell->True],
+Cell[16223, 396, 89, 1, 27, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16349, 402, 31, 0, 44, "Section"],
+Cell[16383, 404, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16553, 412, 30, 0, 44, "Section"],
+Cell[16586, 414, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16755, 422, 30, 0, 44, "Section"],
+Cell[16788, 424, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

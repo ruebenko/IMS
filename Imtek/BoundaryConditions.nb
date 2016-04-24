@@ -1,0 +1,608 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     18788,        465]*)
+(*NotebookOutlinePosition[     19450,        488]*)
+(*  CellTagsIndexPosition[     19406,        484]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Boundary Condition Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ BoundaryConditions . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ and\ christian\ moosmann*) \)\(\
+\[IndentingNewLine]\)\( (*\ Date : \ 3.11  .2005, \ Imtek, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .6\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]fixed\ \(bug : \ 
+            matrix\ returned\ was\ converted\ to\ numeric\ matrix\); \
+\[IndentingNewLine]improved\ speed\ for\ imsDirichlet; \
+\[IndentingNewLine]support\ for\ list\ of\ boundary\ conditions\ and\ removal\
+\ of\ boundary\ conditions\ in\ imsDirichlet; \[IndentingNewLine]introduced\ \
+imsLagrangianMulatilier; \[IndentingNewLine]Change\ in\ docu\
+\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`BoundaryConditions`\>"];\)\
+\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Dirichlet, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DirichletReinsertion, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    imsLagrangeMultipliers::usage\  = \ "\<imsLagrangeMultipliers[ { matrix, \
+loadVector }, position, loadValues, posValues ] builds Lagrangian Multipliers \
+into matrix and loadVector. Each entry in the position list extends the \
+matrix by one equation and adds the corresponding value from loadValues list \
+to the loadVector. posValues default to a list of the length of the position \
+list with entry numeric 1.\>"\[IndentingNewLine]\[IndentingNewLine]
+    \(\(imsDirichlet::usage\)\(\ \)\(=\)\(\ \
+\)\(\[IndentingNewLine]\)\("\<imsDirichlet[ { matrix, loadVector }, position, \
+value ] builds boundary condtions of dirichlet type into a matrix and a load \
+vector at position. It will be set to value. matrix can either be a full \
+matrix or a sparse matrix. The matrix can also be an associative array. \
+position must an Integer which is within the dimensions of the matrix.\>"\)\(\
+\ \)\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsDirichletReinsertion::usage = "\<imsDirichletReinsertion[ \
+position_List, value_List, solution_List ] returns a list where values are \
+reinserted into solution at position.\>"\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(System`\
+imsRemoveDirichlets::usage = "\<Delete rows and columns corresponding to \
+Dirichelt values.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsDirichlet::"\<range\>" = "\<pos is larger then \
+matrix dimesions\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell["Needs - Public Imports", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Attributes", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(SetAttributes[\ imsLagrangeMultipliers, \ 
+        HoldFirst\ ];\)\[IndentingNewLine]
+    \(SetAttributes[\ imsDirichlet, \ HoldFirst\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(Needs[\ "\<Imtek`SparseUtils`\>"\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(Options[
+        imsDirichlet] = {imsRemoveDirichlets \[Rule] False}\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsLagrangeMultipliers[\ {\ 
+          matrix_, \ load_\ }, \ pos_, \ loadValues_\ ]\  := \ 
+      imsLagrangeMultipliers[\ {\ matrix, \ load\ }, \ pos, \ loadValues, \ 
+        Table[\ 1. , \ {Length[pos]}\ ]\ ]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsLagrangeMultipliers[\ {\ matrix_, \ load_\ }, \ pos_, \ 
+        loadValues_, \ posValues_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ dimR, \ dimC, \ n, \ rules, \ 
+          bm\ }, \[IndentingNewLine]load\  = \ 
+          Join[\ load, \ 
+            loadValues\ ]; \[IndentingNewLine]\[IndentingNewLine]{\ dimR, \ 
+            dimC\ }\  = \ Dimensions[\ matrix\ ]; \[IndentingNewLine]n\  = \ 
+          Length[\ 
+            loadValues\ ]; \[IndentingNewLine]\[IndentingNewLine]rules\  = \ \
+\ Flatten[\ Table[\ \(List[\ i, \ #\ ] &\)\  /@ \ pos[\([\ i\ ]\)], \ {\ i, \ 
+                  Length[\ pos\ ]\ }\ ], \ 1\ ]\  \[Rule] \ 
+            Flatten[\ posValues\ ]; \[IndentingNewLine]bm\  = \ 
+          SparseArray[\ 
+            rules, \ {\ n, \ 
+              dimC\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]matrix\  = \ 
+          PadRight[\ matrix, \ 
+            Dimensions[\ matrix\ ]\  + \ n\ ]; \[IndentingNewLine]matrix[\([\ 
+              Range[\ \(-n\), \ \(-1\)\ ], \ Range[\ dimC\ ]\ ]\)]\  = \ 
+          bm; \[IndentingNewLine]matrix[\([\ Range[\ dimR\ ], \ 
+              Range[\ \(-n\), \ \(-1\)\ ]\ ]\)]\  = \ 
+          Transpose[\ bm\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsDirichlet[\ {\ matrix_, \ loadVector_\ }, \ pos_List, value_List, \ 
+        diagVal_:  1. , \ opts___]\  := 
+      Module[\[IndentingNewLine]{removeDBC, 
+            pos2}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Options\ *) \[IndentingNewLine]removeDBC = \(imsRemoveDirichlets /. \
+{opts}\) /. Options[
+                imsDirichlet]; \[IndentingNewLine]\[IndentingNewLine] (*check\
+\ if\ pos\ out\ of\ matrix\ bound*) \[IndentingNewLine]If[
+            Max[pos] > Min[Dimensions[matrix]], 
+            Message[imsDirichlet::"\<range\>"]]; \[IndentingNewLine]\
+\[IndentingNewLine]loadVector -= 
+            matrix[\([All, pos]\)] . 
+              value; \[IndentingNewLine]loadVector[\([\ pos\ ]\)]\  = \ 
+            value\ ; \[IndentingNewLine]\[IndentingNewLine]If[
+            removeDBC, \[IndentingNewLine]pos2 = 
+              List /@ pos; \[IndentingNewLine]matrix = 
+              Transpose[
+                Delete[Transpose[Delete[matrix, pos2]], 
+                  pos2]]; \[IndentingNewLine]loadVector = 
+              Delete[loadVector, 
+                pos2];, \[IndentingNewLine]matrix[\([\ All, \ pos\ ]\)]\  = \ 
+              0; \[IndentingNewLine]matrix[\([\ pos, \ All\ ]\)]\  = \ 
+              0; \[IndentingNewLine] (*\ \(\(\((matrix[\([\ #, \ #\ ]\)]\  = \
+\ diagVal)\) &\) /@ pos;\)\ *) \[IndentingNewLine]matrix += 
+              SparseArray[
+                Transpose[{pos, pos}] \[Rule] Table[diagVal, {Length[pos]}], 
+                Dimensions[matrix], \ 
+                0\ ];\[IndentingNewLine]];\[IndentingNewLine]\
+\[IndentingNewLine]]\  /; \ \ MatrixQ[\ matrix\ ] && 
+          VectorQ[\ loadVector\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsDirichlet[\ {\ matrix_, \ loadVector_\ }, \ pos_Integer, \ value_, \ 
+          diagVal_:  1. , \ opts___\ ] /; \ \ MatrixQ[\ matrix\ ] && 
+          VectorQ[\ loadVector\ ] := \[IndentingNewLine]imsDirichlet[\ {\ 
+          matrix, \ loadVector\ }, \ {\ pos\ }, \ {\ value\ }, \ diagVal, \ 
+        opts\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\[IndentingNewLine]imsDirichlet[\ {\ matrix_, \ loadVector_\ }, \ 
+          pos_Integer, \ value_, \ diagVal_:  1. , \ opts___\ ]\  := \ 
+        Module[\[IndentingNewLine]{removeDBC, 
+              pos2}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              Options\ *) \[IndentingNewLine]removeDBC = \
+\(imsRemoveDirichlets /. {opts}\) /. 
+                Options[
+                  imsDirichlet]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              check\ if\ pos\ out\ of\ matrix\ bound\ \
+*) \[IndentingNewLine]If[\ 
+              pos\  > \ First[\ Dimensions[\ matrix\ ]\ ]\  && \ 
+                pos\  > \ 
+                  Last[\ Dimensions[\ 
+                      matrix\ ]\ ], \[IndentingNewLine]Message[
+                imsDirichlet::"\<range\>"]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]loadVector\  -= 
+              matrix[\([All, pos]\)]\ *\ 
+                value; \[IndentingNewLine]loadVector[\([\ pos\ ]\)]\  = \ 
+              value; \[IndentingNewLine]\[IndentingNewLine]If[
+              removeDBC, \[IndentingNewLine]pos2 = 
+                List /@ pos; \[IndentingNewLine]matrix = 
+                Transpose[
+                  Delete[Transpose[Delete[matrix, pos2]], 
+                    pos2]]; \[IndentingNewLine]loadVector = 
+                Delete[loadVector, 
+                  pos2];, \[IndentingNewLine]matrix[\([\ All, \ 
+                    pos\ ]\)]\  = \ 
+                0.0; \[IndentingNewLine]matrix[\([\ pos, \ All\ ]\)]\  = \ 
+                0.0; \[IndentingNewLine]matrix[\([\ pos, \ pos\ ]\)]\  = \ 
+                diagVal;\[IndentingNewLine]];\[IndentingNewLine]\
+\[IndentingNewLine]]\  /; \ 
+          MatrixQ[\ matrix\ ]\  && \ 
+            VectorQ[\ loadVector\ ]\[IndentingNewLine]*) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(imsDirichlet[\ {\ matrix_, \ loadVector_\ }, \ pos_Integer, \ 
+        value_, \ diagVal_:  1. \ ]\  := 
+      Module[\[IndentingNewLine]{\ positionList, \ 
+            valueList\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              positionList, \ valueList\ }\  = \ 
+            Transpose[\ 
+              Cases[\ matrix, \ 
+                  HoldPattern[\ 
+                    Rule[\ List[\ _, \ 
+                        pos\ ], \ _\ ]\ ]\[IndentingNewLine]] /. \ 
+                Rule[\ List[\ x_, \ y_\ ], \ val_\ ]\  \[Rule] \ {\ x\ , 
+                    val\ }\ \[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Do[\ \[IndentingNewLine]loadVector[\([\ 
+                  positionList[\([\ i\ ]\)]\ ]\)]\  -= \ 
+              valueList[\([\ i\ ]\)]\ *\ value, \ \[IndentingNewLine]{\ i, \ 
+              Length[\ 
+                positionList\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]loadVector[\([\ pos\ ]\)]\  = \ 
+            value\ ; \[IndentingNewLine]\[IndentingNewLine]matrix\  = \ 
+            DeleteCases[\ matrix, \ 
+              Rule[\ List[\ _, \ 
+                  pos\ ], \ _\ ]\ \ ]; \[IndentingNewLine]matrix\  = \ 
+            DeleteCases[\ 
+              matrix, \ \ Rule[\ 
+                List[\ pos, \ _\ ], \ _\ ]\ ]; \[IndentingNewLine]matrix\  = \
+\ Prepend[\ matrix, \ 
+              Rule[\ List[\ pos, \ pos\ ], \ 
+                diagVal\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            this\ is\ not\ the\ best\ way\ to\ check\ for\ a\ list\ of\ rules\
+\ *) \[IndentingNewLine]]\  /; \ 
+        imsSparseMatrixQ[\ matrix\ ]\  && \ 
+          VectorQ[\ loadVector\ ]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(imsDirichlet[\ {\ matrix_Symbol, \ loadVector_\ }, \ pos_Integer, \ 
+        value_, diagVal_:  1. \ ]\  := \ 
+      With[\[IndentingNewLine]{}, \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]loadVector[\([i]\)]\  -= \ 
+              matrix[\ i, \ pos\ ]\ *\ value; \[IndentingNewLine] (*\ 
+              we\ might\ have\ undifined\ matrix[\ x, \ 
+                  y\ ]\ entries\ *) \[IndentingNewLine] (*\ 
+              and\ i\ set\ them\ to\ 0.0\ \
+*) \[IndentingNewLine]loadVector[\([i]\)]\  = \ 
+              loadVector[\([i]\)]\  /. \ 
+                matrix[\ ___\ ]\  \[Rule] \ 0.0, \ {i\ , \ 
+              Length[\ 
+                loadVector\ ]\ }\ ]; \[IndentingNewLine]loadVector[\([\ 
+                pos\ ]\)]\  = \ 
+            value; \[IndentingNewLine]\[IndentingNewLine]Do[\ \
+\[IndentingNewLine]matrix[\ pos, \ i\ ]\  = \ 0.0; \ 
+            matrix[\ pos, \ i\ ] =. ; \[IndentingNewLine]matrix[\ i, \ 
+                pos\ ]\  = \ 0.0; \ 
+            matrix[\ i, \ pos\ ]\  =. \ , {\ i, \ 
+              Length[\ 
+                loadVector\ ]}\[IndentingNewLine]]; \
+\[IndentingNewLine]matrix[\ pos, \ pos\ ]\  = \ 
+            diagVal;\[IndentingNewLine]\[IndentingNewLine]]\  /; \ 
+        VectorQ[\ loadVector\ ]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsDirichletReinsertion[\ dirichletpos_List, \ dirichletval_List, \ 
+        solution_List]\  := 
+      Module[\ {TestRange, test, length1, dirichlettemp, SolT1 = solution, 
+          dpos = dirichletpos, 
+          dval = dirichletval}, \[IndentingNewLine]\[IndentingNewLine]dpos = 
+          IntegerPart[dpos]; \[IndentingNewLine]TestRange = 
+          Range[dpos[\([1]\)], 
+            Last[dpos]]; \[IndentingNewLine]\[IndentingNewLine]While[
+          Unequal[dval, {}], \[IndentingNewLine]test = 
+            True; \[IndentingNewLine]\[IndentingNewLine]For[i = 1, 
+            test, \(i++\), \[IndentingNewLine]If[\((dpos[\([i]\)] \[Equal] 
+                    TestRange[\([i]\)])\) && \((i < Length[dpos])\), 
+              test = True; 
+              length1 = 
+                i, \[IndentingNewLine]If[\((dpos[\([i]\)] \[Equal] 
+                      TestRange[\([i]\)])\) && \((i == Length[dpos])\), 
+                test = False; length1 = i, 
+                test = False]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]dirichlettemp = 
+            Take[dval, length1]; \[IndentingNewLine]SolT1 = \ 
+            Flatten[Append[
+                Flatten[
+                  Prepend[dirichlettemp, 
+                    Take[SolT1, dpos[\([1]\)] - 1\ ]\ ]], 
+                Drop[SolT1, 
+                  dpos[\([1]\)] - 1\ ]\ ]\ ]; \[IndentingNewLine]dval = 
+            Drop[dval, length1]; \[IndentingNewLine]dpos = 
+            Drop[dpos, length1]; \[IndentingNewLine]\[IndentingNewLine]If[
+            Unequal[dval, {}], \[IndentingNewLine]TestRange = 
+              Range[dpos[\([1]\)], 
+                Last[dpos]]\ ];\[IndentingNewLine]]; \[IndentingNewLine]SolT1\
+\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{926, 740},
+WindowMargins->{{44, Automatic}, {Automatic, 18}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 46, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1847, 57, 31, 0, 74, "Section"],
+Cell[1881, 59, 1662, 27, 395, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3580, 91, 32, 0, 44, "Section"],
+Cell[3615, 93, 177, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3829, 103, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[3906, 107, 26, 0, 38, "Subsection"],
+Cell[3935, 109, 1434, 22, 331, "Input",
+  InitializationCell->True],
+Cell[5372, 133, 241, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5650, 142, 34, 0, 30, "Subsection"],
+Cell[5687, 144, 325, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6049, 155, 36, 0, 30, "Subsection"],
+Cell[6088, 157, 272, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+Cell[6387, 166, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6453, 170, 29, 0, 74, "Section"],
+Cell[6485, 172, 346, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6868, 183, 32, 0, 44, "Section"],
+Cell[6903, 185, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7028, 192, 42, 0, 44, "Section"],
+Cell[7073, 194, 101, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7211, 201, 26, 0, 44, "Section"],
+Cell[7240, 203, 297, 5, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7574, 213, 27, 0, 44, "Section"],
+Cell[7604, 215, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7720, 222, 29, 0, 44, "Section"],
+Cell[7752, 224, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7870, 231, 41, 0, 44, "Section"],
+Cell[7914, 233, 334, 6, 59, "Input",
+  InitializationCell->True],
+Cell[8251, 241, 1251, 22, 235, "Input",
+  InitializationCell->True],
+Cell[9505, 265, 1716, 31, 379, "Input",
+  InitializationCell->True],
+Cell[11224, 298, 371, 6, 59, "Input",
+  InitializationCell->True],
+Cell[11598, 306, 1832, 34, 443, "Input",
+  InitializationCell->True],
+Cell[13433, 342, 1737, 34, 331, "Input",
+  InitializationCell->True],
+Cell[15173, 378, 1350, 26, 299, "Input",
+  InitializationCell->True],
+Cell[16526, 406, 1796, 33, 427, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18359, 444, 30, 0, 44, "Section"],
+Cell[18392, 446, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18541, 453, 30, 0, 44, "Section"],
+Cell[18574, 455, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

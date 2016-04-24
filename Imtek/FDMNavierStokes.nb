@@ -1,0 +1,844 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     30110,        681]*)
+(*NotebookOutlinePosition[     30772,        704]*)
+(*  CellTagsIndexPosition[     30728,        700]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FDMNavierStokes Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ FDMNavierStokes . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 1.3  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ Sources : \ "\<Numerische Simulation in der Stroemungsmechanik\>", \ 
+      M . \ griebel, \ 
+      et . \ al . \ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      this\ pacakge\ ports\ a\ navier\ stokes\ solver\ in\ finite\ difference\
+\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`FDMNavierStokes`\>"];\)\)\
+\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesInitialize, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesTimeStep, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesBoundary, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesFG, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesRHS, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesUpdateUV, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        imsFDMNavierStokesPressure, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsFDMNavierStokesInitialize::usage\  = \ \
+"\<imsFDMNavierStokesInitialize[ {iMax,jMax},{ f1, f2, f3, f4, f5}] returns a \
+list of initialized matrices {u,v,p,F,G}. Each matrix is initialized with a \
+function f.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFDMNavierStokesTimeStep::usage\  = \ \
+"\<imsFDMNavierStokesTimeStep[{u,v},{dx,dy},re] computes the size of the next \
+time step. {u,v} is the vvelocityelocity field. {dx,dy} the spacial \
+discretization and re is the reynolds number.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsFDMNavierStokesBoundary::usage\  = \ \
+"\<imsFDMNavierStokesBoundary[{u,v,p},{iMax,jMax},{n,e,s,w}] sets boundary \
+conditions on {u,v,p}. {iMax, jMax} is the grid size. All directions, north, \
+east, south and west need an integer 1,2 or 3 as input. 1 is a no slip, 2 a \
+free slip and 3 a outflow boundary condition.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsFDMNavierStokesFG::usage\  = \ \
+"\<imsFDMNavierStokesFG[{F,G},{u,v},{iMax,jMax},{dx,dy},dt,re,{gx,gy}] \
+computes the next time step impulse equation without the pressure. {iMax, \
+jMax} is the grid size. {dx,dy} is the spacial discretization. dt is the time \
+step size. re the reynolds number. {gx, gy} is the gravity.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsFDMNavierStokesRHS::usage\  = \ \
+"\<imsFDMNavierStokesRHS[{F,G},{iMax,jMax},{dx,dy},dt] computes the rhs of \
+the Poisson equation. {dx, dy} are the spacial discretization. dt is the time \
+step size.\>"\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFDMNavierStokesUpdateUV::usage\  = \ \
+"\<imsFDMNavierStokesUpdateUV[{u,v},{F,G},pNew,{iMax,jMax},{dx,dy},dt] \
+computes the next time steps velocities {u,v} from the impulse equation {F,G} \
+and the new pressure pNew. {iMax,jMax} is the grid size. {dx,dy} is the \
+spacial discretization. dt is the time step size.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsFDMNavierStokesPressure::usage\  = \ \
+"\<imsFDMNavierStokesPressure[{iMax+2,jMax+2}] assembles the Poisson matrix. \
+{iMax, jMax} is the grid size.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \( (*\ \(Needs[\ "\<Imtek`Geometry`Point`\>"\ ];\)*) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Options[\ myFunctio\ ]\  = \ {\ 
+          myOptionName\  \[Rule] \ 
+            myValue\ }\ *) \)\(\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      plublic\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsFDMNavierStokesInitialize[\ {\ iMax_, \ 
+            jMax_\ }, \ 
+          fields_\ ]\  := \ {\[IndentingNewLine]Table[\ \(fields[\([1]\)]\)[\ 
+              i, \ j\ ], \ {\ i, \ iMax + 2\ }, \ {\ j, \ 
+              jMax + 2\ }\ ], \[IndentingNewLine]Table[\ \(fields[\([2]\)]\)[\
+\ i, \ j\ ], \ {\ i, \ iMax + 2\ }, \ {\ j, \ 
+              jMax + 2\ }\ ], \[IndentingNewLine]Table[\ \(fields[\([3]\)]\)[\
+\ i, \ j\ ], \ {\ i, \ iMax + 2\ }, \ {\ j, \ 
+              jMax + 2\ }\ ], \[IndentingNewLine]Table[\ \(fields[\([4]\)]\)[\
+\ i, \ j\ ], \ {\ i, \ iMax + 1\ }, \ {\ j, \ 
+              jMax + 2\ }\ ], \[IndentingNewLine]Table[\ \(fields[\([5]\)]\)[\
+\ i, \ j\ ], \ {\ i, \ iMax + 2\ }, \ {\ j, \ 
+              jMax + 1\ }\ ]\[IndentingNewLine]};\)\(\[IndentingNewLine]\)
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsFDMNavierStokesTimeStep[\ {\ u_, \ v_\ }, \ {\ dx_, \ dy_\ }, \ 
+          re_, \ tau_:  0.5\ ]\  := \ 
+        With[\[IndentingNewLine]{\ uNorm\  = \ myNorm[\ u\ ], \ 
+            vNorm\  = \ 
+              myNorm[\ 
+                v\ ]\ }, \[IndentingNewLine]\(Return[\[IndentingNewLine]tau\ \
+*\ Min[\ \[IndentingNewLine]re/\((\ 
+                      2\ *\ \((\ 
+                          1/dx^2\  + \ 
+                            1\ /\ dy^2\ )\)\ )\), \[IndentingNewLine]If[\ 
+                    uNorm < \ 10^\(-10\), \ dx\ /\ 10^\(-10\), \ 
+                    dx\ /\ uNorm\ ], \[IndentingNewLine]If[\ 
+                    vNorm < \ 10^\(-10\), \ dy\ /\ 10^\(-10\), \ 
+                    dy\ /\ vNorm\ ]\ \ ]\[IndentingNewLine]];\)\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(SetAttributes[\ imsFDMNavierStokesBoundary, \ 
+      HoldFirst\ ]\), "\[IndentingNewLine]", 
+    \(\(imsFDMNavierStokesBoundary[\ {\ u_, \ v_, \ p_\ }, \ {\ iMax_, \ 
+            jMax_\ }, \ {\ wN_, wE_, \ wS_, wW_\ }\ ]\  := \ 
+        With[\[IndentingNewLine]{\ j1\  = \ jMax + 1, \ 
+            j2\  = \ jMax\  + 2, \ i1\  = \ iMax + 1, \ 
+            i2\  = \ iMax\  + \ 2\ }, \[IndentingNewLine] (*\ 
+            1\  = \ no\ slip, \ 2\  = \ free\ slip, \ 3\  = \ out\ flow, \ 
+            4\  = \ inflow\ *) \ \
+\[IndentingNewLine]Which[\[IndentingNewLine]wN\  \[Equal] \ 1, \ 
+            v[\([\ All, \ j1\ ]\)] = 0. ; \ 
+            u[\([\ All, \ j2\ ]\)] = \(-u[\([\ All, \ j1\ ]\)]\)\  (*\ 
+              u\  = \ 0\ *) , \[IndentingNewLine]wN\  \[Equal] \ 2, \ 
+            v[\([\ All, \ j1\ ]\)] = 0. ; \ 
+            u[\([\ All, \ j2\ ]\)] = u[\([\ All, \ j1\ ]\)]\  (*\ 
+              du/dn\  = \ 0\ *) , \[IndentingNewLine]wN\  \[Equal] \ 3, \ 
+            v[\([\ All, \ j1\ ]\)] = v[\([\ All, \ jMax\ ]\)]; \ 
+            u[\([\ All, \ j2\ ]\)] = 
+              u[\([\ All, \ j1\ ]\)]\[IndentingNewLine] (*\ 
+              wN\  \[Equal] \ 4, \ 
+              Null\ *) \[IndentingNewLine]]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]wE\  \[Equal] \ 1, \ u[\([\ i1, \ All\ ]\)] = 0. ; \ 
+            v[\([\ i2, \ 
+                  All\ ]\)] = \(-v[\([\ i1, \ 
+                    All\ ]\)]\), \[IndentingNewLine]wE\  \[Equal] \ 2, \ 
+            u[\([\ i1, \ All\ ]\)] = 0. ; \ 
+            v[\([\ i2, \ All\ ]\)] = 
+              v[\([\ i1, \ All\ ]\)], \[IndentingNewLine]wE\  \[Equal] \ 3, \ 
+            u[\([\ i1, \ All\ ]\)] = u[\([\ iMax, \ All\ ]\)]; \ 
+            v[\([\ i2, \ All\ ]\)] = 
+              v[\([\ i1, \ All\ ]\)]\[IndentingNewLine] (*\ 
+              wE\  \[Equal] \ 4, \ 
+              Null\ *) \[IndentingNewLine]]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]wS\  \[Equal] \ 1, \ v[\([\ All, \ 1\ ]\)] = 0. ; \ 
+            u[\([\ All, \ 
+                  1\ ]\)] = \(-u[\([\ All, 
+                    2\ ]\)]\), \[IndentingNewLine]wS\  \[Equal] \ 2, \ 
+            v[\([\ All, \ 1\ ]\)] = 0. ; \ 
+            u[\([\ All, \ 1\ ]\)] = 
+              u[\([\ All, 2\ ]\)], \[IndentingNewLine]wS\  \[Equal] \ 3, \ 
+            v[\([\ All, \ 1\ ]\)] = v[\([\ All, \ 2\ ]\)]; \ 
+            u[\([\ All, \ 1\ ]\)] = 
+              u[\([\ All, 2\ ]\)]\[IndentingNewLine] (*\ wS\  \[Equal] \ 4, \ 
+              
+              Null\ *) \[IndentingNewLine]]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]wW\  \[Equal] \ 1, \ u[\([\ 1, \ All\ ]\)] = 0. ; \ 
+            v[\([\ 1, \ All\ ]\)] = \(-v[\([\ 2, \ All\ ]\)]\)\  (*\ 
+              v\  = \ 0\ *) , \[IndentingNewLine]wW\  \[Equal] \ 2, \ 
+            u[\([\ 1, \ All\ ]\)] = 0. ; \ 
+            v[\([\ 1, \ All\ ]\)] = v[\([\ 2, \ All\ ]\)]\  (*\ 
+              dv\ /\ dn\  = \ 0\ *) , \[IndentingNewLine]wW\  \[Equal] \ 3, \ 
+            u[\([\ 1, \ All\ ]\)] = \ u[\([\ 2, \ All\ ]\)]; \ 
+            v[\([\ 1, \ All\ ]\)] = \ 
+              v[\([\ 2, \ All\ ]\)]\[IndentingNewLine] (*\ 
+              wW\  \[Equal] \ 4, \ 
+              Null\ *) \[IndentingNewLine]];\[IndentingNewLine]];\)\)}], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(SetAttributes[\ imsFDMNavierStokesFG, \ 
+      HoldFirst\ ]\), "\[IndentingNewLine]", 
+    \(\(imsFDMNavierStokesFG[\ {\ F_, \ G_\ }, \ {\ u_, \ v_\ }, {\ iMax_, \ 
+            jMax_\ }, {\ dx_, \ dy_\ }, dt_, \ re_, \ {\ gx_, \ gy_\ }, \ 
+          gamma_:  0.9\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ dxdx\  = \ dx*dx, \ dydy\  = \ dy*dy, \ 
+            uC, \ uW, \ uE, \ uN, \ uS, \ uNW, \ vC, \ vW, \ vE, \ vN, \ 
+            vS, \ vSE\ }, \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]uC\  = \ u[\([\ i, \ j\ ]\)]; \[IndentingNewLine]uW\  = \ 
+              u[\([\ i - 1, \ j\ ]\)]; \[IndentingNewLine]uE\  = \ 
+              u[\([\ i + 1, \ j\ ]\)]; \[IndentingNewLine]uN\  = \ 
+              u[\([\ i, \ j + 1\ ]\)]; \[IndentingNewLine]uS\  = \ 
+              u[\([\ i, \ 
+                  j - 1\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]vC\  = \ 
+              v[\([\ i, \ j\ ]\)]; \[IndentingNewLine]vW\  = \ 
+              v[\([\ i - 1, \ j\ ]\)]; \[IndentingNewLine]vE\  = \ 
+              v[\([\ i + 1, \ j\ ]\)]; \[IndentingNewLine]vN\  = \ 
+              v[\([\ i, \ j + 1\ ]\)]; \[IndentingNewLine]vS\  = \ 
+              v[\([\ i, \ j - 1\ ]\)]; \[IndentingNewLine]vSE\  = \ 
+              v[\([\ i + 1, \ 
+                  j - 1\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]F[\([\ i, \ j\ ]\)]\  = \ 
+              uC\  + \ dt\ *\ \((\ \((\ 
+                          d2udx2[\ {\ uW, \ uC, \ uE\ }, \ dxdx\ ]\  + \ 
+                            d2udy2[\ {\ uN, \ uC, \ uS\ }, \ dydy\ ]\ )\)/\ 
+                        re\  - \ 
+                      du2dx[\ {\ uW, \ uC, \ uE\ }, \ dx, \ gamma\ ]\  - \ 
+                      duvdy[{\ uN, \ uC, \ uS\ }, \ {\ vC, \ vE, \ vS, \ 
+                          vSE\ }, \ dy, \ gamma\ ]\ \  + \ 
+                      gx\ )\);\[IndentingNewLine]\[IndentingNewLine], \ {\ 
+              j, \ 2, \ jMax + 1\ }, {\ i, \ 2, \ 
+              iMax\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Do[\[IndentingNewLine]uC\  = \ 
+              u[\([\ i, \ j\ ]\)]; \[IndentingNewLine]uW\  = \ 
+              u[\([\ i - 1, \ j\ ]\)]; \[IndentingNewLine]uE\  = \ 
+              u[\([\ i + 1, \ j\ ]\)]; \[IndentingNewLine]uN\  = \ 
+              u[\([\ i, \ j + 1\ ]\)]; \[IndentingNewLine]uS\  = \ 
+              u[\([\ i, \ j - 1\ ]\)]; \[IndentingNewLine]uNW\  = \ 
+              u[\([\ i - 1, \ 
+                  j + 1\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]vC\  = \ 
+              v[\([\ i, \ j\ ]\)]; \[IndentingNewLine]vW\  = \ 
+              v[\([\ i - 1, \ j\ ]\)]; \[IndentingNewLine]vE\  = \ 
+              v[\([\ i + 1, \ j\ ]\)]; \[IndentingNewLine]vN\  = \ 
+              v[\([\ i, \ j + 1\ ]\)]; \[IndentingNewLine]vS\  = \ 
+              v[\([\ i, \ 
+                  j - 1\ ]\)]; \[IndentingNewLine]\[IndentingNewLine]G[\([\ 
+                  i, \ j\ ]\)]\  = \ 
+              vC\  + \ dt*\((\ \((\ 
+                          d2vdx2[\ {\ vW, \ vC, \ vE\ }, \ dxdx\ ]\  + \ 
+                            d2vdy2[\ {\ vN, \ vC, \ vS\ }, \ dydy\ ]\ )\)/
+                        re\  - \ 
+                      dv2dy[\ {\ vN, \ vC, \ vS\ }, \ dy, \ gamma\ ]\  - \ 
+                      duvdx[\ {\ vW, \ vC, \ vE\ }, {\ uC, \ uN, \ uW, \ 
+                          uNW\ }, \ dx, \ gamma\ ]\  + \ 
+                      gy\ )\);\[IndentingNewLine]\[IndentingNewLine], {\ j, \ 
+              2, \ jMax\ }, \ {\ i, \ 2, \ 
+              iMax + 1\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]F[\([\ 1, \ All\ ]\)]\  = \ 
+            u[\([\ 1, \ All\ ]\)]; \[IndentingNewLine]F[\([\ iMax + 1, \ 
+                All\ ]\)]\  = \ 
+            u[\([\ iMax + 1, \ All\ ]\)]; \[IndentingNewLine]F[\([\ 1, \ 
+                1\ ]\)]\  = \ \(F[\([\ 1, \ 
+                  jMax + 2\ ]\)]\  = \(F[\([\ iMax + 1, \ 
+                    1\ ]\)]\  = \ \(F[\([\ iMax + 1, \ jMax + 2\ ]\)] = \ 
+                  0. \)\)\); \[IndentingNewLine]\[IndentingNewLine]G[\([\ 
+                All, \ 1\ ]\)]\  = \ 
+            v[\([\ All, \ 1\ ]\)]; \[IndentingNewLine]G[\([\ All, \ 
+                jMax + 1\ ]\)]\  = \ 
+            v[\([\ All, \ jMax + 1\ ]\)]; \[IndentingNewLine]G[\([\ 1, \ 
+                1\ ]\)]\  = \ \(G[\([\ iMax + 2, \ 
+                  1\ ]\)]\  = \ \(G[\([\ 1, \ 
+                    jMax + 1\ ]\)]\  = \ \(G[\([\ iMax + 2, \ 
+                      jMax + 1\ ]\)]\  = \ 
+                  0. \)\)\);\[IndentingNewLine]\[IndentingNewLine]];\)\)}], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsFDMNavierStokesRHS[\ {\ F_, \ G_\ }, \ {\ iMax_, \ jMax_\ }, \ {\ 
+            dx_, \ dy_\ }, \ dt_\ ]\  := \ 
+        Module[\ {\ rhs\ }, \[IndentingNewLine]rhs\  = \ 
+            Table[\ 0.0, \ {\ iMax + 2\ }, \ {\ 
+                jMax + 2\ }\ ]; \[IndentingNewLine]Do[\ \ \
+\[IndentingNewLine]rhs[\([\ i, \ 
+                  j\ ]\)]\  = \ \((\ 
+                    F[\([\ i, \ j\ ]\)]\  - \ F[\([\ i - 1, \ j\ ]\)]\ )\)/\ 
+                  dx\  + \ \((\ 
+                    G[\([\ i, \ j\ ]\)]\  - \ G[\([\ i, \ j - 1\ ]\)]\ )\)/
+                  dy, \ {\ j, 2, \ jMax + 1\ }, \ \ {\ i, 2, \ 
+              iMax + 1\ }\ ]; \[IndentingNewLine]Return[\ 
+            rhs\ /\ dt\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(SetAttributes[\ imsFDMNavierStokesUpdateUV, \ 
+      HoldFirst\ ]\), "\[IndentingNewLine]", 
+    \(\(imsFDMNavierStokesUpdateUV[\ {\ u_, \ v_\ }, \ \ {\ F_, \ G_\ }, 
+          p_, \ {\ iMax_, \ jMax_\ }, \ {\ dx_, \ dy_}, \ dt_\ ]\  := \ 
+        CompoundExpression[\[IndentingNewLine]Table[\ 
+            u[\([\ i, \ j\ ]\)]\  = \ 
+              F[\([\ i, \ j\ ]\)]\  - \ 
+                dt\ *\ dpdx[\ {\ p[\([\ i + 1, \ j\ ]\)], \ 
+                      p[\([\ i, \ j\ ]\)]\ }, \ dx\ ], \ {\ i, \ 2, \ 
+              iMax\ }, \ {\ j, \ 2, \ 
+              jMax\  + \ 1\ }\ ], \[IndentingNewLine]Table[\ 
+            v[\([\ i, \ j\ ]\)]\  = \ 
+              G[\([\ i, \ j\ ]\)]\  - \ 
+                dt\ *\ dpdy[\ {\ p[\([\ i, \ j + 1\ ]\)], \ 
+                      p[\([\ i, \ j\ ]\)]\ }, \ dy\ ], \ {\ i, \ 2, 
+              iMax\  + \ 1\ }, \ {\ j, \ 2, \ 
+              jMax\ }\ ]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsFDMNavierStokesPressure[\ {\ cols_, \ rows_\ }\ ] := \ 
+        Module[\[IndentingNewLine]{\ pos, \ 
+            matrix\ }, \[IndentingNewLine]matrix\  = \ 
+            SparseArray[\ {}, \ {\ rows\ *\ cols, 
+                rows\ *\ cols\ }\ \ ]; \[IndentingNewLine] (*\ \(matrix\  = \ 
+                Table[\ 0. , \ {\ rows\ *\ cols\ }, {\ 
+                    rows\ *\ 
+                      cols}\ \ ];\)\ \
+*) \[IndentingNewLine]\[IndentingNewLine]Do[\[IndentingNewLine]pos\  = \ \((r \
+- 1)\)*cols\  + 
+                c; \[IndentingNewLine]\[IndentingNewLine]Which[\
+\[IndentingNewLine]\[IndentingNewLine]r\  \[Equal] 1\  && \ 
+                c\  \[Equal] \ 1, \ 
+              matrix[\([\ pos, \ 1\ ]\)]\  = \ 
+                1. \  (*\ \(;\)\(\ \)\(matrix[\([\ pos, \ 
+                      cols\  + 
+                        2\ ]\)]\  = \ \(-1. \)\)*) , \[IndentingNewLine]r\  \
+\[Equal] 1\  && \ c\  \[Equal] \ cols, \ 
+              matrix[\([\ pos, \ cols\ ]\)]\  = \ 
+                1. \  (*\(;\)\(\ \)\(matrix[\([\ 
+                      pos, \ \((r + 1)\)*cols\  - \ 
+                        1\ ]\)]\  = \ \(-1. \)\)\ *) , \[IndentingNewLine]r\  \
+\[Equal] rows\  && \ 
+                c\  \[Equal] \ 
+                  1, \ \(matrix[\([\ pos, \ \((r - 1)\)*cols\  + 1]\)]\  = \ 
+                  1. ;\)\  (*\ 
+                matrix[\([\ 
+                      pos, \ \((r\  - 2\ )\)*cols + 
+                        2\ ]\)]\  = \ \(-1. \)\ *) \ , \[IndentingNewLine]r\  \
+\[Equal] rows\  && \ c\  \[Equal] \ cols, 
+              matrix[\([\ pos, \ rows*cols\ ]\)]\  = \ 
+                1. \  (*\(;\)\(\ \ \)\(matrix[\([\ 
+                      pos, \ \((r - 1)\)*cols\  - 
+                        1\ ]\)]\  = \ \(-1. \)\)\ *) , \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]c\  \[Equal] \ 1, \ 
+              matrix[\([\ \((r - 1)\)*cols\  + c, \ \((r - 1)\)*cols\  + 
+                      c\ ]\)]\  = \ 
+                1. ; \ \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 1)\)*cols\  + c + 
+                      1\ ]\)]\  = \ \(-1. \);, \[IndentingNewLine]c\  \
+\[Equal] \ cols, \ 
+              matrix[\([\ \((r - 1)\)*cols\  + c, \ \((r - 1)\)*cols\  + 
+                      c\ ]\)]\  = \ 
+                1. ; \ \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 1)\)*cols\  + c - 
+                      1\ ]\)]\  = \ \(-1. \);, \[IndentingNewLine]\
+\[IndentingNewLine]r \[Equal] \ 1, \ 
+              matrix[\([\ \((r - 1)\)*cols\  + c, \ \((r - 1)\)*cols\  + 
+                      c\ ]\)]\  = \ 
+                1. ; \ \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r)\)*cols\  + 
+                      c\ ]\)]\  = \ \(-1. \), \[IndentingNewLine]r \[Equal] 
+                rows, \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 1)\)*cols\  + c\ ]\)]\  = \ 
+                1. ; \ \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 2)\)*cols\  + 
+                      c\ ]\)]\  = \ \(-1. \), \[IndentingNewLine]\
+\[IndentingNewLine]True, \[IndentingNewLine]matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 1)\)*cols\  + c\ ]\)]\  = \ 
+                4. ; \ \ matrix[\([\ \((r - 1)\)*cols\  + 
+                      c, \ \((r - 1)\)*cols\  + c - 1\ ]\)]\  = \ \(-1. \); \ 
+              matrix[\([\ \((r - 1)\)*cols\  + c, \ \((r - 1)\)*cols\  + c + 
+                      1\ ]\)]\  = \ \(-1. \); \ 
+              matrix[\([\ \((r - 1)\)*cols\  + c, \ \((r - 2)\)*cols\  + 
+                      c\ ]\)]\  = \ \(-1. \); \[IndentingNewLine]matrix[\([\ \
+\((r - 1)\)*cols\  + c, \ 
+                    r*cols\  + 
+                      c\ ]\)]\  = \ \(-1. \);\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]{\ r, \ rows\ }, \ {\ c, 
+              cols\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ matrix\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(myNorm[\ var_\ ]\  := \ 
+      Max[\ Abs[\ var\ ]\ ]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(du2dx[\ {\ uW_, \ uC_, \ uE_\ }, \ dx_, \ 
+          gamma_\ ]\  := \ \((\ \((\ \((\ uC + uE\ )\)^2\  - \ \((\ 
+                      uW + uC\ )\)^2\ )\)\ \  + \ 
+              gamma\ *\ \((\ 
+                  Abs[\ \((\ uC + uE\ )\)\ ]\ *\ \((\ uC - uE\ )\)\  - \ 
+                    Abs[\ \((\ uW + uC\ )\)\ ]\ *\ \((\ 
+                        uW - uC\ )\)\ )\)\ )\)/\((4*
+              dx)\);\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(duvdy[\ {\ uN_, \ uC_, \ uS_\ \ }, \ {\ vC_, \ vE_, \ vS_, \ 
+            vSE_\ }, \ dy_, \ 
+          gamma_\ ]\  := \ \((\ \((\ vC + vE\ )\)*\((\ uC + uN\ )\) - \((\ 
+                  vS + vSE\ )\)*\((\ uS + uC\ )\)\  + \ 
+              gamma\ *\ \((\ 
+                  Abs[\ vC + vE\ ]*\((\ uC - uN\ )\)\  - \ 
+                    Abs[\ vS + vSE\ ]*\((\ uS - uC\ )\)\ )\)\ )\)/\((4*
+              dy)\);\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(d2udx2[\ {\ uW_, \ uC_, \ uE_\ }, \ 
+          dxdx_\ ]\  := \ \((uW\  - 2\ *\ uC\  + \ uE\ )\)/
+          dxdx;\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(d2udy2[\ {\ uN_, \ uC_, \ uS_\ }, \ 
+          dydy_\ ]\  := \ \((\ uN\  - \ 2\ *\ uC\  + \ uS\ )\)/dydy;\)\(\n\)
+    \)\), "\n", 
+    \(\(dpdx[\ {\ pE_, \ pC_\ }, \ dx_\ ]\  := \ \((\ pE\  - \ pC\ )\)/
+          dx;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      v\ *) \)\(\[IndentingNewLine]\)\(dv2dy[\ {\ vN_, \ vC_, \ vS_\ }, \ 
+        dy_, \ gamma_\ ]\  := \ \((\ \((\ \((\ vC + vN\ )\)^2\  - \ \((\ 
+                    vS + vC\ )\)^2\ )\)\ \  + \ 
+            gamma\ *\ \((\ 
+                Abs[\ \((\ vC + vN\ )\)\ ]\ *\ \((\ vC - vN\ )\)\  - \ 
+                  Abs[\ \((\ vS + vC\ )\)\ ]\ *\ \((\ 
+                      vS - vC\ )\)\ )\)\ )\)/\((4*
+            dy)\)\[IndentingNewLine]\[IndentingNewLine]
+    duvdx[\ {\ vW_, \ vC_, \ vE_\ }, {\ uC_, \ uN_, \ uW_, \ uNW_\ \ }, \ 
+        dx_, \ gamma_\ ]\  := \ \((\ \((\ uC + uN\ )\)*\((\ 
+                vC + vE\ )\) - \((\ uW + uNW\ )\)*\((\ vW + vC\ )\)\  + \ 
+            gamma\ *\ \((\ 
+                Abs[\ uC + uN\ ]*\((\ vC - vE\ )\)\  - \ 
+                  Abs[\ uW + uNW\ ]*\((\ vW - vC\ )\)\ )\)\ )\)/\((4*
+            dx)\)\n\[IndentingNewLine]
+    \(d2vdx2[\ {\ vW_, \ vC_, \ vE_\ }, \ 
+          dxdx_\ ]\  := \ \((vW\  - 2\ *\ vC\  + \ vE\ )\)/
+          dxdx;\)\n\[IndentingNewLine]
+    \(d2vdy2[\ {\ vN_, \ vC_, \ vS_\ }, \ 
+          dydy_\ ]\  := \ \((\ vN\  - \ 2\ *\ vC\  + \ vS\ )\)/
+          dydy;\)\[IndentingNewLine]\n
+    \(dpdy[\ {\ pN_, \ pC_\ }, \ dy_\ ]\  := \ \((\ pN\  - \ pC\ )\)/
+          dy;\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{972, 680},
+WindowMargins->{{Automatic, 20}, {19, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 43, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1844, 57, 31, 0, 74, "Section"],
+Cell[1878, 59, 1325, 22, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3228, 85, 35, 0, 28, "Subsubsection"],
+Cell[3266, 87, 1825, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5140, 123, 32, 0, 44, "Section"],
+Cell[5175, 125, 174, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5386, 135, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5463, 139, 26, 0, 38, "Subsection"],
+Cell[5492, 141, 3441, 57, 811, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8970, 203, 34, 0, 30, "Subsection"],
+Cell[9007, 205, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9213, 213, 36, 0, 30, "Subsection"],
+Cell[9252, 215, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9444, 223, 32, 0, 44, "Section"],
+Cell[9479, 225, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9604, 232, 42, 0, 44, "Section"],
+Cell[9649, 234, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9798, 241, 30, 0, 44, "Section"],
+Cell[9831, 243, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10124, 253, 26, 0, 44, "Section"],
+Cell[10153, 255, 337, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10527, 267, 27, 0, 44, "Section"],
+Cell[10557, 269, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10673, 276, 29, 0, 44, "Section"],
+Cell[10705, 278, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10823, 285, 41, 0, 44, "Section"],
+Cell[10867, 287, 995, 17, 70, "Input",
+  InitializationCell->True],
+Cell[11865, 306, 831, 16, 70, "Input",
+  InitializationCell->True],
+Cell[12699, 324, 3255, 58, 70, "Input",
+  InitializationCell->True],
+Cell[15957, 384, 4565, 76, 70, "Input",
+  InitializationCell->True],
+Cell[20525, 462, 775, 14, 70, "Input",
+  InitializationCell->True],
+Cell[21303, 478, 975, 18, 70, "Input",
+  InitializationCell->True],
+Cell[22281, 498, 4002, 72, 70, "Input",
+  InitializationCell->True],
+Cell[26286, 572, 278, 5, 70, "Input",
+  InitializationCell->True],
+Cell[26567, 579, 1378, 28, 70, "Input",
+  InitializationCell->True],
+Cell[27948, 609, 1314, 25, 70, "Input",
+  InitializationCell->True],
+Cell[29265, 636, 54, 1, 70, "Input",
+  InitializationCell->True],
+Cell[29322, 639, 54, 1, 70, "Input",
+  InitializationCell->True],
+Cell[29379, 642, 54, 1, 70, "Input",
+  InitializationCell->True],
+Cell[29436, 645, 54, 1, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29527, 651, 31, 0, 44, "Section"],
+Cell[29561, 653, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29681, 660, 30, 0, 44, "Section"],
+Cell[29714, 662, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29863, 669, 30, 0, 44, "Section"],
+Cell[29896, 671, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

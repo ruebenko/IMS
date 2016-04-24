@@ -1,0 +1,817 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     23000,        603]*)
+(*NotebookOutlinePosition[     23668,        626]*)
+(*  CellTagsIndexPosition[     23624,        622]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Voxel Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Voxel . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : jan\ korvink\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 17.11  .2005, \ \[IndentingNewLine]Freiburg, \ 
+      in\ Cafe\ Einstein\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ This\ handles\ voxels\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \ \[IndentingNewLine]Initial\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Fintie\ Element\ Operators\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ Oliver\ Ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Voxel`\>"\ ];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeVoxelMesh::usage = \
+"\<imsMakeVoxelMesh[ \[Delta] , { nx , ny , nz } ] creates an empty voxel \
+mesh with the given dimensions.\nimsMakeVoxelMesh[ \[Delta] , data ] creates \
+a voxel mesh from the privided data. The dimensions of the mesh are \
+automatically found.\nimsMakeVoxelMesh[ \[Delta] , { nx , ny , nz } , data ] \
+creates a voxel mesh from the provided data. The data is not checked for \
+consistency.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]
+    \(imsVoxelLength::usage = "\<imsVoxelLength[ voxelmesh ] returns the side \
+length of a voxel in the voxelmesh.\>";\)\[IndentingNewLine]\n
+    \(imsVoxelMeshDimensions::usage = "\<imsVoxelMeshDimensions[ voxelmesh ] \
+returns the array dimensions of the voxelmesh.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsVoxelMeshData::usage = "\<imsVoxelMeshData[ voxelmesh ] returns the \
+pixel data of the voxelmesh.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSelectVoxelMeshPlane::usage = "\<imsSelectVoxelMeshPlane[ { plane , \
+index } , voxelmesh ] selects all voxels of voxelmesh that are coincident \
+with the given indexed plane. Planes are specified by 1, 2, or 3, for x, y or \
+z, and the index should lie within the dimensions of the voxelmesh.\>";\)\
+\[IndentingNewLine]\n (*\ predicates\ *) \n\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]\n
+    \(imsVoxelMesh::usage = \ "\<imsVoxelMesh[ \[Delta] , { nx , ny , nz } , \
+data ] is a representation of a 3D voxel-based object. \[Delta] is the edge \
+length of a voxel, {nx,ny,nz} is the dimension of the mesh, and data marks \
+the voxels that are present in the mesh. Data can be a list of integer \
+triplets, where each triplet is the coordinate of a voxel as follows:\n\
+{{i,j,k}..}\n It can also be one of the following symbols:\n None, meaning \
+that no voxel is present.\n All, meaning that all voxels are present.\>";\)\n\
+\[IndentingNewLine]
+    \(imsGraphics3DToVoxel::usage = \ "\<imsGraphics3DToVoxel[ g , \[Delta] ] \
+creates a voxel-based representation of g. Currently, the following \
+Graphics3D primitives are supported by the conversion routines: Point, Line, \
+Polygon (but only those with 3 vertices). All other primitives are simply \
+ignored.\>";\)\[IndentingNewLine]\n
+    \(imsWhichVoxel::usage = \ "\<imsWhichVoxel[ point , \[Delta] ] gives the \
+voxel coordinates of a 3D point in a discrete space with voxel length \
+\[Delta].\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPointDrawFunction::usage = "\<imsPointDrawFunction[ { i , j , k } , \
+\[Delta] ] converts a voxel to a Graphics3D point.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCuboidDrawFunction::usage = "\<imsCuboidDrawFunction[ { i , j , k } \
+, \[Delta] ] converts a voxel to a Graphics3D \
+cuboid.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawVoxel::usage = "\<Is a symbol for a rule that specifies the \
+function used to draw a voxel\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDrawVoxelMesh::usage = "\<imsDrawVoxelMesh[ voxelmesh ] draws a 3D \
+picture of voxelmesh with each voxel represented by a point.\n\
+imsDrawVoxelMesh[ voxelmesh , imsDrawVoxel->fn ] uses the function fn[ \
+voxelcoord , \[Delta] ] to draw each voxel, where voxelcoord is the discrete \
+position of the voxel in the mesh, and \[Delta] is the length of a voxel.\>";\
+\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      this\ is\ only\ for\ the\ old\ FEMNeumann\ operator\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Utilities`FilterOptions`\>"];\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeVoxelMesh[
+          d_?NumericQ, dim : {nx_Integer, ny_Integer, nz_Integer}] := 
+        imsVoxelMesh[d, dim, None];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeVoxelMesh[d_?NumericQ, 
+          data : {{_Integer, _Integer, _Integer} .. }] := 
+        Module[{mins, 
+            newData}, \[IndentingNewLine]mins = \((\(Min[#] &\) /@ 
+                  Transpose[data])\) - {1, 1, 
+                1}; \[IndentingNewLine]newData = \(\((# - mins)\) &\) /@ 
+              data; \[IndentingNewLine]imsVoxelMesh[
+            d, \(Max[#] &\) /@ Transpose[newData], 
+            newData]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMakeVoxelMesh[d_?NumericQ, 
+          dim : {nx_Integer, ny_Integer, nz_Integer}, 
+          data : {{_Integer, _Integer, _Integer} .. }] \
+:= \[IndentingNewLine]imsVoxelMesh[d, dim, data];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(Format[\ a_imsVoxelMesh, 
+          StandardForm\ ] := "\<\[SkeletonIndicator]imsVoxelMesh\
+\[SkeletonIndicator]\>";\)\(\n\)
+    \)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsVoxelLength[
+          imsVoxelMesh[d_?NumericQ, 
+            dim : {nx_Integer, ny_Integer, nz_Integer}, data___]] := 
+        d;\)\n\[IndentingNewLine]
+    \(imsVoxelMeshDimensions[
+          imsVoxelMesh[d_?NumericQ, 
+            dim : {nx_Integer, ny_Integer, nz_Integer}, data___]] := 
+        dim;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsVoxelMeshData[
+          imsVoxelMesh[d_?NumericQ, 
+            dim : {nx_Integer, ny_Integer, nz_Integer}, data___]] := 
+        data;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSelectVoxelMeshPlane[{plane_Integer, index_Integer}, 
+          imsVoxelMesh[d_?NumericQ, 
+            dim : {nx_Integer, ny_Integer, nz_Integer}, data___]] := 
+        Select[data, \((#[\([plane]\)] \[Equal] index)\) &];\)\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Private Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["lineInnerPoints", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(lineInnerPoints[l : {pt1_, pt2_}, pixelLength_] := 
+        Module[{e1, n}, \[IndentingNewLine]e1 = 
+            pt2 - pt1; \[IndentingNewLine]n = 
+            Quotient[\@\(e1 . e1\), pixelLength/2.1]; \[IndentingNewLine]If[
+            n \[Equal] 0, n = 1]; \[IndentingNewLine]e1 = 
+            e1/n; \[IndentingNewLine]Table[
+            pt1 + j*e1, \[IndentingNewLine]{j, 1, 
+              n - 2}\[IndentingNewLine]]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["triangleInnerPoints", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(triangleInnerPoints[t : {pt1_, pt2_, pt3_}, pixelLength_] := 
+        Module[{e1, e2, e3, l, n}, \[IndentingNewLine]e1 = 
+            pt2 - pt1; \[IndentingNewLine]e2 = 
+            pt2 - pt3; \[IndentingNewLine]e3 = 
+            pt3 - pt1; \[IndentingNewLine]n = 
+            Quotient[
+              Max[{N[\@\(e1 . e1\)], N[\@\(e2 . e2\)], N[\@\(e3 . e3\)]}], 
+              pixelLength/2.1]; \[IndentingNewLine]If[n \[Equal] 0, 
+            n = 1]; \[IndentingNewLine]e1 = e1/n; \[IndentingNewLine]e2 = 
+            e2/n; \[IndentingNewLine]Flatten[
+            Table[\[IndentingNewLine]e3 = \((pt3 + i*e2)\) - \((l = 
+                      pt1 + i*e1)\); \[IndentingNewLine]If[\((n - i)\) > 0, 
+                e3 = e3/\((n - i)\)]; \[IndentingNewLine]Table[
+                l + j*e3, \[IndentingNewLine]{j, 1, 
+                  n - i - 2}\[IndentingNewLine]], {i, 1, 
+                n - 2}\[IndentingNewLine]], 
+            1]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["toVoxels", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\ 
+      These\ arguments\ should\ be\ converted\ to\ voxels\ *) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      unit\ cuboids\ *) \)\(\[IndentingNewLine]\)\(\(toVoxels[
+          Cuboid[pmin : {_, _, _}], d_?NumericQ] := 
+        toVoxels[Cuboid[pmin, pmin + {1. , 1. , 1. }], 
+          d];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      general\ cuboids\ *) \[IndentingNewLine]
+    \(toVoxels[Cuboid[pmin : {xm_, ym_, zm_}, pmax : {xM_, yM_, zM_}], 
+          d_?NumericQ] := 
+        Union[Join @@ \((\(toVoxels[#, 
+                    d] &\) /@ {Polygon[{{xm, ym, zm}, {xM, ym, zm}, {xM, yM, 
+                        zm}, {xm, yM, zm}}], 
+                  Polygon[{{xm, ym, zM}, {xM, ym, zM}, {xM, yM, zM}, {xm, yM, 
+                        zM}}], 
+                  Polygon[{{xm, ym, zm}, {xM, ym, zm}, {xM, ym, zM}, {xm, ym, 
+                        zM}}], 
+                  Polygon[{{xm, yM, zm}, {xM, yM, zm}, {xM, yM, zM}, {xm, yM, 
+                        zM}}], 
+                  Polygon[{{xm, ym, zm}, {xm, yM, zm}, {xm, yM, zM}, {xm, ym, 
+                        zM}}], 
+                  Polygon[{{xM, ym, zm}, {xM, yM, zm}, {xM, yM, zM}, {xM, ym, 
+                        zM}}]})\)];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      short\ lines\ *) \)\(\[IndentingNewLine]\)\(\(toVoxels[
+          l : Line[{s : {_, _, _}, e : {_, _, _}}], d_?NumericQ] := 
+        Union[\((\(imsWhichVoxel[#, d] &\) /@ 
+              Join[{s}, 
+                lineInnerPoints[{s, e}, 
+                  d], {e}])\)];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      long\ lines\ *) \[IndentingNewLine]
+    \(toVoxels[Line[pts : {{_, _, _}, {_, _, _}, \(({_, _, _})\) .. }], 
+          d_?NumericQ] := 
+        Join @@ \((\(toVoxels[Line[#], d] &\) /@ 
+              Partition[pts, 2, 1])\);\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(toVoxels[Point[c : {_?NumericQ, _?NumericQ, _?NumericQ}], 
+          d_?NumericQ] := {imsWhichVoxel[c, d]};\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Triangles\ *) \)\(\[IndentingNewLine]\)\(\(toVoxels[
+          t : Polygon[{pt1 : {_, _, _}, pt2 : {_, _, _}, pt3 : {_, _, _}}], 
+          d_?NumericQ] := 
+        Union[\(imsWhichVoxel[#, d] &\) /@ 
+            Join[{pt1}, {pt2}, {pt3}, lineInnerPoints[{pt1, pt2}, d], 
+              lineInnerPoints[{pt2, pt3}, d], lineInnerPoints[{pt3, pt1}, d], 
+              triangleInnerPoints[{pt1, pt2, pt3}, 
+                d]]];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      Larger\ polygons\ \((we\ erroneously\ assume\ they\ are\ \(convex!\))\) \
+. \ Here\ we\ clip\ off\ the\ first\ triangle\ and\ pass\ back\ the\ \(\(rest\
+\)\(.\)\)\ *) \[IndentingNewLine]
+    \(toVoxels[
+          p : Polygon[
+              pts : {{_, _, _}, {_, _, _}, {_, _, _}, {_, _, _} .. }], 
+          d_?NumericQ] := 
+        Join[toVoxels[Polygon[pts[\([{1, 2, \(-1\)}]\)]], d], 
+          toVoxels[Polygon[Drop[pts, 1]], d]];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      These\ Graphics3D\ arguments\ will\ never\ be\ converted\ to\ voxels\ \
+and\ will\ always\ be\ ignored\ *) \)\(\[IndentingNewLine]\)\(\(toVoxels[
+          t_Text, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_AbsoluteDashing, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_AbsolutePointSize, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_AbsoluteThickness, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_CMYKColor, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_Dashing, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_EdgeForm, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_FaceForm, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_GrayLevel, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_Hue, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_PointSize, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_RGBColor, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_SurfaceColor, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_Thickness, d_] := Sequence[];\)\[IndentingNewLine]
+    \(toVoxels[l_, d_] := Sequence[];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Public Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["imsGraphics3DToVoxel", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsGraphics3DToVoxel[g_Graphics3D, 
+          d_?NumericQ] := \[IndentingNewLine]imsMakeVoxelMesh[d, 
+          Flatten[Cases[\((\(toVoxels[#, d] &\) /@ Flatten[g[\([1]\)]])\), 
+              Except[{}]], 1]];\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["imsWhichVoxel", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsWhichVoxel[pt : {\((_?NumericQ)\) .. }, 
+          d_?NumericQ] := \((\(\((Quotient @@ #)\) &\) /@ 
+              Transpose[{pt, {d, d, d}}])\) + {1, 1, 1};\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsPointDrawFunction", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsPointDrawFunction[coord : {i_, j_, k_}, length_] := 
+        Point[length*coord];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsBoxDrawFunction", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsCuboidDrawFunction[coord : {i_, j_, k_}, length_] := 
+        Cuboid[length*\((coord - {1, 1, 1})\), 
+          length*\((coord)\)];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["imsDrawVoxelMesh", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(Options[
+          imsDrawVoxelMesh] = {imsDrawVoxel \[Rule] 
+            imsPointDrawFunction};\)\), "\[IndentingNewLine]", 
+    \(\(imsDrawVoxelMesh[\ 
+          vm : imsVoxelMesh[d_?NumericQ, 
+              dim : {nx_Integer, ny_Integer, nz_Integer}, 
+              data : {{_Integer, _Integer, _Integer} .. }]\ , 
+          opts___] := \[IndentingNewLine]Block[{voxelDrawFunction, 
+            graphicsOpts, myOpts}, \[IndentingNewLine]graphicsOpts = 
+            FilterOptions[Graphics3D, opts]; \[IndentingNewLine]myOpts = 
+            FilterOptions[imsDrawVoxelMesh, 
+              opts]; \[IndentingNewLine]voxelDrawFunction = 
+            Evaluate[\((imsDrawVoxel /. {myOpts})\)] /. 
+              Options[imsDrawVoxelMesh]; \[IndentingNewLine]Return[
+            Graphics3D[\(voxelDrawFunction[#, d] &\) /@ data, 
+              Join[{graphicsOpts}, {PlotRange \[Rule] 
+                    All}]]]\[IndentingNewLine]];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell["Extended Operators", "Subsection"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \("Imtek`Voxel`Private`"\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Macintosh",
+ScreenRectangle->{{0, 1440}, {0, 874}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{655, 787},
+WindowMargins->{{4, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 33, 0, 52, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1834, 57, 31, 0, 69, "Section"],
+Cell[1868, 59, 1221, 20, 331, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3114, 83, 35, 0, 28, "Subsubsection"],
+Cell[3152, 85, 534, 8, 139, "Input",
+  InitializationCell->True],
+Cell[3689, 95, 1780, 30, 491, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5518, 131, 32, 0, 39, "Section"],
+Cell[5553, 133, 166, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5756, 143, 52, 0, 39, "Section"],
+
+Cell[CellGroupData[{
+Cell[5833, 147, 26, 0, 38, "Subsection"],
+Cell[5862, 149, 3680, 55, 1291, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9579, 209, 34, 0, 38, "Subsection"],
+Cell[9616, 211, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9822, 219, 36, 0, 30, "Subsection"],
+Cell[9861, 221, 143, 2, 59, "Input"]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10053, 229, 32, 0, 69, "Section"],
+Cell[10088, 231, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10213, 238, 42, 0, 39, "Section"],
+Cell[10258, 240, 259, 5, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10554, 250, 30, 0, 39, "Section"],
+Cell[10587, 252, 1147, 21, 347, "Input",
+  InitializationCell->True],
+Cell[11737, 275, 196, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11970, 285, 26, 0, 39, "Section"],
+Cell[11999, 287, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12215, 296, 27, 0, 39, "Section"],
+Cell[12245, 298, 914, 20, 267, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13196, 323, 29, 0, 39, "Section"],
+Cell[13228, 325, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13346, 332, 41, 0, 39, "Section"],
+
+Cell[CellGroupData[{
+Cell[13412, 336, 39, 0, 38, "Subsection"],
+Cell[13454, 338, 176, 4, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[13655, 346, 40, 0, 28, "Subsubsection"],
+Cell[13698, 348, 505, 9, 185, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14240, 362, 44, 0, 22, "Subsubsection"],
+Cell[14287, 364, 1019, 18, 316, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15343, 387, 33, 0, 22, "Subsubsection"],
+Cell[15379, 389, 129, 3, 27, "Input",
+  InitializationCell->True],
+Cell[15511, 394, 1176, 22, 363, "Input",
+  InitializationCell->True],
+Cell[16690, 418, 628, 13, 171, "Input",
+  InitializationCell->True],
+Cell[17321, 433, 172, 3, 43, "Input",
+  InitializationCell->True],
+Cell[17496, 438, 993, 19, 219, "Input",
+  InitializationCell->True],
+Cell[18492, 459, 1222, 19, 283, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19763, 484, 38, 0, 38, "Subsection"],
+Cell[19804, 486, 175, 4, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[20004, 494, 45, 0, 28, "Subsubsection"],
+Cell[20052, 496, 274, 5, 75, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20363, 506, 38, 0, 28, "Subsubsection"],
+Cell[20404, 508, 224, 4, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20665, 517, 45, 0, 22, "Subsubsection"],
+Cell[20713, 519, 149, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20899, 527, 43, 0, 22, "Subsubsection"],
+Cell[20945, 529, 200, 4, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21182, 538, 41, 0, 22, "Subsubsection"],
+Cell[21226, 540, 994, 18, 219, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+Cell[22247, 562, 40, 0, 38, "Subsection"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22324, 567, 31, 0, 39, "Section"],
+Cell[22358, 569, 83, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22478, 576, 30, 0, 39, "Section"],
+
+Cell[CellGroupData[{
+Cell[22533, 580, 112, 2, 27, "Input",
+  InitializationCell->True],
+Cell[22648, 584, 56, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22753, 591, 30, 0, 39, "Section"],
+Cell[22786, 593, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

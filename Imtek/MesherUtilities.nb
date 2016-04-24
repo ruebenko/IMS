@@ -1,0 +1,902 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     32979,        737]*)
+(*NotebookOutlinePosition[     33643,        760]*)
+(*  CellTagsIndexPosition[     33599,        756]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MesherUtilities Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Mesher . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 12.6  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ mathematica\ mesher\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.2  .4\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      added\ imsInsertSecondaryNodes\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      added\ imsSurroundingElement\ and\ imsMeshInterpolate\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      added\ imsMeshTraversal\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      added\ imsVertexAdjacency\ and\ imsIndexedVertexAdjacency\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Changed\ the\ name\ to\ MesherUtilities\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      computes\ incidents\ from\ delaunay\ triangulation\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004 - 
+        2006\ Oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ software;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`MesherUtilities`\>"];\)\)\
+\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        DelaunayIncidents, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ constructors\ *) \[IndentingNewLine]\n (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsDelaunayIncidents::usage = "\<imsDelaunayIncidents[ \
+delaunayTriangulation ] computes the incidents of a delaunayTriangulation \
+list.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    imsConnectedElements::usage = "\<imsConnectedElements[ incidence_List ] \
+returns a list for each vertex in the incidences containing the incidences of \
+the connecting elements.\>"\[IndentingNewLine]\[IndentingNewLine]
+    \(imsIndexedConnectedElements::usage = "\<imsIndexedConnectedElements[ \
+incidence_List ] returns a list for each vertex in the incidences containing \
+the indexed incidences of the connecting elements.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsMeshTraversal::usage\  = \ "\<imsMeshTraversal[ startElements, \
+incidents, connectedElements, n ] returns a list of those element incidents \
+which surround startElements. Each element will only be visited once. This is \
+done n times or until all elements have been visited. n Defaults to Infinity.\
+\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsSurroundingElements::usage = "\<imsSurroundingElements[ \
+sourceCoords, sourceIncidents, targetCoords ] returns a list of integers \
+which correspond to the element number in sourceIncidents that surround each \
+of the targetCoords.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMeshInterpolate::usage = "\<imsMeshInterpolate[ sourceCoords, \
+sourceIncidents, targetCoords, { sourceValues, .. } ] returns an \
+interpolation of sourceValues at targetCoords based on the sourceCoords and \
+sourceIncidents.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsInsertSecondaryNodes::usage = "\<imsInsertSecondaryNodes[ nodes, \
+linearElements, makerFunction, valueDataFunction ] returns a list of new \
+nodes and quadratic elements. The linear elements are converted to quadratic \
+elements and the new node contain the input nodes and the newly computed mid \
+side nodes. The new node's marker are set according to the markerFunction and \
+the values and data according to the valueDataFunction.\>";\)\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Private\ Imports\ \
+*) \)\(\[IndentingNewLine]\)\(\(Needs["\<Imtek`AreaCoordinates`\>"];\)\
+\[IndentingNewLine]
+    \(Needs["\<Imtek`MeshElementLibrary`\>"];\)\n
+    \(Needs["\<Imtek`Trees`\>"];\)\[IndentingNewLine]
+    \(Needs["\<Imtek`Point`\>"];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsDelaunayIncidents[\ lst_\ ]\  := \ 
+        Block[\[IndentingNewLine]{\ $RecursionLimit\  = \ Infinity, \ 
+            elements\  = \ {}, \ result\  = \ {}, \ 
+            dublicateIncidents\ }, \[IndentingNewLine]dublicateIncidents\  = \
+\ triangleIncidents[\ lst, \ 
+              elements\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+            filter[\ 
+              dublicateIncidents\ ]\ ]\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsIndexedConnectedElements[\ incidents_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ counter\  = \ 1, \ 
+          vertexAdjacency\ }, \[IndentingNewLine]vertexAdjacency\  = \ 
+          Table[\ {}, \ {\ 
+              Max[\ Flatten[\ 
+                  incidents\ ]\ ]\ }\ ]; \[IndentingNewLine]MapIndexed[\ 
+          Function[\ {\ thisIncident, \ counter\ }, \ 
+            MapIndexed[\ \((vertexAdjacency[\([\ #1\ ]\)]\  = \ {\ 
+                      vertexAdjacency[\([\ #1\ ]\)], \ 
+                      counter, \ #2\ }\ )\) &\ , \ thisIncident\ ]\ ], \ 
+          incidents\ ]; \[IndentingNewLine]Return[\ \(Partition[\ 
+                Flatten[\ #\ ], \ 2\ ] &\)\  /@ \ 
+            vertexAdjacency\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsConnectedElements[\ incidents_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ counter\  = \ 1, \ 
+          vertexAdjacency\ }, \[IndentingNewLine]vertexAdjacency\  = \ 
+          Table[\ {}, \ {\ 
+              Max[\ Flatten[\ 
+                  incidents\ ]\ ]\ }\ ]; \[IndentingNewLine]MapIndexed[\ 
+          Function[\ {\ thisIncident, \ 
+              counter\ }, \ \(\((vertexAdjacency[\([\ #1\ ]\)]\  = \ {\ 
+                      vertexAdjacency[\([\ #1\ ]\)], \ 
+                      counter\ }\ )\) &\)\ \  /@ \ thisIncident\ ], \ 
+          incidents\ ]; \[IndentingNewLine]Return[\ 
+          Flatten\  /@ \ vertexAdjacency\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsMeshTraversal[\ startElements_, \ incidents_, \ 
+        connectedElements_, \ n_:  Infinity\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ visitedElementQ, walk, \ 
+          step\ }, \[IndentingNewLine]\[IndentingNewLine]visitedElementQ[\ _\ \
+]\  := \ False; \[IndentingNewLine]walk[\ elements_\ ]\  := \ 
+          Select[\ Union[\ 
+              Flatten[\ 
+                connectedElements[\([\ 
+                    Union[\ Flatten[\ 
+                        incidents[\([\ 
+                            elements\ ]\)]\ ]\ ]\ ]\)]\ ]\ ], \ \((\(! \
+visitedElementQ[#]\) &)\)\ ]; \[IndentingNewLine]\[IndentingNewLine]step\  = \
+\ Function[\ 
+            elements, \ \(\((visitedElementQ[\ #\ ]\  := \ True)\) &\)\  /@ \ 
+              elements; \ 
+            walk[\ elements\ ]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ 
+          NestWhileList[\ step, \ 
+            startElements, \ \((#1\  \[NotEqual] \ {} &)\), \ 1, \ 
+            n, \ \(-1\)\ ]\ ]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsSurroundingElements[\ sourceCoords_, \ sourceIncidents_, \ 
+        tragetCoords_\ \ ]\  \
+:= \[IndentingNewLine]Module[\[IndentingNewLine]{dimension, \ 
+          checkElementsContaininCoord, \ findElementContainingCoord, 
+          coordToId, \ primarySourceCoords, \ sourceTree, \ 
+          closeSourceCoordIds, \ ectn, \ 
+          surroundingElementIds\ \ }, \[IndentingNewLine]\[IndentingNewLine] \
+(*\ for\ searching\ we\ use\ linear\ elements\ always\ \
+*) \[IndentingNewLine]dimension\  = \ 
+          Length[\ sourceCoords[\([\ 
+                1\ ]\)]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          too\ lazy\ for\ Message\ *) \[IndentingNewLine]Which[\
+\[IndentingNewLine]dimension\  \[Equal] \ 1, \ 
+          Print["\<Try using Interpolation\>"]; \ 
+          Abort[];, \[IndentingNewLine]dimension\  \[Equal] \ 2, 
+          primarySourceIncidents\  = \ \(Take[#, 3] &\)\  /@ 
+              sourceIncidents, \[IndentingNewLine]dimension\  \[Equal] \ 3, \ 
+          primarySourceIncidents\  = \ \(Take[#, 4] &\)\  /@ 
+              sourceIncidents, \[IndentingNewLine]dimension\  > \ 3, \ 
+          Print["\<This is some fancy stuff, you are trying to do! 42 is the \
+answer ;-)\>"]; \ 
+          Abort[];\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine] (*\ ugly, \ ugly, \ 
+          ugly\ *) \[IndentingNewLine]checkElementsContaininCoord[\ 
+            elementCoords_, \ queryCoord_\ ]\  := \ 
+          Position[\ 
+            elementCoords, \ _?\((imsInsideElementQ[#, queryCoord\ ] \[Equal] 
+                    True &)\), 1, 
+            1\ ]; \[IndentingNewLine]\[IndentingNewLine]\
+findElementContainingCoord[\ possibleElements_, \ queryCoord_\ ]\  := \ 
+          Module[\[IndentingNewLine]{elementCoords, \ possibleElementId, \ 
+              elementId, \ 
+              surroundingElements\ }, \[IndentingNewLine]elementCoords\  = \
+\(sourceCoords[\([#]\)] &\)\  /@ \ 
+                primarySourceIncidents[\([\ 
+                    possibleElements\ ]\)]; \
+\[IndentingNewLine]possibleElementId\  = \ 
+              Flatten[\ 
+                checkElementsContaininCoord[\ elementCoords, \ 
+                  queryCoord\ ]\ ]; \[IndentingNewLine]elementId\  = \ 
+              possibleElements[\([\ 
+                  possibleElementId\ ]\)]; \[IndentingNewLine]If[\
+\[IndentingNewLine]Length[\ possibleElementId\ ]\  \[Equal] \ 
+                0, \[IndentingNewLine] (*\ 
+                the\ nearest\ neighbour\ is\ NOT\ part\ of\ the\ surrounding\ \
+element\ *) \[IndentingNewLine] (*\ we\ are\ near\ though, \ 
+                we\ check\ the\ surrounding\ elements\ \
+*) \[IndentingNewLine]surroundingElements\  = \ 
+                Flatten[\ 
+                  Drop[\ imsMeshTraversal[\ possibleElements, \ 
+                      primarySourceIncidents, \ elementsConnectedToNodes, \ 
+                      2\ ], \ 
+                    1\ ]\ ]; \[IndentingNewLine]possibleElementId\  = \ \ \
+findElementContainingCoord[\ surroundingElements, \ 
+                  queryCoord\ ]; \[IndentingNewLine]elementId\  = \ 
+                possibleElementId;\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[\ 
+              elementId\ ];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]primarySourceIncidents\  = \ 
+          sourceIncidents; \[IndentingNewLine]primarySourceCoords\  = \ 
+          sourceCoords[\([\ 
+              Union[\ Flatten[\ 
+                  primarySourceIncidents\ ]\ ]\ ]\)]; \[IndentingNewLine]\
+\[IndentingNewLine]MapIndexed[\ 
+          Function[{coord, \ id}, coordToId[coord] = id[\([1]\)]\ ], \ 
+          primarySourceCoords\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]sourceTree\  = 
+          imsMakeKDTree[\ 
+            primarySourceCoords\ ]; \[IndentingNewLine]closeSourceCoordIds\  \
+= coordToId\  /@ \ \((\(imsNearestPointSearchKDTree[\ 
+                    sourceTree, \ #\ ] &\)\  /@ \ 
+                N[\ tragetCoords\ ])\); \
+\[IndentingNewLine]\[IndentingNewLine]elementsConnectedToNodes\  = 
+          imsConnectedElements[\ 
+            primarySourceIncidents\ ]; \[IndentingNewLine]ectn\  = 
+          elementsConnectedToNodes[\([\ 
+              closeSourceCoordIds\ ]\)]; \
+\[IndentingNewLine]surroundingElementIds\  = 
+          Flatten[\ 
+            Function[\ index, \ 
+                findElementContainingCoord[\ ectn[\([\ index\ ]\)], \ 
+                  tragetCoords[\([\ index\ ]\)]\ ]\ ]\  /@ \ 
+              Range[\ Length[\ 
+                  ectn\ ]\ ]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ 
+          surroundingElementIds\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsMeshInterpolate[\ sourceCoords_, \ sourceIncidents_, \ 
+        tragetCoords_, \ 
+        sourceValues_\ \ ]\  \
+:= \[IndentingNewLine]Module[\[IndentingNewLine]{dimension, \ 
+          checkElementsContaininCoord, \ findElementContainingCoord, 
+          coordToId, \ primarySourceCoords, \ sourceTree, \ 
+          closeSourceCoordIds, \ ectn, \ surroundingElementIds, \ 
+          surroundingElementNodeIds, \ surroundingElementCoords, \ 
+          interpolation, \ incidenceOrderedSourceValues, \ 
+          newValues\ \ }, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          for\ searching\ we\ use\ linear\ elements\ always\ \
+*) \[IndentingNewLine]dimension\  = \ 
+          Length[\ sourceCoords[\([\ 
+                1\ ]\)]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          too\ lazy\ for\ Message\ *) \[IndentingNewLine]Which[\
+\[IndentingNewLine]dimension\  \[Equal] \ 1, \ 
+          Print["\<Try using Interpolation\>"]; \ 
+          Abort[];, \[IndentingNewLine]dimension\  \[Equal] \ 2, 
+          primarySourceIncidents\  = \ \(Take[#, 3] &\)\  /@ 
+              sourceIncidents, \[IndentingNewLine]dimension\  \[Equal] \ 3, \ 
+          primarySourceIncidents\  = \ \(Take[#, 4] &\)\  /@ 
+              sourceIncidents, \[IndentingNewLine]dimension\  > \ 3, \ 
+          Print["\<This is some fancy stuff, you are trying to do! 42 is the \
+answer ;-)\>"]; \ 
+          Abort[];\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine] (*\ ugly, \ ugly, \ 
+          ugly\ *) \[IndentingNewLine]checkElementsContaininCoord[\ 
+            elementCoords_, \ queryCoord_\ ]\  := \ 
+          Position[\ 
+            elementCoords, \ _?\((imsInsideElementQ[#, queryCoord\ ] \[Equal] 
+                    True &)\), 1, 
+            1\ ]; \[IndentingNewLine]\[IndentingNewLine]\
+findElementContainingCoord[\ possibleElements_, \ queryCoord_\ ]\  := \ 
+          Module[\[IndentingNewLine]{elementCoords, \ possibleElementId, \ 
+              elementId, \ 
+              surroundingElements\ }, \[IndentingNewLine]elementCoords\  = \
+\(sourceCoords[\([#]\)] &\)\  /@ \ 
+                primarySourceIncidents[\([\ 
+                    possibleElements\ ]\)]; \
+\[IndentingNewLine]possibleElementId\  = \ 
+              Flatten[\ 
+                checkElementsContaininCoord[\ elementCoords, \ 
+                  queryCoord\ ]\ ]; \[IndentingNewLine]elementId\  = \ 
+              possibleElements[\([\ 
+                  possibleElementId\ ]\)]; \[IndentingNewLine]If[\
+\[IndentingNewLine]Length[\ possibleElementId\ ]\  \[Equal] \ 
+                0, \[IndentingNewLine] (*\ 
+                the\ nearest\ neighbour\ is\ NOT\ part\ of\ the\ surrounding\ \
+element\ *) \[IndentingNewLine] (*\ we\ are\ near\ though, \ 
+                we\ check\ the\ surrounding\ elements\ \
+*) \[IndentingNewLine]surroundingElements\  = \ 
+                Flatten[\ 
+                  Drop[\ imsMeshTraversal[\ possibleElements, \ 
+                      primarySourceIncidents, \ elementsConnectedToNodes, \ 
+                      2\ ], \ 
+                    1\ ]\ ]; \[IndentingNewLine]possibleElementId\  = \ \ \
+findElementContainingCoord[\ surroundingElements, \ 
+                  queryCoord\ ]; \[IndentingNewLine]elementId\  = \ 
+                possibleElementId;\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[\ 
+              elementId\ ];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+          coord\ id\ lookup\ table\ *) \[IndentingNewLine]primarySourceCoords\
+\  = \ sourceCoords[\([\ 
+              Union[\ Flatten[\ 
+                  primarySourceIncidents\ ]\ ]\ ]\)]; \
+\[IndentingNewLine]MapIndexed[\ 
+          Function[{coord, \ id}, coordToId[coord] = id[\([1]\)]\ ], \ 
+          primarySourceCoords\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          tree\ *) \[IndentingNewLine]sourceTree\  = 
+          imsMakeKDTree[\ 
+            primarySourceCoords\ ]; \ \[IndentingNewLine]closeSourceCoordIds\ \
+ = coordToId\  /@ \ \((\(imsNearestPointSearchKDTree[\ 
+                    sourceTree, \ #\ ] &\)\  /@ \ 
+                N[\ tragetCoords\ ])\); \
+\[IndentingNewLine]\[IndentingNewLine]elementsConnectedToNodes\  = 
+          imsConnectedElements[\ 
+            primarySourceIncidents\ ]; \[IndentingNewLine]ectn\  = 
+          elementsConnectedToNodes[\([\ 
+              closeSourceCoordIds\ ]\)]; \[IndentingNewLine]\
+\[IndentingNewLine]surroundingElementIds\  = 
+          Flatten[\ 
+            Function[\ index, \ 
+                findElementContainingCoord[\ ectn[\([\ index\ ]\)], \ 
+                  tragetCoords[\([\ index\ ]\)]\ ]\ ]\  /@ \ 
+              Range[\ Length[\ 
+                  ectn\ ]\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          
+          we\ want\ to\ interpolate\ in\ the\ order\ of\ the\ given\ \
+incidents\ *) \[IndentingNewLine]surroundingElementNodeIds\  = 
+          sourceIncidents[\([\ 
+              surroundingElementIds\ ]\)]; \
+\[IndentingNewLine]surroundingElementCoords\  = \ \(sourceCoords[\([\ #\ ]\)] \
+&\)\  /@ \ surroundingElementNodeIds; \[IndentingNewLine]interpolation\  = \ 
+          Thread[\ imsAreaShapeFunctions[\ surroundingElementCoords, \ 
+              tragetCoords\ ]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]incidenceOrderedSourceValues\  = \ 
+          Function[\ 
+              values, \ \(values[\([#]\)] &\)\  /@ \ 
+                surroundingElementNodeIds\ \ ]\  /@ \ 
+            sourceValues; \[IndentingNewLine]\[IndentingNewLine]newValues\  = \
+\ \ \((\(Plus\  @@@ Times[\ interpolation, \ #\ ] &\)\  /@ \ 
+              incidenceOrderedSourceValues)\); \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ newValues\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsInsertSecondaryNodes[\ nodes_, \ elements_, \ markerFunction_, \ 
+        valueDataFunction_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ insertRules1D, \ insertRules2D, \ 
+          insertRules3D, \ insertRules, \ edgs, \ i, \ midSideId, \ msn, \ 
+          markers, \ valueDatas, \ newNodes, \ 
+          newElements\ \ }, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          some\ conversion\ rules\ *) \[IndentingNewLine]insertRules1D\  = \ \
+{\ line1D : _imsLineLinear1DOF\  \[RuleDelayed] \ 
+              imsMakeLineQuadratic1DOF[\ imsGetIds[line1D\ ], \ 
+                Join[\ imsGetIncidentsIds[\ line1D\ ], \ 
+                  midSideId[\ 
+                    imsGetIncidentsIds[\ 
+                      line1D\ ]\ ]\ ]\ ]\ }; \[IndentingNewLine]\
+\[IndentingNewLine]insertRules2D\  = \ {\ \[IndentingNewLine]tri2D : \
+_imsTriangleLinear1DOF\  \[RuleDelayed] \ \ \
+imsMakeTriangleQuadratic1DOFSerendipity[\ imsGetIds[\ tri2D\ ], \ 
+                Join[\ imsGetIncidentsIds[\ 
+                    tri2D\ ], \ \(midSideId[\ 
+                        Sort[\ #\ ]\ ] &\)\  /@ \ \((\(\(imsGetIncidentsIds[\ 
+                              tri2D\ ]\)[\([\)\(#\)\(]\)] &\)\  /@ \ {\ {1, 
+                            2}, \ {2, 3}, {3, 
+                            1}\ }\ )\)\ ]\ ], \[IndentingNewLine]quad2D : \
+_imsQuadLinear1DOF\  :> \ 
+              imsMakeQuadQuadratic1DOFSerendipity[\ imsGetIds[\ quad2D\ ], \ 
+                Join[\ imsGetIncidentsIds[\ 
+                    quad2D\ ], \ \(midSideId[\ 
+                        Sort[\ #\ ]\ ] &\)\  /@ \ \((\(\(imsGetIncidentsIds[\ 
+                              quad2D\ ]\)[\([\)\(#\)\(]\)] &\)\  /@ \ {\ {1, 
+                            2}, \ {2, 3}, {3, 4}, {4, 
+                            1}\ }\ )\)\ ]\ ]\ }; \[IndentingNewLine]\
+\[IndentingNewLine]insertRules3D\  = \ {\[IndentingNewLine]tet3D : \
+_imsTetrahedronLinear1DOF\  \[RuleDelayed] \ \
+\((imsMakeTetrahedronQuadratic1DOFSerendipity[\ imsGetIds[\ tet3D\ ], \ 
+                  Join[\ imsGetIncidentsIds[\ 
+                      tet3D\ ], \ \(midSideId[\ 
+                          Sort[\ #\ ]\ ] &\)\  /@ \ \
+\((\(\(imsGetIncidentsIds[\ tet3D\ ]\)[\([\)\(#\)\(]\)] &\)\  /@ \ {\ {1, 
+                              2}, \ {2, 3}, {3, 1}, {2, 4}, {3, 4}, {1, 
+                              4}\ }\ )\)\ ]\ ])\), \[IndentingNewLine]\
+\[IndentingNewLine]hex3D : _imsHexahedronLinear1DOF\  \[RuleDelayed] \ \
+\((imsMakeHexahedronQuadratic1DOFSerendipity[\ imsGetIds[\ hex3D\ ], \ 
+                  Join[\ 
+                    imsGetIncidentsIds[\ 
+                      hex3D\ ], \ \(midSideId[\ 
+                          Sort[\ #\ ]\ ] &\)\  /@ \ \
+\((\(\(imsGetIncidentsIds[\ hex3D\ ]\)[\([\)\(#\)\(]\)] &\)\  /@ \ {\ {1, 
+                              2}, {2, 3}, {3, 4}, {4, 1}, {5, 6}, {6, 7}, {7, 
+                              8}, {8, 5}, {1, 5}, {2, 6}, {3, 7}, {4, 
+                              8}\ }\ )\)\ ]\ ])\)\ }; \[IndentingNewLine]\
+\[IndentingNewLine]insertRules\  = \ 
+          Join[\ insertRules1D, \ insertRules2D, \ 
+            insertRules3D\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          the\ actual\ code\ *) \[IndentingNewLine]edgs\  = 
+          imsElementEdges[\ elements, \ 
+            edgeRules\ ]; \[IndentingNewLine]i\  = \ 
+          Max[\ edgs\ ]; \[IndentingNewLine]\(\((midSideId[\ #\ ] = \
+\(++i\))\) &\) /@ \ edgs; \[IndentingNewLine]ids\  = \ 
+          Range[\ Max[edgs] + 1, \ 
+            i\ ]; \[IndentingNewLine]nodeEdgs\  = \ \(nodes[\([\)\(#\)\(]\)] \
+&\)\  /@ \ edgs; \[IndentingNewLine]msn\  = 
+          imsBisector\  /@ \ 
+            imsGetCoords[\ nodeEdgs\ ]; \[IndentingNewLine]markers\  = \ 
+          markerFunction\  /@ \ nodeEdgs; \[IndentingNewLine]valueDatas\  = \ 
+          Thread[\ valueDataFunction[\ ids, \ msn, \ markers, \ 
+              nodeEdgs\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine]newNodes\ \
+ = \ Join[\ nodes, \ \ MapThread[\ 
+              imsMakeNode[#1, #2, #3, Sequence\  @@ \ #4] &, \ 
+              List[\ ids, \ msn, \ markers, \ 
+                valueDatas\ ]\ ]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]newElements\  = \ 
+          elements\  /. \ 
+            insertRules; \[IndentingNewLine]\[IndentingNewLine]Return[\ {\ 
+            newNodes, \ newElements\ }\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(filter[\ lst_, \ entry_\ ]\  := \ 
+        Fold[\ DeleteCases, 
+          lst\ , \(RotateLeft[\ entry, \ #\ ] &\)\  /@ \ 
+            Range[\ 3\ ]\ \ ];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(filter[\ {}\ ]\  := \ {};\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(filter[\ lst_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ fLst, \ 
+            newLst\ }, \[IndentingNewLine]fLst\ \  = \ 
+            First[\ lst\ ]; \[IndentingNewLine]result\  = \ 
+            Append[\ result, \ fLst\ ]; \[IndentingNewLine]newLst\  = \ 
+            filter[\ lst, \ fLst\ ]; \[IndentingNewLine]filter[\ 
+            newLst\ ]; \[IndentingNewLine]Return[\ 
+            result\ ]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(triangleIncidents[\ lst_, \ elementsIn_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ nodeNumber, \ incidents, \ rst, \ 
+            newLst, \ 
+            elements\ }, \[IndentingNewLine]\[IndentingNewLine]{\ 
+              nodeNumber, \ incidents\ } = \ 
+            First[\ lst\ ]; \[IndentingNewLine]elements\  = \ 
+            Flatten[\ {\ elementsIn, \ 
+                Map[\ Join[\ {\ nodeNumber\ }, \ #\ ] &, \ 
+                  Partition[\ incidents, \ 2, \ 1\ ]\ ]\ }, \ 
+              1\ ]; \[IndentingNewLine]\[IndentingNewLine]rst\  = \ 
+            Rest[\ lst\ ]; \[IndentingNewLine]\[IndentingNewLine]If[\ 
+            Length[\ rst\ ]\  > \ 
+              0, \[IndentingNewLine]\(elements\  = \ 
+                triangleIncidents[\ rst, \ 
+                  elements\ ];\), \
+\[IndentingNewLine]Null\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ elements\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(edgeRules1D\  = \ {\ 
+          line1D : _imsLineLinear1DOF\  \[RuleDelayed] \ 
+            imsGetIncidentsIds[\ line1D\ ]\ };\)\), "\[IndentingNewLine]", 
+    \(\(edgeRules2D\  = \ {\ 
+          tri2D : _imsTriangleLinear1DOF\  \[RuleDelayed] \ \ Partition[
+              imsGetIncidentsIds[\ tri2D\ ], 2, 1, {1, 1}], \ 
+          quad2D : _imsQuadLinear1DOF\  :> \ 
+            Partition[imsGetIncidentsIds[\ quad2D\ ], 2, 
+              1, {1, 1}]\ };\)\), "\[IndentingNewLine]", 
+    \(\(edgeRules3D\  = \ {\ 
+          tet3D : _imsTetrahedronLinear1DOF\  \[RuleDelayed] \ \
+\((\(\(imsGetIncidentsIds[\ tet3D\ ]\)[\([#]\)] &\)\  /@ \ {\ {1, 2}, \ {2, 
+                    3}, \ {3, 1}, \ {1, 4}, \ {2, 4}, \ {3, 
+                    4}\ })\), \[IndentingNewLine]hex3D : \
+_imsHexahedronLinear1DOF\  \[RuleDelayed] \ \((\(\(imsGetIncidentsIds[\ 
+                      hex3D\ ]\)[\([\ #\ ]\)] &\)\  /@ \ {\ {1, 2}, {2, 
+                    3}, {3, 4}, {4, 1}, \ {5, 6}, {6, 7}, {7, 8}, {8, 5}, {1, 
+                    5}, {2, 6}, {3, 7}, {4, 8}\ })\)\ };\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(edgeRules = 
+        Join[\ edgeRules1D, \ edgeRules2D, \ edgeRules3D\ ];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsElementEdges[\ elements_, \ edgeRules_\ ]\  := \ 
+      Union[\ Sort\  /@ \ 
+          Flatten[\ \((elements\  /. \ edgeRules)\), 1]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{893, 602},
+WindowMargins->{{63, Automatic}, {192, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 43, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1844, 57, 31, 0, 74, "Section"],
+Cell[1878, 59, 1589, 27, 379, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3492, 90, 35, 0, 28, "Subsubsection"],
+Cell[3530, 92, 534, 8, 91, "Input",
+  InitializationCell->True],
+Cell[4067, 102, 1820, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5936, 139, 32, 0, 44, "Section"],
+Cell[5971, 141, 174, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6182, 151, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6259, 155, 26, 0, 38, "Subsection"],
+Cell[6288, 157, 2633, 40, 731, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8958, 202, 34, 0, 30, "Subsection"],
+Cell[8995, 204, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9201, 212, 36, 0, 30, "Subsection"],
+Cell[9240, 214, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9432, 222, 32, 0, 44, "Section"],
+Cell[9467, 224, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9592, 231, 42, 0, 44, "Section"],
+Cell[9637, 233, 331, 8, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10005, 246, 30, 0, 44, "Section"],
+Cell[10038, 248, 256, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10331, 258, 26, 0, 44, "Section"],
+Cell[10360, 260, 202, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10599, 269, 27, 0, 44, "Section"],
+Cell[10629, 271, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10745, 278, 29, 0, 44, "Section"],
+Cell[10777, 280, 81, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10895, 287, 41, 0, 44, "Section"],
+Cell[10939, 289, 630, 11, 155, "Input",
+  InitializationCell->True],
+Cell[11572, 302, 795, 14, 139, "Input",
+  InitializationCell->True],
+Cell[12370, 318, 724, 13, 123, "Input",
+  InitializationCell->True],
+Cell[13097, 333, 1053, 21, 203, "Input",
+  InitializationCell->True],
+Cell[14153, 356, 4662, 87, 891, "Input",
+  InitializationCell->True],
+Cell[18818, 445, 5761, 105, 1083, "Input",
+  InitializationCell->True],
+Cell[24582, 552, 4378, 74, 779, "Input",
+  InitializationCell->True],
+Cell[28963, 628, 355, 7, 75, "Input",
+  InitializationCell->True],
+Cell[29321, 637, 90, 2, 27, "Input",
+  InitializationCell->True],
+Cell[29414, 641, 486, 9, 139, "Input",
+  InitializationCell->True],
+Cell[29903, 652, 986, 18, 251, "Input",
+  InitializationCell->True],
+Cell[30892, 672, 1124, 19, 155, "Input",
+  InitializationCell->True],
+Cell[32019, 693, 138, 3, 27, "Input",
+  InitializationCell->True],
+Cell[32160, 698, 199, 4, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32396, 707, 31, 0, 44, "Section"],
+Cell[32430, 709, 83, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32550, 716, 30, 0, 44, "Section"],
+Cell[32583, 718, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32732, 725, 30, 0, 44, "Section"],
+Cell[32765, 727, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

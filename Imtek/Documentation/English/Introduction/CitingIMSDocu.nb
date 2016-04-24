@@ -1,0 +1,280 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      6868,        224]*)
+(*NotebookOutlinePosition[      7559,        248]*)
+(*  CellTagsIndexPosition[      7515,        244]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+  "Citing the Imtek ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Supplement (IMS)"
+}], "Title",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell["Oliver R\[UDoubleDot]benk\[ODoubleDot]nig < ruebenko -at- imtek.de >", \
+"Text"],
+
+Cell["Version: 0.2", "Text"],
+
+Cell["\<\
+If you do accomplish work with the help of IMS, we would very much \
+like you to cite IMS in your work. To do so please use for the time \
+being:\
+\>", "Text"],
+
+Cell["\<\
+ \"IMTEK Mathematica Supplement (IMS)\",
+R\[UDoubleDot]benk\[ODoubleDot]nig, Oliver; Korvink, Jan G., Laboratory for \
+MEMS Simulation, Department of Microsystem Engineering (IMTEK), University of \
+Freiburg, Georges-Koehler-Allee 103, 79110 Freiburg, Germany,
+http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["This is a list of work that is somehow related to IMS", "Subsection"],
+
+Cell["\<\
+Affiliations:
+1) IMTEK, University of Freiburg, Germany
+2) Sensirion AG, Zurich, Switzerland
+3) Instituto Tecnol\[OAcute]gico y de Estudios Superiores de Monterrey; \
+Campus Estado de M\[EAcute]xico, Departamento de F\[IAcute]sica y Matem\
+\[AAcute]ticas; Carretera Lago de Guadalupe Km. 3.5, Atizap\[AAcute]n de \
+Zaragoza, Estado de M\[EAcute]xico; C.P. 52926; M\[EAcute]xico\
+\>", "Text"],
+
+Cell[TextData[{
+  "\"MathLink+Netlib=MathLib\"\nO. ",
+  Cell[BoxData[
+      \(TraditionalForm\`R\[UDoubleDot]benk\[ODoubleDot]nig\^1\)]],
+  ", E. B. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(Rudnyi\^1\)\(,\)\(\ \)\)\)]],
+  "J. G. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Korvink\^1\)]],
+  "\n2003 ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Developer Conference"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Geometry factors of resistive Stress-Sensors\"\nDario ",
+  Cell[BoxData[
+      \(TraditionalForm\`Mager\^1\)]],
+  "\n2004 Diploma theses, Freiburg"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Geometry Optimization For Planar Piezoresitive Stress Sensors Based On \
+The Pseudo-Hall Effect\"\nM. ",
+  Cell[BoxData[
+      \(TraditionalForm\`D\[ODoubleDot]lle\^1\)]],
+  ", D. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Mager\^1\)]],
+  ", P. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Ruther\^1\)]],
+  ", and O",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(.\)\(Paul\^1\)\)\)]],
+  "\n2005 IEEE MEMS Conference 2005\nMiami, U.S.A."
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Parameter preserving Model Order Reduction of a Flow Meter\"\nC. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Moosmann\^1\)]],
+  ", E. B. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Rudnyi\^1\)]],
+  ", A. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Greiner\^1\)]],
+  ", J. G. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Korvink\^1\)]],
+  ", M. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Hornung\^2\)]],
+  "\n2005 NSTI Nanotechnology Conference and Trade Show\nNanotech 2005\nMay \
+8-12, 2005\nAnaheim Marriott & Convention Center\nAnaheim, California, \
+U.S.A."
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Geometry Optimization For Planar Piezoresitive Stress Sensors Based On \
+The Pseudo-Hall Effect\"\nM. ",
+  Cell[BoxData[
+      \(TraditionalForm\`D\[ODoubleDot]lle\^1\)]],
+  ", D. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Mager\^1\)]],
+  ", P. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Ruther\^1\)]],
+  ", and O",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(.\)\(Paul\^1\)\)\)]],
+  "\nSensors & Actuators\n2005"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Interactive Learning\"\nO. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(R\[UDoubleDot]benk\[ODoubleDot]nig\^1\)\(,\)\)\)]\
+],
+  " J. G. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Korvink\^1\)]],
+  "\n2005 International ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Symposium\nIMS  2005\nAugust 5-8, 2005\nPerth, W.A. Australia"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"Integrated Engineering Development Environment\"\nO. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(R\[UDoubleDot]benk\[ODoubleDot]nig\^1\)\(,\)\)\)]\
+],
+  " Z. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Liu\^1\)]],
+  ", J. G. ",
+  Cell[BoxData[
+      \(TraditionalForm\`Korvink\^1\)]],
+  "\n2005 International ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Symposium\nIMS  2005\nAugust 5-8, 2005\nPerth, W.A. Australia"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"],
+
+Cell[TextData[{
+  "\"INFLUENCE OF THE SHAPE OF THE FIBER/PORE IN THE EFFECTIVE BEHAVIOR OF \
+COMPOSITE AND POROUS MEDIA\"\n",
+  Cell[BoxData[
+      \(TraditionalForm\`G\[OAcute]mez - Mu\[NTilde]oz\^3\)]],
+  ", J. L., and Bravo-Castillero, J.,\nNinth Pan American Congress of Applied \
+Mechanics,\nJanuary 2-6, 2006, M\[EAcute]rida,\nYucat\[AAcute]n, \
+M\[EAcute]xico"
+}], "NumberedEquation",
+  CellDingbat->"\[FilledSmallSquare]"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->"EditBar",
+WindowSize->{1129, 777},
+WindowMargins->{{Automatic, 35}, {Automatic, 71}},
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 172, 7, 84, "Title"],
+Cell[1951, 62, 86, 1, 28, "Text"],
+Cell[2040, 65, 28, 0, 28, "Text"],
+Cell[2071, 67, 169, 4, 28, "Text"],
+Cell[2243, 73, 348, 6, 60, "Text"],
+
+Cell[CellGroupData[{
+Cell[2616, 83, 75, 0, 39, "Subsection"],
+Cell[2694, 85, 401, 8, 92, "Text"],
+Cell[3098, 95, 449, 15, 57, "NumberedEquation"],
+Cell[3550, 112, 231, 6, 57, "NumberedEquation"],
+Cell[3784, 120, 520, 16, 73, "NumberedEquation"],
+Cell[4307, 138, 645, 20, 121, "NumberedEquation"],
+Cell[4955, 160, 500, 16, 73, "NumberedEquation"],
+Cell[5458, 178, 428, 13, 105, "NumberedEquation"],
+Cell[5889, 193, 518, 16, 105, "NumberedEquation"],
+Cell[6410, 211, 430, 9, 89, "NumberedEquation"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

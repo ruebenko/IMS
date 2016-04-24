@@ -1,0 +1,574 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     19577,        454]*)
+(*NotebookOutlinePosition[     20241,        477]*)
+(*  CellTagsIndexPosition[     20197,        473]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Assemble Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ Assembler . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 25.3  .2008, \ 
+      Train\ to\ Duesseldorf\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          6.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\(\(\(\(\ \)\(History : \
+\[IndentingNewLine]speed\ improvement\ by\ 50  %\ for\ version\ 6.0\ using\ a\
+\ new\ sparse\ array\ option; \ \[IndentingNewLine]improved\ speed\ by\  + \
+\(-\ 20\) %\ by\ using\ PackedArrays\ and\ by\ making\ some\ functions\ \
+Listable; \[IndentingNewLine]addedVals\ was\ not\ in\ the\ module\ list\ in\ \
+imsAssemble; \[IndentingNewLine]improved\ speed\ \((one\ order\ of\ \
+magnitude)\)\ and\ memory\ usage; \[IndentingNewLine]deleted\ old\ symbol\ \
+and\ imsAssociativeMatrix\ support; \[IndentingNewLine]reduced\ memory\ \
+consumption; \[IndentingNewLine]performance\ imporements\ for\ vectoriesed\ \
+imsAssembler; \[IndentingNewLine]vectorised\ \(imsAssembler : \ 
+                Code\ improvment\ factor\ 5\); -\)\()\)\); \
+\[IndentingNewLine]Code\ improvment\ ; \[IndentingNewLine]Code\ improvement\  \
+- \ \(+\ 60\) %\ ; -\)\()\)\)\[IndentingNewLine]Took\ the\ initialization\ \
+for\ assembly\ into\ a\ symbol\ out\ of\ the\ assemble\ procedure\ and\ put\ \
+them\ into\ a\ new\ function\ \(\(imsAssociativeMatrix\)\(.\)\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      check\ \(out : \
+\[IndentingNewLine]Developer`SetSystemOptions["\<SparseArrayOptions\>" \
+\[Rule] {"\<TreatRepeatedEntries\>" \[Rule] 
+                    1}]\ to\ add\ repeated\ \(\(entries\)\(.\)\)\)\
+\[IndentingNewLine]\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Assembler`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\n
+    imsCreateObsoleteFunctionInterface[\ MakeElementMatrix, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      GetElementMatrixValues, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ GetElementMatrixRows, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      GetElementMatrixColumns, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ ElementMatrixQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ Assemble, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ AssociativeMatrix, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      ToSparseMatrix, \ $Context\ ];\[IndentingNewLine]\[IndentingNewLine] \
+(*\ constructors\ *) \[IndentingNewLine]
+    \(imsMakeElementMatrix::usage\  = \ "\<imsMakeElementMatrix[ values, \
+rows, columns ] constructs an element matrix to be used with imsAssemble. \
+values is a matrix of values to be build in a global matrix by imsAssemble at \
+rows and columns.\>";\)\[IndentingNewLine]\n
+    imsElementMatrix::usage\  = \ "\<imsElementMatrix is the data type \
+returned by imsMakeElementMatrix.\>"\[IndentingNewLine]\[IndentingNewLine] \
+(*\ selectors\ *) \[IndentingNewLine]
+    \(imsGetElementMatrixValues::usage\  = \ "\<imsGetElementMatrixValues[ \
+elementMatrix ] returns the value matrix of an element matrix.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetElementMatrixRows::usage\  = \ "\<imsGetElementMatrixRows[ \
+elementMatrix ] returns the rows at which the element matrix is to be \
+assembled into a global matrix by imsAssemble.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetElementMatrixColumns::usage\  = \ "\<imsGetElementMatrixColumns[ \
+elementMatrix ] returns the columns at which the element matrix is to be \
+assembled into a global matrix by imsAssemble.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ predicates\ *) \[IndentingNewLine]
+    \(imsElementMatrixQ::usage\  = \ "\<imsElementMatrixQ[ expr ] returns \
+True if expr is an imsElementMatrix. Else False is returned.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    \(imsAssemble::usage\  = \ "\<imsAssemble[ { elementMatrix, .. }, matrix \
+] builds an elementMatrix or a list of elementMatrices into matrix. \
+elementMatrix has to be constructed with imsMakeElementMatrix.\>";\)\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsAssemble::"\<range\>" = "\<The imsElementMatrix is \
+trying to access a position not defined in matrix.\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor + Attributes", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\(\(imsMakeElementMatrix[\ 
+          values_?MatrixQ, \ rowPos_List, \ columnPos_List\ ] := \ 
+        imsElementMatrix[\ values, \ rowPos, \ 
+          columnPos\ ];\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      Attributes\ *) \[IndentingNewLine]
+    \(SetAttributes[\ imsAssemble, \ HoldRest\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ private\ imports\ *) \)\(\[IndentingNewLine]\)\(<< 
+      Developer`\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\(\(imsGetElementMatrixValues[\ 
+          imsElementMatrix[\ values_, \ rowPos_, \ columnPos_\ ]\ ]\  := \ 
+        values;\)\[IndentingNewLine]
+    \(imsGetElementMatrixRows[\ \ imsElementMatrix[\ values_, \ rowPos_, \ 
+            columnPos_\ ]\ ]\  := \ rowPos;\)\[IndentingNewLine]
+    \(imsGetElementMatrixColumns[\ \ imsElementMatrix[\ values_, \ rowPos_, \ 
+            columnPos_\ ]\ ]\  := \ columnPos;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\(imsElementMatrix\  /: \ 
+        imsElementMatrixQ[\ 
+          imsElementMatrix[\ values_, \ rowPos_, \ columnPos_\ ]\ ]\  := \ 
+        True;\)\[IndentingNewLine]
+    \(imsElementMatrixQ[\ _\ ]\  := \ False;\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ private\ functions\ *) \)\(\[IndentingNewLine]\)\(SetAttributes[\ 
+      convertToInci, \ Listable\ ]\n
+    SetAttributes[\ convertToVal, \ Listable\ ]\[IndentingNewLine]
+    \(convertToInci[\ imsElementMatrix[\ ma_, \ r_, \ c_\ ]\ ]\  := \ 
+        Outer[\ List, \ r, \ c\ ];\)\[IndentingNewLine]
+    \(convertToVal[\ imsElementMatrix[\ ma_, \ r_, \ c_\ ]\ ]\  := \ 
+        ma;\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsAssemble[\ {}, matrix_] /; MatrixQ[matrix] := \ 
+        matrix;\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      for\ Version\ 6\ and\ higher\ *) \[IndentingNewLine]
+    \(imsAssemble[allElements_, 
+            matrix_] /; \((MatrixQ[matrix]\  && \ 
+              Head[\ allElements\ ]\  === \ List\  && \ $VersionNumber\  >= \ 
+                6.0)\) := 
+        Block[\[IndentingNewLine]{\ incidents, \ 
+            vals\ }, \
+\[IndentingNewLine]\[IndentingNewLine]Developer`SetSystemOptions["\<\
+SparseArrayOptions\>" \[Rule] {"\<TreatRepeatedEntries\>" \[Rule] 
+                  1}]; \[IndentingNewLine]\[IndentingNewLine]incidents = 
+            ToPackedArray[\ 
+              Flatten[convertToInci[allElements], 
+                2\ ]\ ]; \[IndentingNewLine]vals\  = \ 
+            Flatten[\ 
+              convertToVal[
+                allElements]\ ]; \[IndentingNewLine]\[IndentingNewLine]matrix\
+\  += \ SparseArray[\ incidents\  \[Rule] \ \ vals, 
+              Dimensions[
+                matrix]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Developer`SetSystemOptions["\<\
+SparseArrayOptions\>" \[Rule] {"\<TreatRepeatedEntries\>" \[Rule] 
+                  0}];\[IndentingNewLine]\[IndentingNewLine]];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsAssemble[allElements_, 
+            matrix_] /; \((MatrixQ[matrix]\  && \ 
+              Head[\ allElements\ ]\  === \ List)\) := 
+        Module[\[IndentingNewLine]{incidents, len, \ vals, \ addedVals, \ 
+            orderedList\ }, \[IndentingNewLine]\[IndentingNewLine] (*\ \
+\(Print["\<entry: \>", \ \ MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  
+                  1024. ^2\ ];\)\ *) \[IndentingNewLine]\[IndentingNewLine] \
+(*\ get\ origianl\ incidents\ *) \[IndentingNewLine] (*\(Print\)\([\)\(\ \
+\)\("\< Get INCI \>", \(\(Timing\)\([\)\(\ \
+\)\)\)*) \[IndentingNewLine]incidents = 
+            ToPackedArray[\ 
+              Flatten[convertToInci[allElements], 
+                2\ ]\ ]; \[IndentingNewLine] (*\(\(\(\(\(\ \)\(]\)\), \ "\< \
+\>", \ MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ store\ and\ order\ incidents, \ 
+            split\ them\ into\ chunks\ of\ same\ incidents\ \
+*) \[IndentingNewLine] (*\ 
+            build\ a\ new\ incidents\ list\ with\ duplicates\ removed\ and\ \
+store\ the\ length\ *) \[IndentingNewLine] (*\ 
+            of\ the\ chunks\ *) \[IndentingNewLine] (*\ \(Print\)\([\)\(\ \
+\)\("\< Split \>", \(\(Timing\)\([\)\(\ \)\)\)*) \[IndentingNewLine]incidents\
+\  = \ ToPackedArray[\ 
+              Split[\ incidents[\([\ 
+                    orderedList\  = \ 
+                      Ordering[\ 
+                        incidents\ ]\ ]\)]\ ]\ ]; \[IndentingNewLine] \
+(*\(\(\(\(\(\ \)\(]\)\), \ "\< \>", \ 
+                MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ the\ matrix\ values\ *) \[IndentingNewLine] (*\ \(Print\
+\)\([\)\(\ \)\("\< vals \>", \(\(Timing\)\([\)\(\ \
+\)\)\)*) \[IndentingNewLine]vals\  = \ \(Flatten[\ 
+                convertToVal[allElements]\ ]\)[\([\ 
+                orderedList\ ]\)]; \[IndentingNewLine] (*\(\(\(\(\(\ \
+\)\(]\)\), \ "\< \>", \ MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            add\ the\ values\ according\ to\ the\ length\ of\ the\ chunks\ \
+*) \[IndentingNewLine] (*\ \(Print\)\([\)\(\ \)\("\< addVals \>", \
+\(\(Timing\)\([\)\(\ \)\)\)*) \[IndentingNewLine]addedVals\ \  = \ \ \(\((\ 
+                  Plus\  @@ \ Take[\ vals, \ #\ ]\ )\) &\)\  /@ \ 
+              Drop[\ Transpose[\ \({\ #, \ RotateLeft[\ #\ ] - 1\ } &\)\ \ [\ 
+                    FoldList[\ \ Plus, \ 1, \ 
+                      Length\  /@ \ 
+                        incidents\ ]\ ]\ ], \ \(-1\)\ ]; \[IndentingNewLine] \
+(*\(\(\(\(\(\ \)\(]\)\), \ "\< \>", \ 
+                MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            create\ the\ sparse\ array\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ \(Print\)\([\)\(\ \)\("\< SPA \>", \
+\(\(Timing\)\([\)\(\ \)\)\)*) \[IndentingNewLine]matrix\  += \ 
+            SparseArray[\ 
+              ToPackedArray[\ 
+                  incidents[\([\ All, \ 1\ ]\)]\ ]\  \[Rule] \ \ addedVals, 
+              Dimensions[
+                matrix]]; \[IndentingNewLine] (*\(\(\(\(\(\ \)\(]\)\), \ "\< \
+\>", \ MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            clean\ up\ *) \[IndentingNewLine] (*\ \(Print\)\([\)\(\ \)\("\< \
+Clean Up \>", \(\(Timing\)\([\)\(\ \
+\)\)\)*) \[IndentingNewLine]Remove["\<Imtek`Assembler`Private`incidents*\>", \
+\ "\<Imtek`Assembler`Private`vals*\>", \ \
+"\<Imtek`Assembler`Private`addedVals*\>", "\<Imtek`Assembler`Private`len*\>", \
+\ "\<Imtek`Assembler`Private`orderedList*\>"]; \[IndentingNewLine] (*\(\(\(\(\
+\(\ \)\(]\)\), \ "\< \>", \ MemoryInUse[]\ /\ 1024. ^2, \ "\< \>", \ 
+                MaxMemoryUsed[]\ /\ 
+                  1024. ^2\)\(\ \)\(]\)\);\)\ *) \[IndentingNewLine]\
+\[IndentingNewLine]];\)\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+      bracking\ the\ law\ of\ _not  _\ using\ constuctor\ and\ selector\ \
+*) \[IndentingNewLine]
+    imsAssemble[\ 
+        imsElementMatrix[\ valueMatrix_, \ rowList_, \ colList_\ ], \ 
+        matrix_\ ]\  := \ \[IndentingNewLine]If[\  (*\ 
+            Error\ checking\ *) \[IndentingNewLine]Max[\ rowList\ ]\  > \ 
+              Length[\ matrix\ ]\  || \ 
+            Max[\ colList\ ]\  > \ Length[\ First[\ matrix\ ]\ ], \ 
+          Message[\ imsAssemble::"\<range\>"\ ]; \ 
+          Return[], \[IndentingNewLine]\(matrix[\([\ rowList, \ 
+                  colList\ ]\)]\  += \ 
+              valueMatrix;\)\[IndentingNewLine]] /; \ 
+        MatrixQ[\ 
+          matrix\ ]\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine] \
+(*\ old\[IndentingNewLine]imsAssemble[\ a_, \ matrix_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ 
+              rowList\  = \ 
+                imsGetElementMatrixRows[\ 
+                  a\ ], \[IndentingNewLine]colList\  = \ 
+                imsGetElementMatrixColumns[\ 
+                  a\ ], \[IndentingNewLine]valueMatrix\  = \ 
+                imsGetElementMatrixValues[\ 
+                  a\ ], \[IndentingNewLine]lenRow\  = \ 
+                Length[\ 
+                  imsGetElementMatrixRows[\ 
+                    a\ ]\ ], \[IndentingNewLine]lenCol\  = \ 
+                Length[\ 
+                  imsGetElementMatrixColumns[\ 
+                    a\ ]\ ], \[IndentingNewLine]i = 1, \ j = 1, \ 
+              rows\  = \ 0, \ 
+              cols\  = \ 
+                0\[IndentingNewLine]\ }, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+              Error\ checking\ *) \[IndentingNewLine]{rows, \ cols\ }\  = \ 
+              Dimensions[\ matrix\ ]; \[IndentingNewLine]If[\ 
+              Max[\ rowList\ ]\  > \ rows\  || \ 
+                Max[\ colList\ ]\  > \ cols, \ 
+              Message[\ imsAssemble::"\<range\>"\ ]; \ 
+              Return[]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              fast\ *) \[IndentingNewLine]matrix[\([\ rowList, \ 
+                  colList\ ]\)]\  += \ 
+              valueMatrix; \[IndentingNewLine]\[IndentingNewLine] \
+(*\[IndentingNewLine] (*\ 
+                slow\ *) \[IndentingNewLine]\(Do[\[IndentingNewLine]matrix[\([\
+\ rowList[\([\ i\ ]\)], \ colList[\([\ j\ ]\)]\ ]\)]\  += \ 
+                    valueMatrix[\([\ i, \ j\ ]\)], \[IndentingNewLine]{\ i, \ 
+                    lenRow\ }, \ {j\ , 
+                    lenCol\ }\[IndentingNewLine]];\)\[IndentingNewLine]\
+*) \[IndentingNewLine]\[IndentingNewLine]]\  /; \ 
+          imsElementMatrixQ[\ a\ ]\  && \ 
+            MatrixQ[\ matrix\ ]\[IndentingNewLine]*) \[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1076, 909},
+WindowMargins->{{48, Automatic}, {Automatic, 32}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 36, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1837, 57, 31, 0, 74, "Section"],
+Cell[1871, 59, 2552, 40, 539, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4460, 104, 32, 0, 44, "Section"],
+Cell[4495, 106, 168, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4700, 116, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[4777, 120, 26, 0, 38, "Subsection"],
+Cell[4806, 122, 2554, 41, 587, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7397, 168, 36, 0, 30, "Subsection"],
+Cell[7436, 170, 310, 5, 91, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7795, 181, 32, 0, 44, "Section"],
+Cell[7830, 183, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7955, 190, 43, 0, 44, "Section"],
+Cell[8001, 192, 586, 10, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8624, 207, 42, 0, 44, "Section"],
+Cell[8669, 209, 142, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8848, 217, 26, 0, 44, "Section"],
+Cell[8877, 219, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9093, 228, 27, 0, 44, "Section"],
+Cell[9123, 230, 533, 9, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9693, 244, 29, 0, 44, "Section"],
+Cell[9725, 246, 336, 7, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10098, 258, 41, 0, 44, "Section"],
+Cell[10142, 260, 8969, 168, 1739, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19148, 433, 30, 0, 44, "Section"],
+Cell[19181, 435, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19330, 442, 30, 0, 44, "Section"],
+Cell[19363, 444, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

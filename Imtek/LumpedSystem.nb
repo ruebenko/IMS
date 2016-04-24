@@ -1,0 +1,1190 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     49268,       1048]*)
+(*NotebookOutlinePosition[     49931,       1071]*)
+(*  CellTagsIndexPosition[     49887,       1067]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["LumpedSystem Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ LumpedSystem . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ Author : oliver\ ruebenkoenig, \ 
+      kai\ kratt\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ winter\ 2005/2006, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ circuit\ element\ library\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .5\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History : \
+\[IndentingNewLine]\(oli : \ 
+            fixed\ for\ mma6  .0\);\)\[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      added\ usage\ message\ for\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      chaneged\ omega\ to\ I\ omega\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      included\ new\ \(element : \ 
+          mutual\ inductance\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      included\ new\ \(elements : \ 
+          controlled\ sources\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      included\ new\ \(element : \ 
+          diode\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\ 2005 - 
+        2006\ Kai\ Kratt\ and\ Oliver\ Ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`LumpedSystem`\>", \ \
+"\<Imtek`Assembler`\>", \ "\<Imtek`CircuitElementLibrary`\>", \ \
+"\<Imtek`Nodes`\>", \ "\<Imtek`Graph`\>", \ "\<Imtek`BoundaryConditions`\>", \
+\ "\<Imtek`System`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\(imsLumpedOperator::usage \
+= "\<imsLumpedOperator[ lumpedElement ] returns an imsElementMatrix. A \
+lumpedElement can be any element from the lumped element libraries or a user \
+defined element.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsMakeLumpedSystem::usage\  = \ "\<imsMakeLumpedSystem[ \
+nexus_imsNexus, opts___ ] returns an imsSystem data structure. To each \
+element in the nexus a LumpedOperator will be applied which will decide to \
+which part of the imsSystem the element will contribute.\>";\)\(\n\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)
+    \(imsLumpedInertiaQ::usage\  = \ "\<imsLumpedInertiaQ[ expr ] returns \
+True if expr is an inertia matrix element.\>";\)\(\n\)\(\[IndentingNewLine]\)
+    \(imsLumpedDampingQ::usage\  = \ "\<imsLumpedDampingQ[ expr ] returns \
+True if expr is a damping matrix element.\>";\)\(\n\)\(\n\)
+    \(imsLumpedStiffnessQ::usage\  = \ "\<imsLumpedStiffnessQ[ expr ] returns \
+True if expr is a stiffness matrix element.\>";\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \(imsLumpedLoadQ::usage\  = \ "\<imsLumpedLoadQ[ expr ] returns True if \
+expr is a load vector element.\>";\)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)
+    \(imsLumpedPotentialQ::usage\  = \ "\<imsLumpedPotentialQ[ expr ] returns \
+True if expr is a potential element.\>";\)\(\n\)\(\[IndentingNewLine]\)
+    \(imsLumpedConnectorQ::usage\  = \ "\<imsLumpedConnectorQ[ expr ] returns \
+True if expr is a connector element.\>";\)\(\n\)\(\n\)
+    \(imsLumpedGroundQ::usage\  = \ "\<imsLumpedGroundQ[ expr ] returns True \
+if expr is a ground \
+element.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsLumpedVCVSQ::usage\  = \ "\<imsLumpedVCVSQ[ expr ] returns True if \
+expr is a ground element.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsLumpedCCCSQ::usage\  = \ "\<imsLumpedCCCSQ[ expr ] returns True if \
+expr is a ground element.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \(imsLumpedCCVSQ::usage\  = \ "\<imsLumpedCCVSQ[ expr ] returns True if \
+expr is a ground element.\>";\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)
+    \( (*\ functions\ *) \)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), "\[IndentingNewLine]", \( (*\ options\ docu\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{
+          
+          RowBox[{\(imsAnalysisMethod::usage\), "=", 
+            "\"\<Option for imsMakeLumpedSystem. Possible values are: \!\(\*
+StyleBox[\"imsStationary\",\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\" \",\nFontSlant->\"Italic\"]\)for a static analysis, \!\(\*
+StyleBox[\"imsHarmonic\",\nFontSlant->\"Italic\"]\) for a harmonic analysis \
+and \!\(\*
+StyleBox[\"imsTransient\",\nFontSlant->\"Italic\"]\) for a transient \
+analysis. If none is specified, default is \!\(\*
+StyleBox[\"imsStationary\",\nFontSlant->\"Italic\"]\).\>\""}], ";"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+          
+          RowBox[{\(imsHarmonicSymbol::usage\), "=", 
+            "\"\<Option for imsMakeLumpedSystem. Is only needed for harmonic \
+analysis. If none is specified, default is \!\(\*
+StyleBox[\"I\",\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"*\",\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"\[Omega]\",\nFontSlant->\"Italic\"]\).\>\""}], ";"}]}]}]], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsMakeLumpedSystem::"\<analysisMethod\>" = \
+"\<imsAnalysisMethod `1` unknown.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Needs - P",
+  StyleBox["rivate Imports",
+    FontSize->22]
+}], "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(If[$VersionNumber \[LessEqual] 5.2, << 
+          LinearAlgebra`MatrixManipulation`, Null];\)\n
+    \(If[$VersionNumber \[LessEqual] 5.2, 
+        myBlockMatrix[x_] := BlockMatrix[x], 
+        myBlockMatrix[x_] := ArrayFlatten[x]];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Options[
+          imsMakeLumpedSystem]\  = \ {imsAnalysisMethod\  \[Rule] \ \
+"\<imsStationary\>", \ 
+          imsHarmonicSymbol \[Rule] \ Automatic\ };\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), 
+      "\[IndentingNewLine]", \( (*\ implementation\ part\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \( (*\ constructor\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{\(imsMakeLumpedSystem[\ nexus_imsNexus, \ opts___\ ]\), " ", ":=",
+           " ", 
+          RowBox[{"Module", "[", " ", 
+            
+            RowBox[{\({\ analysisMethod, \ nexusLength, \ nexusElements, \ 
+                dampingMatrix, \ elemsDamping, \ load, \ elemsLoad, \ 
+                loadFlatten, \ inertiaMatrix, \ elemsInertia, \ 
+                stiffnessMatrix, \ elemsStiffness, \ lengthDamping, \ 
+                fVariable, \ elemsVCVS, \ elemsCCCS, \ elemsCCVS\ }\), ",", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \( (*\ options\ definitions\ *) \), 
+              "\[IndentingNewLine]", 
+              
+              RowBox[{\({\ analysisMethod, \ 
+                    harmonicSymbol\ }\  = \ \({\ imsAnalysisMethod, \ 
+                        imsHarmonicSymbol\ }\  /. \ 
+                      Flatten[\ {\ opts\ }\ ]\)\  /. \ 
+                    Options[imsMakeLumpedSystem]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \(If[\ 
+                  harmonicSymbol\  === \ Automatic, \ 
+                  fVariable\  = \ I\ *\ Global`\[Omega], \ 
+                  fVariable\  = \ harmonicSymbol\ ]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ element\ extraction\ *) \), 
+                "\[IndentingNewLine]", \(nexusLength\  = \ 
+                  Length[\ imsGetNodes[\ nexus\ ]\ ]\), ";", 
+                "\[IndentingNewLine]", \(nexusElements\  = \ 
+                  imsGetElements[\ nexus\ ]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ 
+                  damping\ matrix\  - \ resistances\ *) \), 
+                "\[IndentingNewLine]", \(dampingMatrix\  = \ 
+                  Table[\ 0, \ {\ nexusLength\ }, \ {\ nexusLength\ }\ ]\), 
+                ";", "\[IndentingNewLine]", \(elemsDamping\  = \ 
+                  imsLumpedOperator[\ 
+                    Select[\ nexusElements, \ imsLumpedDampingQ\ ]\ ]\), ";", 
+                "\[IndentingNewLine]", \(imsAssemble[\ elemsDamping, \ 
+                  dampingMatrix]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ 
+                  load\ vector\  - \ current\ sources\ *) \), 
+                "\[IndentingNewLine]", \(load\  = \ 
+                  Table[\ 0, \ {\ nexusLength\ }, {1}\ ]\), ";", 
+                "\[IndentingNewLine]", \(elemsLoad\  = \ 
+                  imsLumpedOperator[\ 
+                    Select[\ nexusElements, \ imsLumpedLoadQ\ ]\ ]\), ";", 
+                "\[IndentingNewLine]", \(imsAssemble[\ elemsLoad, \ load\ ]\),
+                 ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \(loadFlatten\  = \ 
+                  Flatten[\ load\ ]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ voltage\ sources\ *) \), 
+                "\[IndentingNewLine]", 
+                
+                StyleBox[\(\(imsLagrangeMultipliers[\ {\ dampingMatrix, \ 
+                          loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ ]}, \ \
+{\ imsGetValues[\ #\ ]}, {1, \(-1\)}\ ] &\)\  /@ \ 
+                    Select[\ nexusElements, \ imsLumpedPotentialQ\ ]\),
+                  FontColor->GrayLevel[0]], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], \( (*\ 
+                  voltage\ controlled\ voltage\ source\ *) \), 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                RowBox[{"elemsVCVS", "=", 
+                  StyleBox[\(Select[\ nexusElements, \ imsLumpedVCVSQ\ ]\),
+                    FontColor->GrayLevel[0]]}], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                RowBox[{
+                  RowBox[{
+                    RowBox[{
+                      StyleBox["If",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox[" ",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox["[",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox[" ",
+                        FontColor->GrayLevel[0]], 
+                      RowBox[{
+                        RowBox[{
+                          RowBox[{
+                            StyleBox["Length",
+                              FontColor->GrayLevel[0]], 
+                            StyleBox["[",
+                              FontColor->GrayLevel[0]], 
+                            StyleBox[" ",
+                              FontColor->RGBColor[0, 0, 1]], "elemsVCVS", 
+                            StyleBox[" ",
+                              FontColor->RGBColor[0, 0, 1]], 
+                            StyleBox["]",
+                              FontColor->GrayLevel[0]]}], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[">",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["0",
+                            FontColor->GrayLevel[0]]}], 
+                        StyleBox[",",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        RowBox[{
+                          
+                          StyleBox[\(imsLagrangeMultipliers[\ {\ 
+                                dampingMatrix, \ 
+                                loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ \
+]}, \ {\ 0\ }, {0\ , \ 0, \ 0, \ 0}\ ]\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(lengthDamping\  = \ 
+                              Length[\ dampingMatrix\ ]\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->RGBColor[0, 0, 1]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([1]\)]\ ]\)]\  = \ \(-imsGetValues[#]\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->RGBColor[0, 0, 1]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([2]\)]\ ]\)]\  = imsGetValues[\ #]\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->RGBColor[0, 0, 1]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([3]\)]\ ]\)]\  = \ 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->RGBColor[0, 0, 1]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([4]\)]\ ]\)]\  = \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([3]\)], \ lengthDamping\ ]\)]\  = 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([4]\)], \ lengthDamping\ ]\)]\  = \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]]}], 
+                        StyleBox[",",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["Null",
+                          FontColor->GrayLevel[0]]}], 
+                      StyleBox["\[IndentingNewLine]",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox["]",
+                        FontColor->GrayLevel[0]]}], 
+                    StyleBox[" ",
+                      FontColor->GrayLevel[0]], 
+                    StyleBox["&",
+                      FontColor->GrayLevel[0]]}], 
+                  StyleBox["/@",
+                    FontColor->GrayLevel[0]], 
+                  StyleBox[" ",
+                    FontColor->GrayLevel[0]], 
+                  StyleBox["elemsVCVS",
+                    FontColor->GrayLevel[0]]}], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], \( (*\ 
+                  current\ controlled\ current\ source\ *) \), 
+                "\[IndentingNewLine]", 
+                RowBox[{"elemsCCCS", "=", 
+                  StyleBox[\(Select[\ nexusElements, \ imsLumpedCCCSQ\ ]\),
+                    FontColor->GrayLevel[0]]}], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                RowBox[{
+                  RowBox[{
+                    RowBox[{"If", " ", "[", " ", 
+                      RowBox[{
+                        RowBox[{
+                          RowBox[{"Length", "[", 
+                            StyleBox[" ",
+                              FontColor->RGBColor[0, 0, 1]], "elemsCCCS", 
+                            StyleBox[" ",
+                              FontColor->RGBColor[0, 0, 1]], 
+                            StyleBox["]",
+                              FontColor->GrayLevel[0]]}], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[">",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["0",
+                            FontColor->GrayLevel[0]]}], 
+                        StyleBox[",",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+                        RowBox[{
+                          
+                          StyleBox[\(imsLagrangeMultipliers[\ {\ 
+                                dampingMatrix, \ 
+                                loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ \
+]}, \ {\ 0\ }, {0\ , \ 0, \ 0, \ 0}\ ]\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->RGBColor[0, 0, 
+                            1]], \(lengthDamping\  = \ 
+                            Length[\ dampingMatrix\ ]\), ";", 
+                          "\[IndentingNewLine]", \(dampingMatrix[\([\ \
+\(imsGetIncidentsIds[\ #\ ]\)[\([1]\)], \ lengthDamping\ ]\)]\  = 1\), ";", 
+                          "\[IndentingNewLine]", 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([2]\)], \ lengthDamping\ ]\)]\  = \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([3]\)], \ lengthDamping\ ]\)]\  = imsGetValues[\ #]\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([4]\)], \ lengthDamping\ ]\)]\  = \(-imsGetValues[\ #]\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([1]\)]\ ]\)]\  = 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \(imsGetIncidentsIds[\ #\ \
+]\)[\([2]\)]\ ]\)]\  = \ \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]]}], 
+                        StyleBox[",",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], "Null"}], 
+                      "\[IndentingNewLine]", "]"}], " ", "&"}], "/@", " ", 
+                  "elemsCCCS"}], ";", 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+                StyleBox[\( (*\ current\ controlled\ voltage\ source\ *) \),
+                  FontColor->GrayLevel[0]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[0]], 
+                RowBox[{"elemsCCVS", " ", "=", 
+                  StyleBox[" ",
+                    FontColor->RGBColor[0, 0, 1]], 
+                  StyleBox[\(Select[\ nexusElements, \ imsLumpedCCVSQ\ ]\),
+                    FontColor->GrayLevel[0]]}], 
+                StyleBox[";",
+                  FontColor->GrayLevel[0]], "\[IndentingNewLine]", 
+                RowBox[{
+                  RowBox[{
+                    RowBox[{
+                      StyleBox["If",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox["[",
+                        FontColor->GrayLevel[0]], 
+                      StyleBox[" ",
+                        FontColor->GrayLevel[0]], 
+                      RowBox[{
+                        StyleBox[\(Length[\ elemsCCVS\ ]\  > \ 0\),
+                          FontColor->GrayLevel[0]], 
+                        StyleBox[",",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        StyleBox["\[IndentingNewLine]",
+                          FontColor->GrayLevel[0]], 
+                        
+                        RowBox[{\(imsLagrangeMultipliers[\ {\ 
+                              dampingMatrix, \ 
+                              loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ \
+]}, \ {\ 0\ }, {\ 0, \ 0, \ 0, \ 0}\ ]\), ";", 
+                          "\[IndentingNewLine]", \(lengthDamping\  = \ 
+                            Length[\ dampingMatrix\ ]\), ";", 
+                          "\[IndentingNewLine]", 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([3]\)], \ lengthDamping\ ]\)]\  = \ 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([4]\)], \ lengthDamping\ ]\)]\  = \ \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([3]\)]\ ]\)]\  = 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([4]\)]\ ]\)]\  = \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[
+                            0]], \(imsLagrangeMultipliers[\ {\ 
+                              dampingMatrix, \ 
+                              loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ \
+]}, \ {\ 0\ }, {\ 0, \ 0, \ 0, \ 0}\ ]\), ";", 
+                          "\[IndentingNewLine]", \(lengthDamping\  = \ 
+                            Length[\ dampingMatrix\ ]\), ";", 
+                          "\[IndentingNewLine]", 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([1]\)], \ lengthDamping\ ]\)]\  = \ 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ \(imsGetIncidentsIds[\
+\ #\ ]\)[\([2]\)], \ lengthDamping\ ]\)]\  = \ \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([1]\)]\ ]\)]\  = 1\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          
+                          StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping, \ \ \(imsGetIncidentsIds[\ #\
+\ ]\)[\([2]\)]\ ]\)]\  = \(-1\)\),
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox["\[IndentingNewLine]",
+                            FontColor->GrayLevel[0]], 
+                          RowBox[{
+                            
+                            StyleBox[\(dampingMatrix[\([\ 
+                                  lengthDamping - 
+                                    1, \ \ lengthDamping\ ]\)]\),
+                              FontColor->GrayLevel[0]], 
+                            StyleBox[" ",
+                              FontColor->GrayLevel[0]], 
+                            StyleBox["=",
+                              FontColor->GrayLevel[0]], 
+                            StyleBox[" ",
+                              FontColor->GrayLevel[0]], 
+                            RowBox[{
+                              StyleBox["-",
+                                FontColor->GrayLevel[
+                                0]], \(imsGetValues[\ #]\)}]}], 
+                          StyleBox[" ",
+                            FontColor->GrayLevel[0]], 
+                          StyleBox[";",
+                            FontColor->GrayLevel[0]]}], ",", 
+                        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                        "Null"}], "\[IndentingNewLine]", "]"}], " ", "&"}], "/@",
+                   " ", "elemsCCVS"}], ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ wires\ *) \), 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->GrayLevel[
+                  0]], \(\(imsLagrangeMultipliers[\ {\ dampingMatrix, \ 
+                        loadFlatten\ }, \ \ {imsGetIncidentsIds[\ #\ ]}, \ \
+{0}, \ {\ {\ 1, \ \(-1\)\ }\ }\ ] &\)\  /@ \ 
+                  Select[nexusElements, \ imsLumpedConnectorQ\ ]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ 
+                  lumped\ matrix\ elements\ short\ circuited\ when\ using\ \
+stationary\ solution\ *) \), 
+                "\[IndentingNewLine]", \(If[\ 
+                  analysisMethod\  === \ "\<imsStationary\>", \ \
+\[IndentingNewLine]\(\(imsLagrangeMultipliers[\ {\ dampingMatrix, \ 
+                            loadFlatten\ }, \ \ {\ #\ }, \ {0}, \ {\ {\ 
+                              1, \ \(-1\)\ }\ }\ ] &\)\  /@ \ 
+                      Partition[\ 
+                        Flatten[\ 
+                          imsGetIncidentsIds[\ 
+                            Select[nexusElements, \ 
+                              imsLumpedStiffnessQ\ ]\ ]\ ], 
+                        2];\), \
+\[IndentingNewLine]\(Null;\)\[IndentingNewLine]]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ ground\ *) \), 
+                "\[IndentingNewLine]", \(\(imsDirichlet[\ {\ dampingMatrix, \ 
+                        loadFlatten\ }, \ 
+                      imsGetIncidentsIds[\ #\ ], \ {imsGetValues[\ #\ ]}, \ 
+                      1\ ] &\)\  /@ \ 
+                  Select[\ nexusElements, \ imsLumpedGroundQ\ ]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \(lengthDamping\  = \ 
+                  Length[\ dampingMatrix\ ]\), ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \(load\  = \ 
+                  Partition[\ loadFlatten, \ 1]\), ";", "\[IndentingNewLine]",
+                 "\[IndentingNewLine]", \( (*\ 
+                  create\ inertia\ and\ stiffness\ matrix\ *) \), 
+                "\[IndentingNewLine]", \
+\(Which[\[IndentingNewLine]analysisMethod\  === \ "\<imsTransient\>"\  || \ 
+                    analysisMethod\  === \ "\<imsHarmonic\>", \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+                    inertia\ matrix\  - \ 
+                      capacitances\ *) \[IndentingNewLine]inertiaMatrix\  = \ 
+                    Table[\ 0, \ {\ lengthDamping\ }, \ {\ 
+                        lengthDamping\ }\ ]; \[IndentingNewLine]elemsInertia\ \
+ = \ imsLumpedOperator[\ 
+                      Select[\ nexusElements, \ 
+                        imsLumpedInertiaQ\ ]\ ]; \
+\[IndentingNewLine]imsAssemble[\ elemsInertia, \ 
+                    inertiaMatrix\ ]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ stiffness\ matrix\  - \ 
+                      inductances\ *) \[IndentingNewLine]stiffnessMatrix\  = \
+\ Table[\ 0, \ {\ lengthDamping\ }, \ {\ 
+                        lengthDamping\ }\ ]; \
+\[IndentingNewLine]elemsStiffness\  = \ 
+                    imsLumpedOperator[\ \ Select[\ nexusElements, \ 
+                        imsLumpedStiffnessQ\ ]]; \
+\[IndentingNewLine]imsAssemble[\ elemsStiffness, \ 
+                    stiffnessMatrix\ ];\[IndentingNewLine]]\), ";", 
+                "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", \( (*\ return\ condition\ *) \), 
+                "\[IndentingNewLine]", \(Which[\[IndentingNewLine] (*\ 
+                    
+                    imsTransient\ *) \[IndentingNewLine]analysisMethod\  \
+=== \ "\<imsTransient\>", \[IndentingNewLine]\(Return[\ 
+                      imsMakeSystem[\ 
+                        load, \ \ stiffnessMatrix, \ \ dampingMatrix, \ 
+                        inertiaMatrix\ ]\ ];\), \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+                    imsHarmonic\ *) \[IndentingNewLine]analysisMethod\  === \ \
+"\<imsHarmonic\>", \[IndentingNewLine]\(Return[\ 
+                      imsMakeSystem[\ 
+                        load, \ \ 1/\((\ fVariable\ )\)\ *\ 
+                            stiffnessMatrix\  + \ 
+                          dampingMatrix\  + \ \((\ fVariable\ )\)\ *\ 
+                            inertiaMatrix\ ]\ ];\), \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+                    imsStationary\ *) \[IndentingNewLine]analysisMethod\  \
+=== \ "\<imsStationary\>", \[IndentingNewLine]\(Return[\ 
+                      imsMakeSystem[\ 
+                        load, \ \ dampingMatrix\ ]\ ];\), \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+                    true\  - \ 
+                      error\ message\ *) \[IndentingNewLine]True, \
+\[IndentingNewLine]\(Message[imsMakeLumpedSystem::"\<analysisMethod\>", \ 
+                      analysisMethod\ ];\)\[IndentingNewLine]]\), ";"}]}], 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}], 
+        ";"}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ predicates\ *) \), "\[IndentingNewLine]", \( (*\ *) \), 
+      "\[IndentingNewLine]", 
+      RowBox[{\(imsLumpedInertiaQ[\ _imsCapacitance\ ]\  := \ True;\), 
+        "\n", \(imsLumpedInertiaQ[\ ___\ ]\  := \ False;\), "\n", 
+        "\[IndentingNewLine]", \(imsLumpedDampingQ[\ _imsResistance\ ]\  := \ 
+            True;\), 
+        "\n", \(imsLumpedDampingQ[\ _imsVoltageControlledCurrentSource\ ]\  \
+:= \ True;\), 
+        "\[IndentingNewLine]", \(imsLumpedDampingQ[\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        "\n", \(imsLumpedStiffnessQ[\ _imsInductance\ ]\  := \ True;\), 
+        "\n", \(imsLumpedStiffnessQ[\ _imsMutualInductance\ ]\  := \ True;\), 
+        "\[IndentingNewLine]", \(imsLumpedStiffnessQ[\ ___\ ]\  := \ False;\),
+         "\n", "\[IndentingNewLine]", \(imsLumpedLoadQ[\ _imsCurrentSource\ ]\
+\  := \ True;\), "\n", \(imsLumpedLoadQ[\ _imsDiode\ ]\  := \ True;\), 
+        "\[IndentingNewLine]", \(imsLumpedLoadQ[\ ___\ ]\  := \ False;\), 
+        "\n", "\[IndentingNewLine]", \(imsLumpedPotentialQ[\ \ \
+_imsVoltageSource\ ]\  := \ True;\), 
+        "\n", \(imsLumpedPotentialQ[\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLumpedVCVSQ[\ \
+_imsVoltageControlledVoltageSource\ ]\  := \ True;\), 
+        "\[IndentingNewLine]", \(imsLumpedVCVSQ[\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLumpedCCCSQ[\ \
+_imsCurrentControlledCurrentSource\ ]\  := \ True;\), 
+        "\n", \(imsLumpedCCCSQ\ [\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        StyleBox["\[IndentingNewLine]",
+          FontColor->RGBColor[0, 0, 
+          1]], \(imsLumpedCCVSQ[\ _imsCurrentControlledVoltageSource\ ]\  \
+:= \ True;\), 
+        "\[IndentingNewLine]", \(imsLumpedCCVSQ[\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLumpedConnectorQ[\ _imsWire\ ]\  := \ 
+            True;\), "\n", \(imsLumpedConnectorQ[\ ___\ ]\  := \ False;\), 
+        "\[IndentingNewLine]", 
+        "\n", \(imsLumpedGroundQ[\ _imsGround\ ]\  := \ True;\), 
+        "\n", \(imsLumpedGroundQ[\ ___\ ]\  := \ False;\)}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ public\ functions\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{\(\(imsLumpedOperator[\ r_imsResistance\ ]\  := \ 
+                imsMakeElementMatrix[\ 
+                  1/imsGetValues[\ r\ ]*{{1, \(-1\)}, {\(-1\), 1}}, \ 
+                  imsGetIncidentsIds[\ r\ ], \ 
+                  imsGetIncidentsIds[\ r\ ]\ ];\)\n\n\(imsLumpedOperator[\ 
+                  l_imsInductance\ ]\  := 
+                imsMakeElementMatrix[\ 
+                  1/imsGetValues[\ l\ ]*{{1, \(-1\)}, {\(-1\), 1}}, \ 
+                  imsGetIncidentsIds[\ l\ ], \ 
+                  imsGetIncidentsIds[\ 
+                    l\ ]\ ];\)\[IndentingNewLine]\[IndentingNewLine]\(\
+imsLumpedOperator[\ l_imsMutualInductance\ ]\  := \ 
+              Module[\[IndentingNewLine]{\ l1, \ l2, \ 
+                  l3, \[IndentingNewLine]s11, \ s12, \ s21, \ 
+                  s22\ }, \[IndentingNewLine]\[IndentingNewLine]{l1, \ l2, \ 
+                    l3\ }\  = \ 
+                  imsGetValues[\ 
+                    l\ ]; \[IndentingNewLine]\[IndentingNewLine]s11\  = \ 
+                  1/\((\ l1\ *\ \((\ 
+                            1\  - \ l3^2\ )\))\)*{{1, \(-1\)}, {\(-1\), 
+                        1}}; \[IndentingNewLine]s12\  = 
+                  l3\ /\ \((\ \((\ l3^2\  - 1\ )\)\ *\ 
+                          Sqrt[\ l1\ *\ l2\ ]\ )\)*{{1, \(-1\)}, {\(-1\), 
+                        1}}; \[IndentingNewLine]s21\  = 
+                  s12; \[IndentingNewLine]s22\  = 
+                  1/\((\ l2\ *\ \((\ 
+                            1\  - \ l3^2\ )\))\)*{{1, \(-1\)}, {\(-1\), 
+                        1}}; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+                  imsMakeElementMatrix[\ 
+                    myBlockMatrix[\ {{s11, s12}, {s21, \ s22}}\ ], \ 
+                    imsGetIncidentsIds[\ l\ ], \ 
+                    imsGetIncidentsIds[\ l\ ]\ ]\ ]\[IndentingNewLine]]\);\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLumpedOperator[\ 
+              c_imsCapacitance\ ]\  := \ 
+            imsMakeElementMatrix[\ 
+              imsGetValues[\ c\ ]*{{1, \(-1\)}, {\(-1\), 1}}, \ 
+              imsGetIncidentsIds[\ c\ ], \ imsGetIncidentsIds[\ c\ ]\ ];\), 
+        "\[IndentingNewLine]", 
+        "\n", \(imsLumpedOperator[\ cur_imsCurrentSource\ ]\  := 
+            imsMakeElementMatrix[\ imsGetValues[cur]*{{\(-1\)}, {1}}, \ 
+              imsGetIncidentsIds[\ cur\ ], \ {1}\ ];\), "\[IndentingNewLine]",
+         
+        StyleBox["\[IndentingNewLine]",
+          FontColor->GrayLevel[
+          0]], \(imsLumpedOperator[\ dio_imsDiode\ ]\  := \ 
+            Module[\ {\ Vd, \ Is, \ Vt, \ 
+                n}, \[IndentingNewLine]\[IndentingNewLine]{\ Vd, \ Is, \ 
+                  Vt, \ n}\  = \ 
+                imsGetValues[\ 
+                  dio\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+                imsMakeElementMatrix[\ 
+                  Is*\((Exp[\((Subtract\  @@ \ \((\(Vd[#] &\)\  /@ 
+                                    imsGetIncidentsIds[\ 
+                                      dio\ ])\))\)\ /\ \((n*Vt)\)\ ] - 
+                        1\ )\)*{{\(-1\)}, {1}}, \ 
+                  imsGetIncidentsIds[\ 
+                    dio\ ], \ {1}\ ]]\[IndentingNewLine]];\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsLumpedOperator[\ 
+              cur_imsVoltageControlledCurrentSource\ ]\  := \ 
+            imsMakeElementMatrix[\ 
+              imsGetValues[\ 
+                  cur\ ]*{{\ 0, \ 0, \ 0, \ 0\ }, \ {\ 0, \ 0, \ 0, \ 
+                    0\ }, \ {\ 1, \ \(-1\), \ 0, \ 0\ }, \ {\ \(-1\), \ 1, \ 
+                    0, \ 0\ }}, \ imsGetIncidentsIds[\ cur\ ], \ 
+              imsGetIncidentsIds[\ cur\ ]\ ];\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \( (*\ Attributes\ *) \), 
+        "\[IndentingNewLine]", \(SetAttributes[\ imsLumpedOperator, \ 
+            Listable\ ];\), "\[IndentingNewLine]"}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{970, 651},
+WindowMargins->{{85, Automatic}, {Automatic, 97}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 40, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1841, 57, 31, 0, 74, "Section"],
+Cell[1875, 59, 1770, 32, 411, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3670, 95, 35, 0, 28, "Subsubsection"],
+Cell[3708, 97, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4329, 109, 1896, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6274, 146, 32, 0, 44, "Section"],
+Cell[6309, 148, 341, 7, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6687, 160, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6764, 164, 26, 0, 38, "Subsection"],
+Cell[6793, 166, 2541, 39, 770, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9371, 210, 34, 0, 30, "Subsection"],
+Cell[9408, 212, 1193, 25, 190, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10638, 242, 36, 0, 30, "Subsection"],
+Cell[10677, 244, 282, 5, 90, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11008, 255, 32, 0, 44, "Section"],
+Cell[11043, 257, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11168, 264, 92, 4, 46, "Section"],
+Cell[11263, 270, 436, 8, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11736, 283, 26, 0, 44, "Section"],
+Cell[11765, 285, 360, 7, 90, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12162, 297, 30, 0, 44, "Section"],
+Cell[12195, 299, 29598, 570, 2970, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41830, 874, 27, 0, 44, "Section"],
+Cell[41860, 876, 129, 3, 50, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[42026, 884, 29, 0, 44, "Section"],
+Cell[42058, 886, 2255, 40, 690, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[44350, 931, 41, 0, 44, "Section"],
+Cell[44394, 933, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[44538, 939, 4071, 74, 731, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[48646, 1018, 31, 0, 44, "Section"],
+Cell[48680, 1020, 133, 3, 50, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[48850, 1028, 30, 0, 44, "Section"],
+Cell[48883, 1030, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[49052, 1038, 30, 0, 44, "Section"],
+Cell[49085, 1040, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

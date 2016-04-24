@@ -1,0 +1,1083 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     33278,        822]*)
+(*NotebookOutlinePosition[     33942,        845]*)
+(*  CellTagsIndexPosition[     33898,        841]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ShapeFunctions", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ShapeFunctions . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 9.2  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ utilities\ to\ generate\ shape\ funcitons\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .4\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]inserted\ Simplify\ and\ Chop\ for\ \
+inverse\ element\ mapping; \[IndentingNewLine]bug\ fix\ in\ the\ shape\ \
+function\ of\ imsHexahedronQuadraticSerendipity; \[IndentingNewLine]Bug\ \
+\(fix : \ 
+          the\ imsInsideUniteElement\ for\ tetrahedra\ did\ not\ work\ \
+correctly\); \[IndentingNewLine]Unique\ symbols\ in\ imsInverseElementMapping\
+\ are\ in\ global\ comntext\ now; \[IndentingNewLine]bug\ fix\ in\ the\ \
+documentation\ of\ imsElementMapping\  - \ 
+          it\ is\ the\ other\ way\ round ... \[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ provides\ utilities\ to\ generate\ shape\ funcitons\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`ShapeFunctions`\>", \ \
+{"\<Imtek`MeshElementLibrary`\>"}];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsInsideUnitElementQ::usage\  = \ \
+"\<imsInsideUnitElementQ[ elementFamily, coords ] returns True if if coords \
+are in the unit element.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \(imsShapeFunctionInterpolation::usage\  = \ \
+"\<imsShapeFunctionInterpolation[ shapeFunction, nodalValues, elementFamily, \
+mapping ] returns an interpolation function based on the shape function, \
+nodal values and the element family. Optionaly a mapping can be given.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementMapping::usage\ \  = \ "\<imsElementMapping[ shapeFunction, \
+distinationCoords ] returns a function that mappes from the unit element \
+given by the shape function to the distination Coords.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsInverseElementMapping::usage\  = \ "\<imsInverseElementMapping[ \
+mappingFunction ] returns a function that provides the inverse of an element \
+mapping funvtion.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsShapeFunctionSymbols::usage = "\<imsShapeFunctionSymbols[ \
+elementName, function, quadPoints, quadWeights ] will initilaize the symbols \
+for an element with shape function function and its derivative. For the \
+integrated shape function and the integated shape function derivative \
+quadrature points and quadrature weights will be used.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsShapeFunction::usage = "\<imsShapeFunction[ elementName ] returns \
+the shape function for an element.\>";\)\[IndentingNewLine]
+    \(imsNShapeFunction::usage = "\<imsNShapeFunction[ elementName ] provides \
+a numerical version of imsShapeFunction.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsShapeFunctionDerivative::usage = "\<imsShapeFunctionDerivative[ \
+elementName ] returns the shape function derivative for an element.\>";\)\
+\[IndentingNewLine]
+    \(imsNShapeFunctionDerivative::usage = "\<imsNShapeFunctionDerivative[ \
+elementName ] provides a numerical version of imsShapeFunctionDerivative.\>";\
+\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsIntegratedShapeFunction::usage = "\<imsIntegratedShapeFunction[ \
+elementName ] returns the integrated shape function for an element.\>";\)\
+\[IndentingNewLine]
+    \(imsNIntegratedShapeFunction::usage = "\<imsNIntegratedShapeFunction[ \
+elementName ] provides a numerical version of imsIntegratedShapeFunction.\>";\
+\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsIntegratedShapeFunctionDerivative::usage = \
+"\<imsIntegratedShapeFunctionDerivative[ elementName ] returns the integrated \
+shape function derivative for an element.\>";\)\[IndentingNewLine]
+    \(imsNIntegratedShapeFunctionDerivative::usage = \
+"\<imsNIntegratedShapeFunctionDerivative[ elementName ] provides a numerical \
+version of imsIntegratedShapeFunctionDerivative.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsIntegrationWeights::usage = "\<imsIntegrationWeights[ elementName ] \
+returns the integration weights for an element.\>";\)\[IndentingNewLine]
+    \(imsNIntegrationWeights::usage = "\<imsNIntegrationWeights[ elementName \
+] provides a numerical version of imsIntegrationWeights.\>";\)\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`NumericalIntegration`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsInsideUnitElementQ[\ "\<imsLine\>", \ {\ 
+            r_\ }\ ]\  := \ \((\ \(-1\) \[LessEqual] \ r\  \[LessEqual] \ 
+            1)\);\)\n
+    \(imsInsideUnitElementQ[\ "\<imsTriangle\>", \ {\ r_, \ 
+            s_\ }\ ]\  := \ \((0 \[LessEqual] \ r\  \[LessEqual] \ 
+              1)\)\  && \ \((\ 
+            0\  \[LessEqual] \ s\  \[LessEqual] \ 1\ )\)\  && \ \((\ 
+            0 \[LessEqual] \ r + s\  \[LessEqual] \ 1\ )\);\)\n
+    \(imsInsideUnitElementQ[\ "\<imsQuad\>", \ {\ r_, \ 
+            s_\ }\ ]\  := \ \((\(-1\) \[LessEqual] \ r\  \[LessEqual] \ 
+              1)\)\  && \ \((\ \(-1\)\  \[LessEqual] \ s\  \[LessEqual] \ 
+              1\ )\);\)\[IndentingNewLine]
+    \(imsInsideUnitElementQ[\ "\<imsTetrahedron\>", \ {\ r_, \ s_, \ 
+            t_\ }\ ]\  := \ \((\ 
+            0\  \[LessEqual] \ r\  \[LessEqual] \ 1\ )\)\  && \ \((\ 
+            0\  \[LessEqual] \ s\  \[LessEqual] \ 1\ )\)\  && \ \((\ 
+            0\  \[LessEqual] \ t\  \[LessEqual] \ 1\ )\)\  && \ \((\ 
+            0\  \[LessEqual] \ \ r\  + \ s\  + \ t\  \[LessEqual] \ 
+              1\ )\);\)\[IndentingNewLine]
+    \(imsInsideUnitElementQ[\ "\<imsHexahedron\>", \ {\ r_, \ s_, \ 
+            t_\ }\ ]\  := \ \((\(-1\) \[LessEqual] \ r\  \[LessEqual] \ 
+              1)\)\  && \ \((\ \(-1\)\  \[LessEqual] \ s\  \[LessEqual] \ 
+              1\ )\)\ \  && \ \((\ \(-1\)\  \[LessEqual] \ t\  \[LessEqual] \ 
+              1\ )\);\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Variables[]\ is\ not\ defined\ for\ Function\ \
+*) \)\(\[IndentingNewLine]\)\(SetAttributes[\ sFD, \ 
+      Listable\ ]\[IndentingNewLine]
+    \(sFD[\ 
+          shapeFunction_\ ]\  := \ \(\(\(Derivative[\ 
+                    Sequence\  @@ \ #\ ]\)[\ shapeFunction\ ] &\)\  /@ \ 
+              Outer[\ KroneckerDelta, \ Range[\ #\ ], \ Range[\ #\ ]\ ] &\)[\ 
+          Length[\ shapeFunction[\([\ 1\ ]\)]\ ]\ ];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsShapeFunctionInterpolation[\ shapeFunction_, \ nodalValues_List, \ 
+          elementFamily_String, \ mapping_:  Identity\ ]\  := \ 
+        Block[\[IndentingNewLine]{\ vars, mappedVars, \ evalShapeFunctions, \ 
+            expr\ }, \[IndentingNewLine]\[IndentingNewLine]vars\  = \ 
+            Table[\ Unique[\ Global`x\ ], \ {\ 
+                Length[\ 
+                  First[\ 
+                    shapeFunction\ ]\ ]\ }\ ]; \[IndentingNewLine]mappedVars\ \
+ = \ mapping[\ vars\ ]; \[IndentingNewLine]evalShapeFunctions\  = \ 
+            shapeFunction\  @@ \ mappedVars; \[IndentingNewLine]expr\  = \ 
+            Plus\  @@ \ Times[\ evalShapeFunctions, \ 
+                nodalValues\ ]; \
+\[IndentingNewLine]Return[\[IndentingNewLine]Function[\ Evaluate[\ vars\ ], 
+              Evaluate[\ 
+                If[\ Evaluate[\ 
+                    imsInsideUnitElementQ[\ elementFamily, \ 
+                      Evaluate[\ mappedVars\ ]\ ]\ ], \ Evaluate[\ expr\ ], \ 
+                  0\ ]\ ]\ ]\[IndentingNewLine]]\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsElementMapping[\ shapeFunction_, \ sourceCoords_List\ ]\  := \ 
+        Function[\ Evaluate[\ First[\ shapeFunction\ ]\ ], \ 
+          Evaluate[\ 
+            Apply[\ Plus, \ \(Times[\ 
+                    Last[\ shapeFunction\ ], \ #\ ] &\)\  /@ \ 
+                Transpose[\ sourceCoords\ ], \ 1\ ]\ ]\ ];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsInverseElementMapping[\ mappingFunction_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ mappingFunctionVars, \ vars, \ 
+          body\ }, \[IndentingNewLine]\[IndentingNewLine]mappingFunctionVars\ \
+ = \ First[\ mappingFunction\ ]; \[IndentingNewLine]vars\  = \ 
+          Table[\ Unique[\ Global`x\ ], \ {\ 
+              Length[\ 
+                mappingFunctionVars\ ]\ }\ ]; \[IndentingNewLine]body\  = \ 
+          Flatten[\ 
+            mappingFunctionVars\  /. \ 
+              Solve[\ Simplify[\ 
+                  Chop[\ Thread[\ 
+                      Equal[\ vars, 
+                        mappingFunction[\ 
+                          Sequence\  @@ \ 
+                            mappingFunctionVars\ ]\ ]\ ]\ ]\ ], \ 
+                mappingFunctionVars\ ]\ ]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\[IndentingNewLine]Function[\ Evaluate[\ vars\ ], \ 
+            Evaluate[\ 
+              body\ ]\ ]\[IndentingNewLine]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsShapeFunctionSymbols[\ name_Symbol, \ function_, \ quadPoints_, \ 
+          quadWeights_\ ]\  := \ 
+        CompoundExpression[\[IndentingNewLine]imsShapeFunction[\ 
+              name\ ]\  = \ 
+            function, \[IndentingNewLine]imsNShapeFunction[\ name\ ]\  = \ 
+            N[\ function\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsShapeFunctionDerivative[\ 
+              name\ ]\ \  = \ 
+            sFD[\ imsShapeFunction[\ 
+                name\ ]\ ], \[IndentingNewLine]imsNShapeFunctionDerivative[\ 
+              name\ ]\ \  = \ 
+            N[\ imsShapeFunctionDerivative[\ 
+                name\ ]\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsIntegratedShapeFunction[\ 
+              name\ ] = \ \(\(imsShapeFunction[\ name\ ]\)[\ 
+                  Sequence\  @@ \ #\ ] &\)\  /@ \ 
+              quadPoints, \[IndentingNewLine]imsNIntegratedShapeFunction[\ 
+              name\ ] = \ 
+            N[\ imsIntegratedShapeFunction[\ 
+                name\ ]\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsIntegratedShapeFunctionDerivative[\ 
+              name\ ] = \ \(Through[\ \(imsShapeFunctionDerivative[\ 
+                      name\ ]\)[\ Sequence\  @@ \ #\ ]\ ] &\)\  /@ \ 
+              quadPoints, \
+\[IndentingNewLine]imsNIntegratedShapeFunctionDerivative[\ name\ ] = \ 
+            N[\ imsIntegratedShapeFunctionDerivative[\ 
+                name\ ]\ ], \
+\[IndentingNewLine]\[IndentingNewLine]imsIntegrationWeights[\ name\ ]\  = \ 
+            quadWeights, \[IndentingNewLine]\(imsNIntegrationWeights[\ 
+                name\ ]\  = \ 
+              N[\ imsIntegrationWeights[\ 
+                  name\ ]\ ];\)\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell["1D", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Linear", "Subsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsLineLinear1DOF, \ 
+      Function[\ {\ 
+          Global`r\ }, \ {\ \((1\  - Global`r\ )\)\ /
+            2\ , \ \((\ 1 + \ Global`r\ )\)/\ 2\ }\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 3, \ 1\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 3, \ 1\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quadratic", "Subsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsLineQuadratic1DOF, \ 
+      Function[\ {\ Global`r\ }, \ {\ \((Global`r^2\  - \ Global`r)\)/2, \ 
+          1 - Global`r^2, \((Global`r^2\  + \ Global`r)\)/2\ \ }\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 4, \ 1\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 4, \ 1\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Cubic", "Subsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsLineCubic1DOF, \ 
+      Function[\ {\ 
+          Global`r\ }, \ {\ \[IndentingNewLine]\(-9\)/16\ \((\ 
+              Global`r\  + \ 1/3)\)\ \((\ Global`r\  - \ 1/3\ )\) \((\ 
+              Global`r\  - 1\ )\), \ 
+          27/16\ \((\ Global`r\  + \ 1\ )\)\ \((\ 
+              Global`r\  - \ 1/3\ )\) \((\ 
+              Global`r\  - 1\ )\), \ \[IndentingNewLine]\(-27\)/16\ \((\ 
+              Global`r\  + \ 1\ )\)\ \((\ Global`r\  + \ 1/3\ )\) \((\ 
+              Global`r\  - 1\ )\), \ \[IndentingNewLine]9/16\ \((\ 
+              Global`r\  + \ 1\ )\)\ \((\ Global`r\  + \ 1/3\ )\) \((\ 
+              Global`r\  - 1/3\ )\)\[IndentingNewLine]\ }\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 5, \ 1\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 5, \ 1\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell["2D Serendipity", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Linear", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Triangle", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsTriangleLinear1DOF, \ 
+      Function[\ {\ Global`r, \ Global`s\ }, \ {\ 1 - Global`r - Global`s, \ 
+          Global`r, \ Global`s\ }\ ], \ 
+      imsUnitTriangleQuadraturePoints[\ 3\ ], \ 
+      imsUnitTriangleQuadratureWeights[\ 3\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quads", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsQuadLinear1DOF, \ 
+      Function[\ {\ Global`r, \ Global`s\ }, \ {\ 
+          1/4\ \((\ 1\  + \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\), \ 
+          1/4\ \((\ 1\  - \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\), \ 
+          1/4\ \((\ 1\  - \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\), \ 
+          1/4\ \((\ 1\  + \ Global`r\ )\)\ \((\ 
+              1\  - \ Global`s\ )\)\ }\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 2, \ 2\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 2, \ 2\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quadratic", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Triangle", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsTriangleQuadratic1DOFSerendipity, \ 
+      Function[\ {\ Global`r, \ 
+          Global`s\ }, \ \ {\ \[IndentingNewLine]1\  - \ 3\ Global`r\  - \ 
+            3\ Global`s\  + \ 2\ Global`r^2\  + \ 4\ Global`r\ Global`s\  + \ 
+            2\ Global`s^2, \ \[IndentingNewLine]\(-\ Global`r\)\  + \ 
+            2\ Global`r^2, \[IndentingNewLine]\(-\ Global`s\)\  + \ 
+            2\ Global`s^2, \ \[IndentingNewLine]4\ Global`r\  - \ 
+            4\ Global`r\ Global`s\  - \ 
+            4\ Global`r^2, \[IndentingNewLine]4\ Global`r\ Global`s, \
+\[IndentingNewLine]4\ Global`s\  - \ 4\ Global`r\ Global`s\  - \ 
+            4\ Global`s^2\ }\ ], \ imsUnitTriangleQuadraturePoints[\ 7\ ], \ 
+      imsUnitTriangleQuadratureWeights[\ 7\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quads", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsQuadQuadratic1DOFSerendipity, \ 
+      Function[\ {\ Global`r, \ 
+          Global`s\ }, \ {\[IndentingNewLine]1/4\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\)\ \((\ 
+              Global`r\  + \ Global`s\  - 1\ )\), 
+          1/4\ \((\ 1\  - \ Global`r\ )\)\ \((\ 
+              1\  + \ Global`s\ )\)\ \((\ \(-Global`r\)\  + \ Global`s\  - 
+                1\ )\), 
+          1/4\ \((\ 1\  - \ Global`r\ )\)\ \((\ 
+              1\  - \ Global`s\ )\)\ \((\ \(-Global`r\)\  - \ Global`s\  - 
+                1\ )\), 
+          1/4\ \((\ 1\  + \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\)\ \((\ 
+              Global`r\  - \ Global`s\  - 1\ )\), \[IndentingNewLine]1/
+              2\ \((\ 1\  - \ Global`r^2\ )\)\ \((\ 
+              1\  + \ Global`s\ )\), \[IndentingNewLine]1/2\ \((\ 
+              1\  - \ Global`r\ )\)\ \((\ 
+              1\  - \ Global`s^2\ )\), \[IndentingNewLine]1/2\ \((\ 
+              1\  - \ Global`r^2\ )\)\ \((\ 
+              1\  - \ Global`s\ )\), \[IndentingNewLine]1/2\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 
+              1\  - \ Global`s^2\ )\)\[IndentingNewLine]}\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 3, \ 2\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 3, \ 2\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Cubic", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Triangles", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\[IndentingNewLine]imsShapeFunctionSymbols[\ 
+        imsTriangleCubic1DOFSerendipity, \ XY, \ 
+        imsUnitTriangleQuadraturePoints[\ 7\ ], \ 
+        imsUnitTriangleQuadratureWeights[\ 
+          7\ ]\ ]\[IndentingNewLine]*) \)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Quads", "Subsubsection"],
+
+Cell[BoxData[
+    \( (*\[IndentingNewLine]imsShapeFunctionSymbols[\ 
+        imsQuadCubic1DOFSerendipity, \ XY, \ 
+        imsUnitGaussianQuadraturePoints[\ 4, \ 2\ ], \ 
+        imsUnitGaussianQuadratureWeights[\ 4, \ 
+          2\ ]\ ]\[IndentingNewLine]*) \)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["2D Mixed Elements", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["P2P1 Triangle", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsP2P1TriangleSerendipityPrimary, \ 
+      imsShapeFunction[imsTriangleQuadratic1DOFSerendipity], \ 
+      imsUnitTriangleQuadraturePoints[\ 7\ ], \ 
+      imsUnitTriangleQuadratureWeights[\ 7\ ]\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsP2P1TriangleSerendipitySecondary, \ 
+      imsShapeFunction[imsTriangleLinear1DOF\ ], \ 
+      imsUnitTriangleQuadraturePoints[\ 7\ ], \ 
+      imsUnitTriangleQuadratureWeights[\ 7\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell["3D Serendipity", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Linear", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Tetrahedron", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsTetrahedronLinear1DOF, \ 
+      Function[\ {\ Global`r, \ Global`s, \ Global`t\ }, \ {\ 
+          1\  - \ Global`r\  - \ Global`s\  - \ Global`t, \ Global`r, \ 
+          Global`s, \ Global`t\ }\ ], \ 
+      imsUnitTetrahedronQuadraturePoints[\ 5\ ], \ 
+      imsUnitTetrahedronQuadratureWeights[\ 5\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Hexahedron", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsHexahedronLinear1DOF, \ 
+      Function[\ {\ Global`r, \ Global`s, \ 
+          Global`t\ }, {\ \[IndentingNewLine]1/8\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\)\ \((\ 
+              1\  + \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  - \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\)\ \((\ 
+              1\  + \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  - \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\)\ \((\ 
+              1\  + \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\)\ \((\ 
+              1\  + \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\)\ \((\ 
+              1\  - \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  - \ Global`r\ )\)\ \((\ 1\  + \ Global`s\ )\)\ \((\ 
+              1\  - \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  - \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\)\ \((\ 
+              1\  - \ Global`t)\), \[IndentingNewLine]1/8\ \((\ 
+              1\  + \ Global`r\ )\)\ \((\ 1\  - \ Global`s\ )\)\ \((\ 
+              1\  - \ Global`t)\)\[IndentingNewLine]}\ ], \ 
+      imsUnitGaussianQuadraturePoints[\ 2, \ 3\ ], \ 
+      imsUnitGaussianQuadratureWeights[\ 2, \ 3\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Quadratic", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Tetrahedron", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsShapeFunctionSymbols[\ imsTetrahedronQuadratic1DOFSerendipity, \ 
+      Function[\ {\ Global`r, \ Global`s, \ 
+          Global`t\ }, \ \ {\ \[IndentingNewLine]2\ Global`r^2\  + \ 
+            2\ Global`s^2\  + \ 2\ Global`t^2\  + \ 
+            4\ Global`r\ Global`s\  + \ 4\ Global`r\ Global`t\  + \ 
+            4\ Global`s\ Global`t\  - \ 3\ Global`r\  - \ 3\ Global`s\  - \ 
+            3\ Global`t\  + 1, \[IndentingNewLine]2\ Global`r^2\  - \ 
+            Global`r, \[IndentingNewLine]2\ Global`s^2\  - \ 
+            Global`s, \ \[IndentingNewLine]2\ Global`t^2\  - \ 
+            Global`t, \[IndentingNewLine]4\ Global`r\  - \ 
+            4\ Global`r^2\  - \ 4\ Global`r\ Global`s\  - \ 
+            4\ Global`r\ Global`t, \[IndentingNewLine]4\ Global`r\ Global`s, \
+\[IndentingNewLine]4\ Global`s\  - \ 4\ Global`s\ Global`r\  - \ 
+            4\ Global`s^2\  - \ 
+            4\ Global`s\ Global`t, \[IndentingNewLine]4\ Global`r\ Global`t, \
+\[IndentingNewLine]4\ Global`s\ Global`t, \[IndentingNewLine]4\ Global`t\  - \
+\ 4\ Global`t\ Global`r\  - \ 4\ Global`t\ Global`s - \ 
+            4\ Global`t^2\ \[IndentingNewLine]}\ ], \ 
+      imsUnitTetrahedronQuadraturePoints[\ 5\ ], \ 
+      imsUnitTetrahedronQuadratureWeights[\ 5\ ]\ ]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Hexahedron (Check this and rethink the export of the epr, emr etc \
+*)\
+\>", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(epr\  = \ 1\  + \ Global`r;\)\), "\[IndentingNewLine]", 
+    \(\(emr\  = \ 1\  - \ Global`r;\)\), "\[IndentingNewLine]", 
+    \(\(eps\  = \ 1\  + \ Global`s;\)\), "\[IndentingNewLine]", 
+    \(\(ems\  = \ 1\  - \ Global`s;\)\), "\[IndentingNewLine]", 
+    \(\(ept\  = \ 1\  + \ Global`t;\)\), "\[IndentingNewLine]", 
+    \(\(\(emt\  = \ 1\  - \ Global`t;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(emrr\  = \ 1\  - \ Global`r^2;\)\), "\[IndentingNewLine]", 
+    \(\(emss\  = \ 1\  - \ Global`s^2;\)\), "\[IndentingNewLine]", 
+    \(\(\(emtt\  = \ 1\  - \ Global`t^2;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsShapeFunctionSymbols[\ imsHexahedronQuadratic1DOFSerendipity, \ 
+        Function[\ {\ Global`r, \ Global`s, \ 
+            Global`t\ }, \[IndentingNewLine]Evaluate[\[IndentingNewLine]{\ \
+\[IndentingNewLine]1/8\ \((\ 
+                  epr\ eps\ ept\  - \ emrr\ eps\ ept\  - \ 
+                    epr\ emss\ ept\  - \ 
+                    epr\ eps\ emtt\ )\), \[IndentingNewLine]1/8\ \((\ 
+                  emr\ eps\ ept\  - \ emrr\ eps\ ept\  - \ 
+                    emr\ emss\ ept\  - \ 
+                    emr\ eps\ emtt\ )\), \[IndentingNewLine]1/8\ \((\ 
+                  emr\ ems\ ept\  - \ emr\ emss\ ept\  - \ 
+                    emrr\ ems\ ept\  - \ 
+                    emr\ ems\ emtt\ )\), \[IndentingNewLine]1/8\ \((\ 
+                  epr\ ems\ ept\  - \ emrr\ ems\ ept\  - \ 
+                    epr\ emss\ ept\  - \ 
+                    epr\ ems\ emtt\ )\), \[IndentingNewLine]1/8\ \((\ 
+                  epr\ eps\ emt\  - \ emrr\ eps\ emt\  - \ 
+                    epr\ emss\ emt\  - \ 
+                    epr\ eps\ emtt\ )\), \[IndentingNewLine]1/8\ \((\ 
+                  emr\ eps\ emt\  - \ emrr\ eps\ emt\  - \ 
+                    emr\ emss\ emt\  - \ 
+                    emr\ eps\ emtt\ )\), \[IndentingNewLine]1/8 \((\ 
+                  emr\ ems\ emt\  - \ emr\ emss\ emt\  - \ 
+                    emrr\ ems\ emt\  - \ 
+                    emr\ ems\ emtt\ )\), \[IndentingNewLine]1/8 \((\ 
+                  epr\ ems\ emt\  - \ emrr\ ems\ emt\  - \ 
+                    epr\ emss\ emt\  - \ 
+                    epr\ ems\ emtt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emrr\ eps\ ept\ )\), \[IndentingNewLine]1/4 \((\ 
+                  emr\ emss\ ept\ )\), \[IndentingNewLine]1/4 \((\ 
+                  emrr\ ems\ ept\ )\), \[IndentingNewLine]1/4 \((\ 
+                  epr\ emss\ ept\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emrr\ eps\ emt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emr\ emss\ emt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emrr\ ems\ emt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  epr\ emss\ emt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  epr\ eps\ emtt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emr\ eps\ emtt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  emr\ ems\ emtt\ )\), \[IndentingNewLine]1/4\ \((\ 
+                  epr\ ems\ emtt\ )\)\[IndentingNewLine]}\[IndentingNewLine]]\
+\ ], \ imsUnitGaussianQuadraturePoints[\ 4, \ 3\ ], \ 
+        imsUnitGaussianQuadratureWeights[\ 4, \ 
+          3\ ]\ ];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(Remove[\ epr, \ emr, \ eps, \ ems, \ ept, \ emt, \ emrr, \ emss, \ 
+        emtt\ ];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1007, 700},
+WindowMargins->{{86, Automatic}, {Automatic, 85}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 34, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1835, 57, 31, 0, 73, "Section"],
+Cell[1869, 59, 1765, 28, 395, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3659, 91, 35, 0, 28, "Subsubsection"],
+Cell[3697, 93, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4318, 105, 1820, 30, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6187, 141, 32, 0, 43, "Section"],
+Cell[6222, 143, 210, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6469, 153, 52, 0, 43, "Section"],
+
+Cell[CellGroupData[{
+Cell[6546, 157, 26, 0, 38, "Subsection"],
+Cell[6575, 159, 3596, 58, 891, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10208, 222, 34, 0, 30, "Subsection"],
+Cell[10245, 224, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10451, 232, 36, 0, 30, "Subsection"],
+Cell[10490, 234, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10712, 244, 32, 0, 43, "Section"],
+Cell[10747, 246, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10872, 253, 42, 0, 43, "Section"],
+Cell[10917, 255, 244, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11198, 265, 30, 0, 43, "Section"],
+Cell[11231, 267, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11559, 277, 26, 0, 43, "Section"],
+Cell[11588, 279, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11804, 288, 27, 0, 43, "Section"],
+Cell[11834, 290, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12000, 298, 29, 0, 43, "Section"],
+Cell[12032, 300, 1592, 27, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13661, 332, 41, 0, 43, "Section"],
+Cell[13705, 334, 617, 12, 123, "Input",
+  InitializationCell->True],
+Cell[14325, 348, 140, 4, 43, "Input",
+  InitializationCell->True],
+Cell[14468, 354, 1114, 20, 219, "Input",
+  InitializationCell->True],
+Cell[15585, 376, 377, 7, 59, "Input",
+  InitializationCell->True],
+Cell[15965, 385, 1025, 20, 235, "Input",
+  InitializationCell->True],
+Cell[16993, 407, 1732, 33, 267, "Input",
+  InitializationCell->True],
+Cell[18728, 442, 24, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[18777, 446, 28, 0, 38, "Subsection"],
+Cell[18808, 448, 349, 7, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19194, 460, 31, 0, 30, "Subsection"],
+Cell[19228, 462, 367, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19632, 473, 27, 0, 30, "Subsection"],
+Cell[19662, 475, 856, 15, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+Cell[20533, 493, 36, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[20594, 497, 28, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[20647, 501, 33, 0, 28, "Subsubsection"],
+Cell[20683, 503, 329, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21049, 514, 30, 0, 22, "Subsubsection"],
+Cell[21082, 516, 584, 10, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[21715, 532, 31, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[21771, 536, 33, 0, 28, "Subsubsection"],
+Cell[21807, 538, 826, 13, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[22670, 556, 30, 0, 22, "Subsubsection"],
+Cell[22703, 558, 1342, 24, 171, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[24094, 588, 27, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[24146, 592, 34, 0, 28, "Subsubsection"],
+Cell[24183, 594, 266, 5, 75, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24486, 604, 30, 0, 22, "Subsubsection"],
+Cell[24519, 606, 272, 5, 75, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[24840, 617, 39, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[24904, 621, 38, 0, 28, "Subsubsection"],
+Cell[24945, 623, 286, 5, 43, "Input",
+  InitializationCell->True],
+Cell[25234, 630, 276, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+Cell[25537, 639, 36, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[25598, 643, 28, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[25651, 647, 36, 0, 28, "Subsubsection"],
+Cell[25690, 649, 396, 7, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26123, 661, 35, 0, 22, "Subsubsection"],
+Cell[26161, 663, 1407, 22, 203, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27617, 691, 31, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[27673, 695, 36, 0, 28, "Subsubsection"],
+Cell[27712, 697, 1313, 21, 251, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29062, 723, 103, 3, 22, "Subsubsection"],
+Cell[29168, 728, 3427, 57, 635, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32656, 792, 31, 0, 43, "Section"],
+Cell[32690, 794, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32860, 802, 30, 0, 43, "Section"],
+Cell[32893, 804, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33062, 812, 30, 0, 43, "Section"],
+Cell[33095, 814, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

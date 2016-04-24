@@ -1,0 +1,557 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     26386,        507]*)
+(*NotebookOutlinePosition[     27048,        530]*)
+(*  CellTagsIndexPosition[     27004,        526]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(Title : \ 
+          EasyMeshInterface . 
+            m\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(\(Context\)\(:\)\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(Date : \ 
+          2.3  .05\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(\ \)\(Autor\ \
+of\ Version\ 0.3 : \ 
+          Oliver\ Ruebenkoenig\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(:\)\(Author : \ 
+          darius\ koziol\ and\ oliver\ ruebenkoenig\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(:\)\(Summary : \ \[IndentingNewLine]This\ \
+package\ provieds\ an\ interface\ to\ EasyMesh\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(Copyright : \ 
+          GNU\ GPL\ 2002\  - \ 
+            2005\ by\ darius\ koziol\ and\ oliver\ ruebenkoenig\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(:\)\(Package\ \(Version : \ 
+            0.4\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(Mathematica\ \
+\(Version : \ 
+            5.1\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(:\)\(History : \
+\[IndentingNewLine]Inserted\ NumerbForm\ in\ imsMatrixToStream\ and\ fixed\ \
+the\ check\ for\ stream\)\), \ and\ removed\ the\ Module, \ 
+      removed\ \(\(Protect[]\)\(.\)\)\[IndentingNewLine]\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(:\)\(Keywords : \ 
+          EasyMesh\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(:\)\(Sources : \ \
+\(\(http\)\(:\)\)\)\) // 
+        www - \(\(\(dinma . univ . trieste . it/nirftc\)/research\)/
+              easymesh\)/
+            Default . 
+              htm\ *) \)\(\[IndentingNewLine]\)\( (*\ \(:\)\(Warnings : \ 
+          MatrixToStram\ does\ not\ check\ for\ validity\ of\ stream\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(:\)\(Limitations : \ 
+          aTypeList\ is\ not\ checked\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(:\)\(\(Discussion\)\(:\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(:\)\(\(Requirements\)\(:\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(:\)\(\(Examples\)\(:\)\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ package\ provieds\ an\ interface\ to\ EasyMesh\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2002 - 
+        2005\ darius\ koziol\ and\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Main", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ \
+*) \)\(\[IndentingNewLine]\)\(\(BeginPackage["\<Imtek`Interfaces`EasyMesh`\>"]\
+;\)\[IndentingNewLine]\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+      documentation\ for\ functions\ in\ package\ go\ here\ \
+*) \[IndentingNewLine] (*\ *) \[IndentingNewLine]
+    Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        MatrixToStream, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        RunEasyMesh, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ReadEasyMesh, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        ReadEasyMeshOutput, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        BoundaryTriangulation, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Relaxation, \ $Context\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Fig, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        Example, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PathToEasyMeshExecutable, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        PathToDos4gwExecutable, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        StartNodeNumbering, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMatrixToStream::usage\  = \ \
+\[IndentingNewLine]"\<imsMatrixToStream[aStream, aMatrix, function]. This \
+writes a Matrix in a stream aStream. The stream aStream must exist no \
+checking is donne. function default to (NumberForm[ \
+#,ExponentFunction\[Rule](Null&)]&)\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsRunEasyMesh::usage\  = \[IndentingNewLine]"\<imsRunEasyMesh[file, \
+opts...]. This runs EasyMesh with the file file. The file file has to be \
+given as a string.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsReadEasyMesh::usage\  = \[IndentingNewLine]"\<imsReadEasyMesh[file, \
+opts...]. Reads three output files generated by EasyMesh. file.n, file.e and \
+file.s. The file file has to be given as a string. The Result is a list of \
+form {nodeNumber,nodes,elementNumber,elements,sideNumber,sides}. nodeNumber \
+contains the number of nodes in node file.n and nodes is the node file.n. \
+Similar for *.e and *.s\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsReadEasyMeshOutput::usage\  = \ \
+\[IndentingNewLine]"\<imsReadEasyMeshOutput[file.TYPE, aTypeList, opts...]. \
+This function is more atomic than imsReadEasyMesh. You can read in the files \
+produced by EasyMesh one by one. You have to give the file name file and its \
+extension TYPE, which is eather .n, .e or .s. The whole file.TYPE must be a \
+string. For file.n the Type List is {Number, Character, Real, Real, Number}. \
+For file.e it is {Number, Character, Number, Number, Number, Number, Number, \
+Number, Number, Number, Number, Real, Real, Number}. And for file.s it is \
+{Number, Character, Number, Number, Number, Number, Number}.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      end\ documentation\ *) \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+      define\ your\ options\ *) \[IndentingNewLine] (*\ \
+*) \[IndentingNewLine]\[IndentingNewLine]
+    \(imsBoundaryTriangulation::usage\  = \ "\<imsBoundaryTriangulation -> \
+False. Is an option of imsRunEasyMesh that creates boundary triangulation \
+only.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMessage::usage\  = \[IndentingNewLine]"\<imsMessage -> False. Is an \
+option of imsRunEasyMesh that does not display any message. No xterm is \
+spawned to run EasyMesh.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsRelaxation::usage\  = \[IndentingNewLine]"\<imsRelaxation -> False. \
+Is an option of imsRunEasyMesh that generates a mesh without \
+relaxation.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLaplacian::usage\  = \[IndentingNewLine]"\<imsLaplacian -> False. Is \
+an option of imsRunEasyMesh that generates mesh without Laplacian \
+smoothing.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDxf::usage\  = \[IndentingNewLine]"\<imsDxf -> False. Is an option \
+of imsRunEasyMesh that creates a drawing with Delaunay and Voronoi mesh in in \
+Autodesk.DXF format.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFig::usage\  = \[IndentingNewLine]"\<imsFig -> False. Is an option \
+of imsRunEasyMesh that creates a drwaing with Delaunay and Voronoi mesh in \
+.fig format for xfig.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsExample::usage\  = \[IndentingNewLine]"\<imsExample -> False. Is an \
+option of imsRunEasyMesh that creates an example input file example.d\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPathToEasyMeshExecutable::usage\  = \
+\[IndentingNewLine]"\<imsPathToEasyMeshExecutable -> easymesh . Is an option \
+of imsRunEasyMesh that specifies where EasyMesh is to be found. You have to \
+give the Path to the binary.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsPathToDos4gwExecutable::usage\  = \
+\[IndentingNewLine]"\<imsPathToDos4gwExecutable -> dos4gw. Is an option of \
+imsRunEasyMesh that where Dos4gw is to be found. You have to give the Path to \
+the binary. Only for Dos systems of relevance.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsStartNodeNumbering::usage\  = \
+\[IndentingNewLine]"\<imsStartNodeNumbering -> 0. Is an option of \
+imsReadEasyMeshOutput that starts to number the nodes from a given value \
+onwards.\>";\)\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      end\ define\ options\ *) \[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+      create\ own\ \(context : \ 
+          
+          hide\ local\ functions\ and\ variables\)\ *) \[IndentingNewLine] \
+(*\ *) \[IndentingNewLine]
+    \(Begin["\<`Private`\>"];\)\[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+      do\ we\ need\ another\ \(\(package\)\(\ \)\(?\)\)\ \
+*) \[IndentingNewLine] (*\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+      default\ values\ for\ options\ *) \[IndentingNewLine] (*\ *) \ \
+\[IndentingNewLine]
+    \(Options[
+          imsRunEasyMesh] = {imsBoundaryTriangulation\  \[Rule] \ False, \ 
+          imsMessage\  \[Rule] \ False, \ imsRelaxation\  \[Rule] \ False, \ 
+          imsLaplacian\  \[Rule] \ False, \ dxf\  \[Rule] \ False, \ 
+          fig\  \[Rule] \ False, \ example\  \[Rule] \ False, \ 
+          imsPathToEasyMeshExecutable \[Rule] "\<easymesh\>", \ 
+          imsPathToDos4gwExecutable \[Rule] "\<dos4gw\>"\ };\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsReadEasyMesh]\  = \ {imsStartNodeNumbering\  \[Rule] \ 
+            0};\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsReadEasyMeshOutput]\  = \ {imsStartNodeNumbering\  \[Rule] \ 
+            0};\)\[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+      functions\ contained\ in\ package\ start\ here*) \[IndentingNewLine] \
+(*\ *) \[IndentingNewLine]
+    \(imsMatrixToStream[\ aStream_OutputStream, \ aMatrix_?MatrixQ, \ 
+          form_: \((NumberForm[\ #, 
+                  ExponentFunction \[Rule] \((Null &)\)\ ] &\ )\)\ ] \
+:= \[IndentingNewLine]Do[\[IndentingNewLine]\(WriteString[
+              aStream, \[IndentingNewLine] (*\ 
+                convert\ row\ i\ to\ string\ and\ take\ out\ {, \ }, \ 
+                and\ "\<,\>"\ *) \[IndentingNewLine]StringReplace[\
+\[IndentingNewLine]ToString[\ 
+                  form[\ aMatrix[\([i]\)]\ ]\ ], \ {\ "\<{\>" \[Rule] \ \
+"\<\>", \ "\<,\>" \[Rule] "\<\>", \ "\<}\>" \[Rule] \
+"\<\>"}\[IndentingNewLine]], \[IndentingNewLine]"\<\n\>"];\)\
+\[IndentingNewLine], \[IndentingNewLine]{i, \ 
+            Length[aMatrix]}\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsRunEasyMesh[inputFile_?StringQ, \ opts___?OptionQ] := 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]inputFileName, \  (*\ 
+              names\  + \ 
+                extension\  . d\ *) \[IndentingNewLine]boundaryTri, \ mess, \ 
+            relax, \ lap, \ dx, \ fi, \ 
+            exam\ ,  (*\ 
+              option\ variables\ *) \[IndentingNewLine]allOptions, \  (*\ 
+              that\ are\ given\ to\ esaymesh\ \
+*) \[IndentingNewLine]whereisEM, \ 
+            whereisD4\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine]inputFileName = 
+            StringJoin[
+              inputFile, \ "\<.d\>"]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ assemble\ option\ list\ *) \[IndentingNewLine]boundaryTri\  = \ \
+\(BoundaryTriangle\  /. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]mess\  = \ \
+\(imsMessage\  /. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]relax\  = \ \
+\(imsRelaxation\  /. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]lap\  = \ \
+\(imsLaplacian\  /. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]dx\  = \ \(imsDxf\  \
+/. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]fi\  = \ \(imsFig\  \
+/. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]exam\  = \ \
+\(imsExample /. \ {opts}\)\  /. \ 
+              Options[imsRunEasyMesh]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ concatenate\ path\ and\ all\ options . \ 
+                we\ need\ strings\ *) \[IndentingNewLine]whereisEM = \ 
+            ToString[\(imsPathToEasyMeshExecutable /. \ {opts}\)\  /. \ 
+                Options[imsRunEasyMesh]\ ]; \[IndentingNewLine]whereisD4 = \ 
+            ToString[\(imsPathToDos4gwExecutable /. \ {opts}\)\  /. \ 
+                Options[
+                  imsRunEasyMesh]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]allOptions = "\<\>"; \
+\[IndentingNewLine]\[IndentingNewLine]If[boundaryTri\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< -d\>", \ \(-1\)]\ ]; \[IndentingNewLine]If[
+            mess\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< -m\>", \ \(-1\)]\ ]; \[IndentingNewLine]If[
+            relax\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< -r\>", \ \(-1\)]\ ]; \[IndentingNewLine]If[
+            lap\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< -s\>", \ \(-1\)]\ ]; \[IndentingNewLine]If[
+            dx\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< +dxf\>", \ \(-1\)]\ ]; \
+\[IndentingNewLine]If[fi\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< +fig\>", \ \(-1\)]\ ]; \
+\[IndentingNewLine]If[exam\  \[Equal] True, \ 
+            allOptions = 
+              StringInsert[
+                allOptions, \ "\< +example\>", \ \(-1\)]\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]Which[\[IndentingNewLine]\
+\[IndentingNewLine]StringMatchQ[\ $OperatingSystem, "\<Windows*\>"], \
+\[IndentingNewLine] (*\ 
+              we\ need\ to\ start\ dos4gw\ with\ path\ to\ esaymesh\ \
+*) \[IndentingNewLine] (*\ 
+              get\ imsPathToDos4gwExecutable\ *) \[IndentingNewLine]Run[\
+\[IndentingNewLine]StringJoin[whereisD4, \ "\< \>", \ 
+                whereisEM], \ \[IndentingNewLine]StringJoin[
+                inputFileName, \ \ allOptions]\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine]StringMatchQ[\ $OperatingSystem, \
+"\<Unix\>"]\ \  || \ 
+              StringMatchQ[\ $OperatingSystem, \ "\<MacOSX\>"\ ], \
+\[IndentingNewLine] (*\ 
+              need\ to\ \ filter\ for\  - m\ option\ \((mess)\) : \ 
+                no\ sense\ to\ start\ xterm\ *) \[IndentingNewLine]If[
+              mess\  \[Equal] \ True, \[IndentingNewLine] (*\ 
+                true : \ 
+                  dont\ start\ xterm\ *) \[IndentingNewLine]\(Run[\
+\[IndentingNewLine]whereisEM, \ \[IndentingNewLine]StringJoin[inputFileName, 
+                    allOptions]\[IndentingNewLine]];\)\[IndentingNewLine], \
+\[IndentingNewLine] (*\ 
+                false : \ 
+                  start\ xterm\ *) \[IndentingNewLine]\(Run[\
+\[IndentingNewLine]StringJoin["\<xterm -geometry 80x10+20+100 -e \>", \ 
+                    whereisEM], \ \[IndentingNewLine]StringJoin[
+                    inputFileName, 
+                    allOptions]\[IndentingNewLine]];\)\[IndentingNewLine]], \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+              else\ *) \[IndentingNewLine]True, \(Print["\<I do not know how \
+to handle: \>", \ \
+$OperatingSystem];\)\[IndentingNewLine]];\[IndentingNewLine]\
+\[IndentingNewLine]];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsReadEasyMesh[aPathToFile_?StringQ\ , opts___?OptionQ] := 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]fromNode, \  (*\ 
+              option\ for\ imsReadEasyMeshOutput\ \
+*) \[IndentingNewLine]numOfNodes, \ 
+            nodes, \  (*\ 
+              are\ returned\ *) \[IndentingNewLine]numOfElements, \ 
+            elements,  (*\ are\ returned\ *) \[IndentingNewLine]numOfSides, \ 
+            sides\ \  (*\ 
+              are\ returned\ *) \[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            get\ opts\ *) \[IndentingNewLine]fromNode = \
+\(imsStartNodeNumbering\  /. \ {opts}\)\  /. \ 
+              Options[imsReadEasyMesh]; \ \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            retrieve\ the\ result\ *) \[IndentingNewLine]{numOfNodes, \ 
+              nodes} = 
+            imsReadEasyMeshOutput[
+              StringJoin[
+                aPathToFile, \ "\<.n\>"], \[IndentingNewLine]{Number, \ 
+                Character, \ Real, \ Real, \ 
+                Number}, \ \[IndentingNewLine]imsStartNodeNumbering \[Rule] 
+                fromNode\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]{numOfElements, \ elements} = 
+            imsReadEasyMeshOutput[
+              StringJoin[
+                aPathToFile, \ "\<.e\>"], \[IndentingNewLine]{Number, \ 
+                Character, \ Number, \ Number, \ Number, \ Number, \ 
+                Number, \ Number, \ Number, \ Number, \ Number, \ Real, \ 
+                Real, \ Number}, \ 
+              imsStartNodeNumbering \[Rule] 
+                fromNode\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]{numOfSides, \ sides} = 
+            imsReadEasyMeshOutput[
+              StringJoin[
+                aPathToFile, \ "\<.s\>"], \[IndentingNewLine]{Number, \ 
+                Character, \ Number, \ Number, \ Number, \ Number, \ 
+                Number}, \ \[IndentingNewLine]imsStartNodeNumbering \[Rule] 
+                fromNode\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]Return[{numOfNodes, \ nodes, \ 
+              numOfElements, \ elements, \ numOfSides, \ 
+              sides}];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsReadEasyMeshOutput[aPathToFileName_?StringQ, \ \ aTypeList_, \ 
+          opts___?OptionQ] := 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]fromNode, \  (*\ 
+              is\ an\ option\ *) \[IndentingNewLine]openStrm, \  (*\ 
+              open\ stream\ of\ file\ *) \[IndentingNewLine]numOfElements, \  \
+(*\ number\ of\ Elements\ is\ returned\ *) \[IndentingNewLine]newTypeList, \  \
+(*\ aTypeList\ with\ out\ "\<Character\>"\ \
+*) \[IndentingNewLine]tableOfValues\  (*\ 
+              is\ returned\ *) \[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            get\ opts\ *) \[IndentingNewLine]fromNode = \
+\(imsStartNodeNumbering\  /. \ {opts}\)\  /. \ 
+              Options[imsReadEasyMeshOutput]; \ \[IndentingNewLine]\
+\[IndentingNewLine]openStrm = 
+            OpenRead[aPathToFileName]; \[IndentingNewLine]If[
+            openStrm == $Failed, \ 
+            Abort[]\ ]; \[IndentingNewLine]numOfElements = 
+            Read[openStrm]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            read\ the\ list\ with\ given\ type\ list\ \
+*) \[IndentingNewLine]tableOfValues = 
+            ReadList[openStrm, \ aTypeList, 
+              numOfElements]; \[IndentingNewLine]Close[
+            openStrm]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            drop\ the\ characters\ \((\(i . 
+                    e . \)\(\ \)\(:\))\)\ from\ table\ of\ values\ \
+*) \[IndentingNewLine] (*\ 
+            FIX : \ different\ positions\ for\ characters\ \
+*) \[IndentingNewLine]tableOfValues = 
+            Drop[tableOfValues, \ {}, \ {2}]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            do\ we\ need\ to\ alter\ node\ numbering\ \
+*) \[IndentingNewLine]If[
+            fromNode\  != \ 0, \[IndentingNewLine] (*\ 
+              FIX : \ different\ positions\ for\ Characters\ \
+*) \[IndentingNewLine]newTypeList = 
+              Drop[aTypeList, \ {2}]; \[IndentingNewLine]tableOfValues = 
+              AlterNodeNumbering[tableOfValues, \ newTypeList, \ 
+                fromNode];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[{numOfElements, \ 
+              tableOfValues}];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(AlterNodeNumbering[tableOfValues_, \ aTypeList_, \ fromNode_] := 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]patternToApply, \  (*\ 
+              is\ list\ \((pattern)\)\ which\ will\ be\ put\ over\ each\ row\ \
+in\ matrix\ *) \[IndentingNewLine]newTable\  (*\ 
+              is\ returned\ *) \[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            find\ the\ "\<Number\>"\ in\ aTypeList\ \
+*) \[IndentingNewLine]patternToApply = 
+            Position[aTypeList, \ Number, \ 
+              1]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            drop\ the\ last\ "\<Number\>" : \ 
+              it\ is\ a\ marker\ and\ does\ not\ need\ to\ be\ incremented\ \
+*) \[IndentingNewLine] (*\ 
+            all\ other\ not\ to\ be\ incremented\ elements\ are\ NOT\ Numbers\
+\ *) \[IndentingNewLine]patternToApply = 
+            Drop[patternToApply, \(-1\)]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            replace\ the\ "\<numbers\>"\ with\ fromNode\ to\ create\ a\ \
+pattern\ *) \[IndentingNewLine]patternToApply = 
+            ReplacePart[aTypeList, \ fromNode, \ 
+              patternToApply]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            now\ find\ the\ non\ "\<numbers\>"\ that\ need\ to\ be\ replaced\ \
+*) \[IndentingNewLine]n = 
+            Position[patternToApply, \ _Symbol, 
+              1\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            drop\ the\ first\ \(result : \ 
+                it\ is\ the\ function\ \(\(itself\)\(?\)\)\)\ \
+*) \[IndentingNewLine]n = 
+            Drop[n, 1]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            now\ we\ insert\ 0\ to\ not\ alter\ an\ entry\ \
+*) \[IndentingNewLine]patternToApply = 
+            ReplacePart[patternToApply, \ 0, \ 
+              n]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            we\ need\ to\ alter\ elements\ 1\ trough\ to\ amount\ of\ \
+"\<Number\>"\ type\ elements\  - 
+              1\ in\ aTypeList\ *) \[IndentingNewLine]newTable = 
+            MapAt[# + patternToApply &, tableOfValues[\([All]\)], \ 
+              Partition[Range[Length[tableOfValues]\ ], 
+                1]\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[
+            newTable];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(\(End[]\)\(;\)\(\ \)\( (*\ 
+      of\ Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\(EndPackage[]\)\(;\)\(\ \)\( (*\ 
+      of\ BeginPackage\ *) \)\(\ \)\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{843, 674},
+WindowMargins->{{69, Automatic}, {Automatic, 19}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 2035, 36, 379, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3814, 91, 35, 0, 28, "Subsubsection"],
+Cell[3852, 93, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4473, 105, 1843, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6353, 141, 29, 0, 22, "Subsubsection"],
+Cell[6385, 143, 19985, 361, 4763, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

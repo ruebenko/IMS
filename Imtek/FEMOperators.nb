@@ -1,0 +1,1586 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     64206,       1334]*)
+(*NotebookOutlinePosition[     64898,       1358]*)
+(*  CellTagsIndexPosition[     64854,       1354]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FEMOperators Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ FEMOperators . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 25.1  .2006, \ \[IndentingNewLine]Freiburg, 
+      Somewhere\ in\ the\ train\ from\ leipzig\ to\ freiburg\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\(\ \)\(well\ the\ transpose\ fix\ for\ convection\ \
+operator\ was\ suspect\  - \ 
+          in\ the\ end\ i\ figured\ a\ new\ operator\ ; -\)\()\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      in\ imsFEMLoad\ and\ imsNFEMLoad\ not\ all\ variables\ were\ declared, \
+\ this\ is\ fixed\ now\ *) \)\(\[IndentingNewLine]\)\( (*\ \(fixed\ Tranpose\ \
+bug\ in\ old\ convection\ operator;\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(added\ extended\ fem\ convection\ operator;\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ complete\ code\ \(rewrite : \ nD\), \ 
+      all\ elements, \ \(real\ integration\ over\ functions;\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Introduced\ the\ N*\ 
+          functions;\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Changed\ the\ \
+element\ names;\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Fintie\ Element\ Operators\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ Oliver\ Ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`FEMOperators`\>", \ \
+"\<Imtek`MeshElementLibrary`\>", \ "\<Imtek`Graph`\>", \ "\<Imtek`Nodes`\>", \
+\ "\<Imtek`ShapeFunctions`\>", \ \ "\<Imtek`Assembler`\>"\ ];\)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ FEMConvection, \ $Context\ ];\)\n
+    \(imsCreateObsoleteFunctionInterface[\ 
+        FEMDiffusion, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        FEMLoad, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        FEMNeumann, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        FEMReaction, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        FEMTransientMatrix, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ NFEMConvection, \ $Context\ ];\)\n
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NFEMDiffusion, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NFEMLoad, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NFEMNeumann, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NFEMReaction, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        NFEMTransientMatrix, \ $Context\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \n\n (*\ predicates\ *) \n\n (*\ 
+      functions\ *) \n\[IndentingNewLine]
+    \(imsFEMConvection::usage = \ "\<imsFEMConvection[ { inESM, inERHS }, \
+element, nodes, \[Gamma] ] computes \[Gamma]\[Del]u. Where u is the unknown \
+and \[Gamma] a function.\>";\)\n\[IndentingNewLine]
+    \(imsFEMConservativeFluxConvection::usage = \
+"\<imsFEMConservativeFluxConvection[ { inESM, inERHS }, element, nodes, \
+\[Alpha] ] computes \[Del](-\[Alpha]u). Where u is the unknown and \[Alpha] a \
+function.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsFEMDiffusion::usage = \ "\<imsFEMDiffusion[ { inESM, inERHS }, \
+element, nodes,  \[Sigma] ] computes \[Del]-\[Sigma]\[Del]u. Where u is the \
+unknown and \[Sigma] a function.\>";\)\n
+    \(imsFEMLoad::usage = \ "\<imsFEMLoad[ { inESM, inERHS }, element, nodes, \
+ f ] computes load f.\>";\)\n\[IndentingNewLine]
+    \(imsFEMNeumann::usage = \ "\<imsFEMNeumann[ { inESM, inERHS }, element, \
+nodes ] computes Neumann contribution.\>";\)\[IndentingNewLine]\n
+    \(imsFEMReaction::usage\  = \ "\<imsFEMReaction[ { inESM, inERHS }, \
+element, nodes, \[Beta] ] computes \[Beta]u. Where u is the unknown and \
+\[Beta] a function.\>";\)\[IndentingNewLine]\n
+    \(imsFEMTransientMatrix::usage\  = \ "\<imsFEMTransientMatrix[ { inEMM, \
+inERHS }, element, nodes, \[Rho] ] computes \[Rho] \[PartialD]u/\[PartialD]t. \
+Where u is the unknown function and \[Rho] is a function.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]\[IndentingNewLine]
+    \(imsNFEMConvection::usage = \ "\<imsNFEMConvection computes a numerical \
+equivalent of imsFEMConvection.\>";\)\[IndentingNewLine]\n
+    \(imsNFEMConservativeFluxConvection::usage = \
+"\<imsNFEMConservativeFluxConvection computes a numerical equivalent of \
+imsFEMConservativeFluxConvection.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsNFEMDiffusion::usage = \ "\<imsNFEMDiffusion computes a numerical \
+equivalent of imsFEMDiffusion.\>";\)\n\[IndentingNewLine]
+    \(imsNFEMLoad::usage = \ "\<imsNFEMLoad computes a numerical equivalent \
+of imsFEMLoad.\>";\)\[IndentingNewLine]\n
+    \(imsNFEMNeumann::usage = \ "\<imsNFEMNeumann computes a numerical \
+equivalent of imsFEMNeumann.\>";\)\n\[IndentingNewLine]
+    \(imsNFEMReaction::usage\  = \ "\<imsNFEMReaction computes a numerical \
+equivalent of imsFEMReaction.\>";\)\n\[IndentingNewLine]
+    \(imsNFEMTransientMatrix::usage\  = \ "\<imsNFEMTransientMatrix computes \
+a numerical equivalent of imsFEMTransientMatrix.\>";\)\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      this\ is\ only\ for\ the\ old\ FEMNeumann\ operator\ *) \)\(\
+\[IndentingNewLine]\)\(Needs["\<Imtek`Point`\>"];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Private Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[""], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Public Functions", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Diffusion", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMDiffusion[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]\  \
+(*\ integration\ *) \[IndentingNewLine]Do[\[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ \ Transpose[\ 
+                    sfxyderiv\ ]\  . \ coefficientVals[\([\ step\ ]\)]\  . \ 
+                  sfxyderiv\ *\ 
+                weight;\[IndentingNewLine], \[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NDiffusion", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMDiffusion[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine]\  \
+(*\ integration\ *) \[IndentingNewLine]Do[\[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ \ Transpose[\ 
+                    sfxyderiv\ ]\  . \ coefficientVals[\([\ step\ ]\)]\  . \ 
+                  sfxyderiv\ *\ 
+                weight;\[IndentingNewLine], \[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\[IndentingNewLine]}\ ];\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Convection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMConvection[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ 
+          coefficient_\ ]\  := \ \
+\[IndentingNewLine]Block[\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \ sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ step\ ]\)]; \[IndentingNewLine]outESMvalues\  += \ 
+              Transpose[\ {\ 
+                      sf[\([\ 
+                          step\ ]\)]\ }\ \ ]\  . \ \((coefficientVals[\([\ 
+                          step\ ]\)] . \ sfxyderiv)\)\ *\ 
+                weight;\[IndentingNewLine], \[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NConvection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMConvection[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ 
+          coefficient_\ ]\  := \ \
+\[IndentingNewLine]Block[\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \ sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ step\ ]\)]; \[IndentingNewLine]outESMvalues\  += \ 
+              Transpose[\ {\ 
+                      sf[\([\ 
+                          step\ ]\)]\ }\ \ ]\  . \ \((coefficientVals[\([\ 
+                          step\ ]\)] . \ sfxyderiv)\)\ *\ 
+                weight;\[IndentingNewLine], \[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["ConservativeFluxConvection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMConservativeFluxConvection[\ {\ inESM_, \ inERHS_\ }, \ 
+          elem_, \ elementNodes_, \ 
+          coefficient_\ ]\  := \ \
+\[IndentingNewLine]Block[\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \ sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += 
+              Transpose[\ 
+                    coefficientVals[\([\ step\ ]\)]\  . \ 
+                      sfxyderiv\ ]\  . \ {\ sf[\([\ step\ ]\)]\ }\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], \
+\[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NConservativeFuxConvection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMConservativeFluxConvection[\ {\ inESM_, \ inERHS_\ }, \ 
+          elem_, \ elementNodes_, \ 
+          coefficient_\ ]\  := \ \
+\[IndentingNewLine]Block[\[IndentingNewLine]{\[IndentingNewLine]coords, \ 
+            marker, \ sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]sfxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                sfrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+integrationWeight[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += 
+              Transpose[\ 
+                    coefficientVals[\([\ step\ ]\)]\  . \ 
+                      sfxyderiv\ ]\  . \ {\ sf[\([\ step\ ]\)]\ }\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], \
+\[IndentingNewLine]{\ step, \ 
+              Length[\ 
+                integrationWeight\ ]\ }\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Reaction", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMReaction[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ]\  := \ \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\ \[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \
+\[IndentingNewLine]coefficientVals\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]outESMvalues\  += \ 
+            Plus\  @@ \ \((\ 
+                coefficientVals\ *\ \ \((\ \(\((\ 
+                          
+                          Transpose[\ \ {\ #\ }\ ]\  . \ {\ #\ }\ )\) &\)\  \
+/@ \ sf\ )\)\ *\ integrationWeight\ *\ 
+                  jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NReaction", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMReaction[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ]\  := \ \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\ \[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \
+\[IndentingNewLine]coefficientVals\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]outESMvalues\  += \ 
+            Plus\  @@ \ \((\ 
+                coefficientVals\ *\ \ \((\ \(\((\ 
+                          
+                          Transpose[\ \ {\ #\ }\ ]\  . \ {\ #\ }\ )\) &\)\  \
+/@ \ sf\ )\)\ *\ integrationWeight\ *\ 
+                  jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Load", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMLoad[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outERHSvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \
+\[IndentingNewLine]coefficientVals\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outERHSvalues\  = \
+\ imsGetElementMatrixValues[\ inERHS\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]outERHSvalues\  += \ 
+            Plus\  @@ \ \((\ 
+                coefficientVals\ *\ sf\ *\ integrationWeight\ *\ 
+                  jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]inESM, \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ 
+                rows, \ {\ 
+                  1\ }\ ]\[IndentingNewLine]}\ ];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NLoad", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMLoad[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ \ coefficient_\ ] := \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+            sfElement, \[IndentingNewLine]outERHSvalues, \ rows, \ 
+            cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+            integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \
+\[IndentingNewLine]coefficientVals\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outERHSvalues\  = \
+\ imsGetElementMatrixValues[\ inERHS\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+            imsNIntegratedShapeFunction[\ 
+              sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+            imsNIntegratedShapeFunctionDerivative[\ 
+              sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+            imsNIntegrationWeights[\ 
+              sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords)\)] &\)\  /@ \ 
+              sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] &\)\  \
+/@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \
+\(\((\ coefficient\  @@ \ 
+                    Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]outERHSvalues\  += \ 
+            Plus\  @@ \ \((\ 
+                coefficientVals\ *\ sf\ *\ integrationWeight\ *\ 
+                  jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ \
+{\[IndentingNewLine]inESM, \[IndentingNewLine]imsMakeElementMatrix[\ 
+                outERHSvalues, \ 
+                rows, \ {\ 
+                  1\ }\ ]\[IndentingNewLine]}\ ];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Transient", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsFEMTransientMatrix[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+        elementNodes_, \ \ coefficient_\ ]\  := \ \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+          sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+          cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+          integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+          jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+          weight\[IndentingNewLine]}, \[IndentingNewLine]\[IndentingNewLine] \
+(*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+          imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+          imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+          Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+          imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+          imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+          imsGetElementMatrixColumns[\ 
+            inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+          imsIntegratedShapeFunction[\ 
+            sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+          imsIntegratedShapeFunctionDerivative[\ 
+            sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+          imsIntegrationWeights[\ 
+            sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \((# \
+. coords)\)] &\)\  /@ \ 
+            sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  /@ \ 
+            jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] \
+&\)\  /@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \(\
+\((\ coefficient\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+              sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          integration\ *) \[IndentingNewLine]outESMvalues\  += \ 
+          Plus\  @@ \ \((\ 
+              coefficientVals\ *\ \((\ \(Dot[\ 
+                        Transpose[\ {\ #\ }\ ], {\ #\ }\ ] &\)\  /@ \ 
+                    sf\ \ )\)\ *\ integrationWeight\ *\ 
+                jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ {\
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+              cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NTransient", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNFEMTransientMatrix[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+        elementNodes_, \ \ coefficient_\ ]\  := \ \[IndentingNewLine]Block[\
+\[IndentingNewLine]{\[IndentingNewLine]coords, \ marker, \ 
+          sfElement, \[IndentingNewLine]outESMvalues, \ rows, \ 
+          cols, \[IndentingNewLine]sf, \ sfrsderiv, \ 
+          integrationWeight, \[IndentingNewLine]jacobians, \ jDets, \ 
+          jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]sfxyderiv, \ 
+          weight\[IndentingNewLine]}, \[IndentingNewLine]\[IndentingNewLine] \
+(*\ element\ data\ *) \[IndentingNewLine]coords\  = \ 
+          imsGetCoords[\ elementNodes\ ]; \[IndentingNewLine]marker\  = \ 
+          imsGetMarkers[\ elem\ ]; \[IndentingNewLine]sfElement\  = \ 
+          Head[\ elem\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+          imsGetElementMatrixValues[\ inESM\ ]; \[IndentingNewLine]rows\  = \ 
+          imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+          imsGetElementMatrixColumns[\ 
+            inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          shape\ functions\ *) \[IndentingNewLine]sf\  = \ 
+          imsNIntegratedShapeFunction[\ 
+            sfElement\ ]; \[IndentingNewLine]sfrsderiv\  = \ 
+          imsNIntegratedShapeFunctionDerivative[\ 
+            sfElement\ ]; \[IndentingNewLine]integrationWeight\  = \ 
+          imsNIntegrationWeights[\ 
+            sfElement\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \((# \
+. coords)\)] &\)\  /@ \ 
+            sfrsderiv; \[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  /@ \ 
+            jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] \
+&\)\  /@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          function\ integration\ *) \[IndentingNewLine]coefficientVals\  = \(\
+\((\ coefficient\  @@ \ Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+              sf . coords\ )\); \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          integration\ *) \[IndentingNewLine]outESMvalues\  += \ 
+          Plus\  @@ \ \((\ 
+              coefficientVals\ *\ \((\ \(Dot[\ 
+                        Transpose[\ {\ #\ }\ ], {\ #\ }\ ] &\)\  /@ \ 
+                    sf\ \ )\)\ *\ integrationWeight\ *\ 
+                jDets\ )\); \[IndentingNewLine]\[IndentingNewLine]Return[\ {\
+\[IndentingNewLine]imsMakeElementMatrix[\ outESMvalues, \ rows, \ 
+              cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Neumann", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMNeumann[\ {\ inESM_, \ inERHS_\ }, \ 
+          triElem_imsTriangleLinear1DOF, \ 
+          elementNodes_\ ]\  := \ \[IndentingNewLine]Module[\
+\[IndentingNewLine]{\ 
+            outERHSvalues, \  (*\ 
+              local\ element\ rhs\ is\ returned\ \
+*) \[IndentingNewLine]rhsRows, \ neumannNodes, \ neumannVals, \ 
+            aTrianglesEdgeLength\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outERHSvalues\  = \
+\ imsGetElementMatrixValues[\ inERHS\ ]; \[IndentingNewLine]rhsRows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine] (*\ \(rhsCols\  = \ 
+                imsGetElementMatrixColumns[\ 
+                  inERHS\ ];\)\ *) \[IndentingNewLine]neumannNodes\  = \ 
+            Flatten[\ 
+              Position[\ 
+                imsGetDatas[\ 
+                  elementNodes\ ], \ _?\((# \[Equal] \ "\<Neumann\>"\  &)\)]\ \
+]; \[IndentingNewLine]\[IndentingNewLine]If[\[IndentingNewLine] (*\ 
+              boundary\ element\ *) \[IndentingNewLine]Length[\ 
+                neumannNodes\ ]\  \[Equal] \ 
+              2, \[IndentingNewLine]neumannVals\  = \ 
+              Flatten[\ 
+                imsGetDatas[\ 
+                  triElem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+              compute\ usefull\ triangle\ data\ \
+*) \[IndentingNewLine]aTrianglesEdgeLength\  = \ 
+              imsDistance[\ 
+                imsGetCoords[\ 
+                  elementNodes[\([\ 
+                      neumannNodes\ ]\)]\ ]\ ]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+              element\ matrix\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+              element\ rhs\ matrix\ *) \[IndentingNewLine]outERHSvalues\  \
++= \ Partition[\ aTrianglesEdgeLength\ /2\ *\ neumannVals, \ 
+                1\ ], \[IndentingNewLine] (*\ 
+              else\ *) \[IndentingNewLine]Null\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]inESM, \
+\[IndentingNewLine]imsMakeElementMatrix[\ outERHSvalues, \ 
+                rhsRows, \ {\ 
+                  1\ }\ ]\[IndentingNewLine]}\ ];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["NNeumann", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsNFEMNeumann[\ {\ inESM_, \ inERHS_\ }, \ 
+          triElem_imsTriangleLinear1DOF, \ 
+          elementNodes_\ ]\  := \ \[IndentingNewLine]Module[\
+\[IndentingNewLine]{\ 
+            outERHSvalues, \  (*\ 
+              local\ element\ rhs\ is\ returned\ \
+*) \[IndentingNewLine]rhsRows, \ neumannNodes, \ neumannVals, \ 
+            aTrianglesEdgeLength\[IndentingNewLine]}, \[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outERHSvalues\  = \
+\ imsGetElementMatrixValues[\ inERHS\ ]; \[IndentingNewLine]rhsRows\  = \ 
+            imsGetElementMatrixRows[\ 
+              inERHS\ ]; \[IndentingNewLine] (*\ \(rhsCols\  = \ 
+                imsGetElementMatrixColumns[\ 
+                  inERHS\ ];\)\ *) \[IndentingNewLine]neumannNodes\  = \ 
+            Flatten[\ 
+              Position[\ 
+                imsGetDatas[\ 
+                  elementNodes\ ], \ _?\((# \[Equal] \ "\<Neumann\>"\  &)\)]\ \
+]; \[IndentingNewLine]\[IndentingNewLine]If[\[IndentingNewLine] (*\ 
+              boundary\ element\ *) \[IndentingNewLine]Length[\ 
+                neumannNodes\ ]\  \[Equal] \ 
+              2, \[IndentingNewLine]neumannVals\  = \ 
+              Flatten[\ 
+                imsGetDatas[\ 
+                  triElem\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+              compute\ usefull\ triangle\ data\ \
+*) \[IndentingNewLine]aTrianglesEdgeLength\  = \ 
+              imsDistance[\ 
+                imsGetCoords[\ 
+                  elementNodes[\([\ 
+                      neumannNodes\ ]\)]\ ]\ ]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ *) \[IndentingNewLine] (*\ 
+              element\ matrix\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine] (*\ 
+              element\ rhs\ matrix\ *) \[IndentingNewLine]outERHSvalues\  \
++= \ Partition[\ aTrianglesEdgeLength\ /2. \ *\ neumannVals, \ 
+                1\ ], \[IndentingNewLine] (*\ 
+              else\ *) \[IndentingNewLine]Null\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[\ {\ \[IndentingNewLine]inESM, \
+\[IndentingNewLine]imsMakeElementMatrix[\ outERHSvalues, \ 
+                rhsRows, \ {\ 
+                  1\ }\ ]\[IndentingNewLine]}\ ];\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Extended Operators", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Convection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMConvection[\ {\ inESM_, \ inERHS_\ }, \ elem_, \ 
+          elementNodes_, \ coefficient_, testFunction_, \ quadPoints_, \ 
+          quadWeights_\ ]\  := \ \[IndentingNewLine]Block[\ {\
+\[IndentingNewLine]sfElement, testSFElement, \ sf, \ sfrsderiv, testSF, \ 
+            testSFrsderiv, \[IndentingNewLine]outESMvalues, \ rows, \ 
+            cols, \[IndentingNewLine]\ marker, \ 
+            coords, \[IndentingNewLine]jacobians, \ jDets, \ 
+            jInverses, \[IndentingNewLine]coefficientVals, \
+\[IndentingNewLine]testSFxyderiv, \ 
+            weight\[IndentingNewLine]}, \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            element\ data\ *) \[IndentingNewLine]sfElement\  = \ 
+            Head[\ elem\ ]; \[IndentingNewLine]testSFElement\  = \ 
+            Head[\ testFunction\ ]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ explicit\ integration\ *) \[IndentingNewLine]sf\  = \ 
+            imsShapeFunction[\ sfElement\ ]\  @@@ \ 
+              quadPoints; \[IndentingNewLine]sfrsderiv\  = \ \(Through[\ \
+\(imsShapeFunctionDerivative[\ sfElement\ ]\)[Sequence @@ #]] &\) /@ \ 
+              quadPoints; \[IndentingNewLine]testSF\  = \ 
+            imsShapeFunction[\ testSFElement\ ]\  @@@ \ 
+              quadPoints; \[IndentingNewLine]testSFrsderiv\  = \ \(Through[\ \
+\(imsShapeFunctionDerivative[\ testSFElement\ ]\)[Sequence @@ #]] &\) /@ \ 
+              quadPoints; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            retrieve\ element\ parts\ *) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[\ 
+              inESM\ ]; \[IndentingNewLine]rows\  = \ 
+            imsGetElementMatrixRows[\ inESM\ ]; \[IndentingNewLine]cols\  = \ 
+            imsGetElementMatrixColumns[\ 
+              inESM\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \
+*) \[IndentingNewLine]marker\  = \ 
+            imsGetMarkers[\ elem\ ]; \[IndentingNewLine]coords\  = \ 
+            imsGetCoords[\ 
+              elementNodes\ ]; \[IndentingNewLine]\[IndentingNewLine]If[\
+\[IndentingNewLine]\((\ 
+                Length[\ 
+                  imsGetIncidentsIds[\ elem\ ]\ ]\ )\)\  \[LessEqual] \ \((\ 
+                Length[\ 
+                  imsGetIncidentsIds[\ 
+                    testFunction\ ]\ ]\ )\), \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+              mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords\ )\)] &\)\  /@ \ 
+                testSFrsderiv; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              function\ integration\ *) \[IndentingNewLine]coefficientVals\  \
+= \(\((\ coefficient\  @@ \ 
+                      Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                  testSF . 
+                    coords\ )\);\[IndentingNewLine], \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+              mapping\ *) \[IndentingNewLine]jacobians\  = \ \ \(Transpose[\ \
+\((# . coords\ )\)] &\)\  /@ \ 
+                sfrsderiv; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              function\ integration\ *) \[IndentingNewLine]coefficientVals\  \
+= \(\((\ coefficient\  @@ \ 
+                      Flatten[\ \ {\ marker, \ #\ }\ ]\ )\) &\)\  /@ \ \((\ 
+                  sf . coords\ )\);\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]jDets\  = \ \(Det[\ #\ ] &\)\  /@ \ 
+              jacobians; \[IndentingNewLine]jInverses\  = \ \(Inverse[\ #\ ] \
+&\)\  /@ \ jacobians; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            integration\ *) \[IndentingNewLine]Do[\ \[IndentingNewLine] (*\ 
+              deriv\ of\ sf\ *) \[IndentingNewLine]testSFxyderiv\  = \ 
+              Transpose[\ jInverses[\([\ step\ ]\)]\ ] . \ 
+                testSFrsderiv[\([\ 
+                    step\ ]\)]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+              local\ K\ and\ L\ *) \[IndentingNewLine]weight\  = \ \ \
+quadWeights[\([\ step\ ]\)]\ *\ 
+                jDets[\([\ 
+                    step\ ]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ 
+              Transpose[\ {\ 
+                      sf[\([\ 
+                          step\ ]\)]\ }\ \ ]\  . \ \((coefficientVals[\([\ 
+                          step\ ]\)] . \ testSFxyderiv)\)\ *\ 
+                weight;\[IndentingNewLine]\[IndentingNewLine], \ {\ step, \ 
+              Length[\ 
+                quadWeights\ ]\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ {\[IndentingNewLine]imsMakeElementMatrix[\ 
+                outESMvalues, \ rows, \ 
+                cols\ ], \[IndentingNewLine]inERHS\ }\ \
+];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["ConservativeFuxConvection", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(imsFEMConservativeFuxConvection[{inESM_, inERHS_}, elem_, 
+          elementNodes_, coefficient_, testFunction_, quadPoints_, 
+          quadWeights_] := 
+        Block[\[IndentingNewLine]{sfElement, testSFElement, sf, sfrsderiv, 
+            testSF, testSFrsderiv, outESMvalues, rows, cols, marker, coords, 
+            jacobians, jDets, jInverses, coefficientVals, testSFxyderiv, 
+            weight}, \[IndentingNewLine]\[IndentingNewLine] (*element\ data\
+*) \[IndentingNewLine]sfElement = 
+            Head[elem]; \[IndentingNewLine]testSFElement = 
+            Head[testFunction]; \[IndentingNewLine]\[IndentingNewLine] \
+(*explicit\ integration*) \[IndentingNewLine]sf = 
+            imsShapeFunction[sfElement] @@@ 
+              quadPoints; \[IndentingNewLine]sfrsderiv = \
+\(Through[\(imsShapeFunctionDerivative[sfElement]\)[Sequence @@ #]] &\) /@ 
+              quadPoints; \[IndentingNewLine]testSF = 
+            imsShapeFunction[testSFElement] @@@ 
+              quadPoints; \[IndentingNewLine]testSFrsderiv = \
+\(Through[\(imsShapeFunctionDerivative[testSFElement]\)[Sequence @@ #]] &\) /@ 
+              quadPoints; \[IndentingNewLine]\[IndentingNewLine] (*retrieve\ \
+element\ parts*) \[IndentingNewLine]outESMvalues = 
+            imsGetElementMatrixValues[inESM]; \[IndentingNewLine]rows = 
+            imsGetElementMatrixRows[inESM]; \[IndentingNewLine]cols = 
+            imsGetElementMatrixColumns[
+              inESM]; \[IndentingNewLine]\[IndentingNewLine] \
+(**) \[IndentingNewLine]marker = 
+            imsGetMarkers[elem]; \[IndentingNewLine]coords = 
+            imsGetCoords[
+              elementNodes]; \[IndentingNewLine]If[\((Length[
+                  imsGetIncidentsIds[elem]])\) \[LessEqual] \((Length[
+                  imsGetIncidentsIds[
+                    testFunction]])\), \[IndentingNewLine]\[IndentingNewLine] \
+(*mapping*) \[IndentingNewLine]jacobians = \(Transpose[\((# . coords)\)] &\) /@ 
+                testSFrsderiv; \[IndentingNewLine] (*function\ integration\
+*) \[IndentingNewLine]coefficientVals = \(\((coefficient @@ 
+                      Flatten[{marker, #}])\) &\) /@ \((testSF . 
+                    coords)\);, \[IndentingNewLine]\[IndentingNewLine] \
+(*mapping*) \[IndentingNewLine]jacobians = \(Transpose[\((# . coords)\)] &\) /@ 
+                
+                sfrsderiv; \[IndentingNewLine] (*function\ integration\
+*) \[IndentingNewLine]coefficientVals = \(\((coefficient @@ 
+                      Flatten[{marker, #}])\) &\) /@ \((sf . 
+                    coords)\);\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]jDets = \(Det[#] &\) /@ 
+              jacobians; \[IndentingNewLine]jInverses = \(Inverse[#] &\) /@ 
+              jacobians; \[IndentingNewLine]\[IndentingNewLine] (*integration\
+*) \[IndentingNewLine]Do[\[IndentingNewLine] (*deriv\ of\ sf\
+*) \[IndentingNewLine]sfxyderiv = 
+              Transpose[\ jInverses[\([step]\)]\ ] . 
+                sfrsderiv[\([step]\)]; \[IndentingNewLine] (*local\ K\ and\ L\
+*) \[IndentingNewLine]weight = 
+              quadWeights[\([step]\)]*
+                jDets[\([step]\)]; \
+\[IndentingNewLine]\[IndentingNewLine]outESMvalues\  += \ \ \
+Transpose[\((coefficientVals[\([step]\)] . 
+                        sfxyderiv)\)] . {testSF[\([step]\)]}*
+                weight;\[IndentingNewLine]\[IndentingNewLine], {step, 
+              Length[quadWeights]}\[IndentingNewLine]]; \[IndentingNewLine]\n
+          Return[{imsMakeElementMatrix[\ outESMvalues\ , rows, cols], 
+              inERHS}];\n];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowToolbars->"EditBar",
+WindowSize->{1066, 710},
+WindowMargins->{{51, Automatic}, {Automatic, 124}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 40, 0, 54, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1841, 57, 31, 0, 74, "Section"],
+Cell[1875, 59, 2115, 35, 427, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[4015, 98, 35, 0, 28, "Subsubsection"],
+Cell[4053, 100, 534, 8, 70, "Input",
+  InitializationCell->True],
+Cell[4590, 110, 1780, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6419, 146, 32, 0, 44, "Section"],
+Cell[6454, 148, 315, 7, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6806, 160, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6883, 164, 26, 0, 41, "Subsection"],
+Cell[6912, 166, 4077, 68, 1019, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11026, 239, 34, 0, 33, "Subsection"],
+Cell[11063, 241, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11269, 249, 36, 0, 33, "Subsection"],
+Cell[11308, 251, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11500, 259, 32, 0, 44, "Section"],
+Cell[11535, 261, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11660, 268, 42, 0, 44, "Section"],
+Cell[11705, 270, 245, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11987, 279, 30, 0, 44, "Section"],
+Cell[12020, 281, 256, 5, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12313, 291, 26, 0, 44, "Section"],
+Cell[12342, 293, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12558, 302, 27, 0, 44, "Section"],
+Cell[12588, 304, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12704, 311, 29, 0, 44, "Section"],
+Cell[12736, 313, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12854, 320, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[12920, 324, 39, 0, 41, "Subsection"],
+Cell[12962, 326, 176, 4, 59, "Input",
+  InitializationCell->True],
+Cell[13141, 332, 54, 1, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13232, 338, 38, 0, 33, "Subsection"],
+Cell[13273, 340, 175, 4, 59, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[13473, 348, 34, 0, 28, "Subsubsection"],
+Cell[13510, 350, 3294, 56, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16841, 411, 35, 0, 22, "Subsubsection"],
+Cell[16879, 413, 3298, 56, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20214, 474, 35, 0, 22, "Subsubsection"],
+Cell[20252, 476, 3329, 57, 811, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23618, 538, 36, 0, 22, "Subsubsection"],
+Cell[23657, 540, 3333, 57, 811, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[27027, 602, 51, 0, 22, "Subsubsection"],
+Cell[27081, 604, 3367, 59, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30485, 668, 51, 0, 22, "Subsubsection"],
+Cell[30539, 670, 3371, 59, 843, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33947, 734, 33, 0, 22, "Subsubsection"],
+Cell[33983, 736, 2718, 45, 651, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[36738, 786, 34, 0, 22, "Subsubsection"],
+Cell[36775, 788, 2722, 45, 651, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[39534, 838, 29, 0, 22, "Subsubsection"],
+Cell[39566, 840, 2534, 42, 651, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[42137, 887, 30, 0, 22, "Subsubsection"],
+Cell[42170, 889, 2538, 42, 651, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[44745, 936, 34, 0, 22, "Subsubsection"],
+Cell[44782, 938, 2668, 43, 667, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[47487, 986, 35, 0, 22, "Subsubsection"],
+Cell[47525, 988, 2672, 43, 667, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[50234, 1036, 32, 0, 22, "Subsubsection"],
+Cell[50269, 1038, 2375, 46, 603, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[52681, 1089, 33, 0, 22, "Subsubsection"],
+Cell[52717, 1091, 2378, 46, 603, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55144, 1143, 40, 0, 33, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[55209, 1147, 35, 0, 28, "Subsubsection"],
+Cell[55247, 1149, 4627, 81, 1067, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[59911, 1235, 50, 0, 22, "Subsubsection"],
+Cell[59964, 1237, 3598, 60, 859, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63623, 1304, 31, 0, 44, "Section"],
+Cell[63657, 1306, 83, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63777, 1313, 30, 0, 44, "Section"],
+Cell[63810, 1315, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[63959, 1322, 30, 0, 44, "Section"],
+Cell[63992, 1324, 186, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

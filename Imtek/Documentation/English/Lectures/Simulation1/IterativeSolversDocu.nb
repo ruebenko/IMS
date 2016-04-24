@@ -1,0 +1,4129 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    125049,       3829]*)
+(*NotebookOutlinePosition[    125772,       3854]*)
+(*  CellTagsIndexPosition[    125728,       3850]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Direct and Iterative Solvers", "Title"],
+
+Cell["\<\
+By Jan Lienemann <lieneman -at- imtek.de>, Sommersemester 2003
+Version 0.2.1\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2003 - 2006 Jan Lienemann
+Permission is granted to copy, distribute and/or modify this document under \
+the terms of the GNU Free Documentation License, Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the \
+license is included in the section entitled \"GNU Free Documentation \
+License\".\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Overview", "Section 1"],
+
+Cell[TextData[{
+  "We know will consider some algorithms to solve a linear system ",
+  StyleBox["A x",
+    FontSlant->"Italic"],
+  " = ",
+  StyleBox["b",
+    FontSlant->"Italic"],
+  ".\nCall ",
+  StyleBox["b",
+    FontSlant->"Italic"],
+  " the load vector, ",
+  StyleBox["x",
+    FontSlant->"Italic"],
+  " the vector of unknowns and ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " the system matrix."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Fundamentals", "Subsection"],
+
+Cell[TextData[{
+  StyleBox["Sparse:",
+    FontWeight->"Bold"],
+  " A matrix is called ",
+  StyleBox["sparse",
+    FontSlant->"Italic"],
+  " if the majority of elements is zero, else it is called ",
+  StyleBox["dense",
+    FontSlant->"Italic"],
+  ".\n\n",
+  StyleBox["Sparse/dense storage:",
+    FontWeight->"Bold"],
+  " ",
+  StyleBox["Sparse storage",
+    FontSlant->"Italic"],
+  " tries to use the sparseness of the matrix to reduce the amount of storage \
+needed. If all elements are stored whether they are nonzero or not, this is \
+called ",
+  StyleBox["dense storage",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Symmetry:",
+    FontWeight->"Bold"],
+  " A matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\)]],
+  " is called ",
+  StyleBox["symmetric",
+    FontSlant->"Italic"],
+  ", iff ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_ij = a\_ji\)]],
+  "for all i and j, and ",
+  StyleBox["asymmetric",
+    FontSlant->"Italic"],
+  " if there exists a pair i, j such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_ij \[NotEqual] a\_ji\)]]
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Diagonal dominant:",
+    FontWeight->"Bold"],
+  " A matrix is called ",
+  StyleBox["diagonal dominant",
+    FontSlant->"Italic"],
+  ", iff for each row the absolute value of the diagonal element is larger \
+than the sum of the absolute values of all other elements:\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(a\_\(i, 
+            i\)\)\(|\)\(\(>\)\(\[Sum]\+\(k = 1, \ 
+              k \[NotEqual] i\)\%n\)\)\(|\)\(a\_\(i, k\)\)\(|\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Positive (semi)definite:",
+    FontWeight->"Bold"],
+  " A matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`A \[Element] \[DoubleStruckCapitalR]\^\(n\[Times]n\)\
+\)]],
+  " is called ",
+  StyleBox["positive (semi)definite",
+    FontSlant->"Italic"],
+  ", iff ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(x\^T\) A\ x > 0\)]],
+  "  (",
+  Cell[BoxData[
+      \(TraditionalForm\`\(x\^T\) A\ x \[GreaterEqual] 0\)]],
+  ") for all ",
+  Cell[BoxData[
+      \(TraditionalForm\`x \[Element] \[DoubleStruckCapitalR]\^n\)]],
+  "."
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Conjugate orthogonal (",
+    FontWeight->"Bold"],
+  Cell[BoxData[
+      \(TraditionalForm\`A\)],
+    FontWeight->"Bold"],
+  StyleBox["-orthogonal):",
+    FontWeight->"Bold"],
+  " Two vectors ",
+  " ",
+  Cell[BoxData[
+      \(TraditionalForm\`p, q \[Element] \[DoubleStruckCapitalR]\^n\)]],
+  " are called ",
+  StyleBox["conjugate",
+    FontSlant->"Italic"],
+  " or",
+  StyleBox[" A-orthogonal",
+    FontSlant->"Italic"],
+  ", if there exists a positive definite matrix ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^T\ A\ q = 0\)]]
+}], "Text"],
+
+Cell[TextData[{
+  StyleBox["Residual:",
+    FontWeight->"Bold"],
+  "  ",
+  Cell[BoxData[
+      \(TraditionalForm\`r\^\((k)\) = A\ x\^\((k)\) - b\)]],
+  " for an approximate solution ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\)\)]],
+  ". ",
+  Cell[BoxData[
+      \(TraditionalForm\`r = 0\)]],
+  " for the exact solution."
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["General Properties", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Direct Solvers", "Subsection"],
+
+Cell["\"Exact\" solution (but numerical errors)", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Low efficiency and large storage for large systems", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["More stable than iterative solvers", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Matrices can become dense, but with special algorithms, the effect \
+can be small\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "Examples:\n* Gauss Elimination\n    - LU decomposition: P ",
+  Cell[BoxData[
+      \(TraditionalForm\`A = L\ U\)]],
+  "\n    - ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\ D\ L\^T\)]],
+  "decomposition (symmetric matrices)\n    - Cholesky decomposition: ",
+  Cell[BoxData[
+      \(TraditionalForm\`A = L\ L\^T\)]],
+  "for symmetric positive definite matrices"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Iterative Solvers", "Subsection"],
+
+Cell["Successive approximation to more accurate solution", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Convergence criterion / stop criterion; computation can stop after \
+some few steps if results is good enough\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "Examples (see Literature for more information)\n\nStationary methods \
+(computation coefficients not change with iteration: ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\) = B\ x\^\((k - 1)\) + c\)]],
+  "):\n* Jacobi\n    - Gauss-Seidel\n    - (Symmetric) Successive \
+Over-imsRelaxation ((S)SOR)\nEasy to understand and implement, but slower \
+convergence than nonstationary methods\n\nNonstationary (computation \
+algorithm is updated during calculation):\n* ",
+  StyleBox["Conjugate Gradient (CG)",
+    FontWeight->"Bold"],
+  "\n    - Conjugate Gradients on the Normal Equations (CGNE and CGNR)\n    - \
+Biconjugate Gradient (BiCG)\n    - Biconjugate Gradient Stabilized \
+(Bi-CGSTAB)\n    - Conjugate Gradient Squared (CGS)\n    - Minimal Residual \
+(MINRES) and Symmetric LQ (SYMMLQ)\n    - Generalized Minimal Residual \
+(GMRES)\n    - Quasi-Minimal Residual (QMR)\n* Chebyshev Iteration"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Others", "Subsection"],
+
+Cell["\<\
+Multigrid: Iterative solution method using information from the \
+discretization
+* O(N) work and storage for N unknowns
+* extremely fast and efficient solver
+* Algebraic multigrid can operate only on matrix, so does not need mesh\
+\>", \
+"Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Fast direct Poisson solvers: Bunemann, Hockney, Swarztrauber
+* O(n log n) work
+* limited to FDM discretization\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+ADI:
+* Very fast: O(n log n) work
+* Limited to special types of matrices\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Domain decomposition", "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Application example: ANSYS", "Subsection"],
+
+Cell["\<\
+Ansys can use both direct and indirect solvers:
+* Dense and sparse direct solver
+* Conjugate gradients solver:
+    - Jacobi (diagonal) preconditioner
+    - incomplete Cholesky preconditioner
+* Algebraic Multigrid solver
+* Distributed domain solver\
+\>", "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Direct Solvers", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Gaussian Elimination", "Subsection"],
+
+Cell["\<\
+Algorithm of choice for square, dense and unstructured \
+matrices\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Goal: Change linear system such that a triangular matrix is \
+obtained\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "Some equivalence operations exists, which do not change the solution of \
+the linear system:\n* Exchange of rows\n* Multiplication of a whole row with \
+a number ",
+  Cell[BoxData[
+      \(TraditionalForm\` \[NotEqual] \)]],
+  " 0\n* Addition of a multiple of one row to another"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[CellGroupData[{
+
+Cell["Matrix Triangularization", "Subsubsection"],
+
+Cell[TextData[{
+  "Let ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(m\^\((k)\)\)\_\(i, j\)\)]],
+  "be the matrix element at row i and column j at the step k of the \
+operation, and ",
+  Cell[BoxData[
+      \(TraditionalForm\`c\^\((k)\)\)]],
+  "the load vector at step k.\nLet ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(i, j\)\)]],
+  "be the original matrix, and ",
+  Cell[BoxData[
+      \(TraditionalForm\`b\)]],
+  "the original load vector.\nWe assume that all matrix elements not \
+mentioned at the current step will be copied from the step before."
+}], "Text"],
+
+Cell[TextData[{
+  "1. Start with testrow = 1, ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\^\((0)\) = a\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`c\^\((0)\) = b\)]],
+  "\n2. The column testrow for all rows > testrow must be set to 0:\n    For \
+each row > testrow, subtract ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(m\_\(row, testrow\)\/m\_\(testrow, testrow\)\) 
+          m\_testrow = q\_\(row, testrow\)\ m\_testrow\)]],
+  ":\n    \n\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[\(\(m\^\((k)\)\)\_\(row, i\)\),
+            "TraditionalForm"], 
+          "=", \(\(m\^\((k - 1)\)\)\_\(row, i\) - \(\(\(m\^\((k - \
+1)\)\)\_row, 
+                  testrow\)\/\(m\^\((k - 1)\)\)\_\(testrow, testrow\)\) \(m\^\
+\((k - 1)\)\)\_\(testrow, i\)\)}], TraditionalForm]],
+    TextAlignment->Center,
+    TextJustification->0],
+  " for all columns i\n\t\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(c\^\((k)\)\)\_row = \(c\^\((k - 1)\)\)\_row - \(\(\
+\(m\^\((k - 1)\)\)\_row, 
+                testrow\)\/\(m\^\((k - 1)\)\)\_\(testrow, testrow\)\) \
+\(c\^\((k - 1)\)\)\_testrow\)]],
+  "\n\n    \n    ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_\(testrow, testrow\)\)]],
+  "is called the pivot element.\n3. Increase testrow by 1. If testrow is \
+smaller or equal to the total number of rows, go to step 2."
+}], "Text",
+  CellDingbat->None,
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[BoxData[
+    \(GaussianElim[mat_, lvec_, gnum_] := 
+      Module[{matrix = mat, lastvec = lvec, \[IndentingNewLine]testrow, row, 
+          column, factor, 
+          matrixsize}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Init\ *) \[IndentingNewLine]matrixsize = 
+          Length[matrix]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Gauss\ *) \[IndentingNewLine]For[testrow = 1, 
+          testrow \[LessEqual] 
+            Min[matrixsize - 1, 
+              gnum], \(testrow++\), \[IndentingNewLine]\(For[
+              row = testrow + 1, 
+              row \[LessEqual] 
+                matrixsize, \(row++\), \[IndentingNewLine]factor = 
+                matrix[\([row, testrow]\)]\/matrix[\([testrow, testrow]\)]; \
+\[IndentingNewLine]For[column = testrow, 
+                column \[LessEqual] 
+                  matrixsize, \(column++\), \
+\[IndentingNewLine]\(matrix[\([row, column]\)] -= 
+                    factor*matrix[\([testrow, 
+                          column]\)];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]lastvec[\([row]\)] -= 
+                factor*lastvec[\([testrow]\)];\[IndentingNewLine]];\)\
+\[IndentingNewLine]]; \[IndentingNewLine]Return[{matrix, 
+            lastvec}];\[IndentingNewLine]]\)], "Input"],
+
+Cell[TextData[{
+  "Problems arise when zeros are encountered on the considered column:\nIf \
+the zero is at ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_\(row, testrow\)\)]],
+  ", simply skip this row. \nIf the zero is at ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_\(testrow, testrow\)\)]],
+  ", exchange this row with one with a nonzero entry at column testrow, and \
+also exchange these entries on the load vector. If this is not possible \
+because there are no more nonzeros, the matrix is not invertible."
+}], "Text"],
+
+Cell[BoxData[{
+    \(\(GaussianElim::"\<zerodiag\>" = "\<Zero diagonal encountered during \
+triangularization, matrix not invertible.\>";\)\), "\n", 
+    \(GaussianElim[mat_, lvec_, gnum_] := 
+      Module[{matrix = mat, lastvec = lvec, \[IndentingNewLine]testrow, row, 
+          column, factor, matrixsize, i, 
+          temp}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Init\ *) \[IndentingNewLine]matrixsize = 
+          Length[matrix]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Gauss\ *) \[IndentingNewLine]For[testrow = 1, 
+          testrow \[LessEqual] 
+            Min[matrixsize - 1, gnum], \(testrow++\), \[IndentingNewLine]i = 
+            testrow; \[IndentingNewLine]While[\((i \[LessEqual] 
+                  matrixsize)\) && \((matrix[\([i, testrow]\)] \[Equal] 
+                  0)\), \(i++\)]; \[IndentingNewLine]If[
+            i \[NotEqual] testrow, \[IndentingNewLine]If[i > matrixsize, 
+              Message[GaussianElim::"\<zerodiag\>"]; 
+              Continue[], \[IndentingNewLine] (*\ 
+                Swap\ rows\ *) \[IndentingNewLine]matrix[\([{testrow, 
+                      i}]\)] = 
+                matrix[\([{i, 
+                      testrow}]\)]; \[IndentingNewLine]lastvec[\([{testrow, 
+                      i}]\)] = 
+                lastvec[\([{i, 
+                      testrow}]\)];\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]For[row = testrow + 1, 
+            row \[LessEqual] matrixsize, \(row++\), \[IndentingNewLine]If[
+              matrix[\([row, testrow]\)] \[Equal] 0, 
+              Continue[]]; \[IndentingNewLine]factor = 
+              matrix[\([row, testrow]\)]\/matrix[\([testrow, testrow]\)]; \
+\[IndentingNewLine]For[column = testrow, 
+              column \[LessEqual] 
+                matrixsize, \(column++\), \[IndentingNewLine]\(matrix[\([row, 
+                      column]\)] -= 
+                  factor*matrix[\([testrow, 
+                        column]\)];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]lastvec[\([row]\)] -= 
+              factor*lastvec[\([testrow]\)];\[IndentingNewLine]];\
+\[IndentingNewLine]]; \[IndentingNewLine]Return[{matrix, 
+            lastvec}];\[IndentingNewLine]]\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(a = 
+        Table[Random[Integer, 10], {i, 4}, {j, 
+            4}];\)\), "\[IndentingNewLine]", 
+    \(\(b = Table[Random[Integer, 100], {4}];\)\), "\[IndentingNewLine]", 
+    \(Print[a // MatrixForm, Table[x\_i, {i, 4}] // MatrixForm, "\<=\>", 
+      b // MatrixForm]\)}], "Input"],
+
+Cell[BoxData[
+    \({ga, gb} = GaussianElim[a, b, 3]; 
+    Print[ga // MatrixForm, Table[x\_i, {i, 4}] // MatrixForm, "\<=\>", 
+      gb // MatrixForm]\)], "Input"],
+
+Cell["Test:", "Text"],
+
+Cell[BoxData[
+    \(ga . \((LinearSolve[a, b])\) - gb\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Solve imsSystem (Back Substitution)", "Subsubsection"],
+
+Cell[TextData[{
+  "1. Start with row = n,  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(x\^\((0)\)\)\_i = 0\)]],
+  "\n2. You know all ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_i\)]],
+  "with i > row (nothing at first iteration)\n3. For ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_row\)]],
+  ", calculate\n\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[\(\(x\^\((k)\)\)\_row\),
+            "TraditionalForm"], 
+          "=", \(\((c\_row - \[Sum]\+\(i = row + 1\)\%n\( m\_\(row, 
+                        i\)\) \(x\^\((k - 1)\)\)\_i)\)/m\_\(row, row\)\)}], 
+        TraditionalForm]],
+    TextAlignment->Center,
+    TextJustification->0],
+  "\n4. Decrease row by 1. If row is greater or equal to one, go to step 2."
+}], "Text",
+  CellDingbat->None,
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[BoxData[
+    \(\(GaussianBackSubst[umatrix_, f_] := 
+        Module[{x, row}, \[IndentingNewLine]x = 
+            Table[0, {Length[umatrix]}]; \[IndentingNewLine]For[
+            row = Length[umatrix], 
+            row \[GreaterEqual] 
+              1, \(row--\), \[IndentingNewLine]x[\([row]\)] = \((\((f[\([row]\
+\)] - umatrix[\([row]\)] . x)\)/
+                  umatrix[\([row, 
+                      row]\)])\)\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[x]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell[BoxData[{
+    \(GaussianBackSubst[ga, gb]\), "\n", 
+    \(LinearSolve[a, b]\)}], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Properties", "Subsubsection"],
+
+Cell[TextData[{
+  "Work needed: ",
+  Cell[BoxData[
+      \(TraditionalForm\`O(n\^3)\)]],
+  ", less for sparse structure\nStorage needed: ",
+  Cell[BoxData[
+      \(TraditionalForm\`O(n\^2)\)],
+    CellDingbat->None],
+  ", less for sparse structure\nWorks for all invertible matrices"
+}], "Text",
+  CellDingbat->None]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["LU-Decomposition", "Subsection"],
+
+Cell[TextData[{
+  "For multiple right hand sides, we look for a way to reduce the number of \
+steps, i.e. to prepare the matrix ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " in such a form that subsequent evaluations are simpler. One way to \
+achieve this is the LU decomposition (also called LU factorization)."
+}], "Text"],
+
+Cell[TextData[{
+  "Goal: Find two matrices L and U with the following properties:\n* ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\ U = A\)]],
+  "\n* ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\)]],
+  " is unit lower triangular, i.e. the diagonal consists only of ones, and \
+all ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\_ij\)]],
+  "with j > i are zero.\n* ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\)]],
+  "is upper triangular, i.e. all ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\_ij\)]],
+  "with j < i are zero."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Remember step 2 of Gauss elimination:", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "2. The column testrow for all rows > testrow must be set to 0:\n    For \
+each row > testrow, subtract ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(m\_\(row, testrow\)\/m\_\(testrow, testrow\)\) 
+          m\_testrow = q\_\(row, testrow\)\ m\_testrow\)]],
+  ":\n    \n\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[\(\(m\^\((k)\)\)\_\(row, i\)\),
+            "TraditionalForm"], 
+          "=", \(\(m\^\((k - 1)\)\)\_\(row, i\) - \(q\_\(row, 
+                  testrow\)\) \(m\^\((k - 1)\)\)\_\(testrow, i\)\)}], 
+        TraditionalForm]],
+    TextAlignment->Center,
+    TextJustification->0],
+  " for all columns i\n\nThe final value of ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_\(i, j\)\)]],
+  "is determined when testrow = ",
+  Cell[BoxData[
+      \(TraditionalForm\`i - 1\)]],
+  "; after that, there is no change any more. Therefore:\n\n\t",
+  Cell[BoxData[{
+      FormBox[
+        RowBox[{
+          RowBox[{
+            
+            FormBox[\(m\_\(i, j\) = \(\(m\^\((i - 1)\)\)\_\(i, j\) = 
+                  a\_\(i, j\) - \(q\_\(i, 
+                          1\)\) \(m\^\((0)\)\)\_\(1, j\) - \)\),
+              
+              "TraditionalForm"], \(q\_\(i, 2\)\), \(\(m\^\((1)\)\)\_\(2, 
+                j\)\)}], "-", 
+          " ", \(\(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \ \)\(-\ 
+                q\_\(i, i - 1\)\)\) m\^\((i - 2)\)\)}], TraditionalForm], 
+    "\[IndentingNewLine]", 
+      FormBox[
+        RowBox[{
+          "                                    ", \(\(=\)\(a\_\(i, j\) - \
+\(q\_\(i, 1\)\) m\_\(1, j\)\ \ \ \ \  - \(q\_\(i, 2\)\) 
+                m\_\(2, j\)\ \ \ \ \  - \ \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \)\
+\(-\ q\_\(i, i - 1\)\)\) m\_\(i - 1, j\)\)\)}], TraditionalForm]}]]
+}], "Text"],
+
+Cell[TextData[{
+  "Now solve for ",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(i, j\)\)]],
+  ":\n\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`a\_\(i, j\) = \(m\_\(i, j\) - \(q\_\(i, 1\)\) 
+              m\_\(1, j\)\ \ \ \ \  - \(q\_\(i, 2\)\) 
+              m\_\(2, j\)\ \ \ \ \  - \ \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \
+\)\(-\ q\_\(i, i - 1\)\)\) 
+              m\_\(i - 1, j\) = \[Sum]\+\(k = 1\)\%i\( q\_\(i, k\)\) 
+              m\_\(k, j\)\)\)]],
+  "   with ",
+  Cell[BoxData[
+      \(TraditionalForm\`q\_\(i, i\) = 1\)]],
+  "\n\nThis sum can be written as matrix equation\n\t\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`A = Q\ M\)]],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "How do ",
+  Cell[BoxData[
+      \(TraditionalForm\`Q\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`M\)]],
+  " look like? ",
+  Cell[BoxData[
+      \(TraditionalForm\`M\)]],
+  "is the product of the Gauss elimination, thus it is upper triangular. For \
+",
+  Cell[BoxData[
+      \(TraditionalForm\`Q\)]],
+  ", we have:\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"Q", "=", 
+          RowBox[{"(", GridBox[{
+                {"1", "0", "0", "0", \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \)\), 
+                  "0"},
+                {\(q\_\(2, 1\)\), "1", "0", 
+                  "0", \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \)\), "0"},
+                {\(q\_\(3, 1\)\), \(q\_\(3, 2\)\), "1", 
+                  "0", \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), "0"},
+                {\(q\_\(4, 1\)\), \(q\_\(4, 2\)\), \(q\_\(4, 3\)\), 
+                  "1", \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), "0"},
+                {\(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), \(\(.\)\(\ \)\(.\)\(\ \)\(.\
+\)\), \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), \(\(.\
+\)\(\ \)\(.\)\(\ \)\(.\)\), \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\(\ \)\)},
+                {\(q\_\(n, 1\)\), \(q\_\(n, 2\)\), \(q\_\(n, 
+                      3\)\), \(\(.\)\(\ \)\(.\)\(\ \)\(.\)\), \(q\_\(n, 
+                      n - 1\)\), "1"}
+                }], ")"}]}], TraditionalForm]]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`Q\)]],
+  " is unit lower triangular. So setting ",
+  Cell[BoxData[
+      \(TraditionalForm\`L = Q\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`U = M\)]],
+  ", we get the LU decomposition from the Gauss elimination for free by \
+simply saving the quotients ",
+  Cell[BoxData[
+      \(TraditionalForm\`q\_\(i, j\)\)]],
+  "!"
+}], "Text"],
+
+Cell[TextData[{
+  "Once we have ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\)]],
+  ", we can solve for any ",
+  Cell[BoxData[
+      \(TraditionalForm\`b\)]],
+  " by simply doing a back substitution with ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\)]],
+  " and a forward substitution (i.e. like a back substitution, but starting \
+from the first row) for ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\)]],
+  ".\n",
+  Cell[BoxData[
+      \(TraditionalForm\`L\ U\ x = \(b\  \[Rule] \ Solve\ L\ y = 
+          b\ by\ forward\ substitution\), \ then\ \ U\ x = y\)]],
+  " by back substitution."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[CellGroupData[{
+
+Cell["Properties", "Subsubsection"],
+
+Cell["\<\
+Same work, double storage as for Gauss Elimination
+Very efficient for multiple right hand sides\
+\>", "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Pivoting", "Subsection"],
+
+Cell[TextData[{
+  "The LU-Decomposition works well as long as we do not have to swap rows \
+because of a zero on the diagonal. If we encounter a zero, we can always swap \
+with lower rows if the matrix is invertible:\n\nFor each regular (i.e. not \
+singular) matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\)]],
+  ", there exists a permutation matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\)]],
+  " such that the LU decomposition can be performed for ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\ A\)]],
+  ":\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`P\ A = L\ \(\(U\)\(.\)\)\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "The equation ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\ x = \ b\)]],
+  " must be multiplied with ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\)]],
+  ", so that our algorithm now reads:\n* Decompose ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\ A\)]],
+  " to ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\ R\)]],
+  "\n* Forward substitution: ",
+  Cell[BoxData[
+      \(TraditionalForm\`L\ y = P\ b\)]],
+  "\n* Back substitution: ",
+  Cell[BoxData[
+      \(TraditionalForm\`U\ x = y\)]],
+  " as before."
+}], "Text"],
+
+Cell[TextData[{
+  "The permutation matrix can also be used to avoid numerical round-off \
+errors due to limited machine precission. It usually has very simple \
+structure: The permutation matrix\n\t",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"P", "=", 
+          RowBox[{"(", GridBox[{
+                {"0", "0", "0", "1"},
+                {"1", "0", "0", "0"},
+                {"0", "0", "1", "0"},
+                {"0", "1", "0", "0"}
+                }], ")"}]}], TraditionalForm]]],
+  "\nwill change row 4 to row 1, row 1 to row 2, row 3 will stay at row 3, \
+and row 2 will be changed to row 4.\nUsually, it will be stored as a vector \
+with the position of the ones:\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`p = {4, 1, 3, 2}\)]]
+}], "Text"],
+
+Cell["But how do we find such a permutation matrix?", "Text"],
+
+Cell["Several pivot strategies are possible:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Diagonal strategy", "Subsubsection"],
+
+Cell[TextData[{
+  "For diagonal dominant matrices, as often encountered in FEM, a special \
+pivoting strategy is not necessary. This is called diagonal strategy, because \
+the pivot element is simply taken from the diagonal. Here, ",
+  Cell[BoxData[
+      \(TraditionalForm\`P = I\)]],
+  "."
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Partial pivoting: Column maximum strategy", "Subsubsection"],
+
+Cell[TextData[{
+  "This strategy also works for matrices with zeros on the diagonal. The term \
+\"partial pivoting\" means that we only use row swapping, i.e. the \
+permutation matrix is the combination of only swapping rows. ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "'s ",
+  StyleBox["LinearSolve",
+    FontFamily->"Courier",
+    FontWeight->"Bold"],
+  " also uses partial pivoting.\nFor every elimination step ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\)]],
+  ", we choose the row ",
+  Cell[BoxData[
+      \(TraditionalForm\`i\)]],
+  " with the largest element ",
+  Cell[BoxData[
+      \(TraditionalForm\`m\_\(i, k\)\)]],
+  "as pivot row; the pivot matrix is therefore built during the elimination \
+step.\nThis strategy ensures that the multiplication factor is always ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[LessEqual]\)\(1\)\)\)]],
+  ", which is good against the propagation of rounding errors."
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Partial pivoting: Relative maximum column strategy", "Subsubsection"],
+
+Cell[TextData[{
+  "The column maximum strategy can fail when off-diagonal entries of the \
+pivot row are very large (see Schwarz for an example). This can be avoided by \
+the relative maximum column strategy: At step ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\)]],
+  ", find a row ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\)]],
+  " such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(|\)\(\(m\^\((k - 1)\)\)\_\(p, k\)\)\(|\)\)\/\(\
+\[Sum]\+\(j = k\)\%n\(\(|\)\(\(m\^\((k - 1)\)\)\_\(p, j\)\)\(|\)\)\)\)]],
+  "is maximal. For this line, the pivot element is largest compared to the \
+rest of this line; after swapping, we are therefore as near as possible to a \
+diagonal dominant system."
+}], "Text"],
+
+Cell[BoxData[
+    \(LUDecomp::"\<zerodiag\>" = "\<Zero diagonal encountered during \
+triangularization, matrix not invertible.\>"; 
+    LUDecomp[mat_] := 
+      Module[{matrix = mat, plist, matrixsize, maxquot, j, l, p, pmax, 
+          testrow, row, column, lower, 
+          mq}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Init\ *) \[IndentingNewLine]matrixsize = 
+          Length[matrix]; \[IndentingNewLine]lower = 
+          Table[0, {matrixsize}, {matrixsize}]; \[IndentingNewLine]plist = 
+          Range[matrixsize]; \[IndentingNewLine]\[IndentingNewLine]For[
+          testrow = 1, 
+          testrow \[LessEqual] 
+            matrixsize - 1, \(testrow++\), \[IndentingNewLine] (*\ 
+            Pivoting\ *) \[IndentingNewLine]maxquot = 
+            0; \[IndentingNewLine]For[p = testrow, 
+            p \[LessEqual] matrixsize, \(p++\), \[IndentingNewLine]mq = 
+              Abs[matrix[\([p, testrow]\)]]\/\(\[Sum]\+\(j = \
+testrow\)\%matrixsize Abs[matrix[\([p, j]\)]]\); \[IndentingNewLine]If[
+              mq > maxquot, pmax = p; 
+              maxquot = mq];\[IndentingNewLine]]; \[IndentingNewLine]If[
+            maxquot = 0, Message[LUDecomp::"\<zerodiag\>"]; 
+            pmax = testrow]; \[IndentingNewLine]If[
+            pmax \[NotEqual] 
+              testrow, \[IndentingNewLine]matrix[\([{testrow, pmax}]\)] = 
+              matrix[\([{pmax, 
+                    testrow}]\)]; \[IndentingNewLine]lower[\([{testrow, 
+                    pmax}]\)] = 
+              lower[\([{pmax, 
+                    testrow}]\)]; \[IndentingNewLine]plist[\([{testrow, 
+                    pmax}]\)] = 
+              plist[\([{pmax, 
+                    testrow}]\)];\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ Gauss\ *) \[IndentingNewLine]For[row = testrow + 1, 
+            row \[LessEqual] matrixsize, \(row++\), \[IndentingNewLine]If[
+              matrix[\([row, testrow]\)] \[Equal] 0, 
+              Continue[]]; \[IndentingNewLine]factor = 
+              matrix[\([row, testrow]\)]\/matrix[\([testrow, testrow]\)]; \
+\[IndentingNewLine]lower[\([row, testrow]\)] = factor; \[IndentingNewLine]For[
+              column = testrow, 
+              column \[LessEqual] 
+                matrixsize, \(column++\), \[IndentingNewLine]\(matrix[\([row, 
+                      column]\)] -= 
+                  factor*matrix[\([testrow, 
+                        column]\)];\)\[IndentingNewLine]];\[IndentingNewLine]]\
+; \[IndentingNewLine]lower[\([testrow, testrow]\)] = 
+            1; \[IndentingNewLine]Print[{MatrixForm[lower], 
+              MatrixForm[
+                matrix]}];\[IndentingNewLine]]; \
+\[IndentingNewLine]lower[\([matrixsize, matrixsize]\)] = 
+          1; \[IndentingNewLine]Return[{lower, matrix, 
+            plist}];\[IndentingNewLine]]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\((a = Table[Random[Integer, 10], {i, 4}, {j, 4}])\) // 
+      MatrixForm\), "\[IndentingNewLine]", 
+    \(MatrixForm /@ \((lu = LUDecomp[a])\)\), "\[IndentingNewLine]", 
+    \(MatrixForm /@ \((lum = LUDecomposition[a]; l = Length[lum[\([1]\)]]; 
+        lumm = {lum[\([1]\)]*Table[If[i > j, 1, 0], {i, l}, {j, l}] + 
+              IdentityMatrix[l], 
+            lum[\([1]\)]*
+              Table[If[i <= j, 1, 0], {i, l}, {j, 
+                  l}], \[IndentingNewLine]lum[\([2]\)]})\)\)}], "Input"],
+
+Cell[BoxData[{
+    \(a // MatrixForm\), "\[IndentingNewLine]", 
+    \(N[\(#[\([1]\)]/Plus @@ # &\) /@ a]\)}], "Input"],
+
+Cell[BoxData[{
+    \(a // MatrixForm\), "\[IndentingNewLine]", 
+    \(MatrixForm /@ {lu[\([1]\)] . lu[\([2]\)], lu[\([3]\)]} // 
+      MatrixForm\), "\[IndentingNewLine]", 
+    \(MatrixForm /@ {\((lumm[\([1]\)] . lumm[\([2]\)])\), lumm[\([3]\)]} // 
+      MatrixForm\)}], "Input"],
+
+Cell[BoxData[{
+    \(\((lu[\([1]\)] . lu[\([2]\)])\) - a[\([lu[\([3]\)]]\)] // 
+      MatrixForm\), "\[IndentingNewLine]", 
+    \(\((lumm[\([1]\)] . lumm[\([2]\)])\) - a[\([lumm[\([3]\)]]\)] // 
+      MatrixForm\)}], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Summary", "Subsection"],
+
+Cell["\<\
+Direct solvers give the exact solution (except for rounding errors, \
+which can be mitigated by pivoting)\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+No way to reduce the number of computing steps for lesser \
+accuracy\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Works on all invertible matrices; stable", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Slow for a single right hand side; fast for multiple right hand \
+sides through LU decomposition, which is a simple bookkeeping of the \
+elimination process\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Very fast direct solvers exist for some special matrices or \
+problems\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Random memory access for matrix necessary", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Sparsivity of matrix may be lost", "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Iterative Solvers", "Section"],
+
+Cell["\<\
+Direct solvers provide exact solution, but are slow for large \
+matrices\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Direct solvers require changing and randomly accessing the matrix \
+during computation: If the matrix doesn't fit into the RAM, many IO \
+operations are necessary\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Often, it is enough to have a good approximation to the results, \
+since we approximate anyway\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Special computer hardware optimized for matrix-vector \
+multiplication\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Better parallelizable", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[CellGroupData[{
+
+Cell["Gradient based algorithms", "Subsection"],
+
+Cell[TextData[{
+  "Algorithms try to minimize the error energy ",
+  Cell[BoxData[
+      \(TraditionalForm\`E = \(1\/2\) \(x\^T\) A\ x - \(x\^T\) b\)]],
+  " for symmetric positive semidefinite systems.\nNecessary condition for a \
+minimum is ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[Del]E\)\(=\)\)\)]],
+  " ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\ \(x\^*\) - b = 0\)]],
+  ", so the minimum ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(x\^*\)\)]],
+  " is the solution of our system of equations.\nFor any ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\)\)]],
+  ", the gradient is also called the resdiual ",
+  Cell[BoxData[
+      \(TraditionalForm\`r = A\ x\^\((k)\) - b\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "General structure:\n1. Start with initial guess ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((0)\)\)]],
+  "\n2. Repeat until convergence:\n\ta) Compute step direction ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k)\)\)]],
+  "\n\tb) Compute step size ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Alpha]\^\((k)\)\)]],
+  "\n\tc) ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\) = 
+        x\^\((k - 1)\) + \(\[Alpha]\^\((k)\)\) p\^\((k)\)\)]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Subsubsection"],
+
+Cell[BoxData[
+    \(GradBased[matrix_, loadvec_, dirfunc_, stepfunc_, x0_, conv_] := 
+      Module[{x = x0, p = {}, phist = {}, i = 0, 
+          oldres}, \[IndentingNewLine]While[
+          Plus @@ \((\((matrix . x - loadvec)\)^2)\) > 
+            conv^2, \[IndentingNewLine]\(i++\); \[IndentingNewLine]p = 
+            dirfunc[matrix, loadvec, x, p, oldres, i]; \[IndentingNewLine]a = 
+            stepfunc[matrix, loadvec, x, p]; \[IndentingNewLine]AppendTo[
+            phist, {x, p, a, 
+              Plus @@ \((\((matrix . x - 
+                        loadvec)\)^2)\)}]; \[IndentingNewLine]oldres = 
+            matrix . x - 
+              loadvec; \[IndentingNewLine] (*\(Print[{x, p, a, p*a, 
+                  Plus @@ \((\((matrix . x - 
+                            loadvec)\)^2)\)}];\)*) \[IndentingNewLine]x += 
+            a*p;\[IndentingNewLine]]; \[IndentingNewLine]Print[
+          i, "\< iterations.\>"]; \[IndentingNewLine]Return[{phist, 
+            x}]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[{
+    \(<< Graphics`ImplicitPlot`\), "\[IndentingNewLine]", 
+    \(<< Graphics`Arrow`\)}], "Input"],
+
+Cell[BoxData[
+    \(PlotIsoGrad[matrix_, loadvec_, posdir_, c_, opts___] := 
+      Module[{}, \[IndentingNewLine]Show[{\[IndentingNewLine]\(ContourPlot[
+                  0.5*{x, y} . \((matrix . {x, y})\) - 
+                    loadvec . {x, y}, {x, \(-2\), 5}, {y, \(-5\), 2}, 
+                  Contours \[Rule] c, ContourShading \[Rule] False, 
+                  PlotPoints \[Rule] 100, 
+                  DisplayFunction \[Rule] Identity] &\) /@ c, 
+            Graphics[{Hue[
+                  0], \(Arrow[#[\([1]\)], #[\([1]\)] + #[\([2]\)]*#[\([3]\)], 
+                      HeadScaling \[Rule] Relative] &\) /@ 
+                  posdir}]\[IndentingNewLine]}, 
+          DisplayFunction \[Rule] $DisplayFunction, Axes \[Rule] True, 
+          opts]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    \(mat = {{2, 1.8}, {1.9, 2}}; lvec = {0.05, 0.05};\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Steepest descent", "Subsection"],
+
+Cell[TextData[{
+  "Set ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k)\) = \(\(-\[Del]E\) = \(\(-r\^\((k - 1)\)\) \
+= \(-\((A\ x\^\((k - 1)\) - b)\)\)\)\)\)]],
+  ".\nMinimization of ",
+  Cell[BoxData[
+      \(TraditionalForm\`E = \(1\/2\) \(\((x\^\((k - 1)\) + \
+\[Alpha]p\^\((k)\))\)\^T\) \(A(
+              x\^\((k - 1)\) + \[Alpha]p\^\((k)\))\) - \(\((x\^\((k - 1)\) + \
+\[Alpha]p\^\((k)\))\)\^T\) b\)]],
+  " yields\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Alpha]\^\((k)\) = \(\(-\(\(\(p\^\(\((k)\) T\)\) 
+                  r\^\((k - 1)\)\)\/\(\(p\^\(\((k)\) T\)\) 
+                  A\ p\^\((k)\)\)\)\) = \(\(p\^\(\((k)\) T\)\) p\^\((k)\)\)\/\
+\(\(p\^\(\((k)\) T\)\) A\ p\^\((k)\)\)\)\)]],
+  "."
+}], "Text"],
+
+Cell[TextData[{
+  "The isosurfaces of the functional ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\)]],
+  "can be visualized as ellipsoids. The search line ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k - 1)\) + \[Alpha]p\^\((k)\)\)]],
+  " is tangent to one of these ellipsoids. Since the gradient is \
+perpendicular to the isosurface, the subsequent gradient is perpendicular to \
+the current gradient.\nProblem: For many systems, gradient is not the optimal \
+choice, because it does not point to the minimum of E:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Subsubsection"],
+
+Cell[BoxData[{
+    \(steepestdescentdir[matrix_, loadvec_, x_, p_, oldres_, 
+        i_] := \(-\((matrix . x - loadvec)\)\)\), "\[IndentingNewLine]", 
+    \(steepestdescentstep[matrix_, loadvec_, x_, 
+        p_] := \((p . p)\)/\((p . \((matrix . p)\))\)\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(sdhist = 
+        GradBased[mat, lvec, steepestdescentdir, 
+          steepestdescentstep, {4, \(-3.5\)}, 
+          0.0001];\)\), "\[IndentingNewLine]", 
+    \(mat . sdhist[\([2]\)] - lvec\)}], "Input"],
+
+Cell[BoxData[
+    \(\(PlotIsoGrad[mat, lvec, sdhist[\([1]\)], Table[i, {i, 0, 3, 0.25}], 
+        Axes \[Rule] True, AspectRatio \[Rule] 1];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Properties", "Subsubsection"],
+
+Cell["Convergence can be slow", "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Conjugate gradients (CG)", "Subsection"],
+
+Cell["\<\
+Steepest descent algorithm shows poor performance when the \
+ellipsoid has a high aspect ratio. \
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Problems vanish for sphere, since (inwards pointing) normal always \
+point to its center, which is the energy minimum.\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+So we want to project the system such that the ellipsoids are \
+deformed to spheres.\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .27976 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00335937 0.00673666 0.00335937 [
+[ 0 0 0 0 ]
+[ 1 .27976 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .27976 L
+0 .27976 L
+closepath
+clip
+newpath
+0 g
+0 Mabswid
+[ ] 0 Mabsdash
+.18254 .0539 m
+.16742 .05957 L
+.17498 .06902 L
+.18254 .0539 L
+s
+.18254 .0539 m
+.16742 .05957 L
+.17498 .06902 L
+.18254 .0539 L
+s
+.5625 Mabswid
+.03515 .15027 m
+.08995 .22019 L
+s
+0 Mabswid
+.0994 .23153 m
+.09373 .21641 L
+.08617 .22397 L
+.0994 .23153 L
+s
+.0994 .23153 m
+.09373 .21641 L
+.08617 .22397 L
+.0994 .23153 L
+s
+.5625 Mabswid
+.1164 .10681 m
+.16553 .17106 L
+s
+0 Mabswid
+.17498 .1824 m
+.16931 .16728 L
+.16175 .17484 L
+.17498 .1824 L
+s
+.17498 .1824 m
+.16931 .16728 L
+.16175 .17484 L
+.17498 .1824 L
+s
+.5625 Mabswid
+.15608 .15216 m
+.22222 .09925 L
+s
+0 Mabswid
+.23167 .0917 m
+.21655 .09736 L
+.22411 .10681 L
+.23167 .0917 L
+s
+.23167 .0917 m
+.21655 .09736 L
+.22411 .10681 L
+.23167 .0917 L
+s
+.5625 Mabswid
+.21277 .1087 m
+.23167 .13138 L
+s
+0 Mabswid
+.24112 .14272 m
+.23545 .1276 L
+.22789 .13516 L
+.24112 .14272 L
+s
+.24112 .14272 m
+.23545 .1276 L
+.22789 .13516 L
+.24112 .14272 L
+s
+.5625 Mabswid
+.59826 .26743 m
+.59826 .00666 L
+s
+.67196 .2731 m
+.97619 .2731 L
+.97619 .00666 L
+.67196 .00666 L
+.67196 .2731 L
+s
+.9554 .13705 m
+.95351 .11059 L
+.94596 .08792 L
+.93273 .06524 L
+.91761 .04634 L
+.89872 .02934 L
+.87604 .018 L
+.85147 .01044 L
+.82502 .00666 L
+.79856 .01044 L
+.774 .018 L
+.75132 .02934 L
+.73243 .04634 L
+.71731 .06524 L
+.70408 .08792 L
+.69652 .11059 L
+.69464 .13705 L
+.69652 .1635 L
+.70408 .18807 L
+.71731 .21074 L
+.73243 .22964 L
+.75132 .24665 L
+.774 .25798 L
+.79856 .26554 L
+.82502 .26743 L
+.85147 .26554 L
+.87604 .25798 L
+.89872 .24665 L
+.91761 .22964 L
+.93273 .21074 L
+.94596 .18807 L
+.95351 .1635 L
+.9554 .13705 L
+s
+.91194 .13705 m
+.91005 .12004 L
+.90438 .10303 L
+.89683 .08981 L
+.88549 .07658 L
+.87415 .06524 L
+.85903 .05768 L
+.84202 .05201 L
+.82502 .05012 L
+.80801 .05201 L
+.79101 .05768 L
+.77589 .06524 L
+.76266 .07658 L
+.75321 .08981 L
+.74565 .10303 L
+.73999 .12004 L
+.7381 .13705 L
+.73999 .15594 L
+.74565 .17106 L
+.75321 .18618 L
+.76266 .1994 L
+.77589 .21074 L
+.79101 .2183 L
+.80801 .22208 L
+.82502 .22397 L
+.84202 .22208 L
+.85903 .2183 L
+.87415 .21074 L
+.88549 .1994 L
+.89683 .18618 L
+.90438 .17106 L
+.91005 .15594 L
+.91194 .13705 L
+s
+.86848 .13705 m
+.86848 .12949 L
+.8647 .12004 L
+.86092 .11437 L
+.85525 .10681 L
+.84958 .10114 L
+.84202 .09736 L
+.83447 .09547 L
+.82502 .09358 L
+.81746 .09547 L
+.80801 .09736 L
+.80046 .10114 L
+.79478 .10681 L
+.78911 .11437 L
+.78534 .12004 L
+.78345 .12949 L
+.78156 .13705 L
+.78345 .14649 L
+.78534 .15405 L
+.78911 .16161 L
+.79478 .16917 L
+.80046 .17295 L
+.80801 .17862 L
+.81746 .18051 L
+.82502 .18051 L
+.83447 .18051 L
+.84202 .17862 L
+.84958 .17295 L
+.85525 .16917 L
+.86092 .16161 L
+.8647 .15405 L
+.86848 .14649 L
+.86848 .13705 L
+s
+.88738 .13705 m
+.88171 .11248 L
+.86848 .0917 L
+.84769 .07847 L
+.82313 .0728 L
+.79856 .07847 L
+.77778 .0917 L
+.76455 .11248 L
+.75888 .13705 L
+.76455 .1635 L
+.77778 .1824 L
+.79856 .19752 L
+.82313 .20129 L
+.84769 .19752 L
+.86848 .1824 L
+.88171 .1635 L
+.88738 .13705 L
+s
+.84392 .13705 m
+.84202 .12949 L
+.83825 .12382 L
+.83069 .11815 L
+.82313 .11626 L
+.81557 .11815 L
+.80801 .12382 L
+.80423 .12949 L
+.80234 .13705 L
+.80423 .14649 L
+.80801 .15216 L
+.81557 .15783 L
+.82313 .15783 L
+.83069 .15783 L
+.83825 .15216 L
+.84202 .14649 L
+.84392 .13705 L
+s
+.93084 .13705 m
+.92895 .11626 L
+.92328 .09547 L
+.91194 .07847 L
+.89872 .06146 L
+.8836 .04823 L
+.8647 .03878 L
+.84581 .03312 L
+.82313 .02934 L
+.80234 .03312 L
+.78156 .03878 L
+.76266 .04823 L
+.74755 .06146 L
+.73432 .07847 L
+.72487 .09547 L
+.71731 .11626 L
+.71542 .13705 L
+.71731 .15972 L
+.72487 .18051 L
+.73432 .19752 L
+.74755 .21452 L
+.76266 .22775 L
+.78156 .2372 L
+.80234 .24287 L
+.82313 .24476 L
+.84581 .24287 L
+.8647 .2372 L
+.8836 .22775 L
+.89872 .21452 L
+.91194 .19752 L
+.92328 .18051 L
+.92895 .15972 L
+.93084 .13705 L
+s
+.68141 .08414 m
+.70975 .23153 L
+s
+0 Mabswid
+.71164 .24476 m
+.71353 .22964 L
+.70408 .23153 L
+.71164 .24476 L
+s
+.71164 .24476 m
+.71353 .22964 L
+.70408 .23153 L
+.71164 .24476 L
+s
+.5625 Mabswid
+.7003 .16728 m
+.81557 .13894 L
+s
+0 Mabswid
+.82691 .13327 m
+.8099 .13327 L
+.81368 .14272 L
+.82691 .13327 L
+s
+.82691 .13327 m
+.8099 .13327 L
+.81368 .14272 L
+.82691 .13327 L
+s
+.5625 Mabswid
+.48866 .10492 m
+.46221 .10681 L
+.43953 .1087 L
+.41686 .11059 L
+.39796 .11437 L
+.38284 .12004 L
+.36962 .12571 L
+.36206 .13138 L
+.36017 .13705 L
+.36206 .14461 L
+.36962 .15027 L
+.38284 .15594 L
+.39796 .15972 L
+.41686 .1635 L
+.43953 .16728 L
+.46221 .16917 L
+.48866 .16917 L
+.52268 .16917 L
+.55291 .16539 L
+.57747 .16161 L
+.59826 .15405 L
+.59826 .17862 L
+.54724 .18429 L
+.48866 .18618 L
+.44898 .18618 L
+.41308 .1824 L
+.37906 .17862 L
+.35072 .17295 L
+.32804 .16539 L
+.30915 .15783 L
+.29781 .14838 L
+.29403 .13705 L
+.29781 .1276 L
+.30915 .11815 L
+.32804 .11059 L
+.35072 .10303 L
+.37906 .09736 L
+.41308 .0917 L
+.44898 .08981 L
+.48866 .08792 L
+.54724 .0917 L
+.59826 .09736 L
+.59826 .12193 L
+.57747 .11437 L
+.55291 .11059 L
+.52268 .10681 L
+.48866 .10492 L
+s
+.42441 .13705 m
+.43008 .13138 L
+.44331 .1276 L
+.4641 .12382 L
+.48866 .12193 L
+.51323 .12382 L
+.53401 .1276 L
+.54724 .13138 L
+.55291 .13705 L
+.54724 .14461 L
+.53401 .14838 L
+.51323 .15216 L
+.48866 .15216 L
+.4641 .15216 L
+.44331 .14838 L
+.43008 .14461 L
+.42441 .13705 L
+s
+.36017 .13705 m
+.36206 .13138 L
+.36962 .12571 L
+.38284 .12004 L
+.39796 .11437 L
+.41686 .11059 L
+.43953 .1087 L
+.46221 .10681 L
+.48866 .10492 L
+.52268 .10681 L
+.55291 .11059 L
+.57747 .11437 L
+.59826 .12193 L
+.59826 .15405 L
+.57747 .16161 L
+.55291 .16539 L
+.52268 .16917 L
+.48866 .16917 L
+.46221 .16917 L
+.43953 .16728 L
+.41686 .1635 L
+.39796 .15972 L
+.38284 .15594 L
+.36962 .15027 L
+.36206 .14461 L
+.36017 .13705 L
+s
+.55291 .13705 m
+.54724 .13138 L
+.53401 .1276 L
+.51323 .12382 L
+.48866 .12193 L
+.4641 .12382 L
+.44331 .1276 L
+.43008 .13138 L
+.42441 .13705 L
+.43008 .14461 L
+.44331 .14838 L
+.4641 .15216 L
+.48866 .15216 L
+.51323 .15216 L
+.53401 .14838 L
+.54724 .14461 L
+.55291 .13705 L
+s
+.22978 .13705 m
+.23545 .12571 L
+.25057 .11248 L
+.27324 .10114 L
+.30537 .0917 L
+.34316 .08414 L
+.38851 .07847 L
+.43575 .07469 L
+.48866 .0728 L
+.54535 .07469 L
+.59826 .08036 L
+.59826 .09736 L
+.54724 .0917 L
+.48866 .08792 L
+.44898 .08981 L
+.41308 .0917 L
+.37906 .09736 L
+.35072 .10303 L
+.32804 .11059 L
+.30915 .11815 L
+.29781 .1276 L
+.29403 .13705 L
+.29781 .14838 L
+.30915 .15783 L
+.32804 .16539 L
+.35072 .17295 L
+.37906 .17862 L
+.41308 .1824 L
+.44898 .18618 L
+.48866 .18618 L
+.54724 .18429 L
+.59826 .17862 L
+.59826 .19563 L
+.54535 .20129 L
+.48866 .20129 L
+.43575 .20129 L
+.38851 .19752 L
+.34316 .19185 L
+.30537 .1824 L
+.27324 .17295 L
+.25057 .1635 L
+.23545 .15027 L
+.22978 .13705 L
+s
+.48866 .0728 m
+.43575 .07469 L
+.38851 .07847 L
+.34316 .08414 L
+.30537 .0917 L
+.27324 .10114 L
+.25057 .11248 L
+.23545 .12571 L
+.22978 .13705 L
+.23545 .15027 L
+.25057 .1635 L
+.27324 .17295 L
+.30537 .1824 L
+.34316 .19185 L
+.38851 .19752 L
+.43575 .20129 L
+.48866 .20129 L
+.54535 .20129 L
+.59826 .19563 L
+.59826 .21452 L
+.49055 .2183 L
+.42441 .2183 L
+.36395 .21263 L
+.30915 .20507 L
+.26002 .19563 L
+.22033 .1824 L
+.19199 .16917 L
+.17309 .15405 L
+.16553 .13705 L
+.17309 .12193 L
+.19199 .10681 L
+.22033 .0917 L
+.26002 .08036 L
+.30915 .07091 L
+.36395 .06335 L
+.42441 .05768 L
+.49055 .05579 L
+.59826 .06146 L
+.59826 .08036 L
+.54535 .07469 L
+.48866 .0728 L
+s
+.03515 .13705 m
+.0446 .15972 L
+.07105 .1824 L
+.11262 .20129 L
+.16931 .2183 L
+.23545 .23153 L
+.31293 .24287 L
+.39985 .24854 L
+.49055 .25043 L
+.59826 .24854 L
+.59826 .26743 L
+.02381 .26743 L
+.02381 .00666 L
+.59826 .00666 L
+.59826 .02745 L
+.49055 .02367 L
+.39985 .02745 L
+.31293 .03312 L
+.23545 .04445 L
+.16931 .05768 L
+.11262 .07469 L
+.07105 .09358 L
+.0446 .11437 L
+.03515 .13705 L
+s
+.48866 .04067 m
+.41119 .04256 L
+.33749 .04823 L
+.27135 .05768 L
+.21277 .06902 L
+.16553 .08414 L
+.12963 .10114 L
+.10695 .11815 L
+.0994 .13705 L
+.10695 .15783 L
+.12963 .17484 L
+.16553 .19185 L
+.21277 .20507 L
+.27135 .2183 L
+.33749 .22586 L
+.41119 .23153 L
+.48866 .23342 L
+.59826 .22964 L
+.59826 .24854 L
+.49055 .25043 L
+.39985 .24854 L
+.31293 .24287 L
+.23545 .23153 L
+.16931 .2183 L
+.11262 .20129 L
+.07105 .1824 L
+.0446 .15972 L
+.03515 .13705 L
+.0446 .11437 L
+.07105 .09358 L
+.11262 .07469 L
+.16931 .05768 L
+.23545 .04445 L
+.31293 .03312 L
+.39985 .02745 L
+.49055 .02367 L
+.59826 .02745 L
+.59826 .04445 L
+.48866 .04067 L
+s
+.04649 .16161 m
+.17309 .06146 L
+.04649 .16161 L
+.04649 .16161 L
+s
+.0994 .13705 m
+.10695 .11815 L
+.12963 .10114 L
+.16553 .08414 L
+.21277 .06902 L
+.27135 .05768 L
+.33749 .04823 L
+.41119 .04256 L
+.48866 .04067 L
+.59826 .04445 L
+.59826 .06146 L
+.49055 .05579 L
+.42441 .05768 L
+.36395 .06335 L
+.30915 .07091 L
+.26002 .08036 L
+.22033 .0917 L
+.19199 .10681 L
+.17309 .12193 L
+.16553 .13705 L
+.17309 .15405 L
+.19199 .16917 L
+.22033 .1824 L
+.26002 .19563 L
+.30915 .20507 L
+.36395 .21263 L
+.42441 .2183 L
+.49055 .2183 L
+.59826 .21452 L
+.59826 .22964 L
+.48866 .23342 L
+.41119 .23153 L
+.33749 .22586 L
+.27135 .2183 L
+.21277 .20507 L
+.16553 .19185 L
+.12963 .17484 L
+.10695 .15783 L
+.0994 .13705 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Text",
+  ImageSize->{288, 80.5625},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40006`0000N1000`40n007h00Ooooo/Ooo003ooona
+ool00?oook7oo`002ooom`007oooP`003?oo000;ool00`00ooooo`3cool00`00ooooo`0Mool00`00
+ooooo`0aool8000<ool8000bool00`00ooooo`0:ool000_oo`03003ooooo0??oo`03003ooooo01go
+o`03003ooooo02goo`@001coo`<002ooo`03003ooooo00[oo`002ooo00<00?ooool0looo00<00?oo
+ool07Ooo00<00?ooool0:_oo0`008ooo0`00;?oo00<00?ooool02_oo000;ool00`00ooooo`3cool0
+0`00ooooo`0Mool00`00ooooo`0Wool3000Yool3000Yool00`00ooooo`0:ool000_oo`03003ooooo
+0??oo`03003ooooo01goo`03003ooooo02Goo`8002ooo`8002Ooo`03003ooooo00[oo`002ooo00<0
+0?ooool0looo00<00?ooool07Ooo00<00?ooool08ooo0P00<ooo0P009Ooo00<00?ooool02_oo000;
+ool00`00ooooo`2bool[000Fool00`00ooooo`0Mool00`00ooooo`0Rool00`00ooooo`0eool2000S
+ool00`00ooooo`0:ool000_oo`03003ooooo09SooaX002_ooaL001ooo`03003ooooo023oo`8003[o
+o`80027oo`03003ooooo00[oo`002ooo00<00?ooool0Rooo3@00Fooo00<00?ooool07Ooo00<00?oo
+ool07ooo00<00?ooool06Ooo1P007Ooo00<00?ooool07_oo00<00?ooool02_oo000;ool00`00oooo
+o`1oool<001Xool00`00ooooo`0Mool00`00ooooo`0Nool00`00ooooo`0Eool50006ool5000Iool0
+0`00ooooo`0Mool00`00ooooo`0:ool000_oo`03003ooooo07Koo`T007Coo`03003ooooo01goo`03
+003ooooo01goo`03003ooooo01;oo`@0013oo`@001Koo`03003ooooo01coo`03003ooooo00[oo`00
+2ooo00<00?ooool0Kooo1`00OOoo00<00?ooool07Ooo00<00?ooool07?oo00<00?ooool03ooo1000
+6?oo10004ooo00<00?ooool06ooo00<00?ooool02_oo000;ool00`00ooooo`1Xool70024ool00`00
+ooooo`0Mool00`00ooooo`0Kool00`00ooooo`0=ool3000Pool3000Aool00`00ooooo`0Jool00`00
+ooooo`0:ool000_oo`03003ooooo06;oo`H004cooad002;oo`03003ooooo01goo`03003ooooo01[o
+o`03003ooooo00coo`8002Koo`80013oo`03003ooooo01Woo`03003ooooo00[oo`002ooo00<00?oo
+ool0Fooo1`00>Ooo6@007Ooo5`002ooo00<00?ooool07Ooo00<00?ooool06Ooo00<00?ooool02_oo
+0`00:_oo0P003ooo00<00?ooool06?oo00<00?ooool02_oo000;ool00`00ooooo`1Eool6000`ool@
+001=ool<000Oool00`00ooooo`0Hool00`00ooooo`09ool2000_ool2000>ool00`00ooooo`0Gool0
+0`00ooooo`0:ool000_oo`03003ooooo04ooo`H002_oo`/006Soo`03003ooooo01goo`03003ooooo
+01Ooo`03003ooooo00Woo`03003ooooo037oo`8000goo`03003ooooo01Koo`03003ooooo00[oo`00
+2ooo00<00?ooool0BOoo1P00:_oo1`00Looo00<00?ooool07Ooo00<00?ooool05ooo00<00?ooool0
+2?oo00<00?ooool05_oo20005_oo00<00?ooool02_oo00<00?ooool05_oo00<00?ooool02_oo000;
+ool00`00ooooo`14ool5000Yool7001jool00`00ooooo`0Mool00`00ooooo`0Fool00`00ooooo`08
+ool00`00ooooo`0Aool60008ool5000Bool00`00ooooo`0:ool00`00ooooo`0Eool00`00ooooo`0:
+ool000_oo`03003ooooo03koo`H002Ooo`L0087oo`03003ooooo01goo`03003ooooo01Goo`03003o
+oooo00Soo`03003ooooo00ooo`<001?oo`@000ooo`03003ooooo00[oo`03003ooooo01Coo`03003o
+oooo00[oo`002ooo00<00?ooool0>_oo1P0000?oo`00ool08_oo1P00>_oo;@008Ooo00<00?ooool0
+7Ooo00<00?ooool05?oo00<00?ooool02?oo00<00?ooool03Ooo0`006_oo0`003Ooo00<00?ooool0
+2_oo00<00?ooool04ooo00<00?ooool02_oo000;ool00`00ooooo`0gool300000ooo00000003ool0
+0`00ooooo`0Mool5000gool9000]oolG000:ool00`00ooooo`0Mool00`00ooooo`0Cool00`00oooo
+o`08ool00`00ooooo`0<ool2000Pool00`00ooooo`0;ool00`00ooooo`09ool00`00ooooo`0Cool0
+0`00ooooo`0:ool000_oo`03003ooooo03Coo`<000Coo`<000;oo`03003ooooo01Soo`D003?oo`T0
+04goo`/001ooo`03003ooooo01;oo`03003ooooo00Soo`03003ooooo00coo`03003ooooo027oo`80
+00coo`03003ooooo00Woo`03003ooooo01;oo`03003ooooo00[oo`002ooo00<00?ooool0<Ooo0`00
+1ooo0P000_oo00<00?ooool05?oo1@00<?oo2000H?oo00<00?ooool07Ooo00<00?ooool04Ooo00<0
+0?ooool02Ooo00<00?ooool02_oo0P009_oo00<00?ooool02Ooo00<00?ooool02_oo00<00?ooool0
+4Ooo00<00?ooool02_oo000;ool00`00ooooo`0^ool30009ool01P00ooooo`00ool0017oo`D002go
+o`P006Soo`03003ooooo01goo`03003ooooo013oo`03003ooooo00Woo`03003ooooo00Woo`8002Wo
+o`8000[oo`03003ooooo00[oo`03003ooooo013oo`03003ooooo00[oo`002ooo00<00?ooool0:ooo
+0`002ooo00<00?ooool00_oo00<00?ooool03?oo1000:_oo2000L?oo00<00?ooool07Ooo00<00?oo
+ool04?oo00<00?ooool02?oo00<00?ooool02Ooo00<00?ooool0:ooo00<00?ooool02?oo00<00?oo
+ool02Ooo00<00?ooool04?oo00<00?ooool02_oo000;ool00`00ooooo`0Xool3000<ool2000Aool3
+000Wool7001hool00`00ooooo`0Mool00`00ooooo`0?ool00`00ooooo`08ool00`00ooooo`08ool2
+000_ool00`00ooooo`08ool00`00ooooo`09ool00`00ooooo`0?ool00`00ooooo`0:ool000_oo`03
+003ooooo02Goo`<000koo`03003ooooo00koo`<002Goo`D004GooaP002;oo`03003ooooo01goo`03
+003ooooo00koo`03003ooooo00Soo`03003ooooo00Soo`03003ooooo01Coo`H001Koo`03003ooooo
+00Ooo`03003ooooo00[oo`03003ooooo00koo`03003ooooo00[oo`002ooo00<00?ooool08_oo0`00
+4?oo00<00?ooool03?oo0`008ooo1@00=?oo5P006?oo4P004?oo00<00?ooool07Ooo00<00?ooool0
+3_oo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool04?oo1@001_oo1@004_oo00<00?ooool0
+1ooo00<00?ooool02Ooo00<00?ooool03_oo00<00?ooool02_oo000;ool00`00ooooo`0Pool2000B
+ool00`00ooooo`0:ool3000Qool5000/ool=0010ool;0005ool00`00ooooo`0Mool00`00ooooo`0=
+ool00`00ooooo`07ool00`00ooooo`09ool00`00ooooo`0<ool4000@ool4000>ool00`00ooooo`08
+ool00`00ooooo`09ool00`00ooooo`0=ool00`00ooooo`0:ool000_oo`03003ooooo01goo`<001;o
+o`8000[oo`<001ooo`D002[oo`L005Soo`H001ooo`03003ooooo00coo`03003ooooo00Soo`03003o
+oooo00Soo`03003ooooo00coo`03003ooooo01Koo`03003ooooo00coo`03003ooooo00Ooo`03003o
+oooo00[oo`03003ooooo00coo`03003ooooo00[oo`002ooo00<00?ooool06ooo0P005?oo00<00?oo
+ool01ooo0`007ooo0`00:Ooo1P00I?oo00<00?ooool07Ooo00<00?ooool03?oo00<00?ooool01ooo
+00<00?ooool02?oo00<00?ooool02ooo0P006_oo0P003Ooo00<00?ooool01ooo00<00?ooool02Ooo
+00<00?ooool03?oo00<00?ooool02_oo000;ool00`00ooooo`0Iool2000Eool00`00ooooo`06ool2
+000Nool4000Vool6001Zool00`00ooooo`0Mool01@00oooooooo00002Ooo00<00?ooool02?oo00<0
+0?ooool02?oo00<00?ooool02_oo00<00?ooool07?oo00<00?ooool02ooo00<00?ooool01ooo00<0
+0?ooool02Ooo00<00?ooool02ooo00<00?ooool02_oo000;ool00`00ooooo`0Gool2000Fool00`00
+ooooo`05ool2000Mool3000Uool5000iool?000Xool00`00ooooo`0Mool01@00oooooooo00002?oo
+00<00?ooool02?oo00<00?ooool02?oo00<00?ooool02Ooo0P008?oo0P003?oo00<00?ooool01_oo
+00<00?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo000;ool00`00ooooo`0Dool3000Fool2
+0005ool3000Lool3000Sool5000^ool@000?ool=000Kool00`00ooooo`0Mool01@00oooooooo0000
+2?oo00<00?ooool02?oo00<00?ooool01ooo00<00?ooool02Ooo00<00?ooool08_oo00<00?ooool0
+2_oo00<00?ooool01_oo00<00?ooool02Ooo00<00?ooool02_oo00<00?ooool02_oo000;ool00`00
+ooooo`0Bool2000Hool00`00ooooo`03ool2000Lool30002ool2000Mool5000Wool<000/ool<000?
+ool00`00ooooo`0Mool01@00oooooooo00002?oo00<00?ooool01ooo00<00?ooool02?oo00<00?oo
+ool02?oo00<00?ooool09?oo00<00?ooool02Ooo00<00?ooool01_oo00<00?ooool02Ooo00<00?oo
+ool02_oo00<00?ooool02_oo000;ool00`00ooooo`0@ool2000Iool00`00ooooo`02ool2000Lool2
+0002ool300000ooo003oo`0Iool3000Uool70014ool;0004ool00`00ooooo`0Mool00`00ooooo`02
+ool00`00ooooo`04ool00`00ooooo`08ool00`00ooooo`07ool00`00ooooo`09ool00`00ooooo`0@
+ool4000@ool00`00ooooo`0:ool00`00ooooo`06ool00`00ooooo`09ool00`00ooooo`09ool00`00
+ooooo`0:ool000_oo`03003ooooo00ooo`03003ooooo01Soo`03003ooooo00<001coo`8000;oo`80
+00?oo`03003ooooo01Goo`@002;oo`H005Koo`D001ooo`03003ooooo00;oo`03003ooooo00Coo`03
+003ooooo00Ooo`03003ooooo00Soo`03003ooooo00Soo`03003ooooo00[oo`L000Coo`H000_oo`03
+003ooooo00Woo`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo00Woo`03003ooooo00[oo`00
+2ooo00<00?ooool03_oo00<00?ooool05ooo0P0000?oo`0000007Ooo0P001?oo0`000_oo00<00?oo
+ool04_oo0`008_oo1000H?oo00<00?ooool07Ooo00<00?ooool00_oo00<00?ooool01?oo00<00?oo
+ool01ooo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool02_oo00<00?ooool03ooo0P002Ooo
+00<00?ooool02_oo00<00?ooool01_oo00<00?ooool02?oo00<00?ooool02Ooo00<00?ooool02_oo
+000;ool00`00ooooo`0=ool00`00ooooo`0Gool01000ool000007Ooo0P001_oo0P000_oo00<00?oo
+ool04?oo0`008Ooo1000I?oo00<00?ooool07Ooo00<00?ooool00_oo00<00?ooool00ooo00<00?oo
+ool01ooo00<00?ooool02?oo00<00?ooool02?oo00<00?ooool02?oo0P005?oo00<00?ooool01ooo
+00<00?ooool02Ooo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool02?oo00<00?ooool02_oo
+000;ool00`00ooooo`0;ool2000Iool00`00ool0000Mool20007ool01P00ooooo`00ool0013oo`80
+023oo`@006Soo`03003ooooo01goo`03003ooooo00;oo`03003ooooo00?oo`03003ooooo00Ooo`03
+003ooooo00Ooo`03003ooooo00Soo`03003ooooo00Soo`03003ooooo01Goo`03003ooooo00Ooo`03
+003ooooo00Woo`03003ooooo00Koo`03003ooooo00Soo`03003ooooo00Soo`03003ooooo00[oo`00
+2ooo00<00?ooool02_oo00<00?ooool06?oo00<00?oo00007?oo0P002?oo00<00?ooool00_oo00<0
+0?ooool03Ooo0P007ooo0`00;Ooo8`007?oo00<00?ooool07Ooo00<00?ooool00ooo00<00?ooool0
+0_oo00<00?ooool01ooo00<00?ooool01ooo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool0
+5ooo00<00?ooool01_oo00<00?ooool02Ooo00<00?ooool01_oo00<00?ooool02?oo00<00?ooool0
+2?oo00<00?ooool02_oo000;ool00`00ooooo`09ool00`00ooooo`0Gool4000Lool00`00ooooo`07
+ool2000Bool2000Nool3000Vool:000Sool7000Eool00`00ooooo`0Mool00`00ooooo`03ool01@00
+oooooooo00002Ooo00<00?ooool02?oo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool05ooo
+00<00?ooool01ooo00<00?ooool02Ooo00<00?ooool01_oo00<00?ooool02?oo00<00?ooool01ooo
+00<00?ooool02_oo000;ool00`00ooooo`08ool00`00ooooo`0Gool01@00ool00?oo00006ooo00<0
+0?ooool01_oo0P0000?oo`00ool03ooo0P007Ooo0`008_oo1`00=?oo1P003ooo00<00?ooool07Ooo
+00<00?ooool00ooo00D00?ooooooo`0000Woo`03003ooooo00Ooo`03003ooooo00Ooo`03003ooooo
+00Soo`03003ooooo01Woo`03003ooooo00Koo`03003ooooo00Woo`03003ooooo00Koo`03003ooooo
+00Soo`03003ooooo00Ooo`03003ooooo00[oo`002ooo00<00?ooool01ooo00<00?ooool05ooo00<0
+0?oo00000ooo00<00?ooool05ooo00<00?ooool01_oo00<00?ooool00_oo00<00?ooool03?oo00<0
+0?ooool06_oo0`008Ooo1000@Ooo1@002_oo00<00?ooool07Ooo00<00?ooool00ooo00D00?oooooo
+o`0000Woo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo00Woo`03003ooooo01[oo`03003o
+oooo00Koo`03003ooooo00Woo`03003ooooo00Goo`03003ooooo00Soo`03003ooooo00Ooo`03003o
+oooo00[oo`002ooo00<00?ooool01_oo00<00?ooool05_oo0P0000?oo`00ool01?oo00<00?ooool0
+5Ooo00<00?ooool01_oo00<00?ooool01?oo00<00?ooool02_oo00<00?ooool06?oo0`008Ooo0`00
+B_oo10001_oo00<00?ooool07Ooo00<00?ooool00ooo00D00?ooooooo`0000Soo`03003ooooo00So
+o`03003ooooo00Koo`03003ooooo00Soo`03003ooooo00[oo`@000koo`03003ooooo00Goo`03003o
+oooo00Woo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Ooo`03003ooooo00[oo`002ooo
+00<00?ooool01_oo00<00?ooool05Ooo00@00?ooool000Koo`03003ooooo01Coo`03003ooooo00Ko
+o`03003ooooo00Koo`03003ooooo00Soo`03003ooooo01Ooo`80027oo`<0057oo`<000?oo`03003o
+oooo01goo`03003ooooo00Coo`04003ooooo0008ool00`00ooooo`07ool00`00ooooo`07ool00`00
+ooooo`07ool00`00ooooo`09ool20004ool2000<ool00`00ooooo`05ool00`00ooooo`09ool00`00
+ooooo`06ool00`00ooooo`07ool00`00ooooo`07ool00`00ooooo`0:ool000_oo`03003ooooo00Go
+o`03003ooooo01Goo`05003oooooool00007ool00`00ooooo`0Bool00`00ooooo`05ool2000:ool0
+0`00ooooo`06ool00`00ooooo`0Gool00`00ooooo`0Nool3001Gool4000Oool00`00ooooo`04ool0
+1000ooooo`002?oo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool01ooo00<00?ooool02Ooo
+00<00?ooool01_oo00<00?ooool02_oo00<00?ooool01Ooo00<00?ooool02Ooo00<00?ooool01Ooo
+00<00?ooool01ooo00<00?ooool01ooo00<00?ooool02_oo000;ool00`00ooooo`05ool00`00oooo
+o`0Dool01@00oooooooo00002Ooo00<00?ooool04?oo00<00?ooool01Ooo00<00?ooool02_oo00<0
+0?ooool01Ooo00<00?ooool05ooo00<00?ooool07Ooo0P00:Ooo3000:?oo00<00?ooool07Ooo00<0
+0?ooool01?oo00@00?ooool000Soo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo00Ooo`03
+003ooooo00Soo`03003ooooo00Soo`03003ooooo00Woo`03003ooooo00Goo`03003ooooo00Woo`03
+003ooooo00Goo`03003ooooo00Ooo`03003ooooo00Ooo`03003ooooo00[oo`002ooo00<00?ooool0
+1?oo00<00?ooool04ooo0P001?oo00<00?ooool02?oo00<00?ooool03ooo00<00?ooool01?oo00<0
+0?ooool03?oo00<00?ooool00ooo00<00?ooool05ooo00<00?ooool07?oo0P008_oo2@003?oo2P00
+7_oo00<00?ooool07Ooo00<00?ooool01?oo00<00?oo00002Ooo00<00?ooool01ooo00<00?ooool0
+1_oo00<00?ooool01ooo00<00?ooool01ooo00<00?ooool02_oo00<00?ooool02Ooo00<00?ooool0
+1?oo00<00?ooool02Ooo00<00?ooool01Ooo00<00?ooool02?oo00<00?ooool01_oo00<00?ooool0
+2_oo000;ool00`00ooooo`04ool00`00ooooo`0Bool00`00ooooo`03ool00`00ooooo`09ool00`00
+ooooo`0>ool00`00ooooo`04ool00`00ooooo`0>ool01@00oooooooo00006Ooo00<00?ooool06ooo
+0P007_oo1P007ooo1@006Ooo00<00?ooool07Ooo00<00?ooool01?oo00<00?oo00002?oo00<00?oo
+ool02?oo00<00?ooool01_oo00<00?ooool01_oo00<00?ooool01ooo00<00?ooool02ooo00<00?oo
+ool02Ooo00<00?ooool01Ooo00<00?ooool02?oo00<00?ooool01_oo00<00?ooool01ooo00<00?oo
+ool01_oo00<00?ooool02_oo000;ool00`00ooooo`04ool00`00ooooo`0Aool00`00ooooo`04ool0
+0`00ooooo`0:ool00`00ooooo`0=ool00`00ooooo`03ool00`00ooooo`0@ool01000ool000006Ooo
+00<00?ooool06_oo00<00?ooool06ooo0`00:_oo0`005_oo00<00?ooool07Ooo00<00?ooool01Ooo
+0P002?oo00<00?ooool01ooo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool01_oo00<00?oo
+ool03Ooo00<00?ooool02Ooo00<00?ooool01?oo00<00?ooool02?oo00<00?ooool01_oo00<00?oo
+ool01ooo00<00?ooool01_oo00<00?ooool02_oo000;ool00`00ooooo`03ool00`00ooooo`0Aool0
+0`00ooooo`04ool00`00ooooo`0<ool00`00ooooo`0;ool00`00ooooo`02ool2000Dool3000Iool0
+0`00ooooo`0Iool00`00ooooo`0Jool2000`ool2000Dool00`00ooooo`0Mool00`00ooooo`05ool2
+0008ool00`00ooooo`07ool00`00ooooo`06ool00`00ooooo`07ool00`00ooooo`06ool00`00oooo
+o`0=ool00`00ooooo`09ool00`00ooooo`04ool00`00ooooo`08ool00`00ooooo`06ool00`00oooo
+o`07ool00`00ooooo`06ool00`00ooooo`0:ool000_oo`03003ooooo00?oo`03003ooooo00ooo`80
+00Ooo`03003ooooo00goo`03003ooooo00[oo`05003oooooool0000Eool20002ool00`00ooooo`0E
+ool00`00ooooo`0Jool00`00ooooo`0Iool00`00ooooo`0bool00`00ooooo`0Aool00`00ooooo`0M
+ool00`00ooooo`05ool20008ool00`00ooooo`07ool00`00ooooo`06ool00`00ooooo`07ool00`00
+ooooo`05ool01000oooooooo20001_oo00<00?ooool02?oo00<00?ooool01Ooo00<00?ooool01ooo
+00<00?ooool01_oo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool02_oo000;ool00`00oooo
+o`02ool00`00ooooo`0?ool00`00ooooo`06ool00`00ooooo`0>ool00`00ooooo`09ool01@00oooo
+oooo00005Ooo0P000ooo00<00?ooool05Ooo00<00?ooool06Ooo00<00?ooool06Ooo00<00?ooool0
+=?oo00<00?ooool04?oo00<00?ooool07Ooo00<00?ooool01Ooo0P002?oo00<00?ooool01ooo00<0
+0?ooool01_oo00<00?ooool01ooo00<00?ooool01Ooo00D00?ooooooo`0000Coo`03003ooooo00Ko
+o`03003ooooo00Soo`03003ooooo00Goo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo00Oo
+o`03003ooooo00Koo`03003ooooo00[oo`002ooo00<00?ooool00_oo00<00?ooool03_oo00<00?oo
+ool01ooo00<00?ooool03ooo00<00?ooool02?oo00@00?ooool001Ooo`<00003ool00?oo01Koo`03
+003ooooo01Woo`03003ooooo01Woo`03003ooooo03Coo`03003ooooo013oo`03003ooooo01goo`03
+003ooooo00Goo`8000Soo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo
+00Goo`04003oooooool50009ool00`00ooooo`08ool00`00ooooo`05ool00`00ooooo`07ool00`00
+ooooo`06ool00`00ooooo`07ool00`00ooooo`06ool00`00ooooo`0:ool000_oo`03003ooooo00?o
+o`03003ooooo00coo`03003ooooo00Woo`03003ooooo00ooo`03003ooooo00Soo`8001Woo`03003o
+o`00008001Koo`03003ooooo01Woo`03003ooooo01[oo`03003ooooo03;oo`03003ooooo017oo`03
+003ooooo01goo`03003ooooo00Goo`8000Soo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo
+00Ooo`03003ooooo00Goo`@00003ool0000000_oo`03003ooooo00Soo`03003ooooo00Goo`03003o
+oooo00Ooo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Koo`03003ooooo00[oo`002ooo
+00<00?ooool00ooo00<00?ooool02_oo0P003?oo00<00?ooool04?oo00<00?ooool01_oo0P006_oo
+00D00?ooooooo`0001Ooo`03003ooooo01Woo`03003ooooo01Woo`03003ooooo037oo`03003ooooo
+01;oo`03003ooooo01goo`03003ooooo00Koo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo
+00Koo`03003ooooo00Ooo`04003oooooool400000ooo003oo`02ool00`00ooooo`09ool00`00oooo
+o`09ool00`00ooooo`04ool00`00ooooo`08ool00`00ooooo`06ool00`00ooooo`07ool00`00oooo
+o`06ool00`00ooooo`0:ool000_oo`03003ooooo00?oo`03003ooooo00Woo`03003ooooo00goo`03
+003ooooo00ooo`03003ooooo00Goo`03003oo`0001_oo`03003ooooo01Soo`03003ooooo01Woo`80
+01_oo`@002coo`<001Goo`03003ooooo01goo`03003ooooo00Koo`03003ooooo00Koo`03003ooooo
+00Ooo`03003ooooo00Ooo`03003ooooo00Koo`@000Goo`03003ooooo00goo`03003ooooo00Woo`03
+003ooooo00Coo`03003ooooo00Soo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Koo`03
+003ooooo00[oo`002ooo00<00?ooool01?oo00<00?ooool01ooo00<00?ooool03_oo00<00?ooool0
+4?oo00<00?ooool00ooo00D00?ooooooo`0001[oo`03003ooooo01Soo`8001coo`03003ooooo01co
+o`D002;oo`D001Soo`03003ooooo01goo`03003ooooo00Koo`03003ooooo00Koo`03003ooooo00So
+o`03003ooooo00Koo`03003ooooo00;oo`D000Soo`03003ooooo00goo`03003ooooo00Woo`03003o
+oooo00Coo`03003ooooo00Soo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Koo`03003o
+oooo00[oo`002ooo00<00?ooool00_oo00<00?oo00002?oo00<00?ooool03ooo00<00?ooool04Ooo
+00D00?ooooooo`0000Coo`03003ooooo01Woo`03003ooooo01Woo`03003ooooo01[oo`<0023oo`D0
+01Soo`D001goo`03003ooooo01goo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Ooo`03
+003ooooo00Koo`D000Coo`03003ooooo00Ooo`03003ooooo00_oo`03003ooooo00Woo`03003ooooo
+00Goo`03003ooooo00Soo`03003ooooo00Goo`03003ooooo00Soo`03003ooooo00Koo`03003ooooo
+00[oo`002ooo00<00?ooool00_oo00@00?ooool000Goo`8001?oo`03003ooooo017oo`03003oo`00
+00Goo`03003ooooo01[oo`03003ooooo01Woo`03003ooooo01coo`<002;ooaP002;oo`03003ooooo
+01goo`03003ooooo00Koo`8000Soo`03003ooooo00Ooo`03003ooooo00;oo`D000Woo`03003ooooo
+00Ooo`8000[oo`8000_oo`03003ooooo00Coo`03003ooooo00Woo`03003ooooo00Goo`03003ooooo
+00Ooo`03003ooooo00Ooo`03003ooooo00[oo`002ooo00<00?ooool00ooo00<00?oo00001?oo00<0
+0?ooool04ooo00<00?ooool04Ooo00<00?ooool01_oo0P006ooo00<00?ooool06Ooo00<00?ooool0
+7_oo0`00F?oo0P007ooo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool01ooo1@001?oo00<0
+0?ooool01ooo00<00?ooool02Ooo00<00?ooool01_oo00<00?ooool02_oo00<00?ooool01Ooo00<0
+0?ooool02Ooo00<00?ooool01Ooo00<00?ooool01ooo00<00?ooool01ooo00<00?ooool02_oo000;
+ool00`00ooooo`04ool20003ool00`00ooooo`0Eool2000Bool00`00ooooo`07ool00`00ooooo`0I
+ool00`00ooooo`0Iool2000Qool3001Bool300000ooo003oo`0Nool00`00ooooo`07ool00`00oooo
+o`06ool00`00ooooo`04ool40008ool00`00ooooo`07ool00`00ooooo`0:ool8000=ool00`00oooo
+o`05ool00`00ooooo`09ool00`00ooooo`05ool00`00ooooo`07ool00`00ooooo`07ool00`00oooo
+o`0:ool000_oo`03003ooooo00Goo`@001[oo`03003ooooo013oo`03003ooooo00Ooo`03003ooooo
+01Woo`03003ooooo01[oo`8002;oo`<004coo`<000Coo`03003ooooo01goo`03003ooooo00Ooo`03
+003ooooo00Koo`03003ooooo00@000?oo`03003ooooo00Ooo`03003ooooo00Ooo`03003ooooo01go
+o`03003ooooo00Koo`03003ooooo00Soo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Oo
+o`03003ooooo00[oo`002ooo00<00?ooool01Ooo00@00?oo000001_oo`03003ooooo013oo`03003o
+oooo00Ooo`8001[oo`03003ooooo01_oo`8002?oo`@004Coo`@000Ooo`03003ooooo01goo`03003o
+oooo00Ooo`03003ooooo00Goo`@000Soo`03003ooooo00Koo`03003ooooo00Soo`03003ooooo01co
+o`03003ooooo00Goo`03003ooooo00Woo`03003ooooo00Koo`03003ooooo00Ooo`03003ooooo00Oo
+o`03003ooooo00[oo`002ooo00<00?ooool01_oo00@00?ooool001_oo`03003ooooo00ooo`03003o
+oooo00Woo`03003ooooo01Soo`8001goo`8002Goo`L003Soo`D000_oo`03003ooooo01goo`03003o
+oooo00Ooo`04003oooooool40002ool00`00ooooo`07ool00`00ooooo`06ool00`00ooooo`08ool0
+0`00ooooo`0Kool00`00ooooo`06ool00`00ooooo`08ool00`00ooooo`06ool00`00ooooo`08ool0
+0`00ooooo`07ool00`00ooooo`0:ool000_oo`03003ooooo00Ooo`04003ooooo000Kool00`00oooo
+o`0?ool01000ooooo`002?oo00<00?ooool06Ooo0`007?oo0`00:Ooo2P009Ooo2@004?oo00<00?oo
+ool07Ooo00<00?ooool01ooo10001_oo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool02Ooo
+00<00?ooool06Ooo00<00?ooool01ooo00<00?ooool02?oo00<00?ooool01_oo00<00?ooool02?oo
+00<00?ooool01ooo00<00?ooool02_oo000;ool00`00ooooo`08ool01000ooooo`006ooo00<00?oo
+ool03ooo00<00?oo00002Ooo0P007?oo0P007Ooo0`00<?oo9@006Ooo00<00?ooool07Ooo00<00?oo
+ool01ooo0P002?oo00<00?ooool02?oo00<00?ooool01_oo00<00?ooool02Ooo0P006?oo00<00?oo
+ool01ooo00<00?ooool02Ooo00<00?ooool01_oo00<00?ooool02?oo00<00?ooool01ooo00<00?oo
+ool02_oo000;ool00`00ooooo`09ool01000ooooo`006ooo00<00?ooool03ooo00<00?oo00002_oo
+0P007?oo0`007Ooo0`00Jooo00<00?ooool07Ooo00<00?ooool02?oo00<00?ooool01ooo00<00?oo
+ool01ooo00<00?ooool01ooo00<00?ooool02_oo00<00?ooool05?oo00<00?ooool01ooo00<00?oo
+ool02Ooo00<00?ooool01_oo00<00?ooool02?oo00<00?ooool02?oo00<00?ooool02_oo000;ool0
+0`00ooooo`09ool01@00oooooooo00006ooo00<00?ooool03Ooo00@00?ooool000coo`8001goo`<0
+01goo`D006Koo`03003ooooo01goo`03003ooooo00Soo`03003ooooo00Ooo`03003ooooo00Ooo`03
+003ooooo00Soo`03003ooooo00[oo`8001;oo`8000[oo`03003ooooo00Woo`03003ooooo00Koo`03
+003ooooo00Soo`03003ooooo00Soo`03003ooooo00[oo`002ooo00<00?ooool02_oo00D00?oooooo
+o`0001_oo`8000coo`8000?oo`03003ooooo00_oo`8001koo`<001ooo`H0063oo`03003ooooo01go
+o`03003ooooo00Soo`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo00Ooo`03003ooooo00co
+o`03003ooooo00goo`8000_oo`03003ooooo00Woo`03003ooooo00Ooo`03003ooooo00Soo`03003o
+oooo00Soo`03003ooooo00[oo`002ooo00<00?ooool02ooo00D00?ooooooo`0001coo`8000coo`80
+0003ool00?oo00koo`8001ooo`@0027oo`L005Goo`D001ooo`03003ooooo00Woo`03003ooooo00Oo
+o`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo00coo`<000[oo`8000goo`03003ooooo00Wo
+o`03003ooooo00Koo`03003ooooo00Soo`03003ooooo00Woo`03003ooooo00[oo`002ooo00<00?oo
+ool03?oo00D00?ooooooo`0001goo`<000_oo`80017oo`80027oo`<002Goo`L004Ooo`L000Coo`03
+003ooooo01goo`03003ooooo00Woo`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo00Soo`03
+003ooooo00koo`X000koo`03003ooooo00Woo`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo
+00Woo`03003ooooo00[oo`002ooo00<00?ooool03?oo00<00?ooool00_oo0P007_oo0P002ooo00<0
+0?ooool04?oo0`008Ooo1000:?oo3000=?oo1`002ooo00<00?ooool07Ooo00<00?ooool02Ooo00<0
+0?ooool01ooo00<00?ooool02?oo00<00?ooool02Ooo0P009?oo0P003?oo00<00?ooool01ooo00<0
+0?ooool02?oo00<00?ooool02Ooo00<00?ooool02_oo000;ool00`00ooooo`0=ool00`00ooooo`03
+ool2000Nool2000Oool3000Rool4000`oold000Bool00`00ooooo`0Mool00`00ooooo`09ool20009
+ool00`00ooooo`08ool00`00ooooo`0:ool00`00ooooo`0Pool00`00ooooo`0;ool00`00ooooo`07
+ool00`00ooooo`08ool00`00ooooo`0:ool00`00ooooo`0:ool000_oo`03003ooooo00koo`03003o
+oooo00Coo`<001goo`<001ooo`@002;oo`@007;oo`03003ooooo01goo`03003ooooo00Woo`8000Wo
+o`03003ooooo00Soo`03003ooooo00_oo`8001koo`8000koo`03003ooooo00Koo`03003ooooo00Wo
+o`03003ooooo00[oo`03003ooooo00[oo`002ooo00<00?ooool03ooo00<00?ooool01_oo0P007_oo
+0P008Ooo0`008ooo1000K_oo00<00?ooool07Ooo00<00?ooool02Ooo0P002_oo00<00?ooool02?oo
+00<00?ooool03?oo00<00?ooool06_oo00<00?ooool03Ooo00<00?ooool01_oo00<00?ooool02_oo
+00<00?ooool02_oo00<00?ooool02_oo000;ool00`00ooooo`0?ool00`00ooooo`08ool2000Nool3
+000Qool3000Tool7001Wool00`00ooooo`0Mool00`00ooooo`0:ool2000:ool00`00ooooo`08ool0
+0`00ooooo`0<ool2000Hool2000?ool00`00ooooo`07ool00`00ooooo`09ool00`00ooooo`0;ool0
+0`00ooooo`0:ool000_oo`03003ooooo013oo`03003ooooo00Woo`8001ooo`<0027oo`@002Ooo`T0
+05[oo`D001ooo`03003ooooo00[oo`03003oo`0000Woo`03003ooooo00Soo`03003ooooo00koo`03
+003ooooo01Coo`03003ooooo00koo`03003ooooo00Ooo`03003ooooo00Woo`03003ooooo00coo`03
+003ooooo00[oo`002ooo00<00?ooool04Ooo00<00?ooool02_oo0`007ooo0`008_oo1000;?oo2P00
+B?oo20001?oo00<00?ooool07Ooo00<00?ooool02_oo00<00?oo00002_oo00<00?ooool02?oo00<0
+0?ooool03_oo10003_oo10004?oo00<00?ooool01ooo00<00?ooool02_oo00<00?ooool03?oo00<0
+0?ooool02_oo000;ool00`00ooooo`0Bool00`00ooooo`0<ool2000Pool4000Rool5000aool:000g
+ool7000<ool00`00ooooo`0Mool00`00ooooo`0:ool01000ooooo`002Ooo00<00?ooool02Ooo0P00
+4_oo1@001?oo1@004ooo00<00?ooool02?oo00<00?ooool02Ooo00<00?ooool03Ooo00<00?ooool0
+2_oo000;ool00`00ooooo`0Bool00`00ooooo`0>ool3000Qool3000Tool4000goolg000Cool00`00
+ooooo`0Mool00`00ooooo`0:ool01000ooooo`002_oo00<00?ooool02_oo00<00?ooool05?oo1000
+5ooo00<00?ooool02?oo00<00?ooool02_oo00<00?ooool03Ooo00<00?ooool02_oo000;ool00`00
+ooooo`0Cool00`00ooooo`0@ool3000Qool3000Uool4001mool00`00ooooo`0Mool00`00ooooo`0;
+ool01000ooooo`002_oo00<00?ooool02_oo00<00?ooool0;Ooo00<00?ooool02?oo00<00?ooool0
+2_oo00<00?ooool03_oo00<00?ooool02_oo000;ool00`00ooooo`0Dool00`00ooooo`0Bool4000P
+ool5000Tool6001gool00`00ooooo`0Mool00`00ooooo`0;ool01@00oooooooo00002_oo00<00?oo
+ool02_oo00<00?ooool0:ooo00<00?ooool02Ooo00<00?ooool02Ooo00<00?ooool03ooo00<00?oo
+ool02_oo000;ool00`00ooooo`0Eool00`00ooooo`0Eool3000Rool5000Uool8001_ool00`00oooo
+o`0Mool00`00ooooo`0;ool01@00oooooooo00002_oo00<00?ooool02ooo00<00?ooool0:Ooo00<0
+0?ooool02Ooo00<00?ooool02_oo00<00?ooool03ooo00<00?ooool02_oo000;ool00`00ooooo`0F
+ool00`00ooooo`0Gool3000Tool5000Xool8001Wool00`00ooooo`0Mool00`00ooooo`0;ool00`00
+ooooo`02ool00`00ooooo`08ool00`00ooooo`0;ool2000Wool2000<ool00`00ooooo`09ool00`00
+ooooo`0@ool00`00ooooo`0:ool000_oo`03003ooooo01Koo`03003ooooo01[oo`@002Goo`D002_o
+o`/005coo`03003ooooo01goo`03003ooooo00_oo`03003ooooo00;oo`03003ooooo00Woo`03003o
+oooo00coo`<002;oo`8000goo`03003ooooo00[oo`03003ooooo013oo`03003ooooo00[oo`002ooo
+00<00?ooool05ooo00D00?ooooooo`0001_oo`<002Ooo`D0037oo`d003SooaP001ooo`03003ooooo
+00coo`03003ooooo00;oo`03003ooooo00Woo`8000ooo`8001koo`8000goo`8000coo`03003ooooo
+017oo`03003ooooo00[oo`002ooo00<00?ooool06?oo00@00?ooool001koo`@002Soo`L003OoocP0
+01Ooo`03003ooooo01goo`03003ooooo00coo`03003ooooo00?oo`03003ooooo00[oo`03003ooooo
+00koo`<001Soo`<000koo`03003ooooo00_oo`03003ooooo01;oo`03003ooooo00[oo`002ooo00<0
+0?ooool06Ooo0`008_oo1@00:_oo2@00OOoo00<00?ooool07Ooo00<00?ooool03?oo00<00?ooool0
+1?oo00<00?ooool02_oo00<00?ooool04?oo0`004Ooo10003ooo0P003Ooo00<00?ooool04ooo00<0
+0?ooool02_oo000;ool00`00ooooo`0Iool01000ooooo`009_oo1@00;_oo2@00M?oo00<00?ooool0
+7Ooo00<00?ooool03?oo00<00?ooool01Ooo00<00?ooool02_oo00<00?ooool04_oo1P001_oo1@00
+4_oo00<00?ooool03Ooo00<00?ooool04ooo00<00?ooool02_oo000;ool00`00ooooo`0Hool20002
+ool00`00ooooo`0Yool5000bool:001Zool00`00ooooo`0Mool00`00ooooo`0<ool00`00ooooo`06
+ool00`00ooooo`0:ool00`00ooooo`0Gool6000Fool00`00ooooo`0=ool00`00ooooo`0Dool00`00
+ooooo`0:ool000_oo`03003ooooo01[oo`<0033oo`D003Ooo`/005ooo`03003ooooo01goo`03003o
+oooo00goo`03003ooooo00Koo`03003ooooo00[oo`80037oo`8000ooo`03003ooooo01Goo`03003o
+oooo00[oo`002ooo00<00?ooool07?oo0P00=?oo1@00?Ooo2`00B?oo3@007ooo00<00?ooool03?oo
+0`002?oo0P003?oo0P00;Ooo0P003ooo0P006?oo00<00?ooool02_oo000;ool00`00ooooo`0Mool0
+0`00ooooo`0gool50013oolF000KoolG000<ool00`00ooooo`0Mool00`00ooooo`0:ool200000ooo
+0000000:ool00`00ooooo`0;ool3000Xool2000@ool00`00ooooo`0Hool00`00ooooo`0:ool000_o
+o`03003ooooo05coo`L005;ooa/002?oo`03003ooooo01goo`03003ooooo00[oo`05003oooooool0
+000;ool00`00ooooo`0=ool2000Tool2000Aool00`00ooooo`0Iool00`00ooooo`0:ool000_oo`03
+003ooooo06?oo`L008Woo`03003ooooo01goo`03003ooooo00_oo`04003ooooo000<ool00`00oooo
+o`0>ool2000Pool2000Bool00`00ooooo`0Jool00`00ooooo`0:ool000_oo`03003ooooo06[oo`H0
+08?oo`03003ooooo01goo`03003ooooo00coo`03003oo`0000goo`03003ooooo00ooo`<001[oo`<0
+01?oo`03003ooooo01_oo`03003ooooo00[oo`002ooo00<00?ooool0L?oo1`00O?oo00<00?ooool0
+7Ooo00<00?ooool03?oo00<00?oo00003_oo00<00?ooool04Ooo0`005?oo0`005Ooo00<00?ooool0
+7?oo00<00?ooool02_oo000;ool00`00ooooo`1gool<001`ool00`00ooooo`0Mool00`00ooooo`0=
+ool2000?ool00`00ooooo`0Cool60008ool6000Gool00`00ooooo`0Mool00`00ooooo`0:ool000_o
+o`03003ooooo08?ooa<005goo`03003ooooo01goo`03003ooooo00koo`03003ooooo00koo`8001Wo
+o`P001_oo`80023oo`03003ooooo00[oo`002ooo00<00?ooool0U_oo7@00:Ooo60007ooo00<00?oo
+ool08Ooo0P00>?oo0P008_oo00<00?ooool02_oo000;ool00`00ooooo`2coolY000Gool00`00oooo
+o`0Mool00`00ooooo`0Sool2000dool2000Tool00`00ooooo`0:ool000_oo`03003ooooo0??oo`03
+003ooooo01goo`03003ooooo02Goo`03003ooooo02ooo`8002Koo`03003ooooo00[oo`002ooo00<0
+0?ooool0looo00<00?ooool07Ooo00<00?ooool09_oo0P00;Ooo0P00:?oo00<00?ooool02_oo000;
+ool00`00ooooo`3cool00`00ooooo`0Mool00`00ooooo`0Xool3000Wool3000Zool00`00ooooo`0:
+ool000_oo`03003ooooo0??oo`03003ooooo01goo`03003ooooo02_oo`@0023oo`<002goo`03003o
+oooo00[oo`002ooo00<00?ooool0looo00<00?ooool07Ooo00<00?ooool0;ooo0`006_oo0`00<?oo
+00<00?ooool02_oo000;ool00`00ooooo`3cool00`00ooooo`0Mool00`00ooooo`0bool8000:ool8
+000cool00`00ooooo`0:ool000_oooL001ooo`03003ooooo03[oo`X003_oo`03003ooooo00[oo`00
+oooo8_oo00<00?ooool0Oooo00<00?ooool02_oo003ooolRool00`00ooooo`1oool00`00ooooo`0:
+ool00?ooob;ooh<000coo`00oooo/Ooo003ooonaool00001\
+\>"],
+  ImageRangeCache->{{{0, 431}, {119.812, 0}} -> {-8.03814, -2.00575, 1.04261, \
+1.04261}}],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .22115 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.00271334 0.00532668 0.00271334 [
+[ 0 0 0 0 ]
+[ 1 .22115 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .22115 L
+0 .22115 L
+closepath
+clip
+newpath
+0 g
+.5625 Mabswid
+[ ] 0 Mabsdash
+.39927 .08463 m
+.3779 .08616 L
+.35958 .08768 L
+.34127 .08921 L
+.32601 .09226 L
+.3138 .09684 L
+.30311 .10142 L
+.29853 .106 L
+.29548 .11058 L
+.29853 .11668 L
+.30311 .12126 L
+.3138 .12584 L
+.32601 .12889 L
+.34127 .13194 L
+.35958 .135 L
+.3779 .13652 L
+.39927 .13652 L
+.42674 .13652 L
+.45116 .13347 L
+.471 .13042 L
+.48779 .12431 L
+.48779 .14415 L
+.44658 .14873 L
+.39927 .15026 L
+.36721 .15026 L
+.33822 .14721 L
+.31227 .14415 L
+.28785 .13958 L
+.26954 .13347 L
+.25427 .12737 L
+.24512 .11973 L
+.24206 .11058 L
+.24512 .10295 L
+.25427 .09531 L
+.26954 .08921 L
+.28785 .0831 L
+.31227 .07853 L
+.33822 .07395 L
+.36721 .07242 L
+.39927 .07089 L
+.44658 .07395 L
+.48779 .07853 L
+.48779 .09684 L
+.471 .09226 L
+.45116 .08921 L
+.42674 .08616 L
+.39927 .08463 L
+s
+.29548 .11058 m
+.29853 .106 L
+.30311 .10142 L
+.3138 .09684 L
+.32601 .09226 L
+.34127 .08921 L
+.35958 .08768 L
+.3779 .08616 L
+.39927 .08463 L
+.42674 .08616 L
+.45116 .08921 L
+.471 .09226 L
+.48779 .09684 L
+.48779 .12431 L
+.471 .13042 L
+.45116 .13347 L
+.42674 .13652 L
+.39927 .13652 L
+.3779 .13652 L
+.35958 .135 L
+.34127 .13194 L
+.32601 .12889 L
+.3138 .12584 L
+.30311 .12126 L
+.29853 .11668 L
+.29548 .11058 L
+s
+.45116 .11058 m
+.44658 .106 L
+.4359 .10295 L
+.41911 .09989 L
+.39927 .09837 L
+.37942 .09989 L
+.36264 .10295 L
+.35195 .106 L
+.34737 .11058 L
+.35195 .11668 L
+.36264 .11973 L
+.37942 .12279 L
+.39927 .12279 L
+.41911 .12279 L
+.4359 .11973 L
+.44658 .11668 L
+.45116 .11058 L
+s
+.34737 .11058 m
+.35195 .106 L
+.36264 .10295 L
+.37942 .09989 L
+.39927 .09837 L
+.41911 .09989 L
+.4359 .10295 L
+.44658 .106 L
+.45116 .11058 L
+.44658 .11668 L
+.4359 .11973 L
+.41911 .12279 L
+.39927 .12279 L
+.37942 .12279 L
+.36264 .11973 L
+.35195 .11668 L
+.34737 .11058 L
+s
+.19017 .11058 m
+.19475 .10142 L
+.20696 .09074 L
+.22527 .08158 L
+.25122 .07395 L
+.28175 .06784 L
+.31837 .06326 L
+.35653 .06021 L
+.39927 .05868 L
+.44505 .06021 L
+.48779 .06479 L
+.48779 .07853 L
+.44658 .07395 L
+.39927 .07089 L
+.36721 .07242 L
+.33822 .07395 L
+.31227 .07853 L
+.28785 .0831 L
+.26954 .08921 L
+.25427 .09531 L
+.24512 .10295 L
+.24206 .11058 L
+.24512 .11973 L
+.25427 .12737 L
+.26954 .13347 L
+.28785 .13958 L
+.31227 .14415 L
+.33822 .14721 L
+.36721 .15026 L
+.39927 .15026 L
+.44658 .14873 L
+.48779 .14415 L
+.48779 .15789 L
+.44505 .16247 L
+.39927 .16247 L
+.35653 .16247 L
+.31837 .15942 L
+.28175 .15484 L
+.25122 .14721 L
+.22527 .13958 L
+.20696 .13194 L
+.19475 .12126 L
+.19017 .11058 L
+s
+.03297 .11058 m
+.0406 .12889 L
+.06197 .14721 L
+.09554 .16247 L
+.14133 .17621 L
+.19475 .18689 L
+.25733 .19605 L
+.32601 .20063 L
+.4008 .20215 L
+.48779 .20063 L
+.48779 .21589 L
+.02381 .21589 L
+.02381 .00527 L
+.48779 .00527 L
+.48779 .02205 L
+.4008 .019 L
+.32601 .02205 L
+.25733 .02663 L
+.19475 .03579 L
+.14133 .04647 L
+.09554 .06021 L
+.06197 .07547 L
+.0406 .09226 L
+.03297 .11058 L
+s
+.39927 .03274 m
+.33516 .03426 L
+.27717 .03884 L
+.22375 .04647 L
+.17643 .05563 L
+.13828 .06784 L
+.10928 .08158 L
+.09096 .09531 L
+.08486 .11058 L
+.09096 .12737 L
+.10928 .1411 L
+.13828 .15484 L
+.17643 .16552 L
+.22375 .17621 L
+.27717 .18231 L
+.33516 .18689 L
+.39927 .18842 L
+.48779 .18536 L
+.48779 .20063 L
+.4008 .20215 L
+.32601 .20063 L
+.25733 .19605 L
+.19475 .18689 L
+.14133 .17621 L
+.09554 .16247 L
+.06197 .14721 L
+.0406 .12889 L
+.03297 .11058 L
+.0406 .09226 L
+.06197 .07547 L
+.09554 .06021 L
+.14133 .04647 L
+.19475 .03579 L
+.25733 .02663 L
+.32601 .02205 L
+.4008 .019 L
+.48779 .02205 L
+.48779 .03579 L
+.39927 .03274 L
+s
+.04212 .13042 m
+.14438 .04953 L
+.04212 .13042 L
+.04212 .13042 L
+s
+.08486 .11058 m
+.09096 .09531 L
+.10928 .08158 L
+.13828 .06784 L
+.17643 .05563 L
+.22375 .04647 L
+.27717 .03884 L
+.33516 .03426 L
+.39927 .03274 L
+.48779 .03579 L
+.48779 .04953 L
+.4008 .04495 L
+.34737 .04647 L
+.29853 .05105 L
+.25427 .05716 L
+.21459 .06479 L
+.18254 .07395 L
+.15965 .08616 L
+.14286 .09837 L
+.13828 .11058 L
+.14286 .12431 L
+.15965 .13652 L
+.18254 .14721 L
+.21459 .15789 L
+.25427 .16552 L
+.29853 .17163 L
+.34737 .17621 L
+.4008 .17621 L
+.48779 .17315 L
+.48779 .18536 L
+.39927 .18842 L
+.33516 .18689 L
+.27717 .18231 L
+.22375 .17621 L
+.17643 .16552 L
+.13828 .15484 L
+.10928 .1411 L
+.09096 .12737 L
+.08486 .11058 L
+s
+.39927 .05868 m
+.35653 .06021 L
+.31837 .06326 L
+.28175 .06784 L
+.25122 .07395 L
+.22527 .08158 L
+.20696 .09074 L
+.19475 .10142 L
+.19017 .11058 L
+.19475 .12126 L
+.20696 .13194 L
+.22527 .13958 L
+.25122 .14721 L
+.28175 .15484 L
+.31837 .15942 L
+.35653 .16247 L
+.39927 .16247 L
+.44505 .16247 L
+.48779 .15789 L
+.48779 .17315 L
+.4008 .17621 L
+.34737 .17621 L
+.29853 .17163 L
+.25427 .16552 L
+.21459 .15789 L
+.18254 .14721 L
+.15965 .13652 L
+.14286 .12431 L
+.13828 .11058 L
+.14286 .09837 L
+.15965 .08616 L
+.18254 .07395 L
+.21459 .06479 L
+.25427 .05716 L
+.29853 .05105 L
+.34737 .04647 L
+.4008 .04495 L
+.48779 .04953 L
+.48779 .06479 L
+.44505 .06021 L
+.39927 .05868 L
+s
+0 Mabswid
+.15201 .04342 m
+.1398 .048 L
+.14591 .05563 L
+.15201 .04342 L
+s
+.15201 .04342 m
+.1398 .048 L
+.14591 .05563 L
+.15201 .04342 L
+s
+.5625 Mabswid
+.03297 .12126 m
+.07723 .17773 L
+s
+0 Mabswid
+.08486 .18689 m
+.08028 .17468 L
+.07418 .18078 L
+.08486 .18689 L
+s
+.08486 .18689 m
+.08028 .17468 L
+.07418 .18078 L
+.08486 .18689 L
+s
+.5625 Mabswid
+.0986 .08616 m
+.13828 .13805 L
+s
+0 Mabswid
+.14591 .14721 m
+.14133 .135 L
+.13523 .1411 L
+.14591 .14721 L
+s
+.14591 .14721 m
+.14133 .135 L
+.13523 .1411 L
+.14591 .14721 L
+s
+.5625 Mabswid
+.13065 .12279 m
+.18407 .08005 L
+s
+0 Mabswid
+.1917 .07395 m
+.17949 .07853 L
+.18559 .08616 L
+.1917 .07395 L
+s
+.1917 .07395 m
+.17949 .07853 L
+.18559 .08616 L
+.1917 .07395 L
+s
+.5625 Mabswid
+.17643 .08768 m
+.1917 .106 L
+s
+0 Mabswid
+.19933 .11516 m
+.19475 .10295 L
+.18864 .10905 L
+.19933 .11516 L
+s
+.19933 .11516 m
+.19475 .10295 L
+.18864 .10905 L
+.19933 .11516 L
+s
+.5625 Mabswid
+.48779 .21589 m
+.48779 .00527 L
+s
+.88767 .08463 m
+.8663 .08616 L
+.84799 .08768 L
+.82967 .08921 L
+.81441 .09226 L
+.8022 .09684 L
+.79152 .10142 L
+.78694 .106 L
+.78388 .11058 L
+.78694 .11668 L
+.73504 .11973 L
+.73047 .11058 L
+.73352 .10295 L
+.74268 .09531 L
+.75794 .08921 L
+.77625 .0831 L
+.80067 .07853 L
+.82662 .07395 L
+.85562 .07242 L
+.88767 .07089 L
+.93498 .07395 L
+.97619 .07853 L
+.97619 .09684 L
+.9594 .09226 L
+.93956 .08921 L
+.91514 .08616 L
+.88767 .08463 L
+s
+.88767 .03274 m
+.82357 .03426 L
+.76557 .03884 L
+.71215 .04647 L
+.66484 .05563 L
+.62668 .06784 L
+.59768 .08158 L
+.57937 .09531 L
+.57326 .11058 L
+.57478 .11973 L
+.58089 .12889 L
+.53053 .13042 L
+.58089 .12889 L
+.59616 .1411 L
+.62058 .15179 L
+.65263 .16247 L
+.68926 .17163 L
+.73352 .17926 L
+.78083 .18384 L
+.83272 .18842 L
+.88767 .18842 L
+.97619 .18536 L
+.97619 .20063 L
+.8892 .20215 L
+.81441 .20063 L
+.74573 .19605 L
+.68315 .18689 L
+.62973 .17621 L
+.58395 .16247 L
+.55036 .14721 L
+.529 .12889 L
+.52137 .11058 L
+.529 .09226 L
+.55036 .07547 L
+.58395 .06021 L
+.62973 .04647 L
+.68315 .03579 L
+.74573 .02663 L
+.81441 .02205 L
+.8892 .019 L
+.97619 .02205 L
+.97619 .03579 L
+.88767 .03274 L
+s
+.73504 .11973 m
+.78694 .11668 L
+.80067 .12431 L
+.82357 .13194 L
+.85257 .135 L
+.88767 .13652 L
+.91514 .13652 L
+.93956 .13347 L
+.9594 .13042 L
+.97619 .12431 L
+.97619 .14415 L
+.93498 .14873 L
+.88767 .15026 L
+.8602 .15026 L
+.83425 .14873 L
+.80983 .14568 L
+.78846 .14263 L
+.77015 .13805 L
+.75489 .13194 L
+.74268 .12584 L
+.73504 .11973 L
+s
+.83578 .11058 m
+.84036 .106 L
+.85104 .10295 L
+.86783 .09989 L
+.88767 .09837 L
+.90751 .09989 L
+.9243 .10295 L
+.93498 .106 L
+.93956 .11058 L
+.93498 .11668 L
+.9243 .11973 L
+.90751 .12279 L
+.88767 .12279 L
+.87088 .12279 L
+.85562 .12126 L
+.84493 .11821 L
+.8373 .11363 L
+.87088 .1121 L
+.8373 .11363 L
+.83578 .11058 L
+s
+.88767 .08463 m
+.91514 .08616 L
+.93956 .08921 L
+.9594 .09226 L
+.97619 .09684 L
+.97619 .12431 L
+.9594 .13042 L
+.93956 .13347 L
+.91514 .13652 L
+.88767 .13652 L
+.85257 .135 L
+.82357 .13194 L
+.80067 .12431 L
+.78694 .11668 L
+.8373 .11363 L
+.84493 .11821 L
+.85562 .12126 L
+.87088 .12279 L
+.88767 .12279 L
+.90751 .12279 L
+.9243 .11973 L
+.93498 .11668 L
+.93956 .11058 L
+.93498 .106 L
+.9243 .10295 L
+.90751 .09989 L
+.88767 .09837 L
+.86783 .09989 L
+.85104 .10295 L
+.84036 .106 L
+.83578 .11058 L
+.8373 .11363 L
+.78694 .11668 L
+.78388 .11058 L
+.78694 .106 L
+.79152 .10142 L
+.8022 .09684 L
+.81441 .09226 L
+.82967 .08921 L
+.84799 .08768 L
+.8663 .08616 L
+.88767 .08463 L
+s
+.88767 .07089 m
+.85562 .07242 L
+.82662 .07395 L
+.80067 .07853 L
+.77625 .0831 L
+.75794 .08921 L
+.74268 .09531 L
+.73352 .10295 L
+.73047 .11058 L
+.73504 .11973 L
+.68315 .12279 L
+.6801 .11668 L
+.67857 .11058 L
+.68315 .10142 L
+.69536 .09074 L
+.71368 .08158 L
+.73962 .07395 L
+.77015 .06784 L
+.80678 .06326 L
+.84493 .06021 L
+.88767 .05868 L
+.93346 .06021 L
+.97619 .06479 L
+.97619 .07853 L
+.93498 .07395 L
+.88767 .07089 L
+s
+.88767 .16247 m
+.93346 .16247 L
+.97619 .15789 L
+.97619 .17315 L
+.8892 .17621 L
+.84341 .17621 L
+.80067 .17315 L
+.75946 .16857 L
+.72436 .16247 L
+.69231 .15484 L
+.66636 .14568 L
+.64652 .13652 L
+.63279 .12584 L
+.68315 .12279 L
+.69384 .13042 L
+.71062 .13805 L
+.73047 .14568 L
+.75641 .15179 L
+.78541 .15636 L
+.81594 .15942 L
+.85104 .16247 L
+.88767 .16247 L
+s
+.88767 .15026 m
+.93498 .14873 L
+.97619 .14415 L
+.97619 .15789 L
+.93346 .16247 L
+.88767 .16247 L
+.85104 .16247 L
+.81594 .15942 L
+.78541 .15636 L
+.75641 .15179 L
+.73047 .14568 L
+.71062 .13805 L
+.69384 .13042 L
+.68315 .12279 L
+.73504 .11973 L
+.74268 .12584 L
+.75489 .13194 L
+.77015 .13805 L
+.78846 .14263 L
+.80983 .14568 L
+.83425 .14873 L
+.8602 .15026 L
+.88767 .15026 L
+s
+.8892 .04495 m
+.97619 .04953 L
+.97619 .06479 L
+.93346 .06021 L
+.88767 .05868 L
+.84493 .06021 L
+.80678 .06326 L
+.77015 .06784 L
+.73962 .07395 L
+.71368 .08158 L
+.69536 .09074 L
+.68315 .10142 L
+.67857 .11058 L
+.6801 .11668 L
+.68315 .12279 L
+.63279 .12584 L
+.62821 .11821 L
+.62668 .11058 L
+.63126 .09837 L
+.64805 .08616 L
+.67094 .07395 L
+.70299 .06479 L
+.74268 .05716 L
+.78694 .05105 L
+.83578 .04647 L
+.8892 .04495 L
+s
+.58089 .12889 m
+.63279 .12584 L
+.64652 .13652 L
+.66636 .14568 L
+.69231 .15484 L
+.72436 .16247 L
+.75946 .16857 L
+.80067 .17315 L
+.84341 .17621 L
+.8892 .17621 L
+.97619 .17315 L
+.97619 .18536 L
+.88767 .18842 L
+.83272 .18842 L
+.78083 .18384 L
+.73352 .17926 L
+.68926 .17163 L
+.65263 .16247 L
+.62058 .15179 L
+.59616 .1411 L
+.58089 .12889 L
+s
+.52137 .11058 m
+.529 .12889 L
+.55036 .14721 L
+.58395 .16247 L
+.62973 .17621 L
+.68315 .18689 L
+.74573 .19605 L
+.81441 .20063 L
+.8892 .20215 L
+.97619 .20063 L
+.97619 .21589 L
+.51221 .21589 L
+.51221 .00527 L
+.97619 .00527 L
+.97619 .02205 L
+.8892 .019 L
+.81441 .02205 L
+.74573 .02663 L
+.68315 .03579 L
+.62973 .04647 L
+.58395 .06021 L
+.55036 .07547 L
+.529 .09226 L
+.52137 .11058 L
+s
+.8892 .04495 m
+.83578 .04647 L
+.78694 .05105 L
+.74268 .05716 L
+.70299 .06479 L
+.67094 .07395 L
+.64805 .08616 L
+.63126 .09837 L
+.62668 .11058 L
+.62821 .11821 L
+.63279 .12584 L
+.58089 .12889 L
+.57478 .11973 L
+.57326 .11058 L
+.57937 .09531 L
+.59768 .08158 L
+.62668 .06784 L
+.66484 .05563 L
+.71215 .04647 L
+.76557 .03884 L
+.82357 .03426 L
+.88767 .03274 L
+.97619 .03579 L
+.97619 .04953 L
+.8892 .04495 L
+s
+0 Mabswid
+.88004 .1121 m
+.86783 .10905 L
+.86783 .11821 L
+.88004 .1121 L
+s
+.88004 .1121 m
+.86783 .10905 L
+.86783 .11821 L
+.88004 .1121 L
+s
+.5625 Mabswid
+.51221 .11058 m
+.56563 .17773 L
+s
+0 Mabswid
+.57326 .18689 m
+.56868 .17468 L
+.56257 .18078 L
+.57326 .18689 L
+s
+.57326 .18689 m
+.56868 .17468 L
+.56257 .18078 L
+.57326 .18689 L
+s
+.97619 .00527 m
+.97619 .21589 L
+s
+.5625 Mabswid
+.97619 .00527 m
+.97619 .21589 L
+s
+.97619 .21589 m
+.97619 .00527 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Text",
+  ImageSize->{288, 63.6875},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40006`0000Ga000`40n007h00Ooooo/Ooo003ooona
+ool000coolL000WoolL000goo`003?oo00<00?ooool0`ooo00<00?ooool01ooo00<00?ooool0`ooo
+00<00?ooool02ooo000<ool00`00ooooo`33ool00`00ooooo`07ool00`00ooooo`33ool00`00oooo
+o`0;ool000coo`03003ooooo0<?oo`03003ooooo00Ooo`03003ooooo0<?oo`03003ooooo00_oo`00
+3?oo00<00?ooool0`ooo00<00?ooool01ooo00<00?ooool0`ooo00<00?ooool02ooo000<ool00`00
+ooooo`33ool00`00ooooo`07ool00`00ooooo`33ool00`00ooooo`0;ool000coo`03003ooooo08ko
+ob@0017oo`03003ooooo00Ooo`03003ooooo08koob@0017oo`03003ooooo00_oo`003?oo00<00?oo
+ool0Mooo5`009?oo4P002Ooo00<00?ooool0Mooo5`009?oo4P003Ooo000<ool00`00ooooo`1Xool?
+001<ool00`00ooooo`07ool00`00ooooo`1Xool?001<ool00`00ooooo`0;ool000coo`03003ooooo
+05goo`/005_oo`03003ooooo00Ooo`03003ooooo05koo`X005_oo`03003ooooo00_oo`003?oo00<0
+0?ooool0E_oo1`00I_oo00<00?ooool01ooo00<00?ooool0Eooo1`00IOoo00<00?ooool02ooo000<
+ool00`00ooooo`1@ool6001]ool00`00ooooo`07ool00`00ooooo`1@ool7001/ool00`00ooooo`0;
+ool000coo`03003ooooo04Woo`L0043oob4001;oo`03003ooooo00Ooo`03003ooooo04Woo`L0043o
+ob80017oo`03003ooooo00_oo`003?oo00<00?ooool0A?oo1@00<ooo50008Ooo4`002Ooo00<00?oo
+ool0A?oo1@00<ooo50008_oo4P003Ooo000<ool00`00ooooo`0oool5000[ool=0017ool00`00oooo
+o`07ool00`00ooooo`0oool5000[ool=0017ool00`00ooooo`0;ool000coo`03003ooooo03[oo`D0
+02Koo`X005Coo`03003ooooo00Ooo`03003ooooo03[oo`D002Koo`X005Coo`03003ooooo00_oo`00
+3?oo00<00?ooool0=_oo10008ooo2000G_oo00<00?ooool01ooo00<00?ooool0=_oo10009?oo1`00
+G_oo00<00?ooool02ooo000<ool00`00ooooo`0aool5000Pool7000foolE000Kool00`00ooooo`07
+ool00`00ooooo`0aool5000Qool7000eoolE000Kool00`00ooooo`0;ool000coo`03003ooooo02go
+o`D00003ool00?oo01_oo`H002cooa4001Gooa<000Soo`03003ooooo00Ooo`03003ooooo02goo`@0
+01ooo`L002_ooa4001Gooa<000Soo`03003ooooo00_oo`003?oo00<00?ooool0:_oo0`0000Koo`00
+00000?oo000Hool5000Wool;000iool90009ool00`00ooooo`0Zool3000Nool5000Xool:000iool9
+000=ool000coo`03003ooooo02Ooo`<000Coo`8000;oo`03003ooooo017oo`D002;oo`X004coo`03
+003ooooo00Ooo`03003ooooo02Ooo`<001coo`D002?oo`X004_oo`03003ooooo00_oo`003?oo00<0
+0?ooool08ooo10001_oo00H00?ooool00?oo000>ool5000Nool9001Fool00`00ooooo`07ool00`00
+ooooo`0Tool3000Jool5000Oool9001Eool00`00ooooo`0;ool000coo`03003ooooo023oo`<000Wo
+o`03003ooooo00;oo`03003ooooo00Soo`D001coo`L005ooo`03003ooooo00Ooo`03003ooooo027o
+o`<001Soo`D001goo`L005koo`03003ooooo00_oo`003?oo00<00?ooool07Ooo0`002_oo0P003Ooo
+0`007Ooo1000=ooo50006ooo00<00?ooool01ooo00<00?ooool07_oo0`006?oo0`007_oo1000=ooo
+50006_oo00<00?ooool02ooo000<ool00`00ooooo`0Jool3000<ool00`00ooooo`09ool4000Kool5
+000ZoolA000Dool?000<ool00`00ooooo`07ool00`00ooooo`0Kool3000Hool3000Lool5000YoolB
+000Dool>000<ool00`00ooooo`0;ool000coo`03003ooooo01Ooo`<000koo`03003ooooo00Ooo`<0
+01_oo`@002;oo`d003Coo`T000?oo`03003ooooo00Ooo`03003ooooo01Soo`<001Soo`<001_oo`@0
+02;oo``003Coo`T000?oo`03003ooooo00_oo`003?oo00<00?ooool05Ooo0P004?oo00<00?ooool0
+1Ooo0`006_oo10007ooo1`00B_oo10002Ooo00<00?ooool05_oo0P006?oo0`006_oo10007_oo2000
+BOoo10003Ooo000<ool00`00ooooo`0Cool2000@ool20005ool3000Jool3000Mool6001Dool00`00
+ooooo`07ool00`00ooooo`0Dool2000Gool3000Jool3000Lool6001Dool00`00ooooo`0;ool000co
+o`03003ooooo013oo`<0017oo`03003ooooo00?oo`8001Woo`@001_oo`D002goo`d0023oo`03003o
+oooo00Ooo`03003ooooo017oo`<001Ooo`8001Woo`@001[oo`D002koo`d001ooo`03003ooooo00_o
+o`003?oo00<00?ooool03_oo0P004ooo00<00?ooool00_oo0P006?oo0`006ooo10009Ooo3@003Ooo
+2P005_oo00<00?ooool01ooo00<00?ooool03ooo0P006?oo0P006?oo0`006_oo10009_oo3@003Ooo
+2P005Ooo00<00?ooool02ooo000<ool00`00ooooo`0<ool2000Dool01000oooooooo0P005ooo0`00
+00?oo`0000005ooo10008?oo2@009?oo2P003?oo00<00?ooool01ooo00<00?ooool03Ooo0P006?oo
+0P005ooo0`006Ooo10008Ooo2@009?oo2@003?oo00<00?ooool02ooo000<ool00`00ooooo`0;ool0
+0`00ooooo`0Bool20002ool2000Gool200001_oo00000000ool001?oo`@001ooo`D003Ooo`T000?o
+o`03003ooooo00Ooo`03003ooooo00coo`03003ooooo01Koo`8001Ooo`8001Soo`@001ooo`H003Ko
+o`T000?oo`03003ooooo00_oo`003?oo00<00?ooool02_oo00<00?ooool04_oo00<00?ooool00P00
+5ooo0P000_oo0`0000?oo`00ool04?oo0`007Ooo1P00AOoo10002Ooo00<00?ooool02_oo0P005ooo
+0P005ooo0P005ooo0`007_oo1@00AOoo10003Ooo000<ool00`00ooooo`08ool2000Dool01000ool0
+00006?oo00<00?ooool00_oo0P000_oo00<00?ooool03?oo0`006ooo1@00C_oo00<00?ooool01ooo
+00<00?ooool02Ooo00<00?ooool05Ooo0P005ooo0P005_oo0`007?oo1@00COoo00<00?ooool02ooo
+000<ool00`00ooooo`07ool00`00ooooo`0Cool00`00ool0000Hool20004ool01P00ooooo`00ool0
+00coo`8001Woo`D002Woo`/001ooo`03003ooooo00Ooo`03003ooooo00Soo`03003ooooo01Goo`03
+003ooooo01Goo`8001Koo`8001[oo`D002Woo`/001koo`03003ooooo00_oo`003?oo00<00?ooool0
+1_oo00<00?ooool04_oo0P0000?oo`00ool05_oo0P001Ooo0P000ooo00<00?ooool02Ooo0P006?oo
+0`007Ooo4@002ooo2`005?oo00<00?ooool01ooo00<00?ooool01_oo0P005ooo00<00?ooool05?oo
+0P005_oo0P006?oo10007Ooo4@002ooo2`004ooo00<00?ooool02ooo000<ool00`00ooooo`05ool0
+0`00ooooo`0Bool01000ool000005ooo00<00?ooool00ooo0P0000?oo`00ool03?oo0P005ooo0`00
+6Ooo1`009ooo2P002_oo00<00?ooool01ooo00<00?ooool01Ooo00<00?ooool05Ooo0P005_oo00<0
+0?ooool05?oo0P005ooo0`006_oo1`009ooo2@002_oo00<00?ooool02ooo000<ool00`00ooooo`04
+ool00`00ooooo`0Bool01@00ool00?oo00005Ooo0P001Ooo00<00?ooool00_oo00<00?ooool02?oo
+0P005_oo0`006?oo1000>?oo1P001?oo00<00?ooool01ooo00<00?ooool01?oo00<00?ooool05Ooo
+00<00?ooool05?oo0P005Ooo0P005ooo0P006?oo1@00=ooo1P001?oo00<00?ooool02ooo000<ool0
+0`00ooooo`04ool00`00ooooo`0@ool200000ooo003oo`02ool00`00ooooo`0@ool20006ool00`00
+ooooo`04ool00`00ooooo`06ool00`00ooooo`0Dool2000Hool30012ool300000ooo003oo`08ool0
+0`00ooooo`04ool00`00ooooo`0Dool00`00ooooo`0Dool00`00ooooo`0Dool00`00ooooo`0Eool2
+000Gool30012ool300000ooo003oo`0<ool000coo`03003ooooo00?oo`03003ooooo013oo`04003o
+oooo0005ool00`00ooooo`0>ool00`00ooooo`04ool20008ool00`00ooooo`04ool00`00ooooo`0C
+ool2000Gool30018ool20009ool00`00ooooo`03ool00`00ooooo`0Dool00`00ooooo`0Dool00`00
+ooooo`0Dool00`00ooooo`0Dool2000Gool20018ool2000=ool000coo`03003ooooo00?oo`03003o
+oooo00ooo`05003oooooool00005ool00`00ooooo`0=ool00`00ooooo`04ool00`00ooooo`08ool0
+0`00ooooo`03ool00`00ooooo`0Cool00`00ooooo`0Eool2000Rool9000Qool00`00ooooo`07ool0
+0`00ooooo`03ool00`00ooooo`0Dool00`00ooooo`0Cool00`00ooooo`0Dool00`00ooooo`0Dool0
+0`00ooooo`0Eool2000Rool9000Pool00`00ooooo`0;ool000coo`03003ooooo00;oo`03003ooooo
+00ooo`05003oooooool00007ool00`00ooooo`0<ool00`00ooooo`03ool00`00ooooo`0:ool01@00
+oooooooo00005Ooo00<00?ooool05Ooo00<00?ooool06_oo20002Ooo20006Ooo00<00?ooool01ooo
+00<00?ooool00ooo00<00?ooool04ooo00<00?ooool05?oo00<00?ooool04ooo00<00?ooool05?oo
+00<00?ooool05Ooo00<00?ooool06_oo20002Ooo20006?oo00<00?ooool02ooo000<ool00`00oooo
+o`02ool00`00ooooo`0=ool20004ool00`00ooooo`06ool00`00ooooo`0:ool00`00ooooo`03ool0
+0`00ooooo`0<ool01000ooooo`005?oo00<00?ooool05Ooo00<00?ooool05Ooo1P006Ooo1P004ooo
+00<00?ooool01ooo00<00?ooool00_oo00<00?ooool05?oo00<00?ooool04ooo00<00?ooool05?oo
+00<00?ooool04ooo00<00?ooool05Ooo00<00?ooool05Ooo1P006Ooo1P004_oo00<00?ooool02ooo
+000<ool01@00oooooooo00003ooo00<00?ooool01?oo00<00?ooool01ooo00<00?ooool02Ooo00@0
+0?ooooooo`80013oo`<001Coo`03003ooooo01Coo`03003ooooo01Coo`8002Goo`80017oo`03003o
+oooo00Ooo`03003ooooo00;oo`03003ooooo01?oo`03003ooooo01Coo`03003ooooo01?oo`03003o
+oooo01Coo`03003ooooo01Coo`03003ooooo01?oo`<002Goo`80013oo`03003ooooo00_oo`003?oo
+00D00?ooooooo`0000koo`03003ooooo00Coo`03003ooooo00Woo`03003ooooo00Soo`04003ooooo
+000Bool200000ooo003oo`0Aool00`00ooooo`0Eool00`00ooooo`0Cool00`00ooooo`0Wool00`00
+ooooo`0>ool00`00ooooo`07ool00`00ooooo`02ool00`00ooooo`0Cool00`00ooooo`0Dool00`00
+ooooo`0Cool00`00ooooo`0Cool00`00ooooo`0Dool00`00ooooo`0Cool00`00ooooo`0Xool00`00
+ooooo`0=ool00`00ooooo`0;ool000coo`04003ooooo000>ool00`00ooooo`05ool00`00ooooo`09
+ool00`00ooooo`07ool01000ooooo`004_oo0P000_oo00<00?ooool04?oo00<00?ooool05?oo00<0
+0?ooool04ooo00<00?ooool0:Ooo00<00?ooool03Ooo00<00?ooool01ooo00D00?ooooooo`0001Go
+o`03003ooooo01Coo`03003ooooo01?oo`03003ooooo01?oo`03003ooooo01Coo`03003ooooo01?o
+o`03003ooooo00_oo`@001_oo`03003ooooo00coo`03003ooooo00_oo`003?oo00@00?ooool000co
+o`8000Soo`03003ooooo00[oo`03003ooooo00Koo`<001Coo`@001;oo`03003ooooo01Coo`03003o
+oooo01?oo`03003ooooo02Woo`03003ooooo00goo`03003ooooo00Ooo`05003oooooool0000Eool0
+0`00ooooo`0Dool00`00ooooo`0Cool00`00ooooo`0Cool00`00ooooo`0Dool00`00ooooo`0Cool0
+0`00ooooo`05ool80002ool2000Iool00`00ooooo`0<ool00`00ooooo`0;ool000coo`05003ooooo
+ool0000:ool00`00ooooo`08ool00`00ooooo`0;ool00`00ooooo`05ool2000Fool01000ooooo`00
+4Ooo00<00?ooool05Ooo00<00?ooool04ooo00<00?ooool09ooo00<00?ooool03_oo00<00?ooool0
+1ooo0P000ooo00<00?ooool04_oo00<00?ooool05?oo00<00?ooool05?oo00<00?ooool04ooo00<0
+0?ooool05?oo00<00?ooool02Ooo4@001_oo00@00?oo000001[oo`03003ooooo00goo`03003ooooo
+00_oo`003?oo00D00?ooooooo`0000Woo`03003ooooo00[oo`03003ooooo00_oo`03003ooooo00?o
+o`03003oo`0001Koo`03003ooooo01?oo`03003ooooo01Coo`03003ooooo01Coo`<002?oo`<0017o
+o`03003ooooo00Ooo`03003oo`0000;oo`03003ooooo01?oo`03003ooooo01Coo`03003ooooo01?o
+o`03003ooooo01?oo`03003ooooo00[ooaH000coo`03003ooooo00Soo`8001Woo`<0013oo`03003o
+oooo00_oo`003?oo00<00?ooool00_oo00<00?ooool01Ooo00<00?ooool02ooo00<00?ooool02ooo
+00<00?ooool00_oo00@00?ooool001Koo`03003ooooo01?oo`8001Koo`03003ooooo01Koo`H001Oo
+o`H001Coo`03003ooooo00Ooo`06003ooooo003oo`005Ooo00<00?ooool05?oo00<00?ooool04ooo
+00<00?ooool02Ooo5`003Ooo0P005?oo10001_oo00<00?ooool04_oo1P004ooo00<00?ooool02ooo
+000<ool01P00ooooo`00ool000Goo`8000koo`03003ooooo00coo`04003ooooo0004ool00`00oooo
+o`0Dool2000Eool00`00ooooo`0Dool2000LoolG000Jool00`00ooooo`07ool01`00oooooooo003o
+o`0001Coo`03003ooooo01Coo`03003ooooo00oooa0000goo`03003ooooo01Koo`03003ooooo01Go
+oa/001Woo`03003ooooo00_oo`003?oo00@00?ooool000;oo`05003oooooool0000Aool00`00oooo
+o`0<ool00`00ooooo`04ool2000Gool00`00ooooo`0Cool00`00ooooo`0Eool2001:ool20009ool0
+1`00oooooooo003oo`0001Goo`03003ooooo01Coo`03003ooooo00?oo`/000Ooo`03003ooooo01Co
+o`03003ooooo01Koo`<004Ooo`8000goo`003?oo00L00?ooooooo`00ool00002ool00`00ooooo`0@
+ool2000>ool00`00ooooo`05ool00`00ooooo`0Eool00`00ooooo`0Cool2000Gool40013ool30000
+0ooo003oo`08ool00`00ooooo`02ool2000Fool00`00ooooo`09ool@000Cool00`00ooooo`0Dool2
+000Iool30011ool300000ooo003oo`0<ool000coo`03003ooooo00;oo`04003oo`00000Eool00`00
+ooooo`0<ool00`00ooooo`05ool2000Fool00`00ooooo`0Dool3000Hool6000kool20004ool00`00
+ooooo`07ool00`00ooooo`03ool3000:oolF000=ool00`00ooooo`0Dool00`00ooooo`0Eool3000I
+ool3000lool20004ool00`00ooooo`0;ool000coo`03003ooooo00?oo`800003ool00?oo01Coo`03
+003ooooo00_oo`03003ooooo00Ooo`8001Goo`8001Ooo`8001coo`D0037oo`D000Koo`03003ooooo
+00Ooo`03003ooooo00Coo``000goo`03003ooooo01Coo`8001Goo`8001Soo`8001[oo`D003;oo`D0
+00Koo`03003ooooo00_oo`003?oo00<00?ooool01?oo00@00?ooool001Goo`8000coo`03003ooooo
+00Soo`03003ooooo01Coo`8001Ooo`8001ooo`@002?oo`X000_oo`03003ooooo00Ooo`03003ooooo
+00Goo`03003oo`0001Koo`03003ooooo01Goo`03003ooooo01Coo`<001Ooo`8001goo`L002;oo`T0
+00_oo`03003ooooo00_oo`003?oo00<00?ooool01?oo00D00?ooooooo`0001Koo`03003ooooo00[o
+o`04003oo`000007ool2000Fool2000Gool3000PoolS000Eool00`00ooooo`07ool00`00ooooo`05
+ool01000ooooo`005_oo00<00?ooool05Ooo0P005ooo0P005ooo0P008_oo8P005?oo00<00?ooool0
+2ooo000<ool00`00ooooo`05ool01@00oooooooo00005_oo00<00?ooool02_oo00<00?oo00002Ooo
+0P005_oo0P006?oo0P00E_oo00<00?ooool01ooo00<00?ooool01_oo00<00?ooool00P005Ooo00<0
+0?ooool05_oo0P005ooo0P005ooo0`00EOoo00<00?ooool02ooo000<ool00`00ooooo`06ool01@00
+oooooooo00005_oo0P002Ooo0P000_oo00<00?ooool02?oo0P005_oo0`005ooo1000D_oo00<00?oo
+ool01ooo00<00?ooool01ooo00D00?ooooooo`0001Goo`8001Soo`8001Ooo`<001Ooo`@0057oo`03
+003ooooo00_oo`003?oo00<00?ooool01ooo00D00?ooooooo`0001Ooo`8000Woo`<000coo`03003o
+oooo01Koo`@001Ooo`D004goo`03003ooooo00Ooo`03003ooooo00Soo`05003oooooool0000Fool2
+000Hool2000Hool3000Hool7001:ool00`00ooooo`0;ool000coo`03003ooooo00Soo`05003ooooo
+ool0000Hool20009ool00`00ooooo`0;ool2000Jool3000Iool90010ool50009ool00`00ooooo`09
+ool01@00oooooooo00005ooo0`005ooo0P006Ooo0`007?oo1`00?ooo1@003Ooo000<ool00`00oooo
+o`08ool00`00ooooo`02ool2000Hool20008ool00`00ooooo`0<ool3000Jool4000Nool;000/ool9
+0004ool00`00ooooo`07ool00`00ooooo`09ool00`00ooooo`02ool2000Hool2000Gool3000Iool4
+000Oool5000aool90004ool00`00ooooo`0;ool000coo`03003ooooo00Woo`03003ooooo00?oo`<0
+01Ooo`8001Soo`<001_oo`D002Coob`000goo`03003ooooo00Ooo`03003ooooo00[oo`03003ooooo
+00?oo`<001Ooo`8001Soo`<001[oo`@0023ooc4000goo`03003ooooo00_oo`003?oo00<00?ooool0
+2_oo00<00?ooool01Ooo0P005ooo0P006Ooo10007?oo1000FOoo00<00?ooool01ooo00<00?ooool0
+2ooo00<00?ooool01Ooo0P005ooo0`006?oo0`006ooo1@00FOoo00<00?ooool02ooo000<ool00`00
+ooooo`0;ool00`00ooooo`06ool2000Gool3000Jool3000Mool6001Cool00`00ooooo`07ool00`00
+ooooo`0<ool00`00ooooo`06ool2000Hool3000Hool3000Mool6001Cool00`00ooooo`0;ool000co
+o`03003ooooo00_oo`03003ooooo00Soo`<001Ooo`<001[oo`@001ooo`L004Soo`D000Woo`03003o
+oooo00coo`03003ooooo00Soo`<001Soo`<001Soo`D001koo`X004Goo`D000goo`003?oo00<00?oo
+ool03?oo00<00?ooool02_oo0P006?oo10006_oo10008_oo3@00<_oo2@001?oo00<00?ooool01ooo
+00<00?ooool03Ooo00<00?ooool02_oo0P006Ooo0`006_oo1@008ooo3P00;_oo2@001?oo00<00?oo
+ool02ooo000<ool00`00ooooo`0=ool00`00ooooo`0;ool3000Iool3000Kool5000Zoolb000=ool0
+0`00ooooo`07ool00`00ooooo`0>ool00`00ooooo`0;ool3000Iool4000Kool5000/ool^000=ool0
+0`00ooooo`0;ool000coo`03003ooooo00koo`03003ooooo00goo`<001Woo`<001goo`@006Goo`03
+003ooooo00Ooo`03003ooooo00ooo`03003ooooo00goo`<001[oo`@001coo`D006;oo`03003ooooo
+00_oo`003?oo00<00?ooool03ooo00<00?ooool03ooo0`006Ooo1@007?oo1`00G_oo00<00?ooool0
+1ooo00<00?ooool04?oo00<00?ooool03ooo0`006ooo10007Ooo1@00GOoo00<00?ooool02ooo000<
+ool00`00ooooo`0?ool00`00ooooo`0Bool4000Jool5000Nool9001Eool00`00ooooo`07ool00`00
+ooooo`0@ool00`00ooooo`0Bool3000Lool4000Nool6001Gool00`00ooooo`0;ool000coo`03003o
+oooo013oo`03003ooooo01Goo`<001coo`D002;oo`X004_oo`03003ooooo00Ooo`03003ooooo017o
+o`03003ooooo01Coo`<001goo`@0023oo`T004koo`03003ooooo00_oo`003?oo00<00?ooool04Ooo
+00<00?ooool05ooo0`007_oo1@009ooo2`00;_oo4`002Ooo00<00?ooool04_oo00<00?ooool05_oo
+0`007_oo1@009?oo3P00;_oo4`003Ooo000<ool00`00ooooo`0Bool01000ool000006?oo10007ooo
+1P00;?oo;P004_oo00<00?ooool01ooo00<00?ooool04ooo00<00?oo00006?oo10007ooo1@00;Ooo
+;P004_oo00<00?ooool02ooo000<ool00`00ooooo`0Cool00`00ool0000Lool5000Pool8001Tool0
+0`00ooooo`07ool00`00ooooo`0Dool2000Lool5000Oool5001Xool00`00ooooo`0;ool000coo`03
+003ooooo01;oo`8000;oo`03003ooooo01koo`D002?oo`L005goo`03003ooooo00Ooo`03003ooooo
+01?oo`800003ool00?oo01ooo`D001ooo`L0067oo`03003ooooo00_oo`003?oo00<00?ooool05?oo
+0`009Ooo10009_oo2P00Dooo00<00?ooool01ooo00<00?ooool05Ooo0P009Ooo10008_oo2P00Eooo
+00<00?ooool02ooo000<ool00`00ooooo`0Fool00`00ooooo`0Wool5000[ool=000mool:0009ool0
+0`00ooooo`0Fool00`00ooooo`0Wool5000Wool;0013ool:000=ool000coo`03003ooooo01Ooo`03
+003ooooo02_oo`D003?ooa@001Kooa<000Woo`03003ooooo00Ooo`03003ooooo01Ooo`03003ooooo
+02_oo`D002goo`/002Gooa<000Woo`03003ooooo00_oo`003?oo00<00?ooool0B_oo1`00@?oo5P00
+7?oo00<00?ooool01ooo00<00?ooool0B_oo1`00<Ooo9@007?oo00<00?ooool02ooo000<ool00`00
+ooooo`1Aool6001/ool00`00ooooo`07ool00`00ooooo`1Aool7001[ool00`00ooooo`0;ool000co
+o`03003ooooo05Ooo`L006Goo`03003ooooo00Ooo`03003ooooo05Soo`L006Coo`03003ooooo00_o
+o`003?oo00<00?ooool0G_oo2`00F_oo00<00?ooool01ooo00<00?ooool0Gooo2P00F_oo00<00?oo
+ool02ooo000<ool00`00ooooo`1Yool?001;ool00`00ooooo`07ool00`00ooooo`1Yool?001;ool0
+0`00ooooo`0;ool000coo`03003ooooo07Sood`000Woo`03003ooooo07Sood`000goo`003?oo00<0
+0?ooool0`ooo00<00?ooool01ooo00<00?ooool0`ooo00<00?ooool02ooo000<ool00`00ooooo`33
+ool00`00ooooo`07ool00`00ooooo`33ool00`00ooooo`0;ool000coo`03003ooooo0<?oo`03003o
+oooo00Ooo`03003ooooo0<?oo`03003ooooo00_oo`003?oo00<00?ooool0`ooo00<00?ooool01ooo
+00<00?ooool0`ooo00<00?ooool02ooo000<ool00`00ooooo`33ool00`00ooooo`07ool00`00oooo
+o`33ool00`00ooooo`0;ool000coolL000WoolL000goo`00oooo/Ooo003ooonaool00001\
+\>"],
+  ImageRangeCache->{{{0, 431}, {94.5, 0}} -> {-10.3674, -1.96355, 1.29374, \
+1.29374}}],
+
+Cell[TextData[{
+  "What makes this iterative approach special is that the exact solution is \
+achieved in ",
+  Cell[BoxData[
+      \(TraditionalForm\`n\)]],
+  "steps"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "The result of this projection is that subsequent search directions are ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  "-orthogonal, so for a search direction ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k)\)\)]],
+  ", we have to find a new search direction ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k + 1)\)\)]],
+  "such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(p\^\(\((k + 1)\) T\)\) A\ p\^\((k)\) = 0\)]],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  StyleBox["Conjugate orthogonal (",
+    FontWeight->"Bold"],
+  Cell[BoxData[
+      \(TraditionalForm\`A\)],
+    FontWeight->"Bold"],
+  StyleBox["-orthogonal):",
+    FontWeight->"Bold"],
+  " Two vectors ",
+  " ",
+  Cell[BoxData[
+      \(TraditionalForm\`p, q \[Element] \[DoubleStruckCapitalR]\^n\)]],
+  " are called ",
+  StyleBox["conjugate",
+    FontSlant->"Italic"],
+  " or",
+  StyleBox[" A-orthogonal",
+    FontSlant->"Italic"],
+  ", if there exists a positive definite matrix ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^T\ A\ q = 0\)]]
+}], "Text"],
+
+Cell[TextData[{
+  "The algorithm:\n1. ",
+  Cell[BoxData[
+      \(TraditionalForm\`k = 0\)]],
+  "\n2. Initial guess ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((0)\)\)]],
+  "\n3. First search direction is negative gradient, as in steepest descent:\n\
+\t",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((0)\) = \(\(-\[Del]E\) = \(\(-r\^\((0)\)\) = \
+\(-\((A\ x\^\((0)\) - b)\)\)\)\)\)]],
+  "\n4. While not converged:\n     a)   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(k++\)\)]],
+  "\n     b)   If ",
+  Cell[BoxData[
+      \(TraditionalForm\`k > 1\)]],
+  ", update search direction from gradient and old search direction:\n     \t\
+\t",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k)\) = \(-r\^\((k - 1)\)\) + \(e\^\((k)\)\) 
+            p\^\((k - 1)\)\)]],
+  ".\n            Choose scalar ",
+  Cell[BoxData[
+      \(TraditionalForm\`e\^\((k)\)\)]],
+  "such that ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(p\^\(\((k - 1)\) T\)\) A\ p\^\((k)\) = 0\)]],
+  ":\n\t\t",
+  Cell[BoxData[{
+      \(TraditionalForm\`\(p\^\(\((k - 1)\) T\)\) 
+          A\ \((\(-r\^\((k - 1)\)\) + \(e\^\((k)\)\) 
+                p\^\((k - 1)\))\) = \(0\ \ \[DoubleLongLeftRightArrow]\ \ p\^\
+\(\((k - 1)\) T\) A\ \(p\^\((k - 1)\)\) e\^\((k)\) = \(p\^\(\((k - 1)\) T\)\) 
+            A\ r\^\((k - 1)\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ \ \ \(\(\[DoubleLongLeftRightArrow]\)\(\ \)\(e\^\((k)\)\)\) = \(\(\(\(p\
+\^\(\((k - 1)\) T\)\) A\ r\^\((k - 1)\)\)\/\(\(p\^\(\((k - 1)\) T\)\) 
+                A\ p\^\((k - 1)\)\)\)\(.\)\)\)}]],
+  " \n            Using some orthogonality relations, this can be simplified \
+to\n\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`e\^\((k)\) = \(r\^\(\((k - 1)\) T\)\ r\^\((k - \
+1)\)\)\/\(r\^\(\((k - 2)\) T\)\ r\^\((k - 2)\)\)\)]],
+  ".\n     c)   Stepsize can be simplified to\n     \t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Alpha]\^\((k)\) = \(\(r\^\(\((k - 1)\) T\)\) \
+r\^\((k - 1)\)\)\/\(\(p\^\(\((k)\) T\)\) A\ p\^\((k)\)\)\)]],
+  ". \n     d)   Update x:\n     \t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\) = 
+        x\^\((k - 1)\) + \(\[Alpha]\^\((k)\)\) p\^\((k)\)\)]],
+  ".\n     e)   The new residual can be calculated from the old one by\n\t\t\
+",
+  Cell[BoxData[
+      \(TraditionalForm\`r\^\((k)\) = 
+        r\^\((k - 1)\) + \[Alpha]\^\((k)\)\ A\ p\^\((k)\)\)]],
+  ".\n            By reusing ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\^\((k)\) = A\ p\^\((k)\)\)]],
+  ", we can further improve performance."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Subsubsection"],
+
+Cell[BoxData[{
+    \(cgdir[matrix_, loadvec_, x_, oldp_, oldres_, iter_] := 
+      Module[{residual = matrix . x - loadvec}, \[IndentingNewLine]If[
+          Mod[iter - 1, Length[x]] \[Equal] 0, \  (*\ 
+            first\ iteration\ or\ restart\ necessary\ \
+*) \[IndentingNewLine]\(-residual\), \[IndentingNewLine]\(-residual\) + \
+\(residual . residual\/oldres . oldres\) 
+              oldp\[IndentingNewLine]]\[IndentingNewLine]]\), "\
+\[IndentingNewLine]", 
+    \(cgstep[matrix_, loadvec_, x_, p_] := 
+      Module[\[IndentingNewLine]{residual = 
+            matrix . x - 
+              loadvec}, \[IndentingNewLine]residual . residual\/p . \((matrix \
+. p)\)\[IndentingNewLine]]\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(cghist = 
+        GradBased[mat, lvec, cgdir, cgstep, {4, \(-3.5\)}, 
+          0.0001];\)\), "\[IndentingNewLine]", 
+    \(mat . cghist[\([2]\)] - lvec\)}], "Input"],
+
+Cell[BoxData[
+    \(\(PlotIsoGrad[mat, lvec, cghist[\([1, {1, 2, 3}]\)], 
+        Table[i, {i, 0, 3, 0.25}], Axes \[Rule] True, 
+        AspectRatio \[Rule] 1];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(PlotIsoGrad[mat, lvec, sdhist[\([1]\)], Table[i, {i, 0, 3, 0.25}], 
+        Axes \[Rule] True, AspectRatio \[Rule] 1];\)\)], "Input"],
+
+Cell[BoxData[
+    \(cghist[\([1]\)] // MatrixForm\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Properties", "Subsubsection"],
+
+Cell[TextData[{
+  "Work ",
+  Cell[BoxData[
+      \(TraditionalForm\`O(n\^2*\ i)\)]],
+  " with ",
+  StyleBox["i",
+    FontSlant->"Italic"],
+  " the number of iterations, ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"O", "(", 
+          RowBox[{"n", "*", "i", "*", 
+            StyleBox["nz",
+              FontSlant->"Italic"]}], ")"}], TraditionalForm]]],
+  " for sparse systems with ",
+  StyleBox["nz",
+    FontSlant->"Italic"],
+  " elements per matrix row\nStorage ",
+  StyleBox["O(n)",
+    FontSlant->"Italic"],
+  " for sparse matrix\nOnly works for symmetric positive definite matrices, \
+but many variants exist which also are applicable to nonsymmetric matrices"
+}], "Text",
+  CellDingbat->None]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Preconditioning", "Subsection"],
+
+Cell[TextData[{
+  "Convergence depends on condition number of matrix: A (pessimistic) \
+estimate for the number of steps ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\)]],
+  " until ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(||\)\(x\^\((k)\) - \
+x\)\(||\)\)\/\(\(||\)\(x\^\((0)\) - x\)\(||\)\) < \[Epsilon]\)]],
+  " is\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`k \[LessEqual] \(1\/2\) \(\@\(\[Chi](A)\)\) \(ln(
+              2/\[Epsilon])\) + 1\)]],
+  ",\nso the number of iterations depends on the root of the condition number \
+of ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "By multiplying ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " with a matrix ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\^\(-1\)\)]],
+  ", we can get a matrix with better condition number than ",
+  StyleBox["A\n",
+    FontSlant->"Italic"],
+  "Applying this to ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\ x - b = 0\)]],
+  ", we get\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(C\^\(-1\)\) A\ x - \(C\^\(-1\)\) b = 0\)]],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "imsSystem has the same solution ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\)]],
+  ", by choosing a good ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\)]],
+  "which lowers the condition number, much faster convergence is achieved."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`C\)]],
+  " should be a good approximation to ",
+  Cell[BoxData[
+      \(TraditionalForm\`A\)]],
+  ". However, it should be easy to invert, i.e. it must be easy to solve the \
+system ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\ a = b\)]],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "New procdure for preconditioned CG:\n\t* Rewrite linear equation to:\n\t   \
+ \t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(C\^\(-1\)\) A\ \(C\^\(\(-1\) T\)\) 
+            C\^T\ x - \(C\^\(-1\)\) b = 0\)]],
+  ";\n\t* now, we can perform usual CG method with\n\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`A\&^ = \(C\^\(-1\)\) A\ C\^\(-T\)\)]],
+  ",    ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^ = C\^T\ x\)]],
+  ",    ",
+  Cell[BoxData[
+      \(TraditionalForm\`b\&^ = \(C\^\(-1\)\) b\)]],
+  ",   ",
+  Cell[BoxData[
+      \(TraditionalForm\`r\&^\^\((k)\) = \(C\^\(-1\)\) r\^\((k)\)\)]],
+  ",\n\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\^\((0)\) = C\^T\ x\^\((0)\)\)]],
+  ",    ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\&^\^\((0)\) = \(\(-r\&^\^\((0)\)\) = \(C\^\(-1\)\)(
+            b - A\ x\^\((0)\))\)\)]],
+  "\n\t   The ",
+  Cell[BoxData[
+      \(TraditionalForm\`p\^\((k)\)\)]],
+  "are usually not identical to those of the previous algorithm\n\t* the \
+update rules now read\n\t\ta)   ",
+  Cell[BoxData[{
+      \(TraditionalForm\`p\&^\^\((k)\) = \(\(-r\&^\^\((k - 1)\)\) + \
+\(\(r\&^\^\(\((k - 1)\) T\)\ r\&^\^\((k - 1)\)\)\/\(r\&^\^\(\((k - 2)\) T\)\ \
+r\&^\^\((k - 2)\)\)\) p\&^\^\((k)\) = \(-C\^\(-1\)\) 
+              r\^\((k - 1)\) + \(\(\(\((\(C\^\(-1\)\) 
+                            r\^\((k - 1)\))\)\^T\) \(C\^\(-1\)\) 
+                    r\^\((k - 1)\)\)\/\(\(\((\(C\^\(-1\)\) 
+                            r\^\((k - 2)\))\)\^T\) \(C\^\(-1\)\) 
+                    r\^\((k - 2)\)\)\) \(C\^\(-1\)\) p\^\((k - 1)\)\)\), 
+    "\[IndentingNewLine]", 
+      \(TraditionalForm\`\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\(=\)\(\(-C\^\(-1\)\) 
+            r\^\((k - 1)\) + \(\(\(\(r\^\((k - 
+                              1)\)\)\^T\) \(C\^\(-T\)\) \(C\^\(-1\)\) 
+                  r\^\((k - 1)\)\)\/\(\(\(r\^\((k - 
+                              2)\)\)\^T\) \(C\^\(-T\)\) \(C\^\(-1\)\) 
+                  r\^\((k - 2)\)\)\) \(C\^\(-1\)\) p\^\((k - 1)\)\)\)\)}]],
+  "\n\t\tb)   ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\&^\^\((k)\) = \(A\&^\ p\&^\^\((k)\) = \
+\(C\^\(-1\)\) A\ \(C\^\(-T\)\) \(C\^\(-1\)\) p\^\((k)\)\)\)]],
+  "\n\t\tc)   ",
+  Cell[BoxData[{
+      \(TraditionalForm\`\[Alpha]\&^\^\((k)\) = \(\(r\&^\^\(\((k - 1)\) T\)\ \
+r\&^\^\((k - 1)\)\)\/\(\(p\&^\^\(\((k)\) T\)\) A\&^\ p\&^\^\((k)\)\) = \
+\(\(\((\(C\^\(-1\)\) r\^\((k - 1)\))\)\^T\) \(C\^\(-1\)\) r\^\((k - \
+1)\)\)\/\(\(\((\(C\^\(-1\)\) p\^\((k)\))\)\^T\) \(C\^\(-1\)\) A\ \
+\(C\^\(-T\)\) \(C\^\(-1\)\) p\^\((k)\)\)\)\), "\[IndentingNewLine]", 
+      \(TraditionalForm\`\ \ \ \ \ \ \ \ \ \(\(=\)\(\(\(\(r\^\((k - 
+                          1)\)\)\^T\) \(C\^\(-T\)\) \(C\^\(-1\)\) 
+              r\^\((k - 1)\)\)\/\(\(\(p\^\((k)\)\)\^T\) \(C\^\(-T\)\) \
+\(C\^\(-1\)\) A\ \(C\^\(-T\)\) \(C\^\(-1\)\) p\^\((k)\)\)\)\)\)}]],
+  "\n\t\td)   ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\&^\^\((k)\) = \(x\&^\^\((k - 1)\) + \
+\(\[Alpha]\&^\^\((k)\)\) p\&^\^\((k)\) = \(C\^T\) 
+              x\^\((k - 1)\) + \[Alpha]\&^\^\((k)\)\)\)]],
+  Cell[BoxData[
+      \(TraditionalForm\`\(C\^\(-1\)\) p\^\((k)\)\)]],
+  "\n\t\te)   ",
+  Cell[BoxData[
+      \(TraditionalForm\`r\&^\^\((k)\) = \(r\&^\^\((k - 1)\) + \
+\[Alpha]\&^\^\((k)\)\ A\&^\ p\&^\^\((k)\) = \(C\^\(-1\)\) 
+              r\^\((k - 1)\) + \(\(\[Alpha]\&^\^\((k)\)\) \(C\^\(-1\)\) \(A\)\
+\(\ \)\(C\^\(-T\)\) \(C\^\(-1\)\) \(p\^\((k)\)\)\(\ \)\)\)\)]],
+  "\n\t* Define ",
+  Cell[BoxData[
+      \(TraditionalForm\`M\^\(-1\) := \(C\^\(-T\)\) C\^\(-1\)\)]],
+  "; define ",
+  Cell[BoxData[
+      \(TraditionalForm\`g\^\((k)\) := \(C\^\(-T\)\) \(C\^\(-1\)\) 
+          p\^\((k)\)\)]],
+  "; define ",
+  Cell[BoxData[
+      \(TraditionalForm\`s\^\((k)\) = \(C\^\(-T\)\) \(C\^\(-1\)\) 
+          r\^\((k)\)\)]],
+  "\n\t* Multiply b) and e) by ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\)]],
+  ", a) and d) by ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\^\(-T\)\)]],
+  " to get:\n\t\ta')   ",
+  Cell[BoxData[
+      \(TraditionalForm\`g\^\((k)\) = \(-s\^\((k - 1)\)\)\)]],
+  "+",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\(r\^\((k - 1)\)\) 
+              s\^\((k - 1)\)\)\/\(\(r\^\((k - 2)\)\) s\^\((k - 2)\)\)\) 
+        g\^\((k - 1)\)\)]],
+  "\n\t\tb')   ",
+  Cell[BoxData[
+      \(TraditionalForm\`z\^\((k)\) = A\ g\^\((k)\)\)]],
+  "\n\t\tc')   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Alpha]\&^\^\((k)\) = \(\(\(r\^\((k - 1)\)\)\^T\) s\
+\^\((k - 1)\)\)\/\(\(\(g\^\((k)\)\)\^T\) z\^\((k)\)\)\)]],
+  "\n\t\td')   ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\) = 
+        x\^\((k - 1)\) + \(\[Alpha]\&^\^\((k)\)\) g\^\((k)\)\)]],
+  "\n\t\te')   ",
+  Cell[BoxData[
+      \(TraditionalForm\`r\^\((k)\) = 
+        r\^\((k - 1)\) + \(\[Alpha]\&^\^\((k)\)\) z\^\((k)\)\)]],
+  "\n\t* ",
+  Cell[BoxData[
+      \(TraditionalForm\`s\^\((k - 1)\)\)]],
+  "must also be updated. Since ",
+  Cell[BoxData[
+      \(TraditionalForm\`s\^\((k - 1)\) = M\^\(-1\)\ r\^\((k - 1)\)\)]],
+  "(we only know ",
+  StyleBox["C",
+    FontSlant->"Italic"],
+  ", not its inverse ",
+  Cell[BoxData[
+      \(TraditionalForm\`C\^\(-1\)\)]],
+  "), a linear system\n\t\t",
+  Cell[BoxData[
+      \(TraditionalForm\`M\ s\^\((k - 1)\) = \(\(C\ \(C\^T\) 
+            s\^\((k - 1)\)\)\(=\)\(r\^\((k - 1)\)\)\(\ \)\)\)]],
+  "must be solved before a').\n\t* However, since we haven chosen ",
+  StyleBox["C",
+    FontSlant->"Italic"],
+  " such that this is easy, this is not much more work"
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell[TextData[{
+  "But how to choose ",
+  StyleBox["C ",
+    FontSlant->"Italic"],
+  "? There are several possibities, one good for FEM is the matrix of the \
+symmetric successive over-relaxation solver:\nDivide ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " into three parts ",
+  StyleBox["E",
+    FontSlant->"Italic"],
+  ", ",
+  StyleBox["D",
+    FontSlant->"Italic"],
+  ", and ",
+  Cell[BoxData[
+      \(TraditionalForm\`E\^T\)]],
+  "(remember that ",
+  StyleBox["A",
+    FontSlant->"Italic"],
+  " is symmetric):\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{
+            RowBox[{
+              RowBox[{"(", GridBox[{
+                    {\(a\_11\), \(a\_12\), \(a\_13\), \(a\_14\)},
+                    {\(a\_12\), \(a\_22\), \(a\_23\), \(a\_24\)},
+                    {\(a\_13\), \(a\_23\), \(a\_33\), \(a\_34\)},
+                    {\(a\_14\), \(a\_24\), \(a\_34\), \(a\_44\)}
+                    }], ")"}], "  ", "\[LongRightArrow]", "   ", 
+              RowBox[{"(", GridBox[{
+                    {"0", "0", "0", "0"},
+                    {\(a\_12\), "0", "0", "0"},
+                    {\(a\_13\), \(a\_23\), "0", "0"},
+                    {\(a\_14\), \(a\_24\), \(a\_34\), "0"}
+                    }], ")"}]}], "+", 
+            RowBox[{"(", GridBox[{
+                  {\(a\_11\), "0", "0", "0"},
+                  {"0", \(a\_22\), "0", "0"},
+                  {"0", "0", \(a\_33\), "0"},
+                  {"0", "0", "0", \(a\_44\)}
+                  }], ")"}], "+", 
+            RowBox[{"(", GridBox[{
+                  {"0", \(a\_12\), \(a\_13\), \(a\_14\)},
+                  {"0", "0", \(a\_23\), \(a\_24\)},
+                  {"0", "0", "0", \(a\_34\)},
+                  {"0", "0", "0", "0"}
+                  }], ")"}]}], "=", \(E + D + E\^T\)}], TraditionalForm]]],
+  "\n\nChoose ",
+  Cell[BoxData[
+      \(TraditionalForm\`M = \(1\/\(2 - \[Omega]\)\) \((\(1\/\[Omega]\) D + 
+              E)\) \(1\/\[Omega]\) \(\(D\^\(-1\)\)(\(1\/\[Omega]\) D + 
+              E\^T)\)\)]],
+  ". Since this is the product of triangular matrices, the linear system can \
+solved by simple forward and back substitutions. For sparse matrices, this \
+does not change the property of work ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"O", "(", 
+          RowBox[{"n", "*", "i", "*", 
+            StyleBox["nz",
+              FontSlant->"Italic"]}], 
+          StyleBox[")",
+            FontSlant->"Italic"]}], TraditionalForm]]],
+  "."
+}], "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Stopping criteria", "Subsection"],
+
+Cell[TextData[{
+  "Depending on application, several stopping criteria are possible:\na) Stop \
+when the error ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^\((k)\) - x\)]],
+  " is small enough. i.e. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(||\)\(x\^\((k)\) - 
+          x\)\(||\)\(\(<\)\(\[Epsilon]\)\)\)\)]],
+  " (but ",
+  StyleBox["x",
+    FontSlant->"Italic"],
+  " is usually unknown",
+  ")\nb) Stop when the residual is small enough\nc) Stop when the error is no \
+longer decreasing or decreasing too slow (but how to calculate the error?)\n\
+d) Stop when no more progress is made, i.e. ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(||\)\(x\^\((k)\) - 
+          x\^\((k - 1)\)\)\(||\)\(\(<\)\(\[Epsilon]\)\)\)\)]],
+  " (dangerous for CG)\ne) Stop when a maximal number of iterations is \
+reached"
+}], "Text"],
+
+Cell[TextData[{
+  "Example: ANSYS uses the criterion\n\t",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(r\^\(\((k)\) T\)\) r\^\((k)\)\)\/\(\(b\^T\) b\) \
+\[LessEqual] \[Epsilon]\^2\)]]
+}], "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Summary", "Subsection"],
+
+Cell["\<\
+Iterative Solvers need only matrix-vector and vector-vector \
+multiplications and scalar operations\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Conjugate gradients method gives exact solution in about the same \
+time as Gaussian elimination\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["\<\
+Pure CG is restricted to symmetric positive definite matrices, but \
+variants can also handle general matrices\
+\>", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Very fast convergence with preconditioning", "Text",
+  CellDingbat->"\[FilledSmallCircle]"],
+
+Cell["Accuracy goal determines computational effort", "Text",
+  CellDingbat->"\[FilledSmallCircle]"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Literature", "Section"],
+
+Cell[TextData[{
+  "Multigrid: Pieter Wesseling, ",
+  StyleBox["An Introduction to Multigrid Methods",
+    FontSlant->"Italic"],
+  "; http://www.mgnet.org/mgnet-books-wesseling.html"
+}], "Text"],
+
+Cell[TextData[{
+  "Rainald L\[ODoubleDot]hner: ",
+  StyleBox["Applied CFD Techniques",
+    FontSlant->"Italic"],
+  ", Wiley 2001"
+}], "Text"],
+
+Cell[TextData[{
+  "Gene H. Golub, Charles F. van Loan: ",
+  StyleBox["Matrix Computations",
+    FontSlant->"Italic"],
+  ", 3. ed., Johns Hopkins University Press 1996"
+}], "Text"],
+
+Cell[TextData[{
+  "H.R. Schwarz, ",
+  StyleBox["Numerische Mathematik",
+    FontSlant->"Italic"],
+  ", 4. ed., B. G. Teubner Stuttgart, 1997"
+}], "Text"],
+
+Cell[TextData[{
+  "Richard Barrett, Michael Berry, Tony Chan, James Demmel, June Danoto, Jack \
+Dongarra, Victor Eijkhout, Roldan Pozp, Charles Romine, and Henk van der \
+Vorst: ",
+  StyleBox["Templates for the Solution of Linear Systems: Building Blocks for \
+Iterative Methods",
+    FontSlant->"Italic"],
+  "; http://www.netlib.org/linalg/html_templates/Templates.html"
+}], "Text"],
+
+Cell[TextData[{
+  "Josef Stoer, Roland Bulirsch: ",
+  StyleBox["Numerische Mathematik 2",
+    FontSlant->"Italic"],
+  ", 3. ed., Springer 1990"
+}], "Text"]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->{"RulerBar", "EditBar"},
+WindowSize->{1016, 723},
+WindowMargins->{{107, Automatic}, {1, Automatic}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 45, 0, 84, "Title"],
+Cell[1824, 55, 100, 3, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[1949, 62, 35, 0, 30, "Subsubsection"],
+Cell[1987, 64, 924, 27, 28, "Text"],
+Cell[2914, 93, 443, 8, 76, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3394, 106, 29, 0, 70, "Section 1"],
+Cell[3426, 108, 413, 17, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[3864, 129, 34, 0, 46, "Subsection"],
+Cell[3901, 131, 617, 21, 46, "Text"],
+Cell[4521, 154, 471, 18, 46, "Text"],
+Cell[4995, 174, 491, 12, 46, "Text"],
+Cell[5489, 188, 560, 20, 46, "Text"],
+Cell[6052, 210, 630, 24, 46, "Text"],
+Cell[6685, 236, 342, 13, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7076, 255, 37, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[7138, 259, 36, 0, 46, "Subsection"],
+Cell[7177, 261, 96, 1, 46, "Text"],
+Cell[7276, 264, 105, 1, 46, "Text"],
+Cell[7384, 267, 89, 1, 46, "Text"],
+Cell[7476, 270, 144, 4, 46, "Text"],
+Cell[7623, 276, 431, 12, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8091, 293, 39, 0, 46, "Subsection"],
+Cell[8133, 295, 105, 1, 46, "Text"],
+Cell[8241, 298, 172, 4, 46, "Text"],
+Cell[8416, 304, 971, 17, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9424, 326, 28, 0, 46, "Subsection"],
+Cell[9455, 328, 294, 8, 46, "Text"],
+Cell[9752, 338, 173, 5, 46, "Text"],
+Cell[9928, 345, 135, 5, 46, "Text"],
+Cell[10066, 352, 75, 1, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10178, 358, 48, 0, 46, "Subsection"],
+Cell[10229, 360, 271, 8, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10549, 374, 33, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[10607, 378, 42, 0, 46, "Subsection"],
+Cell[10652, 380, 128, 4, 46, "Text"],
+Cell[10783, 386, 133, 4, 46, "Text"],
+Cell[10919, 392, 349, 8, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[11293, 404, 49, 0, 46, "Subsubsection"],
+Cell[11345, 406, 570, 16, 46, "Text"],
+Cell[11918, 424, 1421, 38, 46, "Text"],
+Cell[13342, 464, 1259, 24, 46, "Input"],
+Cell[14604, 490, 527, 11, 46, "Text"],
+Cell[15134, 503, 2217, 39, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17388, 547, 29, 0, 46, "Subsubsection"],
+Cell[17420, 549, 307, 6, 46, "Input"],
+Cell[17730, 557, 164, 3, 46, "Input"],
+Cell[17897, 562, 21, 0, 46, "Text"],
+Cell[17921, 564, 66, 1, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[18024, 570, 60, 0, 46, "Subsubsection"],
+Cell[18087, 572, 826, 25, 46, "Text"],
+Cell[18916, 599, 508, 10, 46, "Input"],
+Cell[19427, 611, 94, 2, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19558, 618, 35, 0, 46, "Subsubsection"],
+Cell[19596, 620, 316, 10, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19961, 636, 38, 0, 46, "Subsection"],
+Cell[20002, 638, 327, 7, 46, "Text"],
+Cell[20332, 647, 578, 19, 46, "Text"],
+Cell[20913, 668, 92, 1, 46, "Text"],
+Cell[21008, 671, 1761, 44, 46, "Text"],
+Cell[22772, 717, 703, 20, 46, "Text"],
+Cell[23478, 739, 1748, 48, 46, "Text"],
+Cell[25229, 789, 702, 23, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[25956, 816, 35, 0, 46, "Subsubsection"],
+Cell[25994, 818, 119, 3, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26162, 827, 30, 0, 46, "Subsection"],
+Cell[26195, 829, 609, 16, 46, "Text"],
+Cell[26807, 847, 538, 20, 46, "Text"],
+Cell[27348, 869, 757, 18, 46, "Text"],
+Cell[28108, 889, 61, 0, 46, "Text"],
+Cell[28172, 891, 54, 0, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[28251, 895, 42, 0, 46, "Subsubsection"],
+Cell[28296, 897, 303, 7, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28636, 909, 66, 0, 46, "Subsubsection"],
+Cell[28705, 911, 941, 24, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29683, 940, 75, 0, 46, "Subsubsection"],
+Cell[29761, 942, 713, 16, 46, "Text"],
+Cell[30477, 960, 2815, 51, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33329, 1016, 29, 0, 46, "Subsubsection"],
+Cell[33361, 1018, 522, 9, 46, "Input"],
+Cell[33886, 1029, 118, 2, 46, "Input"],
+Cell[34007, 1033, 280, 5, 46, "Input"],
+Cell[34290, 1040, 225, 4, 46, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[34564, 1050, 29, 0, 46, "Subsection"],
+Cell[34596, 1052, 168, 4, 46, "Text"],
+Cell[34767, 1058, 131, 4, 46, "Text"],
+Cell[34901, 1064, 95, 1, 46, "Text"],
+Cell[34999, 1067, 219, 5, 46, "Text"],
+Cell[35221, 1074, 133, 4, 46, "Text"],
+Cell[35357, 1080, 96, 1, 46, "Text"],
+Cell[35456, 1083, 87, 1, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35592, 1090, 36, 0, 41, "Section"],
+Cell[35631, 1092, 135, 4, 46, "Text"],
+Cell[35769, 1098, 225, 5, 46, "Text"],
+Cell[35997, 1105, 157, 4, 46, "Text"],
+Cell[36157, 1111, 133, 4, 46, "Text"],
+Cell[36293, 1117, 76, 1, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[36394, 1122, 47, 0, 46, "Subsection"],
+Cell[36444, 1124, 706, 20, 46, "Text"],
+Cell[37153, 1146, 486, 14, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[37664, 1164, 29, 0, 46, "Subsubsection"],
+Cell[37696, 1166, 1004, 17, 46, "Input"],
+Cell[38703, 1185, 112, 2, 46, "Input"],
+Cell[38818, 1189, 790, 13, 46, "Input"],
+Cell[39611, 1204, 81, 1, 46, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[39741, 1211, 38, 0, 46, "Subsection"],
+Cell[39782, 1213, 724, 18, 46, "Text"],
+Cell[40509, 1233, 534, 11, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[41068, 1248, 29, 0, 46, "Subsubsection"],
+Cell[41100, 1250, 268, 4, 46, "Input"],
+Cell[41371, 1256, 226, 5, 46, "Input"],
+Cell[41600, 1263, 155, 2, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41792, 1270, 35, 0, 46, "Subsubsection"],
+Cell[41830, 1272, 39, 0, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41918, 1278, 46, 0, 46, "Subsection"],
+Cell[41967, 1280, 159, 4, 46, "Text"],
+Cell[42129, 1286, 181, 4, 46, "Text"],
+Cell[42313, 1292, 147, 4, 46, "Text"],
+Cell[42463, 1298, 35973, 961, 46, 9362, 628, "GraphicsData", "PostScript", \
+"Text"],
+Cell[78439, 2261, 27338, 985, 46, 11803, 789, "GraphicsData", "PostScript", \
+"Text"],
+Cell[105780, 3248, 217, 7, 46, "Text"],
+Cell[106000, 3257, 506, 15, 46, "Text"],
+Cell[106509, 3274, 630, 24, 46, "Text"],
+Cell[107142, 3300, 2677, 64, 46, "Text"],
+
+Cell[CellGroupData[{
+Cell[109844, 3368, 29, 0, 46, "Subsubsection"],
+Cell[109876, 3370, 698, 13, 46, "Input"],
+Cell[110577, 3385, 189, 4, 46, "Input"],
+Cell[110769, 3391, 175, 3, 46, "Input"],
+Cell[110947, 3396, 155, 2, 46, "Input"],
+Cell[111105, 3400, 62, 1, 46, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[111204, 3406, 35, 0, 46, "Subsubsection"],
+Cell[111242, 3408, 706, 23, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[111997, 3437, 37, 0, 46, "Subsection"],
+Cell[112037, 3439, 644, 19, 46, "Text"],
+Cell[112684, 3460, 505, 18, 46, "Text"],
+Cell[113192, 3480, 303, 9, 46, "Text"],
+Cell[113498, 3491, 353, 12, 46, "Text"],
+Cell[113854, 3505, 5470, 135, 46, "Text"],
+Cell[119327, 3642, 2520, 68, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[121884, 3715, 39, 0, 46, "Subsection"],
+Cell[121926, 3717, 824, 21, 46, "Text"],
+Cell[122753, 3740, 196, 5, 46, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[122986, 3750, 29, 0, 46, "Subsection"],
+Cell[123018, 3752, 162, 4, 46, "Text"],
+Cell[123183, 3758, 159, 4, 46, "Text"],
+Cell[123345, 3764, 173, 4, 46, "Text"],
+Cell[123521, 3770, 97, 1, 46, "Text"],
+Cell[123621, 3773, 100, 1, 46, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[123770, 3780, 29, 0, 41, "Section"],
+Cell[123802, 3782, 193, 5, 46, "Text"],
+Cell[123998, 3789, 141, 5, 46, "Text"],
+Cell[124142, 3796, 179, 5, 46, "Text"],
+Cell[124324, 3803, 153, 5, 46, "Text"],
+Cell[124480, 3810, 383, 8, 46, "Text"],
+Cell[124866, 3820, 155, 5, 46, "Text"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

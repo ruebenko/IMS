@@ -1,0 +1,608 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     19522,        471]*)
+(*NotebookOutlinePosition[     20183,        494]*)
+(*  CellTagsIndexPosition[     20139,        490]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["LineSegment Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ LineSegment . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 29.11  .2005, \ Imtek, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]Added\ imsDropCollinear, \ 
+      which\ was\ send\ to\ me\ by\ Jan\ Korvink . \ 
+          I\ fxed\ a\ bug\ in\ his\ suggested\ function; \ \
+\[IndentingNewLine]Fixed\ bug\ in\ docu; \[IndentingNewLine]Based\ on\ the\ \
+StraightLine\ Package, \ 
+      which\ is\ now\ obsolte\ by\ this\ package\[IndentingNewLine]*) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ Sources : \ "\<Computational Geometry in C\>", \ 
+      2  nd\ Ed . \ J . \ 
+          O`Rourke\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ 
+      Limitations : \ 
+        This\ might\ not\ be\ under\ GPL\  - \ 
+          that\ \[IndentingNewLine]depends\ on\ Mr . \ 
+              O`Rourke\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  Evaluatable->False,
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`LineSegment`\>"]\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Needs["\<Imtek`Maintenance`\>"];\)\[IndentingNewLine]\
+
+    \(imsCreateObsoleteFunctionInterface[\ 
+        LineSegment2DQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        LineSegment3DQ, \ $Context\ ];\)\[IndentingNewLine]
+    \(imsCreateObsoleteFunctionInterface[\ 
+        LineSegmentQ, \ $Context\ ];\)\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ CollinearQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      LineSegmentProperIntersectQ, \ $Context\ ];\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      LineSegmentIntersectQ, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      LineSegmentIntersect, \ $Context\ ];\[IndentingNewLine]\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]
+    \(imsLineSegment2DQ::usage\  = \ "\<imsLineSegment2DQ[ expr ] returns \
+True if expr is of form { coords, coords } and the coords are of 2D form.\>";\
+\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLineSegment3DQ::usage\  = \ "\<imsLineSegment3DQ[ expr ] returns \
+True if expr is of form { coords, coords } and the coords are of 3D form.\>";\
+\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLineSegmentQ::usage\  = \ "\<imsLineSegmentQ[ expr ] returns True if \
+expr is of form { coords, coords }.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCollinearQ::usage\  = \ "\<imsCollinearQ[ imsLineSegment, coords, \
+comparision, n ] returns True if the comparison is set to Equal - which is \
+the default - and the Point is on the Line Segment. For a comparison Greater \
+imsCollinearQ returns True if the Point is to the left of Line Segment. You \
+can set the precision with n. Default is $MachinePrecision.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLineSegmentProperIntersectQ::usage\  = \ \
+"\<imsLineSegmentProperIntersectQ[ { imsLineSegment, imsLineSegment }, n ] \
+returns True if the line segments intersect; excluding the starting and end \
+points. You can set the precision with n. Default is $MachinePrecision.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLineSegmentIntersectQ::usage = "\<imsLineSegmentIntersectQ[ { \
+imsLineSegment, imsLineSegment }, n ] returns True if the line segments \
+intersect; including the starting and end points of the segments. You can set \
+the precision with n. Default is $MachinePrecision.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine] (*\ functions\ *) \[IndentingNewLine]
+    \(imsLineSegmentIntersect::usage = "\<imsLineSegmentIntersect[ { \
+imsLineSegment, imsLineSegment }, n ] returns the Point or Line of \
+intersection if the lines do intersect. You can set the precision with n. \
+Default is $MachinePrecision.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsLineSegmentParallelIntersect::usage\  = \ \
+"\<imsLineSegmentParallelIntersection[ { imsLineSegment, imsLineSegment }, n \
+] returns a line segment which defines the overlapping part of the two given \
+line segements. You can set the precision with n. Default is \
+$MachinePrecision.\>";\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsDropCollinear::usage = "\<imsDropCollinear[ line ] returns a \
+simplified line by dropping all collinear points. imsDropCollinear[ line , \
+accuracygoal ] performs the collinearity test with the given accuracy goal. \
+The default value is $MachinePrecision.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs", "Section"],
+
+Cell[BoxData[{
+    \(\(Needs["\<Imtek`Point`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Needs["\<Imtek`Polygon`\>"];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      List[]\ is\ constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsLineSegment2DQ[\ {\ \
+{\ _, \ _\ \ }, \ {\ _, \ _\ }\ }\ ]\  := \ True;\)\[IndentingNewLine]
+    \(imsLineSegment3DQ[\ {\ {\ _, \ _, \ _\ }, \ {\ _, \ _, \ _\ }\ }\ ]\  \
+:= \ True;\)\[IndentingNewLine]
+    \(imsLineSegment2DQ[\ ___\ ] := \ False;\)\[IndentingNewLine]
+    \(imsLineSegment3DQ[\ ___\ ]\  := \ False;\)\[IndentingNewLine]
+    \(imsLineSegmentQ[\ expr_\ ]\  := \ 
+        imsLineSegment2DQ[\ expr\ ]\  || \ 
+          imsLineSegment3DQ[\ expr\ ];\)\[IndentingNewLine]
+    \(imsLineSegmentQ[\ ___\ ]\  := \ False;\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(imsCollinearQ[\ \ {\ a_, \ b_\ }, \ c_, \ comparisonQ_, \ 
+            accugoal_:  $MachinePrecision\ ]\  /; \ 
+          comparisonQ\  === \ Less\  || \ comparisonQ\  === \ LessEqual := \ 
+        comparisonQ[\ imsArea[\ {\ a, \ b, \ c\ }\ ], \ 
+          10^\(-accugoal\)\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(imsCollinearQ[\ \ {\ a_, \ b_\ }, \ c_, \ comparisonQ_, \ 
+            accugoal_:  $MachinePrecision\ ]\  /; \ 
+          comparisonQ\  === \ Greater\  || \ 
+            comparisonQ\  === \ GreaterEqual := \ 
+        comparisonQ[\ 
+          imsArea[\ {\ a, \ b, \ 
+              c\ }\ ], \ \(-10^\(-accugoal\)\)\ ];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsCollinearQ[\ \ {\ a_, \ b_\ }, \ c_, \ comparisonQ_:  Equal, \ 
+            accugoal_:  $MachinePrecision\ ]\  /; \ 
+          comparisonQ\  === \ Unequal\  := \ 
+        Abs[\ imsArea[\ {\ a, \ b, \ 
+                c\ }\ ]\ ]\  > \ \ 10^\(-accugoal\);\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsCollinearQ[\ \ {\ a_, \ b_\ }, \ c_, \ comparisonQ_:  Equal, \ 
+            accugoal_:  $MachinePrecision\ ]\  /; \ 
+          comparisonQ\  === \ Equal\  := \ 
+        Abs[\ imsArea[\ {\ a, \ b, \ 
+                c\ }\ ]\ ]\  \[LessEqual] \ \ 10^\(-accugoal\);\)\)}], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsLineSegmentProperIntersectQ[\ {\ {\ a_, \ b_\ }\ , \ {\ c_, \ 
+            d_\ }\ }, \ 
+        accugoal_:  $MachinePrecision\ ]\  := \ \[IndentingNewLine]If[\ \
+\[IndentingNewLine]imsCollinearQ[\ \ {\ a, \ b\ }, \ c, \ Equal, \ 
+            accugoal\ ]\  || \ \[IndentingNewLine]imsCollinearQ[\ {\ a, \ 
+              b\ }, \ d, \ Equal, \ 
+            accugoal\ ]\  || \[IndentingNewLine]imsCollinearQ[\ {\ c, \ 
+              d\ }, \ a, \ Equal, \ 
+            accugoal\ ]\  || \[IndentingNewLine]imsCollinearQ[\ {\ c, \ 
+              d\ }, \ b, \ Equal, \ 
+            accugoal\ ], \[IndentingNewLine]False, \[IndentingNewLine]Xor[\ 
+            imsCollinearQ[\ {\ a, \ b\ }, \ c, \ Less, \ accugoal\ ], \ 
+            imsCollinearQ[\ {\ a, \ b\ }, \ d, \ Less, \ 
+              accugoal\ ]\ ]\  && \ \[IndentingNewLine]Xor[\ 
+            imsCollinearQ[\ {\ c, \ d\ }, \ a, \ Less, \ accugoal\ ], \ 
+            imsCollinearQ[\ {\ c, \ d\ }, \ b, \ Less, \ 
+              accugoal\ ]\ ]\[IndentingNewLine]\ ]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsLineSegmentIntersectQ[\ {\ {\ a_, \ b_\ }, \ {\ c_, \ d_\ }\ }, \ 
+          accugoal_:  $MachinePrecision\ ]\  := \ \[IndentingNewLine]Which[\
+\[IndentingNewLine]imsLineSegmentProperIntersectQ[\ {\ {\ a, \ b\ }, {\ c, \ 
+                d\ }\ }, \ accugoal\ ], \ 
+          True, \[IndentingNewLine]\((\ 
+            Between[\ {\ a, \ b, \ c\ }, \ accugoal\ ]\  || \ 
+              Between[\ {\ a, \ b, \ d\ }, \ 
+                accugoal\ ]\  || \ \[IndentingNewLine]Between[\ {\ c, \ d, \ 
+                  a\ }, \ accugoal\ ]\  || \ 
+              Between[\ {\ c, \ d, \ b\ \ }, \ accugoal\ ]\ \ )\), 
+          True, \[IndentingNewLine] (*\ else\ *) \[IndentingNewLine]True, \ 
+          False\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \( (*\ private\ functions\ *) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(dropCollinear[l : {{\((_)\), \((_)\) .. } .. }, 
+          pte : {\((_)\), \((_)\) .. }, \ accugoal_:  $MachinePrecision\ ] := 
+        If[imsCollinearQ[\ Take[l, \(-2\)], \ pte, Equal, 
+            accugoal], \[IndentingNewLine]Join[
+            Drop[l, \(-1\)], {pte}], \[IndentingNewLine]Join[
+            l, {pte}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ functions\ *) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsLineSegmentParallelIntersect[\ {\ {\ a_, \ b_\ }, \ {\ c_, \ 
+            d_\ }\ }, \ 
+        accugoal_:  $MachinePrecision\ ]\  := \ \
+\[IndentingNewLine]CompoundExpression[\[IndentingNewLine]If[\ \(! \
+imsCollinearQ[\ {\ a, \ b\ }, \ c, \ Equal, \ accugoal\ ]\), \ 
+          Return[\ List[]\ ]\ ]; \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ a, \ b, \ c\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ a, \ b, \ d\ }, \ accugoal\ ], \ 
+          Return[\ {\ c, \ d\ }\ ]\ ], \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ c, \ d, \ a\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ c, \ d, \ b\ }, \ accugoal\ ], \ 
+          Return[\ {\ a, \ b\ }\ ]\ ], \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ a, \ b, \ c\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ c, \ d, \ b\ }, \ accugoal\ ], \ 
+          Return[\ {\ c, \ b\ }\ ]\ ], \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ a, \ b, \ c\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ c, \ d, \ a\ }, \ accugoal\ ], \ 
+          Return[\ {\ c, \ a\ }]\ ], \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ a, \ b, \ d\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ c, \ d, \ b\ }, \ accugoal\ ], \ 
+          Return[\ {\ d, \ b\ }\ ]\ ], \[IndentingNewLine]If[\ 
+          imsBetweenQ[\ {\ a, \ b, \ d\ }, \ accugoal\ ]\  && \ 
+            imsBetweenQ[\ {\ c, \ d, \ a\ }, \ accugoal\ ], \ 
+          Return[\ {\ d, \ a\ }\ ]\ ]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(imsLineSegmentIntersect[\ {\ {\ a_, \ b_\ }, \ {\ c_, \ 
+              d_\ }\ }, \ accugoal_:  $MachinePrecision\ ]\), " ", ":=", " ", 
+        
+        RowBox[{"Module", "[", "\[IndentingNewLine]", 
+          
+          RowBox[{\({\ \ x1, \ y1, \ x2, \ y2, \ x3, \ y3, \ x4, \ y4, \ 
+              denom, \ num, \ t, \ s\ }\), ",", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            
+            RowBox[{\({\ x1, \ y1\ }\  = \ a\), ";", 
+              "\[IndentingNewLine]", \({\ x2, \ y2\ }\  = \ b\), ";", 
+              "\[IndentingNewLine]", \({\ x3, \ y3\ }\  = \ c\), ";", 
+              "\[IndentingNewLine]", \({\ x4, \ y4\ }\  = \ d\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(denom\  = \ 
+                x1\ *\ \((\ y4\  - \ y3\ )\)\  + \ 
+                  x2\ *\ \((\ y3\  - \ y4\ )\)\  + \ 
+                  x4\ *\ \((\ y2\  - \ y1\ )\)\  + \ 
+                  x3\ *\ \((\ y1\  - \ y2\ )\)\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              RowBox[{"If", "[", " ", "\[IndentingNewLine]", 
+                
+                RowBox[{\(Abs[\ denom\ ]\  \[LessEqual] \ 10^\(-accugoal\)\), 
+                  ",", " ", \( (*\ \(! \(! ! \)\)\ *) \), 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                    RowBox[{"Return", "[", " ", 
+                      RowBox[{"imsLineSegmentParallelIntersect", "[", " ", 
+                        RowBox[{
+                          RowBox[{
+                            StyleBox["{",
+                              "Text"], 
+                            StyleBox[" ",
+                              "Text"], \({\ a, \ b\ }, \ {\ c, \ d\ }\), " ", 
+                            "}"}], ",", " ", "accugoal"}], " ", "]"}], " ", 
+                      "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(num\  = \ 
+                x1\ *\ \((\ y4\  - \ y3\ )\)\  + \ 
+                  x3\ *\ \((\ y1\  - \ y4\ )\)\  + \ 
+                  x4\ *\ \((\ y3\  - \ y1\ )\)\), ";", 
+              "\[IndentingNewLine]", \(s\  = \ num\ /\ denom\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(num\  = \ \(-\((\ 
+                    x1\ *\ \((\ y3\  - \ y2\ )\)\  + \ 
+                      x2\ *\ \((\ y1\  - \ y3\ )\)\  + \ 
+                      x3\ *\ \((\ y2\  - \ y1\ )\)\ )\)\)\), ";", 
+              "\[IndentingNewLine]", \(t\  = \ num\ /\ denom\), ";", 
+              "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(If[\[IndentingNewLine]\ \
+\(-10^\(-accugoal\)\)\  \[LessEqual] \ s\  && \ 
+                  s\  \[LessEqual] \ 
+                    1.0\  + \ 
+                      10^\(-accugoal\)\  && \ \(-10^\(-accugoal\)\)\  \
+\[LessEqual] \ \ t\  && \ 
+                  t\  \[LessEqual] \ \ 1.0\  + \ 
+                      10^\(-accugoal\), \[IndentingNewLine]Return[\ {\ 
+                    x1\  + \ s\ *\ \((\ x2\  - \ x1\ )\), 
+                    y1\  + \ 
+                      s\ *\ \((\ 
+                          y2\  - 
+                            y1\ )\)\ }\ ], \[IndentingNewLine]Return[\ {\ }\ \
+]\ \[IndentingNewLine]]\), ";"}]}], "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsDropCollinear[myLine : {{\((_)\), \((_)\) .. } .. }, 
+        accugoal_:  $MachinePrecision] := \ 
+      Fold[dropCollinear[\ #1, \ #2, \ accugoal\ ] &, Take[myLine, 2], 
+        Drop[myLine, 2]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[{
+    \(Protect[]\  (*\ anything\ *) \), "\[IndentingNewLine]", 
+    \(EndPackage[]\ \), "\n", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{809, 603},
+WindowMargins->{{63, Automatic}, {2, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 39, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1840, 57, 31, 0, 74, "Section"],
+Cell[1874, 59, 1795, 33, 395, "Input",
+  Evaluatable->False,
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3706, 97, 32, 0, 44, "Section"],
+Cell[3741, 99, 169, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3947, 109, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[4024, 113, 26, 0, 38, "Subsection"],
+Cell[4053, 115, 3712, 60, 987, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7802, 180, 36, 0, 30, "Subsection"],
+Cell[7841, 182, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8063, 192, 32, 0, 44, "Section"],
+Cell[8098, 194, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8223, 201, 24, 0, 44, "Section"],
+Cell[8250, 203, 159, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8446, 211, 30, 0, 44, "Section"],
+Cell[8479, 213, 346, 6, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8862, 224, 27, 0, 44, "Section"],
+Cell[8892, 226, 79, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9008, 233, 29, 0, 44, "Section"],
+Cell[9040, 235, 681, 13, 70, "Input",
+  InitializationCell->True],
+Cell[9724, 250, 1376, 27, 70, "Input",
+  InitializationCell->True],
+Cell[11103, 279, 1077, 18, 70, "Input",
+  InitializationCell->True],
+Cell[12183, 299, 788, 13, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13008, 317, 26, 0, 44, "Section"],
+Cell[13037, 319, 179, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13253, 328, 41, 0, 44, "Section"],
+Cell[13297, 330, 89, 2, 27, "Input",
+  InitializationCell->True],
+Cell[13389, 334, 404, 7, 91, "Input",
+  InitializationCell->True],
+Cell[13796, 343, 80, 2, 27, "Input",
+  InitializationCell->True],
+Cell[13879, 347, 1534, 25, 251, "Input",
+  InitializationCell->True],
+Cell[15416, 374, 3407, 66, 475, "Input",
+  InitializationCell->True],
+Cell[18826, 442, 259, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19122, 452, 30, 0, 44, "Section"],
+Cell[19155, 454, 112, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19304, 461, 30, 0, 44, "Section"],
+Cell[19337, 463, 157, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

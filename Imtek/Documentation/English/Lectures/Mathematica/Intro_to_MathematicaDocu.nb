@@ -1,0 +1,6734 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    126403,       4979]*)
+(*NotebookOutlinePosition[    132209,       5136]*)
+(*  CellTagsIndexPosition[    131896,       5123]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+  "The ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " Programming language - An introduction"
+}], "Title"],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[TextData[{
+  "The IMS home page is at: ",
+  ButtonBox["IMTEK ",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+  StyleBox[ButtonBox["Mathematica",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+    FontSlant->"Italic"],
+  ButtonBox[" Supplement (IMS)",
+    ButtonData:>{
+      URL[ "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"],
+       None},
+    Active->True,
+    ButtonStyle->"Hyperlink",
+    ButtonNote->
+      "http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/"]
+}], "Text"],
+
+Cell["\<\
+Copyright (c) 2004-2006 Oliver R\[UDoubleDot]benk\[ODoubleDot]nig
+Permission is granted to copy,distribute and/or modify this document under \
+the terms of the GNU Free Documentation License,Version 1.2 or any later \
+version published by the Free Software Foundation; with no Invariant \
+Sections,no Front-Cover Texts,and no Back-Cover Texts.A copy of the license \
+is included in the section entitled \"GNU Free Documentation License\".\
+\>", \
+"Text"]
+}, Open  ]],
+
+Cell["\<\
+By Oliver R\[UDoubleDot]benk\[ODoubleDot]nig <ruebenko AT imtek.de>
+Version: 0.1.8\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Things that make life easier", "Section 1"],
+
+Cell[BoxData[GridBox[{
+        {"TIPS"},
+        {
+          RowBox[{\(\[Bullet]\ For\ information\ about\ a\ function\), ",", 
+            RowBox[{"type", 
+              StyleBox["?",
+                "MR"]}], ",", \(the\ function\ name\), ",", 
+            RowBox[{"and", " ", 
+              RowBox[{
+                StyleBox[
+                  RowBox[{"press", 
+                    StyleBox["\[ShiftKey]\[KeyBar]\[EnterKey]",
+                      "KeyboardChars"]}]], "."}]}]}]},
+        {\(\[Bullet]\ For\ information\ about\ a\ function, \ 
+          click\ into\ the\ function\ and\ press\ \(\(F1\)\(.\)\)\)},
+        {
+          RowBox[{\(\[Bullet]\ To\ abort\ a\ calculation\), ",", 
+            RowBox[{
+              RowBox[{
+                StyleBox[
+                  RowBox[{"press", 
+                    StyleBox["\[AltKey]\[LeftModified]",
+                      "KeyboardChars"]}]], 
+                StyleBox[".",
+                  "MR"], 
+                StyleBox[
+                  RowBox[{
+                    StyleBox["\[RightModified]",
+                      "KeyboardChars"], "on"}]]}], " ", "Windows"}], ",", 
+            RowBox[{
+              RowBox[{
+                StyleBox["\[CloverLeaf]\[LeftModified]",
+                  "KeyboardChars"], 
+                StyleBox[".",
+                  "MR"], 
+                StyleBox[
+                  RowBox[{
+                    StyleBox["\[RightModified]",
+                      "KeyboardChars"], "on"}]]}], " ", "Macintosh"}], ",", 
+            RowBox[{"or", " ", 
+              RowBox[{"\[Mod1Key]\[LeftModified]", 
+                StyleBox[".",
+                  "MR"], "\[RightModified]"}], " ", "on", 
+              " ", \(\(Unix\)\(.\)\)}]}]},
+        {
+          RowBox[{\(\[Bullet]\ To\ complete\ a\ given\ command\ name\), ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{"press", 
+                  StyleBox["\[ControlKey]\[LeftModified]",
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", "Windows"}], ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{
+                  StyleBox["\[CloverLeaf]\[LeftModified]",
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", "Macintosh"}], ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{"or", 
+                  StyleBox["\[ControlKey]\[LeftModified]",
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", \(\(Unix\)\(.\)\)}]}]},
+        {
+          RowBox[{\(\[Bullet]\ To\ see\ a\ template\), ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{"press", 
+                  
+                  StyleBox["\[ShiftKey]\[KeyBar]\[ControlKey]\[LeftModified]",
+                    
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", "Windows"}], ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{
+                  
+                  StyleBox["\[ShiftKey]\[KeyBar]\[CloverLeaf]\[LeftModified]",
+                    
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", "Macintosh"}], ",", 
+            RowBox[{
+              StyleBox[
+                RowBox[{"or", 
+                  
+                  StyleBox["\[ShiftKey]\[KeyBar]\[ControlKey]\[LeftModified]",
+                    
+                    "KeyboardChars"], 
+                  StyleBox["K",
+                    "MR"], 
+                  StyleBox["\[RightModified]",
+                    "KeyboardChars"], "on"}]], " ", \(\(Unix\)\(.\)\)}]}]}
+        }]], "FramedBox"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Programming Fundamentals", "Section 1"],
+
+Cell[TextData[{
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " is an interpreted language. If we present the interpreter a number and ",
+  "by way of \[ShiftKey]\[KeyBar]\[EnterKey] ",
+  "it will evaluate that number to itself and print the result."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(1\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell["You can do numeric computations", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(1 + 1\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell["Or symbolic computations", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(D[\ x^2, \ x\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\ x\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Internal Data Types", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Atoms - Primitive expressions", "Subsection"],
+
+Cell[TextData[{
+  "The basic data types in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " are Atoms. We have available Atoms of the following types:\nNumbers, \
+Strings, Symbols\nHead is a means to access the data type of an object and \
+has the following syntax: Head[ ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  " ]"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Integer\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ 1.2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Real\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ 1/3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Rational\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ 1\  + \ I\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Complex\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ "\<Hello World\>"\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(String\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ foo\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Symbol\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Composite expressions", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {\(Everything\ is\ an\ expression\), 
+          StyleBox[\(expr\  = \ h[\ e\_1, \ e\_2, \  ... \ ]\),
+            FontSlant->"Plain"]}
+        }]], "DefinitionBox",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[TextData[{
+  "h \[Rule] Head\n",
+  Cell[BoxData[
+      \(TraditionalForm\`e\_1, \  ... \)]],
+  "  \[Rule] elements"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr\  = \ h[\ 1, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(h[1, 2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ expr\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(h\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Part[\ expr, \ 2\ ]\), "\[IndentingNewLine]", 
+    \(expr\[LeftDoubleBracket]\ 
+      2\ \[RightDoubleBracket]\), "\[IndentingNewLine]", 
+    \(expr[\([\ 2\ ]\)]\)}], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The elements themselves are expressions, that need not be \
+atomic\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr\  = \ h[\ 1, \ g[\ 2, 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(h[1, g[2, 3]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr2\  = \ 
+      expr\[LeftDoubleBracket]\ 2\ \[RightDoubleBracket]\)], "Input"],
+
+Cell[BoxData[
+    \(g[2, 3]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ expr2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(g\)], "Output"]
+}, Open  ]],
+
+Cell["The head of an expression need not be atomic either", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr\  = \ \(h[\ 1, \ 2\ ]\)[\ 3, \ 4\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(\(h[1, 2]\)[3, 4]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ expr\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(h[1, 2]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Everything is an expression! HoldForm[ ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  " ] prevents the evaluator from evaluating the expression. FullForm[ ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  " ] returns the internal representation."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\[IndentingNewLine]HoldForm[\[IndentingNewLine]expr\  = \ 
+          h[\ 1, \ 2\ ]\[IndentingNewLine]]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(HoldForm[Set[expr, h[1, 2]]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell["Also operators are expressions:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\ HoldForm[\ 1\  + \ 1\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(HoldForm[Plus[1, 1]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The evaluator does the following:
+\t1) take an expression
+\t2) evaluate the head and the elements
+\t3) apply the head to the elements\
+\>", "Text"],
+
+Cell["Expressions can be lists of expressions", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr\  = \ List[\ e\_1, \ e\_2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({e\_1, e\_2}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+So, if commands take an expression as argument, they will also take \
+a list of expressions as argument - since they are a expression\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\ expr\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(List[Subscript[e, 1], Subscript[e, 2]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[GridBox[{
+        {\(No\ distinction\ between\), \(expressions\ and\ commands\)},
+        {"\[Placeholder]", \(programs\ and\ data\)}
+        }]], "DefinitionBox"],
+
+Cell[BoxData[
+    \(Clear[\ e, \ expr, \ expr2, \ foo, \ g, \ h\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Prefix-, Infix-, Postfix-Notation", "Subsection"],
+
+Cell["\<\
+The different notations place the operator in different \
+positions.\
+\>", "Text"],
+
+Cell["A prefix notation looks like the following:", "Text"],
+
+Cell[BoxData[
+    \(\(+\ 1\)\ 2\)], "Input",
+  Evaluatable->False],
+
+Cell["An infix notation", "Text"],
+
+Cell[BoxData[
+    \(1\  + \ 2\)], "Input",
+  Evaluatable->False],
+
+Cell["And a postfix notation", "Text"],
+
+Cell[BoxData[
+    \(\(\(1\ 2\)\(\ \)\(+\)\)\)], "Input",
+  Evaluatable->False],
+
+Cell[TextData[{
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " will internally translate expression into prefix notation."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\ HoldForm[\ 1\  + \ 1\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(HoldForm[Plus[1, 1]]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "For human understanding it is, however, more convenient to use the \
+\"natural\" notation. Thus most ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " operations are accessible with their \"natural\" notation and their \
+prefix notation. See the example of Plus[] just given.\nTo gain deeper \
+understanding in the working of ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " it can be useful to think of the prefix form. You can always see the \
+prefix form using FullForm[] and to prevent evaluation, HoldForm[]."
+}], "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Combining expressions and their evaluation", "Section"],
+
+Cell["\<\
+Often it is necessary to combine more that one command into a set \
+of commands to be executed. First we want to be able to give this new command \
+a name.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Compound Expressions", "Subsection"],
+
+Cell["\<\
+You can group commands with the CompoundExpression[] which stands \
+for the semicolon (;)\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(compound\  = \ 
+      CompoundExpression[\[IndentingNewLine]Print["\<Hello Simulation 1 \>"], \
+\[IndentingNewLine]D[\ x^2, \ x\ ]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    \("Hello Simulation 1 "\)], "Print"],
+
+Cell[BoxData[
+    \(2\ x\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Or you can use parenthesis. Note the slightly different syntax: \
+Here you use a semicolon and not a comma.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(compound\  = \((\[IndentingNewLine]Print["\<Hello Simulation 1 \>"]; \
+\[IndentingNewLine]D[\ x^2, \ x\ ]\[IndentingNewLine])\)\)], "Input"],
+
+Cell[BoxData[
+    \("Hello Simulation 1 "\)], "Print"],
+
+Cell[BoxData[
+    \(2\ x\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Set and SetDelayed", "Subsection"],
+
+Cell["We can name expressions and refer to them later.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Set[\ size, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(size\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Times[\ 2, \ size\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(4\)], "Output"]
+}, Open  ]],
+
+Cell["The same can be achieved by:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(size\  = \ 2;\)\), "\[IndentingNewLine]", 
+    \(2\ *\ size\)}], "Input"],
+
+Cell[BoxData[
+    \(4\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The semicolon - CompoundExpression - inhibits the print out of the \
+evaluated expression size = 2. We have thus a mechanism for gluing single \
+expressions together.
+The Set[], or more commonly the = sets a lhs (left hand side) to be equal to \
+a rhs (right hand side). This is evaluated once and thereafter we can refer \
+to the rhs by using lhs.\
+\>", "Text"],
+
+Cell["Consider the following definition:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(x\  = \ 4;\)\), "\[IndentingNewLine]", 
+    \(\(multByTwo[\ x_\ ]\  = \ size\ *\ x;\)\), "\[IndentingNewLine]", 
+    \(multByTwo[\ 2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(8\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This is probably not what you intended! What happens? During the \
+evaluation x is substituted by 4 and thus multByTwo is set to 8. Each time \
+multByTwo is called - with any argument - it evaluates to 8. The correct way \
+is as follows:\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(multByTwo[\ x_\ ]\  := \ size\ *\ x;\)\), "\[IndentingNewLine]", 
+    \(multByTwo[\ 2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(4\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Now,each time multByTwo is called, it is evaluated with the \
+supplied argument. However the size variable is accessible in the whole \
+program\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(size\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+and a modification of the size variable results in a modification \
+of the behavior of the function multByTwo. For the same arguments to a \
+function the function should produce the same output.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(size = 3;\)\), "\[IndentingNewLine]", 
+    \(multByTwo[\ 2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell["This clears the meaning of the expressions.", "Text"],
+
+Cell[BoxData[
+    \(\(Clear[\ size, \ x, \ multByTwo\ ];\)\)], "Input"],
+
+Cell["The variable size is now cleared", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(size\)], "Input"],
+
+Cell[BoxData[
+    \(size\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["With", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"With", "[", " ", 
+            
+            RowBox[{\({\ x\  = \ x\_0, \ y\  = \ y\_0, \  .. \ }\), ",", " ", 
+              
+              StyleBox["expr",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "With takes a list of local constants ",
+  Cell[BoxData[
+      \({\ x\  = \ x\_0, \ y\  = \ y\_0, \  .. \ }\)],
+    TextAlignment->Center,
+    TextJustification->0],
+  " and uses them in ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell["\<\
+In the previous example we used size as a scaling factor for our \
+multByTwo procedure. This may in some cases be unwanted since size is \
+accessible from the outside. To hide a variable we can make us of With. \
+\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(\(scale\  = \ 27;\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(multByTwo[\ x_\ ]\  := \ 
+        With[\[IndentingNewLine]{\ 
+            scale\  = \ 2\ }, \[IndentingNewLine]scale\ *\ 
+            x\[IndentingNewLine]];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(multByTwo[\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell["It is also possible to pass the value of the local variable.", "Text"],
+
+Cell[BoxData[
+    \(\(multByScale[\ x_, \ scale0_\ ]\  := \ 
+        With[\[IndentingNewLine]{\ 
+            scale\  = \ scale0\ }, \[IndentingNewLine]scale\ *\ 
+            x\[IndentingNewLine]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(multByScale[\ 3, \ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(scale\)], "Input"],
+
+Cell[BoxData[
+    \(27\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "You can, however, not alter the local constant ",
+  StyleBox["scale",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(wrong[\ x_, \ scale0_\ ]\  := \ 
+      With[\[IndentingNewLine]{\ 
+          scale\  = \ scale0\ }, \[IndentingNewLine]scale\  = 
+          scale\ *\ x; \[IndentingNewLine]scale\ \  + \ 
+          2\[IndentingNewLine]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(wrong[\ 3, \ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Set::"setraw"\), \(\(:\)\(\ \)\), "\<\"Cannot assign to raw \
+object \\!\\(2\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Set::setraw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(4\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+With is in general faster than using Module, which we are going to \
+discuss next\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?Global`*\)\)], "Input"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Global`",
+            FontFamily->"Helvetica",
+            FontSize->12,
+            FontWeight->"Bold"]},
+        {GridBox[{
+              {
+                ButtonBox[
+                  StyleBox["compound",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`compound"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["expr",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`expr"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["foo",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`foo"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["h",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`h"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["multByTwo",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`multByTwo"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["scale0",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`scale0"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["size",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`size"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["x",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`x"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], "", ""},
+              {
+                ButtonBox[
+                  StyleBox["e",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`e"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["expr2",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`expr2"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["g",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`g"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["multByScale",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  
+                  ButtonData:>{"Info3291380102-2523482", 
+                    "Global`multByScale"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["scale",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`scale"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["scale$",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`scale$"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], 
+                ButtonBox[
+                  StyleBox["wrong",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3291380102-2523482", "Global`wrong"},
+                  ButtonFrame->"None",
+                  ButtonNote->"Global`"], "", "", ""}
+              },
+            RowMinHeight->{1, 1.05}]}
+        },
+      RowSpacings->{2, 3},
+      ColumnAlignments->{Left},
+      ColumnsEqual->True]], "Print",
+  CellMargins->{{20, Inherited}, {Inherited, Inherited}},
+  ShowCellLabel->False,
+  CellFrameMargins->{{Inherited, Inherited}, {14, 14}},
+  Background->RGBColor[0.964706, 0.929412, 0.839216],
+  ButtonBoxOptions->{Active->True}]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Clear[\ scale, \ multByScale, \ wrong, \ scale0\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Module", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Module", "[", " ", 
+            RowBox[{
+              RowBox[{"{", 
+                RowBox[{
+                  StyleBox["x",
+                    FontSlant->"Italic"], ",", " ", 
+                  StyleBox["y",
+                    FontSlant->"Italic"], ",", " ", ".."}], "}"}], " ", 
+              StyleBox["expr",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Module treats the variables {x, y, ..} as local, however, not as \
+constants, in ",
+  StyleBox["expr",
+    FontSlant->"Italic"]
+}], "Text"],
+
+Cell["The problem can be solved by", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(right[\ x_, \ scale0_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ 
+          scale\  = \ scale0\ }, \[IndentingNewLine]scale\  = 
+          scale\ *\ x; \[IndentingNewLine]scale\ \  + \ 
+          2\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(right\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Right\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(scale\  = \ 27;\)\), "\[IndentingNewLine]", 
+    \(right[\ 2, \ \ scale\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(56\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Please note that inside the Module[] the value of scale was \
+changed. Outside the module scale retains its original value\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(scale\)], "Input"],
+
+Cell[BoxData[
+    \(27\)], "Output"]
+}, Open  ]],
+
+Cell["Consider the following program:", "Text"],
+
+Cell[BoxData[
+    \(ProductTable[\ symbol_, \ max_\ ]\  := \ 
+      Table[\ i\ *\ symbol, \ {\ i, \ 1, \ max}\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ProductTable[\ a, \ 5\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({a, 2\ a, 3\ a, 4\ a, 5\ a}\)], "Output"]
+}, Open  ]],
+
+Cell["This works as expected.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ProductTable[\ i, \ 5]\)], "Input"],
+
+Cell[BoxData[
+    \({1, 4, 9, 16, 25}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+In the second case the argument variable i is evaluated during the \
+buildup process of the Table expression.
+The problem here is that we actually have two different meanings for i. One \
+is the counter in the Table expression and the second one is the symbol name \
+we would like to be in the product table. The solution is to separate the two \
+variables from each other. That is to generate a local variable for the Table \
+expression.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(ProductTable[\ symbol_, \ max_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ i\ }, \[IndentingNewLine]Table[\ 
+            i\ *\ symbol, \ {\ i, \ 1, \ 
+              max}\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ProductTable[\ i, \ 5\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({i, 2\ i, 3\ i, 4\ i, 5\ i}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Now the local variable i from the Table expression is isolated from \
+the i supplied to the procedure as an argument.\
+\>", "Text"],
+
+Cell["Module is in general slower than With.", "Text"],
+
+Cell[BoxData[
+    \(Clear[\ ProductTable, \ i, \ max, \ symbol, \ a\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Block", "Subsection"],
+
+Cell["\<\
+Block has only one use left: To temporarily modify system \
+variables.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \($RecursionLimit\)], "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+
+Cell[BoxData[
+    \(256\)], "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Block[{$RecursionLimit = 20}, \[IndentingNewLine]a = 
+        h[\ a\ ]\[IndentingNewLine]]\)], "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+
+Cell[BoxData[
+    RowBox[{\($RecursionLimit::"reclim"\), \(\(:\)\(\ \)\), "\<\"Recursion \
+depth of \\!\\(20\\) exceeded. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"$RecursionLimit::reclim\\\"]\\)\"\>"}]], "Message",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+
+Cell[BoxData[
+    \(h[h[
+        h[h[h[h[h[h[h[h[h[h[h[h[h[h[h[h[Hold[
+                                        h[a]]]]]]]]]]]]]]]]]]]]\)], "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \($RecursionLimit\)], "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+
+Cell[BoxData[
+    \(256\)], "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Clear[\ a\ ]\)], "Input"],
+
+Cell["Block is slower than With but faster than Module", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Returning multiple values", "Subsection"],
+
+Cell["\<\
+It is also possible to return multiple values with With, Block and \
+Module\
+\>", "Text"],
+
+Cell[BoxData[
+    \(pointOnUnitCircle[\ angle_\ ]\  := \ 
+      Module[\[IndentingNewLine]{\ x, \ y\ }, \[IndentingNewLine]x\  = \ 
+          Cos[\ angle\ ]; \[IndentingNewLine]y\  = \ 
+          Sin[\ angle\ ]; \[IndentingNewLine]Return[\ {\ x, \ 
+            y\ }\ ];\[IndentingNewLine]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(pointOnUnitCircle[\ Pi/4\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({1\/\@2, 1\/\@2}\)], "Output"]
+}, Open  ]],
+
+Cell["You can also assign directly into a list", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\({\ myX, \ myY\ }\  = \ 
+        pointOnUnitCircle[\ Pi/4\ ];\)\), "\[IndentingNewLine]", 
+    \(myX\)}], "Input"],
+
+Cell[BoxData[
+    \(1\/\@2\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Sending multiple values", "Subsection"],
+
+Cell["\<\
+It is also possible to send multiple values into With, Block and \
+Module as compound structures\
+\>", "Text"],
+
+Cell[BoxData[
+    \(midPoint[\ {\ {\ x1_, \ y1_\ }, \ {\ x2_, \ y2_\ }\ }\ \ ]\  := \ 
+      Module[\[IndentingNewLine]{\ 
+          theMidPoint\ }, \[IndentingNewLine]theMidPoint\  = \ {\ \((\ 
+                x1\  + \ x2\ )\)\ /\ 2, \ \((\ y1\  + \ y2\ )\)\ /\ 
+              2\ \ }; \ \[IndentingNewLine]Return[\ 
+          theMidPoint\ ];\[IndentingNewLine]]\)], "Input"],
+
+Cell["We set two points", "Text"],
+
+Cell[BoxData[{
+    \(\(firstPoint\  = \ {\ 1, \ 1\ };\)\), "\[IndentingNewLine]", 
+    \(\(secondPoint\  = \ {\ 2, \ 2\ };\)\)}], "Input"],
+
+Cell[TextData[{
+  "And pass them into the procedure. Note that ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " does the matching to the corresponding variables itself"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(midPoint[\ {\ firstPoint, \ secondPoint\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({3\/2, 3\/2}\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[TextData[{
+  "Predicates are expressions the return True or False. In ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " most predicates end in a ...Q (for question)"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AtomQ[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AtomQ[\ h[\ e\_1, \ e\_2\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(IntegerQ[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(EvenQ[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+You can combine Predicates with boolean expressions. For example we \
+have the boolean AND\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(And[\ VectorQ[\ 1\ ], \ NumericQ[\ 1\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell["This is the same as", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(VectorQ[\ 1\ ]\  && \ NumericQ[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell["The following is a predicates not ending in Q", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Negative[\ \(-2\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Conditionals", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["If", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"If", "[", " ", 
+            RowBox[{
+              StyleBox["condition",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["true",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["false",
+                FontSlant->"Italic"]}], " ", "]"}]},
+        {
+          RowBox[{"If", "[", " ", 
+            RowBox[{
+              StyleBox["condition",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["true",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["false",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Italic"], 
+              StyleBox[" ",
+                FontSlant->"Italic"], 
+              StyleBox["undetermined",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " evaluates the ",
+  StyleBox["condition",
+    FontSlant->"Italic"],
+  " and then either processed the ",
+  StyleBox["true",
+    FontSlant->"Italic"],
+  " part or the ",
+  StyleBox["false",
+    FontSlant->"Italic"],
+  " part; depending on whether the evaluated condition returns True or \
+False."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(If[\ 1\  \[Equal] \ 1, \ Print[\ "\<True\>"\ ], \ 
+      Print[\ "\<This is a Mathematica bug\>"\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("True"\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(If[\ a\  \[Equal] \ b, \ Print[\ "\<True\>"\ ], \ 
+      Print[\ "\<False\>"\ ], \ Print[\ "\<I don't know\>"\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("I don't know"\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(a = b\)], "Input"],
+
+Cell[BoxData[
+    \(b\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(If[\ a\  \[Equal] \ b, \ Print[\ "\<True\>"\ ], \ 
+      Print[\ "\<False\>"\ ], \ Print[\ "\<I don't know\>"\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("True"\)], "Print"]
+}, Open  ]],
+
+Cell["To compute the absolute value of a number", "Text"],
+
+Cell[BoxData[
+    \(absoluteValue[\ x_\ ]\  := \ 
+      If[\ x\  < \ 0, \ \(-x\), \ x\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(absoluteValue[\ \(-2\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Clear[\ a, \ b, \ absoluteValue\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(a\)], "Input"],
+
+Cell[BoxData[
+    \(a\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Which", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Which", "[", " ", 
+            RowBox[{
+              StyleBox[\(test\_1\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(value\_1\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(test\_2\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(value\_2\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["...",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Which evaluates ",
+  Cell[BoxData[
+      FormBox[
+        StyleBox[\(test\_i\),
+          FontSlant->"Italic"], TraditionalForm]]],
+  "and returns the corresponding ",
+  Cell[BoxData[
+      FormBox[
+        StyleBox[\(value\_i\),
+          FontSlant->"Italic"], TraditionalForm]]],
+  "for the first ",
+  Cell[BoxData[
+      FormBox[
+        StyleBox[\(test\_i\),
+          FontSlant->"Italic"], TraditionalForm]]],
+  "that evaluates to True"
+}], "Text"],
+
+Cell[BoxData[
+    \(absoluteValue[\ x_\ ]\  := \ 
+      Which[\[IndentingNewLine]x\  < \ 
+          0, \ \(-x\), \[IndentingNewLine]x\  \[Equal] \ 0, \ 
+        0, \[IndentingNewLine]True, \ x\[IndentingNewLine]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(absoluteValue[\ \(-2\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell["Which is useful for long chains of conditions", "Text"],
+
+Cell[BoxData[
+    \(Clear[\ absoluteValue\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Switch", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Switch", "[", " ", 
+            RowBox[{
+              StyleBox["expr",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[\(form\_1\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(value\_1\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(form\_2\),
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox[\(value\_2\),
+                FontSlant->"Italic"], ",", " ", \(\(...\)\(.\)\)}], 
+            StyleBox[
+              RowBox[{
+                StyleBox[" ",
+                  FontSlant->"Plain"], " "}]], "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Switch evaluates ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  ", then compares it with each of the ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox[
+          StyleBox["\<\"form\"\>",
+            "TI"], "i"], TraditionalForm]]],
+  " in turn, evaluating and returning the ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox[
+          StyleBox["\<\"value\"\>",
+            "TI"], "i"], TraditionalForm]]],
+  " corresponding to the first match found. "
+}], "Text"],
+
+Cell[BoxData[
+    \(absoluteValue[\ x_\ ]\  := \ 
+      Switch[\ x, \[IndentingNewLine]_?
+          Negative, \ \(-x\), \[IndentingNewLine]_, \ 
+        x\[IndentingNewLine]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(absoluteValue[\ \(-2\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Clear[\ absoluteValue\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Condition", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{
+            StyleBox["pattern",
+              FontSlant->"Italic"], 
+            StyleBox[" ",
+              FontSlant->"Plain"], 
+            StyleBox["/;",
+              FontSlant->"Plain"], 
+            StyleBox[" ",
+              FontSlant->"Plain"], 
+            StyleBox["condition",
+              FontSlant->"Italic"]}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[BoxData[{
+    \(\(absoluteValue[\ x_\ ]\  /; \ 
+          Negative[\ x\ ]\  := \ \(-x\);\)\), "\[IndentingNewLine]", 
+    \(\(absoluteValue[\ x_\ ]\  := \ x;\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(absoluteValue[\ \(-2\)\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "You can use /; to define piecewise functions. This is the most elegant way \
+to treat conditionals in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(Clear[\ absoluteValue\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Nonstandard Evaluation - Lazy Evaluation", "Section"],
+
+Cell["Consider the following expression:", "Text"],
+
+Cell[BoxData[{
+    \(\(if[\ True, \ then_, \ else_\ \ ]\  := \ 
+        then;\)\), "\[IndentingNewLine]", 
+    \(\(if[\ False, \ then_, \ else_\ ]\  := \ else;\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(if[\ 1 \[Equal] 1, \ 1 + 1, \ 
+        2 + 2\ \ ]\)\(\ \)\(//\)\(\ \)\(Trace\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        RowBox[{"{", 
+          RowBox[{
+            TagBox[\(1 \[Equal] 1\),
+              HoldForm], ",", 
+            TagBox["True",
+              HoldForm]}], "}"}], ",", 
+        RowBox[{"{", 
+          RowBox[{
+            TagBox[\(1 + 1\),
+              HoldForm], ",", 
+            TagBox["2",
+              HoldForm]}], "}"}], ",", 
+        RowBox[{"{", 
+          RowBox[{
+            TagBox[\(2 + 2\),
+              HoldForm], ",", 
+            TagBox["4",
+              HoldForm]}], "}"}], ",", 
+        TagBox[\(if[True, 2, 4]\),
+          HoldForm], ",", 
+        TagBox["2",
+          HoldForm]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The evaluator evaluates all sub expressions first, then only the \
+result is processed. Evaluating each subexpression may be undesired; \
+especially for resource consuming expressions. Is it possible to pass \
+expression without evaluating them in the function call?\
+\>", "Text"],
+
+Cell[BoxData[
+    \(SetAttributes[\ if, \ HoldRest\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(if[\ 1 \[Equal] 1, \ 1 + 1, \ 
+        2 + 2\ \ ]\)\(\ \)\(//\)\(\ \)\(Trace\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        RowBox[{"{", 
+          RowBox[{
+            TagBox[\(1 \[Equal] 1\),
+              HoldForm], ",", 
+            TagBox["True",
+              HoldForm]}], "}"}], ",", 
+        TagBox[\(if[True, 1 + 1, 2 + 2]\),
+          HoldForm], ",", 
+        TagBox[\(1 + 1\),
+          HoldForm], ",", 
+        TagBox["2",
+          HoldForm]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Note that the expression 2 + 2 has not been evaluated. This concept is \
+called Lazy Evaluation. We force the evaluator only to evaluate at need. This \
+is actually the same way ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " handles the If[] expression."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Attributes[\ If\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({HoldRest, Protected}\)], "Output"]
+}, Open  ]],
+
+Cell["Most programming constructs use non standard evaluation", "Text"],
+
+Cell[TextData[{
+  "To start from a fresh ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " we do"
+}], "Text"],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Rules, Patterns and all that", "Section 1"],
+
+Cell[CellGroupData[{
+
+Cell["Patterns", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Blank", "Subsection"],
+
+Cell[TextData[{
+  "A Blank or _ matches any one ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " expression. To investigate the behavior we use the predicate MatchQ."
+}], "Text"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"MatchQ", "[", " ", 
+            RowBox[{
+              StyleBox["expr",
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["form",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "MatchQ returns True if the pattern of type ",
+  StyleBox["form",
+    FontSlant->"Italic"],
+  " matches ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MatchQ[\ 1, \ _\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MatchQ[\ x, \ _\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(MatchQ[\ #, \ _\ ] &\)\  /@ \ {\ 1, \ x, \ \[CapitalPi], \ 1.2, \ 
+        compute[\ x\ ], \ a\^2\ }\)], "Input"],
+
+Cell[BoxData[
+    \({True, True, True, True, True, True}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Head[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Integer\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(MatchQ[\ #, \ _Integer\ ] &\)\  /@ \ {\ 1, \ x, \ \[CapitalPi], \ 
+        1.2, \ compute[\ x\ ], \ a\^2\ }\)], "Input"],
+
+Cell[BoxData[
+    \({True, False, False, False, False, False}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+A _h pattern matches any expression with head h. In this case \
+_Integer matches expression with Head Integer.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(MatchQ[\ #, \ _\^_\ ] &\)\  /@ \ {\ 1, \ x, \ \[CapitalPi], \ 1.2, \ 
+        compute[\ x\ ], \ a\^2\ }\)], "Input"],
+
+Cell[BoxData[
+    \({False, False, False, False, False, True}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Cases and Select", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Cases", "[", " ", 
+            RowBox[{
+              RowBox[{"{", " ", 
+                RowBox[{
+                  StyleBox[\(e\_1\),
+                    FontSlant->"Italic"], ",", " ", 
+                  StyleBox[\(e\_2\),
+                    FontSlant->"Italic"], ",", " ", ".."}], "}"}], ",", " ", 
+              StyleBox["pattern",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Cases takes a list of expressions ",
+  Cell[BoxData[
+      RowBox[{"{", " ", 
+        RowBox[{
+          StyleBox[\(e\_1\),
+            FontSlant->"Italic"], ",", " ", 
+          StyleBox[\(e\_2\),
+            FontSlant->"Italic"], ",", " ", ".."}], "}"}]],
+    TextAlignment->Center,
+    TextJustification->0],
+  " and a ",
+  StyleBox["pattern",
+    FontSlant->"Italic"],
+  " as arguments. The pattern is searched for in the list of expressions and \
+all matching expression will then be returned."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ x, \ y\ ], \ f[], \ 
+        h[\ x\ ]\ }, \ _Real\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({1.2`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ x, \ y\ ], \ f[], \ 
+        h[\ x\ ]\ }, \ _f\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[x, y], f[]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ x, \ y\ ], \ f[], \ 
+        h[\ x\ ]\ }, \ _[\ _\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({h[x]}\)], "Output"]
+}, Open  ]],
+
+Cell["Please note that the following will not match:", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ x, \ y\ ], \ f[], \ 
+        h[\ x\ ]\ }, \ _NumericQ\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+None of the expression in the list has the Head NumericQ. NumericQ \
+is a characteristic of an expression. What you probably wanted to do can be \
+achieved with Select\
+\>", "Text"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Select", "[", " ", 
+            RowBox[{
+              RowBox[{"{", " ", 
+                RowBox[{
+                  StyleBox[\(e\_1\),
+                    FontSlant->"Italic"], ",", " ", 
+                  StyleBox[\(e\_2\),
+                    FontSlant->"Italic"], ",", " ", ".."}], "}"}], ",", " ", 
+              StyleBox["predicate",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+Select takes a list of expressions and a predicate as arguments. \
+The expression list is searched for those expressions that return True to the \
+predicate question and will be returned.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Select[\ {\ \[Pi], \ 1.2, \ x, \ f[\ x, \ y\ ], \ f[], \ h[\ x\ ]\ }, \ 
+      NumericQ\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({\[Pi], 1.2`}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Sequences of Expressions - BlankSequence", "Subsection"],
+
+Cell["\<\
+The BankSequence (two character _ ) can stand for any one or more \
+expressions\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(f[\ x_, \ y__\ ]\  := \ Plus[\ x, \ y\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[\ a, \ b, \ c, \ d\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(a + b + c + d\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["BlankNullSequence", "Subsection"],
+
+Cell["\<\
+The BlankNullSequence ( three character _ ) can stand for none, one \
+or more expressions\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(g[\ x___\ ]\  := \ List[\ x\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[\ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({1}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Named Patterns", "Subsection"],
+
+Cell[BoxData[
+    \(\(computeSqr[\ x_Integer\ ]\  := \ x\ *\ x;\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(computeSqr[\ 2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(4\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(computeSqr[\ 2.3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(computeSqr[2.3`]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(computeSqr[\ {\ 2, \ 3\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(computeSqr[{2, 3}]\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+In the definition of computeSqr we have one Blank. This means the \
+function takes one expression as argument. The argument is named with the \
+variable x and needs to have Head Integer. The function rejects expressions \
+of type Real or List.\
+\>", "Text"],
+
+Cell["Some syntactic sugar", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(computeSqr[\ x_Integer\ ]\  \[Equal] \ 
+      computeSqr[\ x : _Integer\ ]\)], "InputOnly"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Conditional Patterns", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ 2\ ], \ f[\ 1\ ], \ h[\ 2\ ]\ }, \ 
+      f[\ x_\ ]\  /; \ EvenQ[\ x\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[2]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ 2\ ], \ f[\ 1\ ], \ h[\ 2\ ]\ }, \ 
+      f[\ x_\  /; \ EvenQ[\ x\ ]\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[2]}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "x_ /; ",
+  StyleBox["predicate",
+    FontSlant->"Italic"],
+  "[ x ] can be reduced to _?",
+  StyleBox["predicate",
+    FontSlant->"Italic"]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Cases[\ {\ \[Pi], \ 1.2, \ x, \ f[\ 2\ ], \ f[\ 1\ ], \ h[\ 2\ ]\ }, \ 
+      f[\ _?EvenQ\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[2]}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Rules", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["ReplaceAll", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{
+            StyleBox["expr",
+              FontSlant->"Italic"], " ", "/.", " ", 
+            StyleBox["rules",
+              FontSlant->"Italic"]}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Take an ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  " and apply the rule to it."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(2  x\  + \ 3  y\  /. \ x\  \[Rule] \ z\)], "Input"],
+
+Cell[BoxData[
+    \(3\ y + 2\ z\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Rule", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lhs\  \[Rule] \ rhs\)], "InputOnly"],
+
+Cell[BoxData[
+    \(lhs \[Rule] rhs\)], "Output"]
+}, Open  ]],
+
+Cell["The full form", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\ lhs\  \[Rule] \ rhs\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(Rule[lhs, rhs]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell["A rule replaces each occurrence of lhs with rhs.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(2  x\  + \ 3  y\  /. \ x\  \[Rule] \ b\)], "Input"],
+
+Cell[BoxData[
+    \(2\ b + 3\ y\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Read this as follows: 2x + 3y ",
+  StyleBox["given that",
+    FontSlant->"Italic"],
+  " x ",
+  StyleBox["goes to",
+    FontSlant->"Italic"],
+  " z.\nA list of expressions is also possible"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \({\ x\  + \ 3, \ x\  + \ 4\ }\  /. \ x\  \[Rule] \ b\)], "Input"],
+
+Cell[BoxData[
+    \({3 + b, 4 + b}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Solve, DSolve, NSolve, NDSolve, FindRoot are some examples that \
+return lists of rules as an output. You can write an expression\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(solution\  = \ FindRoot[Exp[x] == x\^2, {x, \(-0.5\)}]\)], "Input"],
+
+Cell[BoxData[
+    \({x \[Rule] \(-0.7034674224983917`\)}\)], "Output"]
+}, Open  ]],
+
+Cell["which returns a list of rules. To access the values do", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(x\  /. \ solution\)], "Input"],
+
+Cell[BoxData[
+    \(\(-0.7034674224983917`\)\)], "Output"]
+}, Open  ]],
+
+Cell["To process the values, wrap them in a procedure call like", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Exp[\ x\ ]\  /. \ solution\)], "Input"],
+
+Cell[BoxData[
+    \(0.4948664145165307`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(x^2\  /. \ solution\)], "Input"],
+
+Cell[BoxData[
+    \(0.4948664145165307`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Plot[{Exp[x], x\^2}, {x, \(-1\), 1}];\)\)], "Input",
+  CellTags->"FindRoot"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.5 0.476191 0.0147151 0.216535 [
+[.02381 .00222 -6 -9 ]
+[.02381 .00222 6 0 ]
+[.2619 .00222 -12 -9 ]
+[.2619 .00222 12 0 ]
+[.7381 .00222 -9 -9 ]
+[.7381 .00222 9 0 ]
+[.97619 .00222 -3 -9 ]
+[.97619 .00222 3 0 ]
+[.4875 .12298 -18 -4.5 ]
+[.4875 .12298 0 4.5 ]
+[.4875 .23125 -6 -4.5 ]
+[.4875 .23125 0 4.5 ]
+[.4875 .33952 -18 -4.5 ]
+[.4875 .33952 0 4.5 ]
+[.4875 .44779 -6 -4.5 ]
+[.4875 .44779 0 4.5 ]
+[.4875 .55605 -18 -4.5 ]
+[.4875 .55605 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.02381 .01472 m
+.02381 .02097 L
+s
+[(-1)] .02381 .00222 0 1 Mshowa
+.2619 .01472 m
+.2619 .02097 L
+s
+[(-0.5)] .2619 .00222 0 1 Mshowa
+.7381 .01472 m
+.7381 .02097 L
+s
+[(0.5)] .7381 .00222 0 1 Mshowa
+.97619 .01472 m
+.97619 .02097 L
+s
+[(1)] .97619 .00222 0 1 Mshowa
+.125 Mabswid
+.07143 .01472 m
+.07143 .01847 L
+s
+.11905 .01472 m
+.11905 .01847 L
+s
+.16667 .01472 m
+.16667 .01847 L
+s
+.21429 .01472 m
+.21429 .01847 L
+s
+.30952 .01472 m
+.30952 .01847 L
+s
+.35714 .01472 m
+.35714 .01847 L
+s
+.40476 .01472 m
+.40476 .01847 L
+s
+.45238 .01472 m
+.45238 .01847 L
+s
+.54762 .01472 m
+.54762 .01847 L
+s
+.59524 .01472 m
+.59524 .01847 L
+s
+.64286 .01472 m
+.64286 .01847 L
+s
+.69048 .01472 m
+.69048 .01847 L
+s
+.78571 .01472 m
+.78571 .01847 L
+s
+.83333 .01472 m
+.83333 .01847 L
+s
+.88095 .01472 m
+.88095 .01847 L
+s
+.92857 .01472 m
+.92857 .01847 L
+s
+.25 Mabswid
+0 .01472 m
+1 .01472 L
+s
+.5 .12298 m
+.50625 .12298 L
+s
+[(0.5)] .4875 .12298 1 0 Mshowa
+.5 .23125 m
+.50625 .23125 L
+s
+[(1)] .4875 .23125 1 0 Mshowa
+.5 .33952 m
+.50625 .33952 L
+s
+[(1.5)] .4875 .33952 1 0 Mshowa
+.5 .44779 m
+.50625 .44779 L
+s
+[(2)] .4875 .44779 1 0 Mshowa
+.5 .55605 m
+.50625 .55605 L
+s
+[(2.5)] .4875 .55605 1 0 Mshowa
+.125 Mabswid
+.5 .03637 m
+.50375 .03637 L
+s
+.5 .05802 m
+.50375 .05802 L
+s
+.5 .07968 m
+.50375 .07968 L
+s
+.5 .10133 m
+.50375 .10133 L
+s
+.5 .14464 m
+.50375 .14464 L
+s
+.5 .16629 m
+.50375 .16629 L
+s
+.5 .18794 m
+.50375 .18794 L
+s
+.5 .2096 m
+.50375 .2096 L
+s
+.5 .2529 m
+.50375 .2529 L
+s
+.5 .27456 m
+.50375 .27456 L
+s
+.5 .29621 m
+.50375 .29621 L
+s
+.5 .31786 m
+.50375 .31786 L
+s
+.5 .36117 m
+.50375 .36117 L
+s
+.5 .38283 m
+.50375 .38283 L
+s
+.5 .40448 m
+.50375 .40448 L
+s
+.5 .42613 m
+.50375 .42613 L
+s
+.5 .46944 m
+.50375 .46944 L
+s
+.5 .49109 m
+.50375 .49109 L
+s
+.5 .51275 m
+.50375 .51275 L
+s
+.5 .5344 m
+.50375 .5344 L
+s
+.5 .57771 m
+.50375 .57771 L
+s
+.5 .59936 m
+.50375 .59936 L
+s
+.25 Mabswid
+.5 0 m
+.5 .61803 L
+s
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+.5 Mabswid
+.02381 .09437 m
+.06244 .10111 L
+.10458 .1091 L
+.14415 .11728 L
+.18221 .12581 L
+.22272 .13567 L
+.26171 .146 L
+.30316 .15793 L
+.34309 .17046 L
+.3815 .18355 L
+.42237 .19868 L
+.46172 .21452 L
+.49955 .23105 L
+.53984 .25015 L
+.57861 .27012 L
+.61984 .29321 L
+.65954 .31743 L
+.69774 .34271 L
+.73838 .37194 L
+.77751 .40253 L
+.81909 .43792 L
+.85916 .47507 L
+.89771 .51389 L
+.93871 .55877 L
+.97619 .60332 L
+s
+.02381 .23125 m
+.06244 .19754 L
+.10458 .16402 L
+.14415 .13563 L
+.18221 .11115 L
+.22272 .08814 L
+.26171 .06894 L
+.30316 .05172 L
+.34309 .03823 L
+.3815 .02812 L
+.40095 .02408 L
+.42237 .02047 L
+.44268 .01785 L
+.45178 .01694 L
+.46172 .01611 L
+.4671 .01575 L
+.4721 .01546 L
+.47727 .01521 L
+.48196 .01503 L
+.48658 .01489 L
+.4887 .01484 L
+.49093 .01479 L
+.49332 .01476 L
+.49438 .01475 L
+.49552 .01473 L
+.49675 .01473 L
+.49789 .01472 L
+.49859 .01472 L
+.49925 .01472 L
+.50049 .01472 L
+.50163 .01472 L
+.50286 .01472 L
+.50401 .01473 L
+.50508 .01474 L
+.50754 .01477 L
+.51014 .01481 L
+.51268 .01487 L
+.51504 .01493 L
+.5204 .01511 L
+.5293 .01554 L
+.53882 .01615 L
+.54906 .01701 L
+.56016 .01817 L
+.58032 .02087 L
+.60019 .0243 L
+.62123 .02875 L
+.65912 .03889 L
+.69946 .05271 L
+.73829 .06894 L
+.77956 .08935 L
+Mistroke
+.81932 .11209 L
+.85757 .13681 L
+.89827 .16618 L
+.93745 .19745 L
+.97619 .23125 L
+Mfstroke
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{35, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40004P0000/A000`40n007h00Ooooo8Ooo003ooolQ
+ool000koo`@003Soo`8000Coo`03003ooooo00;oo`<0077oo`8000Coo`03003ooooo00;oo`<003So
+o`@000goo`004?oo00<00?ooool0=_oo00@00?ooool000_oo`03003ooooo06goo`04003ooooo000;
+ool00`00ooooo`0gool00`00ooooo`0<ool0013oo`03003ooooo03Koo`04003ooooo000;ool00`00
+ooooo`1]ool01000ooooo`002ooo00<00?ooool0=ooo00<00?ooool03?oo0008ool40004ool00`00
+ooooo`0`ool40002ool01000ooooo`002?oo0`00L?oo00@00?ooool000Soo`<003[oo`03003ooooo
+00coo`004?oo00<00?ooool0=_oo00@00?ooool000Soo`03003ooooo073oo`04003ooooo0008ool0
+0`00ooooo`0jool00`00ooooo`0<ool000koo`<003Soo`04003ooooo0008ool00`00ooooo`1`ool0
+1000ooooo`002?oo00<00?ooool0>?oo0`003_oo000@ool00`00ooooo`0gool20009ool4000fool0
+0`00ooooo`0gool20009ool4000iool00`00ooooo`0<ool008ooo`03003ooooo08koo`00Sooo00<0
+0?ooool0S_oo002?ool00`00ooooo`2>ool000Ooool0018000Soo`003Ooo00<00?ooool02_oo00<0
+0?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<0
+0?ooool02_oo00<00?ooool02_oo00<00?ooool01Ooo1`002ooo00<00?ooool02Ooo1`001ooo00<0
+0?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<0
+0?ooool02_oo00<00?ooool02_oo00<00?ooool02_oo00<00?ooool03?oo000=ool00`00ooooo`0n
+ool00`00ooooo`0Wool5000Bool00`00ooooo`0@ool6000Xool00`00ooooo`0nool00`00ooooo`0<
+ool007;oo`H001Ooo`03003ooooo01Koo`D007?oo`00KOoo1@007Ooo00<00?ooool06ooo1@00K_oo
+001Wool6000Rool00`00ooooo`0Pool3001[ool006?oo`@002Soo`8002Coo`@006Ooo`00H?oo0`00
+;?oo00<00?ooool09ooo0`00I?oo001Nool2000_ool00`00ooooo`0Zool4001Pool005_oo`<0037o
+o`03003ooooo02koo`@005coo`00F?oo0`00=?oo00<00?ooool0<_oo0`00FOoo001Fool2000gool0
+0`00ooooo`0eool2001Gool005Coo`8003Woo`8003Soo`8005Goo`00D_oo0P00>ooo00<00?ooool0
+>Ooo0P00Dooo001@ool2000mool00`00ooooo`0kool2001Aool004goo`<003ooo`03003ooooo03go
+o`<004koo`00Booo0P00@_oo00<00?ooool0@?oo0P00C?oo0019ool20014ool00`00ooooo`12ool2
+001:ool004Ooo`8004Koo`8004Goo`8004Soo`00AOoo0P00B?oo00<00?ooool0A_oo0P00A_oo0013
+ool2001:ool00`00ooooo`18ool20014ool0047oo`8004coo`03003ooooo04[oo`8004;oo`003Ooo
+0`00;ooo0P00C_oo00<00?ooool0C?oo00<00?ooool0?ooo000@ool6000Wool2001@ool00`00oooo
+o`1=ool2000oool001Koo`D0023oo`8005;oo`80053oo`8003goo`006ooo1P006?oo0P00E?oo00<0
+0?ooool0DOoo00<00?ooool0>_oo000Qool5000Bool00`00ooooo`1Dool00`00ooooo`1Bool2000j
+ool002Koo`H000[oo`8004Coo`8000Coo`03003ooooo00;oo`<000Goo`03003ooooo05Coo`03003o
+oooo03Ooo`00;?oo1@001?oo00<00?ooool0@ooo00@00?ooool000_oo`03003ooooo00;oo`03003o
+oooo05Goo`8003Ooo`00<Ooo1@00AOoo00@00?ooool000_oo`03003ooooo00;oo`<005Ooo`8003Go
+o`00<_oo0P000_oo1000@Ooo00@00?ooool000Soo`<000Goo`03003ooooo05Woo`8003?oo`00<Ooo
+00<00?ooool01_oo1000?Ooo00@00?ooool000Soo`03003ooooo00Goo`03003ooooo05_oo`80037o
+o`00;ooo0P003Ooo1000>Ooo00@00?ooool000Soo`03003ooooo00Goo`03003ooooo05goo`8002oo
+o`00;_oo00<00?ooool04Ooo0`00=ooo0P002Ooo10001?oo00<00?ooool0Gooo00<00?ooool0;?oo
+000/ool2000Gool40016ool00`00ooooo`1Pool2000/ool002_oo`03003ooooo01_oo`@004;oo`80
+06?oo`03003ooooo02Woo`00:_oo00<00?ooool08?oo0`00?ooo00<00?ooool0Hooo00<00?ooool0
+:?oo000Xool2000Vool4000kool00`00ooooo`1Tool2000Xool002Ooo`03003ooooo02[oo`@003Oo
+o`03003ooooo06Koo`03003ooooo02Goo`009_oo00<00?ooool0;ooo0`00=?oo00<00?ooool0Iooo
+00<00?ooool09?oo000Tool2000eool4000`ool00`00ooooo`1Xool2000Tool002?oo`03003ooooo
+03Woo`@002coo`8006_oo`03003ooooo027oo`008_oo00<00?ooool0?_oo0`00:Ooo00<00?ooool0
+Jooo00<00?ooool08?oo000Pool20014ool3000Vool00`00ooooo`1/ool00`00ooooo`0Oool001oo
+o`03003ooooo04Ooo`8002Coo`03003ooooo06goo`03003ooooo01koo`007_oo00<00?ooool0B_oo
+0`008Ooo00<00?ooool0K_oo00<00?ooool07Ooo000Mool00`00ooooo`1>ool3000Nool00`00oooo
+o`1_ool2000Mool001coo`03003ooooo05;oo`<001_oo`8007;oo`03003ooooo01[oo`006_oo0P00
+F?oo0P006Ooo00<00?ooool0L_oo00<00?ooool06Ooo000Iool00`00ooooo`1Jool3000Fool00`00
+ooooo`1cool00`00ooooo`0Hool001Soo`03003ooooo05koo`<001?oo`03003ooooo07Coo`03003o
+oooo01Ooo`005ooo00<00?ooool0H_oo0`004?oo00<00?ooool0MOoo00<00?ooool05_oo000Eool2
+001Xool2000>ool00`00ooooo`1fool2000Fool001Coo`03003ooooo06[oo`<000_oo`8007Woo`03
+003ooooo01?oo`004ooo00<00?ooool0K_oo0P002Ooo00<00?ooool0NOoo00<00?ooool04_oo000B
+ool00`00ooooo`1aool20007ool00`00ooooo`1jool00`00ooooo`0Aool0017oo`03003ooooo07Co
+o`8000Goo`03003ooooo07_oo`03003ooooo013oo`003ooo0P00M_oo1@000ooo00<00?ooool0O?oo
+0P004?oo000>ool00`00ooooo`1hool00`00ooooo`0200000ooo003oo`1oool00`00ooooo`0=ool0
+00goo`03003ooooo07Woo`03003ooooo00;oo`@007ooo`03003ooooo00coo`00ROoo00<00?ooool0
+0ooo00@00?oo000008goo`00ROoo00<00?ooool00ooo00@00?ooooooo`8008_oo`00Qooo0`001Ooo
+00<00?ooool00ooo0P00ROoo0029ool00`00ooooo`03ool00`00ooooo`05ool20027ool008ooo`03
+003ooooo00Ooo`8008Goo`00Sooo0P002_oo0P00Pooo002?ool00`00ooooo`0;ool20021ool008oo
+o`03003ooooo00goo`03003ooooo07koo`00Sooo00<00?ooool03_oo0P00O_oo002?ool00`00oooo
+o`0@ool2001lool008ooo`03003ooooo01;oo`03003ooooo07Woo`00Sooo0P005?oo0P00NOoo002?
+ool00`00ooooo`0Eool2001gool008ooo`03003ooooo01Ooo`8007Goo`00Sooo00<00?ooool06Ooo
+0P00Looo002?ool00`00ooooo`0Kool2001aool008ooo`03003ooooo01goo`8006ooo`00Sooo0P00
+8?oo0P00KOoo002?ool00`00ooooo`0Qool00`00ooooo`1Zool008ooo`03003ooooo02;oo`8006[o
+o`00Sooo00<00?ooool09?oo0P00J?oo002?ool00`00ooooo`0Vool00`00ooooo`1Uool008ooo`03
+003ooooo02Ooo`8006Goo`00Sooo0P00:_oo00<00?ooool0H_oo002?ool00`00ooooo`0Zool2001R
+ool008ooo`03003ooooo02coo`80063oo`00Sooo00<00?ooool0;_oo00<00?ooool0GOoo001kool4
+0003ool00`00ooooo`02ool30005ool00`00ooooo`0_ool2001Mool007goo`03003ooooo00[oo`03
+003ooooo00;oo`03003ooooo037oo`8005_oo`00OOoo00<00?ooool02_oo00<00?ooool00_oo0`00
+<ooo00<00?ooool0F?oo001mool00`00ooooo`07ool30005ool00`00ooooo`0dool2001Hool007go
+o`03003ooooo00Ooo`03003ooooo00Goo`03003ooooo03Koo`03003ooooo05Goo`00Nooo0`002Ooo
+00<00?ooool01Ooo00<00?ooool0=ooo00<00?ooool0E?oo001mool00`00ooooo`07ool40004ool0
+0`00ooooo`0hool2001Dool008ooo`8003_oo`03003ooooo057oo`00Sooo00<00?ooool0>ooo00<0
+0?ooool0D?oo002?ool00`00ooooo`0lool2001@ool008ooo`03003ooooo03koo`03003ooooo04go
+o`00Sooo00<00?ooool0?ooo00<00?ooool0C?oo002?ool00`00ooooo`10ool2001<ool008ooo`80
+04?oo`03003ooooo04Woo`00Sooo00<00?ooool0@ooo00<00?ooool0B?oo002?ool00`00ooooo`14
+ool00`00ooooo`17ool008ooo`03003ooooo04Goo`03003ooooo04Koo`00Sooo00<00?ooool0A_oo
+0P00A_oo002?ool00`00ooooo`18ool00`00ooooo`13ool008ooo`8004[oo`03003ooooo04;oo`00
+Sooo00<00?ooool0B_oo00<00?ooool0@Ooo002?ool00`00ooooo`1;ool20011ool008ooo`03003o
+oooo04goo`03003ooooo03koo`00Sooo00<00?ooool0C_oo00<00?ooool0?Ooo002?ool00`00oooo
+o`1?ool00`00ooooo`0lool008ooo`80057oo`03003ooooo03_oo`00Sooo00<00?ooool0DOoo0P00
+>ooo002?ool00`00ooooo`1Cool00`00ooooo`0hool008ooo`03003ooooo05Coo`03003ooooo03Oo
+o`00Qooo10001?oo00<00?ooool0EOoo00<00?ooool0=_oo0027ool00`00ooooo`05ool00`00oooo
+o`1Fool00`00ooooo`0eool008Soo`03003ooooo00Coo`<005Ooo`03003ooooo03Coo`00ROoo00<0
+0?ooool00ooo00<00?ooool0F?oo00<00?ooool0<ooo002:ool00`00ooooo`02ool00`00ooooo`1I
+ool00`00ooooo`0bool008Ooo`04003ooooo0004ool00`00ooooo`1Jool00`00ooooo`0aool008So
+o`8000Goo`03003ooooo05_oo`03003ooooo033oo`00Sooo00<00?ooool0G?oo00<00?ooool0;ooo
+002?ool2001Nool00`00ooooo`0^ool008ooo`03003ooooo05koo`03003ooooo02goo`00Sooo00<0
+0?ooool0Gooo00<00?ooool0;?oo002?ool00`00ooooo`1Pool00`00ooooo`0[ool008ooo`03003o
+oooo067oo`03003ooooo02[oo`00Sooo00<00?ooool0H_oo00<00?ooool0:Ooo002?ool2001Tool0
+0`00ooooo`0Xool008ooo`03003ooooo06Coo`03003ooooo02Ooo`00Sooo00<00?ooool0IOoo00<0
+0?ooool09_oo002?ool00`00ooooo`1Vool00`00ooooo`0Uool008ooo`03003ooooo06Ooo`03003o
+oooo02Coo`00Sooo00<00?ooool0J?oo00<00?ooool08ooo002?ool2001Zool00`00ooooo`0Rool0
+08ooo`03003ooooo06[oo`03003ooooo027oo`00Sooo00<00?ooool0Jooo00<00?ooool08?oo002?
+ool00`00ooooo`1/ool00`00ooooo`0Oool008ooo`03003ooooo06goo`03003ooooo01koo`00Sooo
+00<00?ooool0K_oo00<00?ooool07Ooo002?ool2001`ool00`00ooooo`0Lool008ooo`03003ooooo
+073oo`03003ooooo01_oo`00Sooo00<00?ooool0LOoo00<00?ooool06_oo002?ool00`00ooooo`1b
+ool00`00ooooo`0Iool007_oo`@000?oo`03003ooooo00;oo`<000Goo`03003ooooo07?oo`03003o
+oooo01Soo`00Nooo00<00?ooool03?oo00<00?ooool00_oo00<00?ooool0M?oo00<00?ooool05ooo
+001lool00`00ooooo`0;ool00`00ooooo`02ool3001eool00`00ooooo`0Fool007goo`03003ooooo
+00Ooo`<000Goo`03003ooooo07Koo`03003ooooo01Goo`00O_oo00<00?ooool01_oo00<00?ooool0
+1Ooo00<00?ooool0Mooo00<00?ooool05?oo001kool01000ooooo`002?oo00<00?ooool01Ooo00<0
+0?ooool0N?oo00<00?ooool04ooo001lool20009ool40004ool00`00ooooo`1hool00`00ooooo`0C
+ool008ooo`03003ooooo07Woo`03003ooooo01;oo`00Sooo0P00Nooo00<00?ooool04Ooo002?ool0
+0`00ooooo`1kool00`00ooooo`0@ool008ooo`03003ooooo07coo`03003ooooo00ooo`00Sooo00<0
+0?ooool0OOoo00<00?ooool03_oo002?ool00`00ooooo`1mool00`00ooooo`0>ool008ooo`8007oo
+o`03003ooooo00goo`00Sooo00<00?ooool0Oooo00<00?ooool03?oo002?ool00`00ooooo`2>ool0
+08ooo`03003ooooo08koo`00Sooo00<00?ooool0S_oo002?ool00`00ooooo`2>ool00001\
+\>"],
+  ImageRangeCache->{{{0, 287}, {176.938, 0}} -> {-1.10503, -0.21013, \
+0.00770056, 0.0169346}},
+  CellTags->"FindRoot"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Lists of Rules", "Subsection"],
+
+Cell["We can use a list of rules", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(2  x\  + \ 3\ y\  /. \ {\ x\  \[Rule] \ b, \ 
+        y \[Rule] \ c\ }\)], "Input"],
+
+Cell[BoxData[
+    \(2\ b + 3\ c\)], "Output"]
+}, Open  ]],
+
+Cell["We can use a list of expressions and a list of rules", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \({\ 2  x\  + \ 3  y, \ 5  x\ }\  /. \ {\ x\  \[Rule] \ b, \ 
+        y\  \[Rule] \ c\ }\)], "Input"],
+
+Cell[BoxData[
+    \({2\ b + 3\ c, 5\ b}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The next example tries to first replace x by b and then b by \
+c.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(2  x\  + \ 3  y\  /. \ {\ x\  \[Rule] \ \ b, \ 
+        b\  \[Rule] \ c\ }\)], "Input"],
+
+Cell[BoxData[
+    \(2\ b + 3\ y\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This did not work, since the rules are applied to the original \
+expression.\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["ReplaceRepeated", "Subsection"],
+
+Cell["\<\
+The problem of the repeatedly applying the rules is solved by\
+\>", \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(2  x\  + \ 3  y\  //. \ {\ x\  \[Rule] \ \ b, \ 
+        b\  \[Rule] \ c\ }\)], "Input"],
+
+Cell[BoxData[
+    \(2\ c + 3\ y\)], "Output"]
+}, Open  ]],
+
+Cell["The //. replaces repeatedly the list of rules", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["RuleDelayed", "Subsection"],
+
+Cell["\<\
+In the next case the rule is evaluated once and z^2 is evaluated to \
+4.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(z\  = \ 2;\)\), "\[IndentingNewLine]", 
+    \(myRule\  = \ f[\ z_\ ]\  \[Rule] \ f[\ z^2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(f[z_] \[Rule] f[4]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[\ 5\ ]\  /. \ myRule\)], "Input"],
+
+Cell[BoxData[
+    \(f[4]\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This yields the wrong result. We want the rule to be delayed and \
+evaluated each time afresh.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(myRule2\  = \ f[\ z_\ ]\  \[RuleDelayed] \ f[\ z^2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(f[z_] \[RuleDelayed] f[z\^2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[\ 5\ ]\  /. \ myRule2\)], "Input"],
+
+Cell[BoxData[
+    \(f[25]\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Now z^2 is only evaluated after a value has been put into the Blank \
+with name z. ( z_ )\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Data manipulation", "Subsection"],
+
+Cell["\<\
+To show some tricks with data manipulation, we first have to \
+generate some data\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(imax\  = 4;\)\), "\[IndentingNewLine]", 
+    \(\(jmax\  = \ 3;\)\), "\[IndentingNewLine]", 
+    \(data\  = \ 
+      Table[\ Random[], \ {\ i, \ imax\ }, \ {\ j, \ jmax\ }]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(jmax\\)\\\" is similar to existing symbol \\\
+\"\\!\\(imax\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \({{0.15742286489381324`, 0.05185917811630311`, 
+        0.2863896107777812`}, {0.7410799118486976`, 0.5772349422448236`, 
+        0.5425883316822877`}, {0.3013910669965796`, 0.9197373753852649`, 
+        0.892358578364987`}, {0.4905606296569748`, 0.9191707305274506`, 
+        0.586335082078323`}}\)], "Output"]
+}, Open  ]],
+
+Cell["This can be displayed in a nicer fashion", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MatrixForm[\ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0.15742286489381324`", "0.05185917811630311`", 
+              "0.2863896107777812`"},
+            {"0.7410799118486976`", "0.5772349422448236`", 
+              "0.5425883316822877`"},
+            {"0.3013910669965796`", "0.9197373753852649`", 
+              "0.892358578364987`"},
+            {"0.4905606296569748`", "0.9191707305274506`", 
+              "0.586335082078323`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[\ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.15742286489381324`", "0.05185917811630311`", 
+            "0.2863896107777812`"},
+          {"0.7410799118486976`", "0.5772349422448236`", 
+            "0.5425883316822877`"},
+          {"0.3013910669965796`", "0.9197373753852649`", 
+            "0.892358578364987`"},
+          {"0.4905606296569748`", "0.9191707305274506`", 
+            "0.586335082078323`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["You can also ", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(data\  // \ TableForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.15742286489381324`", "0.05185917811630311`", 
+            "0.2863896107777812`"},
+          {"0.7410799118486976`", "0.5772349422448236`", 
+            "0.5425883316822877`"},
+          {"0.3013910669965796`", "0.9197373753852649`", 
+            "0.892358578364987`"},
+          {"0.4905606296569748`", "0.9191707305274506`", 
+            "0.586335082078323`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["To multiply each element", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(d2\  = \ 100\ *\ data;\)\), "\[IndentingNewLine]", 
+    \(TableForm[\ d2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"15.742286489381325`", "5.185917811630311`", 
+            "28.63896107777812`"},
+          {"74.10799118486976`", "57.723494224482366`", 
+            "54.25883316822877`"},
+          {"30.139106699657958`", "91.97373753852649`", "89.2358578364987`"},
+          {"49.05606296569748`", "91.91707305274505`", "58.6335082078323`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["To multiply one row by a number", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(d2\  = MapAt[\ #*100 &, \ data, \ 3\ ];\)\), "\[IndentingNewLine]", 
+    \(TableForm[\ d2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.15742286489381324`", "0.05185917811630311`", 
+            "0.2863896107777812`"},
+          {"0.7410799118486976`", "0.5772349422448236`", 
+            "0.5425883316822877`"},
+          {"30.139106699657958`", "91.97373753852649`", "89.2358578364987`"},
+          {"0.4905606296569748`", "0.9191707305274506`", 
+            "0.586335082078323`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["To multiply a column by a number", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(d2\  = 
+        data\  /. \ {\ x_, \ y_, \ z_\ }\  \[RuleDelayed] \ \ {\ x, \ 
+              y*100, \ z\ };\)\), "\[IndentingNewLine]", 
+    \(TableForm[\ d2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.15742286489381324`", "5.185917811630311`", 
+            "0.2863896107777812`"},
+          {"0.7410799118486976`", "57.723494224482366`", 
+            "0.5425883316822877`"},
+          {"0.3013910669965796`", "91.97373753852649`", 
+            "0.892358578364987`"},
+          {"0.4905606296569748`", "91.91707305274505`", "0.586335082078323`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["To swap columns do", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(d2\  = \ 
+        data\  /. \ {\ x_, \ y_, \ z_\ }\  \[RuleDelayed] \ {\ z, \ x, \ 
+              y\ };\)\), "\[IndentingNewLine]", 
+    \(TableForm[\ d2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.2863896107777812`", "0.15742286489381324`", 
+            "0.05185917811630311`"},
+          {"0.5425883316822877`", "0.7410799118486976`", 
+            "0.5772349422448236`"},
+          {"0.892358578364987`", "0.3013910669965796`", 
+            "0.9197373753852649`"},
+          {"0.586335082078323`", "0.4905606296569748`", 
+            "0.9191707305274506`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["To select data according to the pattern y < 0.7 do", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(d2\  = \ 
+        Cases[\ data, \ {\ _, \ y_, \ _\ }\  /; \ 
+            y\  < \ 0.7\ ];\)\), "\[IndentingNewLine]", 
+    \(TableForm[\ d2\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"0.15742286489381324`", "0.05185917811630311`", 
+            "0.2863896107777812`"},
+          {"0.7410799118486976`", "0.5772349422448236`", 
+            "0.5425883316822877`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Often you have two lists, say x and y coordinates and want to \
+append a third z coordinate\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(coords\  = \ {\ {\ x1, \ y1\ }, \ {\ x2, \ y2\ }, \ {\ x3, \ 
+            y3\ }\ };\)\), "\[IndentingNewLine]", 
+    \(\(zValues\  = \ {\ z1, \ z2, \ z3\ };\)\), "\[IndentingNewLine]", 
+    \(MatrixForm[\ coords\ ]\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"x1", "y1"},
+            {"x2", "y2"},
+            {"x3", "y3"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MatrixForm[\ zValues\ ]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"z1"},
+            {"z2"},
+            {"z3"}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {z1, z2, z3}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Transpose[\ coords\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{x1, x2, x3}, {y1, y2, y3}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f\  = \ Join[\ Transpose[\ coords\ ], \ {\ zValues\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({{x1, x2, x3}, {y1, y2, y3}, {z1, z2, z3}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(res\)\(\ \)\(=\)\(\ \)\(Transpose[\ f\ ]\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    \({{x1, y1, z1}, {x2, y2, z2}, {x3, y3, z3}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[\ res\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {"x1", "y1", "z1"},
+          {"x2", "y2", "z2"},
+          {"x3", "y3", "z3"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Up/Down - Values", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["DownValues", "Subsection"],
+
+Cell["\<\
+Consider the following formula for computing the Fibonacci \
+numbers\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(fib[\ 1\ ]\  = \ 1;\)\), "\[IndentingNewLine]", 
+    \(\(fib[\ 2\ ]\  = \ 1;\)\), "\[IndentingNewLine]", 
+    \(\(fib[\ x_\ ]\  := \ 
+        fib[\ x\  - \ 1\ ]\  + \ fib[\ x\  - \ 2\ ];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fib[\ 4\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(3\)], "Output"]
+}, Open  ]],
+
+Cell["We can look at the defined symbols", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?fib\)\)], "Input"],
+
+Cell["Global`fib", "Print",
+  CellTags->"Info3291380133-8910536"],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {GridBox[{
+                {\(fib[1] = 1\)},
+                {" "},
+                {\(fib[2] = 1\)},
+                {" "},
+                {\(fib[x_] := fib[x - 1] + fib[x - 2]\)}
+                },
+              GridBaseline->{Baseline, {1, 1}},
+              ColumnWidths->0.999,
+              ColumnAlignments->{Left}]}
+          },
+        GridBaseline->{Baseline, {1, 1}},
+        ColumnAlignments->{Left}],
+      Definition[ "fib"],
+      Editable->False]], "Print",
+  CellTags->"Info3291380133-8910536"]
+}, Open  ]],
+
+Cell["Or equivalently", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\ \)\(DownValues[\ fib\ ]\)\)\)], "Input"],
+
+Cell[BoxData[
+    \({HoldPattern[fib[1]] \[RuleDelayed] 1, 
+      HoldPattern[fib[2]] \[RuleDelayed] 1, 
+      HoldPattern[fib[x_]] \[RuleDelayed] 
+        fib[x - 1] + fib[x - 2]}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+What happens: We have attached to the Symbol fib, which is the Head \
+of expression fib[..] values, hence the name DownValues.
+DownValues is a fast method for accessing elements. For example\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(matrix[\ 1, \ 
+          1\ ]\  = \ \(matrix[\ 1, \ 
+            2]\  = \ \(matrix[\ 2, 1\ ]\  = \ \(matrix[\ 2, 2\ ] = \ 
+              0\)\)\);\)\)], "Input"],
+
+Cell["Defines a matrix entry", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(matrix[\ 1, \ 1\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell["This is considerably faster then using", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(a\  = \ {\ {0, 0}, \ {\ 0, 0\ }\ };\)\), "\[IndentingNewLine]", 
+    \(a\[LeftDoubleBracket]\ 1, \ 1\[RightDoubleBracket]\)}], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["UpValues", "Subsection"],
+
+Cell["\<\
+Sometimes you might want to use a system function and extend its \
+capabilities. For example you would like to extend the capabilities of the \
+Positive[] function that is returns True for the symbol a. A first attempt \
+might be\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Clear[\ a\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Positive[\ a\ ]\  = \ True\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Set::"write"\), \(\(:\)\(\ \)\), "\<\"Tag \\!\\(Positive\\) in \
+\\!\\(Positive[a]\\) is Protected. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::write\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Positive[\ a\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Positive[a]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Sine Positive is a ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " internal function it is protected. You can Unprotect the function, assign \
+the desired fundamentally and Protect it again. A neater way to solve the \
+problem is to employ UpValues:"
+}], "Text"],
+
+Cell[BoxData[
+    \(a\  /: \ Positive[\ a\ ]\  := \ True\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Positive[\ a\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Now we have attached to the symbol a the function Positive. In this was it \
+is easy and fast to extend ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " building functions."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UpValues[\ a\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({HoldPattern[Positive[a]] \[RuleDelayed] True}\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Programming Paradigms", "Section 1"],
+
+Cell[CellGroupData[{
+
+Cell["Procedural Programming", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Loops", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Do", "[", " ", 
+            RowBox[{
+              StyleBox["expr",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              RowBox[{
+                StyleBox["{",
+                  FontSlant->"Plain"], 
+                StyleBox[" ",
+                  FontSlant->"Plain"], 
+                RowBox[{
+                  StyleBox["i",
+                    FontSlant->"Italic"], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox["imin",
+                    FontSlant->"Italic"], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox["imax",
+                    FontSlant->"Italic"], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox["di",
+                    FontSlant->"Italic"]}], 
+                StyleBox["}",
+                  FontSlant->"Plain"]}], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              RowBox[{
+                StyleBox["{",
+                  FontSlant->"Plain"], 
+                StyleBox[" ",
+                  FontSlant->"Plain"], 
+                RowBox[{
+                  StyleBox["j",
+                    FontSlant->"Plain"], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox[
+                    RowBox[{
+                      StyleBox["j",
+                        FontSlant->"Plain"], 
+                      StyleBox["min",
+                        FontSlant->"Italic"]}]], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox[
+                    RowBox[{
+                      StyleBox["j",
+                        FontSlant->"Plain"], 
+                      StyleBox["max",
+                        FontSlant->"Italic"]}]], 
+                  StyleBox[",",
+                    FontSlant->"Plain"], 
+                  StyleBox[" ",
+                    FontSlant->"Plain"], 
+                  StyleBox["dj",
+                    FontSlant->"Italic"]}], 
+                StyleBox["}",
+                  FontSlant->"Plain"]}], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["...",
+                FontSlant->"Plain"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "The Do expression takes an ",
+  StyleBox["expr",
+    FontSlant->"Italic"],
+  " and a list of arguments and repeatedly executes the expression"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(imax\  = \ 3;\)\), "\[IndentingNewLine]", 
+    \(Do[\ Print[\ i\ ], \ {\ i, \ imax\ }\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(3\)], "Print"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Do not use For loops! They are really slow in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Do[\ \(Print[\ "\<i: \>", i, \ \ "\< j: \>", j\ ];\), \ {\ i, \ 
+        imax\ }, \ {\ j, \ 2\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]1\[InvisibleSpace]" j: "\
+\[InvisibleSpace]1\),
+      SequenceForm[ "i: ", 1, " j: ", 1],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]1\[InvisibleSpace]" j: "\
+\[InvisibleSpace]2\),
+      SequenceForm[ "i: ", 1, " j: ", 2],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]2\[InvisibleSpace]" j: "\
+\[InvisibleSpace]1\),
+      SequenceForm[ "i: ", 2, " j: ", 1],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]2\[InvisibleSpace]" j: "\
+\[InvisibleSpace]2\),
+      SequenceForm[ "i: ", 2, " j: ", 2],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]3\[InvisibleSpace]" j: "\
+\[InvisibleSpace]1\),
+      SequenceForm[ "i: ", 3, " j: ", 1],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("i: "\[InvisibleSpace]3\[InvisibleSpace]" j: "\
+\[InvisibleSpace]2\),
+      SequenceForm[ "i: ", 3, " j: ", 2],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Nested loops (loops in loops) can be done with one Do loop in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Procedures", "Subsection"],
+
+Cell["See above: With, Module, Block", "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functional Programming", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Pure Functions", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Subsubsection"],
+
+Cell["The functions", "Text"],
+
+Cell[BoxData[
+    \(\(square[\ x_\ ]\  := \ x\^2;\)\)], "Input"],
+
+Cell[TextData[{
+  "takes as argument an expression named x and returns the product of the \
+expressions by itself. f(x) = ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\^2\)]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(square[\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Function", "[", " ", 
+            RowBox[{
+              StyleBox["x",
+                FontSlant->"Italic"], 
+              StyleBox[",",
+                FontSlant->"Plain"], 
+              StyleBox[" ",
+                FontSlant->"Plain"], 
+              StyleBox["expr",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+Function takes a variable and an expression as input and returns a \
+pure function.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f\  = \ Function[\ x, \ x\^2\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Function[x, x\^2]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " expression Function is called lambda expression in other functional \
+languages. "
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell["This evaluates to what we want.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f\)], "Input"],
+
+Cell[BoxData[
+    \(Function[x, x\^2]\)], "Output"]
+}, Open  ]],
+
+Cell["f is the Head of the expression f[ 3 ]. So we can write", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Function[\ x, \ x\^2\ ]\)[\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "We see that the head need not explicitly be called a name - like f in our \
+case - we can make use of a pure function as a head. Since pure functions are \
+so widely used in ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " there is a shorthand notation."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(#^2 &\)\ [\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(9\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Here the # takes the place of the x in the previous example. The & \
+is the Function. If you have mode than one argument, you can number the \
+#\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f = Function[\ {\ x, \ y\ }, \ x*y\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Function[{x, y}, x\ y]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[\ 2, 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(#1\ *\ #2 &\)[\ 2, \ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Clear[\ f\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions as arguments to Procedures", "Subsubsection"],
+
+Cell["\<\
+For example consider the following two functions sumIntegers and \
+sumSquares. Both take a lower bound a and an upper bound b. sumIntegers \
+computes the sum of the integers between these two bounds and sumSquares \
+computes the sum of the squares between those two bounds.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(sumIntegers[\ a_, \ b_\ ]\  := \ 
+        0\  /; \ a\  > \ b\ ;\)\), "\[IndentingNewLine]", 
+    \(\(sumIntegers[\ a_, \ b_\ ]\  := \ 
+        a\  + \ sumIntegers[\ a\  + \ 1, \ b\ ];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sumIntegers[\ 1, \ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(\(sumSquares[\ a_, \ b_\ ]\  := \ 
+        0\  /; \ a\  > \ b;\)\), "\[IndentingNewLine]", 
+    \(\(sumSquares[\ a_, \ b_\ ]\  := \ 
+        square[\ a\ ]\  + \ sumSquares[\ a\  + \ 1, \ b\ ];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sumSquares[\ 1, \ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(14\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Both procedures have a great community, this implies a more general \
+concept. The general concept can be expressed as follows:\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(sum[\ term_, \ a_, \ next_, \ b_\ ]\  := \ 
+        0\  /; \ a\  > \ b;\)\), "\[IndentingNewLine]", 
+    \(sum[\ term_, \ a_, \ next_, \ b_\ ]\  := \ 
+      term[\ a\ ]\  + \ sum[\ term, \ next[\ a\ ], \ next, \ b\ ]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(sum\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Sum\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Now the function sum takes as input ",
+  StyleBox["term",
+    FontSlant->"Italic"],
+  ", ",
+  StyleBox["a",
+    FontSlant->"Italic"],
+  " still being the lower bound, ",
+  StyleBox["next",
+    FontSlant->"Italic"],
+  " and ",
+  StyleBox["b",
+    FontSlant->"Italic"],
+  " the upper bound. ",
+  StyleBox["Term",
+    FontSlant->"Italic"],
+  " manipulates the lower bound. ",
+  StyleBox["Next",
+    FontSlant->"Italic"],
+  " increases the lower bound."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Identity[\ blah\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(blah\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This is an identity function: it will return whatever expression \
+was put into it.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Function[\ x, \ x\  + \ 1\ ]\)[\ d\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1 + d\)], "Output"]
+}, Open  ]],
+
+Cell["f(x) = x+1 returns the function argument increased by one.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(sumIntegers[\ a_, \ b_\ ]\  := \ 
+        sum[\ Identity, \ a, \ Function[\ x, \ x + 1\ ], \ 
+          b\ ];\)\), "\[IndentingNewLine]", 
+    \(sumIntegers[\ 1, \ 3\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(sumSquares[\ a_, \ b_\ ]\  := \ 
+        sum[\ square, \ a, \ Function[\ x, \ x + 1\ ], \ 
+          b\ ];\)\), "\[IndentingNewLine]", 
+    \(sumSquares[\ 1, \ 3\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(14\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(sumSquares[\ a_, \ b_\ ]\  := \ 
+        sum[\ Function[\ x, \ x*x\ ], \ a, \ Function[\ x, \ x + 1\ ], \ 
+          b\ ];\)\), "\[IndentingNewLine]", 
+    \(sumSquares[\ 1, \ 3\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \(14\)], "Output"]
+}, Open  ]],
+
+Cell["A short hand notation is:", "Text"],
+
+Cell[BoxData[
+    \(\(sumSquares[\ a_, \ b_\ ]\  := \ 
+        sum[\ #\^2 &, \ a, \ # + 1 &\ , b\ ];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions returned by Procedures", "Subsubsection"],
+
+Cell["\<\
+We can go one step further: Now we will employ procedures that have \
+as argument a function and that return a function. Consider the concept of a \
+derivative:\
+\>", "Text",
+  TextAlignment->Left,
+  TextJustification->0],
+
+Cell[TextData[Cell[BoxData[
+    \(TraditionalForm\`\(f\^'\)(\ 
+        x\ ) = \(f(\ x\  + \ dx\ )\  - \ f(\ x\ )\)\/dx\)]]], "Text",
+  TextAlignment->Center,
+  TextJustification->0,
+  FontSize->16],
+
+Cell[TextData[{
+  "To obtain the derivative of a function, we apply the function to ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\  + \ dx\)]],
+  "subtract the applied function to ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\)]],
+  " and divide by ",
+  Cell[BoxData[
+      \(TraditionalForm\`dx\)]],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(\(deriv[\ f_\ ]\  := \ 
+        With[\ \[IndentingNewLine]{\ 
+            dx\  = \ 0.00001\ }, \[IndentingNewLine]Function[
+            x, \ \((\ f[x\  + \ dx]\  - \ f[\ x\ ]\ )\)\ /
+              dx\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(deriv[\ f_\ ]\  := \ 
+        With[\ \[IndentingNewLine]{\ 
+            dx\  = \ 0.00001\ }, \[IndentingNewLine]\((\ 
+                f[\ #\  + \ dx]\  - \ f[\ #\ ]\ )\)\ /
+              dx &\ \[IndentingNewLine]];\)\)], "Input"],
+
+Cell["In short hand", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(deriv[\ Sqrt\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\@\(#1 + 0.00001`\) - \@#1\)\/0.00001` &\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(deriv[\ Sqrt\ ]\)[\ 5\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(0.22360668592291685`\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "In ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " this is done in a similar way:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Derivative[\ 1\ ]\)[\ Sqrt\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/\(2\ \@#1\) &\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(Derivative[\ 1\ ]\)[\ Sqrt\ ]\)[\ 5\ ]\  // \ N\)], "Input"],
+
+Cell[BoxData[
+    \(0.22360679774997896`\)], "Output"],
+
+Cell[BoxData[
+    \(Clear[\ deriv\ ]\)], "Input"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Map", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Map", "[", " ", 
+            RowBox[{
+              StyleBox["f",
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["expr",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "The function ",
+  StyleBox["f",
+    FontSlant->"Italic"],
+  " is applied to the ",
+  StyleBox["body",
+    FontWeight->"Bold"],
+  " of the expression"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(List[\ x\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({x}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[\ List[\ x\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(List[x]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ f, \ List[\ x\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[x]}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Now ",
+  StyleBox["f",
+    FontSlant->"Italic"],
+  " is applied to the body of List, which is now g[ x ]."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ f, \ {\ g[\ x\ ]\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[g[x]]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(data\  = \ Table[\ Random[], \ {\ 3\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.9620430746185193`, 0.6936928640631566`, 
+      0.7717499428720669`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ f, \ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({f[0.9620430746185193`], f[0.6936928640631566`], 
+      f[0.7717499428720669`]}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(f\  = \ Function[\ x, \ x\^2\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ f, \ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.925526877421454`, 0.481209789652145`, 
+      0.5955979743230385`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ Function[\ x, \ x\^2\ ], \ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.925526877421454`, 0.481209789652145`, 
+      0.5955979743230385`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ #\^2\  &, \ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.925526877421454`, 0.481209789652145`, 
+      0.5955979743230385`}\)], "Output"]
+}, Open  ]],
+
+Cell["The shorthand notation for Map is /@", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Function[\ x, \ x\^2\ ]\  /@ \ data\)], "Input"],
+
+Cell[BoxData[
+    \({0.925526877421454`, 0.481209789652145`, 
+      0.5955979743230385`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(#\^2\  &\)\  /@ \ data\)], "Input"],
+
+Cell[BoxData[
+    \({0.925526877421454`, 0.481209789652145`, 
+      0.5955979743230385`}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Map[\ Sqrt[\ #\ ] &, \ data\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0.9808379451359533`, 0.8328822630259073`, 
+      0.8784929953460454`}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Apply", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Apply", "[", " ", 
+            RowBox[{
+              StyleBox["f",
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["expr",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  "Apply takes ",
+  StyleBox["f",
+    FontSlant->"Italic"],
+  " and applies it to the ",
+  StyleBox["head",
+    FontWeight->"Bold"],
+  " of the ",
+  StyleBox["expr",
+    FontSlant->"Italic"]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Apply[\ g, \ List[\ x\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(g[x]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Apply[\ Plus, \ {\ x, \ y, \ z\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(x + y + z\)], "Output"]
+}, Open  ]],
+
+Cell["The shorthand notation is @@", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Plus\  @@ \ {\ x, \ y, \ z\ }\)], "Input"],
+
+Cell[BoxData[
+    \(x + y + z\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Fold", "Subsection"],
+
+Cell["The summing procedure from above will be reexamined. ", "Text"],
+
+Cell[BoxData[GridBox[{
+        {
+          RowBox[{"Fold", "[", " ", 
+            RowBox[{
+              StyleBox["f",
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["x",
+                FontSlant->"Italic"], ",", " ", 
+              StyleBox["list",
+                FontSlant->"Italic"]}], " ", "]"}]}
+        }]], "DefinitionBox",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell[TextData[{
+  StyleBox["f",
+    FontSlant->"Italic"],
+  " is the Head of ",
+  StyleBox["x",
+    FontSlant->"Italic"],
+  " and the first element of ",
+  StyleBox["list",
+    FontSlant->"Italic"],
+  ", which is then folded into ",
+  StyleBox["f",
+    FontSlant->"Italic"],
+  " the head of the previous computation and the second element of ",
+  StyleBox["list",
+    FontSlant->"Italic"],
+  " and so forth."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Fold[\ g, \ 0, \ {\ h\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(g[0, h]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Fold[\ g, \ 0, \ {\ h, \ i\ }\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(g[g[0, h], i]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Range[\ 3\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({1, 2, 3}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Fold[\ g, \ 0, \ Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(g[g[g[0, 1], 2], 3]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Fold[\ Plus, \ 0, \ Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FoldList[\ g, \ 0, \ Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0, g[0, 1], g[g[0, 1], 2], g[g[g[0, 1], 2], 3]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FoldList[\ Function[\ {\ x, \ y\ }, \ y\^2\ ], \ 0, \ 
+      Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0, 1, 4, 9}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FoldList[\ #2*#2 &, \ 0, \ Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \({0, 1, 4, 9}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Apply[\ 
+      Plus, \ \ FoldList[\ #2*#2 &, \ 0, \ Range[\ 3\ ]\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(14\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Plus\  @@ \ FoldList[\ #2*#2 &, \ 0, \ Range[\ 3\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(14\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Remove[\ "\<Global`*\>"\ ]\)], "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Writing Packages", "Section 1"],
+
+Cell[CellGroupData[{
+
+Cell["The Context of things", "Subsubsection"],
+
+Cell[TextData[{
+  "Where can you find ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " internal functions"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Context[\ Derivative\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("imsSystem`"\)], "Output"]
+}, Open  ]],
+
+Cell["Where is you own stuff", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \($ContextPath\)], "Input"],
+
+Cell[BoxData[
+    \({"Global`", "imsSystem`"}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Context[\ f\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("Global`"\)], "Output"]
+}, Open  ]],
+
+Cell["Here we load a package", "Text"],
+
+Cell[BoxData[
+    \(Needs[\ "\<Imtek`Point`\>"\ ]\)], "Input"],
+
+Cell["and see it added to the context path", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \($ContextPath\)], "Input"],
+
+Cell[BoxData[
+    \({"Imtek`Geometry`Point`", "Global`", "imsSystem`"}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Example Package", "Subsubsection"],
+
+Cell["Here is a trivial package.", "Text",
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(BeginPackage["\<Demo`\>"]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  Background->RGBColor[0, 1, 1],
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(SampleFunction::"\<usage\>" = "\<SampleFunction[n] does nothing.\>"\)], \
+"Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(Begin["\<`Private`\>"]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  Background->RGBColor[0, 1, 1],
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(SampleFunction[n_] := n\^3 + 2\ n\^2 + 3\ n + 4\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(AuxFunction[m_] := something\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(End[]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  Background->RGBColor[0, 1, 1],
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(Protect[SampleFunction]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+
+Cell[BoxData[
+    \(EndPackage[]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  Background->RGBColor[0, 1, 1],
+  CellTags->{"M220:6.4.4", "M220.6.3"}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Package Context", "Subsubsection"],
+
+Cell[BoxData[
+    \(BeginPackage["\<Demo`\>"]\)], "Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  Background->RGBColor[0, 1, 1],
+  CellTags->{"M220:6.4.6-1", "M220.6.3"}],
+
+Cell["\<\
+A package with context\"Demo`\"is expected to live in a file \
+namedDemo.m.\
+\>", "Text"],
+
+Cell["\<\
+A package with context\"Utilities`FilterOptions`\"is expected to \
+live in a file namedFilterOptions.inside the directoryUtilities.\
+\>", "Text"],
+
+Cell[TextData[{
+  "The directory specified in this way should be a subdirectory of one of the \
+directories the ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " kernel searches for packages."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \($Path\)], "Input"],
+
+Cell[BoxData[
+    \({"/usr/local/Wolfram/Mathematica/5.0/AddOns/JLink", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/NETLink", 
+      "/mobile/ruebenko/.Mathematica/Kernel", 
+      "/mobile/ruebenko/.Mathematica/Autoload", 
+      "/mobile/ruebenko/.Mathematica/Applications", 
+      "/usr/share/Mathematica/Kernel", "/usr/share/Mathematica/Autoload", 
+      "/usr/share/Mathematica/Applications", ".", "/mobile/ruebenko", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/StandardPackages", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/StandardPackages/StartUp", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/Autoload", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/Applications", 
+      "/usr/local/Wolfram/Mathematica/5.0/AddOns/ExtraPackages", 
+      "/usr/local/Wolfram/Mathematica/5.0/SystemFiles/Graphics/Packages", 
+      "/usr/local/Wolfram/Mathematica/5.0/Configuration/Kernel"}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Interface", "Subsubsection"],
+
+Cell["\<\
+All symbols exported from the package (those you want your users to \
+see) must be declared.\
+\>", "Text",
+  CellTags->{"M220:6.4.8", "M220.6.3"}],
+
+Cell["\<\
+The best way to declare such a symbol is to give it a usage \
+message.\
+\>", "Text",
+  CellTags->{"M220:6.4.8", "M220.6.3"}],
+
+Cell[BoxData[
+    \(SampleFunction::"\<usage\>" = "\<SampleFunction[n] does nothing.\>"\)], \
+"Input",
+  Evaluatable->False,
+  AspectRatioFixed->True,
+  CellTags->{"M220:6.4.8", "M220.6.3"}]
+}, Closed]],
+
+Cell["Implementation", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Clean Up", "Subsubsection"],
+
+Cell["Use Protect only after your Package works.", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Howto", "Subsubsection"],
+
+Cell["\<\
+1) Select all cells from the example package
+2) Copy them to a new notebook
+3) Choose: Cell -> Cell Properties -> Cell Evaluatable
+4) Choose: Cell -> Cell Properties -> Initialization Cell
+5) Save the notebook as Demo.nb in your home directory and say yes to the \
+Package question
+6) Open another new notebook
+7) Needs[ \"Demo`\" ]
+8) ?SampleFunction\
+\>", "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Building abstractions with data", "Section 1"],
+
+Cell["\<\
+Taken with permission from: Structure and Interpretation of \
+Computer Programs by Harold Abelson, Gerald Jay Sussman with Juli Sussman
+by: Oliver R\[UDoubleDot]benk\[ODoubleDot]nig \
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Wishful thinking", "Section"],
+
+Cell["\<\
+Imagine we want to build a program that can deal with rational \
+numbers. The first step in creating such a program is in indulging in some \
+wishful thinking. Wishful thinking is one of the most powerful engineering \
+tools available. Imagine we have a way of constructing rational numbers from \
+a numerator and a denominator.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(makeRat[\ nominator, \ denominator\ ]\)], "Input",
+  Evaluatable->False],
+
+Cell["Returns a rational number", "Text"],
+
+Cell["\<\
+Similar we have a way to select the nominator of the rational \
+number and another way to select the denominator of a rational number.\
+\>", \
+"Text"],
+
+Cell[BoxData[
+    \(\(\(numer[\ x\ ]\)\(\ \)\)\)], "Input",
+  Evaluatable->False],
+
+Cell["Returns the numerator of rational number x", "Text"],
+
+Cell[BoxData[
+    \(\(\(denom[\ x\ ]\)\(\ \)\)\)], "Input",
+  Evaluatable->False],
+
+Cell["Returns the denominator of rational number x", "Text"],
+
+Cell["Addition of two rational numbers is defined as", "Text"],
+
+Cell[BoxData[
+    \(n\_1\/d\_1 + 
+        n\_2\/d\_2 = \(n\_1*\ d\_2\  + \ \(\(n\_2\)\(*\)\(\ \)\(d\_1\)\(\ \
+\)\)\)\/\(d\_1*\ d\_2\)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["The implementation for addition looks like this", "Text"],
+
+Cell[BoxData[
+    \(\(addRat[\ term1_rat, \ 
+          term2_rat\ ]\  := \[IndentingNewLine]makeRat[\ \
+\[IndentingNewLine]numer[\ term1\ ]\ *\ denom[\ term2\ ]\  + \ 
+            numer[\ term2\ ]\ *\ denom[\ term1\ ], \[IndentingNewLine]denom[\ 
+              term1\ ]\ *\ denom[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["Subtraction of two rational numbers is defined as", "Text"],
+
+Cell[BoxData[
+    \(n\_1\/d\_1 - 
+        n\_2\/d\_2 = \(n\_1*\ d\_2\  - \ \(\(n\_2\)\(*\)\(\ \)\(d\_1\)\(\ \
+\)\)\)\/\(d\_1*\ d\_2\)\)], "Input",
+  Evaluatable->False,
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["The implementation for subtraction", "Text"],
+
+Cell[BoxData[
+    \(\(subRat[\ term1_rat, \ 
+          term2_rat\ ]\  := \ \
+\[IndentingNewLine]makeRat[\[IndentingNewLine]numer[\ term1\ ]\ *\ 
+              denom[\ term2\ ]\  - \ 
+            numer[\ term2\ ]\ *\ denom[\ term1\ ], \[IndentingNewLine]denom[\ 
+              term1\ ]\ *\ denom[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["For multiplication", "Text"],
+
+Cell[BoxData[
+    \(\(mulRat[\ term1_rat, \ 
+          term2_rat\ ]\  \
+:= \[IndentingNewLine]makeRat[\[IndentingNewLine]numer[\ term1\ ]\ *\ 
+            numer[\ term2\ ], \[IndentingNewLine]denom[\ term1\ ]\ *\ 
+            denom[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["For division", "Text"],
+
+Cell[BoxData[
+    \(\(divRat[\ term1_rat, \ 
+          term2_rat\ ]\  \
+:= \[IndentingNewLine]makeRat[\[IndentingNewLine]numer[\ term1\ ]\ *\ 
+            denom[\ term2\ ], \[IndentingNewLine]denom[\ term1\ ]\ *\ 
+            numer[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor & Selector", "Section"],
+
+Cell["Now we implement the constructor", "Text"],
+
+Cell[BoxData[
+    \(\(makeRat[\ n_Integer, \ d_Integer\ ] := rat[\ n, \ d\ ];\)\)], "Input"],
+
+Cell["And the selectors", "Text"],
+
+Cell[BoxData[{
+    \(\(numer[\ rat[\ n_\ , \ d_\ ]\ ]\  := \ n;\)\), "\[IndentingNewLine]", 
+    \(\(denom[\ rat[\ n_, \ d_\ \ ]\ ]\  := \ d;\)\)}], "Input"],
+
+Cell["For pretty printing we have", "Text"],
+
+Cell[BoxData[
+    \(\(printRat[\ rat[\ n_\ , d_\ ]\ ] := \[IndentingNewLine]Print[\ 
+          n, \ "\</\>", \ d\ ];\)\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Example", "Section"],
+
+Cell["We create a rational number with the constructor", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(oneHalf := makeRat[\ 1, \ 2\ ];\)\), "\[IndentingNewLine]", 
+    \(printRat[\ oneHalf\ ]\)}], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\(1\[InvisibleSpace]"/"\[InvisibleSpace]2\),
+      SequenceForm[ 1, "/", 2],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell["\<\
+The Head of this rational number is the head of our new data type\
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(Head[\ oneHalf\ ]\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    \(rat\)], "Output"]
+}, Open  ]],
+
+Cell["A second rational number", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(oneThird := makeRat[\ 1, \ 3\ ];\)\), "\[IndentingNewLine]", 
+    \(printRat[\ addRat[\ oneHalf, \ oneThird\ ]\ ]\)}], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\(5\[InvisibleSpace]"/"\[InvisibleSpace]6\),
+      SequenceForm[ 5, "/", 6],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell["We add the rational numbers", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(printRat[\ addRat[\ oneThird, \ oneThird\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\(6\[InvisibleSpace]"/"\[InvisibleSpace]9\),
+      SequenceForm[ 6, "/", 9],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell["We see that the result is correct, however, not reduced", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor revisited", "Section"],
+
+Cell[TextData[{
+  "We ",
+  "only",
+  " have to change the constructor to implement correct reduction. ",
+  StyleBox["No",
+    FontSlant->"Italic"],
+  " modification is necessary in the implementation of addRat."
+}], "Text"],
+
+Cell[BoxData[
+    \(\(makeRat[n_Integer, \ d_Integer] := 
+        With[\ {\ g\  = \ GCD[\ n, \ d\ ]\ }, 
+          rat[n\ /\ g, d\ /\ g]\ ];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(printRat[\ addRat[\ oneThird, \ oneThird\ ]\ ]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\(2\[InvisibleSpace]"/"\[InvisibleSpace]3\),
+      SequenceForm[ 2, "/", 3],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell["\<\
+This point should make you step back in awe! The implication is \
+that you can program almost anything; if you stick to the constructor \
+selector paradigm, you can easily change the data structure to fit your needs \
+after wards.\
+\>", "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Generic operations", "Section"],
+
+Cell["\<\
+Of course we would like to use the normal +, -, etc operations to \
+work on our new data type rat. This can be achieved in the following manner\
+\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(rat\  /: \ 
+        Plus[\ term1_rat, \ 
+          term2_rat\ ]\  := \[IndentingNewLine]makeRat[\ \
+\[IndentingNewLine]numer[\ term1\ ]\ *\ denom[\ term2\ ]\  + \ 
+            numer[\ term2\ ]\ *\ denom[\ term1\ ], \[IndentingNewLine]denom[\ 
+              term1\ ]\ *\ denom[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["For multiplication", "Text"],
+
+Cell[BoxData[
+    \(\(rat\  /: \ 
+        Times[\ term1_rat, \ 
+          term2_rat\ ]\  \
+:= \[IndentingNewLine]makeRat[\[IndentingNewLine]numer[\ term1\ ]\ *\ 
+            numer[\ term2\ ], \[IndentingNewLine]denom[\ term1\ ]\ *\ 
+            denom[\ term2\ ]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell["For testing the sameness of rational numbers", "Text"],
+
+Cell[BoxData[
+    \(rat\  /: \ SameQ[\ a_rat, \ b_rat\ ]\  := \ 
+      SameQ[\ numer[\ a\ ]\ *\ denom[\ b], \ 
+        numer[\ b\ ]\ *\ denom[\ a\ ]\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Plus[\ oneThird, \ oneThird\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(rat[2, 3]\)], "Output"]
+}, Open  ]],
+
+Cell["The pretty printing", "Text"],
+
+Cell[BoxData[
+    \(\(Format[\ rat[\ n_, \ d_\ ]\ ]\  := \ HoldForm[\ n/d\ ];\)\)], "Input"],
+
+Cell["Infix notation is also possible", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(oneThird\ *\ oneThird\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(1\/9\),
+      HoldForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(oneThird\  === \ oneThird\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector revisited", "Section"],
+
+Cell["\<\
+Some times it may be convenient to do the reduction not in the \
+constructor but in the selector. No problem, we can change the underlying \
+data structure yet again, without any modification to the procedures working \
+on the rat data type\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(makeRat[\ n_Integer, \ d_Integer\ ] := 
+        rat[\ n, d\ ];\)\), "\[IndentingNewLine]", 
+    \(\(numer[\ rat[\ n_\ , d_\ ]\ ]\  := \ 
+        n\ /\ GCD[\ n, \ d\ ]\ ;\)\), "\[IndentingNewLine]", 
+    \(\(denom[\ rat[\ n_, d_\ \ ]\ ]\  := \ 
+        d\ /\ GCD[\ n, \ d\ ];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(a\  = \ addRat[\ oneThird, \ oneThird\ ]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(6\/9\),
+      HoldForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(numer[\ a\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(denom[\ a\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(3\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Working",
+WindowToolbars->"EditBar",
+CellGrouping->Manual,
+WindowSize->{941, 667},
+WindowMargins->{{Automatic, 24}, {Automatic, 32}},
+ShowSelection->True,
+SpellingDictionaries->{"CorrectWords"->{
+  "R\[UDoubleDot]benk\[ODoubleDot]nig", "ruebenko", "imtek", "expr"}},
+Magnification->1,
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "M220:4.8.10-2"->{
+    Cell[34361, 1237, 91, 2, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34455, 1241, 80, 2, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34572, 1248, 166, 3, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34741, 1253, 338, 5, 70, "Message",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35082, 1260, 191, 4, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35310, 1269, 91, 2, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35404, 1273, 80, 2, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}]},
+  "M220.4.5"->{
+    Cell[34361, 1237, 91, 2, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34455, 1241, 80, 2, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34572, 1248, 166, 3, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[34741, 1253, 338, 5, 70, "Message",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35082, 1260, 191, 4, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35310, 1269, 91, 2, 70, "Input",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+    Cell[35404, 1273, 80, 2, 70, "Output",
+      CellTags->{"M220:4.8.10-2", "M220.4.5"}]},
+  "FindRoot"->{
+    Cell[60683, 2389, 98, 2, 70, "Input",
+      CellTags->"FindRoot"],
+    Cell[60784, 2393, 13032, 415, 70, 4188, 301, "GraphicsData", 
+    "PostScript", "Graphics",
+      CellTags->"FindRoot"]},
+  "Info3291380133-8910536"->{
+    Cell[86410, 3303, 65, 1, 70, "Print",
+      CellTags->"Info3291380133-8910536"],
+    Cell[86478, 3306, 568, 17, 70, "Print",
+      CellTags->"Info3291380133-8910536"]},
+  "M220:6.4.4"->{
+    Cell[112824, 4473, 82, 1, 70, "Text",
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[112909, 4476, 179, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113091, 4483, 190, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113284, 4490, 176, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113463, 4497, 168, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113634, 4503, 149, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113786, 4509, 159, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113948, 4516, 144, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[114095, 4522, 166, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}]},
+  "M220.6.3"->{
+    Cell[112824, 4473, 82, 1, 70, "Text",
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[112909, 4476, 179, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113091, 4483, 190, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113284, 4490, 176, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113463, 4497, 168, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113634, 4503, 149, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113786, 4509, 159, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[113948, 4516, 144, 4, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[114095, 4522, 166, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.4", "M220.6.3"}],
+    Cell[114341, 4534, 181, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.6-1", "M220.6.3"}],
+    Cell[116069, 4586, 156, 4, 70, "Text",
+      CellTags->{"M220:6.4.8", "M220.6.3"}],
+    Cell[116228, 4592, 134, 4, 70, "Text",
+      CellTags->{"M220:6.4.8", "M220.6.3"}],
+    Cell[116365, 4598, 190, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.8", "M220.6.3"}]},
+  "M220:6.4.6-1"->{
+    Cell[114341, 4534, 181, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.6-1", "M220.6.3"}]},
+  "M220:6.4.8"->{
+    Cell[116069, 4586, 156, 4, 70, "Text",
+      CellTags->{"M220:6.4.8", "M220.6.3"}],
+    Cell[116228, 4592, 134, 4, 70, "Text",
+      CellTags->{"M220:6.4.8", "M220.6.3"}],
+    Cell[116365, 4598, 190, 5, 70, "Input",
+      Evaluatable->False,
+      CellTags->{"M220:6.4.8", "M220.6.3"}]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"M220:4.8.10-2", 127255, 5002},
+  {"M220.4.5", 127910, 5017},
+  {"FindRoot", 128565, 5032},
+  {"Info3291380133-8910536", 128792, 5038},
+  {"M220:6.4.4", 128983, 5043},
+  {"M220.6.3", 130007, 5070},
+  {"M220:6.4.6-1", 131443, 5107},
+  {"M220:6.4.8", 131579, 5111}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 134, 5, 142, "Title"],
+
+Cell[CellGroupData[{
+Cell[1935, 62, 35, 0, 30, "Subsubsection"],
+Cell[1973, 64, 924, 27, 28, "Text"],
+Cell[2900, 93, 464, 8, 76, "Text"]
+}, Open  ]],
+Cell[3379, 104, 106, 3, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[3510, 111, 49, 0, 70, "Section 1"],
+Cell[3562, 113, 4204, 108, 144, "FramedBox"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7803, 226, 45, 0, 44, "Section 1"],
+Cell[7851, 228, 270, 6, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8146, 238, 34, 1, 31, "Input"],
+Cell[8183, 241, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[8233, 245, 47, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8305, 249, 38, 1, 31, "Input"],
+Cell[8346, 252, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[8396, 256, 40, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[8461, 260, 48, 1, 31, "Input"],
+Cell[8512, 263, 38, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8587, 269, 38, 0, 67, "Section"],
+
+Cell[CellGroupData[{
+Cell[8650, 273, 51, 0, 70, "Subsection"],
+Cell[8704, 275, 348, 10, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[9077, 289, 44, 1, 70, "Input"],
+Cell[9124, 292, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9202, 298, 46, 1, 70, "Input"],
+Cell[9251, 301, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9326, 307, 46, 1, 70, "Input"],
+Cell[9375, 310, 42, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9454, 316, 52, 1, 70, "Input"],
+Cell[9509, 319, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9587, 325, 60, 1, 70, "Input"],
+Cell[9650, 328, 40, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9727, 334, 46, 1, 70, "Input"],
+Cell[9776, 337, 40, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9865, 344, 43, 0, 70, "Subsection"],
+Cell[9911, 346, 242, 6, 70, "DefinitionBox"],
+Cell[10156, 354, 132, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[10313, 363, 57, 1, 70, "Input"],
+Cell[10373, 366, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10451, 372, 47, 1, 70, "Input"],
+Cell[10501, 375, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10573, 381, 196, 4, 70, "Input"],
+Cell[10772, 387, 35, 1, 70, "Output"],
+Cell[10810, 390, 35, 1, 70, "Output"],
+Cell[10848, 393, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[10898, 397, 90, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[11013, 404, 67, 1, 70, "Input"],
+Cell[11083, 407, 47, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11167, 413, 102, 2, 70, "Input"],
+Cell[11272, 417, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11350, 423, 48, 1, 70, "Input"],
+Cell[11401, 426, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[11451, 430, 67, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[11543, 434, 73, 1, 70, "Input"],
+Cell[11619, 437, 51, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11707, 443, 47, 1, 70, "Input"],
+Cell[11757, 446, 41, 1, 70, "Output"]
+}, Open  ]],
+Cell[11813, 450, 280, 8, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[12118, 462, 164, 2, 70, "Input"],
+Cell[12285, 466, 204, 6, 70, "Output"]
+}, Open  ]],
+Cell[12504, 475, 47, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[12576, 479, 70, 1, 70, "Input"],
+Cell[12649, 482, 196, 6, 70, "Output"]
+}, Open  ]],
+Cell[12860, 491, 157, 5, 70, "Text"],
+Cell[13020, 498, 55, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[13100, 502, 66, 1, 70, "Input"],
+Cell[13169, 505, 46, 1, 70, "Output"]
+}, Open  ]],
+Cell[13230, 509, 157, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[13412, 516, 51, 1, 70, "Input"],
+Cell[13466, 519, 214, 6, 70, "Output"]
+}, Open  ]],
+Cell[13695, 528, 176, 3, 70, "DefinitionBox"],
+Cell[13874, 533, 79, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13990, 539, 55, 0, 70, "Subsection"],
+Cell[14048, 541, 92, 3, 70, "Text"],
+Cell[14143, 546, 59, 0, 70, "Text"],
+Cell[14205, 548, 66, 2, 70, "Input",
+  Evaluatable->False],
+Cell[14274, 552, 33, 0, 70, "Text"],
+Cell[14310, 554, 64, 2, 70, "Input",
+  Evaluatable->False],
+Cell[14377, 558, 38, 0, 70, "Text"],
+Cell[14418, 560, 78, 2, 70, "Input",
+  Evaluatable->False],
+Cell[14499, 564, 143, 4, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[14667, 572, 70, 1, 70, "Input"],
+Cell[14740, 575, 196, 6, 70, "Output"]
+}, Open  ]],
+Cell[14951, 584, 564, 12, 70, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15564, 602, 61, 0, 41, "Section"],
+Cell[15628, 604, 179, 4, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[15832, 612, 42, 0, 39, "Subsection"],
+Cell[15877, 614, 113, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[16015, 621, 183, 3, 70, "Input"],
+Cell[16201, 626, 54, 1, 70, "Print"],
+Cell[16258, 629, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[16311, 633, 131, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[16467, 640, 160, 2, 70, "Input"],
+Cell[16630, 644, 54, 1, 70, "Print"],
+Cell[16687, 647, 38, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16774, 654, 40, 0, 23, "Subsection"],
+Cell[16817, 656, 64, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[16906, 660, 51, 1, 31, "Input"],
+Cell[16960, 663, 35, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17032, 669, 37, 1, 31, "Input"],
+Cell[17072, 672, 35, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17144, 678, 53, 1, 31, "Input"],
+Cell[17200, 681, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[17250, 685, 44, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[17319, 689, 96, 2, 47, "Input"],
+Cell[17418, 693, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[17468, 697, 372, 7, 76, "Text"],
+Cell[17843, 706, 50, 0, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[17918, 710, 172, 3, 63, "Input"],
+Cell[18093, 715, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[18143, 719, 261, 5, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[18429, 728, 125, 2, 47, "Input"],
+Cell[18557, 732, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[18607, 736, 167, 4, 28, "Text"],
+
+Cell[CellGroupData[{
+Cell[18799, 744, 37, 1, 31, "Input"],
+Cell[18839, 747, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[18889, 751, 218, 4, 44, "Text"],
+
+Cell[CellGroupData[{
+Cell[19132, 759, 98, 2, 47, "Input"],
+Cell[19233, 763, 35, 1, 30, "Output"]
+}, Open  ]],
+Cell[19283, 767, 59, 0, 28, "Text"],
+Cell[19345, 769, 71, 1, 70, "Input"],
+Cell[19419, 772, 48, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[19492, 776, 37, 1, 70, "Input"],
+Cell[19532, 779, 38, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[19619, 786, 26, 0, 23, "Subsection"],
+Cell[19648, 788, 338, 10, 70, "DefinitionBox"],
+Cell[19989, 800, 270, 10, 70, "Text"],
+Cell[20262, 812, 237, 5, 70, "Text"],
+Cell[20502, 819, 280, 6, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[20807, 829, 49, 1, 70, "Input"],
+Cell[20859, 832, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[20909, 836, 76, 0, 70, "Text"],
+Cell[20988, 838, 211, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[21224, 846, 56, 1, 70, "Input"],
+Cell[21283, 849, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21355, 855, 38, 1, 70, "Input"],
+Cell[21396, 858, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[21447, 862, 132, 5, 70, "Text"],
+Cell[21582, 869, 251, 5, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[21858, 878, 50, 1, 70, "Input"],
+Cell[21911, 881, 270, 4, 70, "Message"],
+Cell[22184, 887, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[22234, 891, 105, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[22364, 898, 46, 1, 70, "Input"],
+Cell[22413, 901, 8119, 186, 70, "Print"]
+}, Open  ]],
+Cell[30547, 1090, 83, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30667, 1096, 28, 0, 23, "Subsection"],
+Cell[30698, 1098, 497, 14, 70, "DefinitionBox"],
+Cell[31198, 1114, 158, 5, 70, "Text"],
+Cell[31359, 1121, 44, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[31428, 1125, 253, 5, 70, "Input"],
+Cell[31684, 1132, 358, 5, 70, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32079, 1142, 111, 2, 70, "Input"],
+Cell[32193, 1146, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[32244, 1150, 146, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[32415, 1157, 38, 1, 70, "Input"],
+Cell[32456, 1160, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[32507, 1164, 47, 0, 70, "Text"],
+Cell[32557, 1166, 125, 2, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[32707, 1172, 57, 1, 70, "Input"],
+Cell[32767, 1175, 61, 1, 70, "Output"]
+}, Open  ]],
+Cell[32843, 1179, 39, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[32907, 1183, 55, 1, 70, "Input"],
+Cell[32965, 1186, 51, 1, 70, "Output"]
+}, Open  ]],
+Cell[33031, 1190, 462, 8, 70, "Text"],
+Cell[33496, 1200, 234, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[33755, 1208, 57, 1, 70, "Input"],
+Cell[33815, 1211, 61, 1, 70, "Output"]
+}, Open  ]],
+Cell[33891, 1215, 141, 3, 70, "Text"],
+Cell[34035, 1220, 54, 0, 70, "Text"],
+Cell[34092, 1222, 83, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[34212, 1228, 27, 0, 23, "Subsection"],
+Cell[34242, 1230, 94, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[34361, 1237, 91, 2, 70, "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+Cell[34455, 1241, 80, 2, 70, "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[34572, 1248, 166, 3, 70, "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+Cell[34741, 1253, 338, 5, 70, "Message",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+Cell[35082, 1260, 191, 4, 70, "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[35310, 1269, 91, 2, 70, "Input",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}],
+Cell[35404, 1273, 80, 2, 70, "Output",
+  CellTags->{"M220:4.8.10-2", "M220.4.5"}]
+}, Open  ]],
+Cell[35499, 1278, 45, 1, 70, "Input"],
+Cell[35547, 1281, 64, 0, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[35648, 1286, 47, 0, 23, "Subsection"],
+Cell[35698, 1288, 99, 3, 70, "Text"],
+Cell[35800, 1293, 302, 5, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[36127, 1302, 60, 1, 70, "Input"],
+Cell[36190, 1305, 50, 1, 70, "Output"]
+}, Open  ]],
+Cell[36255, 1309, 56, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[36336, 1313, 136, 3, 70, "Input"],
+Cell[36475, 1318, 40, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[36564, 1325, 45, 0, 23, "Subsection"],
+Cell[36612, 1327, 120, 3, 70, "Text"],
+Cell[36735, 1332, 375, 6, 70, "Input"],
+Cell[37113, 1340, 33, 0, 70, "Text"],
+Cell[37149, 1342, 138, 2, 70, "Input"],
+Cell[37290, 1346, 190, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[37505, 1355, 78, 1, 70, "Input"],
+Cell[37586, 1358, 46, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[37693, 1366, 29, 0, 41, "Section"],
+Cell[37725, 1368, 191, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[37941, 1377, 45, 1, 70, "Input"],
+Cell[37989, 1380, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38064, 1386, 63, 1, 70, "Input"],
+Cell[38130, 1389, 39, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38206, 1395, 48, 1, 70, "Input"],
+Cell[38257, 1398, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38332, 1404, 45, 1, 70, "Input"],
+Cell[38380, 1407, 39, 1, 70, "Output"]
+}, Open  ]],
+Cell[38434, 1411, 114, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[38573, 1418, 75, 1, 70, "Input"],
+Cell[38651, 1421, 39, 1, 70, "Output"]
+}, Open  ]],
+Cell[38705, 1425, 35, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[38765, 1429, 70, 1, 70, "Input"],
+Cell[38838, 1432, 39, 1, 70, "Output"]
+}, Open  ]],
+Cell[38892, 1436, 61, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[38978, 1440, 53, 1, 70, "Input"],
+Cell[39034, 1443, 38, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[39121, 1450, 31, 0, 41, "Section"],
+
+Cell[CellGroupData[{
+Cell[39177, 1454, 24, 0, 70, "Subsection"],
+Cell[39204, 1456, 1432, 43, 70, "DefinitionBox"],
+Cell[40639, 1501, 378, 14, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[41042, 1519, 135, 2, 70, "Input"],
+Cell[41180, 1523, 39, 1, 70, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41256, 1529, 148, 2, 70, "Input"],
+Cell[41407, 1533, 47, 1, 70, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41491, 1539, 38, 1, 70, "Input"],
+Cell[41532, 1542, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41604, 1548, 148, 2, 70, "Input"],
+Cell[41755, 1552, 39, 1, 70, "Print"]
+}, Open  ]],
+Cell[41809, 1556, 57, 0, 70, "Text"],
+Cell[41869, 1558, 101, 2, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[41995, 1564, 58, 1, 70, "Input"],
+Cell[42056, 1567, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[42106, 1571, 67, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[42198, 1576, 34, 1, 70, "Input"],
+Cell[42235, 1579, 35, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[42319, 1586, 27, 0, 70, "Subsection"],
+Cell[42349, 1588, 594, 16, 70, "DefinitionBox"],
+Cell[42946, 1606, 472, 17, 70, "Text"],
+Cell[43421, 1625, 225, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[43671, 1633, 58, 1, 70, "Input"],
+Cell[43732, 1636, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[43782, 1640, 61, 0, 70, "Text"],
+Cell[43846, 1642, 57, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[43940, 1648, 28, 0, 70, "Subsection"],
+Cell[43971, 1650, 798, 22, 70, "DefinitionBox"],
+Cell[44772, 1674, 495, 17, 70, "Text"],
+Cell[45270, 1693, 187, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[45482, 1701, 58, 1, 70, "Input"],
+Cell[45543, 1704, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[45593, 1708, 57, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[45687, 1714, 31, 0, 70, "Subsection"],
+Cell[45721, 1716, 458, 15, 70, "DefinitionBox"],
+Cell[46182, 1733, 178, 3, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[46385, 1740, 58, 1, 70, "Input"],
+Cell[46446, 1743, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[46496, 1747, 193, 6, 70, "Text"],
+Cell[46692, 1755, 57, 1, 70, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[46798, 1762, 59, 0, 41, "Section"],
+Cell[46860, 1764, 50, 0, 70, "Text"],
+Cell[46913, 1766, 175, 3, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[47113, 1773, 123, 2, 70, "Input"],
+Cell[47239, 1777, 677, 24, 70, "Output"]
+}, Open  ]],
+Cell[47931, 1804, 290, 5, 70, "Text"],
+Cell[48224, 1811, 66, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[48315, 1816, 123, 2, 70, "Input"],
+Cell[48441, 1820, 406, 14, 70, "Output"]
+}, Open  ]],
+Cell[48862, 1837, 297, 7, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[49184, 1848, 51, 1, 70, "Input"],
+Cell[49238, 1851, 55, 1, 70, "Output"]
+}, Open  ]],
+Cell[49308, 1855, 71, 0, 70, "Text"],
+Cell[49382, 1857, 118, 5, 70, "Text"],
+Cell[49503, 1864, 59, 1, 70, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[49611, 1871, 49, 0, 44, "Section 1"],
+
+Cell[CellGroupData[{
+Cell[49685, 1875, 27, 0, 70, "Section"],
+
+Cell[CellGroupData[{
+Cell[49737, 1879, 27, 0, 70, "Subsection"],
+Cell[49767, 1881, 188, 5, 70, "Text"],
+Cell[49958, 1888, 334, 10, 70, "DefinitionBox"],
+Cell[50295, 1900, 187, 8, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[50507, 1912, 51, 1, 70, "Input"],
+Cell[50561, 1915, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[50636, 1921, 51, 1, 70, "Input"],
+Cell[50690, 1924, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[50765, 1930, 135, 2, 70, "Input"],
+Cell[50903, 1934, 70, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[51010, 1940, 44, 1, 70, "Input"],
+Cell[51057, 1943, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[51135, 1949, 142, 2, 70, "Input"],
+Cell[51280, 1953, 75, 1, 70, "Output"]
+}, Open  ]],
+Cell[51370, 1957, 134, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[51529, 1964, 138, 2, 70, "Input"],
+Cell[51670, 1968, 75, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[51794, 1975, 38, 0, 70, "Subsection"],
+Cell[51835, 1977, 519, 14, 70, "DefinitionBox"],
+Cell[52357, 1993, 530, 16, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[52912, 2013, 121, 2, 70, "Input"],
+Cell[53036, 2017, 40, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53113, 2023, 118, 2, 70, "Input"],
+Cell[53234, 2027, 48, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53319, 2033, 124, 2, 70, "Input"],
+Cell[53446, 2037, 40, 1, 70, "Output"]
+}, Open  ]],
+Cell[53501, 2041, 62, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[53588, 2045, 125, 2, 70, "Input"],
+Cell[53716, 2049, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[53767, 2053, 191, 4, 70, "Text"],
+Cell[53961, 2059, 522, 14, 70, "DefinitionBox"],
+Cell[54486, 2075, 211, 4, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[54722, 2083, 123, 2, 70, "Input"],
+Cell[54848, 2087, 47, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[54944, 2094, 62, 0, 70, "Subsection"],
+Cell[55009, 2096, 103, 3, 70, "Text"],
+Cell[55115, 2101, 78, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[55218, 2106, 56, 1, 70, "Input"],
+Cell[55277, 2109, 47, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55373, 2116, 39, 0, 70, "Subsection"],
+Cell[55415, 2118, 113, 3, 70, "Text"],
+Cell[55531, 2123, 68, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[55624, 2128, 36, 1, 70, "Input"],
+Cell[55663, 2131, 36, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[55736, 2137, 41, 1, 70, "Input"],
+Cell[55780, 2140, 37, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55866, 2147, 36, 0, 70, "Subsection"],
+Cell[55905, 2149, 78, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[56008, 2154, 50, 1, 70, "Input"],
+Cell[56061, 2157, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[56133, 2163, 52, 1, 70, "Input"],
+Cell[56188, 2166, 50, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[56275, 2172, 61, 1, 70, "Input"],
+Cell[56339, 2175, 52, 1, 70, "Output"]
+}, Open  ]],
+Cell[56406, 2179, 267, 5, 70, "Text"],
+Cell[56676, 2186, 36, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[56737, 2190, 111, 2, 70, "InputOnly"],
+Cell[56851, 2194, 38, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[56938, 2201, 42, 0, 70, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[57005, 2205, 143, 2, 70, "Input"],
+Cell[57151, 2209, 40, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[57228, 2215, 143, 2, 70, "Input"],
+Cell[57374, 2219, 40, 1, 70, "Output"]
+}, Open  ]],
+Cell[57429, 2223, 170, 7, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[57624, 2234, 128, 2, 70, "Input"],
+Cell[57755, 2238, 40, 1, 70, "Output"]
+}, Open  ]],
+Cell[57810, 2242, 59, 1, 70, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[57918, 2249, 24, 0, 70, "Section"],
+
+Cell[CellGroupData[{
+Cell[57967, 2253, 32, 0, 70, "Subsection"],
+Cell[58002, 2255, 280, 9, 70, "DefinitionBox"],
+Cell[58285, 2266, 117, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[58427, 2275, 71, 1, 70, "Input"],
+Cell[58501, 2278, 45, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[58595, 2285, 26, 0, 70, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[58646, 2289, 56, 1, 70, "InputOnly"],
+Cell[58705, 2292, 49, 1, 70, "Output"]
+}, Open  ]],
+Cell[58769, 2296, 29, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[58823, 2300, 66, 1, 70, "Input"],
+Cell[58892, 2303, 190, 6, 70, "Output"]
+}, Open  ]],
+Cell[59097, 2312, 64, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[59186, 2316, 71, 1, 70, "Input"],
+Cell[59260, 2319, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[59320, 2323, 219, 8, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[59564, 2335, 84, 1, 70, "Input"],
+Cell[59651, 2338, 48, 1, 70, "Output"]
+}, Open  ]],
+Cell[59714, 2342, 153, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[59892, 2349, 87, 1, 70, "Input"],
+Cell[59982, 2352, 70, 1, 70, "Output"]
+}, Open  ]],
+Cell[60067, 2356, 70, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[60162, 2360, 50, 1, 70, "Input"],
+Cell[60215, 2363, 58, 1, 70, "Output"]
+}, Open  ]],
+Cell[60288, 2367, 73, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[60386, 2371, 59, 1, 70, "Input"],
+Cell[60448, 2374, 53, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[60538, 2380, 52, 1, 70, "Input"],
+Cell[60593, 2383, 53, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[60683, 2389, 98, 2, 70, "Input",
+  CellTags->"FindRoot"],
+Cell[60784, 2393, 13032, 415, 70, 4188, 301, "GraphicsData", "PostScript", \
+"Graphics",
+  CellTags->"FindRoot"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[73865, 2814, 36, 0, 70, "Subsection"],
+Cell[73904, 2816, 42, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[73971, 2820, 103, 2, 70, "Input"],
+Cell[74077, 2824, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[74137, 2828, 68, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[74230, 2832, 119, 2, 70, "Input"],
+Cell[74352, 2836, 53, 1, 70, "Output"]
+}, Open  ]],
+Cell[74420, 2840, 89, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[74534, 2847, 107, 2, 70, "Input"],
+Cell[74644, 2851, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[74704, 2855, 100, 3, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[74841, 2863, 37, 0, 70, "Subsection"],
+Cell[74881, 2865, 87, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[74993, 2872, 108, 2, 70, "Input"],
+Cell[75104, 2876, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[75164, 2880, 61, 0, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[75262, 2885, 33, 0, 70, "Subsection"],
+Cell[75298, 2887, 96, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[75419, 2894, 128, 2, 70, "Input"],
+Cell[75550, 2898, 52, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[75639, 2904, 55, 1, 70, "Input"],
+Cell[75697, 2907, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[75750, 2911, 118, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[75893, 2918, 86, 1, 70, "Input"],
+Cell[75982, 2921, 62, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[76081, 2927, 56, 1, 70, "Input"],
+Cell[76140, 2930, 39, 1, 70, "Output"]
+}, Open  ]],
+Cell[76194, 2934, 113, 3, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[76344, 2942, 39, 0, 70, "Subsection"],
+Cell[76386, 2944, 105, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[76516, 2951, 208, 4, 70, "Input"],
+Cell[76727, 2957, 356, 5, 70, "Message"],
+Cell[77086, 2964, 330, 5, 70, "Output"]
+}, Open  ]],
+Cell[77431, 2972, 56, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[77512, 2976, 53, 1, 70, "Input"],
+Cell[77568, 2979, 571, 13, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[78176, 2997, 52, 1, 70, "Input"],
+Cell[78231, 3000, 615, 16, 70, "Output"]
+}, Open  ]],
+Cell[78861, 3019, 29, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[78915, 3023, 54, 1, 70, "Input"],
+Cell[78972, 3026, 615, 16, 70, "Output"]
+}, Open  ]],
+Cell[79602, 3045, 40, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[79667, 3049, 112, 2, 70, "Input"],
+Cell[79782, 3053, 578, 14, 70, "Output"]
+}, Open  ]],
+Cell[80375, 3070, 47, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[80447, 3074, 129, 2, 70, "Input"],
+Cell[80579, 3078, 600, 15, 70, "Output"]
+}, Open  ]],
+Cell[81194, 3096, 48, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[81267, 3100, 197, 4, 70, "Input"],
+Cell[81467, 3106, 598, 15, 70, "Output"]
+}, Open  ]],
+Cell[82080, 3124, 34, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[82139, 3128, 193, 4, 70, "Input"],
+Cell[82335, 3134, 615, 16, 70, "Output"]
+}, Open  ]],
+Cell[82965, 3153, 66, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[83056, 3157, 178, 4, 70, "Input"],
+Cell[83237, 3163, 429, 12, 70, "Output"]
+}, Open  ]],
+Cell[83681, 3178, 115, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[83821, 3185, 251, 4, 70, "Input"],
+Cell[84075, 3191, 257, 8, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[84369, 3204, 56, 1, 70, "Input"],
+Cell[84428, 3207, 220, 7, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[84685, 3219, 54, 1, 70, "Input"],
+Cell[84742, 3222, 62, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[84841, 3228, 89, 1, 70, "Input"],
+Cell[84933, 3231, 76, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[85046, 3237, 87, 1, 70, "Input"],
+Cell[85136, 3240, 76, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[85249, 3246, 51, 1, 70, "Input"],
+Cell[85303, 3249, 329, 11, 70, "Output"]
+}, Open  ]],
+Cell[85647, 3263, 59, 1, 70, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[85755, 3270, 35, 0, 70, "Section"],
+
+Cell[CellGroupData[{
+Cell[85815, 3274, 32, 0, 70, "Subsection"],
+Cell[85850, 3276, 92, 3, 70, "Text"],
+Cell[85945, 3281, 225, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[86195, 3289, 43, 1, 70, "Input"],
+Cell[86241, 3292, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[86291, 3296, 50, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[86366, 3300, 41, 1, 70, "Input"],
+Cell[86410, 3303, 65, 1, 70, "Print",
+  CellTags->"Info3291380133-8910536"],
+Cell[86478, 3306, 568, 17, 70, "Print",
+  CellTags->"Info3291380133-8910536"]
+}, Open  ]],
+Cell[87061, 3326, 31, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[87117, 3330, 66, 1, 70, "Input"],
+Cell[87186, 3333, 194, 4, 70, "Output"]
+}, Open  ]],
+Cell[87395, 3340, 214, 4, 70, "Text"],
+Cell[87612, 3346, 182, 4, 70, "Input"],
+Cell[87797, 3352, 38, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[87860, 3356, 51, 1, 70, "Input"],
+Cell[87914, 3359, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[87964, 3363, 54, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[88043, 3367, 158, 2, 70, "Input"],
+Cell[88204, 3371, 35, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[88288, 3378, 30, 0, 70, "Subsection"],
+Cell[88321, 3380, 253, 5, 70, "Text"],
+Cell[88577, 3387, 45, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[88647, 3392, 59, 1, 70, "Input"],
+Cell[88709, 3395, 294, 5, 70, "Message"],
+Cell[89006, 3402, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[89081, 3408, 48, 1, 70, "Input"],
+Cell[89132, 3411, 45, 1, 70, "Output"]
+}, Open  ]],
+Cell[89192, 3415, 292, 7, 70, "Text"],
+Cell[89487, 3424, 69, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[89581, 3429, 48, 1, 70, "Input"],
+Cell[89632, 3432, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[89685, 3436, 214, 6, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[89924, 3446, 48, 1, 70, "Input"],
+Cell[89975, 3449, 80, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[90128, 3458, 42, 0, 44, "Section 1"],
+
+Cell[CellGroupData[{
+Cell[90195, 3462, 41, 0, 70, "Section"],
+
+Cell[CellGroupData[{
+Cell[90261, 3466, 27, 0, 70, "Subsection"],
+Cell[90291, 3468, 2971, 84, 70, "DefinitionBox"],
+Cell[93265, 3554, 173, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[93463, 3563, 125, 2, 70, "Input"],
+Cell[93591, 3567, 34, 1, 70, "Print"],
+Cell[93628, 3570, 34, 1, 70, "Print"],
+Cell[93665, 3573, 34, 1, 70, "Print"]
+}, Open  ]],
+Cell[93714, 3577, 137, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[93876, 3586, 132, 2, 70, "Input"],
+Cell[94011, 3590, 183, 4, 70, "Print"],
+Cell[94197, 3596, 183, 4, 70, "Print"],
+Cell[94383, 3602, 183, 4, 70, "Print"],
+Cell[94569, 3608, 183, 4, 70, "Print"],
+Cell[94755, 3614, 183, 4, 70, "Print"],
+Cell[94941, 3620, 183, 4, 70, "Print"]
+}, Open  ]],
+Cell[95139, 3627, 153, 5, 70, "Text"],
+Cell[95295, 3634, 59, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[95391, 3640, 32, 0, 70, "Subsection"],
+Cell[95426, 3642, 46, 0, 70, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[95521, 3648, 41, 0, 70, "Section"],
+
+Cell[CellGroupData[{
+Cell[95587, 3652, 36, 0, 70, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[95648, 3656, 37, 0, 70, "Subsubsection"],
+Cell[95688, 3658, 29, 0, 70, "Text"],
+Cell[95720, 3660, 64, 1, 70, "Input"],
+Cell[95787, 3663, 186, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[95998, 3672, 46, 1, 70, "Input"],
+Cell[96047, 3675, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[96097, 3679, 455, 14, 70, "DefinitionBox"],
+Cell[96555, 3695, 107, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[96687, 3702, 64, 1, 70, "Input"],
+Cell[96754, 3705, 51, 1, 70, "Output"]
+}, Open  ]],
+Cell[96820, 3709, 176, 6, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[97021, 3719, 41, 1, 70, "Input"],
+Cell[97065, 3722, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[97115, 3726, 47, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[97187, 3730, 34, 1, 70, "Input"],
+Cell[97224, 3733, 51, 1, 70, "Output"]
+}, Open  ]],
+Cell[97290, 3737, 71, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[97386, 3741, 67, 1, 70, "Input"],
+Cell[97456, 3744, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[97506, 3748, 295, 7, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[97826, 3759, 51, 1, 70, "Input"],
+Cell[97880, 3762, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[97930, 3766, 168, 4, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[98123, 3774, 70, 1, 70, "Input"],
+Cell[98196, 3777, 56, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[98289, 3783, 44, 1, 70, "Input"],
+Cell[98336, 3786, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[98408, 3792, 60, 1, 70, "Input"],
+Cell[98471, 3795, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[98521, 3799, 45, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[98603, 3805, 61, 0, 70, "Subsubsection"],
+Cell[98667, 3807, 297, 5, 70, "Text"],
+Cell[98967, 3814, 222, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[99214, 3822, 56, 1, 70, "Input"],
+Cell[99273, 3825, 35, 1, 70, "Output"]
+}, Open  ]],
+Cell[99323, 3829, 229, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[99577, 3837, 55, 1, 70, "Input"],
+Cell[99635, 3840, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[99686, 3844, 151, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[99862, 3851, 253, 4, 70, "Input"],
+Cell[100118, 3857, 354, 5, 70, "Message"]
+}, Open  ]],
+Cell[100487, 3865, 480, 20, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[100992, 3889, 51, 1, 70, "Input"],
+Cell[101046, 3892, 38, 1, 70, "Output"]
+}, Open  ]],
+Cell[101099, 3896, 107, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[101231, 3903, 72, 1, 70, "Input"],
+Cell[101306, 3906, 39, 1, 70, "Output"]
+}, Open  ]],
+Cell[101360, 3910, 74, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[101459, 3914, 205, 4, 70, "Input"],
+Cell[101667, 3920, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[101739, 3926, 201, 4, 70, "Input"],
+Cell[101943, 3932, 36, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[102016, 3938, 217, 4, 70, "Input"],
+Cell[102236, 3944, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[102287, 3948, 41, 0, 70, "Text"],
+Cell[102331, 3950, 115, 2, 70, "Input"],
+Cell[102449, 3954, 59, 1, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[102545, 3960, 57, 0, 70, "Subsubsection"],
+Cell[102605, 3962, 231, 6, 70, "Text"],
+Cell[102839, 3970, 197, 5, 70, "Text"],
+Cell[103039, 3977, 318, 11, 70, "Text"],
+Cell[103360, 3990, 258, 5, 70, "Input"],
+Cell[103621, 3997, 251, 5, 70, "Input"],
+Cell[103875, 4004, 29, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[103929, 4008, 48, 1, 70, "Input"],
+Cell[103980, 4011, 76, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[104093, 4017, 59, 1, 70, "Input"],
+Cell[104155, 4020, 54, 1, 70, "Output"]
+}, Open  ]],
+Cell[104224, 4024, 124, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[104373, 4033, 64, 1, 70, "Input"],
+Cell[104440, 4036, 50, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[104527, 4042, 84, 1, 70, "Input"],
+Cell[104614, 4045, 54, 1, 70, "Output"],
+Cell[104671, 4048, 49, 1, 70, "Input"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[104781, 4056, 25, 0, 70, "Subsection"],
+Cell[104809, 4058, 328, 10, 70, "DefinitionBox"],
+Cell[105140, 4070, 180, 8, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[105345, 4082, 44, 1, 70, "Input"],
+Cell[105392, 4085, 37, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[105466, 4091, 58, 1, 70, "Input"],
+Cell[105527, 4094, 183, 6, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[105747, 4105, 58, 1, 70, "Input"],
+Cell[105808, 4108, 40, 1, 70, "Output"]
+}, Open  ]],
+Cell[105863, 4112, 137, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[106025, 4121, 61, 1, 70, "Input"],
+Cell[106089, 4124, 43, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[106169, 4130, 74, 1, 70, "Input"],
+Cell[106246, 4133, 104, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[106387, 4140, 51, 1, 70, "Input"],
+Cell[106441, 4143, 113, 2, 70, "Output"]
+}, Open  ]],
+Cell[106569, 4148, 69, 1, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[106663, 4153, 51, 1, 70, "Input"],
+Cell[106717, 4156, 102, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[106856, 4163, 73, 1, 70, "Input"],
+Cell[106932, 4166, 102, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[107071, 4173, 58, 1, 70, "Input"],
+Cell[107132, 4176, 102, 2, 70, "Output"]
+}, Open  ]],
+Cell[107249, 4181, 52, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[107326, 4185, 68, 1, 70, "Input"],
+Cell[107397, 4188, 102, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[107536, 4195, 57, 1, 70, "Input"],
+Cell[107596, 4198, 102, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[107735, 4205, 63, 1, 70, "Input"],
+Cell[107801, 4208, 104, 2, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[107954, 4216, 27, 0, 70, "Subsection"],
+Cell[107984, 4218, 330, 10, 70, "DefinitionBox"],
+Cell[108317, 4230, 218, 10, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[108560, 4244, 60, 1, 70, "Input"],
+Cell[108623, 4247, 38, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[108698, 4253, 69, 1, 70, "Input"],
+Cell[108770, 4256, 43, 1, 70, "Output"]
+}, Open  ]],
+Cell[108828, 4260, 44, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[108897, 4264, 62, 1, 70, "Input"],
+Cell[108962, 4267, 43, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[109054, 4274, 26, 0, 70, "Subsection"],
+Cell[109083, 4276, 69, 0, 70, "Text"],
+Cell[109155, 4278, 406, 12, 70, "DefinitionBox"],
+Cell[109564, 4292, 420, 16, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[110009, 4312, 60, 1, 70, "Input"],
+Cell[110072, 4315, 41, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110150, 4321, 65, 1, 70, "Input"],
+Cell[110218, 4324, 47, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110302, 4330, 45, 1, 70, "Input"],
+Cell[110350, 4333, 43, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110430, 4339, 65, 1, 70, "Input"],
+Cell[110498, 4342, 53, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110588, 4348, 68, 1, 70, "Input"],
+Cell[110659, 4351, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110731, 4357, 69, 1, 70, "Input"],
+Cell[110803, 4360, 82, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110922, 4366, 109, 2, 70, "Input"],
+Cell[111034, 4370, 46, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[111117, 4376, 75, 1, 70, "Input"],
+Cell[111195, 4379, 46, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[111278, 4385, 103, 2, 70, "Input"],
+Cell[111384, 4389, 36, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[111457, 4395, 87, 1, 70, "Input"],
+Cell[111547, 4398, 36, 1, 70, "Output"]
+}, Open  ]],
+Cell[111598, 4402, 59, 1, 70, "Input"]
+}, Closed]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[111718, 4410, 37, 0, 44, "Section 1"],
+
+Cell[CellGroupData[{
+Cell[111780, 4414, 46, 0, 70, "Subsubsection"],
+Cell[111829, 4416, 128, 5, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[111982, 4425, 56, 1, 70, "Input"],
+Cell[112041, 4428, 46, 1, 70, "Output"]
+}, Open  ]],
+Cell[112102, 4432, 38, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[112165, 4436, 45, 1, 70, "Input"],
+Cell[112213, 4439, 59, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[112309, 4445, 47, 1, 70, "Input"],
+Cell[112359, 4448, 43, 1, 70, "Output"]
+}, Open  ]],
+Cell[112417, 4452, 38, 0, 70, "Text"],
+Cell[112458, 4454, 62, 1, 70, "Input"],
+Cell[112523, 4457, 52, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[112600, 4461, 45, 1, 70, "Input"],
+Cell[112648, 4464, 84, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[112781, 4471, 40, 0, 70, "Subsubsection"],
+Cell[112824, 4473, 82, 1, 70, "Text",
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[112909, 4476, 179, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113091, 4483, 190, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113284, 4490, 176, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113463, 4497, 168, 4, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113634, 4503, 149, 4, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113786, 4509, 159, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[113948, 4516, 144, 4, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}],
+Cell[114095, 4522, 166, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.4", "M220.6.3"}]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[114298, 4532, 40, 0, 70, "Subsubsection"],
+Cell[114341, 4534, 181, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.6-1", "M220.6.3"}],
+Cell[114525, 4541, 99, 3, 70, "Text"],
+Cell[114627, 4546, 155, 3, 70, "Text"],
+Cell[114785, 4551, 213, 6, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[115023, 4561, 38, 1, 70, "Input"],
+Cell[115064, 4564, 919, 14, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[116032, 4584, 34, 0, 70, "Subsubsection"],
+Cell[116069, 4586, 156, 4, 70, "Text",
+  CellTags->{"M220:6.4.8", "M220.6.3"}],
+Cell[116228, 4592, 134, 4, 70, "Text",
+  CellTags->{"M220:6.4.8", "M220.6.3"}],
+Cell[116365, 4598, 190, 5, 70, "Input",
+  Evaluatable->False,
+  CellTags->{"M220:6.4.8", "M220.6.3"}]
+}, Closed]],
+Cell[116570, 4606, 39, 0, 70, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[116634, 4610, 33, 0, 70, "Subsubsection"],
+Cell[116670, 4612, 58, 0, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[116765, 4617, 30, 0, 70, "Subsubsection"],
+Cell[116798, 4619, 375, 10, 70, "Text"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[117222, 4635, 52, 0, 44, "Section 1"],
+Cell[117277, 4637, 206, 4, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[117508, 4645, 35, 0, 70, "Section"],
+Cell[117546, 4647, 352, 6, 70, "Text"],
+Cell[117901, 4655, 92, 2, 70, "Input",
+  Evaluatable->False],
+Cell[117996, 4659, 41, 0, 70, "Text"],
+Cell[118040, 4661, 160, 4, 70, "Text"],
+Cell[118203, 4667, 81, 2, 70, "Input",
+  Evaluatable->False],
+Cell[118287, 4671, 58, 0, 70, "Text"],
+Cell[118348, 4673, 81, 2, 70, "Input",
+  Evaluatable->False],
+Cell[118432, 4677, 60, 0, 70, "Text"],
+Cell[118495, 4679, 62, 0, 70, "Text"],
+Cell[118560, 4681, 217, 6, 70, "Input",
+  Evaluatable->False],
+Cell[118780, 4689, 63, 0, 70, "Text"],
+Cell[118846, 4691, 326, 5, 70, "Input"],
+Cell[119175, 4698, 65, 0, 70, "Text"],
+Cell[119243, 4700, 217, 6, 70, "Input",
+  Evaluatable->False],
+Cell[119463, 4708, 50, 0, 70, "Text"],
+Cell[119516, 4710, 341, 6, 70, "Input"],
+Cell[119860, 4718, 34, 0, 70, "Text"],
+Cell[119897, 4720, 278, 5, 70, "Input"],
+Cell[120178, 4727, 28, 0, 70, "Text"],
+Cell[120209, 4729, 278, 5, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[120524, 4739, 41, 0, 70, "Section"],
+Cell[120568, 4741, 48, 0, 70, "Text"],
+Cell[120619, 4743, 92, 1, 70, "Input"],
+Cell[120714, 4746, 33, 0, 70, "Text"],
+Cell[120750, 4748, 157, 2, 70, "Input"],
+Cell[120910, 4752, 43, 0, 70, "Text"],
+Cell[120956, 4754, 131, 2, 70, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[121124, 4761, 26, 0, 70, "Section"],
+Cell[121153, 4763, 64, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[121242, 4767, 125, 2, 70, "Input"],
+Cell[121370, 4771, 146, 3, 70, "Print"]
+}, Open  ]],
+Cell[121531, 4777, 91, 3, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[121647, 4784, 64, 1, 70, "Input"],
+Cell[121714, 4787, 37, 1, 70, "Output"]
+}, Open  ]],
+Cell[121766, 4791, 40, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[121831, 4795, 150, 2, 70, "Input"],
+Cell[121984, 4799, 146, 3, 70, "Print"]
+}, Open  ]],
+Cell[122145, 4805, 43, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[122213, 4809, 79, 1, 70, "Input"],
+Cell[122295, 4812, 146, 3, 70, "Print"]
+}, Open  ]],
+Cell[122456, 4818, 71, 0, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[122564, 4823, 40, 0, 70, "Section"],
+Cell[122607, 4825, 223, 7, 70, "Text"],
+Cell[122833, 4834, 155, 3, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[123013, 4841, 79, 1, 70, "Input"],
+Cell[123095, 4844, 146, 3, 70, "Print"]
+}, Open  ]],
+Cell[123256, 4850, 254, 5, 70, "Text"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[123547, 4860, 37, 0, 70, "Section"],
+Cell[123587, 4862, 169, 4, 70, "Text"],
+Cell[123759, 4868, 344, 6, 70, "Input"],
+Cell[124106, 4876, 34, 0, 70, "Text"],
+Cell[124143, 4878, 297, 6, 70, "Input"],
+Cell[124443, 4886, 60, 0, 70, "Text"],
+Cell[124506, 4888, 164, 3, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[124695, 4895, 63, 1, 70, "Input"],
+Cell[124761, 4898, 43, 1, 70, "Output"]
+}, Open  ]],
+Cell[124819, 4902, 35, 0, 70, "Text"],
+Cell[124857, 4904, 92, 1, 70, "Input"],
+Cell[124952, 4907, 47, 0, 70, "Text"],
+
+Cell[CellGroupData[{
+Cell[125024, 4911, 54, 1, 70, "Input"],
+Cell[125081, 4914, 62, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[125180, 4921, 58, 1, 70, "Input"],
+Cell[125241, 4924, 38, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[125328, 4931, 37, 0, 70, "Section"],
+Cell[125368, 4933, 264, 5, 70, "Text"],
+Cell[125635, 4940, 313, 6, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[125973, 4950, 73, 1, 70, "Input"],
+Cell[126049, 4953, 62, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[126148, 4960, 45, 1, 70, "Input"],
+Cell[126196, 4963, 35, 1, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[126268, 4969, 45, 1, 70, "Input"],
+Cell[126316, 4972, 35, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

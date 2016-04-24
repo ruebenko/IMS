@@ -1,0 +1,1223 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     50755,       1072]*)
+(*NotebookOutlinePosition[     51417,       1095]*)
+(*  CellTagsIndexPosition[     51373,       1091]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ContourPlot for triangular linear Elements", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ GraphPlot . m\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Context : \ Imtek`GraphPlot`\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Author : \ Jan\ Lienemann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 2.12  .2004, \ 
+      Freiburg\ i . Br . \ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ a\ function\ to\ make\ plots\ for\ triangles\
+\ with\ a\ linear\ shape\ function\ interpolating\ between\ the\ edges\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.5  .0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]18.6  .2003\ initial\ version\ \
+\((FEPlot)\); \[IndentingNewLine]11.2  .2005\ changed\ name\ to\ GraphPlot; \
+\[IndentingNewLine]22.2  .2005\ Names\ changed\ to\ ims ... ; \
+\[IndentingNewLine]3.6  .2005\ Fixed\ some\ bugs, \ 
+      3  D\ capabilities\ for\ imsGraphContourPlot, \ 
+      Compile\ for\ DividePoly; \[IndentingNewLine]8.6  .2005\ added\ some\ \
+Povray\ Export\ support\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(\(BeginPackage["\<Imtek`GraphPlot`\>"];\)\
+\[IndentingNewLine]
+    \(Unprotect[imsGraphContourPlot, \ imsGraphContourPlot3D, 
+        imsGraphMeshPlot, imsGraphPlot3D];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), "\[IndentingNewLine]", \( (*\ documentation\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \( (*\ functions\ *) \), "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{
+          RowBox[{\(imsGraphContourPlot3D::usage\), "=", 
+            TagBox[
+              
+              StyleBox[
+                "\"\<GraphContourPlot3D[co, inc, val] generates a contour \
+plot of the interpolation of val over the surface triangles of tetrahedral \
+elements specified by a list of node coordinates co and an incidence matrix \
+inc.\>\"",
+                ShowSpecialCharacters->False,
+                ShowStringCharacters->True,
+                NumberMarks->True],
+              FullForm]}], ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+          RowBox[{\(imsGraphContourPlot::usage\), "=", 
+            TagBox[
+              
+              StyleBox[
+                "\"\<GraphContourPlot[co, inc, val] generates a contour plot \
+of the interpolation of val over the triangles specified by a list of node \
+coordinates co and an incidence matrix inc. If the coordinates are 3D \
+coordinates, a Graphics3D is returned.\>\"",
+                ShowSpecialCharacters->False,
+                ShowStringCharacters->True,
+                NumberMarks->True],
+              FullForm]}], ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+          RowBox[{\(imsGraphMeshPlot::usage\), "=", 
+            TagBox[
+              
+              StyleBox[
+                "\"\<GraphMeshPlot[co, inc] generates a plot of a 2D \
+triangular mesh specified by a list of node coordinates co and an incidence \
+matrix inc. If the coordinates are 3D coordinates, a Graphics3D is \
+returned.\>\"",
+                ShowSpecialCharacters->False,
+                ShowStringCharacters->True,
+                NumberMarks->True],
+              FullForm]}], ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+          RowBox[{\(imsGraphPlot3D::usage\), "=", 
+            TagBox[
+              
+              StyleBox[
+                "\"\<GraphPlot3D[co, inc, val] generates a 3D surface plot of \
+the interpolation of val over the triangles specified by a list of node \
+coordinates co and an incidence matrix inc.\>\"",
+                ShowSpecialCharacters->False,
+                ShowStringCharacters->True,
+                NumberMarks->True],
+              FullForm]}], ";"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsGraphContourPlotWritePovray::usage = \
+"\<imsGraphContourPlotWritePOVray[co, inc, val] exports a 3D contour plot to \
+a string in the POVray format. Use Export[\"test.pov\", \
+imsGraphContourPlotWritePOVray[co, inc, val], \"Text\"] to write to a \
+file.\>";\)}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Null\^5\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Public Imports", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ \(Needs[\ "\<Imtek`Geometry`Point`\>"\ ];\)*) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(Needs[\ "\<Utilities`FilterOptions`\>"\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(MyOption::usage\  = \
+"\<MyOption -> value is an option of NameOfYourFunction1 that [...] \>";\)\ *) \
+\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(MyToString[s_] := ToString[s, CForm];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(POVraypreamble = "\<// Standard includes\n
+#include \"colors.inc\"\n
+#include \"textures.inc\"\n
+#declare DefaultFinish=finish { phong 0.8 \nambient 0.2}\n
+\n
+#default {texture {pigment { color <1, 1, 1>}\nfinish { DefaultFinish }}}\n
+\n
+light_source {\n
+	<2.44458, -1.38661, 2.01853>\n
+	color rgb <1, 0, 0>\n
+}\n
+\n
+light_source {\n
+	<2.31998, -0.934944, 2.9582>\n
+	color rgb <0, 1, 0>\n
+}\n
+\n
+light_source {\n
+	<1.30779, -1.21417, 2.9582>\n
+	color rgb <0, 0, 1>\n
+}\n\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(PolyToTri[p_List] := 
+      Module[{p1 = First[p], 
+          ps = Drop[p, 1]}, \[IndentingNewLine]\(Prepend[#, p1] &\) /@ 
+          Partition[ps, 2, 1]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(ToRGBColor[Hue[h_, s_, v_]] := 
+      Module[{Hi = Floor[h*6], f, q, p = v*\((1 - s)\), t}, 
+        f = h*6 - Hi; \[IndentingNewLine]q = 
+          v*\((1 - f*s)\); \[IndentingNewLine]t = 
+          v*\((1 - \((1 - f)\)*s)\); \[IndentingNewLine]Switch[Hi, 0, 
+          RGBColor[v, t, p], 1, RGBColor[q, v, p], 2, RGBColor[p, v, t], 3, 
+          RGBColor[p, q, v], 4, RGBColor[t, p, v], 5, RGBColor[v, p, q], 6, 
+          RGBColor[v, t, p]]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(ToRGBColor[Hue[h_]] := ToRGBColor[Hue[h, 1, 1]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(ListToPovvec[
+        l_] := \(("\<<\>" <> 
+          StringDrop[
+            StringJoin @@ \((\(\((MyToString[#] <> "\<, \>")\) &\) /@ 
+                  l)\), \(-2\)] <> "\<>\>")\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(povCamDist[lookat_List, corner_List, viewdir_List, 
+        angle_] := \(Norm[corner - lookat]/Sin[angle/2]\)/
+        Norm[viewdir]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ functions\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      StyleBox[\( (*\ 
+          Arguments : \ 
+            List\ of\ Tupels\ {Coordinate\ 1, \ Coordinate\ 2, \  ... , \ 
+                Value\ }, \ {Lower\ cont . \ trigger, \ 
+            Upper\ cont . \ trigger}\ *) \),
+        FontColor->RGBColor[0, 0, 1]], 
+      StyleBox["\[IndentingNewLine]",
+        FontColor->RGBColor[0, 0, 1]], 
+      RowBox[{
+        RowBox[{"DividePoly", "=", 
+          RowBox[{"Compile", "[", 
+            
+            RowBox[{\({{xyv, _Real, 2}, {cont, _Real, 1}, {c1inf, 
+                  True | False}, {c2inf, True | False}}\), ",", 
+              RowBox[{"Module", "[", 
+                
+                RowBox[{\({f, xyvin, polygoni, v1 = 0. , v2 = 0. , p1, p2, 
+                    l}\), ",", "\[IndentingNewLine]", 
+                  
+                  RowBox[{\(polygoni = {Drop[xyv[\([1]\)], \(-1\)]}\), ";", 
+                    "\[IndentingNewLine]", \(l = {Drop[
+                          xyv[\([1]\)], \(-1\)]}\), ";", 
+                    "\[IndentingNewLine]", 
+                    
+                    StyleBox[\( (*\ 
+                        List\ of\ boundary\ lines\ of\ the\ polygons\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    "\[IndentingNewLine]", \(xyvin = 
+                      Append[Partition[xyv, 2, 1], {xyv[\([\(-1\)]\)], 
+                          xyv[\([1]\)]}]\), ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    StyleBox["\[IndentingNewLine]",
+                      FontColor->RGBColor[0, 0, 1]], 
+                    
+                    StyleBox[\( (*\ 
+                        for\ each\ line\ find\ intersection\ with\ contour\ \
+planes . \ If\ first\ point\ of\ line\ is\ in\ the\ contour, \ take\ it, \ 
+                        if\ it\ is\ out\ of\ the\ contour, \ 
+                        seek\ new\ point\ going\ along\ the\ line\ to\ the\ \
+next\ point\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                    
+                    StyleBox[\( (*\ 
+                        9\ cases\ for\ two\ points\ \((below, \ in, \ 
+                            above)\)\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                      RowBox[{
+                        RowBox[{"(", "\[IndentingNewLine]", 
+                          
+                          RowBox[{\(v1 = #[\([1, \(-1\)]\)]\), 
+                            ";", \(v2 = #[\([2, \(-1\)]\)]\), ";", 
+                            StyleBox[" ",
+                              FontColor->RGBColor[0, 0, 1]], 
+                            StyleBox[\( (*\ Values\ *) \),
+                              FontColor->RGBColor[0, 0, 1]], 
+                            "\[IndentingNewLine]", \(p1 = 
+                              Drop[#[\([1]\)], \(-1\)]\), 
+                            ";", \(p2 = Drop[#[\([2]\)], \(-1\)]\), ";", 
+                            "\[IndentingNewLine]", 
+                            RowBox[{"If", "[", 
+                              
+                              RowBox[{\(v1 == v2\), ",", 
+                                "\[IndentingNewLine]", 
+                                RowBox[{"If", "[", 
+                                  
+                                  RowBox[{\(v1 >= cont[\([1]\)] || c1inf\), 
+                                    ",", " ", 
+                                    
+                                    StyleBox[\( (*\ 
+                                        v1 == v2\  \[GreaterEqual] \ 
+                                        lower\ \((in\ or\ above)\)\ *) \),
+                                      FontColor->RGBColor[0, 0, 1]], 
+                                    "\[IndentingNewLine]", 
+                                    RowBox[{"If", "[", 
+                                      
+                                      RowBox[{\(v1 < cont[\([2]\)] || c2inf\),
+                                         ",", " ", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v1 == v2\  < \ upper\ \((in)\)\ *) \),
+                                        
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, p1]\)}], " ", 
+                                      "\[IndentingNewLine]", 
+                                      
+                                      StyleBox[\( (*\ Both\ are\ inside, \ 
+                                        append\ starting\ point\ of\ line; \ 
+                                        else : \ do\ not\ append\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      "\[IndentingNewLine]", "]"}]}], 
+                                  "\[IndentingNewLine]", "]"}], 
+                                "\[IndentingNewLine]", ",", 
+                                "\[IndentingNewLine]", 
+                                RowBox[{"If", "[", 
+                                  
+                                  RowBox[{\(v1 < cont[\([1]\)] && 
+                                      Not[c1inf]\), ",", 
+                                    StyleBox[\( (*\ 
+                                        v1\  < \ lower\ \((below)\)\ *) \),
+                                      FontColor->RGBColor[0, 0, 1]], 
+                                    "\[IndentingNewLine]", 
+                                    RowBox[{
+                                      RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 >= cont[\([1]\)]\), ",", 
+                                        
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  \[GreaterEqual] \ 
+                                        lower\ \((in\ or\ above)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((cont[\([1]\)] - 
+                                        v1)\)/\((v2 - v1)\)\), ";", " ", 
+                                        
+                                        StyleBox[\( (*\ \(\[Rule]\)\(\ \
+\)\(need\ a\ new\ point\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + 
+                                        f*p2]\)}]}], "\[IndentingNewLine]", 
+                                        "]"}], ";", "\[IndentingNewLine]", 
+                                      RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 >= cont[\([2]\)] && 
+                                        Not[c2inf]\), ",", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  \[GreaterEqual] \ 
+                                        upper\ \((above)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((cont[\([2]\)] - 
+                                        v1)\)/\((v2 - v1)\)\), ";", 
+                                        
+                                        StyleBox[\( (*\ \(\(\[Rule]\)\(\ \
+\)\(need\ another\ new\ point\)\), \ 
+                                        since\ we\ have\ two\ \
+\(intersections!\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + 
+                                        f*p2]\)}]}], "\[IndentingNewLine]", 
+                                        "]"}]}], "\[IndentingNewLine]", ",", 
+                                    "\[IndentingNewLine]", 
+                                    RowBox[{"If", "[", 
+                                      RowBox[{\(v1 < cont[\([2]\)] || c2inf\),
+                                         ",", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v1\  < \ 
+                                        upper\ \((in, \ 
+                                        since\ v1\ not\  < \ lower)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(AppendTo[polygoni, p1]\), 
+                                        ";", " ", 
+                                        
+                                        StyleBox[\( (*\ \(\[Rule]\)\(\ \
+\)\(use\ point\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 < cont[\([1]\)] && 
+                                        Not[c1inf]\), ",", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  < \ lower\ \((below)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((v1 - 
+                                        cont[\([1]\)])\)/\((v1 - v2)\)\), ";",
+                                         " ", 
+                                        
+                                        StyleBox[\( (*\ \(\[Rule]\)\(\ \
+\)\(need\ a\ new\ point\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + f*p2]\), 
+                                        ";"}], ",", "\[IndentingNewLine]", 
+                                        RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 >= cont[\([2]\)] && 
+                                        Not[c2inf]\), ",", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  \[GreaterEqual] \ 
+                                        upper\ \((above)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((cont[\([2]\)] - 
+                                        v1)\)/\((v2 - v1)\)\), ";", " ", 
+                                        
+                                        StyleBox[\( (*\ \(\[Rule]\)\(\ \
+\)\(need\ a\ new\ point\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + f*p2]\), 
+                                        ";"}]}], "\[IndentingNewLine]", 
+                                        "]"}]}], "\[IndentingNewLine]", 
+                                        "]"}]}], ",", " ", 
+                                        StyleBox[\( (*\ v1\ above\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        RowBox[{
+                                        RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 < cont[\([2]\)] || 
+                                        c2inf\), ",", " ", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  < \ 
+                                        upper\ \((in\ or\ below)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((v1 - 
+                                        cont[\([2]\)])\)/\((v1 - v2)\)\), ";",
+                                         
+                                        
+                                        StyleBox[\( (*\ \(\[Rule]\)\(\ \
+\)\(need\ a\ new\ point\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + f*p2]\), 
+                                        ";"}]}], "\[IndentingNewLine]", "]"}],
+                                         ";", "\[IndentingNewLine]", 
+                                        RowBox[{"If", "[", 
+                                        
+                                        RowBox[{\(v2 < cont[\([1]\)] && 
+                                        Not[c1inf]\), ",", " ", 
+                                        
+                                        StyleBox[\( (*\ 
+                                        v2\  < \ lower\ \((below)\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", 
+                                        
+                                        RowBox[{\(f = \((v1 - 
+                                        cont[\([1]\)])\)/\((v1 - v2)\)\), ";",
+                                         
+                                        
+                                        StyleBox[\( (*\ \(\(\[Rule]\)\(\ \
+\)\(need\ another\ new\ point\)\), \ 
+                                        since\ we\ have\ two\ \
+\(intersections!\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                        "\[IndentingNewLine]", \(AppendTo[
+                                        polygoni, \((1 - f)\)*p1 + f*p2]\), 
+                                        ";"}]}], "\[IndentingNewLine]", 
+                                        "]"}]}]}], "\[IndentingNewLine]", 
+                                      "]"}]}], "\[IndentingNewLine]", "]"}]}],
+                               "\[IndentingNewLine]", "]"}], ";", 
+                            "\[IndentingNewLine]", "0"}], ")"}], "&"}], "/@", 
+                      "xyvin"}], ";", "\[IndentingNewLine]", 
+                    StyleBox[\( (*\ Remove\ duplicates\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    "\[IndentingNewLine]", \(If[Length[polygoni] > 1, 
+                      Fold[If[#1 \[Equal] {} || #1[\([1]\)] \[NotEqual] #2, 
+                            Append[#1, #2], #1] &, polygoni[\([{2}]\)], 
+                        Drop[polygoni, 2]], {{}}]\)}]}], 
+                "\[IndentingNewLine]", "]"}], 
+              ",", \({{polygoni, _Real, 2}, {p1, _Real, 1}, {p2, _Real, 
+                  1}, {v1, _Real}, {v2, _Real}, {xyvin, _Real, 3}, {f, _Real, 
+                  0}}\)}], "\[IndentingNewLine]", "]"}]}], ";"}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(PlotTri[xyv_List, cont_List, opt___]\), ":=", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({minv, maxv, cc, r}\), ",", 
+          "\[IndentingNewLine]", \( (*\ 
+            max . \ and\ min . \ of\ values\ *) \), "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          
+          RowBox[{\(minv = Min[Last /@ xyv]\), ";", 
+            "\[IndentingNewLine]", \(maxv = Max[Last /@ xyv]\), ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"cc", "=", 
+              
+              RowBox[{\(\((Join[#, {\((Plus @@ #)\)/2. , False, 
+                        False}])\) &\), "/@", " ", 
+                
+                StyleBox[\( (*\ make\ pairs\ of\ lower\ tigger, \ 
+                    upper\ trigger\ and\ append\ the\ average\ value\ of\ the\
+\ contour\ for\ determination\ of\ plotting\ color\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                "\[IndentingNewLine]", \(Select[
+                  Partition[cont, 2, 
+                    1], \[IndentingNewLine]\((#[\([1]\)] <= 
+                          maxv && #[\([2]\)] >= minv)\) &]\)}]}], ";", 
+            "\[IndentingNewLine]", 
+            
+            StyleBox[\( (*\ 
+                use\ only\ contours\ which\ actually\ occur\ in\ the\ \
+triangle, \ to\ save\ time\ *) \),
+              FontColor->RGBColor[0, 0, 1]], 
+            "\[IndentingNewLine]", \(cc = 
+              Join[{{0, First[cont], First[cont], True, False}}, 
+                cc, {{Last[cont], 0, Last[cont], False, True}}]\), ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Select", "[", "\[IndentingNewLine]", 
+              RowBox[{
+                RowBox[{
+                  RowBox[{
+                    RowBox[{"{", 
+                      RowBox[{\(#[\([3]\)]\), ",", " ", 
+                        StyleBox[\( (*\ average\ value; \ for\ color\ *) \),
+                          FontColor->RGBColor[0, 0, 1]], 
+                        "\[IndentingNewLine]", \(DividePoly[
+                          xyv, #[\([{1, 2}]\)], #[\([4]\)], #[\([5]\)]]\)}], 
+                      "\[IndentingNewLine]", "}"}], "&"}], "/@", "cc"}], ",", 
+                "\[IndentingNewLine]", \( (*\ for\ each\ contour, \ 
+                  partition\ triangle; \ if\ there\ is\ a\ result, \ 
+                  select\ only\ *) \), 
+                "\[IndentingNewLine]", \(Length[#[\([2]\)]] > 2 &\)}], 
+              "]"}]}]}], " ", 
+        StyleBox[\( (*\ only\ select\ non - degenerate\ polygons\ *) \),
+          FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+        "]"}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ Arguments : \ list\ of\ coordinates, \ 
+        list\ of\ incidences, \ list\ of\ FEM\ result\ values, \ 
+        options\ *) \), "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(imsGraphContourPlot[co_List, inc_List, val_List, opt___]\), ":=",
+         
+        RowBox[{"Module", "[", 
+          RowBox[{
+            RowBox[{"{", "\[IndentingNewLine]", 
+              
+              RowBox[{\(maxv = Max @@ val\), ",", \(minv = Min @@ val\), ",", 
+                
+                StyleBox[\( (*\ get\ minimum\ and\ maximum\ values\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                "cont", ",", " ", 
+                
+                StyleBox[\( (*\ 
+                    store\ trigger\ values\ for\ individual\ contours\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                "\[IndentingNewLine]", \(xyv = 
+                  Transpose[Append[Transpose[co], val]]\), ",", " ", 
+                StyleBox[\( (*\ use\ coordinates, \ value\ tupel\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cn", 
+                ",", 
+                StyleBox[\( (*\ number\ of\ contours\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                "pmesh", ",", " ", 
+                StyleBox[\( (*\ plot\ mesh\ yes/no\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->RGBColor[0, 0, 1]], "cf", ",", " ", 
+                StyleBox[\( (*\ ColorFunction\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cfs",
+                 " ", ",", " ", 
+                StyleBox[\( (*\ ColorFunctionScaling\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                "is3D"}], "\[IndentingNewLine]", "}"}], ",", 
+            "\[IndentingNewLine]", 
+            
+            RowBox[{\(is3D = \((Length[co[\([1]\)]] > 2)\)\), ";", 
+              "\[IndentingNewLine]", \({cn, pmesh, cf, 
+                  cfs} = \({Contours, Mesh, ColorFunction, 
+                      ColorFunctionScaling} /. {opt}\) /. 
+                  Options[imsGraphContourPlot]\), ";", " ", 
+              StyleBox[\( (*\ process\ options\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(cont = 
+                If[Head[cn] === List, minv = cn[\([1]\)]; maxv = Last[cn]; 
+                  cn, \ If[minv \[Equal] maxv, {minv}, 
+                    Range[minv, maxv, \((maxv - minv)\)/cn]]]\), ";", 
+              StyleBox[\( (*\ find\ trigger\ values\ for\ contours\ *) \),
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+              RowBox[{"Show", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                  RowBox[{"If", "[", 
+                    RowBox[{"is3D", ",", 
+                      RowBox[{"Graphics3D", "[", 
+                        RowBox[{
+                          RowBox[{
+                            RowBox[{
+                              RowBox[{"{", 
+                                
+                                RowBox[{\(FaceForm[\[IndentingNewLine]cf[
+                                      If[cfs, \((1 - \((#[\([1]\)] - minv)\)/
+                                        If[maxv \[Equal] minv, 
+                                        1, \((maxv - 
+                                        minv)\)])\), #[\([1]\)]]]]\), ",", 
+                                  " ", 
+                                  
+                                  StyleBox[\( (*\ 
+                                      get\ color\ from\ contour\ central\ \
+value\ *) \),
+                                    FontColor->RGBColor[0, 0, 1]], 
+                                  "\[IndentingNewLine]", 
+                                  RowBox[{"If", "[", 
+                                    RowBox[{"pmesh", ",", " ", 
+                                      
+                                      StyleBox[\( (*\ 
+                                        if\ contour\ lines\ should\ be\ \
+plotted\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      "\[IndentingNewLine]", \
+\({Polygon[#[\([2]\)]]}\), ",", 
+                                      StyleBox[" ",
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      StyleBox[\( (*\ \(else\)\(:\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      "\[IndentingNewLine]", \({EdgeForm[], 
+                                        Polygon[#[\([2]\)]]}\)}], "]"}]}], 
+                                "}"}], "&"}], 
+                            "/@", \(Flatten[\((\(\((PlotTri[\(xyv[\([#]\)] \
+&\) /@ #, cont])\) &\) /@ inc)\), 1]\)}], ",", " ", 
+                          
+                          StyleBox[\( (*\ For\ every\ triangle, \ 
+                              partition\ for\ each\ contour\ value\ and\ plot\
+\ resulting\ polygons\ *) \),
+                            FontColor->RGBColor[0, 0, 1]], 
+                          "\[IndentingNewLine]", \(FilterOptions[Graphics3D, 
+                            opt]\)}], "\[IndentingNewLine]", "]"}], ",", 
+                      "\[IndentingNewLine]", 
+                      RowBox[{"Graphics", "[", 
+                        RowBox[{
+                          RowBox[{
+                            RowBox[{
+                              RowBox[{"{", "\[IndentingNewLine]", 
+                                
+                                RowBox[{\(cf[
+                                    If[cfs, \((1 - \((#[\([1]\)] - minv)\)/
+                                        If[maxv \[Equal] minv, 
+                                        1, \((maxv - 
+                                        minv)\)])\), #[\([1]\)]]]\), ",", " ",
+                                   
+                                  
+                                  StyleBox[\( (*\ 
+                                      get\ color\ from\ contour\ central\ \
+value\ *) \),
+                                    FontColor->RGBColor[0, 0, 1]], 
+                                  "\[IndentingNewLine]", 
+                                  RowBox[{"If", "[", 
+                                    RowBox[{"pmesh", ",", " ", 
+                                      
+                                      StyleBox[\( (*\ 
+                                        if\ contour\ lines\ should\ be\ \
+plotted\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      "\[IndentingNewLine]", \
+\({Polygon[#[\([2]\)]], GrayLevel[0], Line[
+                                        Append[#[\([2]\)], #[\([2, 1]\)]]]}\),
+                                       ",", 
+                                      StyleBox[" ",
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      StyleBox[\( (*\ \(else\)\(:\)\ *) \),
+                                        FontColor->RGBColor[0, 0, 1]], 
+                                      "\[IndentingNewLine]", \
+\({Polygon[#[\([2]\)]]}\)}], "]"}]}], "}"}], "&"}], 
+                            "/@", \(Flatten[\((\(\((PlotTri[\(xyv[\([#]\)] \
+&\) /@ #, cont])\) &\) /@ inc)\), 1]\)}], ",", " ", 
+                          
+                          StyleBox[\( (*\ For\ every\ triangle, \ 
+                              partition\ for\ each\ contour\ value\ and\ plot\
+\ resulting\ polygons\ *) \),
+                            FontColor->RGBColor[0, 0, 1]], 
+                          "\[IndentingNewLine]", \(FilterOptions[Graphics, 
+                            opt]\)}], "]"}]}], "]"}], ",", 
+                  "\[IndentingNewLine]", \(FilterOptions[Show, opt]\)}], 
+                "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(imsGraphContourPlot3D[co_List, inc_List, val_List, opt___]\), ":=",
+       
+      RowBox[{"Module", "[", 
+        RowBox[{
+          RowBox[{"{", "\[IndentingNewLine]", 
+            RowBox[{\(maxv = Max @@ val\), ",", \(minv = Min @@ val\), ",", 
+              StyleBox[\( (*\ get\ minimum\ and\ maximum\ values\ *) \),
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cont", 
+              ",", " ", 
+              
+              StyleBox[\( (*\ 
+                  store\ trigger\ values\ for\ individual\ contours\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(xyv = 
+                Transpose[Append[Transpose[co], val]]\), ",", " ", 
+              StyleBox[\( (*\ use\ coordinates, \ value\ tupel\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              StyleBox[" ",
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cn", 
+              ",", 
+              StyleBox[\( (*\ number\ of\ contours\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              StyleBox[" ",
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "pmesh",
+               " ", ",", 
+              StyleBox[\( (*\ plot\ mesh\ yes/no\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              StyleBox[" ",
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cf", 
+              ",", " ", 
+              StyleBox[\( (*\ ColorFunction\ *) \),
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cfs"}],
+             "  ", 
+            StyleBox[\( (*\ ColorFunctionScaling\ *) \),
+              FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "}"}], 
+          ",", "\[IndentingNewLine]", 
+          
+          RowBox[{\({cn, pmesh, cf, 
+                cfs} = \({Contours, Mesh, ColorFunction, 
+                    ColorFunctionScaling} /. {opt}\) /. 
+                Options[imsGraphContourPlot3D]\), ";", " ", 
+            StyleBox[\( (*\ process\ options\ *) \),
+              FontColor->RGBColor[0, 0, 1]], 
+            "\[IndentingNewLine]", \(cont = 
+              If[Head[cn] === List, minv = cn[\([1]\)]; maxv = Last[cn]; cn, 
+                If[minv \[Equal] maxv, {minv}, 
+                  Range[minv, maxv, \((maxv - minv)\)/cn]]]\), ";", 
+            StyleBox[\( (*\ find\ trigger\ values\ for\ contours\ *) \),
+              FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+            RowBox[{"Show", "[", "\[IndentingNewLine]", 
+              RowBox[{
+                RowBox[{"Graphics3D", "[", 
+                  RowBox[{
+                    RowBox[{
+                      RowBox[{
+                        RowBox[{"{", "\[IndentingNewLine]", 
+                          
+                          RowBox[{\(FaceForm[
+                              cf[If[cfs, \((1 - \((#[\([1]\)] - minv)\)/
+                                        If[maxv \[Equal] minv, 
+                                        1, \((maxv - 
+                                        minv)\)])\), #[\([1]\)]]]]\), ",", 
+                            " ", 
+                            
+                            StyleBox[\( (*\ 
+                                get\ color\ from\ contour\ central\ value\ *) \
+\),
+                              FontColor->RGBColor[0, 0, 1]], 
+                            "\[IndentingNewLine]", 
+                            RowBox[{"If", "[", 
+                              RowBox[{
+                              "pmesh", ",", \(Polygon[#[\([2]\)]]\), ",", " ",
+                                 
+                                
+                                StyleBox[\( (*\ 
+                                    if\ contour\ lines\ should\ be\ plotted\ *) \
+\),
+                                  FontColor->RGBColor[0, 0, 1]], 
+                                "\[IndentingNewLine]", \({EdgeForm[], 
+                                  Polygon[#[\([2]\)]]}\)}], "]"}]}], 
+                          StyleBox[" ",
+                            FontColor->RGBColor[0, 0, 1]], 
+                          StyleBox[\( (*\ \(else\)\(:\)\ *) \),
+                            FontColor->RGBColor[0, 0, 1]], 
+                          "\[IndentingNewLine]", "}"}], "&"}], 
+                      "/@", \(Flatten[\((\(\((PlotTri[\(xyv[\([#]\)] &\) /@ \
+#, cont])\) &\) /@ Union[Sort /@ Flatten[\(Table[
+                                        Drop[#, {i}], {i, 1, 4}] &\) /@ inc, 
+                                  1]])\), 1]\)}], ",", " ", 
+                    
+                    StyleBox[\( (*\ For\ every\ triangle, \ 
+                        partition\ and\ plot\ resulting\ polygons\ *) \),
+                      FontColor->RGBColor[0, 0, 1]], 
+                    "\[IndentingNewLine]", \(FilterOptions[Graphics3D, opt, 
+                      Lighting \[Rule] False]\)}], "]"}], ",", 
+                "\[IndentingNewLine]", \(FilterOptions[Show, opt]\)}], 
+              "]"}]}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Options[imsGraphContourPlot] = {Contours \[Rule] 10, 
+        Mesh \[Rule] False, ColorFunction \[Rule] \((Hue[#*2/3] &)\), 
+        ColorFunctionScaling \[Rule] True}; 
+    Options[imsGraphContourPlot3D] = {Contours \[Rule] 10, 
+        Mesh \[Rule] False, ColorFunction \[Rule] \((Hue[#*2/3] &)\), 
+        ColorFunctionScaling \[Rule] True};\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsGraphMeshPlot[co_List, inc_List, opt___] := 
+      Show[\(If[Length[co[\([1]\)]] > 2, Graphics3D, 
+            Graphics]\)[\[IndentingNewLine]\(Line[
+                Join[\(co[\([#]\)] &\) /@ #, {co[\([#[\([1]\)]]\)]}]] &\) /@ 
+            inc, FilterOptions[
+            If[Length[co[\([1]\)]] > 2, Graphics3D, Graphics], opt]], 
+        FilterOptions[Show, opt]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsGraphPlot3D[co_List, inc_List, val_List, opt___] := 
+      Module[{xyv = Transpose[Append[Transpose[co], val]]}, 
+        Show[Graphics3D[\(Polygon[
+                  Join[\(xyv[\([#]\)] &\) /@ #, {xyv[\([#[\([1]\)]]\)]}]] &\) \
+/@ inc, FilterOptions[Graphics3D, opt]], 
+          FilterOptions[Show, opt]]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{\(imsGraphContourPlotWritePovray[co_List, inc_List, val_List, 
+          opt___]\), ":=", 
+        RowBox[{"Module", "[", 
+          RowBox[{
+            RowBox[{"{", "\[IndentingNewLine]", 
+              
+              RowBox[{\(maxv = Max @@ val\), ",", \(minv = Min @@ val\), ",", 
+                
+                StyleBox[\( (*\ get\ minimum\ and\ maximum\ values\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                "cont", ",", " ", 
+                
+                StyleBox[\( (*\ 
+                    store\ trigger\ values\ for\ individual\ contours\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                "\[IndentingNewLine]", \(xyv = 
+                  Transpose[Append[Transpose[co], val]]\), ",", " ", 
+                StyleBox[\( (*\ use\ coordinates, \ value\ tupel\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cn", 
+                ",", 
+                StyleBox[\( (*\ number\ of\ contours\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+                "pmesh", ",", " ", 
+                StyleBox[\( (*\ plot\ mesh\ yes/no\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox[" ",
+                  FontColor->RGBColor[0, 0, 1]], 
+                StyleBox["\[IndentingNewLine]",
+                  FontColor->RGBColor[0, 0, 1]], "cf", ",", " ", 
+                StyleBox[\( (*\ ColorFunction\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "cfs",
+                 " ", ",", 
+                StyleBox[\( (*\ ColorFunctionScaling\ *) \),
+                  FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", "ps", 
+                ",", "\[IndentingNewLine]", "data", ",", "ptr", ",", "colstr",
+                 ",", "cfev", ",", "bbox", ",", "bboxcorners", ",", 
+                "\[IndentingNewLine]", "center", ",", "preamb", ",", 
+                "camera"}], "\[IndentingNewLine]", "}"}], ",", 
+            "\[IndentingNewLine]", 
+            
+            RowBox[{\(bbox = {{Min @@ co[\([All, 1]\)], 
+                    Min @@ co[\([All, 2]\)], 
+                    Min @@ co[\([All, 3]\)]}, {Max @@ co[\([All, 1]\)], 
+                    Max @@ co[\([All, 2]\)], Max @@ co[\([All, 3]\)]}}\), ";",
+               "\[IndentingNewLine]", \(bboxcorners = 
+                Tuples[Transpose[bbox]]\), ";", 
+              "\[IndentingNewLine]", \(center = Plus @@ bbox/2\), ";", 
+              "\[IndentingNewLine]", \({cn, cf, cfs, camera, 
+                  preamb} = \({Contours, ColorFunction, ColorFunctionScaling, 
+                      imsCamera, imsPovrayPreamble} /. {opt}\) /. 
+                  Options[imsGraphContourPlot]\), ";", " ", 
+              StyleBox[\( (*\ process\ options\ *) \),
+                FontColor->RGBColor[0, 0, 1]], 
+              "\[IndentingNewLine]", \(If[preamb === Automatic, 
+                preamb = POVraypreamble]\), ";", 
+              "\[IndentingNewLine]", \(If[camera === Automatic, 
+                camera = "\<camera {\n
+    right <-4/3,0,0>\n
+    direction <0, 1, 0>\n
+    sky <0,0,1>\n
+	location  \>" <> 
+                    ListToPovvec[
+                      center - {1. , 
+                            2. , \(-0.5\)}*\((Max @@ \((\(povCamDist[
+                                      center, #, {1. , 2. , \(-0.5\)}, 
+                                      30\ \[Degree]] &\) /@ 
+                                  bboxcorners)\))\)] <> "\<\n
+	angle 40\n
+	look_at   \>" <> ListToPovvec[N[center]] <> "\<\n
+ }\n\>"]\), ";", 
+              "\[IndentingNewLine]", \(cont = 
+                If[Head[cn] === List, minv = cn[\([1]\)]; maxv = Last[cn]; 
+                  cn, \ If[minv \[Equal] maxv, {minv}, 
+                    Range[minv, maxv, \((maxv - minv)\)/cn]]]\), ";", 
+              StyleBox[\( (*\ find\ trigger\ values\ for\ contours\ *) \),
+                FontColor->RGBColor[0, 0, 1]], "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(ptr = 
+                N[Flatten[\((\(\((PlotTri[\(xyv[\([#]\)] &\) /@ #, 
+                              cont])\) &\) /@ inc)\), 1]]\), ";", 
+              "\[IndentingNewLine]", \(colstr = \((\(\(("\<#declare \
+ContourColor\>" <> StringReplace[
+                            MyToString[#], {"\<.\>" \[Rule] "\<p\>", "\<-\>" \
+\[Rule] "\<m\>"}] <> "\< = texture { pigment { color rgb\>" <> 
+                          ListToPovvec[
+                            ToRGBColor[
+                              cf[If[cfs, \((1 - \((# - minv)\)/
+                                        If[maxv \[Equal] minv, 
+                                        1, \((maxv - 
+                                        minv)\)])\), #]]]] <> "\< } }\n\>")\) \
+&\) /@ Union[ptr[\([All, 1]\)]])\)\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(ps = \({#[\([1]\)], 
+                      PolyToTri[#[\([2]\)]]} &\) /@ ptr\), ";", 
+              "\[IndentingNewLine]", \(data = 
+                Flatten[\(\((cfev = #[\([1]\)]; \({cfev, #} &\) /@ \
+#[\([2]\)])\) &\) /@ ps, 1]\), ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", \(preamb <> "\<\n\>" <> 
+                camera <> "\<\n\>" <> 
+                colstr <> "\<object{mesh {\n\>" <> \((\(\(("\< triangle {\>" <> 
+                          StringJoin @@ \
+\((\[IndentingNewLine]\(\((ListToPovvec[#] <> "\< \>")\) &\) /@ #[\([2]\)])\) \
+<> \[IndentingNewLine]"\<\n   texture { ContourColor\>" <> 
+                          StringReplace[
+                            MyToString[#[\([1]\)]], {"\<.\>" \[Rule] "\<p\>", \
+"\<-\>" \[Rule] "\<m\>"}] <> "\<} }\n\>")\) &\) /@ 
+                    N[data])\) <> "\<}}\n\>"\)}]}], "\[IndentingNewLine]", 
+          "]"}]}], 
+      "\[IndentingNewLine]"}], "\[IndentingNewLine]", \(Options[
+          imsGraphContourPlotWritePovray] = {Contours \[Rule] 10, 
+          ColorFunction \[Rule] \((Hue[#*2/3] &)\), 
+          ColorFunctionScaling \[Rule] True, imsCamera \[Rule] Automatic, 
+          imsPovrayPreamble \[Rule] Automatic};\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\(End[]\) \)\(;\)\(\ \)\( (*\ 
+      of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(Protect[imsGraphContourPlot, imsGraphMeshPlot, imsGraphPlot3D, 
+      imsGraphContourPlot3D]\)\(\ \)\(;\)\( (*\ 
+      anything\ *) \)\(\ \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \
+\)\)\(;\)\(\n\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{789, 1000},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 62, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1863, 57, 59, 1, 74, "Section",
+  InitializationCell->True],
+Cell[1925, 60, 1708, 27, 411, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3670, 92, 60, 1, 74, "Section",
+  InitializationCell->True],
+Cell[3733, 95, 299, 7, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[4069, 107, 80, 1, 44, "Section",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[4174, 112, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[4253, 117, 2898, 64, 491, "Input",
+  InitializationCell->True],
+Cell[7154, 183, 41, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7244, 190, 64, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[7311, 193, 143, 2, 59, "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7503, 201, 69, 1, 74, "Section",
+  InitializationCell->True],
+Cell[7575, 204, 112, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7724, 211, 60, 1, 44, "Section",
+  InitializationCell->True],
+Cell[7787, 214, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7912, 221, 70, 1, 44, "Section",
+  InitializationCell->True],
+Cell[7985, 224, 107, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8129, 231, 54, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8186, 234, 339, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8562, 245, 69, 1, 44, "Section",
+  InitializationCell->True],
+Cell[8634, 248, 102, 2, 27, "Input",
+  InitializationCell->True],
+Cell[8739, 252, 539, 22, 347, "Input",
+  InitializationCell->True],
+Cell[9281, 276, 234, 5, 59, "Input",
+  InitializationCell->True],
+Cell[9518, 283, 505, 9, 107, "Input",
+  InitializationCell->True],
+Cell[10026, 294, 113, 2, 27, "Input",
+  InitializationCell->True],
+Cell[10142, 298, 243, 6, 27, "Input",
+  InitializationCell->True],
+Cell[10388, 306, 193, 4, 43, "Input",
+  InitializationCell->True],
+Cell[10584, 312, 16108, 276, 1115, "Input",
+  InitializationCell->True],
+Cell[26695, 590, 2630, 53, 331, "Input",
+  InitializationCell->True],
+Cell[29328, 645, 8234, 152, 635, "Input",
+  InitializationCell->True],
+Cell[37565, 799, 5048, 98, 443, "Input",
+  InitializationCell->True],
+Cell[42616, 899, 405, 7, 75, "Input",
+  InitializationCell->True],
+Cell[43024, 908, 428, 8, 75, "Input",
+  InitializationCell->True],
+Cell[43455, 918, 371, 7, 75, "Input",
+  InitializationCell->True],
+Cell[43829, 927, 6304, 117, 923, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[50170, 1049, 58, 1, 74, "Section",
+  InitializationCell->True],
+Cell[50231, 1052, 129, 3, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[50397, 1060, 58, 1, 44, "Section",
+  InitializationCell->True],
+Cell[50458, 1063, 269, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

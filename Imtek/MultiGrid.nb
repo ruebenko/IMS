@@ -1,0 +1,739 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     25660,        588]*)
+(*NotebookOutlinePosition[     26321,        611]*)
+(*  CellTagsIndexPosition[     26277,        607]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MultiGrid Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ MultiGrid . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 29.8  .2005, Leipzig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.0\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \[IndentingNewLine]Integer\ Input\  \[Rule] \ 
+        Integer\ Output; \[IndentingNewLine]Bug\ fixes\ after\ renaming\ \
+action\ to\ imsXY\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ multi\ grid\ programm\ computes\ solutions\ to\ pdes\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2004\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`MultiGrid`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Needs["\<Imtek`Maintenance`\>"];\)\n
+    imsCreateObsoleteFunctionInterface[\ FullMultiGrid, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MultiGridCycle, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGSolve, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGResidualMatrix, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ FMGProlongStueben, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGProlongBilinear, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGRestrictInjection, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      MGRestrictHalfInjection, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      MGRestrictFullWeighting, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ FMGRestrict, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGRestrict, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ FMGProlong, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      MGProlong, \ $Context\ ];\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ MGPreSmoothIteration, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      MGPostSmoothIteration, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ MGSolveIteration, \ $Context\ ]; 
+    imsCreateObsoleteFunctionInterface[\ 
+      CycleRecursion, \ $Context\ ];\n\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    imsFullMultiGrid::usage\  = \ \[IndentingNewLine]"\<imsFullMultiGrid[ \
+load, boundaryFunction, imsMGSolve, imsMGResidualMatrix, opts ] computes a \
+full multigrid cycle on the geometric data in the load vector. The boundary \
+function specifies the behaviour on the boundary. imsMGSolve is a particular \
+solver. Various options can be given to control the multigrid process.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsMultiGridCycle::usage\  = \ \[IndentingNewLine]"\<imsMultiGridCycle[ \
+guess, load, imsMGSolve, imsMGResidualMatrix, opts ] computes a multigrid \
+cycle with an initial guess on the geometric data in the load vector. Various \
+options can be given to control the multigrid process.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsMGSolve::usage\  = \ \[IndentingNewLine]"\<imsMGSolve[ guess, load, \
+iter ] is a solver to be written by the user. Guess is an initial start. Load \
+is the problem specific load vector. Iter specifies the number of iterations \
+to be donne.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsMGResidualMatrix::usage\  = \ \
+\[IndentingNewLine]"\<imsMGResidualMatrix[ u, load ] is function to be \
+written by the user. It should return the residual of the matrix u and the \
+load vector.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsFMGProlongStueben::usage\  = \ \
+\[IndentingNewLine]"\<imsFMGProlongStueben[ matrix, boundaryFunction, load ] \
+computes a full multigrid prolongation of the matrix with boundary function \
+and load.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsMGProlongBilinear::usage\  = \ \
+\[IndentingNewLine]"\<imsMGProlongBilinear[ matrix ] computes a bilinear \
+prolongation of the matrix.\>"\[IndentingNewLine]\[IndentingNewLine]
+    imsMGRestrictInjection::usage\  = \ \
+\[IndentingNewLine]"\<imsMGRestrictInjection[ matrix ] computes a multigrid \
+restriction of the matrix via an injection.\>"\[IndentingNewLine]\
+\[IndentingNewLine]
+    imsMGRestrictHalfInjection::usage\  = \ \
+\[IndentingNewLine]"\<imsMGRestrictHalfInjection[ matrix ] computes a \
+multigrid restriction of the matrix via a half injection.\>"\
+\[IndentingNewLine]\[IndentingNewLine]
+    imsMGRestrictFullWeighting::usage\  = \ \
+\[IndentingNewLine]"\<imsMGRestrictFullWeighting[ matrix ] computes a \
+multigrid restriction of the matrix via full weighting.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(imsFMGRestrict::usage\  = "\<imsFMGRestrict -> \
+imsMGRestrictInjection is an option of imsFullMultiGrid that specifies the \
+restriction type to be donne.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsMGRestrict::usage\  = "\<imsMGRestrict -> imsMGRestrictInjection \
+is an option of imsMultiGridCycle that specifies the restriction type to be \
+donne.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(imsFMGProlong::usage\  = "\<imsFMGProlong -> imsFMGProlong is an \
+option of imsFullMultiGrid that specifies the prolongation type to be \
+donne.\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsMGProlong::usage\  = "\<imsMGProlong -> imsMGProlongBilinear is an \
+option of imsMultiGridCycle that specifies the prolongation type to be \
+done.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsMGPreSmoothIteration::usage\  = "\<imsMGPreSmoothIteration \[Rule] \
+2 is an option of imsMultiGridCycle that specifies the number of smoothings \
+done on the way down.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsMGPostSmoothIteration::usage\  = "\<imsMGPostSmoothIteration \
+\[Rule] 1 is an option of imsMultiGridCycle that specifies the number of \
+smoothings done on the way up.\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsMGSolveIteration::usage\  = "\<imsMGSolveIteration \[Rule] 20 is \
+an option of imsMultiGridCycle that specifies the number of iterations on the \
+lowest level.\>";\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsCycleRecursion::usage\  = "\<imsCycleRecursion \[Rule] 1 is an \
+option of imsMultiGridCycle that specifies the number of cycles done in each \
+imsMultiGrid call. 1 is a V-Cycle, 2 a W-Cycle and so on.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \( (*\ needs\ private\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Options[\ imsFullMultiGrid\ ]\  := \ {\ 
+          imsFMGRestrict\  \[Rule] \ imsMGRestrictInjection, \ 
+          imsFMGProlong\  \[Rule] \ 
+            imsFMGProlong\ \ };\)\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[\ 
+          imsMultiGridCycle\ ]\  := \ {\ \ imsMGRestrict\  \[Rule] \ 
+            imsMGRestrictInjection, \ 
+          imsMGProlong\  \[Rule] \ imsMGProlongBilinear, \ 
+          imsMGPreSmoothIteration\  \[Rule] \ 2, \ 
+          imsMGPostSmoothIteration\  \[Rule] \ 1, \ 
+          imsMGSolveIteration\  \[Rule] \ 20, \ 
+          imsCycleRecursion\  \[Rule] \ 1\ \ };\)\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \( (*\ predicates\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsFullMultiGrid[\ rhsh_, \ 
+          boundary_, \ imsMGSolve_, \ imsMGResidualMatrix_, \ 
+          opts___\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ n = Length[\ rhsh\ ] - 1, xh, \ xH, \ 
+            rhsH, \ hx, \ hy, \[IndentingNewLine]thisFMGRestrict, \ 
+            thisFMGProlong\ }, \
+\[IndentingNewLine]\[IndentingNewLine]thisFMGRestrict\  = \ \(imsFMGRestrict\ \
+ /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsFullMultiGrid\ ]; \[IndentingNewLine]thisFMGProlong\  = \ \
+\(imsFMGProlong\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsFullMultiGrid\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ 
+            n\  > \ 2, \[IndentingNewLine]rhsH\  = \ 
+              thisFMGRestrict[\ rhsh\ ]; \[IndentingNewLine]xH\  = \ 
+              imsFullMultiGrid[\ rhsH, \ boundary, \ imsMGSolve, \ 
+                imsMGResidualMatrix, \ opts\ ]; \[IndentingNewLine]xh\  = \ 
+              thisFMGProlong[\ 
+                xH\ ], \[IndentingNewLine]\[IndentingNewLine]hx\  = \ \(hy\  \
+= \ 1/n\); \ \[IndentingNewLine]xh\  = \ 
+              Table[\[IndentingNewLine]If[\ 
+                  r\  \[Equal] \ 0\  || \ c\  \[Equal] \ 0\  || 
+                    r\  \[Equal] \ n || \ 
+                    c\  \[Equal] \ n, \[IndentingNewLine]boundary[\ 
+                    c\ *\ hx, \ 
+                    r*hy\ ], \[IndentingNewLine]0\ ]\[IndentingNewLine], {r, 
+                  0, \ n\ }, \ {\ c, \ 0, \ 
+                  n\ }\[IndentingNewLine]];\ \[IndentingNewLine]]; \ \
+\[IndentingNewLine]\[IndentingNewLine]xh\  = \ \ imsMultiGridCycle[\ xh, \ 
+              rhsh, \ imsMGSolve, imsMGResidualMatrix, \ 
+              opts\ ]; \[IndentingNewLine]Return[\ 
+            xh\ ];\[IndentingNewLine]];\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMultiGridCycle[\ \ xIn_, \ rhs_, \ imsMGSolve_, \ 
+          imsMGResidualMatrix_, \ opts___\ \ ]\  := \ 
+        Module[\[IndentingNewLine]\ {\ n = Length[\ xIn\ ] - 1, \ x = xIn, \ 
+            residuumh, \ residuumH, \ 
+            errorH, \[IndentingNewLine]thisMGRestrict, \ 
+            thisMGProlong, \[IndentingNewLine]nreldown, \ nrelup, \ 
+            mu\ }, \[IndentingNewLine]\[IndentingNewLine]nreldown\  = \ \
+\(imsMGPreSmoothIteration\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \[IndentingNewLine]nrelup\  = \ \
+\(imsMGPostSmoothIteration\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \[IndentingNewLine]nsolve\  = \ \
+\(imsMGPostSmoothIteration\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \[IndentingNewLine]mu\  = \ \
+\(imsCycleRecursion\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]thisMGRestrict\  = \ \(imsMGRestrict\  \
+/. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \[IndentingNewLine]thisMGProlong\  = \ \
+\(imsMGProlong\  /. \ {\ opts\ }\)\  /. 
+              Options[\ 
+                imsMultiGridCycle\ ]; \
+\[IndentingNewLine]\[IndentingNewLine]If[\ 
+            n > 2, \[IndentingNewLine] (*\ \(x\  = \ 
+                  thisMGPreSmooth[\ x, \ rhs, \ 
+                    nreldown\ ];\)\ *) \[IndentingNewLine]x\  = \ 
+              imsMGSolve[\ x, \ rhs, \ 
+                nreldown\ ]; \[IndentingNewLine]residuumh\  = \ 
+              imsMGResidualMatrix[\ x, \ 
+                rhs\ ]; \[IndentingNewLine]residuumH\  = \ 
+              thisMGRestrict[\ residuumh\ ]; \[IndentingNewLine]errorH\  = \ 
+              Table[\ 0, \ {\ Length[\ residuumH\ ]\ }, \ {\ 
+                  Length[\ 
+                    First[\ residuumH\ ]\ ]\ }\ ]; \[IndentingNewLine]Do[\ 
+              errorH\  = \ 
+                imsMultiGridCycle[\ errorH, \ residuumH, \ imsMGSolve, \ 
+                  imsMGResidualMatrix, \ opts\ ], \ {\ 
+                mu\ }\ ]; \[IndentingNewLine]x\  = \ 
+              x\  + \ thisMGProlong[\ 
+                  errorH\ ]; \[IndentingNewLine] (*\ \(x\  = \ 
+                thisMGPostSmooth[\ x, \ rhs, \ 
+                  nrelup\ ]\)\(,\)\ *) \[IndentingNewLine]x\  = \ 
+              imsMGSolve[\ x, \ rhs, \ 
+                nrelup\ ], \[IndentingNewLine]\[IndentingNewLine]\(x\  = \ \ \
+imsMGSolve[\ x, \ rhs, \ 
+                  nsolve\ ];\)\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[\ x\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsFMGProlongStueben[\ matrix_, \ boundary_, \ 
+        load_\ ]\  := \ \[IndentingNewLine]Module[\ \[IndentingNewLine]{\ 
+          rows, \ cols, \ hx, \ hy, \ 
+          interpol\ }, \[IndentingNewLine]{\ rows, \ cols\ }\  = \ 
+          Dimensions[\ matrix\ ] - 1; \[IndentingNewLine]hx\  = \ 
+          1/\ \((\ 2\ *\ cols\ )\); \[IndentingNewLine]hy\  = \ 
+          1/\ \((\ 2\ *\ 
+                rows\ )\); \[IndentingNewLine]\[IndentingNewLine]newMatrix\  \
+= \ Table[\[IndentingNewLine]If[\ 
+              r\  \[Equal] \ 0\  || \ c\  \[Equal] \ 0\  || 
+                r\  \[Equal] \ 2*rows || \ 
+                c\  \[Equal] \ 2*cols, \[IndentingNewLine]boundary[\ 
+                c\ *\ hx, \ 
+                r*hy\ ], \[IndentingNewLine]0\[IndentingNewLine]]\
+\[IndentingNewLine], {r, 0, \ 2*rows\ }, \ {\ c, \ 0, \ 
+              2*cols\ }\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Do[\[IndentingNewLine]newMatrix[\([\ 2*r - 1, \ 
+                2*c - 1\ ]\)]\  = \ 
+            matrix[\([\ r, c\ ]\)]\[IndentingNewLine], {r, 2, \ rows\ }, \ {\ 
+            c, 2, cols\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]newMatrix[\([\ r, \ c\ ]\)]\  = \ 
+            1/4\ *\ \((\ \(-\ 2\)*hx*hy*
+                    load[\ \((c - 1)\)*hx, \ \((r - 1)\)*
+                        hy\ ]\  + \ \[IndentingNewLine]newMatrix[\([\ 
+                      r - 1, \ c - 1\ ]\)] + \ 
+                  newMatrix[\([\ r + 1, \ c + 1\ ]\)] + \ 
+                  newMatrix[\([\ r - 1, \ c + 1\ ]\)] + \ 
+                  newMatrix[\([\ r + 1, \ 
+                      c - 1\ ]\)]\ )\)\[IndentingNewLine], {r, 2, \ 2*rows, 
+            2\ }, \ {\ c, 2, 2*cols, 
+            2\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]If[\ 
+            OddQ[\ r + 
+                c\ ], \[IndentingNewLine]newMatrix[\([\ r, \ c\ ]\)]\  = \ 
+              1/4\ *\ \((\ \(-\ hx\)*hy*
+                      load[\ \((c - 1)\)*hx, \ \((r - 1)\)*hy\ ]\  + \ 
+                    newMatrix[\([\ r - 1, \ c\ ]\)] + \ 
+                    newMatrix[\([\ r + 1, \ c\ ]\)] + \ 
+                    newMatrix[\([\ r, \ c + 1\ ]\)] + \ 
+                    newMatrix[\([\ r, \ 
+                        c - 1\ ]\)]\ )\)\[IndentingNewLine]], {r, 2, \ 
+            2*rows\ }, \ {\ c, 2, 
+            2*cols\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+          newMatrix\ ];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMGProlongBilinear[\ 
+          matrix_\ ]\  := \ \[IndentingNewLine]Module[\ \[IndentingNewLine]{\ 
+            rows, \ cols\ }, \[IndentingNewLine]{\ rows, \ cols\ }\  = \ 
+            Dimensions[\ matrix\ ] - 
+              1; \[IndentingNewLine]\[IndentingNewLine]newMatrix\  = \ 
+            Table[\ 0, \ {\ 2*\ rows + 1\ }, \ {\ 
+                2\ *cols + 
+                  1\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]\(Which[\[IndentingNewLine]OddQ[\ c\ ]\  && \ OddQ[\ r\ ], 
+                newMatrix[\([\ c, \ r\ ]\)] = \ 
+                  matrix[\([\ \((c - 1)\)/2\  + 1\ , \((r - 1)\)/2\  + 
+                        1\ ]\)], \[IndentingNewLine]\[IndentingNewLine]EvenQ[\
+\ c\ ]\  && \ EvenQ[\ r\ ], 
+                newMatrix[\([\ c, \ r\ ]\)]\  = \[IndentingNewLine]1/
+                      4\ *\ \((\ 
+                      matrix[\([\ c/2, \ r/2\ ]\)]\  + \ 
+                        matrix[\([\ c/2 + 1, \ r/2\ ]\)]\  + \ 
+                        matrix[\([\ c/2, \ r/2 + 1\ ]\)]\  + \ 
+                        matrix[\([\ c/2 + \ 1, \ 
+                            r/2 + 1\ ]\)]\ )\), \[IndentingNewLine]\
+\[IndentingNewLine]EvenQ[\ c\ ]\  && \ OddQ[\ r\ ], 
+                newMatrix[\([\ c, \ r\ ]\)]\  = \ 
+                  1/2\ *\ \((\ 
+                      matrix[\([\ c/2, \ \((\ r\  - 1)\)/2\  + 1\ ]\)]\  + \ 
+                        matrix[\([\ \ c/2 + 1, \ \((\ r\  - 1)\)/2\  + 
+                              1\ ]\)]\ )\), \[IndentingNewLine]\
+\[IndentingNewLine]OddQ[\ c\ ]\ \  && \ EvenQ[\ r\ ], 
+                newMatrix[\([\ c, \ r\ ]\)]\  = \ 
+                  1/2\ *\ \((\ 
+                      matrix[\([\ \((\ c\  - 1)\)/2\  + 1\ , \ 
+                            r/2\ \ ]\)]\  + \ 
+                        matrix[\([\ \ \((\ c - 1\ )\)/2\  + \ 1, \ 
+                            r/2\  + 
+                              1\ ]\)]\ )\)\[IndentingNewLine]];\)\
+\[IndentingNewLine], {r, \ 2*rows + 1\ }, \ {\ c, \ 
+              2*cols + 
+                1\ }\ \ ]; \[IndentingNewLine]\[IndentingNewLine]Return[\ 
+            newMatrix\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMGRestrictInjection[\ matrix_\ ]\  := \ 
+        Transpose[\ 
+          Drop[\ Transpose[\ 
+              Drop[\ matrix, \ {\ 2, \ Length[\ matrix\ ], \ 2\ \ }]\ ], \ {\ 
+              2, \ Length[\ First[\ matrix\ ]\ ], \ 2\ }\ ]\ ];\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMGRestrictFullWeighting[\ matrix_\ ]\  := \ 
+        Module[\[IndentingNewLine]{\ newMatrix, \ rows, \ 
+            cols\ }, \[IndentingNewLine]{\ rows, \ cols\ }\  = \ 
+            Dimensions[\ matrix\ ]/2 - 1; \[IndentingNewLine]newMatrix\  = \ 
+            imsMGRestrictInjection[\ 
+              matrix\ ]; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]newMatrix[\([\ r, \ c\ ]\)]\  = \ 
+              1/16\ *\ \((\ \[IndentingNewLine]matrix[\([\ 2*r - 1, \ 
+                        2*c - 1\ ]\)]\  + \ 
+                    matrix[\([\ 2*r - 1, \ 2*c + 1\ ]\)]\  + 
+                    matrix[\([\ 2*r + 1, \ 2*c - 1\ ]\)]\  + \ 
+                    matrix[\([\ 2*r + 1, \ 
+                        2*c + 1\ ]\)]\  + \[IndentingNewLine]2*\((\ 
+                        matrix[\([\ 2*r, \ 2*c - 1\ ]\)]\  + \ 
+                          matrix[\([\ 2*r, \ 2*c + 1\ ]\)]\  + \ 
+                          matrix[\([\ 2*r - 1, \ 2*c\ ]\)]\  + \ 
+                          matrix[\([\ 2*r + 1, \ 
+                              2*c\ ]\)]\ )\)\  + \ \[IndentingNewLine]4\ *\ 
+                      matrix[\([\ 2*r, \ 
+                          2*c\ ]\)]\[IndentingNewLine]\ \ )\)\
+\[IndentingNewLine], \ {\ r, 2, \ rows\ }, \ {\ c, 2, \ 
+              cols\ }\[IndentingNewLine]]; \[IndentingNewLine]Return[\ 
+            newMatrix\ ];\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsMGRestrictHalfInjection[\ matrix_\ ]\  := \ 
+        1/2\ *\ imsMGRestrictInjection[\ matrix\ ];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \( (*\ representors\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{Automatic, 37}, {1, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 37, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1838, 57, 31, 0, 74, "Section"],
+Cell[1872, 59, 1369, 22, 347, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3266, 85, 63, 1, 28, "Subsubsection",
+  InitializationCell->True],
+Cell[3332, 88, 1812, 30, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5193, 124, 32, 0, 44, "Section"],
+Cell[5228, 126, 168, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5433, 136, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5510, 140, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[5567, 143, 4137, 67, 1035, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9741, 215, 34, 0, 30, "Subsection"],
+Cell[9778, 217, 1888, 31, 523, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11703, 253, 36, 0, 30, "Subsection"],
+Cell[11742, 255, 143, 2, 59, "Input"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11934, 263, 32, 0, 44, "Section"],
+Cell[11969, 265, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12094, 272, 42, 0, 44, "Section"],
+Cell[12139, 274, 85, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12261, 281, 30, 0, 44, "Section"],
+Cell[12294, 283, 256, 5, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12587, 293, 26, 0, 44, "Section"],
+Cell[12616, 295, 835, 16, 155, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13488, 316, 27, 0, 44, "Section"],
+Cell[13518, 318, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13634, 325, 29, 0, 44, "Section"],
+Cell[13666, 327, 81, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13784, 334, 41, 0, 44, "Section"],
+Cell[13828, 336, 1876, 35, 411, "Input",
+  InitializationCell->True],
+Cell[15707, 373, 2728, 52, 475, "Input",
+  InitializationCell->True],
+Cell[18438, 427, 2500, 45, 539, "Input",
+  InitializationCell->True],
+Cell[20941, 474, 2188, 39, 411, "Input",
+  InitializationCell->True],
+Cell[23132, 515, 304, 7, 43, "Input",
+  InitializationCell->True],
+Cell[23439, 524, 1434, 24, 283, "Input",
+  InitializationCell->True],
+Cell[24876, 550, 164, 3, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25077, 558, 31, 0, 44, "Section"],
+Cell[25111, 560, 83, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25231, 567, 30, 0, 44, "Section"],
+Cell[25264, 569, 112, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[25413, 576, 30, 0, 44, "Section"],
+Cell[25446, 578, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

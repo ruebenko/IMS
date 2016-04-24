@@ -1,0 +1,917 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     31573,        731]*)
+(*NotebookOutlinePosition[     32256,        755]*)
+(*  CellTagsIndexPosition[     32212,        751]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Exact Cover", "Subtitle"],
+
+Cell["by Jan G. Korvink", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ ExactCover . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : Jan\ G . \ Korvink\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 3.1  .2006, \ Karlsruhe\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ function\ solves\ the\ exact\ cover\ problem\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`ExactCover`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsExactCover::Usage = "\<imsExactCover[matrix] \
+chooses a subset of rows of the rectangular matrix which have exactly one \
+nonzero element in each column. The function is useful for solving a variety \
+of other problems, such as games, timetables, etc.\>";\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsPlotAlgorithm::usage = "\<imsPlotAlgorithm->True forces \
+imsExactCover to draw a picture illustrating the operation of the algorithm. \
+This is useful for debugging, and for didactic purposes.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      constructors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      selectors\ *) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+      predicates\ *) \n\[IndentingNewLine] (*\ 
+      functions\ *) \[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(Options[
+          imsExactCover] = {imsPlotAlgorithm \[Rule] 
+            False};\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsExactCover[m : {{\((_)\) .. } .. }, opts___] := 
+        Module[{nr, nc, ne, cnt, buildLinkedList, DrawState, search, 
+            CoverColumn, \ UncoverColumn, ev, eu, ed, el, er, en, o, 
+            myPlotRange, sol = {}, 
+            plotAlgorithm}, \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+This\ function\ builds\ the\ linked\ list\ data\ structure\ of\ the\ matrix\ \
+m . \ The\ list\ elements\ are\ symbols\ in\ the\ local\ context . \ 
+                This\ is\ slower\ that\ using\ lists, \ 
+            but\ I\ wanted\ to\ follow\ Knuth' s\ paper\ closely, \ 
+            very\ close\ to\ the\ text, \ 
+            thereby\ avoiding\ any\ programming\ paradigm . \ 
+                This\ is\ possible\ through\ using\ Mathematica' 
+              s\ symbol\ table . \
+\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]buildLinkedList[] := 
+            Block[{cnt, nz, cc, rr, nnz}, \[IndentingNewLine] (*\ 
+                The\ zeroth\ Data\ Object\ points\ to\ the\ first\ column\ of\
+\ the\ header\ line . \ 
+                    We\ need\ it\ for\ the\ case\ where\ all\ rows\ and\ \
+columns\ of\ the\ matrix\ are\ \(dropped!\)\ *) \[IndentingNewLine]el[0] = 
+                nc; \[IndentingNewLine]er[0] = 1; \[IndentingNewLine] (*\ 
+                We\ build\ a\ matrix\ that\ numbers\ the\ nonzero\ entries . \
+\ The\ first\ row\ represents\ the\ columns\ headers\ of\ the\ matrix, \ 
+                following\ Knuth' s\ paper . \ Here, \ 
+                cnt\ is\ a\ \(\(counter\)\(.\)\)\ *) \[IndentingNewLine]cnt = 
+                nc + 1; \[IndentingNewLine]nz = 
+                Join[{Range[nc]}, 
+                  Table[Table[\[IndentingNewLine]If[
+                        m[\([r, c]\)] \[NotEqual] 
+                          0, \[IndentingNewLine]\(cnt++\), 
+                        0\[IndentingNewLine]], {c, 1, 
+                        nc}], \[IndentingNewLine]{r, 1, 
+                      nr}]]; \[IndentingNewLine]nnz = 
+                cnt - nc - 1; \[IndentingNewLine] (*\ 
+                Instantiate\ the\ column\ names\ *) \[IndentingNewLine]Table[
+                en[i] = i, {i, 1, nc}]; \[IndentingNewLine] (*\ 
+                Instantiate\ the\ horizontal\ links\ \
+*) \[IndentingNewLine]Table[
+                Table[\[IndentingNewLine]If[
+                    nz[\([r, c]\)] \[NotEqual] 0, \[IndentingNewLine]cc = 
+                      Mod[c, nc] + 1; \[IndentingNewLine]While[
+                      nz[\([r, cc]\)] \[Equal] 0, 
+                      cc = Mod[cc, nc] + 1]; \[IndentingNewLine]er[
+                        nz[\([r, c]\)]] = 
+                      nz[\([r, cc]\)]; \[IndentingNewLine]el[
+                        nz[\([r, cc]\)]] = 
+                      nz[\([r, c]\)]; \[IndentingNewLine]ec[nz[\([r, c]\)]] = 
+                      c\[IndentingNewLine]], \[IndentingNewLine]{c, 1, 
+                    nc}], \[IndentingNewLine]{r, 1, 
+                  nr + 1}]; \[IndentingNewLine] (*\ 
+                Link\ in\ the\ object\ link\ *) \[IndentingNewLine]el[1] = 
+                0; \[IndentingNewLine]er[nc] = 0; \[IndentingNewLine] (*\ 
+                Instantiate\ the\ vertical\ links\ \
+*) \[IndentingNewLine]Table[
+                Table[\[IndentingNewLine]If[
+                    nz[\([r, c]\)] \[NotEqual] 0, \[IndentingNewLine]rr = 
+                      Mod[r, nr + 1] + 1; \[IndentingNewLine]While[
+                      nz[\([rr, c]\)] \[Equal] 0, 
+                      rr = Mod[rr, nr + 1] + 1]; \[IndentingNewLine]ed[
+                        nz[\([r, c]\)]] = 
+                      nz[\([rr, c]\)]; \[IndentingNewLine]eu[
+                        nz[\([rr, c]\)]] = 
+                      nz[\([r, 
+                          c]\)];\[IndentingNewLine]], \[IndentingNewLine]{r, 
+                    1, nr + 1}], \[IndentingNewLine]{c, 1, 
+                  nc}]; \[IndentingNewLine] (*\ 
+                Instantiate\ the\ column\ counts\ *) \[IndentingNewLine]cnt = 
+                1; \[IndentingNewLine]\(\((es[\(cnt++\)] = #)\) &\) /@ \
+\((\(\((Plus @@ #)\) &\) /@ 
+                    Map[\((If[# \[NotEqual] 0, 1, 0])\) &, 
+                      Transpose[
+                        m], {2}])\); \[IndentingNewLine]Return[]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+Draw\ a\ graphic\ of\ the\ current\ state\ of\ the\ data\ structure\
+\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]DrawState[] := 
+            Block[{drawBlock, drawDownLinks, drawUpLinks, drawLeftLinks, 
+                drawRightLinks, nr, nc, cnt, nz, pos, r, c, 
+                pic}, \[IndentingNewLine]{nr, nc} = 
+                Dimensions[m]; \[IndentingNewLine]cnt = 
+                nc + 1; \[IndentingNewLine]nz = 
+                Join[{Range[nc]}, 
+                  Table[Table[\[IndentingNewLine]If[
+                        m[\([r, c]\)] \[NotEqual] 
+                          0, \[IndentingNewLine]\(cnt++\), 
+                        0\[IndentingNewLine]], {c, 1, 
+                        nc}], \[IndentingNewLine]{r, 1, 
+                      nr}]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+                The\ integer\ coordinates\ of\ all\ table\ elements\ \
+*) \[IndentingNewLine]pos = 
+                Select[Flatten[
+                    Table[Table[\[IndentingNewLine]If[
+                          nz[\([r, c]\)] \[NotEqual] 
+                            0, \[IndentingNewLine]{r, c}, 
+                          0\[IndentingNewLine]], {c, 1, 
+                          nc}], \[IndentingNewLine]{r, 1, nr + 1}], 
+                    1], \((Head[#] === 
+                        List)\) &]; \
+\[IndentingNewLine]\[IndentingNewLine]coords[{i_Integer, j_Integer}] := {j + 
+                    1, nr - 
+                    i}; \[IndentingNewLine]\[IndentingNewLine]myPlotRange = \
+{{\(- .5\), nc + 2.5}, {\(-2\), 
+                    nr +  .5}}; \
+\[IndentingNewLine]\[IndentingNewLine]drawBlock[val_, {i_, j_}] := 
+                Block[{x, y, col}, \[IndentingNewLine]If[
+                    i \[Equal] 1, \[IndentingNewLine]col = RGBColor[0, 1, 0], 
+                    col = Hue[ .17]\[IndentingNewLine]]; \
+\[IndentingNewLine]{x, y} = coords[{i, j}]; \[IndentingNewLine]If[
+                    val \[NotEqual] 0, {col, 
+                      Rectangle[{x, y}, {x +  .5, 
+                          y +  .5}], \[IndentingNewLine]GrayLevel[
+                        0]; \[IndentingNewLine]Text[
+                        val, {x, y}]; \[IndentingNewLine]RGBColor[1, 0, 
+                        0], \[IndentingNewLine]Disk[{x +  .1, 
+                          y +  .1},  .05], Disk[{x +  .4, y +  .1},  .05], 
+                      Disk[{x +  .4, y +  .4},  .05], 
+                      Disk[{x +  .1, 
+                          y +  .4},  .05]}, \[IndentingNewLine]{}\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]drawDownLinks[
+                  val_, {i_, j_}] := 
+                Block[{r, c}, \[IndentingNewLine]If[
+                    val \[NotEqual] 0, \[IndentingNewLine]{r, c} = 
+                      pos[\([ed[nz[\([i, j]\)]]]\)]; \[IndentingNewLine]If[
+                      r \[NotEqual] 
+                        1, \[IndentingNewLine]{Line[{coords[{i, 
+                                  j}] + { .1,  .1}, 
+                            coords[{r, 
+                                  c}] + { .1,  .4}}]}, \
+\[IndentingNewLine]{Line[{coords[{i, j}] + { .1,  .1}, 
+                            coords[{nr, 
+                                  j}] + { .1, \(-2\)}}], \
+\[IndentingNewLine]Line[{coords[{1, j}] + { .1,  .4}, 
+                            coords[{1, j}] + { .1, 
+                                1.4}}]}\[IndentingNewLine]], {}\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]drawUpLinks[
+                  val_, {i_, j_}] := 
+                Block[{r, c}, \[IndentingNewLine]If[
+                    val \[NotEqual] 0, \[IndentingNewLine]{r, c} = 
+                      pos[\([eu[nz[\([i, j]\)]]]\)]; \[IndentingNewLine]If[
+                      i \[NotEqual] 
+                        1, \[IndentingNewLine]{Line[{coords[{i, 
+                                  j}] + { .4,  .4}, 
+                            coords[{r, 
+                                  c}] + { .4,  .1}}]}, \
+\[IndentingNewLine]{Line[{coords[{1, j}] + { .4,  .4}, 
+                            coords[{1, j}] + { .4, 
+                                1.4}}], \[IndentingNewLine]Line[{coords[{r, 
+                                  j}] + { .4,  .1}, 
+                            coords[{nr, 
+                                  j}] + { .4, \(-2\)}}]}\[IndentingNewLine]], \
+{}\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]drawRightLinks[
+                  val_, {i_, j_}] := 
+                Block[{r, c}, \[IndentingNewLine]If[
+                    val \[NotEqual] 0, \[IndentingNewLine]If[
+                      er[nz[\([i, j]\)]] > 0, \[IndentingNewLine]{r, c} = 
+                        pos[\([er[nz[\([i, j]\)]]]\)], \[IndentingNewLine]{r, 
+                          c} = {1, \(-1\)}\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                      c > j, \[IndentingNewLine]{Line[{coords[{i, 
+                                  j}] + { .4,  .4}, 
+                            coords[{r, 
+                                  c}] + { .1,  .4}}]}, \[IndentingNewLine]If[
+                        i \[Equal] 
+                          1, \[IndentingNewLine]{Line[{coords[{i, 
+                                    j}] + { .4,  .4}, 
+                              coords[{i, 
+                                    nc}] + {1.4,  .4}}], \
+\[IndentingNewLine]Line[{coords[pos[\([er[0]]\)]] + { .1,  .4}, 
+                              coords[{1, 
+                                    1}] + {\(-1.1\),  .4}}]}, \
+\[IndentingNewLine]{Line[{coords[{i, j}] + { .4,  .4}, 
+                              coords[{i, 
+                                    nc}] + {1.4,  .4}}], \
+\[IndentingNewLine]Line[{coords[{r, c}] + { .1,  .4}, 
+                              coords[{r, 
+                                    1}] + {\(-1.1\),  .4}}]}\
+\[IndentingNewLine]]\[IndentingNewLine]], \[IndentingNewLine]{}\
+\[IndentingNewLine]]\[IndentingNewLine]]; \[IndentingNewLine]drawLeftLinks[
+                  val_, {i_, j_}] := 
+                Block[{r, c}, \[IndentingNewLine]If[
+                    val \[NotEqual] 0, \[IndentingNewLine]If[
+                      el[nz[\([i, j]\)]] > 0, \[IndentingNewLine]{r, c} = 
+                        pos[\([el[nz[\([i, j]\)]]]\)], \[IndentingNewLine]{r, 
+                          c} = {1, \(-1\)}\[IndentingNewLine]]; \
+\[IndentingNewLine]If[
+                      c < j && 
+                        c \[NotEqual] \(-1\), \
+\[IndentingNewLine]{Line[{coords[{i, j}] + { .1,  .1}, 
+                            coords[{r, 
+                                  c}] + { .4,  .1}}]}, \[IndentingNewLine]If[
+                        i \[Equal] 
+                          1, \[IndentingNewLine]{Line[{coords[
+                                  pos[\([er[0]]\)]] + { .1,  .1}, 
+                              coords[{1, 
+                                    1}] + {\(-1.1\),  .1}}], \
+\[IndentingNewLine]Line[{coords[pos[\([el[0]]\)]] + { .4,  .1}, 
+                              coords[{i, 
+                                    nc}] + {1.4,  .1}}]}, \
+\[IndentingNewLine]{Line[{coords[{i, j}] + { .1,  .1}, 
+                              coords[{i, 
+                                    1}] + {\(-1.1\),  .1}}], \
+\[IndentingNewLine]Line[{coords[{r, c}] + { .4,  .1}, 
+                              coords[{r, 
+                                    nc}] + {1.4,  .1}}]}\[IndentingNewLine]]\
+\[IndentingNewLine]], \[IndentingNewLine]{}\[IndentingNewLine]]\
+\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]pic = {RGBColor[
+                    0, 0, 1], 
+                  Rectangle[{ .5, nr - 1}, {1, 
+                      nr - 1 +  .5}], \[IndentingNewLine]RGBColor[1, 0, 
+                    0], \[IndentingNewLine]Disk[{ .5 +  .4, 
+                      nr - 1 +  .1},  .05], 
+                  Disk[{ .5 +  .4, 
+                      nr - 1 +  .4},  .05]}; \[IndentingNewLine]\
+\[IndentingNewLine]For[c = er[0], c \[NotEqual] 0, 
+                c = er[c], \[IndentingNewLine]{i, j} = 
+                  pos[\([c]\)]; \[IndentingNewLine]pic = {pic, \
+\[IndentingNewLine]drawBlock[nz[\([i, j]\)], {i, j}], 
+                    drawDownLinks[
+                      nz[\([i, j]\)], {i, j}], \[IndentingNewLine]drawUpLinks[
+                      nz[\([i, j]\)], {i, 
+                        j}], \[IndentingNewLine]drawRightLinks[
+                      nz[\([i, j]\)], {i, 
+                        j}], \[IndentingNewLine]drawLeftLinks[
+                      nz[\([i, j]\)], {i, j}]}; \[IndentingNewLine]For[
+                  r = ed[c], r \[NotEqual] c, 
+                  r = ed[r], \[IndentingNewLine]{i, j} = 
+                    pos[\([r]\)]; \[IndentingNewLine]pic = {pic, \
+\[IndentingNewLine]drawBlock[nz[\([i, j]\)], {i, j}], 
+                      drawDownLinks[
+                        nz[\([i, j]\)], {i, 
+                          j}], \[IndentingNewLine]drawUpLinks[
+                        nz[\([i, j]\)], {i, 
+                          j}], \[IndentingNewLine]drawRightLinks[
+                        nz[\([i, j]\)], {i, 
+                          j}], \[IndentingNewLine]drawLeftLinks[
+                        nz[\([i, j]\)], {i, 
+                          j}]};\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Graphics[pic, PlotRange -> myPlotRange, 
+                AspectRatio \[Rule] 
+                  Automatic]\[IndentingNewLine]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+Taking\ out\ a\ \
+column\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]CoverColumn[c_Integer] := 
+            Block[{i, j}, \[IndentingNewLine]el[er[c]] = 
+                el[c]; \[IndentingNewLine]er[el[c]] = 
+                er[c]; \[IndentingNewLine]For[i = ed[c], i \[NotEqual] c, 
+                i = ed[i], \[IndentingNewLine]For[j = er[i], j \[NotEqual] i, 
+                  j = er[j], \[IndentingNewLine]eu[ed[j]] = 
+                    eu[j]; \[IndentingNewLine]ed[eu[j]] = 
+                    ed[j]; \[IndentingNewLine]es[ec[j]] = 
+                    es[ec[j]] - 
+                      1\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[plotAlgorithm, 
+                Show[DrawState[]]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+Reinserting\ a\ \
+column\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]UncoverColumn[c_Integer] := 
+            Block[{i, j}, \[IndentingNewLine]For[i = eu[c], i \[NotEqual] c, 
+                i = eu[i], \[IndentingNewLine]For[j = el[i], j \[NotEqual] i, 
+                  j = el[j], \[IndentingNewLine]es[ec[j]] = 
+                    es[ec[j]] + 1; \[IndentingNewLine]eu[ed[j]] = 
+                    j; \[IndentingNewLine]ed[eu[j]] = 
+                    j\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]el[er[c]] = c; \[IndentingNewLine]er[el[c]] = 
+                c; \[IndentingNewLine]If[plotAlgorithm, 
+                Show[DrawState[]]]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+The\ search\ \
+function\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]search[
+              k_Integer] := \[IndentingNewLine]Block[{r, c, s, l, soll, 
+                j}, \[IndentingNewLine]If[
+                er[0] \[Equal] 0, \[IndentingNewLine]AppendTo[sol, 
+                  Table[Block[{soll}, \[IndentingNewLine]j = \(s = 
+                          o[l]\); \[IndentingNewLine]soll = {en[
+                            ec[s]]}; \[IndentingNewLine]While[\((j = 
+                              er[j])\) \[NotEqual] s, 
+                        soll = {soll, en[ec[j]]}]; \[IndentingNewLine]Sort[
+                        Flatten[soll]]\[IndentingNewLine]], {l, 0, 
+                      k - 1}\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[]\[IndentingNewLine]]; \[IndentingNewLine] (*\ 
+                Choose\ the\ column\ with\ the\ lowest\ number\ of\ branches\ \
+*) \[IndentingNewLine]s = \[Infinity]; \[IndentingNewLine]For[j = er[0], 
+                j \[NotEqual] 0, 
+                j = er[j], \[IndentingNewLine]If[j == 0, 
+                  Break[]]; \[IndentingNewLine]If[
+                  es[j] < s, \[IndentingNewLine]c = j; \[IndentingNewLine]s = 
+                    es[j]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine] (*\ Cover\ column\ c\ *) \[IndentingNewLine]CoverColumn[
+                c]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+                Loop\ *) \[IndentingNewLine]For[r = ed[c], r \[NotEqual] c, 
+                r = ed[r], \[IndentingNewLine]o[k] = 
+                  r; \[IndentingNewLine]For[j = er[r], j \[NotEqual] r, 
+                  j = er[j], \[IndentingNewLine]\(CoverColumn[
+                      ec[j]];\)\[IndentingNewLine]]; \
+\[IndentingNewLine]search[k + 1]; \[IndentingNewLine]r = 
+                  o[k]; \[IndentingNewLine]c = ec[r]; \[IndentingNewLine]For[
+                  j = el[r], j \[NotEqual] r, 
+                  j = el[j], \[IndentingNewLine]UncoverColumn[
+                    ec[j]]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine] (*\ 
+                Uncover\ column\ c\ and\ return\ \
+*) \[IndentingNewLine]UncoverColumn[
+                c]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+            oooooooooooooooooooooooooooooooooooooooooooo\[IndentingNewLine]\
+The\ code\[IndentingNewLine]oooooooooooooooooooooooooooooooooooooooooooo\ \
+*) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Extract\ the\ user\ options\ *) \[IndentingNewLine]plotAlgorithm \
+= \(imsPlotAlgorithm /. {opts}\) /. 
+              Options[imsExactCover]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\ Determine\ the\ problem\ size\ *) \[IndentingNewLine]{nr, nc} = 
+            Dimensions[m]; \[IndentingNewLine]ne = 
+            nr*nc; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Establish\ the\ linked\ list\ data\ structure\ \
+*) \[IndentingNewLine]buildLinkedList[]; \[IndentingNewLine]\
+\[IndentingNewLine] (*\ 
+            Draw\ a\ picture\ of\ the\ starting\ state\ \
+*) \[IndentingNewLine]If[plotAlgorithm, 
+            Show[DrawState[]]]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Find\ all\ exact\ covers\ *) \[IndentingNewLine]search[
+            0]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+            Return\ the\ accumulated\ solutions\ *) \[IndentingNewLine]Return[
+            sol]\[IndentingNewLine]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Tests", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["The Code", "Subsection"],
+
+Cell[BoxData[
+    \(\(fromSudokuString[s_String] := 
+        Module[{}, \[IndentingNewLine]Partition[\(ToExpression[#] &\) /@ 
+              Characters[s], 9]\[IndentingNewLine]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(fromSudokuString["\<\
+000003670000600009008070000050001080076020530020500090000040200100005000064200\
+000\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{0, 0, 0, 0, 0, 3, 6, 7, 0}, {0, 0, 0, 6, 0, 0, 0, 0, 9}, {0, 0, 8, 0, 
+        7, 0, 0, 0, 0}, {0, 5, 0, 0, 0, 1, 0, 8, 0}, {0, 7, 6, 0, 2, 0, 5, 3, 
+        0}, {0, 2, 0, 5, 0, 0, 0, 9, 0}, {0, 0, 0, 0, 4, 0, 2, 0, 0}, {1, 0, 
+        0, 0, 0, 5, 0, 0, 0}, {0, 6, 4, 2, 0, 0, 0, 0, 0}}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The Test Matrices", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"test1", "=", 
+      RowBox[{"(", GridBox[{
+            {"0", "0", "1", "0", "1", "1", "0"},
+            {"1", "0", "0", "1", "0", "0", "1"},
+            {"0", "1", "1", "0", "0", "1", "0"},
+            {"1", "0", "0", "1", "0", "0", "0"},
+            {"0", "1", "0", "0", "0", "0", "1"},
+            {"0", "0", "0", "1", "1", "0", "1"}
+            }], ")"}]}]], "Input"],
+
+Cell[BoxData[
+    \({{0, 0, 1, 0, 1, 1, 0}, {1, 0, 0, 1, 0, 0, 1}, {0, 1, 1, 0, 0, 1, 
+        0}, {1, 0, 0, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0, 1}, {0, 0, 0, 1, 1, 0, 
+        1}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test2 = Table[Random[Integer, {0, 1}], {3}, {5}]\)], "Input"],
+
+Cell[BoxData[
+    \({{0, 1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 0, 1, 0}}\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["The Test Code", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(imsExactCover[test1]\), "\[IndentingNewLine]", 
+    \(test1\)}], "Input"],
+
+Cell[BoxData[
+    \({{{1, 4}, {3, 5, 6}, {2, 7}}}\)], "Output"],
+
+Cell[BoxData[
+    \({{0, 0, 1, 0, 1, 1, 0}, {1, 0, 0, 1, 0, 0, 1}, {0, 1, 1, 0, 0, 1, 
+        0}, {1, 0, 0, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0, 1}, {0, 0, 0, 1, 1, 0, 
+        1}}\)], "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{662, 768},
+WindowMargins->{{17, Automatic}, {Automatic, -1}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 31, 0, 51, "Subtitle"],
+Cell[1810, 55, 33, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[1868, 59, 31, 0, 74, "Section"],
+Cell[1902, 61, 1199, 20, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3126, 85, 35, 0, 28, "Subsubsection"],
+Cell[3164, 87, 618, 10, 155, "Input",
+  InitializationCell->True],
+Cell[3785, 99, 1875, 31, 507, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5709, 136, 32, 0, 44, "Section"],
+Cell[5744, 138, 169, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5950, 148, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6027, 152, 26, 0, 70, "Subsection"],
+Cell[6056, 154, 979, 17, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7072, 176, 34, 0, 70, "Subsection"],
+Cell[7109, 178, 169, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7315, 186, 36, 0, 70, "Subsection"],
+Cell[7354, 188, 173, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7576, 198, 32, 0, 44, "Section"],
+Cell[7611, 200, 88, 2, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7736, 207, 42, 0, 44, "Section"],
+Cell[7781, 209, 174, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7992, 218, 30, 0, 44, "Section"],
+Cell[8025, 220, 291, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8353, 230, 26, 0, 44, "Section"],
+Cell[8382, 232, 179, 4, 70, "Input",
+  InitializationCell->True],
+Cell[8564, 238, 179, 5, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8780, 248, 27, 0, 44, "Section"],
+Cell[8810, 250, 129, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8976, 258, 29, 0, 44, "Section"],
+Cell[9008, 260, 131, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9176, 268, 41, 0, 44, "Section"],
+Cell[9220, 270, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[9364, 276, 140, 4, 43, "Input",
+  InitializationCell->True],
+Cell[9507, 282, 19207, 332, 4731, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28751, 619, 31, 0, 44, "Section"],
+Cell[28785, 621, 133, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[28955, 629, 30, 0, 44, "Section"],
+Cell[28988, 631, 132, 3, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29157, 639, 30, 0, 44, "Section"],
+Cell[29190, 641, 155, 4, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29382, 650, 24, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[29431, 654, 30, 0, 38, "Subsection"],
+Cell[29464, 656, 194, 3, 59, "Input"],
+
+Cell[CellGroupData[{
+Cell[29683, 663, 142, 3, 59, "Input"],
+Cell[29828, 668, 322, 4, 91, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[30199, 678, 39, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[30263, 682, 397, 9, 117, "Input"],
+Cell[30663, 693, 190, 3, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30890, 701, 81, 1, 27, "Input"],
+Cell[30974, 704, 85, 1, 27, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[31108, 711, 35, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[31168, 715, 94, 2, 43, "Input"],
+Cell[31265, 719, 63, 1, 27, "Output"],
+Cell[31331, 722, 190, 3, 43, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

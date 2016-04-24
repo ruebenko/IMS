@@ -1,0 +1,663 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     19113,        502]*)
+(*NotebookOutlinePosition[     19774,        525]*)
+(*  CellTagsIndexPosition[     19730,        521]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["`Imtek`Interfaces`HDLExport", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ HDLExport . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : \ Jan\ Lienemann\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 23.12  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ exports\ an\ imsSystem\ to\ a\ HDL\ file\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Sources\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\
+\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`Interfaces`HDLExport`\>", \
+{"\<Imtek`System`\>"}];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsExportVerilogA::usage = \
+"\<imsExportVerilogA[filename_String, sys_imsSystem (, output matrix)] writes \
+sys as Verilog A file.\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsVerilogADisciplines::usage = "\<The Verilog A \
+disciplines of inputs and outputs.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(Options[
+        imsExportVerilogA] = {imsVerilogADisciplines \[Rule] \
+{"\<kinematic\>", "\<Pos\>", "\<F\>"}}\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsListToString[l : {__}, 
+          pre_String: "\<\>", 
+          sep_String: "\<, \>"] := \(Fold[StringJoin[#1, sep, #2] &, 
+              First[#], Drop[#, 1]] &\)@
+          imsListToStrings[l, pre];\)\[IndentingNewLine]
+    \(imsListToString[{}, ___] := "\<\>";\)\[IndentingNewLine]
+    \(imsListToStrings[l : {__}, pre_String: "\<\>", 
+          post_String: "\<\>"] := \(\((pre <> ToString[#] <> post)\) &\) /@ 
+          l;\)\[IndentingNewLine]
+    \(imsListToStrings[{}, ___] := {};\)\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(imsExportVerilogA[
+        filename_String, \ sys_imsSystem, \ outputmatrix_:  Identity, 
+        opts___] := 
+      Module[{k, d, m, l, om, DimC, DimU, DimF, discipl, discipl1, discipld, 
+          outstringlist, inoutstringlist, x, sys2, xstringlist, xstringlistp, 
+          xdotstringlist, xdotstringlistp, xdotdotstringlist, 
+          xdotdotstringlistp, parstringlist, inputstringlist, 
+          inputstringlistV, inputdotstringlistV, sysstr, omstr, 
+          outputstringlistV}, \[IndentingNewLine]\[IndentingNewLine]{DimC, 
+            DimU, DimF} = 
+          imsGetSystemVariables[\ sys\ ]; \[IndentingNewLine]If[
+          outputmatrix === Identity, 
+          om = IdentityMatrix[imsGetSystemSize[\ sys\ ]], 
+          om = outputmatrix]; \[IndentingNewLine]If[
+          Head[\((discipl = \(imsVerilogADisciplines /. {opts}\) /. 
+                      Options[imsExportVerilogA])\)[\([1]\)]] =!= 
+            List, \[IndentingNewLine]discipl = {Table[discipl, {DimC}], 
+              Table[discipl, {DimF}], 
+              Table[discipl, {\ Length[om]}]}]; \[IndentingNewLine]discipld = 
+          Flatten[discipl, 1]; \[IndentingNewLine]discipl1 = 
+          Union[discipld[\([All, 1]\)]]; \[IndentingNewLine]sys2 = 
+          imsStiffnessToIdentity[
+            sys]; \[IndentingNewLine]\[IndentingNewLine]xstringlist = 
+          imsListToStrings[
+            Range[DimU], "\<x\>"]; \[IndentingNewLine]xstringlistp\  = \ 
+          imsListToStrings[
+            Range[DimU], \ "\<Pos(x\>", "\<)\>"]; \
+\[IndentingNewLine]xdotstringlist = 
+          imsListToStrings[
+            Range[DimU], "\<xvel\>"]; \[IndentingNewLine]xdotstringlistp = 
+          imsListToStrings[
+            Range[DimU], "\<Vel(xvel\>", "\<)\>"]; \
+\[IndentingNewLine]xdotdotstringlist = 
+          imsListToStrings[
+            Range[DimU], "\<ddt(xvel\>", "\<)\>"]; \
+\[IndentingNewLine]xdotdotstringlistp = 
+          imsListToStrings[
+            Range[DimU], "\<ddt(Vel(xvel\>", "\<))\>"]; \
+\[IndentingNewLine]outstringlist = 
+          imsListToStrings[
+            Range[Length[
+                om]], "\<out\>"]; \[IndentingNewLine]inoutstringlist = 
+          imsListToStrings[
+            discipl1, "\<gnd\>"]; \[IndentingNewLine]inputstringlist = 
+          imsListToStrings[
+            Range[DimF], "\<in\>"]; \[IndentingNewLine]parstringlist = 
+          imsListToStrings[
+            Range[DimC], "\<par\>"]; \
+\[IndentingNewLine]\[IndentingNewLine]parstringlist1 = 
+          Prepend[parstringlist, 1]; \[IndentingNewLine]parstringlist0 = 
+          Prepend[parstringlist, 0]; \[IndentingNewLine]inputstringlistV = 
+          MapIndexed[
+            discipld[\([DimC + #2[\([1]\)], 
+                    3]\)] <> "\<(\>" <> #1 <> "\<,gnd\>" <> 
+                discipld[\([DimC + #2[\([1]\)], 1]\)] <> "\<)\>" &, 
+            inputstringlist]; \[IndentingNewLine]inputdotstringlistV = 
+          MapIndexed["\<ddt(\>" <> 
+                discipld[\([DimC + #2[\([1]\)], 
+                    3]\)] <> "\<(\>" <> #1 <> "\<,gnd\>" <> 
+                discipld[\([DimC + #2[\([1]\)], 1]\)] <> "\<))\>" &, 
+            inputstringlist]; \[IndentingNewLine]outputstringlistV = 
+          MapIndexed[
+            discipld[\([DimC + DimF + #2[\([1]\)], 
+                    2]\)] <> "\<(\>" <> #1 <> "\<,gnd\>" <> 
+                discipld[\([DimC + DimF + #2[\([1]\)], 1]\)] <> "\<)\>" &, 
+            outstringlist]; \[IndentingNewLine]\[IndentingNewLine]sysstr = \
+\(-Plus @@ \((\(imsGetPolynomMatrixValues[
+                      imsPolynomMatrixContractAllDerivatives[#, \
+{parstringlist}, Null, {xstringlistp, xdotstringlistp, 
+                          xdotdotstringlistp}, {inputstringlistV, 
+                          inputdotstringlistV}]] &\) /@ 
+                  imsGetSystemPolynomMatrices[sys2, 
+                    Except[{{}, {1}}]])\)\); \[IndentingNewLine]\
+\[IndentingNewLine]sysstr = 
+          StringReplace[
+            StringJoin[
+              MapIndexed["\<    Pos(x\>" <> 
+                    ToString[#2[\([1]\)]] <> "\<) <+ \>" <> 
+                    ToString[CForm[#1]] <> "\<;\n\>" &, 
+                sysstr /. \((0. )\) \[Rule] 
+                    0\[IndentingNewLine]]], "\<\"\>" -> "\<\>"]; \
+\[IndentingNewLine]\[IndentingNewLine]omstr = 
+          StringReplace[
+            StringJoin[
+              MapIndexed["\<    \>" <> 
+                    outputstringlistV[\([#2[\([1]\)]]\)] <> "\< <+ \>" <> 
+                    ToString[CForm[#1]] <> "\<;\n\>" &, 
+                om . xstringlistp /. \((0. )\) \[Rule] 
+                    0\[IndentingNewLine]]], "\<\"\>" -> "\<\>"]; \
+\[IndentingNewLine]\[IndentingNewLine]Export[
+          filename, \[IndentingNewLine]"\<`include \"constants.vams\"\n\
+`include \"disciplines.vams\"\n\nmodule imsSystem(\>" <> 
+            imsListToString[
+              Join[parstringlist, inputstringlist, outstringlist, 
+                inoutstringlist]] <> "\<);\n\>" <> \[IndentingNewLine]"\<  \
+input \>" <> imsListToString[
+              Join[parstringlist, 
+                inputstringlist]] <> "\<;\n\>" <> \[IndentingNewLine]"\<  \
+output \>" <> 
+            imsListToString[
+              outstringlist] <> "\<;\n\>" <> \[IndentingNewLine]"\<  inout \
+\>" <> imsListToString[inoutstringlist] <> "\<;\n\>" <> 
+            StringJoin[
+              MapThread["\<  \>" <> #1 <> "\< \>" <> #2 <> "\<;\n\>" &, {Join[
+                    discipld[\([All, 1]\)], discipl1], 
+                  Join[parstringlist, inputstringlist, outstringlist, 
+                    inoutstringlist]}]] <> \[IndentingNewLine]"\<  kinematic \
+\>" <> imsListToString[xstringlist] <> "\<;\n\>" <> \[IndentingNewLine]If[
+              imsSecondOrderQ[sys2], "\<  kinematic_v \>" <> 
+                imsListToString[
+                  xdotstringlist] <> "\<;\n\>", "\<\>"] \
+<> \[IndentingNewLine]"\<  analog begin\n\>" <> \[IndentingNewLine]"\<    \
+@(initial_step) begin\n\>" <> \[IndentingNewLine]If[imsSecondOrderQ[sys2], 
+              StringJoin[\("\<      Vel(xvel\>" <> 
+                      ToString[#] <> "\<) <+ 0;\n\>" &\) /@ 
+                  Range[DimU]], "\<\>"] \
+<> \[IndentingNewLine]StringJoin[\("\<      Pos(x\>" <> 
+                    ToString[#] <> "\<) <+ 0;\n\>" &\) /@ 
+                Range[DimU]] <> \[IndentingNewLine]"\<    end\n\>" \
+<> \[IndentingNewLine]If[imsSecondOrderQ[sys2], 
+              StringJoin[\("\<    Vel(xvel\>" <> 
+                      ToString[#] <> "\<) <+ ddt(Pos(x\>" <> 
+                      ToString[#] <> "\<));\n\>" &\) /@ 
+                  Range[DimU]], "\<\>"] <> sysstr <> 
+            omstr <> \[IndentingNewLine]"\<  end\n\>" <> \[IndentingNewLine]"\
+\<endmodule\>", "\<Text\>"]\[IndentingNewLine]]\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*<< \
+"\</home_loc/lieneman/Projekte/Mathematica/PolynomialSystem/System.m\>"*) \)\(\
+\[IndentingNewLine]\)\(<< \
+"\</home_loc/lieneman/Projekte/Mathematica/HDLExport/HDLExport.m\>"\)\)\)], \
+"Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(sys2 = 
+      imsMakeSystem[\ {{l1, l2, l3}, {l4, l5, 
+            l6}}, \ {\ {{k1, k2}, {k3, k4}\ }, {{kk1, kk2}, {kk3, 
+              kk4}\ }}, \ {\ {{d1, d2}, {d3, 
+              d4}}\ }\ ]\), "\[IndentingNewLine]", 
+    \(sys = 
+      imsMakeSystem[{{l1, l2, l3}, {l4, l5, 
+            l6}}, {{{k1, k2}, {k3, k4}}}, {{{d1, d2}, {d3, 
+              d4}}}]\), "\[IndentingNewLine]", 
+    \(sys3 = 
+      imsMakeSystem[\ {{l1, l2, l3}, {l4, l5, 
+            l6}}, {\ {{k1, k2}, {k3, k4}\ }, {{kk1, kk2}, {kk3, 
+              kk4}\ }}\ , {\ {{d1, d2}, {d3, d4}\ }, {{dd1, dd2}, {dd3, 
+              dd4}\ }}, \ {\ {{i1, i2}, {i3, 
+              i4}}\ }\ ]\), "\[IndentingNewLine]", 
+    \(sys4 = 
+      imsMakeSystem[\ {{l1, l2, l3}, {l4, l5, 
+            l6}}, {\ {{k1, k2}, {k3, k4}\ }, {{kk1, kk2}, {kk3, 
+              kk4}\ }}\ , {\ {{d1, d2}, {d3, d4}\ }, {{dd1, dd2}, {dd3, 
+              dd4}\ }}, \ {\ {{i1, i2}, {i3, i4}}\ }\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("imsSystem[2, {3, 2, 1, 0}]"\)], "Output"],
+
+Cell[BoxData[
+    \("imsSystem[2, {3, 1, 1, 0}]"\)], "Output"],
+
+Cell[BoxData[
+    \("imsSystem[2, {3, 2, 2, 1}]"\)], "Output"],
+
+Cell[BoxData[
+    \("imsSystem[2, {3, 2, 2, 1}]"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(imsExportVerilogA["\</tmp/bla.va\>", \ #] &\) /@ {sys, sys2, sys3, 
+        sys4}\)], "Input"],
+
+Cell[BoxData[
+    \({"/tmp/bla.va", "/tmp/bla.va", "/tmp/bla.va", 
+      "/tmp/bla.va"}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(\((List @@ 
+            imsStiffnessToIdentity[
+              imsToSimpleSystem[\ #\ , x]])\) &\) /@ {sys, sys2, sys3, 
+        sys4}\)], "Input"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 998},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 47, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1848, 57, 31, 0, 74, "Section"],
+Cell[1882, 59, 1202, 20, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3109, 83, 35, 0, 28, "Subsubsection"],
+Cell[3147, 85, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[3768, 97, 1875, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5692, 134, 32, 0, 44, "Section"],
+Cell[5727, 136, 202, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5966, 146, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6043, 150, 26, 0, 38, "Subsection"],
+Cell[6072, 152, 495, 8, 171, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6604, 165, 34, 0, 30, "Subsection"],
+Cell[6641, 167, 286, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6964, 177, 36, 0, 30, "Subsection"],
+Cell[7003, 179, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7225, 189, 32, 0, 44, "Section"],
+Cell[7260, 191, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7385, 198, 42, 0, 44, "Section"],
+Cell[7430, 200, 174, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7641, 209, 30, 0, 44, "Section"],
+Cell[7674, 211, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8002, 221, 26, 0, 44, "Section"],
+Cell[8031, 223, 339, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8407, 234, 27, 0, 44, "Section"],
+Cell[8437, 236, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8603, 244, 29, 0, 44, "Section"],
+Cell[8635, 246, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8803, 254, 41, 0, 44, "Section"],
+Cell[8847, 256, 711, 14, 155, "Input",
+  InitializationCell->True],
+Cell[9561, 272, 6907, 129, 1307, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16505, 406, 31, 0, 74, "Section"],
+Cell[16539, 408, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16709, 416, 30, 0, 44, "Section"],
+Cell[16742, 418, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16911, 426, 30, 0, 44, "Section"],
+Cell[16944, 428, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17136, 437, 23, 0, 44, "Section"],
+Cell[17162, 439, 226, 5, 43, "Input"],
+
+Cell[CellGroupData[{
+Cell[17413, 448, 972, 20, 123, "Input"],
+Cell[18388, 470, 62, 1, 27, "Output"],
+Cell[18453, 473, 62, 1, 27, "Output"],
+Cell[18518, 476, 62, 1, 27, "Output"],
+Cell[18583, 479, 62, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18682, 485, 116, 2, 27, "Input"],
+Cell[18801, 489, 101, 2, 27, "Output"]
+}, Open  ]],
+Cell[18917, 494, 168, 4, 27, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

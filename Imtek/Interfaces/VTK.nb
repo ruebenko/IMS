@@ -1,0 +1,1057 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     42070,        905]*)
+(*NotebookOutlinePosition[     42733,        928]*)
+(*  CellTagsIndexPosition[     42689,        924]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["VTK", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ VTK . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : Christian\ Moosmann\  + \ 
+          Christian\ Bretthauer\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 7.2  .2006, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ provides\ an\ interface\ to\ export\ to\ and\ read\ \
+from\ VTK\ files\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.3  .2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      History : \ \[IndentingNewLine]\ 
+        7.2  .06\ \ *\ 
+          Hexahedron\ numbering\ changes\[IndentingNewLine]2.2  .06\ \ *\ 
+          added\ support\ for\ quadratic\ elements\[IndentingNewLine]\ \ \ \ \
+\ \ \ \ \ *\ automatic\ conversion\ form\ 2  D\ coordinates\ to\ 3  
+          D\ coords\[IndentingNewLine]\ \ \ \ \ \ \ \ \ *\ 
+          documentation\ changes\[IndentingNewLine]12.4  .06\ \ *\ 
+          added\ imsVTKRead\[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( \
+(*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      VTK\ is\ a\ Mathematica\ Package\ to\ provide\ export\ functions\ to\ \
+VTK\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(\(BeginPackage["\<Imtek`Interfaces`VTK`\>"];\)\
+\[IndentingNewLine]
+    Needs["\<Imtek`Maintenance`\>"]\[IndentingNewLine]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKScript, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      ParaView, \ $Context\ ]\[IndentingNewLine]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKFileName, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKTitle, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKVarName, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      PVFileName, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      PVClip, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      PVBackground, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      PVImageSize, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      PVCamera, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKVarName, \ $Context\ ]\[IndentingNewLine]
+    imsCreateObsoleteFunctionInterface[\ 
+      VTKVarRange, \ $Context\ ]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ *) \)\(\[IndentingNewLine]\)\(imsVTKScript::usage\  = \ \
+\[IndentingNewLine]"\<imsVTKScript[nodes,elements,options] generates a \
+VTK-file (filename specified with the imsVTKFileName option). In this file  \
+the mesh as well as the nodal solution is spezified. It can be used with e.g. \
+ParaView to perform postprocessing of a simulation\>"\[IndentingNewLine]
+    imsParaView::usage = \
+"\<imsParaView[imsVTKfileName,ModelDimensions,VariableValueRange,options] \
+generates a ParaView batch script for use with a VTK-file generated with \
+imsVTKScript.\>"\ \[IndentingNewLine]
+    imsReadVTK::usage\  = \ "\<imsReadVTK[filePath] reads unstructured as \
+well as structured-grid VTK files returning an imsNexus. For unstructured \
+grids only imsElements are supported. Point data will be returned as an \
+imsNexus without elements. Structured grid data is returned as points in the \
+center of the structured grid boxes.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(imsVTKFileName::usage\  = "\<imsVTKFileName->String, the name of the \
+file that is generated\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsVTKTitle::usage = "\<imsVTKTitle->String, the title that is \
+printed in the VTK-File\>";\)\), "\[IndentingNewLine]", 
+    \(\(\(imsVTKVarName::usage = \ "\<imsVTKVarName\[Rule]String, a string \
+that identifies the variable at the nodes\>";\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsPVFileName::usage = "\<imsPVFileName->String, the name of the file \
+that is generated. No Tilde!\>";\)\), "\[IndentingNewLine]", 
+    \(\(imsPVClip::usage = "\<Define a clipping plane.\>";\)\), "\
+\[IndentingNewLine]", 
+    \(imsPVBackground::usage = "\<Define the background color\>"\), "\
+\[IndentingNewLine]", 
+    \(imsPVImageSize::usage = "\<Define the image size\>"\), "\
+\[IndentingNewLine]", 
+    \(imsPVImageName::usage = "\<Define the image base-name. No Tilde!\>"\), \
+"\[IndentingNewLine]", 
+    \(imsPVCamera::usage = "\<Define the camera viewpoint\>"\), "\
+\[IndentingNewLine]", 
+    \(imsVTKVarName::usage = "\<Define a different variable name. It has to \
+be the same as defined in imsVTKScript. Both functions use the same \
+default.\>"\), "\[IndentingNewLine]", 
+    \(imsVTKVarRange::usage = "\<For transient results, define the number of \
+steps.\>"\), "\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Error\ Messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(imsVTKScript::"\<NumVar\>" = \
+"\<Too many variable components, VTK can only handle 4!\>";\)\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[{
+    \(Needs["\<Imtek`MeshElementLibrary`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Interfaces`EasyMesh`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Nodes`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Graph`\>"]\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Options[
+          imsVTKScript] = {imsVTKFileName \[Rule] "\<MathExport.vtk\>", 
+          imsVTKTitle \[Rule] "\<VTK-File generated by VTKWrite, IMS, \
+Mathematica\>", imsVTKVarName \[Rule] "\<Variable\>"};\)\[IndentingNewLine]
+    \(Options[imsParaView] = {imsPVFileName \[Rule] "\<MathExport.pvb\>", 
+          imsPVClip \[Rule] {}, imsPVBackground \[Rule] {0.5, 0.5, 0.5}, 
+          imsPVImageSize \[Rule] {600, 600}, 
+          imsPVImageName \[Rule] "\<MathExport\>", imsPVCamera -> Automatic, 
+          imsVTKVarName \[Rule] "\<Variable\>", 
+          imsVTKVarRange \[Rule] 1};\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \( (*\ selector\ *) \)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]Unprotect[\ Line\ ]; \[IndentingNewLine]Line\  /: \ 
+        LineQ[\ Line[\ a_, \ b_\ ]\ ]\  := \ 
+        True; \[IndentingNewLine]Protect[\ 
+        Line\ ]; \[IndentingNewLine]LineQ[\ ___\ ]\  := \ 
+        False;\[IndentingNewLine]*) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(\(imsVTKScript[nodes_List, 
+          elements_List, opts___] := 
+        Module[{myFileName, myTitle, numVars, myVarName, 
+            stream}, \[IndentingNewLine]myFileName = \(imsVTKFileName /. \
+{opts}\) /. Options[
+                imsVTKScript]; \[IndentingNewLine]myTitle = \(imsVTKTitle /. \
+{opts}\) /. Options[
+                imsVTKScript]; \[IndentingNewLine]myVarName = \(imsVTKVarName \
+/. {opts}\) /. Options[imsVTKScript]; \[IndentingNewLine]numVars = 
+            Last[Dimensions[imsGetValues[nodes]]]; \[IndentingNewLine]If[
+            numVars > 4, 
+            Message[imsVTKScript::"\<NumVar\>"]]; \[IndentingNewLine]stream = 
+            OpenWrite[myFileName]; \[IndentingNewLine]WriteVTKHeader[stream, 
+            myTitle]; \[IndentingNewLine]WriteVTKGrid[stream, nodes, 
+            elements]; \[IndentingNewLine]WriteVTKValues[stream, nodes, \ 
+            myVarName]; \[IndentingNewLine]Return[
+            Close[stream]];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsParaView[VTKfileName_String, ModelDimensions_List, 
+          VariableValueRange_List, opts___] := 
+        Module[{myFileName, stream, pvclip, pvbackground, pvimageSize, 
+            pvcamera, pvcamPos, pvcamTarget, pvVTKVarName, pvVTKVarRange, 
+            myimagename}, \[IndentingNewLine]myFileName = \(imsPVFileName /. \
+{opts}\) /. Options[
+                imsParaView]; \[IndentingNewLine]pvclip = \(imsPVClip /. \
+{opts}\) /. Options[
+                imsParaView]; \[IndentingNewLine]pvbackground = \
+\(imsPVBackground /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]pvimageSize = \
+\(imsPVImageSize /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]pvcamera = \
+\(imsPVCamera /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]pvVTKVarName = \
+\(imsVTKVarName /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]pvVTKVarRange = \
+\(imsVTKVarRange /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]myimagename = \
+\(imsPVImageName /. {opts}\) /. 
+              Options[imsParaView]; \[IndentingNewLine]\[IndentingNewLine]If[
+            pvcamera === 
+              Automatic, \[IndentingNewLine]Which[\[IndentingNewLine]Length[
+                  ModelDimensions] \[Equal] 2, \[IndentingNewLine]\t
+              pvcamPos = {0.5*\((ModelDimensions[\([1, 2]\)] - 
+                        ModelDimensions[\([1, 1]\)])\), 
+                  0.5*\((ModelDimensions[\([2, 2]\)] - 
+                        ModelDimensions[\([2, 1]\)])\), 
+                  2. *Max[{0.5*\((ModelDimensions[\([1, 2]\)] - 
+                              ModelDimensions[\([1, 1]\)])\), 
+                        0.5*\((ModelDimensions[\([2, 2]\)] - 
+                              ModelDimensions[\([2, 
+                                  1]\)])\)}]}; \[IndentingNewLine]\t
+              pvcamTarget = {0.5*\((ModelDimensions[\([1, 2]\)] - 
+                        ModelDimensions[\([1, 1]\)])\), 
+                  0.5*\((ModelDimensions[\([2, 2]\)] - 
+                        ModelDimensions[\([2, 1]\)])\), 
+                  0}, \[IndentingNewLine]Length[ModelDimensions] \[Equal] 
+                3, \ pvcamPos = {2*
+                    Max[{ModelDimensions[\([1, 2]\)], 
+                        ModelDimensions[\([1, 1]\)]}], 
+                  2*Max[{ModelDimensions[\([2, 2]\)], 
+                        ModelDimensions[\([2, 1]\)]}], 
+                  2*Max[{ModelDimensions[\([3, 2]\)], 
+                        ModelDimensions[\([3, 1]\)]}]}; \[IndentingNewLine]\t
+              pvcamTarget = {Max[{ModelDimensions[\([1, 2]\)], 
+                      ModelDimensions[\([1, 1]\)]}], 
+                  Max[{ModelDimensions[\([2, 2]\)], 
+                      ModelDimensions[\([2, 1]\)]}], 
+                  Max[{ModelDimensions[\([3, 2]\)], 
+                      ModelDimensions[\([3, 
+                          1]\)]}]}\[IndentingNewLine]\t], \
+\[IndentingNewLine]{pvcamPos, pvcamTarget} = 
+              pvcamera]; \[IndentingNewLine]stream = 
+            OpenWrite[myFileName]; \[IndentingNewLine]WritePVHeader[
+            stream]; \[IndentingNewLine]WritePVRead[stream, 
+            VTKfileName]; \[IndentingNewLine]WritePVRendering[stream, 
+            ToString[pvVTKVarName], IntegerPart[pvVTKVarRange], myimagename, 
+            pvbackground, pvimageSize, pvcamPos, 
+            pvcamTarget]; \[IndentingNewLine]WritePVLookupTable[stream, 
+            ToString[pvVTKVarName], 
+            VariableValueRange]; \[IndentingNewLine]\[IndentingNewLine]Which[\
+\[IndentingNewLine]pvclip \[Equal] {}, 
+            WritePVExport[
+              stream, "\<pvReader\>"], \[IndentingNewLine]True, \
+\[IndentingNewLine]WritePVClip[stream, pvclip[\([1]\)], 
+              pvclip[\([2]\)]]; \[IndentingNewLine]WritePVExport[
+              stream, "\<pvClip\>"];\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+            Close[stream]];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsReadVTK[VTKFile_] := 
+        Module[{}, \[IndentingNewLine]VTKData = 
+            imsImportVTK\ [VTKFile]; \[IndentingNewLine]Return[
+            If[imsGetGridTypeVTK[VTKData] == "\<UNSTRUCTURED_GRID\>", 
+              imsReadUnstructuredVTK[VTKData], 
+              imsReadStructuredVTK[
+                VTKData]]\[IndentingNewLine]]\[IndentingNewLine]];\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(WriteVTKHeader[
+        stream_OutputStream, title_String] := 
+      WriteString[stream, "\<# vtk DataFile Version 2.3\n\>", 
+        title, "\<\nASCII \n\n\>"]\[IndentingNewLine]\[IndentingNewLine]
+    \(WriteVTKGrid[stream_OutputStream, nodes_List, elements_List] := 
+        Module[{numPoints, numIncidentsList, newElements, CellTable\ , 
+            numCellInts, numElements, elementTypeList, dims, 
+            coords}, \[IndentingNewLine]numPoints = 
+            Length[nodes]; \[IndentingNewLine]dims = 
+            Length[imsGetCoords[nodes[\([1]\)]]]; \[IndentingNewLine]If[
+            dims \[Equal] 3, coords = imsGetCoords[nodes], 
+            coords = 
+              Transpose[
+                Join[\ Transpose[
+                    imsGetCoords[nodes]\ \ ]\ , \ {Table[
+                      0, \ {numPoints}\ ]}]]]; \[IndentingNewLine]\
+\[IndentingNewLine]WriteString[
+            stream, "\<DATASET UNSTRUCTURED_GRID\>", "\<\n\>", "\<POINTS \>", 
+            ToString[
+              numPoints], "\< float\n\>"]; \
+\[IndentingNewLine]imsMatrixToStream[stream, 
+            coords]; \[IndentingNewLine]\[IndentingNewLine]numIncidentsList = 
+            Length /@ imsGetIncidentsIds[
+                elements]; \[IndentingNewLine]newElements = 
+            Which[\ \[IndentingNewLine]Head[elements[\([1]\)]] === 
+                imsTetrahedronQuadratic1DOFSerendipity, \(# - 
+                    1 &\) /@ \((imsGetIncidentsIds[elements])\)[\([All, {1, 
+                      2, 3, 4, 5, 6, 7, 10, 8, 
+                      9}]\)]\ \ \ , \ \[IndentingNewLine]Head[
+                  elements[\([1]\)]] === 
+                imsHexahedronLinear1DOF, \(# - 
+                    1 &\) /@ \((imsGetIncidentsIds[elements])\)[\([All, {\ 8, 
+                      5, 6, 7, 4, 1, 2, 3}]\)]\ \ \ , \[IndentingNewLine]Head[
+                  elements[\([1]\)]] === 
+                imsHexahedronQuadratic1DOFSerendipity, \(# - 
+                    1 &\) /@ \((imsGetIncidentsIds[elements])\)[\([All, {\ 8, 
+                      5, 6, 7, 4, 1, 2, 3, 16, 13, 14, 15, 12, 9, 10, 11, 20, 
+                      17, 18, 19}]\)]\ \ \ , \[IndentingNewLine]True, \(# - 
+                    1 &\) /@ imsGetIncidentsIds[
+                  elements]]; \[IndentingNewLine]CellTable = 
+            Transpose[
+              Prepend[Transpose[newElements], 
+                numIncidentsList]]; \[IndentingNewLine]numCellInts = 
+            Length[Flatten[CellTable]]; \[IndentingNewLine]numElements = 
+            Length[elements]; \[IndentingNewLine]WriteString[
+            stream, "\<\n\>", "\<CELLS \>", ToString[numElements], "\< \>", 
+            ToString[
+              numCellInts], "\<\n\>"]; \[IndentingNewLine]imsMatrixToStream[
+            stream, CellTable]; \
+\[IndentingNewLine]\[IndentingNewLine]elementTypeList = 
+            Head /@ elements /. {imsTriangleLinear1DOF \[Rule] 5, 
+                imsTriangleQuadratic1DOFSerendipity \[Rule] 22, 
+                imsQuadLinear1DOF \[Rule] 9, 
+                imsQuadQuadratic1DOFSerendipity \[Rule] 23, 
+                imsTetrahedronLinear1DOF \[Rule] 10, 
+                imsTetrahedronQuadratic1DOFSerendipity \[Rule] 24, 
+                imsHexahedronLinear1DOF \[Rule] 12, 
+                imsHexahedronQuadratic1DOFSerendipity \[Rule] 
+                  25}; \[IndentingNewLine]WriteString[
+            stream, "\<\n\>", "\<CELL_TYPES \>", 
+            ToString[
+              numElements], "\<\n\>"]; \[IndentingNewLine]imsMatrixToStream[
+            stream, Partition[elementTypeList, 
+              1]]; \[IndentingNewLine]\[IndentingNewLine]WriteString[
+            stream, "\<\n\>"]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(WriteVTKValues[stream_OutputStream, nodes_List, \ name_String] := 
+        Module[{dataLength, varNum, dofNum}, \[IndentingNewLine]dataLength = 
+            Length[nodes]; \[IndentingNewLine]varNum = \(Dimensions[
+                imsGetValues[
+                  nodes]]\)[\([2]\)]; \[IndentingNewLine]dofNum = \
+\(Dimensions[imsGetValues[nodes]]\)[\([3]\)]; \[IndentingNewLine]WriteString[
+            stream, "\<POINT_DATA \>", 
+            ToString[
+              dataLength], "\<\n\>"]; \[IndentingNewLine]Which[\
+\[IndentingNewLine]varNum \[Equal] 1, \[IndentingNewLine]\t
+            WriteString[stream, "\<SCALARS \>", name, "\< float \>", 
+              ToString[
+                dofNum], "\< \n\>", "\<LOOKUP_TABLE default \n\>"]; \
+\[IndentingNewLine]\t
+            imsMatrixToStream[
+              stream, \(imsGetValues[nodes]\)[\([\ All, \ 
+                  1\ ]\)]\ ], \[IndentingNewLine]varNum > 
+              1, \[IndentingNewLine]\t
+            Do[\[IndentingNewLine]\t
+              WriteString[stream, "\<SCALARS \>", name, 
+                ToString[i], "\< float  \>", 
+                ToString[
+                  dofNum], "\< \n\>", "\<LOOKUP_TABLE default \n\>"]; \
+\[IndentingNewLine]\t
+              imsMatrixToStream[
+                stream, \(imsGetValues[nodes]\)[\([All, 
+                    i]\)]]; \[IndentingNewLine]\t
+              WriteString[stream, "\<\n\>"], {i, 1, 
+                varNum}]\[IndentingNewLine]];\[IndentingNewLine]\
+\[IndentingNewLine]];\)\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(WritePVHeader[stream_OutputStream] := 
+        WriteString[stream, "\<# ParaView Version 1.6\n\n
+\n#Initialization\n
+\nvtkSMObject foo 
+\nset proxyManager [foo GetProxyManager] 
+\nfoo Delete  
+\nvtkSMProperty foo 
+\nfoo SetCheckDomains 0 
+\nfoo Delete  \n \n\>"];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(WritePVRendering[stream_OutputStream, VTKvariableBasename_, 
+          VTKvariableNum_, ImageBasename_, bgColor_List, picSize_List, 
+          CamPos_List, CamFocus_List] := \[IndentingNewLine]WriteString[
+          stream, "\<for {set i 1} {$i < \>", 
+          ToString[IntegerPart[VTKvariableNum + 1]], "\<} {incr i} {\n
+set VarName \"\>", VTKvariableBasename, "\<$i\" \n
+set PicName \"\>", \ ImageBasename, "\<$i.jpg\" \n
+\nset Ren1 [$proxyManager NewProxy rendering DefaultDisplayWindow] \n
+$proxyManager RegisterProxy rendering Ren1 $Ren1 \n
+$Ren1 UnRegister {} \n
+[$Ren1 GetProperty BackgroundColor] SetElements3 \>", 
+          ToString[bgColor[\([1]\)]], "\< \>", 
+          ToString[bgColor[\([2]\)]], "\< \>", 
+          ToString[bgColor[\([3]\)]]\ , "\<\n
+[$Ren1 GetProperty Size] SetElements2 \>", 
+          ToString[picSize[\([1]\)]], "\< \>", 
+          ToString[picSize[\([2]\)]], "\<\n
+[$Ren1 GetProperty CameraPosition] SetElements3 \>", 
+          ToString[CamPos[\([1]\)]], "\< \>", 
+          ToString[CamPos[\([2]\)]], "\< \>", 
+          ToString[CamPos[\([3]\)]]\ , "\<\n
+[$Ren1 GetProperty CameraFocalPoint] SetElements3 \>", 
+          ToString[CamFocus[\([1]\)]], "\< \>", 
+          ToString[CamFocus[\([2]\)]], "\< \>", 
+          ToString[CamFocus[\([3]\)]]\ , "\<\n
+[$Ren1 GetProperty CameraViewUp] SetElements3 0 0 0 \n
+[$Ren1 GetProperty CameraViewAngle] SetElements1 53 \n
+[$Ren1 GetProperty CameraClippingRange] SetElements2 0.0 100.0\n \n\>"];\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(WritePVRead[stream_OutputStream, 
+          VTKfileName_String] := \[IndentingNewLine]WriteString[
+          stream, "\<set pvReader [$proxyManager NewProxy sources \
+legacyreader] \n
+$proxyManager RegisterProxy sources pvReader $pvReader \n
+$pvReader UnRegister {} \n
+[$pvReader GetProperty FileName] SetElement 0 {\>", VTKfileName, "\<} \n
+$pvReader UpdateVTKObjects \n \n\>"];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(WritePVLookupTable[stream_OutputStream, VTKvariableBasename_, 
+          scalarRange_] := \[IndentingNewLine]WriteString[
+          stream, "\<set pvLookupTable [$proxyManager NewProxy lookup_tables \
+LookupTable] \n
+$proxyManager RegisterProxy lookup_tables pvLookupTable $pvLookupTable \n
+$pvLookupTable UnRegister {} \n
+[$pvLookupTable GetProperty NumberOfTableValues] SetElements1 256 \n
+[$pvLookupTable GetProperty HueRange] SetElements2 0.667 0 \n
+[$pvLookupTable GetProperty SaturationRange] SetElements2 1 1 \n
+[$pvLookupTable GetProperty ValueRange] SetElements2 1 1 \n
+[$pvLookupTable GetProperty ScalarRange] SetElements2 \>", 
+          ToString[scalarRange[\([1]\)]], "\< \>", 
+          ToString[scalarRange[\([2]\)]], "\<\n
+[$pvLookupTable GetProperty VectorComponent] SetElements1 0 \n
+[$pvLookupTable GetProperty VectorMode] SetElements1 0 \n
+$pvLookupTable UpdateVTKObjects \n
+$pvLookupTable Build \n 
+
+\nset pvTitle [$proxyManager NewProxy text_properties TextProperty] \n
+$proxyManager RegisterProxy text_properties pvTitle $pvTitle \n
+$pvTitle UnRegister {} \n
+[$pvTitle GetProperty Color] SetElements3 1 1 1 \n
+[$pvTitle GetProperty FontFamily] SetElements1 0 \n
+[$pvTitle GetProperty Bold] SetElements1 1 \n
+[$pvTitle GetProperty Italic] SetElements1 1 \n
+[$pvTitle GetProperty Shadow] SetElements1 1 \n
+[$pvTitle GetProperty Opacity] SetElements1 1 \n
+$pvTitle UpdateVTKObjects \n
+
+\nset pvLabel [$proxyManager NewProxy text_properties TextProperty] \n
+$proxyManager RegisterProxy text_properties pvLabel $pvLabel \n
+$pvLabel UnRegister {} \n
+[$pvLabel GetProperty Color] SetElements3 1 1 1 \n
+[$pvLabel GetProperty FontFamily] SetElements1 0 \n
+[$pvLabel GetProperty Bold] SetElements1 1 \n
+[$pvLabel GetProperty Italic] SetElements1 1 \n
+[$pvLabel GetProperty Shadow] SetElements1 1 \n
+[$pvLabel GetProperty Opacity] SetElements1 1 \n
+$pvLabel UpdateVTKObjects \n
+
+\nset pvBar [$proxyManager NewProxy rendering ScalarBarActor] \n
+$proxyManager RegisterProxy scalar_bar pvBar $pvBar \n
+$pvBar UnRegister {} \n
+[$pvBar GetProperty LookupTable] AddProxy $pvLookupTable \n
+[$pvBar GetProperty TitleTextProperty] AddProxy $pvTitle \n
+[$pvBar GetProperty LabelTextProperty] AddProxy $pvLabel \n
+[$pvBar GetProperty Orientation] SetElements1 1 \n
+[$pvBar GetProperty Width] SetElements1 0.13 \n
+[$pvBar GetProperty Height] SetElements1 0.5 \n
+[$pvBar GetProperty Position] SetElements2 0.87 0.25 \n
+[$pvBar GetProperty Title] SetElement 0 {\>", VTKvariableBasename, "\<} \n
+[$pvBar GetProperty LabelFormat] SetElement 0 {%-#6.3g} \n
+[$Ren1 GetProperty Displayers] AddProxy $pvBar \n
+$pvBar UpdateVTKObjects \n \n\>"];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(WritePVClip[stream_OutputStream, pvClipOrigin_, 
+          pvClipNormal_] := \[IndentingNewLine]WriteString[
+          stream, "\<set pvClip [$proxyManager NewProxy filters Clip]\n
+$proxyManager RegisterProxy filters pvClip $pvClip\n
+$pvClip UnRegister {}\n
+[$pvClip GetProperty Input] AddProxy $pvReader \n
+\nset pvPlane [$proxyManager NewProxy implicit_functions Plane]\n
+$proxyManager RegisterProxy implicit_functions pvPlane $pvPlane\n
+$pvPlane UnRegister {}\n
+[$pvPlane GetProperty Origin] SetElements3 \>", 
+          ToString[pvClipOrigin[\([1]\)]], "\< \>", 
+          ToString[pvClipOrigin[\([2]\)]], "\< \>", 
+          ToString[pvClipOrigin[\([3]\)]], "\<\n
+[$pvPlane GetProperty Normal] SetElements3 \>", 
+          ToString[pvClipNormal[\([1]\)]], "\< \>", 
+          ToString[pvClipNormal[\([2]\)]], "\< \>", 
+          ToString[pvClipNormal[\([3]\)]], "\<\n
+$pvPlane UpdateVTKObjects\n \n
+[$pvClip GetProperty ClipFunction] AddProxy $pvPlane\n
+[$pvClip GetProperty InsideOut] SetElement 0 1\n
+$pvClip UpdateVTKObjects\n \n\>"];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(WritePVExport[stream_OutputStream, 
+          Input_] := \[IndentingNewLine]WriteString[
+          stream, "\<set pvDisplay [$proxyManager NewProxy rendering \
+DefaultDisplayer] \n
+$proxyManager RegisterProxy rendering pvDisplay $pvDisplay \n
+$pvDisplay UnRegister {}\n
+[$pvDisplay GetProperty Input] AddProxy $\>", Input, "\<\n
+[$Ren1 GetProperty Displayers] AddProxy $pvDisplay\n
+[$pvDisplay GetProperty DisplayAsOutline] SetElements1 0\n
+[$pvDisplay GetProperty ImmediateModeRendering] SetElements1 1\n
+[$pvDisplay GetProperty ScalarVisibility] SetElements1 1\n
+[$pvDisplay GetProperty ColorMode] SetElements1 1\n
+[$pvDisplay GetProperty InterpolateColorsBeforeMapping] SetElements1 1\n
+[$pvDisplay GetProperty Representation] SetElements1 2\n
+[$pvDisplay GetProperty Interpolation] SetElements1 1\n
+[$pvDisplay GetProperty LineWidth] SetElements1 1\n
+[$pvDisplay GetProperty PointSize] SetElements1 1\n
+[$pvDisplay GetProperty Position] SetElements3 0 0 0\n
+[$pvDisplay GetProperty Scale] SetElements3 1 1 1\n
+[$pvDisplay GetProperty Orientation] SetElements3 0 0 0\n
+[$pvDisplay GetProperty Origin] SetElements3 0 0 0\n
+[$pvDisplay GetProperty Opacity] SetElements1 1\n
+[$pvDisplay GetProperty Color] SetElements3 1 1 1\n
+[$pvDisplay GetProperty LookupTable] AddProxy $pvLookupTable\n
+[$pvDisplay GetProperty ScalarMode] SetElement 0 3\n
+[$pvDisplay GetProperty ColorArray] SetElement 0 $VarName \n
+$pvDisplay UpdateVTKObjects \n
+$Ren1 UpdateVTKObjects \n
+\n$Ren1 WriteImage $PicName vtkJPEGWriter
+\n}
+\n$proxyManager UnRegisterProxies\>"];\)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\(imsImportVTK[VTKFileName_] := 
+        Import[VTKFileName, "\<Table\>"];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetTitleVTK[VTKData_] := 
+        VTKData[\([2]\)];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetContentVTK[VTKData_List] := 
+        Select[\(Select[#, StringQ] &\) /@ 
+            VTKData, # \[NotEqual] {} &];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetGridTypeVTK[
+          VTKData_List] := \(VTKData[\([\(Position[
+                  VTKData, "\<DATASET\>"]\)[\([1, 
+                  1]\)]]\)]\)[\([2]\)];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetNumberOfPointsVTK[VTKData_List] := 
+        If[\[IndentingNewLine]imsGetGridTypeVTK[
+              VTKData] == "\<UNSTRUCTURED_GRID\>", \(VTKData[\([\(Position[
+                    VTKData, "\<POINTS\>"]\)[\([1, 
+                    1]\)]]\)]\)[\([2]\)], \(imsGetDimensionsVTK[
+                VTKData]\)[\([1]\)]*\(imsGetDimensionsVTK[
+                VTKData]\)[\([2]\)]*\(imsGetDimensionsVTK[
+                VTKData]\)[\([3]\)]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetNumberOfCellsVTK[
+          VTKData_List] := \(VTKData[\([\(Position[
+                  VTKData, "\<CELLS\>"]\)[\([1, 
+                  1]\)]]\)]\)[\([2]\)];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetCellTypesVTK[VTKData_List] := 
+        Flatten[Take[
+            VTKData, {\(Position[VTKData, "\<CELL_TYPES\>"]\)[\([1, 1]\)] + 
+                1, \(Position[VTKData, "\<CELL_TYPES\>"]\)[\([1, 1]\)] + 
+                imsGetNumberOfCellsVTK[
+                  VTKData]}]];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsElementLookUpTable = {{"\<Point\>", {1}}, 
+          0, {"\<imsMakeLineLinear1DOF\>", {1, 2}}, 
+          0, {"\<imsMakeTriangleLinear1DOF\>", {1, 2, 3}}, 0, 0, 
+          0, {"\<imsMakeQuadLinear1DOF\>", {1, 2, 3, 
+              4}}, {"\<imsMakeTetrahedronLinear1DOF\>", {1, 2, 3, 4}}, 
+          0, {"\<imsMakeHexahedronLinear1DOF\>", {1, 2, 3, 4, 5, 6, 7, 8}}, 
+          0, 0, 0, 0, 0, 0, 0, 
+          0, {"\<imsMakeLineQuadratic1DOF\>", {1, 2, 
+              3}}, {"\<imsMakeTriangleQuadratic1DOFSerendipity\>", {1, 2, 3, 
+              4, 5, 6}}, {"\<imsMakeQuadQuadratic1DOFSerendipity\>", {1, 2, 
+              3, 4, 5, 6, 7, 
+              8}}, {"\<imsMakeTetrahedronQuadratic1DOFSerendipity\>", {1, 2, 
+              3, 4, 5, 6, 7, 9, 10, 
+              8}}, {"\<imsMakeHexahedronQuadratic1DOFSerendipity\>", {3, 4, 
+              1, 2, 7, 8, 5, 6, 11, 12, 9, 10, 15, 16, 13, 14, 19, 20, 17, 
+              18}}};\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetNodesVTK[VTKData_] := 
+        Take[VTKData, {\(Position[VTKData, "\<POINTS\>"]\)[\([1, 1]\)] + 
+              1, \(Position[VTKData, "\<POINTS\>"]\)[\([1, 1]\)] + 
+              imsGetNumberOfPointsVTK[
+                VTKData]}];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetCellsVTK[VTKData_] := 
+        Take[VTKData + 
+            1, {\(Position[VTKData, "\<CELLS\>"]\)[\([1, 1]\)] + 
+              1, \(Position[VTKData, "\<CELLS\>"]\)[\([1, 1]\)] + 
+              imsGetNumberOfCellsVTK[
+                VTKData]}];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetScalarsVTK[VTKData_] := 
+        Module[{ScalarStarts}, \[IndentingNewLine]ScalarStarts = \(Position[
+                VTKData, "\<SCALARS\>"]\)[\([All, 
+                1]\)]; \[IndentingNewLine]Return[
+            Table[{\(VTKData[\([ScalarStarts[\([j]\)]]\)]\)[\([2]\)] <> \
+"\<:\>", VTKData[\([ScalarStarts[\([j]\)] + i]\)]}, {j, 1, 
+                Length[ScalarStarts]}, {i, 2, 
+                imsGetNumberOfPointsVTK[VTKData] + 
+                  1}]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetVectorsVTK[VTKData_] := 
+        Module[{VectorStarts}, \[IndentingNewLine]VectorStarts = \(Position[
+                VTKData, "\<VECTORS\>"]\)[\([All, 
+                1]\)]; \[IndentingNewLine]Return[
+            Table[{\(VTKData[\([VectorStarts[\([j]\)]]\)]\)[\([2]\)] <> \
+"\<:\>", VTKData[\([VectorStarts[\([j]\)] + i]\)]}, {j, 1, 
+                Length[VectorStarts]}, {i, 1, 
+                imsGetNumberOfPointsVTK[
+                  VTKData]}]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetTensorsVTK[VTKData_] := 
+        Module[{TensorStarts}, \[IndentingNewLine]TensorStarts = \(Position[
+                VTKData, "\<TENSORS\>"]\)[\([All, 
+                1]\)]; \[IndentingNewLine]Return[
+            Table[{\(VTKData[\([TensorStarts[\([j]\)]]\)]\)[\([2]\)] <> \
+"\<:\>", {VTKData[\([TensorStarts[\([j]\)] + i]\)], 
+                  VTKData[\([TensorStarts[\([j]\)] + i + 1]\)], 
+                  VTKData[\([TensorStarts[\([j]\)] + i + 2]\)]}}, {j, 1, 
+                Length[TensorStarts]}, {i, 1, 
+                3*imsGetNumberOfPointsVTK[VTKData], 
+                3}]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsGetDimensionsVTK[
+          VTKData_List] := \(VTKData[\([\(Position[
+                    VTKData, "\<DIMENSIONS\>"]\)[\([1, 1]\)]]\)]\)[\([{2, 3, 
+                4}]\)] - 1;\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetOriginVTK[
+          VTKData_List] := \(VTKData[\([\(Position[
+                  VTKData, "\<ORIGIN\>"]\)[\([1, 1]\)]]\)]\)[\([{2, 3, 
+              4}]\)];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsGetSpacingVTK[
+          VTKData_List] := \(VTKData[\([\(Position[
+                  VTKData, "\<SPACING\>"]\)[\([1, 1]\)]]\)]\)[\([{2, 3, 
+              4}]\)];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsMakeStructuredNodesVTK[VTKData_] := 
+        Module[{VTKNodes, Origin, Dimension, Spacing, Scalars, Vectors, 
+            Tensors}, \[IndentingNewLine]Origin = 
+            imsGetOriginVTK[VTKData]; \[IndentingNewLine]Dimension = 
+            imsGetDimensionsVTK[VTKData]; \[IndentingNewLine]Spacing = 
+            imsGetSpacingVTK[VTKData]; \[IndentingNewLine]Scalars = 
+            imsGetScalarsVTK[VTKData]; \[IndentingNewLine]Vectors = 
+            imsGetVectorsVTK[VTKData]; \[IndentingNewLine]Tensors = 
+            imsGetTensorsVTK[VTKData]; \[IndentingNewLine]VTKNodes = 
+            Flatten[Table[{Origin[\([1]\)] + i*Spacing[\([1]\)], 
+                  Origin[\([2]\)] + j*Spacing[\([2]\)], 
+                  Origin[\([3]\)] + k*Spacing[\([3]\)]}, {k, 1, 
+                  Dimension[\([3]\)]}, {j, 1, Dimension[\([2]\)]}, {i, 1, 
+                  Dimension[\([1]\)]}], 2]; \[IndentingNewLine]Return[
+            Table[imsMakeNode[i, VTKNodes[\([i]\)], 
+                Flatten[{Scalars[\([All, i]\)], Vectors[\([All, i]\)], 
+                    Tensors[\([All, i]\)]}, 1]], {i, 1, 
+                Length[VTKNodes]}]];\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsReadUnstructuredVTK[VTKData_] := 
+        Module[{VTKNodes, VTKCellTypes, Incidences, Scalars, Vectors, 
+            Tensors, AllNodesIMSStyle, 
+            AllElementsIMSStyle}, \[IndentingNewLine]VTKNodes = 
+            imsGetNodesVTK[
+              VTKData]; \[IndentingNewLine]VTKCellTypes = \
+\(imsElementLookUpTable[\([#]\)] &\) /@ 
+              imsGetCellTypesVTK[VTKData]; \[IndentingNewLine]Incidences = 
+            imsGetCellsVTK[VTKData]; \[IndentingNewLine]Scalars = 
+            imsGetScalarsVTK[VTKData]; \[IndentingNewLine]Vectors = 
+            imsGetVectorsVTK[VTKData]; \[IndentingNewLine]Tensors = 
+            imsGetTensorsVTK[VTKData]; \[IndentingNewLine]AllNodesIMSStyle = 
+            Table[imsMakeNode[i, VTKNodes[\([i]\)], 
+                Flatten[{Scalars[\([All, i]\)], Vectors[\([All, i]\)], 
+                    Tensors[\([All, i]\)]}, 1]], {i, 1, 
+                Length[VTKNodes]}]; \[IndentingNewLine]AllElementsIMSStyle = \
+\[IndentingNewLine]If[\(VTKCellTypes[\([1]\)]\)[\([1]\)] == "\<Point\>", {}, \
+\[IndentingNewLine]Table[\(ToExpression[\(VTKCellTypes[\([i]\)]\)[\([1]\)]]\)[
+                  1, \(Drop[Incidences[\([i]\)], 
+                      1]\)[\([\(VTKCellTypes[\([i]\)]\)[\([2]\)]]\)]], {i, 1, 
+                  Length[VTKCellTypes]}]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+            imsMakeNexus[\ {}, AllNodesIMSStyle, \ 
+              AllElementsIMSStyle]]\[IndentingNewLine]];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsReadStructuredVTK[VTKData_] := 
+        Module[{AllNodesIMSStyle}, \[IndentingNewLine]AllNodesIMSStyle = 
+            imsMakeStructuredNodesVTK[VTKData]; \[IndentingNewLine]Return[
+            imsMakeNexus[\ {}, 
+              AllNodesIMSStyle, \ {}]]\[IndentingNewLine]];\)\
+\[IndentingNewLine]
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( \
+(*\[IndentingNewLine]Unprotect[\ 
+        Graphics\ ]; \[IndentingNewLine]\[IndentingNewLine]Graphics[\ 
+          aLineList : {_Line\  .. }\ , \ 
+          options___\ ] := \[IndentingNewLine]\ 
+        Graphics[\ 
+          Line[\ \[IndentingNewLine]\(Through[\ \(List[\ GetPointX, \ 
+                      GetPointY\ ]\)[\ #\ ]\ ]\  &\)\  /@ 
+              Flatten[\ \[IndentingNewLine]\(Through[\ \(List[GetLineStart, \ 
+                          GetLineEnd]\)[\ #\ ]\ ]\  &\)\  /@ \ 
+                  aLineList\[IndentingNewLine]]\[IndentingNewLine]\ ], \ 
+          options\[IndentingNewLine]]\ ; \[IndentingNewLine]\
+\[IndentingNewLine]Protect[\ 
+        Graphics\ ];\[IndentingNewLine]*) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(End[]\)\(\ \)\( (*\ of\ Begin\ Private\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \("Imtek`Interfaces`VTK`Private`"\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\  (*\ 
+        anything\ *) \ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\
+\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1310, 929},
+WindowMargins->{{44, Automatic}, {0, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 23, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1824, 57, 31, 0, 74, "Section"],
+Cell[1858, 59, 1703, 29, 490, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3586, 92, 63, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[3652, 95, 534, 8, 91, "Input",
+  InitializationCell->True],
+Cell[4189, 105, 1839, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6077, 142, 32, 0, 44, "Section"],
+Cell[6112, 144, 1380, 30, 283, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[7529, 179, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[7606, 183, 54, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[7663, 186, 1166, 18, 270, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8866, 209, 62, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[8931, 212, 1419, 26, 270, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10387, 243, 64, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[10454, 246, 313, 5, 110, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10816, 257, 32, 0, 44, "Section"],
+Cell[10851, 259, 88, 2, 30, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10976, 266, 42, 0, 44, "Section"],
+Cell[11021, 268, 292, 5, 90, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11350, 278, 30, 0, 44, "Section"],
+Cell[11383, 280, 279, 5, 130, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11699, 290, 26, 0, 44, "Section"],
+Cell[11728, 292, 798, 13, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12563, 310, 27, 0, 44, "Section"],
+Cell[12593, 312, 79, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12709, 319, 29, 0, 44, "Section"],
+Cell[12741, 321, 385, 8, 150, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13163, 334, 41, 0, 44, "Section"],
+Cell[13207, 336, 5632, 101, 1230, "Input",
+  InitializationCell->True],
+Cell[18842, 439, 13084, 252, 3610, "Input",
+  InitializationCell->True],
+Cell[31929, 693, 8677, 157, 1650, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[40643, 855, 31, 0, 44, "Section"],
+Cell[40677, 857, 825, 16, 235, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41539, 878, 30, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[41594, 882, 112, 2, 27, "Input",
+  InitializationCell->True],
+Cell[41709, 886, 65, 1, 70, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[41823, 893, 30, 0, 44, "Section"],
+Cell[41856, 895, 186, 6, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

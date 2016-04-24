@@ -1,0 +1,1806 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     78067,       1567]*)
+(*NotebookOutlinePosition[     78751,       1591]*)
+(*  CellTagsIndexPosition[     78707,       1587]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Time Integrate", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ TimeIntegrate . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : \ 
+        Christian\ Moosmann\ and\ Jan\ Lienemann\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ Date : \ 22.6  .2005, \ 
+      Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ package\ is\ a\ collection\ of\ time\ integrators*) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1  .3\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.11\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(\(History\)\(:\)\), \
+\[IndentingNewLine]07.12  .2005 : \ imsNewmarkIntegrate, \ 
+      0.25\  \[Rule] \ 
+        1/4\ for\ rational\ Numbers, \[IndentingNewLine]11.01  .2007 : \ 
+        Now\ supports\ dot\ products\ in\ excitation\ function\ of\ nonlinear\
+\ parts, \[IndentingNewLine]15.1  .2007 : \ \(NewtonIterate : \ 
+          HoldAll\  + \ 
+            Blocks\ in\ NewtonSolve\), \[IndentingNewLine]24.1  .2007 : \ 
+        Replaced\ some\ replaces\ by\ Blocks, \[IndentingNewLine]22.2  .2007 \
+: \ Included\ imsSystem\ in\ the\ packages\ that\ are\ publically\ loaded\ as\
+\ default . \ o . 
+            r . \ \[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Sources\)\(:\)\ *) \)\
+\(\[IndentingNewLine]\)\( (*\ \(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\
+\( (*\ \(Limitations\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Discussion\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\
+\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Examples\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ \(<\)\(one\ line\ to\ give\ the\ program' 
+          s\ name\ and\ a\ brief\ idea\ of\ what\ it\ \
+\(\(does\)\(.\)\)\)\(>\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Copyright\ \((C)\)\  < year > \  < 
+        name\ of\ author > \ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\
+\ free\ software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`TimeIntegrate`\>", \
+{"\<Imtek`System`\>"}];\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    RowBox[{\( (*\ *) \), "\[IndentingNewLine]", \( (*\ documentation\ *) \), 
+      "\[IndentingNewLine]", \( (*\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \( (*\ constructors\ *) \), 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", \( (*\ selectors\ *) \), 
+      "\[IndentingNewLine]", "\n", \( (*\ predicates\ *) \), 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", \( (*\ functions\ *) \), 
+      "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", \( (*imsVerletIntegrate::usage = \
+"\<imsVerletIntegrate[imsSystem sys, {Symbol tvar, Number tstart, Number \
+tend, Number dt},List x0, List v0, Function excitation] is a Verlet explicit \
+time integrator for a second order system.\>"; \[IndentingNewLine]\
+\[IndentingNewLine]imsNewmarkIntegrate::usage = \
+"\<imsNewmarkIntegrate[imsSystem sys, {Symbol tvar, Number tstart, Number \
+tend, Number dt},List x0, List v0, Function excitation] is a Newmark time \
+integrator for a second order system. The Newmark parameters can be given as \
+option imsNewmarkIntegrateGamma.\>"; \
+\[IndentingNewLine]\[IndentingNewLine]imsNewmarkIntegrateTimeVariant::usage = \
+"\<imsNewmarkIntegrate[imsSystem sys, {Symbol tvar, Number tstart, Number \
+tend, Number dt},List x0, List v0, Function excitation] is a Newmark time \
+integrator for a second order system. The Newmark parameters can be given as \
+option imsNewmarkIntegrateGamma. Matrices can depend on tvar.\>"; \
+\[IndentingNewLine]\[IndentingNewLine]imsTrapezoidalIntegrate::usage = \
+"\<imsTrapezoidalIntegrate[imsSystem sys, {Symbol tvar, Number tstart, Number \
+tend, Number dt},List x0, Function excitation] is a trapzoidal rule time \
+integrator for a first order system. The integrator parameter can be tuned \
+with imsTrapezoidTheta.\>"; \
+\[IndentingNewLine]\[IndentingNewLine]\
+imsTrapezoidalIntegrateTimeVariant::usage = \
+"\<imsTrapezoidalIntegrateTimeVariant[imsSystem sys, {Symbol tvar, Number \
+tstart, Number tend, Number dt},List x0, Function excitation] is a trapzoidal \
+rule time integrator for a first order system. The integrator parameter can \
+be tuned with imsTrapezoidTheta.  Matrices can depend on tvar.\>";\
+\[IndentingNewLine]\[IndentingNewLine]*) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{\(imsTimeIntegrate::usage = \
+"\<imsTimeIntegrate[sys_imsSystem,{tvar_Symbol,tstart_Number, tend_Number, \
+dt_Number}, x0_List, (v0_List,) excitation] integrates the imsSystem sys from \
+time tstart to tstop starting with the states x0 and, in the case of second \
+order systems, with velocities v0. The matrices may depend on the time \
+variable tvar.\>";\), "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+          
+          RowBox[{\(imsTimeIntegrateNonlinear::usage\), "=", 
+            "\"\<imsTimeIntegrateNonlinear[sys_imsSystem, xvar_Symbol, \
+{tvar_Symbol,tstart_Number, tend_Number, dt_Number}, x0_List, (v0_List,) \
+excitation] integrates the nonlinear imsSystem sys from time tstart to tstop \
+starting with the states x0 and, in the case of second order systems, with \
+velocities v0. The matrices may depend on the time variable tvar and on the \
+states xvar[\!\(\*
+StyleBox[\"i\",\nFontSlant->\"Italic\"]\)]\>\""}], ";"}], 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(imsStationarySolveNonlinear::usage = \
+"\<imsStationarySolveNonlinear[sys_imsSystem, xvar_Symbol, {tvar_Symbol, \
+currentime_Number}] solves a stationary nonlinear system at time currenttime.\
+\>"\), "\[IndentingNewLine]", 
+        "\n", \( (*imsNewmarkIntegrateNonlinear::usage = \
+"\<imsNewmarkIntegrateNonlinear[imsSystem sys, {Symbol tvar, Number tstart, \
+Number tend, Number dt}, Symbol xvar, List x0, List v0, Function excitation] \
+is a Newmark time integrator for a second order system. The Newmark \
+parameters can be given as option imsNewmarkIntegrateGamma. Matrices can \
+depend on tvar and xvar.\>"; \
+\[IndentingNewLine]\[IndentingNewLine]imsTrapezoidalIntegrateNonlinear::usage \
+= "\<imsNewmarkIntegrate[imsSystem sys, {Symbol tvar, Number tstart, Number \
+tend, Number dt}, Symbol xvar, List x0, Function excitation] is a Newmark \
+time integrator for a second order system. The Newmark parameters can be \
+given as option imsNewmarkIntegrateGamma. Matrices can depend on tvar and \
+xvar.\>"; \[IndentingNewLine]\[IndentingNewLine]imsNewtonIterate::usage = \
+"\<imsNewtonIterate[imsSystem sys, {Symbol tvar, Number t}, Symbol xvar, \
+Function excitation] is a Newton solver for a stationary system. Matrices can \
+depend on tvar and xvar.\>";*) \)}]}]], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsOutputSteps::usage = "\<Number of result steps to \
+write\>"\[IndentingNewLine]
+    imsNewmarkIntegrateGamma::usage = "\<Damping parameter for newmark \
+integration\>"\[IndentingNewLine]
+    StepMonitor::usage = "\<Step monitor as used by NDSolve\>"\
+\[IndentingNewLine]
+    imsTrapezoidalIntegrateTheta::usage = "\<Implicit parameter\>"\
+\[IndentingNewLine]
+    imsMethod::usage = "\<Integration method\>"\[IndentingNewLine]
+    imsInitialAcc::usage = "\<Initial acceleration\>"\[IndentingNewLine]
+    imsInitialVel::usage = "\<Initial velocity\>"\[IndentingNewLine]
+    imsInitialState::usage = "\<Initial state\>"\[IndentingNewLine]
+    imsMaxIterations::usage = "\<Maximal number of iterations for Newton\>"\
+\[IndentingNewLine]
+    imsMaxResidual::usage = "\<Convergence criterion: Residual\>"\
+\[IndentingNewLine]
+    imsMaxDOFChange::usage = "\<Convergence criterion: Change of DOFs\>"\
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+      For\ StepMonitor\ *) \[IndentingNewLine]
+    \(imsResidualL2Norm::usage = "\<Variable for L2 norm of residual\>";\)\
+\[IndentingNewLine]
+    \(imsIterationNumber::usage = "\<Variable for iteration number\>";\)\
+\[IndentingNewLine]
+    \(imsStateVar::usage = "\<Variable for states\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(imsTimeIntegrate::"\<method\>" = "\<Method `1` not \
+known.\>"\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Needs["\<Utilities`FilterOptions`\>"];\)\
+\[IndentingNewLine]
+    \(Needs["\<Imtek`SystemAnalysis`\>"];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(Options[
+          imsVerletIntegrate] = {imsOutputSteps \[Rule] All, 
+          imsInitialAcc \[Rule] Automatic, 
+          StepMonitor \[Rule] None};\)\[IndentingNewLine]
+    \(Options[imsVerletIntegrateTimeVariant] = {imsOutputSteps \[Rule] All, 
+          imsInitialAcc \[Rule] Automatic, 
+          StepMonitor \[Rule] None};\)\[IndentingNewLine]
+    \(Options[imsNewmarkIntegrate] = {imsOutputSteps \[Rule] All, 
+          imsNewmarkIntegrateGamma \[Rule] 5/100, StepMonitor \[Rule] None, 
+          imsInitialAcc \[Rule] Automatic};\)\[IndentingNewLine]
+    \(Options[imsNewmarkIntegrateTimeVariant] = {imsOutputSteps \[Rule] All, 
+          imsNewmarkIntegrateGamma \[Rule] 5/100, StepMonitor \[Rule] None, 
+          imsInitialAcc \[Rule] Automatic};\)\[IndentingNewLine]
+    \(Options[imsTrapezoidalIntegrate] = {imsOutputSteps \[Rule] All, 
+          imsTrapezoidalIntegrateTheta \[Rule] 1, 
+          imsInitialVel \[Rule] Automatic, 
+          StepMonitor \[Rule] None};\)\[IndentingNewLine]
+    \(Options[
+          imsTrapezoidalIntegrateTimeVariant] = {imsOutputSteps \[Rule] All, 
+          imsTrapezoidalIntegrateTheta \[Rule] 1, 
+          imsInitialVel \[Rule] Automatic, 
+          StepMonitor \[Rule] None};\)\[IndentingNewLine]
+    \(Options[imsNewmarkIntegrateNonlinear] = {imsOutputSteps \[Rule] All, 
+          imsNewmarkIntegrateGamma \[Rule] 5/100, StepMonitor \[Rule] None, 
+          imsInitialAcc \[Rule] Automatic, imsMaxIterations \[Rule] 20, 
+          imsMaxResidual \[Rule] 1*^-10, 
+          imsMaxDOFChange \[Rule] Infinity};\)\[IndentingNewLine]
+    \(Options[
+          imsTrapezoidalIntegrateNonlinear] = {imsOutputSteps \[Rule] All, 
+          imsTrapezoidalIntegrateTheta \[Rule] 1, StepMonitor \[Rule] None, 
+          imsInitialVel \[Rule] Automatic, imsMaxIterations \[Rule] 20, 
+          imsMaxResidual \[Rule] 1*^-10, 
+          imsMaxDOFChange \[Rule] Infinity};\)\[IndentingNewLine]
+    Options[imsNewtonSolve] = {StepMonitor \[Rule] None, 
+        imsInitialState \[Rule] Automatic, imsMaxIterations \[Rule] 20, 
+        imsMaxResidual \[Rule] 1*^-10, 
+        imsMaxDOFChange \[Rule] 
+          Infinity}\[IndentingNewLine]\[IndentingNewLine]
+    \(Options[
+          imsStationarySolveNonlinear] = {imsMethod \[Rule] 
+            Automatic};\)\[IndentingNewLine]
+    \(Options[imsTimeIntegrate] = {imsMethod \[Rule] Automatic, 
+          imsInitialVel \[Rule] Automatic, imsInitialAcc \[Rule] Automatic, 
+          imsOutputSteps \[Rule] All, 
+          StepMonitor \[Rule] None};\)\[IndentingNewLine]
+    \(Options[imsTimeIntegrateNonlinear] = {imsMethod \[Rule] Automatic, 
+          imsInitialVel \[Rule] Automatic, imsInitialAcc \[Rule] Automatic, 
+          imsOutputSteps \[Rule] All, 
+          StepMonitor \[Rule] None};\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Private functions", "Subsection"],
+
+Cell[BoxData[{
+    \(\(\(Options[
+          NewtonIterate] = {StepMonitor \[Rule] 
+            None};\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(NewtonIterate[xvar_, func_, tangentfunc_, start_, maxIt_, maxRes_, 
+          maxDx_, t_, tvar_, opts___] := 
+        Module[{stepMon, funcr, tangentfuncr, x = start, xi, f, rules, j = 0, 
+            res, resn, 
+            dx = Table[
+                Infinity, {Length[
+                    start]}]}, \[IndentingNewLine]stepMon := \(StepMonitor /. \
+{opts}\) /. Options[NewtonIterate]; \[IndentingNewLine]\[IndentingNewLine]Do[
+            xi[i] = x[\([i]\)], {i, Length[x]}]; \[IndentingNewLine]funcr[
+              x2_] := Block[{xvar = x2}, 
+              func]; \[IndentingNewLine]tangentfuncr[x2_] := 
+            Block[{xvar = x2}, 
+              tangentfunc]; \[IndentingNewLine]\[IndentingNewLine]res = 
+            funcr[xi]; \[IndentingNewLine]resn = 
+            Norm[Flatten[
+                res]]; \[IndentingNewLine]While[\((\(++j\) \[LessEqual] 
+                  maxIt)\) && \((\((resn > 
+                      maxRes)\) || \((Max[Abs /@ Flatten[dx]] > 
+                      maxDx)\))\), \[IndentingNewLine]\[IndentingNewLine]dx = 
+              LinearSolve[tangentfuncr[xi], \(-res\), 
+                FilterOptions[LinearSolve, opts]]; \[IndentingNewLine]x += 
+              dx; \[IndentingNewLine]Do[
+              xi[i] = x[\([i]\)], {i, Length[x]}]; \[IndentingNewLine]res = 
+              funcr[xi]; \[IndentingNewLine]resn = 
+              Norm[Flatten[
+                  res]]; \[IndentingNewLine]\[IndentingNewLine]Block[{tvar = 
+                  t, imsResidualL2Norm = resn, xvar = x, imsStateVar = x, 
+                imsIterationNumber = j}, 
+              stepMon];\[IndentingNewLine]\[IndentingNewLine]]; \
+\[IndentingNewLine]Return[
+            x];\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(SetAttributes[NewtonIterate, HoldAll];\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(ArcLengthIterate[xvar_, func_, tangentfunc_, start_, maxIt_, maxRes_, 
+          maxDx_, t_, stepMon_, opts___] := 
+        Module[{funcr, tangentfuncr, 
+            x = start}, \[IndentingNewLine]\[IndentingNewLine]funcr[x2_] := 
+            Block[{xvar = x2}, func]; \[IndentingNewLine]tangentfuncr[x2_] := 
+            Block[{xvar = x2}, 
+              tangentfunc]; \[IndentingNewLine]\[IndentingNewLine]Return[
+            x];];\)\), "\[IndentingNewLine]", 
+    \(\(SetAttributes[ArcLengthIterate, HoldFirst];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Zeroth order", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Newton", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNewtonSolve[
+        System_imsSystem /; \((imsStationaryQ[System] && 
+              Not[imsParametricQ[System]])\), xvar_, {tvar_, tstart_}, 
+        excitation_: \(({1})\), opts___] := 
+      Module[{stepMon, firstState, maxIt, maxRes, maxDu, matS, load, xvec, 
+          start, func, jacobian, derivvars, a, b, tfunc, row, y, 
+          func0}, \[IndentingNewLine]stepMon := \(StepMonitor /. {opts}\) /. 
+            Options[imsNewtonSolve]; \[IndentingNewLine]firstState = \
+\(imsInitialState /. {opts}\) /. 
+            Options[imsNewtonSolve]; \[IndentingNewLine]maxIt = \
+\(imsMaxIterations /. {opts}\) /. 
+            Options[imsNewtonSolve]; \[IndentingNewLine]maxRes = \
+\(imsMaxResidual /. {opts}\) /. 
+            Options[imsNewtonSolve]; \[IndentingNewLine]maxDu = \
+\(imsMaxDOFChange /. {opts}\) /. 
+            Options[imsNewtonSolve]; \[IndentingNewLine]matS = \
+\(imsGetStiffness[System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]xvec = 
+          Table[xvar[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]start = 
+          Which[\[IndentingNewLine]firstState === Automatic, 
+            Table[0, {Length[imsGetLoad[System]]}], \[IndentingNewLine]True, 
+            firstState]; \
+\[IndentingNewLine]imsDebugMessage["\<Imtek`TimeIntegrate`imsNewtonSolve\>", 
+          1, "\<Basic preparing done\>"]; \[IndentingNewLine]func0 = 
+          Flatten[Block[{tvar = 
+                  tstart}, \(\((matS . xvec - load . excitation)\) /. 
+                  xvar[b : ___] \[Rule] y[b]\) /. 
+                xvar \[Rule] 
+                  xvec]]; \
+\[IndentingNewLine]imsDebugMessage["\<Imtek`TimeIntegrate`imsNewtonSolve\>", 
+          1, "\<Preparing function 1 done\>"]; \[IndentingNewLine]func = 
+          Block[{y = xvar}, 
+            func0]; \[IndentingNewLine]imsDebugMessage["\<Imtek`TimeIntegrate`\
+imsNewtonSolve\>", 
+          1, "\<Preparing function done\>"]; \[IndentingNewLine]jacobian = 
+          SparseArray[\((Rule[#[\([All, 1]\)], #[\([All, 2]\)]] &)\)[
+              Flatten[\[IndentingNewLine]MapIndexed[\((\[IndentingNewLine] \
+(*\(If[Mod[#2[\([1]\)], 100] \[Equal] 0, 
+                            Print[#2[\([1]\)]]];\)*) \[IndentingNewLine]\
+derivvars = Transpose[Union[Cases[#1, 
+                              b : xvar[a : _] \[Rule] {b, 
+                                  a}, {0, \[Infinity]}]]]; \
+\[IndentingNewLine]row = #2[\([1]\)]; \[IndentingNewLine]MapThread[{{row, \
+#1}, #2} &, {derivvars[\([2]\)], 
+                          D[#1, {derivvars[\([1]\)]}]}]\[IndentingNewLine])\) \
+&, func], \[IndentingNewLine]1]], {Length[xvec], 
+              Length[xvec]}]; \
+\[IndentingNewLine]imsDebugMessage["\<Imtek`TimeIntegrate`imsNewtonSolve\>", 
+          1, "\<Jacobian done\>"]; \[IndentingNewLine] (*\ 
+          tfunc[t2_, xx_, vv_] = 
+            Block[{tvar = t2, oldstatev = xx, oldvelv = vv}, 
+              SparseArray[D[func[t2, oldstatev, oldvelv], {xvec}]]]; \ 
+          which\ is\ \(\(faster\)\(?\)\)\ *) \[IndentingNewLine]tfunc = 
+          Block[{tvar = tstart}, 
+            jacobian]; \[IndentingNewLine]\[IndentingNewLine]Return[
+          NewtonIterate[xvar, func, tfunc, start, maxIt, maxRes, maxDu, 
+            tstart, tvar, FilterOptions[LinearSolve, opts], 
+            FilterOptions[NewtonIterate, 
+              opts]]];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Second order", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Verlet", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsVerletIntegrate[sys_imsSystem, {tvar_Symbol, tstart_, tend_, dt_}, 
+        x0_List, v0_List, aexcitation_: \(({1})\), 
+        opts___] := \[IndentingNewLine]Module[{\[IndentingNewLine]mat, d, k, 
+          f, t2, excitation, \[IndentingNewLine]x = x0, v = v0, t = tstart, 
+          acc, accstart, v12, \[IndentingNewLine]numsteps, outfreq, minv, 
+          firstAcc, stepMon\[IndentingNewLine]}, \[IndentingNewLine] (*\ 
+          Parse\ options\ *) \[IndentingNewLine]firstAcc = \(imsInitialAcc /. \
+{opts}\) /. Options[
+              imsVerletIntegrate]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsVerletIntegrate]; \[IndentingNewLine]\
+\[IndentingNewLine]numSteps = \((tend - tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsVerletIntegrate]; \[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]mat = \(imsGetInertia[\ 
+              sys\ ]\)[\([1]\)]; \[IndentingNewLine]d = \(imsGetDamping[\ 
+              sys\ ]\)[\([1]\)]; \[IndentingNewLine]k = \(imsGetStiffness[\ 
+              sys\ ]\)[\([1]\)]; \[IndentingNewLine]f = 
+          imsGetLoad[\ sys\ ]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, aexcitation]; \n\[IndentingNewLine]minv = 
+          LinearSolve[mat, 
+            FilterOptions[LinearSolve, 
+              opts]]; \[IndentingNewLine]\[IndentingNewLine]accstart = \(acc \
+= Switch[firstAcc, Automatic, 
+              minv[\(-d . v\) - k . x + f . excitation[t]], _, 
+              firstAcc]\); \[IndentingNewLine]Transpose[
+          Prepend[Table[
+              Do[t = \((j*outfreq + i)\)*dt + tstart; \[IndentingNewLine]x = 
+                  x + dt*v + dt^2/2*acc; \[IndentingNewLine]v12 = 
+                  v + dt/2*acc; \[IndentingNewLine]acc = 
+                  minv[\(-d . v12\) - k . x + 
+                      f . excitation[t]]; \[IndentingNewLine]v = 
+                  v12 + dt/2*acc;, {i, 
+                  outfreq}]; \[IndentingNewLine]Block[{tvar = t, 
+                  imsStateVar = x}, stepMon]; \[IndentingNewLine]{t, x, v, 
+                acc}, {j, 0, numSteps/outfreq - 1}], {tstart, x0, v0, 
+              accstart}]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Verlet Time Variant", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsVerletIntegrateTimeVariant[
+        sys_imsSystem, {tvar_Symbol, tstart_, tend_, dt_}, x0_List, v0_List, 
+        aexcitation_: \(({1})\), 
+        opts___] := \[IndentingNewLine]Module[{\[IndentingNewLine]mat, d, k, 
+          f, excitation, \ \[IndentingNewLine]x = x0, v = v0, t = tstart, 
+          acc, accstart, v12, \[IndentingNewLine]numsteps, outfreq, minv, 
+          firstAcc, 
+          stepMon, \[IndentingNewLine]t2\[IndentingNewLine]}, \
+\[IndentingNewLine] (*\ 
+          Parse\ options\ *) \[IndentingNewLine]firstAcc = \(imsInitialAcc /. \
+{opts}\) /. Options[
+              imsVerletIntegrateTimeVariant]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsVerletIntegrateTimeVariant]; \[IndentingNewLine]\
+\[IndentingNewLine]numSteps = \((tend - tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsVerletIntegrateTimeVariant]; \
+\[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]mat[t2_] := 
+          Block[{tvar = t2}, \(imsGetInertia[\ 
+                sys\ ]\)[\([1]\)]]; \[IndentingNewLine]d[t2_] := 
+          Block[{tvar = t2}, \(imsGetDamping[\ 
+                sys\ ]\)[\([1]\)]]; \[IndentingNewLine]k[t2_] := 
+          Block[{tvar = t2}, \(imsGetStiffness[\ 
+                sys\ ]\)[\([1]\)]]; \[IndentingNewLine]f[t2_] := 
+          Block[{tvar = t2}, 
+            imsGetLoad[\ sys\ ]]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, 
+            aexcitation]; \n\[IndentingNewLine]accstart = \(acc = 
+            Switch[firstAcc, Automatic, 
+              LinearSolve[
+                mat[t], \(-d[t] . v\) - k[t] . x + f[t] . excitation[t], 
+                FilterOptions[LinearSolve, opts]], _, 
+              firstAcc]\); \[IndentingNewLine]Transpose[
+          Prepend[Table[
+              Do[t = \((j*outfreq + i)\)*dt + tstart; \[IndentingNewLine]x = 
+                  x + dt*v + dt^2/2*acc; \[IndentingNewLine]v12 = 
+                  v + dt/2*acc; \[IndentingNewLine]acc = 
+                  LinearSolve[
+                    mat[t], \(-d[t] . v12\) - k[t] . x + 
+                      f[t] . excitation[t]]; \[IndentingNewLine]v = 
+                  v12 + dt/2*acc;, {i, 
+                  outfreq}]; \[IndentingNewLine]Block[{tvar = t, 
+                  imsStateVar = x}, stepMon]; \[IndentingNewLine]{t, x, v, 
+                acc}, {j, 0, numSteps/outfreq - 1}], {tstart, x0, v0, 
+              accstart}]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Newmark", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNewmarkIntegrate[
+        System_imsSystem /; \((imsSecondOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, vel0_, aexcitation_: \(({1})\), opts___] := 
+      Module[{alpha, delta, a0, a1, a2, a3, a4, a5, a6, a7, resList, 
+          numSteps, oldstate, oldvel, oldacc, newstate, newvel, newacc, 
+          integrationFunc, gamma, t = 0, outfreq, stepMon, firstAcc, acc0, 
+          time, matS, matD, matM, load, excitation, t2, actualExcit, 
+          a}, \[IndentingNewLine]gamma = \(imsNewmarkIntegrateGamma /. {opts}\
+\) /. Options[
+              imsNewmarkIntegrate]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]firstAcc = \
+\(imsInitialAcc /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]\
+\[IndentingNewLine]alpha = \((1/
+                4)\)\ *\((1 + gamma)\)^2; \[IndentingNewLine]delta = \((1/
+                2)\) + gamma; \[IndentingNewLine]a0 = 
+          1/\((alpha*dt^2)\); \[IndentingNewLine]a1 = 
+          delta/\((alpha*dt)\); \[IndentingNewLine]a2 = 
+          1/\((alpha*dt)\); \[IndentingNewLine]a3 = 
+          1/\((2*alpha)\) - 1; \[IndentingNewLine]a4 = 
+          delta/alpha\  - 1; \[IndentingNewLine]a5 = 
+          dt/2*\((\ delta\ /\ alpha\  - 2)\); \[IndentingNewLine]a6 = 
+          dt\ *\((\ 1\  - delta\ )\); \[IndentingNewLine]a7 = 
+          delta\ *\ 
+            dt; \[IndentingNewLine]\[IndentingNewLine]numSteps = \((tstop - 
+                tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]matM \
+= \(imsGetInertia[
+              System]\)[\([1]\)]; \[IndentingNewLine]matD = \(imsGetDamping[
+              System]\)[\([1]\)]; \[IndentingNewLine]matS = \(imsGetStiffness[
+              System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, aexcitation]; \[IndentingNewLine]t = 
+          tstart; \[IndentingNewLine]\[IndentingNewLine]acc0 = 
+          Which[\[IndentingNewLine]firstAcc === Automatic, 
+            LinearSolve[
+              matM, \((load . 
+                    excitation[t] - \((matD . vel0)\) - \((matS . 
+                      state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstAcc\[IndentingNewLine]]; \[IndentingNewLine]integrationFunc \
+= LinearSolve[a0*matM + a1*matD + matS, 
+            FilterOptions[LinearSolve, 
+              opts]]; \[IndentingNewLine]resList = {{t, state0, vel0, 
+              acc0}}; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]oldacc = 
+          acc0; \[IndentingNewLine]\[IndentingNewLine]Do[\[IndentingNewLine]\
+Do[t = \((j*outfreq + i)\)*dt + tstart; \[IndentingNewLine]Do[
+              stateVar[i] = oldstate[\([i]\)], {i, 1, 
+                Length[state0]}]; \[IndentingNewLine]newstate = 
+              integrationFunc[
+                Normal[load . excitation[t] + 
+                    matM . \((a0*oldstate + a2*oldvel + a3*oldacc)\) + 
+                    matD . \((a1*oldstate + a4*oldvel + 
+                          a5*oldacc)\)]]; \[IndentingNewLine]\
+\[IndentingNewLine]newacc = 
+              a0*\((newstate - oldstate)\) - a2*oldvel\  - \ 
+                a3*oldacc; \[IndentingNewLine]\[IndentingNewLine]newvel = 
+              oldvel + a6*oldacc + 
+                a7*newacc; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel; \[IndentingNewLine]oldacc = 
+              newacc;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, newvel, 
+              newacc}]; \[IndentingNewLine]Block[{tvar = t, 
+              imsStateVar = newstate}, stepMon];\[IndentingNewLine], {j, 0, 
+            numSteps/outfreq - 1}]; \[IndentingNewLine]Return[
+          Transpose[resList]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Newmark Time Variant", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNewmarkIntegrateTimeVariant[
+        System_imsSystem /; \((imsSecondOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, vel0_, aexcitation_: \(({1})\), opts___] := 
+      Module[{alpha, delta, a0, a1, a2, a3, a4, a5, a6, a7, resList, 
+          numSteps, oldstate, oldvel, oldacc, newstate, newvel, newacc, 
+          integrationFunc, gamma, t, t2, outfreq, stepMon, firstAcc, acc0, 
+          time, matS, matD, matM, load, 
+          excitation}, \[IndentingNewLine]gamma = \(imsNewmarkIntegrateGamma /. \
+{opts}\) /. Options[
+              imsNewmarkIntegrateTimeVariant]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsNewmarkIntegrateTimeVariant]; \
+\[IndentingNewLine]firstAcc = \(imsInitialAcc /. {opts}\) /. 
+            Options[imsNewmarkIntegrateTimeVariant]; \[IndentingNewLine]\
+\[IndentingNewLine]alpha = \((1/
+                4)\)*\((1 + gamma)\)^2; \[IndentingNewLine]delta = \((1/
+                2)\) + gamma; \[IndentingNewLine]a0 = 
+          1/\((alpha*dt^2)\); \[IndentingNewLine]a1 = 
+          delta/\((alpha*dt)\); \[IndentingNewLine]a2 = 
+          1/\((alpha*dt)\); \[IndentingNewLine]a3 = 
+          1/\((2*alpha)\) - 1; \[IndentingNewLine]a4 = 
+          delta/alpha\  - 1; \[IndentingNewLine]a5 = 
+          dt/2*\((\ delta\ /\ alpha\  - 2)\); \[IndentingNewLine]a6 = 
+          dt\ *\((\ 1\  - delta\ )\); \[IndentingNewLine]a7 = 
+          delta\ *\ 
+            dt; \[IndentingNewLine]\[IndentingNewLine]numSteps = \((tstop - 
+                tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsNewmarkIntegrateTimeVariant]; \
+\[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]matM[
+            t2_] := Block[{tvar = t2}, \(imsGetInertia[\ 
+                System\ ]\)[\([1]\)]]; \[IndentingNewLine]matD[t2_] := 
+          Block[{tvar = t2}, \(imsGetDamping[\ 
+                System\ ]\)[\([1]\)]]; \[IndentingNewLine]matS[t2_] := 
+          Block[{tvar = t2}, \(imsGetStiffness[\ 
+                System\ ]\)[\([1]\)]]; \[IndentingNewLine]load[t2_] := 
+          Block[{tvar = t2}, 
+            imsGetLoad[\ System\ ]]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, aexcitation]; \[IndentingNewLine]t = 
+          tstart; \[IndentingNewLine]\[IndentingNewLine]acc0 = 
+          Which[\[IndentingNewLine]firstAcc === Automatic, 
+            LinearSolve[
+              matM[t], \((load[t] . 
+                    excitation[t] - \((matD[t] . vel0)\) - \((matS[t] . 
+                      state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstAcc\[IndentingNewLine]]; \[IndentingNewLine]resList = {{t, 
+              state0, vel0, 
+              acc0}}; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]oldacc = 
+          acc0; \[IndentingNewLine]\[IndentingNewLine]Do[\[IndentingNewLine]\
+Do[t = \((j*outfreq + i)\)*dt + tstart; \[IndentingNewLine]newstate = 
+              LinearSolve[a0*matM[t] + a1*matD[t] + matS[t], \ 
+                Normal[load[t] . excitation[t] + 
+                    matM[t] . \((a0*oldstate + a2*oldvel + a3*oldacc)\) + 
+                    matD[t] . \((a1*oldstate + a4*oldvel + a5*oldacc)\)], 
+                FilterOptions[LinearSolve, 
+                  opts]]; \[IndentingNewLine]\[IndentingNewLine]newacc = 
+              a0*\((newstate - oldstate)\) - a2*oldvel\  - \ 
+                a3*oldacc; \[IndentingNewLine]\[IndentingNewLine]newvel = 
+              oldvel + a6*oldacc + 
+                a7*newacc; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel; \[IndentingNewLine]oldacc = 
+              newacc;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, newvel, 
+              newacc}]; \[IndentingNewLine]Block[{tvar = t, 
+              imsStateVar = newstate}, stepMon];\[IndentingNewLine], {j, 0, 
+            numSteps/outfreq - 1}]; \[IndentingNewLine]Return[
+          Transpose[resList]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Newmark Nonlinear RHS", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNewmarkIntegrateNonlinearRHS[
+        System_imsSystem /; \((imsSecondOrderQ[System] && 
+              Not[imsParametricQ[System]])\), 
+        xvar_, {tvar_, tstart_, tstop_, dt_}, state0_, vel0_, 
+        aexcitation_: \(({1})\), opts___] := 
+      Module[{alpha, delta, a0, a1, a2, a3, a4, a5, a6, a7, resList, 
+          numSteps, oldstate, oldvel, oldacc, newstate, newvel, newacc, 
+          integrationFunc, gamma, t = 0, outfreq, stepMon, firstAcc, acc0, 
+          time, matS, matD, matM, load, excitation, t2, actualExcit, 
+          a}, \[IndentingNewLine]gamma = \(imsNewmarkIntegrateGamma /. {opts}\
+\) /. Options[
+              imsNewmarkIntegrate]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]firstAcc = \
+\(imsInitialAcc /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]\
+\[IndentingNewLine]alpha = \((1/
+                4)\)\ *\((1 + gamma)\)^2; \[IndentingNewLine]delta = \((1/
+                2)\) + gamma; \[IndentingNewLine]a0 = 
+          1/\((alpha*dt^2)\); \[IndentingNewLine]a1 = 
+          delta/\((alpha*dt)\); \[IndentingNewLine]a2 = 
+          1/\((alpha*dt)\); \[IndentingNewLine]a3 = 
+          1/\((2*alpha)\) - 1; \[IndentingNewLine]a4 = 
+          delta/alpha\  - 1; \[IndentingNewLine]a5 = 
+          dt/2*\((\ delta\ /\ alpha\  - 2)\); \[IndentingNewLine]a6 = 
+          dt\ *\((\ 1\  - delta\ )\); \[IndentingNewLine]a7 = 
+          delta\ *\ 
+            dt; \[IndentingNewLine]\[IndentingNewLine]numSteps = \((tstop - 
+                tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsNewmarkIntegrate]; \[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]matM \
+= \(imsGetInertia[
+              System]\)[\([1]\)]; \[IndentingNewLine]matD = \(imsGetDamping[
+              System]\)[\([1]\)]; \[IndentingNewLine]matS = \(imsGetStiffness[
+              System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, aexcitation]; \[IndentingNewLine]t = 
+          tstart; \[IndentingNewLine]\[IndentingNewLine]actualExcit = 
+          excitation[t] /. 
+            xvar[a_] :> state0[\([a]\)]; \[IndentingNewLine]acc0 = 
+          Which[\[IndentingNewLine]firstAcc === Automatic, 
+            LinearSolve[
+              matM, \((load . 
+                    actualExcit - \((matD . vel0)\) - \((matS . state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstAcc\[IndentingNewLine]]; \[IndentingNewLine]integrationFunc \
+= LinearSolve[a0*matM + a1*matD + matS, 
+            FilterOptions[LinearSolve, 
+              opts]]; \[IndentingNewLine]resList = {{t, state0, vel0, 
+              acc0}}; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]oldacc = 
+          acc0; \[IndentingNewLine]\[IndentingNewLine]Do[\[IndentingNewLine]\
+Do[t = \((j*outfreq + i)\)*dt + tstart; \[IndentingNewLine]Do[
+              stateVar[i] = oldstate[\([i]\)], {i, 1, 
+                Length[state0]}]; \[IndentingNewLine]actualExcit = 
+              excitation[t] /. 
+                xvar[a_] :> oldstate[\([a]\)]; \[IndentingNewLine]newstate = 
+              integrationFunc[
+                Normal[load . actualExcit + 
+                    matM . \((a0*oldstate + a2*oldvel + a3*oldacc)\) + 
+                    matD . \((a1*oldstate + a4*oldvel + 
+                          a5*oldacc)\)]]; \[IndentingNewLine]\
+\[IndentingNewLine]newacc = 
+              a0*\((newstate - oldstate)\) - a2*oldvel\  - \ 
+                a3*oldacc; \[IndentingNewLine]\[IndentingNewLine]newvel = 
+              oldvel + a6*oldacc + 
+                a7*newacc; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel; \[IndentingNewLine]oldacc = 
+              newacc;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, newvel, 
+              newacc}]; \[IndentingNewLine]Block[{tvar = t, 
+              imsStateVar = newstate}, stepMon];\[IndentingNewLine], {j, 0, 
+            numSteps/outfreq - 1}]; \[IndentingNewLine]Return[
+          Transpose[resList]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Newmark Nonlinear/Newton", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsNewmarkIntegrateNonlinear[
+        System_imsSystem /; \((imsSecondOrderQ[System] && 
+              Not[imsParametricQ[System]])\), 
+        xvar_, {tvar_, tstart_, tstop_, dt_}, state0_, vel0_, 
+        excitation_: \(({1})\), opts___] := 
+      Module[{alpha, delta, a0, a1, a2, a3, a4, a5, a6, a7, 
+          gamma,  (*\(stepMon\)\(,\)*) firstAcc, maxIt, maxRes, maxDu, 
+          numSteps, outfreq, matM, matD, matS, load, xvec, oldstatevec, 
+          oldvelvec, oldaccvec, \ oldstatev, oldvelv, oldaccv, oldstate, 
+          oldvel, oldacc, func, \ tfunc, \[IndentingNewLine]t = tstart, xi, 
+          matM0, matD0, matS0, load0, resList, derivvars, derivrow, a, 
+          b, \[IndentingNewLine]xx, vv, aa, oldstatei, oldveli, oldacci, 
+          excitation0, 
+          y\[IndentingNewLine]}, \[IndentingNewLine]\[IndentingNewLine]gamma \
+= \(imsNewmarkIntegrateGamma /. {opts}\) /. 
+            Options[imsNewmarkIntegrateNonlinear]; \
+\[IndentingNewLine]firstAcc = \(imsInitialAcc /. {opts}\) /. 
+            Options[imsNewmarkIntegrateNonlinear]; \[IndentingNewLine]maxIt = \
+\(imsMaxIterations /. {opts}\) /. 
+            Options[imsNewmarkIntegrateNonlinear]; \[IndentingNewLine]maxRes \
+= \(imsMaxResidual /. {opts}\) /. 
+            Options[imsNewmarkIntegrateNonlinear]; \[IndentingNewLine]maxDu = \
+\(imsMaxDOFChange /. {opts}\) /. 
+            Options[imsNewmarkIntegrateNonlinear]; \[IndentingNewLine]\n
+        alpha = \((1/4)\)*\((1 + gamma)\)^2; \[IndentingNewLine]delta = \((1/
+                2)\) + gamma; \[IndentingNewLine]a0 = 
+          1/\((alpha*dt^2)\); \[IndentingNewLine]a1 = 
+          delta/\((alpha*dt)\); \[IndentingNewLine]a2 = 
+          1/\((alpha*dt)\); \[IndentingNewLine]a3 = 
+          1/\((2*alpha)\) - 1; \[IndentingNewLine]a4 = 
+          delta/alpha - 1; \[IndentingNewLine]a5 = 
+          dt/2*\((delta/alpha - 2)\); \[IndentingNewLine]a6 = 
+          dt*\((1 - delta)\); \[IndentingNewLine]a7 = 
+          delta*dt; \[IndentingNewLine]\[IndentingNewLine]numSteps = \((tstop \
+- tstart)\)/dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsNewmarkIntegrateTimeVariant]; \
+\[IndentingNewLine]outfreq = 
+          Switch[outfreq, _Integer, numSteps/outfreq, _, 
+            1]; \[IndentingNewLine]\[IndentingNewLine] (*f[x2_] := 
+            Block[{xvar = x2}, func]; \[IndentingNewLine]t[x2_] := 
+            Block[{xvar = x2}, 
+              tangentfunc];*) \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Get\ matrices\ *) \[IndentingNewLine]matM = \(imsGetInertia[
+              System]\)[\([1]\)]; \[IndentingNewLine]matD = \(imsGetDamping[
+              System]\)[\([1]\)]; \[IndentingNewLine]matS = \(imsGetStiffness[
+              System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Form\ variable\ vectors\ for\ building\ scalar\ products\ and\ \
+derivatives\ *) \[IndentingNewLine]xvec = 
+          Table[xvar[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]oldstatevec = 
+          Table[oldstatev[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]oldaccvec = 
+          Table[oldaccv[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]oldvelvec = 
+          Table[oldvelv[i], {i, 
+              Length[imsGetLoad[
+                  System]]}]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Get\ initial\ acceleration\ *) \[IndentingNewLine]oldacc = 
+          Which[firstAcc === Automatic, \[IndentingNewLine]Do[
+              xi[i] = state0[\([i]\)], {i, 
+                Length[state0]}]; \[IndentingNewLine]matM0 = 
+              Block[{xvar = xi, tvar = t}, matM]; \[IndentingNewLine]matD0 = 
+              Block[{xvar = xi, tvar = t}, matD]; \[IndentingNewLine]matS0 = 
+              Block[{xvar = xi, tvar = t}, matS]; \[IndentingNewLine]load0 = 
+              Block[{xvar = xi, tvar = t}, 
+                load]; \[IndentingNewLine]excitation0 = 
+              Block[{xvar = xi, tvar = t}, 
+                excitation]; \[IndentingNewLine]LinearSolve[
+              matM0, \((load0 . 
+                    excitation0 - \((matD0 . vel0)\) - \((matS0 . 
+                      state0)\))\), FilterOptions[LinearSolve, opts]], True, 
+            firstAcc]; \[IndentingNewLine]\[IndentingNewLine]func[t2_, xx_, 
+            vv_, aa_] := 
+          Flatten[Block[{tvar = t2, oldstatev = xx, oldaccv = aa, 
+                oldvelv = 
+                  vv}, \(\(\((matS . xvec + 
+                        matM . \((\(-a0\)*\((oldstatevec - xvec)\) - 
+                              a2*oldvelvec - a3*oldaccvec)\) + 
+                        matD . \((oldvelvec + a6*oldaccvec - 
+                              a7*\((a0*\((oldstatevec - xvec)\) + 
+                                    a2*oldvelvec + a3*oldaccvec)\))\) - 
+                        load . excitation)\) /. xvar[b : ___] \[Rule] y[b]\) /. 
+                  xvar \[Rule] xvec\) /. 
+                y \[Rule] 
+                  xvar]]; \[IndentingNewLine]\[IndentingNewLine]jacobian = 
+          SparseArray[\[IndentingNewLine]Flatten[
+              MapIndexed[\((derivrow = #2[\([1]\)]; 
+                    If[Mod[derivrow, 10] \[Equal] 0, 
+                      Block[{tvar = t, imsResidualL2Norm = 0. , 
+                          imsStateVar = state0, xvar = state0, 
+                          imsIterationNumber = derivrow}, 
+                        stepMon]]; \[IndentingNewLine]derivvars = 
+                      Transpose[
+                        Union[Cases[#1, 
+                            b : xvar[a : _] \[Rule] {b, 
+                                a}, {0, \[Infinity]}]]]; \
+\[IndentingNewLine]MapThread[\(({derivrow, #1} \[Rule] #2)\) &, \
+{derivvars[\([2]\)], 
+                        D[#1, {derivvars[\([1]\)]}]}]\[IndentingNewLine] \
+(*jacobian[\([#2[\([1]\)], derivvars[\([2]\)]]\)] = 
+                        D[#1, {derivvars[\([1]\)]}]*) \[IndentingNewLine])\) \
+&, func[tvar, oldstatev, oldvelv, oldaccv]], 1]]; \[IndentingNewLine] (*\ 
+          tfunc[t2_, xx_, vv_, aa_] = 
+            Block[{tvar = t2, oldstatev = xx, oldaccv = aa, oldvelv = vv}, 
+              SparseArray[
+                D[func[t2, oldstatev, oldvelv, oldaccv], {xvec}]]]; \ 
+          which\ is\ \(\(faster\)\(?\)\)\ *) \[IndentingNewLine]tfunc[t2_, 
+            xx_, vv_, aa_] := 
+          Block[{tvar = t2, oldstatev = xx, oldvelv = vv, oldaccv = aa}, 
+            jacobian]; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]resList = {{t, state0, vel0, 
+              oldacc}}; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]Do[\[IndentingNewLine]\[IndentingNewLine]t = \((j*
+                        outfreq + i)\)*dt + tstart; \[IndentingNewLine]Do[
+              oldstatei[i] = oldstate[\([i]\)], {i, 
+                Length[oldstate]}]; \[IndentingNewLine]Do[
+              oldveli[i] = oldvel[\([i]\)], {i, 
+                Length[oldvel]}]; \[IndentingNewLine]Do[
+              oldacci[i] = oldacc[\([i]\)], {i, 
+                Length[oldacc]}]; \[IndentingNewLine]\[IndentingNewLine] \
+(*\(stepMon := \(StepMonitor /. {opts}\) /. 
+                    Options[
+                      imsNewmarkIntegrateNonlinear];\)*) \[IndentingNewLine]\
+\[IndentingNewLine]newstate = 
+              NewtonIterate[xvar, func[t, oldstatei, oldveli, oldacci], 
+                tfunc[t, oldstatei, oldveli, oldacci], oldstate, maxIt, 
+                maxRes, maxDu, t, tvar, FilterOptions[LinearSolve, opts], 
+                FilterOptions[NewtonIterate, 
+                  opts]]; \[IndentingNewLine]\[IndentingNewLine]newacc = 
+              a0*\((newstate - oldstate)\) - a2*oldvel - 
+                a3*oldacc; \[IndentingNewLine]newvel = 
+              oldvel + a6*oldacc + a7*newacc; \[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel; \[IndentingNewLine]oldacc = newacc;, {i, 
+              outfreq}]; \[IndentingNewLine]\[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, newvel, 
+              newacc}];\[IndentingNewLine], {j, 0, 
+            numSteps/outfreq - 
+              1}\[IndentingNewLine]]; \[IndentingNewLine]Return[
+          Transpose[resList]];\n]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["First Order", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Trapezoidal Time Variant", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsTrapezoidalIntegrateTimeVariant[
+        System_imsSystem /; \((imsFirstOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, aexcitation_: \(({1})\), opts___] := 
+      Module[{theta, t, t2, firstVel, vel0, integrationFunc, oldstate, 
+          newstate, oldvel, newvel, resList, matD, matS, load, numSteps, 
+          outfreq, stepMon, 
+          excitation}, \[IndentingNewLine]theta = \
+\(imsTrapezoidalIntegrateTheta /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateTimeVariant]; \
+\[IndentingNewLine]firstVel = \(imsInitialVel /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateTimeVariant]; \
+\[IndentingNewLine]stepMon := \(StepMonitor /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateTimeVariant]; \[IndentingNewLine]\
+\[IndentingNewLine]numSteps = \((tstop - tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateTimeVariant]; \
+\[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]\[IndentingNewLine]matD[
+            t2_] := Block[{tvar = t2}, \(imsGetDamping[\ 
+                System\ ]\)[\([1]\)]]; \[IndentingNewLine]matS[t2_] := 
+          Block[{tvar = t2}, \(imsGetStiffness[\ 
+                System\ ]\)[\([1]\)]]; \[IndentingNewLine]load[t2_] := 
+          Block[{tvar = t2}, 
+            imsGetLoad[\ System\ ]]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, aexcitation]; \[IndentingNewLine]t = 
+          tstart; \[IndentingNewLine]vel0 = 
+          Which[\[IndentingNewLine]firstVel === Automatic, 
+            LinearSolve[
+              matD[t], \((load[t] . 
+                    excitation[t] - \((matS[t] . state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstVel\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]resList = {{t, state0, 
+              vel0}}; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]Do[\[IndentingNewLine]Do[
+            t = \((j*outfreq + i)\)*dt + 
+                tstart; \[IndentingNewLine]newstate = 
+              LinearSolve[matD[t]/\((theta*dt)\) + matS[t], 
+                Normal[load[t] . excitation[t] + 
+                    matD[t] . \((oldstate/\((theta*dt)\) + 
+                          oldvel*\((1 - theta)\)/theta)\)], 
+                FilterOptions[LinearSolve, 
+                  opts]]; \[IndentingNewLine]\[IndentingNewLine]newvel = \
+\((newstate - oldstate)\)/\((theta*dt)\) - 
+                oldvel*\((1 - theta)\)/
+                    theta; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, 
+              newvel}]; \[IndentingNewLine]\[IndentingNewLine]Block[{tvar = 
+                t, imsStateVar = newstate}, stepMon];\[IndentingNewLine], {j, 
+            0, numSteps/outfreq - 1}]; \[IndentingNewLine]Return[
+          Transpose[resList]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Trapezoidal", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsTrapezoidalIntegrate[
+        System_imsSystem /; \((imsFirstOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, aexcitation_: \(({1})\), opts___] := 
+      Module[{theta, t, t2, firstVel, vel0, integrationFunc, oldstate, 
+          newstate, oldvel, newvel, resList, matD, matS, load, numSteps, 
+          outfreq, stepMon, 
+          excitation}, \[IndentingNewLine]theta = \
+\(imsTrapezoidalIntegrateTheta /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrate]; \[IndentingNewLine]firstVel = \
+\(imsInitialVel /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrate]; \[IndentingNewLine]stepMon := \
+\(StepMonitor /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrate]; \[IndentingNewLine]\
+\[IndentingNewLine]numSteps = \((tstop - tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrate]; \[IndentingNewLine]outfreq = 
+          Switch[outfreq, \[IndentingNewLine]_Integer, 
+            numSteps/outfreq, \[IndentingNewLine]_, 
+            1\[IndentingNewLine]]; \[IndentingNewLine]matD = \(imsGetDamping[
+              System]\)[\([1]\)]; \[IndentingNewLine]matS = \(imsGetStiffness[
+              System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]excitation[t2_] := 
+          Block[{tvar = t2}, 
+            aexcitation]; \[IndentingNewLine]\[IndentingNewLine]t = 
+          tstart; \[IndentingNewLine]vel0 = 
+          Which[\[IndentingNewLine]firstVel === Automatic, 
+            LinearSolve[
+              matD, \((load . excitation[t] - \((matS . state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstVel\[IndentingNewLine]]; \[IndentingNewLine]integrationFunc \
+= LinearSolve[matD/\((theta*dt)\) + matS, 
+            FilterOptions[LinearSolve, 
+              opts]]; \[IndentingNewLine]\[IndentingNewLine]resList = {{t, 
+              state0, vel0}}; \[IndentingNewLine]\[IndentingNewLine]oldstate \
+= state0; \[IndentingNewLine]oldvel = 
+          vel0; \[IndentingNewLine]Do[\[IndentingNewLine]Do[
+            t = \((j*outfreq + i)\)*dt + 
+                tstart; \[IndentingNewLine]newstate = 
+              integrationFunc[
+                Normal[load . excitation[t] + 
+                    matD . \((oldstate/\((theta*dt)\) + 
+                          oldvel*\((1 - theta)\)/
+                              theta)\)]]; \[IndentingNewLine]\
+\[IndentingNewLine]newvel = \((newstate - oldstate)\)/\((theta*dt)\) - 
+                oldvel*\((1 - theta)\)/
+                    theta; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, 
+              newvel}]; \[IndentingNewLine]\[IndentingNewLine]Block[{tvar = 
+                t, imsStateVar = newstate}, stepMon];\[IndentingNewLine], {j, 
+            0, numSteps/outfreq - 1}]; \[IndentingNewLine]Return[
+          Transpose[resList]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Trapezoidal Nonlinear/Newton", "Subsubsection"],
+
+Cell[BoxData[
+    \(imsTrapezoidalIntegrateNonlinear[
+        System_imsSystem /; \((imsFirstOrderQ[System] && 
+              Not[imsParametricQ[System]])\), 
+        xvar_, {tvar_, tstart_, tstop_, dt_}, state0_, 
+        excitation_: \(({1})\), opts___] := 
+      Module[{theta,  (*\(stepMon\)\(,\)*) firstVel, maxIt, maxRes, maxDu, 
+          numSteps, outfreq, matD, matS, load, xvec, oldstatevec, 
+          oldvelvec, \ oldstatev, oldvelv, oldstate, oldvel, func, \ 
+          tfunc, \[IndentingNewLine]t = tstart, xi, matM0, matD0, matS0, 
+          load0, derivvars, resList, a, b, jacobian, \[IndentingNewLine]xx, 
+          vv, oldstatei, oldveli, excitation0, i, 
+          y\[IndentingNewLine]}, \[IndentingNewLine]theta = \
+\(imsTrapezoidalIntegrateTheta /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \[IndentingNewLine] \
+(*\(stepMon := \(StepMonitor /. {opts}\) /. 
+                Options[
+                  imsTrapezoidalIntegrateNonlinear];\)*) \[IndentingNewLine]\
+firstVel = \(imsInitialVel /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \
+\[IndentingNewLine]maxIt = \(imsMaxIterations /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \
+\[IndentingNewLine]maxRes = \(imsMaxResidual /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \
+\[IndentingNewLine]maxDu = \(imsMaxDOFChange /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \[IndentingNewLine]\n
+        numSteps = \((tstop - tstart)\)/
+            dt; \[IndentingNewLine]outfreq = \(imsOutputSteps /. {opts}\) /. 
+            Options[imsTrapezoidalIntegrateNonlinear]; \
+\[IndentingNewLine]outfreq = 
+          Switch[outfreq, _Integer, numSteps/outfreq, _, 
+            1]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Get\ matrices\ *) \[IndentingNewLine]matD = \(imsGetDamping[
+              System]\)[\([1]\)]; \[IndentingNewLine]matS = \(imsGetStiffness[
+              System]\)[\([1]\)]; \[IndentingNewLine]load = 
+          imsGetLoad[System]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Form\ variable\ vectors\ for\ building\ scalar\ products\ and\ \
+derivatives\ *) \[IndentingNewLine]xvec = 
+          Table[xvar[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]oldstatevec = 
+          Table[oldstatev[i], {i, 
+              Length[imsGetLoad[System]]}]; \[IndentingNewLine]oldvelvec = 
+          Table[oldvelv[i], {i, 
+              Length[imsGetLoad[
+                  System]]}]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
+          Get\ initial\ acceleration\ *) \[IndentingNewLine]oldvel = 
+          Which[firstVel === Automatic, \[IndentingNewLine]Do[
+              xi[i] = state0[\([i]\)], {i, 
+                Length[state0]}]; \[IndentingNewLine]matD0 = 
+              Block[{xvar = xi, tvar = t}, matD]; \[IndentingNewLine]matS0 = 
+              Block[{xvar = xi, tvar = t}, matS]; \[IndentingNewLine]load0 = 
+              Block[{xvar = xi, tvar = t}, 
+                load]; \[IndentingNewLine]excitation0 = 
+              Block[{xvar = xi, tvar = t}, 
+                excitation]; \[IndentingNewLine]LinearSolve[
+              matD0, \((load0 . excitation0 - \((matS0 . state0)\))\), 
+              FilterOptions[LinearSolve, opts]], \[IndentingNewLine]True, 
+            firstVel]; \[IndentingNewLine]\[IndentingNewLine]func[t2_, xx_, 
+            vv_] := Flatten[
+            Block[{tvar = t2, oldstatev = xx, 
+                oldvelv = 
+                  vv}, \(\(\((matD . \((\(\((xvec - oldstatevec)\)/theta\)/
+                                dt - \((1 - theta)\)/theta*oldvelvec)\) + 
+                        matS . xvec - load . excitation)\) /. 
+                    xvar[b : ___] \[Rule] y[b]\) /. xvar \[Rule] xvec\) /. 
+                y \[Rule] 
+                  xvar]]; \[IndentingNewLine]\[IndentingNewLine]jacobian = 
+          SparseArray[\[IndentingNewLine]Flatten[
+              MapIndexed[\((derivrow = #2[\([1]\)]; 
+                    If[Mod[derivrow, 10] \[Equal] 0, 
+                      Block[{tvar = t, imsResidualL2Norm = 0. , 
+                          imsStateVar = state0, xvar = state0, 
+                          imsIterationNumber = derivrow}, 
+                        stepMon]]; \[IndentingNewLine]derivvars = 
+                      Transpose[
+                        Union[Cases[#1, 
+                            b : xvar[a : _] \[Rule] {b, 
+                                a}, {0, \[Infinity]}]]]; \
+\[IndentingNewLine]MapThread[\(({derivrow, #1} \[Rule] #2)\) &, \
+{derivvars[\([2]\)], 
+                        D[#1, {derivvars[\([1]\)]}]}]\[IndentingNewLine])\) \
+&, \[IndentingNewLine]func[tvar, oldstatev, 
+                  oldvelv]], \[IndentingNewLine]1]\[IndentingNewLine]]; \
+\[IndentingNewLine]\[IndentingNewLine] (*\ 
+          tfunc[t2_, xx_, vv_] = 
+            Block[{tvar = t2, oldstatev = xx, oldvelv = vv}, 
+              SparseArray[D[func[t2, oldstatev, oldvelv], {xvec}]]]; \ 
+          which\ is\ \(\(faster\)\(?\)\)\ *) \[IndentingNewLine]tfunc[t2_, 
+            xx_, vv_] := 
+          Block[{tvar = t2, oldstatev = xx, oldvelv = vv}, 
+            jacobian]; \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+          state0; \[IndentingNewLine]resList = {{t, state0, 
+              oldvel}}; \[IndentingNewLine]\[IndentingNewLine]Do[\
+\[IndentingNewLine]Do[\[IndentingNewLine]t = \((j*outfreq + i)\)*dt + 
+                tstart; \[IndentingNewLine]Do[
+              oldstatei[i] = oldstate[\([i]\)], {i, 
+                Length[oldstate]}]; \[IndentingNewLine]Do[
+              oldveli[i] = oldvel[\([i]\)], {i, 
+                Length[oldvel]}]; \[IndentingNewLine]newstate = 
+              NewtonIterate[xvar, func[t, oldstatei, oldveli], 
+                tfunc[t, oldstatei, oldveli], oldstate, maxIt, maxRes, maxDu, 
+                t, tvar, FilterOptions[LinearSolve, opts], 
+                FilterOptions[NewtonIterate, 
+                  opts]]; \[IndentingNewLine]\[IndentingNewLine]newvel = \
+\((newstate - oldstate)\)/\((theta*dt)\) - 
+                oldvel*\((1 - theta)\)/
+                    theta; \ \[IndentingNewLine]\[IndentingNewLine]oldstate = 
+              newstate; \[IndentingNewLine]oldvel = 
+              newvel;\[IndentingNewLine], {i, 
+              outfreq}]; \[IndentingNewLine]AppendTo[
+            resList, {N[t], newstate, newvel}];\[IndentingNewLine], {j, 0, 
+            numSteps/outfreq - 
+              1}\[IndentingNewLine]]; \[IndentingNewLine]Return[
+          Transpose[resList]];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Public",
+  FontColor->RGBColor[0, 0, 1]]], "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["Wrapper", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(\(imsStationarySolveNonlinear[
+          System_imsSystem /; \((imsStationaryQ[System] && 
+                Not[imsParametricQ[System]])\), xvar_, {tvar_, tstart_}, 
+          excitation_: {1}, opts___] := 
+        Module[{method, sol, 
+            timevariant = \(! imsLinearQ[\ System, \ 
+                  tvar\ ]\)}, \[IndentingNewLine]method = \(imsMethod /. \
+{opts}\) /. Options[imsStationarySolveNonlinear]; \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<Newton\>" | "\<Automatic\>" \
+| Automatic, \[IndentingNewLine]imsNewtonSolve[System, xvar, {tvar, tstart}, 
+                excitation, \[IndentingNewLine]FilterOptions[imsNewtonSolve, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]]; 
+          Return[sol];\[IndentingNewLine]];\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(imsTimeIntegrateNonlinear[
+          System_imsSystem /; \((imsSecondOrderQ[System] && 
+                Not[imsParametricQ[System]])\), 
+          xvar_, {tvar_, tstart_, tstop_, dt_}, state0_, vel0_, 
+          excitation_: {1}, opts___] := 
+        Module[{method, sol, 
+            timevariant = \(! imsLinearQ[\ System, \ 
+                  tvar\ ]\)}, \[IndentingNewLine]method = \(imsMethod /. \
+{opts}\) /. Options[imsTimeIntegrateNonlinear]; \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<Newmark\>" | "\<Implicit\>" \
+| "\<Automatic\>" | 
+                Automatic, \[IndentingNewLine]imsNewmarkIntegrateNonlinear[
+                System, xvar, {tvar, tstart, tstop, dt}, state0, vel0, 
+                excitation, 
+                FilterOptions[imsNewmarkIntegrateNonlinear, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<RHSOnlyOnce\>", \
+\[IndentingNewLine]imsNewmarkIntegrateNonlinearRHS[System, 
+                xvar, {tvar, tstart, tstop, dt}, state0, vel0, excitation, 
+                FilterOptions[imsNewmarkIntegrateNonlinear, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]]; 
+          Return[sol];\[IndentingNewLine]];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(imsTimeIntegrateNonlinear[
+        System_imsSystem /; \((imsFirstOrderQ[System] && 
+              Not[imsParametricQ[System]])\), 
+        xvar_, {tvar_, tstart_, tstop_, dt_}, state0_, excitation_: {1}, 
+        opts___] := 
+      Module[{method, sol, 
+          timevariant = \(! imsLinearQ[\ System, \ tvar\ ]\), 
+          x}, \[IndentingNewLine]method = \(imsMethod /. {opts}\) /. 
+            Options[imsTimeIntegrateNonlinear]; \[IndentingNewLine]sol = 
+          Switch[method, \[IndentingNewLine]"\<NDSolve\>", \
+\[IndentingNewLine]x /. 
+              imsTransientSolve[\ System, \ 
+                x, \ {\ tvar, \ tstart, \ 
+                  tstop\ }\ ], \[IndentingNewLine]"\<BackwardEuler\>" | \
+"\<Implicit\>" | "\<Automatic\>" | 
+              Automatic, \[IndentingNewLine]imsTrapezoidalIntegrateNonlinear[
+              System, xvar, {tvar, tstart, tstop, dt}, state0, excitation, 
+              imsTrapezoidalIntegrateTheta \[Rule] 
+                1, \[IndentingNewLine]FilterOptions[
+                imsTrapezoidalIntegrateNonlinear, 
+                opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                opts]], \[IndentingNewLine]"\<CrankNicolson\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrateNonlinear[System, 
+              xvar, {tvar, tstart, tstop, dt}, state0, excitation, 
+              imsTrapezoidalIntegrateTheta \[Rule] 
+                1/2, \[IndentingNewLine]FilterOptions[
+                imsTrapezoidalIntegrateNonlinear, 
+                opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                opts]], \[IndentingNewLine]"\<Trapezoidal\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrateNonlinear[System, 
+              xvar, {tvar, tstart, tstop, dt}, state0, 
+              excitation, \[IndentingNewLine]FilterOptions[
+                imsTrapezoidalIntegrateNonlinear, 
+                opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                opts]], \[IndentingNewLine]_, 
+            Message[imsTimeIntegrate::"\<method\>", method]; 
+            Return[$Failed]\[IndentingNewLine]]; 
+        Return[sol];\[IndentingNewLine]]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsTimeIntegrate[
+        System_imsSystem /; \((imsSecondOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, vel0_, excitation_: {1}, opts___] := 
+      Module[{method, sol, 
+          timevariant = \(! imsLinearQ[\ System, \ 
+                tvar\ ]\)}, \[IndentingNewLine]If[\(! \((opts \[Equal] \
+{})\)\), opts = {}]; \[IndentingNewLine]method = \(imsMethod /. {opts}\) /. 
+            Options[imsTimeIntegrate]; \[IndentingNewLine]If[
+          timevariant, \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<Newmark\>" | "\<Implicit\>" \
+| "\<Automatic\>" | 
+                Automatic, \[IndentingNewLine]imsNewmarkIntegrateTimeVariant[
+                System, {tvar, tstart, tstop, dt}, state0, vel0, excitation, 
+                FilterOptions[imsNewmarkIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<Verlet\>" | "\<Explicit\>", \
+\[IndentingNewLine]imsVerletIntegrateTimeVariant[
+                System, {tvar, tstart, tstop, dt}, state0, vel0, excitation, 
+                FilterOptions[imsVerletIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]], \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<Newmark\>" | "\<Implicit\>" \
+| "\<Automatic\>" | Automatic, \[IndentingNewLine]imsNewmarkIntegrate[
+                System, {tvar, tstart, tstop, dt}, state0, vel0, 
+                excitation, \[IndentingNewLine]FilterOptions[
+                  imsNewmarkIntegrate, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<Verlet\>" | "\<Explicit\>", \
+\[IndentingNewLine]imsVerletIntegrate[System, {tvar, tstart, tstop, dt}, 
+                state0, vel0, 
+                excitation, \[IndentingNewLine]FilterOptions[
+                  imsVerletIntegrate, opts], \[IndentingNewLine]FilterOptions[
+                  LinearSolve, opts]], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]]\[IndentingNewLine]]; 
+        Return[sol];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(imsTimeIntegrate[
+        System_imsSystem /; \((imsFirstOrderQ[System] && 
+              Not[imsParametricQ[System]])\), {tvar_, tstart_, tstop_, dt_}, 
+        state0_, excitation_: {1}, opts___] := 
+      Module[{method, sol, 
+          timevariant = \(! imsLinearQ[\ System, \ tvar\ ]\), 
+          x}, \[IndentingNewLine]If[\(! \((opts \[Equal] {})\)\), 
+          opts = {}]; \[IndentingNewLine]method = \(imsMethod /. {opts}\) /. 
+            Options[imsTimeIntegrate]; \[IndentingNewLine]If[
+          timevariant, \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<BackwardEuler\>" | \
+"\<Implicit\>" | "\<Automatic\>" | 
+                Automatic, \
+\[IndentingNewLine]imsTrapezoidalIntegrateTimeVariant[
+                System, {tvar, tstart, tstop, dt}, state0, excitation, 
+                imsTrapezoidalIntegrateTheta \[Rule] 
+                  1, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrateTimeVariant, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<CrankNicolson\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrateTimeVariant[
+                System, {tvar, tstart, tstop, dt}, state0, excitation, 
+                imsTrapezoidalIntegrateTheta \[Rule] 
+                  1/2, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrateTimeVariant, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<Trapezoidal\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrateTimeVariant[
+                System, {tvar, tstart, tstop, dt}, state0, 
+                excitation, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrateTimeVariant, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<NDSolve\>", \
+\[IndentingNewLine]x /. 
+                imsTransientSolve[\ System, \ 
+                  x, \ {\ tvar, \ tstart, \ 
+                    tstop\ }\ ], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]], \[IndentingNewLine]sol = 
+            Switch[method, \[IndentingNewLine]"\<BackwardEuler\>" | \
+"\<Implicit\>" | "\<Automatic\>" | 
+                Automatic, \[IndentingNewLine]imsTrapezoidalIntegrate[
+                System, {tvar, tstart, tstop, dt}, state0, excitation, 
+                imsTrapezoidalIntegrateTheta \[Rule] 
+                  1, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrate, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrate, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<CrankNicolson\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrate[System, {tvar, tstart, tstop, dt}, 
+                state0, excitation, 
+                imsTrapezoidalIntegrateTheta \[Rule] 
+                  1/2, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrate, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrate, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<Trapezoidal\>", \
+\[IndentingNewLine]imsTrapezoidalIntegrate[System, {tvar, tstart, tstop, dt}, 
+                state0, 
+                excitation, \[IndentingNewLine] (*\(FilterOptions[
+                    imsTrapezoidalIntegrateTimeVariant, 
+                    Method /. opts]\)\(,\)*) \[IndentingNewLine]FilterOptions[
+                  imsTrapezoidalIntegrateTimeVariant, 
+                  opts], \[IndentingNewLine]FilterOptions[LinearSolve, 
+                  opts]], \[IndentingNewLine]"\<NDSolve\>", \
+\[IndentingNewLine]x /. 
+                imsTransientSolve[\ System, \ 
+                  x, \ {\ tvar, \ tstart, \ 
+                    tstop\ }\ ], \[IndentingNewLine]_, 
+              Message[imsTimeIntegrate::"\<method\>", method]; 
+              Return[$Failed]\[IndentingNewLine]]\[IndentingNewLine]]; 
+        Return[sol];\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Section"],
+
+Cell[BoxData[
+    \(Quit\)], "Input"],
+
+Cell[BoxData[{
+    \(\(Needs["\<Imtek`System`\>"];\)\), "\[IndentingNewLine]", 
+    \(<< "\</home/lieneman/Projekte/Mathematica/TimeIntegrate/TimeIntegrate.m\
+\>"\)}], "Input"]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1020, 986},
+WindowMargins->{{Automatic, 117}, {-33, Automatic}},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 34, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1835, 57, 31, 0, 74, "Section"],
+Cell[1869, 59, 1867, 33, 395, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3761, 96, 35, 0, 28, "Subsubsection"],
+Cell[3799, 98, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[4420, 110, 1875, 31, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6344, 147, 32, 0, 44, "Section"],
+Cell[6379, 149, 195, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6611, 159, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6688, 163, 26, 0, 38, "Subsection"],
+Cell[6717, 165, 4617, 71, 1067, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11371, 241, 34, 0, 30, "Subsection"],
+Cell[11408, 243, 1431, 27, 315, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12876, 275, 36, 0, 30, "Subsection"],
+Cell[12915, 277, 262, 5, 75, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13226, 288, 32, 0, 44, "Section"],
+Cell[13261, 290, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13386, 297, 42, 0, 44, "Section"],
+Cell[13431, 299, 308, 6, 91, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13776, 310, 30, 0, 44, "Section"],
+Cell[13809, 312, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14137, 322, 26, 0, 44, "Section"],
+Cell[14166, 324, 2992, 52, 427, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17195, 381, 27, 0, 44, "Section"],
+Cell[17225, 383, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17391, 391, 29, 0, 44, "Section"],
+Cell[17423, 393, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[17591, 401, 41, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[17657, 405, 39, 0, 38, "Subsection"],
+Cell[17699, 407, 1993, 37, 427, "Input",
+  InitializationCell->True],
+Cell[19695, 446, 581, 10, 139, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20313, 461, 34, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[20372, 465, 31, 0, 28, "Subsubsection"],
+Cell[20406, 467, 3446, 61, 587, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23901, 534, 34, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[23960, 538, 31, 0, 28, "Subsubsection"],
+Cell[23994, 540, 2425, 40, 539, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[26456, 585, 44, 0, 22, "Subsubsection"],
+Cell[26503, 587, 2695, 49, 571, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29235, 641, 32, 0, 22, "Subsubsection"],
+Cell[29270, 643, 4407, 77, 1067, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[33714, 725, 45, 0, 22, "Subsubsection"],
+Cell[33762, 727, 4472, 77, 1019, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[38271, 809, 46, 0, 22, "Subsubsection"],
+Cell[38320, 811, 4624, 81, 1083, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[42981, 897, 49, 0, 22, "Subsubsection"],
+Cell[43033, 899, 8402, 143, 1643, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[51484, 1048, 33, 0, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[51542, 1052, 49, 0, 30, "Subsubsection"],
+Cell[51594, 1054, 3379, 59, 747, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[55010, 1118, 36, 0, 24, "Subsubsection"],
+Cell[55049, 1120, 3230, 56, 731, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[58316, 1181, 53, 0, 24, "Subsubsection"],
+Cell[58372, 1183, 6602, 114, 1291, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[65023, 1303, 80, 1, 30, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[65128, 1308, 32, 0, 28, "Subsubsection"],
+Cell[65163, 1310, 4685, 82, 875, "Input",
+  InitializationCell->True],
+Cell[69851, 1394, 2485, 40, 491, "Input",
+  InitializationCell->True],
+Cell[72339, 1436, 4766, 81, 795, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[77166, 1524, 31, 0, 44, "Section"],
+Cell[77200, 1526, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[77370, 1534, 30, 0, 44, "Section"],
+Cell[77403, 1536, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[77572, 1544, 30, 0, 44, "Section"],
+Cell[77605, 1546, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[77797, 1555, 23, 0, 44, "Section"],
+Cell[77823, 1557, 37, 1, 27, "Input"],
+Cell[77863, 1560, 176, 3, 43, "Input"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

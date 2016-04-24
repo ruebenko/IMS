@@ -1,0 +1,468 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     16493,        384]*)
+(*NotebookOutlinePosition[     17197,        408]*)
+(*  CellTagsIndexPosition[     17153,        404]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Easymesh Plotter", "Title"],
+
+Cell[TextData[{
+  "Notebook \[Copyright] 2002 Darius Koziol & Jan G. Korvink\n\nJan G. \
+Korvink\t\t\tDarius Koziol\nAlte Landstrasse 101a\t\tIMTEK-Simulation\n\
+CH-8803 R\[UDoubleDot]schlikon\t\tGeorges-Koehler-Allee 103\nSwitzerland\t\t\t\
+D-79110 Freiburg, Germany\n",
+  Cell[BoxData[
+      FormBox[
+        ButtonBox[\(korvink@imtek . de\),
+          ButtonData:>{
+            URL[ "mailto:korvink@imtek.de"], None},
+          ButtonStyle->"Hyperlink"], TraditionalForm]]],
+  "\t\t",
+  Cell[BoxData[
+      FormBox[
+        ButtonBox[\(koziol@imtek . de\),
+          ButtonData:>{
+            URL[ "mailto:koziol@imtek.de"], None},
+          ButtonStyle->"Hyperlink"], TraditionalForm]]],
+  "\n\n (See: ",
+  ButtonBox["License.nb",
+    ButtonData:>{
+      "/usr/groups/simulation/platform/common/mathematica/Documentation/\
+English/Imtek/License.nb", "License"},
+    ButtonStyle->"Hyperlink"],
+  ")\n \nThis program is free software; you can redistribute it and/or modify \
+it under the terms of the GNU General Public License as published by the Free \
+Software Foundation; either version 2 of the License, or (at your option) any \
+later version.\n\nThis program is distributed in the hope that it will be \
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of \
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General \
+Public License for more details.\n\nYou should have received a copy of the \
+GNU General Public License along with this program; if not, write to the Free \
+Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 \
+ USA"
+}], "Author"],
+
+Cell[CellGroupData[{
+
+Cell["The Package Declarations", "Section"],
+
+Cell[BoxData[{
+    \(BeginPackage["\<Imtek`Interfaces`EasymeshPlotting`\>"]\), "\
+\[IndentingNewLine]", 
+    \(Needs["\<Imtek`Maintenance`\>"]\), "\[IndentingNewLine]", 
+    \(\(imsCreateObsoleteFunctionInterface[\ 
+        ReadEasymesh, \ $Context\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsCreateObsoleteFunctionInterface[\ 
+        PlotEasymesh, \ $Context\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsCreateObsoleteFunctionInterface[\ 
+        PlotEasymeshDelaunay, \ $Context\ ];\)\), "\[IndentingNewLine]", 
+    \(\(imsCreateObsoleteFunctionInterface[\ 
+        PlotEasymeshVoronoi, \ $Context\ ];\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsReadEasymesh::usage = "\<imsReadEasymesh[fileName].\>";\)\
+\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsPlotEasymesh::usage = "\<imsPlotEasymesh[easymeshData].\>";\)\
+\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(imsPlotEasymeshDelaunay::usage = \
+"\<imsPlotEasymeshDelaunay[easymeshData].\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(imsPlotEasymeshVoronoi::usage = \
+"\<imsPlotEasymeshVoronoi[easymeshData].\>";\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(Begin["\<`Private`\>"]\), "\[IndentingNewLine]", 
+    \(\(Off[General::"\<spell\>", 
+        General::"\<spell1\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[Read::"\<readn\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[Part::"\<partd\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[Graphics::"\<gpt\>"];\)\)}], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Read Easymesh Files", "Section"],
+
+Cell[BoxData[
+    \(\(imsReadEasymesh[fileName_] := 
+        Module[{easymeshNode, nodefile = {}, easymeshSide, sidefile = {}, 
+            easymeshElement, 
+            elementfile = {}}, \
+\[IndentingNewLine]\[IndentingNewLine]easymeshNode = 
+            OpenRead[fileName <> "\<.n\>"]; \[IndentingNewLine]Read[
+            easymeshNode, {Number}]; \[IndentingNewLine]nodefile = 
+            ReadList[
+              easymeshNode, {Number, Character, Real, Real, 
+                Number}]; \[IndentingNewLine]Close[
+            easymeshNode]; \[IndentingNewLine]nodefile = 
+            Drop[Transpose[nodefile], {2, 
+                2}]; \[IndentingNewLine]nodefile\[LeftDoubleBracket]1\
+\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]\[IndentingNewLine]easymeshSide = 
+            OpenRead[fileName <> "\<.s\>"]; \[IndentingNewLine]Read[
+            easymeshSide, {Number}]; \[IndentingNewLine]sidefile = 
+            ReadList[
+              easymeshSide, {Number, Character, Number, Number, Number, 
+                Number, Number}]; \[IndentingNewLine]Close[
+            easymeshSide]; \[IndentingNewLine]sidefile = 
+            Drop[Transpose[
+                sidefile], {2}]; \[IndentingNewLine]sidefile\
+\[LeftDoubleBracket]1\[RightDoubleBracket] += 1; 
+          sidefile\[LeftDoubleBracket]2\[RightDoubleBracket] += 1; 
+          sidefile\[LeftDoubleBracket]3\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]sidefile\[LeftDoubleBracket]4\
+\[RightDoubleBracket] += 1; 
+          sidefile\[LeftDoubleBracket]5\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]\[IndentingNewLine]easymeshElement = 
+            OpenRead[fileName <> "\<.e\>"]; \[IndentingNewLine]Read[
+            easymeshElement, {Number}]; \[IndentingNewLine]elementfile = {}; \
+\[IndentingNewLine]elementfile = 
+            ReadList[
+              easymeshElement, {Number, Character, Number, Number, Number, 
+                Number, Number, Number, Number, Number, Number, Real, Real, 
+                Number}]; \[IndentingNewLine]Close[
+            easymeshElement]; \[IndentingNewLine]elementfile = 
+            Drop[Transpose[
+                elementfile], {2}]; \[IndentingNewLine]elementfile\
+\[LeftDoubleBracket]1\[RightDoubleBracket] += 1; 
+          elementfile\[LeftDoubleBracket]2\[RightDoubleBracket] += 1; 
+          elementfile\[LeftDoubleBracket]3\[RightDoubleBracket] += 
+            
+            1; \[IndentingNewLine]elementfile\[LeftDoubleBracket]4\
+\[RightDoubleBracket] += 1; 
+          elementfile\[LeftDoubleBracket]5\[RightDoubleBracket] += 1; \ 
+          elementfile\[LeftDoubleBracket]6\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]elementfile\[LeftDoubleBracket]7\
+\[RightDoubleBracket] += 1; 
+          elementfile\[LeftDoubleBracket]8\[RightDoubleBracket] += 1; 
+          elementfile\[LeftDoubleBracket]9\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]elementfile\[LeftDoubleBracket]10\
+\[RightDoubleBracket] += 
+            1; \[IndentingNewLine]\[IndentingNewLine]Return[{Transpose[
+                nodefile], Transpose[sidefile], 
+              Transpose[elementfile]}]\[IndentingNewLine]];\)\)], "Input",
+  CellLabel->"In[119]:=",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plot Easymesh Data", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Generate Delaunay Graphics", "Subsection"],
+
+Cell[BoxData[
+    \(\(buildDelaunayObjects[easymeshData_List] := 
+        Module[{delaunayLinienPlotFunkt, 
+            delaunayBoundaryNodesFunction, \[IndentingNewLine]delaunayMesh, 
+            delaunayBoundaryNodes}, \
+\[IndentingNewLine]\[IndentingNewLine]delaunayLinienPlotFunkt[i_] := 
+            Line[{easymeshData\[LeftDoubleBracket]1, 
+                  easymeshData\[LeftDoubleBracket]2, i, 
+                    2\[RightDoubleBracket], {2, 3}\[RightDoubleBracket], 
+                easymeshData\[LeftDoubleBracket]1, 
+                  easymeshData\[LeftDoubleBracket]2, i, 
+                    3\[RightDoubleBracket], {2, 
+                    3}\[RightDoubleBracket]}]; \[IndentingNewLine]\
+\[IndentingNewLine]delaunayBoundaryNodesFunction[i_] := 
+            Line[easymeshData\[LeftDoubleBracket]1, 
+                i, {2, 3}\[RightDoubleBracket]]; \[IndentingNewLine]\
+\[IndentingNewLine]delaunayMesh = 
+            delaunayLinienPlotFunkt /@ 
+              Range[Length[
+                  easymeshData\[LeftDoubleBracket]2\[RightDoubleBracket]]]; \
+\[IndentingNewLine]\[IndentingNewLine]delaunayBoundaryNodes = 
+            delaunayBoundaryNodesFunction /@ 
+              Append[easymeshData\[LeftDoubleBracket]2, 
+                  Flatten[
+                    Position[\(Transpose[
+                          easymeshData\[LeftDoubleBracket]2\
+\[RightDoubleBracket]]\)\[LeftDoubleBracket]5\[RightDoubleBracket], 0]], {2, 
+                    3}\[RightDoubleBracket], 
+                Flatten[
+                  easymeshData\[LeftDoubleBracket]2, 
+                    Flatten[
+                      Position[\(Transpose[
+                            easymeshData\[LeftDoubleBracket]2\
+\[RightDoubleBracket]]\)\[LeftDoubleBracket]4\[RightDoubleBracket], 0]], {2, 
+                      3}\[RightDoubleBracket], 
+                  1]\[IndentingNewLine]]; \[IndentingNewLine]\
+\[IndentingNewLine]Return[{delaunayMesh, 
+              delaunayBoundaryNodes}]\[IndentingNewLine]];\)\)], "Input",
+  CellLabel->"In[104]:=",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Generate Voronoi Graphics", "Subsection"],
+
+Cell[BoxData[
+    \(\(buildVoronoiObjects[easymeshData_List] := 
+        Module[{voronoiLinienPlotFunkt, voronoiBoundaryNodesFunction, 
+            voronoiBoundaryPlotFunkt, voronoiMesh, voronoiBoundaryNodes, 
+            voronoiNeighbours, 
+            voronoiBoundaryPlot}, \
+\[IndentingNewLine]\[IndentingNewLine]voronoiLinienPlotFunkt[i_] := 
+            Line[{easymeshData\[LeftDoubleBracket]3, 
+                  easymeshData\[LeftDoubleBracket]2, i, 
+                    4\[RightDoubleBracket], {11, 12}\[RightDoubleBracket], 
+                easymeshData\[LeftDoubleBracket]3, 
+                  easymeshData\[LeftDoubleBracket]2, i, 
+                    5\[RightDoubleBracket], {11, 
+                    12}\[RightDoubleBracket]}]; \[IndentingNewLine]\
+\[IndentingNewLine]voronoiBoundaryNodesFunction[i_] := 
+            0.5\ Plus @@ 
+                easymeshData\[LeftDoubleBracket]1, 
+                  i, {2, 3}\[RightDoubleBracket]; \[IndentingNewLine]\
+\[IndentingNewLine]voronoiBoundaryPlotFunkt[i_] := 
+            Line[{voronoiBoundaryNodes\[LeftDoubleBracket]
+                  i\[RightDoubleBracket], 
+                voronoiNeighbours\[LeftDoubleBracket]
+                  i\[RightDoubleBracket]}]; \[IndentingNewLine]\
+\[IndentingNewLine]voronoiMesh = 
+            voronoiLinienPlotFunkt /@ 
+              Range[Length[
+                  easymeshData\[LeftDoubleBracket]2\[RightDoubleBracket]]]; \
+\[IndentingNewLine]\[IndentingNewLine]voronoiBoundaryNodes = 
+            voronoiBoundaryNodesFunction /@ 
+              easymeshData\[LeftDoubleBracket]2, 
+                Flatten[
+                  Position[\(Transpose[
+                        easymeshData\[LeftDoubleBracket]2\[RightDoubleBracket]\
+]\)\[LeftDoubleBracket]5\[RightDoubleBracket], 0]], {2, 
+                  3}\[RightDoubleBracket]; \[IndentingNewLine]\
+\[IndentingNewLine]voronoiNeighbours = 
+            easymeshData\[LeftDoubleBracket]3, 
+              easymeshData\[LeftDoubleBracket]2, 
+                Flatten[
+                  Position[\(Transpose[
+                        easymeshData\[LeftDoubleBracket]2\[RightDoubleBracket]\
+]\)\[LeftDoubleBracket]5\[RightDoubleBracket], 0]], 
+                4\[RightDoubleBracket], {11, 
+                12}\[RightDoubleBracket]; \[IndentingNewLine]\
+\[IndentingNewLine]voronoiBoundaryPlot = 
+            voronoiBoundaryPlotFunkt /@ 
+              Range[Length[
+                  voronoiNeighbours]]; \
+\[IndentingNewLine]\[IndentingNewLine]Return[{voronoiMesh, 
+              voronoiBoundaryPlot}]\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Produce Plotted Output", "Subsection"],
+
+Cell[BoxData[
+    \(\(imsPlotEasymeshDelaunay[easymeshData_List] := 
+        Module[{delaunayMesh, 
+            delaunayBoundaryNodes}, \
+\[IndentingNewLine]\[IndentingNewLine]{delaunayMesh, delaunayBoundaryNodes} = 
+            buildDelaunayObjects[
+              easymeshData]; \[IndentingNewLine]\[IndentingNewLine]Show[
+            Graphics[{RGBColor[0, 0, 0], delaunayMesh}, 
+              PlotLabel \[Rule] 
+                StringJoin["\<Delaunay mesh\n\>", 
+                  ToString[
+                    Length[easymeshData\[LeftDoubleBracket]1\
+\[RightDoubleBracket]]], "\< imsNodes\>"], 
+              TextStyle \[Rule] {FontSize \[Rule] 8}, 
+              AspectRatio \[Rule] 
+                Automatic]]\[IndentingNewLine]\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsPlotEasymeshVoronoi[easymeshData_List] := 
+        Module[{voronoiMesh, voronoiBoundaryPlot, delaunayMesh, 
+            delaunayBoundaryNodes}, \
+\[IndentingNewLine]\[IndentingNewLine]{voronoiMesh, voronoiBoundaryPlot} = 
+            buildVoronoiObjects[
+              easymeshData]; \[IndentingNewLine]{delaunayMesh, 
+              delaunayBoundaryNodes} = 
+            buildDelaunayObjects[
+              easymeshData]; \[IndentingNewLine]\[IndentingNewLine]Show[
+            Graphics[{RGBColor[1, 0, 0], voronoiMesh, delaunayBoundaryNodes, 
+                voronoiBoundaryPlot}, 
+              PlotLabel \[Rule] 
+                StringJoin["\<Voronoi mesh\n\>", 
+                  ToString[
+                    Length[easymeshData\[LeftDoubleBracket]1\
+\[RightDoubleBracket]]], "\< Cells\>"], 
+              TextStyle \[Rule] {FontSize \[Rule] 8}, 
+              AspectRatio \[Rule] 
+                Automatic]];\[IndentingNewLine]\[IndentingNewLine]\
+\[IndentingNewLine]];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(imsPlotEasymesh[easymeshData_List] := 
+        Module[\[IndentingNewLine]{voronoiMesh, voronoiBoundaryPlot, 
+            delaunayMesh, 
+            delaunayBoundaryNodes}, \
+\[IndentingNewLine]\[IndentingNewLine]{voronoiMesh, voronoiBoundaryPlot} = 
+            buildVoronoiObjects[
+              easymeshData]; \[IndentingNewLine]{delaunayMesh, 
+              delaunayBoundaryNodes} = 
+            buildDelaunayObjects[
+              easymeshData]; \[IndentingNewLine]\[IndentingNewLine]Show[
+            Graphics[{RGBColor[0, 0, 0], delaunayMesh, RGBColor[1, 0, 0], 
+                voronoiMesh, RGBColor[1, 0, 0], voronoiBoundaryPlot}, 
+              PlotLabel \[Rule] 
+                StringJoin["\<Delauny & Voronoi mesh\n\>", 
+                  ToString[
+                    Length[easymeshData\[LeftDoubleBracket]1\
+\[RightDoubleBracket]]], "\< imsNodes/Cells\>"], 
+              TextStyle \[Rule] {FontSize \[Rule] 8}, 
+              AspectRatio \[Rule] 
+                Automatic]]\[IndentingNewLine]\[IndentingNewLine]];\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End of the Package", "Section"],
+
+Cell[BoxData[{
+    \(End[]\), "\n", 
+    \(EndPackage[]\)}], "Input",
+  CellLabel->"In[28]:=",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{641, 647},
+WindowMargins->{{152, Automatic}, {Automatic, 25}},
+StyleDefinitions -> "ArticleClassic.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 37, 0, 84, "Title"],
+Cell[1816, 55, 1618, 34, 396, "Author"],
+
+Cell[CellGroupData[{
+Cell[3459, 93, 43, 0, 55, "Section"],
+Cell[3505, 95, 1519, 29, 332, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5061, 129, 38, 0, 29, "Section"],
+Cell[5102, 131, 3227, 59, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8366, 195, 37, 0, 29, "Section"],
+
+Cell[CellGroupData[{
+Cell[8428, 199, 48, 0, 70, "Subsection"],
+Cell[8479, 201, 2058, 39, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10574, 245, 47, 0, 70, "Subsection"],
+Cell[10624, 247, 2598, 50, 70, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13259, 302, 44, 0, 70, "Subsection"],
+Cell[13306, 304, 801, 17, 70, "Input",
+  InitializationCell->True],
+Cell[14110, 323, 1044, 21, 70, "Input",
+  InitializationCell->True],
+Cell[15157, 346, 1097, 22, 70, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[16303, 374, 37, 0, 29, "Section"],
+Cell[16343, 376, 122, 4, 44, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

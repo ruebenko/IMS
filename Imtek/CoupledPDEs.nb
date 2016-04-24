@@ -1,0 +1,541 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     15272,        399]*)
+(*NotebookOutlinePosition[     15934,        422]*)
+(*  CellTagsIndexPosition[     15890,        418]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Coupled PDEs Package", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Title : \ CoupledPDEs . 
+          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ 
+      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Date : \ 8.9  .2005, \ Freiburg\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Summary : \ 
+        This\ is\ the\ IMTEK\ template\ for\ writing\ a\ mathematica\ \
+packages\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Copyright : \ GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Package\ \(Version : \ 0.1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      Mathematica\ \(Version : \ 
+          5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(History\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( \
+(*\ Sources : \ 
+        FEMLab\ user\ Guide\ *) \)\(\[IndentingNewLine]\)\( (*\ \
+\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
+*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
+\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
+\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Disclaimer", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
+      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
+\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
+\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      This\ program\ assists\ in\ solving\ coupled\ PDEs\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      Copyright\ \((C)\)\ 2005\ oliver\ ruebenkoenig\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
+software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      you\ can\ redistribute\ it\ and/
+          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
+License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
+published\ by\ the\ Free\ Software\ Foundation; 
+      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
+\)\(\[IndentingNewLine]\)\( (*\ 
+      or\ \((at\ your\ option)\)\ any\ later\ version . 
+          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
+\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
+\[IndentingNewLine]\)\( (*\ 
+      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
+          You\ should\ have\ received\ a\ copy\ of\ \
+*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
+      if\ not, \ 
+      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
+(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
+      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Start\ Package\ \
+*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`CoupledPDEs`\>"];\)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Documentation // Error - Messages", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      functions\ \
+*) \)\(\[IndentingNewLine]\)\(\(imsCoupledDiffusionCoefficients::usage = \
+"\<imsCoupledDiffusionCoefficients[ dimensions, functions ] returns a list of \
+coefficients for a diffusion operator to model couples partial differential \
+equations in n dimensions with m functions.\>";\)\[IndentingNewLine]
+    \(imsCoupledConvectionCoefficients::usage = \
+"\<imsCoupledConvectionCoefficients[ dimensions, functions ] returns a list \
+of coefficients for a convection operator to model couples partial \
+differential equations in n dimensions with m functions.\>";\)\
+\[IndentingNewLine]
+    \(imsCoupledReactionCoefficients::usage = \
+"\<imsCoupledReactionCoefficients[ dimensions, functions ] returns a list of \
+coefficients for a reaction operator to model couples partial differential \
+equations in n dimensions with m functions.\>";\)\[IndentingNewLine]
+    \(imsCoupledLoadCoefficients::usage = "\<imsCoupledLoadCoefficients[ \
+dimensions, functions ] returns a list of coefficients for a load operator to \
+model couples partial differential equations in n dimensions with m \
+functions.\>";\)\[IndentingNewLine]
+    \(imsCoupledTransientMatrixCoefficients::usage = \
+"\<imsCoupledTransientMatrixCoefficients[ dimensions, functions ] returns a \
+list of coefficients for a transient operator to model couples partial \
+differential equations in n dimensions with m functions.\>";\)\
+\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCoupledDiffusion::usage = "\<imsCoupledDiffusion[ dimensions, \
+functions, vars, coefficients ] returns a list of a coupled diffusion \
+equations modeled with coefficients in n dimensions and m functions of \
+vars.\>";\)\[IndentingNewLine]
+    \(imsCoupledConvection::usage = \
+"\<imsCoupledConvectionimsCoupledConvection[ dimensions, functions, vars, \
+coefficients ] returns a list of a coupled convection equations modeled with \
+coefficients in n dimensions and m functions of \
+vars.\>";\)\[IndentingNewLine]
+    \(imsCoupledReaction::usage = "\<imsCoupledReaction[ dimensions, \
+functions, vars, coefficients ] returns a list of a coupled reaction \
+equations modeled with coefficients in n dimensions and m functions of \
+vars.\>";\)\[IndentingNewLine]
+    \(imsCoupledLoad::usage = "\<imsCoupledLoad[ dimensions, functions, vars, \
+coefficients ] returns a list of a coupled load equations modeled with \
+coefficients in n dimensions and m functions of \
+vars.\>";\)\[IndentingNewLine]
+    \(imsCoupledTransientMatrix::usage = "\<imsCoupledTransientMatrix[ \
+dimensions, functions, vars, coefficients ] returns a list of a coupled \
+transient equations modeled with coefficients in n dimensions and m functions \
+of vars.\>";\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options Docu", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Error Messages", "Subsection"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Start Private", "Section"],
+
+Cell[BoxData[
+    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Needs - Private Imports", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",\
+
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Constructor", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
+      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
+      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Selector", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Predicates", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Functions // Overloads", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
+\[IndentingNewLine]\)\(\(imsCoupledDiffusionCoefficients[\ dim_, \ 
+          funcs_\ ]\  := \ 
+        Table[\ KroneckerDelta[\ i, \ j\ ]\ *\ 
+            KroneckerDelta[\ k, \ l\ ], \ \ {\ l, \ Length[\ funcs\ ]\ }, {\ 
+            k, \ Length[\ funcs\ ]\ }, {\ j, \ dim\ }, \ {\ i, \ 
+            dim\ }\ ];\)\[IndentingNewLine]\n
+    \(imsCoupledConvectionCoefficients[\ dim_, \ funcs_\ ]\  := \ 
+        Table[\ 0, \ \ {\ Length[\ funcs\ ]\ }, {\ Length[\ funcs\ ]\ }, {\ 
+            1\ }, \ {\ dim\ }\ ];\)\n\[IndentingNewLine]
+    \(imsCoupledReactionCoefficients[\ dim_, \ funcs_\ ]\  := \ 
+        Table[\ 0, \ \ {\ Length[\ funcs\ ]\ }, {\ 
+            Length[\ funcs\ ]\ }\ ];\)\n\[IndentingNewLine]
+    \(imsCoupledLoadCoefficients[\ dim_, \ funcs_\ ]\  := \ 
+        Table[\ 1, \ \ {\ Length[\ funcs\ ]\ }, {\ 
+            1\ }\ ];\)\[IndentingNewLine]\n
+    \(imsCoupledTransientMatrixCoefficients[\ dim_, \ funcs_\ ]\  := \ 
+        Table[\ KroneckerDelta[\ i, \ j\ ], \ \ {\ i, \ 
+            Length[\ funcs\ ]\ }, {\ j, \ 
+            Length[\ funcs\ ]\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCoupledDiffusion[\ dim_, \ funcs_, \ vars_, \ 
+          coeffs_\ ]\  := \ \[IndentingNewLine]Map[\ 
+          Plus\  @@ \ Flatten[\ #\ ] &, \ \[IndentingNewLine]coeffs\ *\ 
+            Table[\ D[\ 
+                funcs[\([\)\(\ \)\(k\)\(\ \)\(]\)], \ {\ 
+                  vars[\([\)\(\ \)\(j\)\(\ \)\(]\)]\ }, \ {\ 
+                  vars[\([\)\(\ \)\(i\)\(\ \)\(]\)]\ }\ ], \ \ {\ 
+                Length[\ funcs\ ]\ }, {\ k, \ Length[\ funcs\ ]\ }, {\ j, \ 
+                dim\ }, \ {\ i, \ 
+                dim\ }\ ]\[IndentingNewLine], \ {2}\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCoupledConvection[\ dim_, \ funcs_, \ vars_, \ 
+          coeffs_\ ]\  := \ \[IndentingNewLine]Map[\ 
+          Plus\  @@ \ Flatten[\ #\ ] &, \ \[IndentingNewLine]coeffs\ *\ 
+            Table[\ D[\ 
+                funcs[\([\)\(\ \)\(k\)\(\ \)\(]\)], \ \ {\ 
+                  vars[\([\)\(\ \)\(i\)\(\ \)\(]\)]\ }\ ], \ \ {\ 
+                Length[\ funcs\ ]\ }, {\ k, \ Length[\ funcs\ ]\ }, {\ 
+                1\ }, \ {\ i, \ 
+                dim\ }\ ]\[IndentingNewLine], \ {2}\ ];\)\[IndentingNewLine]\
+\[IndentingNewLine]
+    \(imsCoupledReaction[\ dim_, \ funcs_, \ vars_, \ 
+          coeffs_\ ]\  := \ \[IndentingNewLine]coeffs\ *\ 
+          Table[\ funcs[\([\)\(\ \)\(k\)\(\ \)\(]\)], \ \ {\ 
+              Length[\ funcs\ ]\ }, {\ k, \ 
+              Length[\ 
+                funcs\ ]\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCoupledLoad[\ dim_, \ funcs_, \ vars_, \ coeffs_\ ]\  := \ 
+        coeffs\ *\ 
+          Table[\ funcs[\([\)\(\ \)\(i\)\(\ \)\(]\)], \ \ {\ i, \ 
+              Length[\ funcs\ ]\ }, {\ 
+              1\ }\ ];\)\[IndentingNewLine]\[IndentingNewLine]
+    \(imsCoupledTransientMatrix[\ timeDim_, \ funcs_, \ vars_, \ 
+          coeffs_\ ]\  := \ 
+        coeffs\ *\ 
+          Table[\ D[\ 
+              funcs[\([\)\(\ \)\(k\)\(\ \)\(]\)], \ \ {\ 
+                vars[\([\)\(\ \)\(1\)\(\ \)\(]\)]\ }\ ], \ \ {\ 
+              Length[\ funcs\ ]\ }, {\ k, \ 
+              Length[\ funcs\ ]\ }\ ];\)\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Representors", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Private", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["End Package", "Section"],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
+    \)\)\)], "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1024}, {0, 768}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{896, 599},
+WindowMargins->{{28, Automatic}, {Automatic, 65}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 40, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[1841, 57, 31, 0, 74, "Section"],
+Cell[1875, 59, 1247, 22, 299, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3147, 85, 35, 0, 28, "Subsubsection"],
+Cell[3185, 87, 618, 10, 123, "Input",
+  InitializationCell->True],
+Cell[3806, 99, 1804, 30, 379, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5659, 135, 32, 0, 44, "Section"],
+Cell[5694, 137, 170, 5, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5901, 147, 52, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[5978, 151, 26, 0, 38, "Subsection"],
+Cell[6007, 153, 3131, 51, 747, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9175, 209, 34, 0, 30, "Subsection"],
+Cell[9212, 211, 169, 3, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9418, 219, 36, 0, 30, "Subsection"],
+Cell[9457, 221, 173, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9679, 231, 32, 0, 44, "Section"],
+Cell[9714, 233, 88, 2, 27, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[9839, 240, 42, 0, 44, "Section"],
+Cell[9884, 242, 174, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10095, 251, 30, 0, 44, "Section"],
+Cell[10128, 253, 291, 5, 107, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10456, 263, 26, 0, 44, "Section"],
+Cell[10485, 265, 179, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10701, 274, 27, 0, 44, "Section"],
+Cell[10731, 276, 129, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10897, 284, 29, 0, 44, "Section"],
+Cell[10929, 286, 131, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[11097, 294, 41, 0, 44, "Section"],
+Cell[11141, 296, 141, 4, 43, "Input",
+  InitializationCell->True],
+Cell[11285, 302, 3328, 62, 555, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14650, 369, 31, 0, 44, "Section"],
+Cell[14684, 371, 133, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[14854, 379, 30, 0, 44, "Section"],
+Cell[14887, 381, 132, 3, 43, "Input",
+  InitializationCell->True]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[15056, 389, 30, 0, 44, "Section"],
+Cell[15089, 391, 155, 4, 59, "Input",
+  InitializationCell->True]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
