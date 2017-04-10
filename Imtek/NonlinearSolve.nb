@@ -1,760 +1,1521 @@
-(************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.2'
+(* Content-type: application/vnd.wolfram.mathematica *)
 
-                    Mathematica-Compatible Notebook
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
 
-This notebook can be used with any Mathematica-compatible
-application, such as Mathematica, MathReader or Publicon. The data
-for the notebook starts with the line containing stars above.
+(* CreatedBy='Mathematica 11.1' *)
 
-To get the notebook into a Mathematica-compatible application, do
-one of the following:
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     60685,       1513]
+NotebookOptionsPosition[     55158,       1362]
+NotebookOutlinePosition[     55528,       1378]
+CellTagsIndexPosition[     55485,       1375]
+WindowFrame->Normal*)
 
-* Save the data starting with the line of stars above into a file
-  with a name ending in .nb, then open the file inside the
-  application;
-
-* Copy the data starting with the line of stars above to the
-  clipboard, then use the Paste menu command inside the application.
-
-Data for notebooks contains only printable 7-bit ASCII and can be
-sent directly in email or through ftp in text mode.  Newlines can be
-CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
-
-NOTE: If you modify the data for this notebook not in a Mathematica-
-compatible application, you must delete the line below containing
-the word CacheID, otherwise Mathematica-compatible applications may
-try to use invalid cache data.
-
-For more information on notebooks and Mathematica-compatible 
-applications, contact Wolfram Research:
-  web: http://www.wolfram.com
-  email: info@wolfram.com
-  phone: +1-217-398-0700 (U.S.)
-
-Notebook reader applications are available free of charge from 
-Wolfram Research.
-*******************************************************************)
-
-(*CacheID: 232*)
-
-
-(*NotebookFileLineBreakTest
-NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     26289,        610]*)
-(*NotebookOutlinePosition[     26956,        633]*)
-(*  CellTagsIndexPosition[     26912,        629]*)
-(*WindowFrame->Normal*)
-
-
-
+(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["NonlinearSolve Package", "Subtitle"],
+Cell["NonlinearSolve Package", "Subtitle",ExpressionUUID->"04965b64-f1a8-45ea-8ed0-de57c8a71830"],
 
 Cell[CellGroupData[{
 
-Cell["Introduction", "Section"],
+Cell["Introduction", "Section",ExpressionUUID->"a1595f06-872f-4904-a47f-f4900215a659"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Title : \ NonlinearSolve . 
-          m\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Context\)\(:\)\ *) \)\(\
-\[IndentingNewLine]\)\( (*\ 
-      Author : oliver\ ruebenkoenig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Date : \ 22.2  .2007, \ Leipzig\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Summary : \ 
-        This\ is\ a\ nonlinear\ solver\ package\ *) \)\(\[IndentingNewLine]\)\
-\( (*\ Package\ \(Copyright : \ 
-          GNU\ GPL\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Package\ \(Version : \ 0.2  .1\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Mathematica\ \(Version : \ 5.2\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      History : \[IndentingNewLine]fixed\ a\ rule\ to\ a\ ruledelayed\ for\ \
-the\ FindRoot\ wrapper\ and\ added\ a\ exitQ\ for\ the\ case\ when\ the\ \
-solution\ of\ the\ nonlinear\ equation\ is\ found\ in\ the\ first\ step\ and\ \
-du\ contains\ the\ entire\ solution\ and\ this\ the\ Norm[du]\  <= \ 
-          Sqrt[tol*10]\ fails; \ \ \[IndentingNewLine]added\ \
-imsResidualMonitor\[IndentingNewLine]\ *) \)\(\[IndentingNewLine]\)\( (*\ \
-\(Keywords\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      Sources : \[IndentingNewLine]Nowak; Weimann; 
-      Deuflhard; \[IndentingNewLine]\ \(This\ implements\ NLEQ1\ from\
-\[IndentingNewLine]
-        \(\(http\)\(:\)\) // \(\(www . zib . de/Numerik\)/numsoft\)/
-              NewtonLib /; \[IndentingNewLine]\(\(http\)\(:\)\)\) // \
-\(\(\(www . zib . de/Numerik\)/numsoft\)/ANT\)/
-          index . en . html; \[IndentingNewLine]U . Nowak\ and\ L . Weimann . 
-            A\ family\ of\ Newton\ codes\ for\ systems\ of\ highly\ nonlinear\
-\ equations . Technical\ Report\ TR\ 91 - 10, 
-      Konrad - Zuse - Zentrum\ Berlin, 
-      1991. \[IndentingNewLine]*) \)\(\[IndentingNewLine]\)\( (*\ \
-\(Warnings\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ \(Limitations\)\(:\)\ \
-*) \)\(\[IndentingNewLine]\)\( (*\ \(Discussion\)\(:\)\ *) \)\(\
-\[IndentingNewLine]\)\( (*\ \(Requirements\)\(:\)\ *) \)\(\[IndentingNewLine]\
-\)\( (*\ \(Examples\)\(:\)\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
-"Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Title", ":", " ", 
+    RowBox[{"NonlinearSolve", ".", "m"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Context", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Author", ":", 
+    RowBox[{"oliver", " ", "ruebenkoenig"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Date", ":", " ", 
+     RowBox[{"10.4", ".2017"}]}], ",", " ", "Goettingen"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Summary", ":", " ", 
+    RowBox[{
+    "This", " ", "is", " ", "a", " ", "nonlinear", " ", "solver", " ", 
+     "package"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Package", " ", 
+    RowBox[{"Copyright", ":", " ", 
+     RowBox[{"GNU", " ", "GPL"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Package", " ", 
+    RowBox[{"Version", ":", " ", 
+     RowBox[{"0.2", ".2"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Mathematica", " ", 
+    RowBox[{"Version", ":", " ", "11.1"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"History", ":", "\[IndentingNewLine]", 
+     RowBox[{"update", " ", "to", " ", "V11", ".1"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+     "fixed", " ", "a", " ", "rule", " ", "to", " ", "a", " ", "ruledelayed", 
+      " ", "for", " ", "the", " ", "FindRoot", " ", "wrapper", " ", "and", 
+      " ", "added", " ", "a", " ", "exitQ", " ", "for", " ", "the", " ", 
+      "case", " ", "when", " ", "the", " ", "solution", " ", "of", " ", "the",
+       " ", "nonlinear", " ", "equation", " ", "is", " ", "found", " ", "in", 
+      " ", "the", " ", "first", " ", "step", " ", "and", " ", "du", " ", 
+      "contains", " ", "the", " ", "entire", " ", "solution", " ", "and", " ",
+       "this", " ", "the", " ", 
+      RowBox[{"Norm", "[", "du", "]"}]}], " ", "<=", " ", 
+     RowBox[{
+      RowBox[{"Sqrt", "[", 
+       RowBox[{"tol", "*", "10"}], "]"}], " ", "fails"}]}], ";", "  ", 
+    "\[IndentingNewLine]", 
+    RowBox[{"added", " ", "imsResidualMonitor"}]}], "\[IndentingNewLine]", 
+   " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Keywords", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Sources", ":", "\[IndentingNewLine]", "Nowak"}], ";", "Weimann",
+      ";", "Deuflhard", ";", "\[IndentingNewLine]", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"This", " ", "implements", " ", "NLEQ1", " ", "from"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"http", ":"}], "//", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"www", ".", "zib", ".", "de"}], "/", "Numerik"}], "/", 
+           "numsoft"}], "/", "NewtonLib"}], "/;", "\[IndentingNewLine]", 
+         RowBox[{"http", ":"}]}]}]}], "//", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"www", ".", "zib", ".", "de"}], "/", "Numerik"}], "/", 
+         "numsoft"}], "/", "ANT"}], "/", 
+       RowBox[{"index", ".", "en", ".", "html"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"U", ".", "Nowak"}], " ", "and", " ", 
+       RowBox[{"L", ".", "Weimann", ".", "A"}], " ", "family", " ", "of", " ",
+        "Newton", " ", "codes", " ", "for", " ", "systems", " ", "of", " ", 
+       "highly", " ", "nonlinear", " ", 
+       RowBox[{"equations", ".", "Technical"}], " ", "Report", " ", "TR", " ",
+        "91"}], "-", "10"}]}], ",", 
+    RowBox[{"Konrad", "-", "Zuse", "-", 
+     RowBox[{"Zentrum", " ", "Berlin"}]}], ",", "1991."}], 
+   "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Warnings", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Limitations", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Discussion", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Requirements", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Examples", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.700803652763073*^9, 
+  3.7008036880714808`*^9}},ExpressionUUID->"569342d2-dd6f-457f-bddc-\
+09e527dd549c"],
 
 Cell[CellGroupData[{
 
-Cell["Disclaimer", "Subsubsection"],
+Cell["Disclaimer", "Subsubsection",ExpressionUUID->"b67b8342-1e18-4c42-ac47-7e6ef6d6a432"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      Disclaimer\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      Whereever\ the\ GNU\ GPL\ is\ not\ applicable, \ 
-      the\ software\ should\ be\ used\ in\ the\ same\ \(\(spirit\)\(.\)\)\ \
-*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      Users\ of\ this\ code\ must\ verify\ correctness\ for\ their\ \
-\(\(application\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\
-\( (*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
-      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", "Disclaimer", " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "Whereever", " ", "the", " ", "GNU", " ", "GPL", " ", "is", " ", "not", 
+     " ", "applicable"}], ",", " ", 
+    RowBox[{
+    "the", " ", "software", " ", "should", " ", "be", " ", "used", " ", "in", 
+     " ", "the", " ", "same", " ", 
+     RowBox[{"spirit", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Users", " ", "of", " ", "this", " ", "code", " ", "must", " ", "verify", 
+    " ", "correctness", " ", "for", " ", "their", " ", 
+    RowBox[{"application", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Free", " ", "Software", " ", "Foundation"}], ",", 
+    RowBox[{"Inc", "."}], ",", 
+    RowBox[{"59", " ", "Temple", " ", "Place"}], ",", 
+    RowBox[{"Suite", " ", "330"}], ",", "Boston", ",", 
+    RowBox[{
+     RowBox[{"MA", " ", "02111"}], "-", 
+     RowBox[{"1307", " ", "USA"}]}]}], " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"95e7d539-c391-4c87-be58-eff32124f479"],
 
 Cell[BoxData[
-    \(\(\( (*\ \(Disclaimer\)\(:\)\ *) \)\(\[IndentingNewLine]\)\(\
-\[IndentingNewLine]\)\( (*\ 
-      This\ is\ a\ nonlinear\ solver\ package\ *) \)\(\[IndentingNewLine]\)\(\
-\[IndentingNewLine]\)\( (*\ 
-      Copyright\ \((C)\)\ 2007\ oliver\ ruebenkoenig\ *) \)\(\
-\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(This\ program\ is\ free\ \
-software;\)\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      you\ can\ redistribute\ it\ and/
-          or\ modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ \
-License\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ \(as\ \
-published\ by\ the\ Free\ Software\ Foundation; 
-      either\ version\ 2\ of\ the\ License\)\(,\)\ *) \)\(\[IndentingNewLine]\
-\)\(\[IndentingNewLine]\)\( (*\ 
-      or\ \((at\ your\ option)\)\ any\ later\ version . 
-          This\ program\ is\ distributed\ in\ the\ hope\ that\ *) \)\(\
-\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      it\ will\ be\ useful, \(but\ WITHOUT\ ANY\ WARRANTY;\)\ *) \)\(\
-\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      without\ even\ the\ implied\ warranty\ of\ MERCHANTABILITY\ or\ FITNESS\
-\ FOR\ A\ PARTICULAR\ \(\(PURPOSE\)\(.\)\)\ *) \)\(\[IndentingNewLine]\)\(\
-\[IndentingNewLine]\)\( (*\ 
-      See\ the\ GNU\ General\ Public\ License\ for\ more\ details . \ 
-          You\ should\ have\ received\ a\ copy\ of\ \
-*) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      the\ GNU\ General\ Public\ License\ along\ with\ this\ program; 
-      if\ not, \ 
-      write\ to\ the\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( \
-(*\ Free\ Software\ Foundation, \(\(Inc\)\(.\)\), 59\ Temple\ Place, 
-      Suite\ 330, Boston, MA\ 02111 - 1307\ USA\ *) \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Disclaimer", ":"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "This", " ", "is", " ", "a", " ", "nonlinear", " ", "solver", " ", 
+    "package"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Copyright", " ", 
+    RowBox[{"(", "C", ")"}], " ", "2007", " ", "oliver", " ", 
+    "ruebenkoenig"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"This", " ", "program", " ", "is", " ", "free", " ", "software"}],
+     ";"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"you", " ", "can", " ", "redistribute", " ", "it", " ", 
+    RowBox[{"and", "/", "or"}], " ", "modify", " ", "it", " ", "under", " ", 
+    "the", " ", "terms", " ", "of", " ", "the", " ", "GNU", " ", "General", 
+    " ", "Public", " ", "License"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+     "as", " ", "published", " ", "by", " ", "the", " ", "Free", " ", 
+      "Software", " ", "Foundation"}], ";", 
+     RowBox[{
+     "either", " ", "version", " ", "2", " ", "of", " ", "the", " ", 
+      "License"}]}], ","}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"or", " ", 
+    RowBox[{"(", 
+     RowBox[{"at", " ", "your", " ", "option"}], ")"}], " ", "any", " ", 
+    "later", " ", 
+    RowBox[{"version", ".", "This"}], " ", "program", " ", "is", " ", 
+    "distributed", " ", "in", " ", "the", " ", "hope", " ", "that"}], " ", 
+   "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"it", " ", "will", " ", "be", " ", "useful"}], ",", 
+    RowBox[{
+     RowBox[{"but", " ", "WITHOUT", " ", "ANY", " ", "WARRANTY"}], ";"}]}], 
+   " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "without", " ", "even", " ", "the", " ", "implied", " ", "warranty", " ", 
+    "of", " ", "MERCHANTABILITY", " ", "or", " ", "FITNESS", " ", "FOR", " ", 
+    "A", " ", "PARTICULAR", " ", 
+    RowBox[{"PURPOSE", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "See", " ", "the", " ", "GNU", " ", "General", " ", "Public", " ", 
+    "License", " ", "for", " ", "more", " ", 
+    RowBox[{"details", ".", " ", "You"}], " ", "should", " ", "have", " ", 
+    "received", " ", "a", " ", "copy", " ", "of"}], " ", "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+     "the", " ", "GNU", " ", "General", " ", "Public", " ", "License", " ", 
+      "along", " ", "with", " ", "this", " ", "program"}], ";", 
+     RowBox[{"if", " ", "not"}]}], ",", " ", 
+    RowBox[{"write", " ", "to", " ", "the"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Free", " ", "Software", " ", "Foundation"}], ",", 
+    RowBox[{"Inc", "."}], ",", 
+    RowBox[{"59", " ", "Temple", " ", "Place"}], ",", 
+    RowBox[{"Suite", " ", "330"}], ",", "Boston", ",", 
+    RowBox[{
+     RowBox[{"MA", " ", "02111"}], "-", 
+     RowBox[{"1307", " ", "USA"}]}]}], " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"de273c59-401a-422c-88df-595fa849bcb3"]
 }, Closed]]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Start Package", "Section"],
+Cell["Start Package", "Section",ExpressionUUID->"4b5869a4-5cf6-48b0-b3fd-924b2f5f9fed"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      Start\ Package\ \
-*) \)\(\[IndentingNewLine]\)\(BeginPackage["\<Imtek`NonlinearSolve`\>", \
-{"\<Imtek`Debug`\>"}];\)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Start", " ", "Package"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"BeginPackage", "[", 
+    RowBox[{"\"\<Imtek`NonlinearSolve`\>\"", ",", 
+     RowBox[{"{", "\"\<Imtek`Debug`\>\"", "}"}]}], "]"}], ";"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"2d71bc6a-ebec-4e28-96cb-b7cf9957fc05"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Documentation // Error - Messages", "Section"],
+Cell["Documentation // Error - Messages", "Section",ExpressionUUID->"0ea367d8-d5a8-43cc-8778-577b4de52430"],
 
 Cell[CellGroupData[{
 
-Cell["Docu", "Subsection"],
+Cell["Docu", "Subsection",ExpressionUUID->"4e230632-f75d-41ec-9ad3-35d970f04c95"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      documentation\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      constructors\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      selectors\ *) \)\(\[IndentingNewLine]\)\(\n\)\( (*\ 
-      predicates\ *) \)\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      functions\ *) \)\(\[IndentingNewLine]\)\(\(imsJacobian::usage = \
-"\<imsJacobian[ e_List, v_List ] returns the jacobian of list e with respect \
-to variables v.\>";\)\[IndentingNewLine]\[IndentingNewLine]
-    \(imsNonlinearSolve::usage = "\<imsNonlinearSolve[ jac_, f_, u0_, \
-opts___?OptionQ ] returns the solution to a nonlinear equation f given the \
-starting point u0 and the jacobian.\>";\)\)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "documentation", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "constructors", " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "selectors", " ", "*)"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", " ", "predicates", " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "functions", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsJacobian", "::", "usage"}], "=", 
+     "\"\<imsJacobian[ e_List, v_List ] returns the jacobian of list e with \
+respect to variables v.\>\""}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsNonlinearSolve", "::", "usage"}], "=", 
+     "\"\<imsNonlinearSolve[ jac_, f_, u0_, opts___?OptionQ ] returns the \
+solution to a nonlinear equation f given the starting point u0 and the \
+jacobian.\>\""}], ";"}]}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"c7b030c7-fb4d-45bf-8f55-bc7893fb93c5"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Options Docu", "Subsection"],
+Cell["Options Docu", "Subsection",ExpressionUUID->"b3cab49d-d211-49e5-a165-68502bcde518"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      options\ docu\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(\(imsAffineInvarianteDampedNewton::usage = "\<is the \
-default Method of imsNonlinearSolve.\>";\)\[IndentingNewLine]\
-\[IndentingNewLine]
-    \(imsDampingFactorMin::usage = "\<sets the minimum damping factor \
-allowed.\>";\)\[IndentingNewLine]\[IndentingNewLine]
-    \(imsNormFunction::usage = "\<allows to specify the internal norm used \
-for calculations. Default is \
-Norm.\>";\)\[IndentingNewLine]\[IndentingNewLine]
-    imsResidualMonitor::usage = "\<allows to monitor the residual of the \
-imsAffineInvarianteDampedNewton method.\>"\[IndentingNewLine]\
-\[IndentingNewLine]
-    \(imsScaleFactor::usage = "\<allows to scale the norms in the \
-imsAffineInvarianteDampedNewton method. Default is 1/10. For highly \
-non-linear problems set to 10^-5.\>";\)\)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"options", " ", "docu"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsAffineInvarianteDampedNewton", "::", "usage"}], "=", 
+     "\"\<is the default Method of imsNonlinearSolve.\>\""}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsDampingFactorMin", "::", "usage"}], "=", 
+     "\"\<sets the minimum damping factor allowed.\>\""}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsNormFunction", "::", "usage"}], "=", 
+     "\"\<allows to specify the internal norm used for calculations. Default \
+is Norm.\>\""}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"imsResidualMonitor", "::", "usage"}], "=", 
+    "\"\<allows to monitor the residual of the \
+imsAffineInvarianteDampedNewton method.\>\""}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsScaleFactor", "::", "usage"}], "=", 
+     "\"\<allows to scale the norms in the imsAffineInvarianteDampedNewton \
+method. Default is 1/10. For highly non-linear problems set to 10^-5.\>\""}], 
+    ";"}]}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"3f1f548a-c212-455a-af5f-63e64b30b6e7"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Error Messages", "Subsection"],
+Cell["Error Messages", "Subsection",ExpressionUUID->"935c2faa-b2cf-41c2-8691-d888dde5998d"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      error\ messages\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(imsAffineInvarianteDampedNewton::"\<dampingFactorMin\>\
-"\  = \ "\<The damping factor has droped below the allowed minimum to `1`. \
-Try to decrease the DampingFactor and/or reduce the \
-imsDampingFactorMin.\>";\)\)\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"error", " ", "messages"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "imsAffineInvarianteDampedNewton", "::", "\"\<dampingFactorMin\>\""}], 
+    " ", "=", " ", 
+    "\"\<The damping factor has droped below the allowed minimum to `1`. Try \
+to decrease the DampingFactor and/or reduce the imsDampingFactorMin.\>\""}], 
+   ";"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"f1e21cb2-1df8-4d9b-9a36-1643cb728263"],
 
 Cell[BoxData[
-    \(\(imsAffineInvarianteDampedNewton::"\<maxIterations\>"\  = \ "\<The \
-number of maximum iterations (that is `1`) allowed has been exceeded. The \
-solution returned does not meet the convergence criteria. Try to increase \
-MaxIterations or reduce the required AccuracyGool/WorkingPrecision.\>";\)\)], \
-"Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{
+   RowBox[{"imsAffineInvarianteDampedNewton", "::", "\"\<maxIterations\>\""}],
+    " ", "=", " ", 
+   "\"\<The number of maximum iterations (that is `1`) allowed has been \
+exceeded. The solution returned does not meet the convergence criteria. Try \
+to increase MaxIterations or reduce the required \
+AccuracyGool/WorkingPrecision.\>\""}], ";"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"3c92b6b6-b6d1-4933-8dd7-6c34d7d88f30"]
 }, Closed]]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Start Private", "Section"],
+Cell["Start Private", "Section",ExpressionUUID->"faaf02e4-c041-4db9-81e0-4f733c947d29"],
 
 Cell[BoxData[
-    \(\(Begin["\<`Private`\>"];\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"e3f5e9b9-b26d-47b3-ad40-ad029c420148"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Needs - Private Imports", "Section"],
+Cell["Needs - Private Imports", "Section",ExpressionUUID->"21946299-c543-47a5-a166-2bc907e8df9f"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      private\ imports\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(<< Utilities`FilterOptions`\n
-    Needs["\<Imtek`SparseUtils`\>"]\)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"private", " ", "imports"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Needs", "[", "\"\<Imtek`SparseUtils`\>\"", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{3.700803630077692*^9, 
+  3.700803829370913*^9},ExpressionUUID->"64fc0484-55cc-4f20-8989-\
+08cc4f7d860c"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Constructor", "Section"],
+Cell["Constructor", "Section",ExpressionUUID->"a09814f4-15c5-4996-90e9-06d409740b65"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      implementation\ part\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(\[IndentingNewLine]\)\( (*\ 
-      constructor\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"implementation", " ", "part"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "constructor", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"0adc1fde-002d-4e0a-95fb-0a2ba8ba2583"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Options", "Section"],
+Cell["Options", "Section",ExpressionUUID->"a04fc1a4-4166-4d2c-bcad-4c18a6c7e362"],
 
 Cell[BoxData[
-    \(\(\( (*\ *) \)\(\[IndentingNewLine]\)\( (*\ 
-      define\ your\ options\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(SetAttributes[\ imsNonlinearSolve, \ HoldAll\ ]\n
-    \(Options[
-          imsNonlinearSolve] = {Method\  \[Rule] \ \
-"\<imsAffineInvarianteDampedNewton\>"};\)\)\)\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"define", " ", "your", " ", "options"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"SetAttributes", "[", " ", 
+    RowBox[{"imsNonlinearSolve", ",", " ", "HoldAll"}], " ", "]"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "imsNonlinearSolve", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "Method", " ", "\[Rule]", " ", 
+       "\"\<imsAffineInvarianteDampedNewton\>\""}], "}"}]}], 
+    ";"}]}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"af37d2d4-860c-4f3d-a4b8-e451456c78c7"],
 
 Cell[BoxData[{
-    \(SetAttributes[imsAffineInvarianteDampedNewton, \ HoldAll\ ]\), "\n", 
-    \(\(Options[imsAffineInvarianteDampedNewton]\  = \ {\ 
-          MaxIterations\  \[Rule] \ 25, \ DampingFactor\  \[Rule] \ 1, \ 
-          imsDampingFactorMin\  \[Rule] \ 10^\(-4\), \ 
-          AccuracyGoal\  \[Rule] \ Automatic, \ 
-          WorkingPrecision\  \[Rule] \ MachinePrecision, \ 
-          imsNormFunction\  \[Rule] \ Norm, \ 
-          EvaluationMonitor\  \[Rule] \ None, \ 
-          StepMonitor\  \[Rule] \ None, \ 
-          imsResidualMonitor\  \[Rule] \ None, \ 
-          imsScaleFactor\  \[Rule] \ 1/10\ };\)\), "\[IndentingNewLine]", 
-    \(\)}], "Input",
-  InitializationCell->True]
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"imsAffineInvarianteDampedNewton", ",", " ", "HoldAll"}], " ", 
+  "]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "imsAffineInvarianteDampedNewton", "]"}], " ", "=",
+    " ", 
+   RowBox[{"{", " ", 
+    RowBox[{
+     RowBox[{"MaxIterations", " ", "\[Rule]", " ", "25"}], ",", " ", 
+     RowBox[{"DampingFactor", " ", "\[Rule]", " ", "1"}], ",", " ", 
+     RowBox[{"imsDampingFactorMin", " ", "\[Rule]", " ", 
+      RowBox[{"10", "^", 
+       RowBox[{"-", "4"}]}]}], ",", " ", 
+     RowBox[{"AccuracyGoal", " ", "\[Rule]", " ", "Automatic"}], ",", " ", 
+     RowBox[{"WorkingPrecision", " ", "\[Rule]", " ", "MachinePrecision"}], 
+     ",", " ", 
+     RowBox[{"imsNormFunction", " ", "\[Rule]", " ", "Norm"}], ",", " ", 
+     RowBox[{"EvaluationMonitor", " ", "\[Rule]", " ", "None"}], ",", " ", 
+     RowBox[{"StepMonitor", " ", "\[Rule]", " ", "None"}], ",", " ", 
+     RowBox[{"imsResidualMonitor", " ", "\[Rule]", " ", "None"}], ",", " ", 
+     RowBox[{"imsScaleFactor", " ", "\[Rule]", " ", 
+      RowBox[{"1", "/", "10"}]}]}], " ", "}"}]}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"2eacbe81-61b9-478d-bb85-9f535a41f648"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Selector", "Section"],
+Cell["Selector", "Section",ExpressionUUID->"148aea56-d972-4988-b1b0-677ba771dfc1"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      selector\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "selector", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"92a9c6b7-dd0c-4888-ae02-ae783a94b69e"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Predicates", "Section"],
+Cell["Predicates", "Section",ExpressionUUID->"11a7db8e-851d-4fd0-8312-0e3e114b9e67"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      predicates\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "predicates", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"400c9580-5f57-4d7f-bcb7-7c9d8a7e501d"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Functions // Overloads", "Section"],
+Cell["Functions // Overloads", "Section",ExpressionUUID->"d9cb3e2e-2436-49d7-8f04-d5ad9662a875"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      private\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], \
-"Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"private", " ", "functions"}], " ", "*)"}], "\[IndentingNewLine]", 
+  
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"4feb4d5e-b9d6-4a63-abd0-f85dee91b89c"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      public\ functions\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\(\
-\[IndentingNewLine]\)\(imsJacobian[\ e_List, \ v_List\ ]\  := \ 
-      Outer[\ D, \ e, \ v\ ]\[IndentingNewLine]\[IndentingNewLine]
-    imsNonlinearSolve[\ myJ_, \ myF_, \ u0_, \ 
-          opts___?OptionQ\ ]\  /; \ "\<FindRoot\>" === \((\(Method\  /. \ 
-                Flatten[\ {opts}\ ]\)\  /. \ 
-              Options[\ imsNonlinearSolve\ ])\) := \ 
-      X\  /. \ FindRoot[\ myF[\ X], \ {X, \ u0}, \ 
-          Method \[Rule] {"\<Newton\>"}, \ 
-          Jacobian :> \ {myJ[\ X\ ], \ Sparse \[Rule] Automatic\ }, \ 
-          Evaluate[\ FilterOptions[\ FindRoot, \ opts\ ]\ ]\ ]\)\)\)], "Input",\
-
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"public", " ", "functions"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"imsJacobian", "[", " ", 
+     RowBox[{"e_List", ",", " ", "v_List"}], " ", "]"}], " ", ":=", " ", 
+    RowBox[{"Outer", "[", " ", 
+     RowBox[{"D", ",", " ", "e", ",", " ", "v"}], " ", "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"imsNonlinearSolve", "[", " ", 
+      RowBox[{"myJ_", ",", " ", "myF_", ",", " ", "u0_", ",", " ", 
+       RowBox[{"opts___", "?", "OptionQ"}]}], " ", "]"}], " ", "/;", " ", 
+     RowBox[{"\"\<FindRoot\>\"", "===", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Method", " ", "/.", " ", 
+         RowBox[{"Flatten", "[", " ", 
+          RowBox[{"{", "opts", "}"}], " ", "]"}]}], " ", "/.", " ", 
+        RowBox[{"Options", "[", " ", "imsNonlinearSolve", " ", "]"}]}], 
+       ")"}]}]}], ":=", " ", 
+    RowBox[{"X", " ", "/.", " ", 
+     RowBox[{"FindRoot", "[", " ", 
+      RowBox[{
+       RowBox[{"myF", "[", " ", "X", "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"X", ",", " ", "u0"}], "}"}], ",", " ", 
+       RowBox[{"Method", "\[Rule]", 
+        RowBox[{"{", "\"\<Newton\>\"", "}"}]}], ",", " ", 
+       RowBox[{"Jacobian", ":>", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"myJ", "[", " ", "X", " ", "]"}], ",", " ", 
+          RowBox[{"Sparse", "\[Rule]", "Automatic"}]}], " ", "}"}]}], ",", 
+       " ", 
+       RowBox[{"Evaluate", "[", " ", 
+        RowBox[{"FilterRules", "[", " ", 
+         RowBox[{
+          RowBox[{"Flatten", "[", " ", 
+           RowBox[{"{", "opts", "}"}], " ", "]"}], ",", 
+          RowBox[{"Options", "[", "FindRoot", "]"}]}], " ", "]"}], " ", 
+        "]"}]}], " ", "]"}]}]}]}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.700803835486269*^9, 3.7008038410784283`*^9}, 
+   3.700803932211364*^9, {3.70080423405755*^9, 
+   3.700804238011681*^9}},ExpressionUUID->"84089ba8-9722-4b22-a698-\
+25e1fb413760"],
 
 Cell[BoxData[
-    \(imsNonlinearSolve[\ myJ_, \ myF_, \ u0_, \ 
-          opts___?OptionQ\ ]\  /; \ "\<imsAffineInvarianteDampedNewton\>" === \
-\((\(Method\  /. \ Flatten[\ {opts}\ ]\)\  /. \ 
-              Options[\ imsNonlinearSolve\ ])\) := \ 
-      imsAffineInvarianteDampedNewton[\ myJ, \ myF, \ u0, 
-        Evaluate[\ 
-          FilterOptions[\ imsAffineInvarianteDampedNewton, \ 
-            opts\ ]\ ]\ ]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"imsNonlinearSolve", "[", " ", 
+    RowBox[{"myJ_", ",", " ", "myF_", ",", " ", "u0_", ",", " ", 
+     RowBox[{"opts___", "?", "OptionQ"}]}], " ", "]"}], " ", "/;", " ", 
+   RowBox[{"\"\<imsAffineInvarianteDampedNewton\>\"", "===", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Method", " ", "/.", " ", 
+       RowBox[{"Flatten", "[", " ", 
+        RowBox[{"{", "opts", "}"}], " ", "]"}]}], " ", "/.", " ", 
+      RowBox[{"Options", "[", " ", "imsNonlinearSolve", " ", "]"}]}], 
+     ")"}]}]}], ":=", " ", 
+  RowBox[{"imsAffineInvarianteDampedNewton", "[", " ", 
+   RowBox[{"myJ", ",", " ", "myF", ",", " ", "u0", ",", 
+    RowBox[{"Evaluate", "[", " ", 
+     RowBox[{"FilterRules", "[", 
+      RowBox[{
+       RowBox[{"Flatten", "[", " ", 
+        RowBox[{"{", "opts", "}"}], " ", "]"}], ",", 
+       RowBox[{
+       "Options", "[", " ", "imsAffineInvarianteDampedNewton", "]"}]}], " ", 
+      "]"}], " ", "]"}]}], " ", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.700803848725*^9, 3.700803856370059*^9}, 
+   3.7008039379216003`*^9, {3.700804194695094*^9, 
+   3.700804213704475*^9}},ExpressionUUID->"399cbd97-f016-4561-951c-\
+f214bba16457"],
 
 Cell[BoxData[
-    \(imsAffineInvarianteDampedNewton[\ myJ_, myF_, \ 
-        u0_, \ \ opts___?OptionQ\ ]\  := \ 
-      Block[\[IndentingNewLine]{k, u, uw, f, lsf, du, h, l, lambda, j, duBar, 
-          exitQ, konvQ, uInit = u0, result, \[IndentingNewLine]itmax, \ 
-          lambda0, \ lambdaMin, \ linearSolveOpts, accugoal, workprec, \ 
-          myNorm, \ sf, \ evaluationStep, \ successfullStep, \ residualMon, \ 
-          resid\ }, \[IndentingNewLine] (*\ 
-          options\ *) \[IndentingNewLine]{itmax, \ lambda0, \ lambdaMin, \ 
-            accugoal, \ workprec, \ myNorm, \ 
-            sf\ }\  = \ \({MaxIterations, \ DampingFactor, \ 
-                imsDampingFactorMin, \ AccuracyGoal, WorkingPrecision, \ 
-                imsNormFunction, \ imsScaleFactor\ }\  /. \ 
-              Flatten[\ {\ opts\ }\ ]\)\  /. \ 
-            Options[imsAffineInvarianteDampedNewton]; \[IndentingNewLine]\
-\[IndentingNewLine]evaluationStep\  := \ \(EvaluationMonitor\  /. \ 
-              Flatten[\ {\ opts\ }\ ]\)\  /. \ 
-            Options[imsAffineInvarianteDampedNewton]; \
-\[IndentingNewLine]successfullStep\  := \ \ \(StepMonitor\  /. \ 
-              Flatten[\ {\ opts\ }\ ]\)\  /. \ 
-            Options[imsAffineInvarianteDampedNewton]; \
-\[IndentingNewLine]residualMon\  := \ \ \(imsResidualMonitor\  /. \ 
-              Flatten[\ {\ opts\ }\ ]\)\  /. \ 
-            Options[imsAffineInvarianteDampedNewton]; \[IndentingNewLine]\
-\[IndentingNewLine]linearSolveOpts\  = \ 
-          FilterOptions[\ LinearSolve, \ 
-            opts\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-          options\ processing\ *) \[IndentingNewLine] \
-(*\[IndentingNewLine]If[\ accugoal\  === \ Automatic, \ 
-            accugoal = \ 
-              Max[\ Precision[
-                  uInit], $MachinePrecision\ ]\ ]; \[IndentingNewLine]If[\ 
-            workprec\  === \ MachinePrecision, 
-            workprec\  = \ accugoal; \ \[IndentingNewLine]If[\ 
-              accugoal\  > \ $MachinePrecision, \ 
-              workprec += \ 
-                extraPrecis\ ];\[IndentingNewLine]]; \[IndentingNewLine]If[\ 
-            workprec\  > \ $MachinePrecision, \ \(uInit\  = \ 
-                SetPrecision[\ uInit, 
-                  workprec\ ];\)\ \
-];\[IndentingNewLine]*) \[IndentingNewLine]If[\ 
-          accugoal\  === \ 
-            Automatic, \ \(accugoal := \ 
-              workprec/2;\)\ ]; \[IndentingNewLine]If[\ 
-          workprec\  === \ MachinePrecision, 
-          workprec\  = \ $MachinePrecision; \ \[IndentingNewLine]If[\ 
-            accugoal\  > \ workprec, \ 
-            workprec += \ 
-              accugoal\ ];\[IndentingNewLine]]; \[IndentingNewLine]If[\ 
-          workprec\  > \ $MachinePrecision, \ \(uInit\  = \ 
-              SetPrecision[\ uInit, 
-                workprec\ ];\)\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ \
-$MaxPrecision\  = \ 
-            workprec\ *) \[IndentingNewLine]Block[\ {\ \ }, \
-\[IndentingNewLine]tol\  = \ 
-            10^\(-accugoal\); \
-\[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`\
-Private`imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\<Tolerance: \>", \ 
-              tol\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]k = 
-            0; \[IndentingNewLine]u[k]\  = \ uInit; \[IndentingNewLine]Unset[
-            uInit]; \[IndentingNewLine]uwu\  = \ 
-            Table[\ sf, \ {Length[u0]}\ ]; \[IndentingNewLine]uw[k] = 
-            MapThread[\ 
-              Max, \ {\ Abs[\ uwu\ ], \ 
-                Abs[\ u[k]\ ]\ }\ ]; \[IndentingNewLine]dInverse[k]\  = \ 
-            imsSparseDiagonalMatrix[\ 
-              1/uw[k]\ ]; \
-\[IndentingNewLine]\[IndentingNewLine]evaluationStep[\ 
-            u[k]\ ]; \[IndentingNewLine]f[k]\  = \ 
-            myF[\ u[k]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            eval\ jacobian\ *) \[IndentingNewLine]Label["\<newtonStep\>"]; \
-\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`Private`\
-imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\<Newton Step: \>", \ 
-              k\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            store\ linear\ solve\ funtion\ *) \[IndentingNewLine]lsf\  = \ 
-            LinearSolve[\ myJ[\ u[k]\ ], 
-              linearSolveOpts\ ]; \[IndentingNewLine]du[
-              k]\  = \ \(-lsf[
-                f[k]]\); \[IndentingNewLine] (*\[IndentingNewLine]Print[\ \
-"\<du: \>", \ du[k]\ ]; \[IndentingNewLine]Print[\ "\<jac\>", 
-              myJ[\ u[k]\ ] // 
-                MatrixForm\ ]; \[IndentingNewLine]Print[\ "\<f: \>", \ 
-              f[k]\ ];\[IndentingNewLine]*) \[IndentingNewLine]\
-\[IndentingNewLine] (*\ 
-            compute\ a\ priori\ damping\ factor\ *) \[IndentingNewLine]If[\ 
-            k > 0, \[IndentingNewLine]uw[k] = 
-              MapThread[\ 
-                Max, \ {\ Abs[\ uwu\ ], \ 
-                  1/2\ *Abs[\ 
-                      u[k - 1] + u[k]\ ]\ }\ ]; \[IndentingNewLine]dInverse[
-                k]\  = \ 
-              imsSparseDiagonalMatrix[\ 
-                1/uw[k]\ ]; \[IndentingNewLine]Unset[\ 
-              uw[k]\ ]; \[IndentingNewLine]h[k, 
-                0]\  = \ \((\ 
-                    myNorm[\ dInverse[k] . \((\ du[k - 1]\ )\)\ ]\ *\ 
-                      myNorm[\ 
-                        dInverse[k] . \((\ duBar[k]\ )\)\ ]\ )\)/\((myNorm[\ 
-                        dInverse[k] . \((\ duBar[k]\  - \ du[k]\ )\)\ ]\ *\ 
-                      myNorm[\ dInverse[k] . \((\ du[k]\ )\)\ ]\ )\)\ *
-                lambda[k - 1]; \[IndentingNewLine]lambda[\ k, \ 0\ ]\  = \ 
-              Min[\ 1, \ 
-                h[\ k, \ 
-                  0\ ]\ ];\[IndentingNewLine], \[IndentingNewLine]\(lambda[\ 
-                  k, \ 0\ ]\  = \ 
-                lambda0;\)\[IndentingNewLine]]; \[IndentingNewLine]\
-\[IndentingNewLine]l\  = \ 
-            Max[\ lambda[\ k, \ 0\ ], \ lambdaMin\ ]; \[IndentingNewLine]j = 
-            0; \[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<Imtek`\
-NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\< Lambda: \>", \ 
-              l\ }\ ]; \[IndentingNewLine]\[IndentingNewLine]\
-\[IndentingNewLine] (*\ 
-            a\ posteriori\ loop\ \
-*) \[IndentingNewLine]Label["\<posterioriLoop\>"]; \
-\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`Private`\
-imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\< posteriori loop: \>", \ 
-              j\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            compute\ trial\ iterate\ *) \[IndentingNewLine]If[\ j > 0, \ 
-            Unset[\ u[k + 1, j - 1]\ ]\ ]; \[IndentingNewLine]u[\ k + 1, \ 
-              j\ ]\  = \ 
-            u[k]\  + \ \ l\ *\ 
-                du[k]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            evaluate\ system\ *) \[IndentingNewLine]evaluationStep[\ 
-            u[\ k + 1, \ j\ ]\ ]; \[IndentingNewLine]If[\ j > 0, \ 
-            Unset[\ f[\ k + 1, \ j - 1\ ]\ ]\ ]; \[IndentingNewLine]f[\ 
-              k + 1, \ j\ ]\  = \ 
-            myF[\ u[\ k + 1, 
-                j\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            compute\ simplified\ newton\ correction\ \
-*) \[IndentingNewLine]If[\ j > 1, \ 
-            Unset[\ duBar[\ k + 1, \ 
-                j - 1\ ]\ ]\ ]; \[IndentingNewLine]duBar[\ k + 1, \ 
-              j\ ]\  = \ \(-lsf[\ 
-                f[\ k + 1, 
-                  j\ ]\ ]\); \
-\[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`\
-Private`imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\<  Norm[du]: \>", \ 
-              myNorm[\ dInverse[k] . \((\ 
-                    du[\ k\ ]\ )\)\ ]\ }\ ]; \
-\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`Private`\
-imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\<  Norm[duBar]: \>", \ 
-              myNorm[\ dInverse[k] . \ 
-                  duBar[\ k + 1, \ 
-                    j\ ]\ ]\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            why\ \(\(duBar[blah, \ 
-                  0]\)\(\ \)\(?\)\)\ *) \[IndentingNewLine]residualMon[\ 
-            resid\  = \ 
-              myNorm[\ dInverse[k] . \((\ 
-                    duBar[\ k + 1, \ 0\ ]\ )\)\ ]\ ]; \[IndentingNewLine]If[\ 
-            k == 0\  && \ j == 0, \[IndentingNewLine] (*\ 
-              if\ the\ solution\ if\ found\ in\ the\ first\ and\ the\ \
-starting\ vector\ was\ 0\ then\ Norm[du]\ is\ not\ smaller\ Sqrt[
-                  10*tol]\ \ *) \[IndentingNewLine]\(exitQ\  = \ \((\ \ resid\
-\  \[LessEqual] \ tol\  && \ 
-                    l\  \[Equal] \ 
-                      1\ )\);\), \[IndentingNewLine]\(exitQ\  = \ \((\ \ \
-resid\  \[LessEqual] \ tol\  && \ 
-                    myNorm[\ 
-                        dInverse[k] . \((\ du[\ k\ ]\ )\)\ ]\  \[LessEqual] \ 
-                      Sqrt[\ 10\ *\ tol\ ]\  && \ 
-                    l\  \[Equal] \ 
-                      1\ )\);\)\[IndentingNewLine]]; \[IndentingNewLine]\
-\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`Private`\
-imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\< exit check: \>", \ exitQ\ }\ ]; \[IndentingNewLine]If[\ 
-            exitQ, \ result\  = \ u[\ k + 1, 0\ ]\  + \ duBar[\ k + 1, 0\ ]; 
-            successfullStep[\ result\ ]; 
-            Return[\ result\ ]\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            compute\ a\ posteriory\ damping\ factor\ *) \[IndentingNewLine]h[\
-\ k, \ j + 1\ ]\  = \ \((2/l^2)\)\ *\ 
-              myNorm[\ dInverse[k] . \((\ 
-                      duBar[\ k + 1, j\ ]\  - \ \((1 - l)\)*du[k]\ )\)\ ]\ /\ 
-                myNorm[\ 
-                  dInverse[k] . \((\ 
-                      du[k]\ )\)\ ]; \[IndentingNewLine]lambda[\ k, \ 
-              j + 1\ ]\  = \ 
-            Min[\ 1, \ 
-              1/h[\ k, \ 
-                  j + 1\ ]\ ]; \
-\[IndentingNewLine]\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`\
-Private`imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\< Posteriori Lambda: \>", \ 
-              lambda[\ k, \ 
-                j + 1\ ]\ }\ ]; \[IndentingNewLine]\[IndentingNewLine] (*\ 
-            nonotonicity\ Check\ *) \[IndentingNewLine]konvQ\  = \ 
-            myNorm[\ dInverse[k] . \((\ 
-                    duBar[\ k + 1, \ j\ ]\ )\)\ ]\  \[LessEqual] \ 
-              myNorm[\ dInverse[k] . \((\ 
-                    du[k]\ )\)\ ]; \
-\[IndentingNewLine]imsDebugMessage["\<Imtek`NonlinearSolve`Private`\
-imsAffineInvarianteDampedNewton`\>", 
-            1, \ {"\< monotonicity check: \>", \ 
-              konvQ\ }\ ]; \[IndentingNewLine]If[\[IndentingNewLine]konvQ, \
-\[IndentingNewLine]duBar[k + 1]\  = \ 
-              duBar[k + 1, j]; \[IndentingNewLine]u[k + 1] = \ 
-              u[k + 1, j]; \[IndentingNewLine]successfullStep[\ 
-              u[k + 1]\ ]; \[IndentingNewLine]f[k + 1] = \ 
-              f[k + 1, j]; \[IndentingNewLine]Unset[\ duBar[k + 1, j]\ ]; \ 
-            If[\ j > 1, Unset[\ duBar[k + 1, 0]\ ]\ ]; \ 
-            Unset[\ u[k + 1, j\ ]\ ]; \ 
-            Unset[\ f[k + 1, j]\ ]; \[IndentingNewLine]lambda[k]\  = \ 
-              l; \[IndentingNewLine]k = k + 1; \[IndentingNewLine]If[\ 
-              k > itmax, \ 
-              Message[imsAffineInvarianteDampedNewton::"\<maxIterations\>", \ 
-                k\  - \ 1]; \ 
-              Return[\ u[\ 
-                  k\ ]\ ]\ ]; \[IndentingNewLine]Goto["\<newtonStep\>"], \
-\[IndentingNewLine]\[IndentingNewLine]j = j + 1; \[IndentingNewLine]If[\ 
-              l\  \[LessEqual] \ lambdaMin, \ 
-              Message[imsAffineInvarianteDampedNewton::"\<dampingFactorMin\>",\
- \ l\ ]; \ Return[\ 
-                u[\ k\ ]\ ]\ \ ]; \[IndentingNewLine] (*\ \(Print[\ "\< k: \
-\>", \ k, \ "\< j: \>", \ j, \ "\< l/2 \>", \ l/2, \ "\< \>", \ 
-                  lambda[k, j], \ "\< \>", \ 
-                  lambdaMin\ ];\)\ *) \[IndentingNewLine]l\  = \ 
-              Min[\ lambda[k, j], \ l/2\ ]; \[IndentingNewLine]l\  = 
-              Max[\ l, \ 
-                lambdaMin\ ]; \[IndentingNewLine]Goto["\<posterioriLoop\>"]\
-\[IndentingNewLine]\[IndentingNewLine]];\[IndentingNewLine]];\
-\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"imsAffineInvarianteDampedNewton", "[", " ", 
+   RowBox[{"myJ_", ",", "myF_", ",", " ", "u0_", ",", "  ", 
+    RowBox[{"opts___", "?", "OptionQ"}]}], " ", "]"}], " ", ":=", " ", 
+  RowBox[{"Block", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "k", ",", "u", ",", "uw", ",", "f", ",", "lsf", ",", "du", ",", "h", ",",
+       "l", ",", "lambda", ",", "j", ",", "duBar", ",", "exitQ", ",", "konvQ",
+       ",", 
+      RowBox[{"uInit", "=", "u0"}], ",", "result", ",", "\[IndentingNewLine]",
+       "itmax", ",", " ", "lambda0", ",", " ", "lambdaMin", ",", " ", 
+      "linearSolveOpts", ",", "accugoal", ",", "workprec", ",", " ", "myNorm",
+       ",", " ", "sf", ",", " ", "evaluationStep", ",", " ", 
+      "successfullStep", ",", " ", "residualMon", ",", " ", "resid"}], " ", 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", "options", " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "itmax", ",", " ", "lambda0", ",", " ", "lambdaMin", ",", " ", 
+        "accugoal", ",", " ", "workprec", ",", " ", "myNorm", ",", " ", 
+        "sf"}], " ", "}"}], " ", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "MaxIterations", ",", " ", "DampingFactor", ",", " ", 
+          "imsDampingFactorMin", ",", " ", "AccuracyGoal", ",", 
+          "WorkingPrecision", ",", " ", "imsNormFunction", ",", " ", 
+          "imsScaleFactor"}], " ", "}"}], " ", "/.", " ", 
+        RowBox[{"Flatten", "[", " ", 
+         RowBox[{"{", " ", "opts", " ", "}"}], " ", "]"}]}], " ", "/.", " ", 
+       RowBox[{"Options", "[", "imsAffineInvarianteDampedNewton", "]"}]}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"evaluationStep", " ", ":=", " ", 
+      RowBox[{
+       RowBox[{"EvaluationMonitor", " ", "/.", " ", 
+        RowBox[{"Flatten", "[", " ", 
+         RowBox[{"{", " ", "opts", " ", "}"}], " ", "]"}]}], " ", "/.", " ", 
+       RowBox[{"Options", "[", "imsAffineInvarianteDampedNewton", "]"}]}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"successfullStep", " ", ":=", "  ", 
+      RowBox[{
+       RowBox[{"StepMonitor", " ", "/.", " ", 
+        RowBox[{"Flatten", "[", " ", 
+         RowBox[{"{", " ", "opts", " ", "}"}], " ", "]"}]}], " ", "/.", " ", 
+       RowBox[{"Options", "[", "imsAffineInvarianteDampedNewton", "]"}]}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"residualMon", " ", ":=", "  ", 
+      RowBox[{
+       RowBox[{"imsResidualMonitor", " ", "/.", " ", 
+        RowBox[{"Flatten", "[", " ", 
+         RowBox[{"{", " ", "opts", " ", "}"}], " ", "]"}]}], " ", "/.", " ", 
+       RowBox[{"Options", "[", "imsAffineInvarianteDampedNewton", "]"}]}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"linearSolveOpts", " ", "=", " ", 
+      RowBox[{"FilterRules", "[", 
+       RowBox[{
+        RowBox[{"Flatten", "[", " ", 
+         RowBox[{"{", "opts", "}"}], " ", "]"}], ",", " ", 
+        RowBox[{"Options", "[", "LinearSolve", "]"}]}], " ", "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"options", " ", "processing"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", " ", 
+        RowBox[{
+         RowBox[{"accugoal", " ", "===", " ", "Automatic"}], ",", " ", 
+         RowBox[{"accugoal", "=", " ", 
+          RowBox[{"Max", "[", " ", 
+           RowBox[{
+            RowBox[{"Precision", "[", "uInit", "]"}], ",", 
+            "$MachinePrecision"}], " ", "]"}]}]}], " ", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", " ", 
+        RowBox[{
+         RowBox[{"workprec", " ", "===", " ", "MachinePrecision"}], ",", 
+         RowBox[{
+          RowBox[{"workprec", " ", "=", " ", "accugoal"}], ";", " ", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", " ", 
+           RowBox[{
+            RowBox[{"accugoal", " ", ">", " ", "$MachinePrecision"}], ",", 
+            " ", 
+            RowBox[{"workprec", "+=", " ", "extraPrecis"}]}], " ", "]"}], 
+          ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", " ", 
+        RowBox[{
+         RowBox[{"workprec", " ", ">", " ", "$MachinePrecision"}], ",", " ", 
+         RowBox[{
+          RowBox[{"uInit", " ", "=", " ", 
+           RowBox[{"SetPrecision", "[", " ", 
+            RowBox[{"uInit", ",", "workprec"}], " ", "]"}]}], ";"}]}], " ", 
+        "]"}], ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"accugoal", " ", "===", " ", "Automatic"}], ",", " ", 
+       RowBox[{
+        RowBox[{"accugoal", ":=", " ", 
+         RowBox[{"workprec", "/", "2"}]}], ";"}]}], " ", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"workprec", " ", "===", " ", "MachinePrecision"}], ",", 
+       RowBox[{
+        RowBox[{"workprec", " ", "=", " ", "$MachinePrecision"}], ";", " ", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{"accugoal", " ", ">", " ", "workprec"}], ",", " ", 
+          RowBox[{"workprec", "+=", " ", "accugoal"}]}], " ", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", " ", 
+      RowBox[{
+       RowBox[{"workprec", " ", ">", " ", "$MachinePrecision"}], ",", " ", 
+       RowBox[{
+        RowBox[{"uInit", " ", "=", " ", 
+         RowBox[{"SetPrecision", "[", " ", 
+          RowBox[{"uInit", ",", "workprec"}], " ", "]"}]}], ";"}]}], " ", 
+      "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"$MaxPrecision", " ", "=", " ", "workprec"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"Block", "[", " ", 
+      RowBox[{
+       RowBox[{"{", "  ", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"tol", " ", "=", " ", 
+         RowBox[{"10", "^", 
+          RowBox[{"-", "accugoal"}]}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Tolerance: \>\"", ",", " ", "tol"}], " ", "}"}]}], 
+         " ", "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"k", "=", "0"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"u", "[", "k", "]"}], " ", "=", " ", "uInit"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Unset", "[", "uInit", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"uwu", " ", "=", " ", 
+         RowBox[{"Table", "[", " ", 
+          RowBox[{"sf", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"Length", "[", "u0", "]"}], "}"}]}], " ", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"uw", "[", "k", "]"}], "=", 
+         RowBox[{"MapThread", "[", " ", 
+          RowBox[{"Max", ",", " ", 
+           RowBox[{"{", " ", 
+            RowBox[{
+             RowBox[{"Abs", "[", " ", "uwu", " ", "]"}], ",", " ", 
+             RowBox[{"Abs", "[", " ", 
+              RowBox[{"u", "[", "k", "]"}], " ", "]"}]}], " ", "}"}]}], " ", 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"dInverse", "[", "k", "]"}], " ", "=", " ", 
+         RowBox[{"imsSparseDiagonalMatrix", "[", " ", 
+          RowBox[{"1", "/", 
+           RowBox[{"uw", "[", "k", "]"}]}], " ", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"evaluationStep", "[", " ", 
+         RowBox[{"u", "[", "k", "]"}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"f", "[", "k", "]"}], " ", "=", " ", 
+         RowBox[{"myF", "[", " ", 
+          RowBox[{"u", "[", "k", "]"}], " ", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"eval", " ", "jacobian"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"Label", "[", "\"\<newtonStep\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Newton Step: \>\"", ",", " ", "k"}], " ", "}"}]}], 
+         " ", "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"store", " ", "linear", " ", "solve", " ", "funtion"}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"lsf", " ", "=", " ", 
+         RowBox[{"LinearSolve", "[", " ", 
+          RowBox[{
+           RowBox[{"myJ", "[", " ", 
+            RowBox[{"u", "[", "k", "]"}], " ", "]"}], ",", 
+           "linearSolveOpts"}], " ", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"du", "[", "k", "]"}], " ", "=", " ", 
+         RowBox[{"-", 
+          RowBox[{"lsf", "[", 
+           RowBox[{"f", "[", "k", "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", " ", 
+           RowBox[{"\"\<du: \>\"", ",", " ", 
+            RowBox[{"du", "[", "k", "]"}]}], " ", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", " ", 
+           RowBox[{"\"\<jac\>\"", ",", 
+            RowBox[{
+             RowBox[{"myJ", "[", " ", 
+              RowBox[{"u", "[", "k", "]"}], " ", "]"}], "//", 
+             "MatrixForm"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", " ", 
+           RowBox[{"\"\<f: \>\"", ",", " ", 
+            RowBox[{"f", "[", "k", "]"}]}], " ", "]"}], ";"}], 
+         "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "compute", " ", "a", " ", "priori", " ", "damping", " ", "factor"}], 
+         " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{"k", ">", "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"uw", "[", "k", "]"}], "=", 
+            RowBox[{"MapThread", "[", " ", 
+             RowBox[{"Max", ",", " ", 
+              RowBox[{"{", " ", 
+               RowBox[{
+                RowBox[{"Abs", "[", " ", "uwu", " ", "]"}], ",", " ", 
+                RowBox[{
+                 RowBox[{"1", "/", "2"}], " ", "*", 
+                 RowBox[{"Abs", "[", " ", 
+                  RowBox[{
+                   RowBox[{"u", "[", 
+                    RowBox[{"k", "-", "1"}], "]"}], "+", 
+                   RowBox[{"u", "[", "k", "]"}]}], " ", "]"}]}]}], " ", 
+               "}"}]}], " ", "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"dInverse", "[", "k", "]"}], " ", "=", " ", 
+            RowBox[{"imsSparseDiagonalMatrix", "[", " ", 
+             RowBox[{"1", "/", 
+              RowBox[{"uw", "[", "k", "]"}]}], " ", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Unset", "[", " ", 
+            RowBox[{"uw", "[", "k", "]"}], " ", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"h", "[", 
+             RowBox[{"k", ",", "0"}], "]"}], " ", "=", " ", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", " ", 
+               RowBox[{
+                RowBox[{"myNorm", "[", " ", 
+                 RowBox[{
+                  RowBox[{"dInverse", "[", "k", "]"}], ".", 
+                  RowBox[{"(", " ", 
+                   RowBox[{"du", "[", 
+                    RowBox[{"k", "-", "1"}], "]"}], " ", ")"}]}], " ", "]"}], 
+                " ", "*", " ", 
+                RowBox[{"myNorm", "[", " ", 
+                 RowBox[{
+                  RowBox[{"dInverse", "[", "k", "]"}], ".", 
+                  RowBox[{"(", " ", 
+                   RowBox[{"duBar", "[", "k", "]"}], " ", ")"}]}], " ", 
+                 "]"}]}], " ", ")"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"myNorm", "[", " ", 
+                 RowBox[{
+                  RowBox[{"dInverse", "[", "k", "]"}], ".", 
+                  RowBox[{"(", " ", 
+                   RowBox[{
+                    RowBox[{"duBar", "[", "k", "]"}], " ", "-", " ", 
+                    RowBox[{"du", "[", "k", "]"}]}], " ", ")"}]}], " ", "]"}],
+                 " ", "*", " ", 
+                RowBox[{"myNorm", "[", " ", 
+                 RowBox[{
+                  RowBox[{"dInverse", "[", "k", "]"}], ".", 
+                  RowBox[{"(", " ", 
+                   RowBox[{"du", "[", "k", "]"}], " ", ")"}]}], " ", "]"}]}], 
+               " ", ")"}]}], " ", "*", 
+             RowBox[{"lambda", "[", 
+              RowBox[{"k", "-", "1"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+           
+           RowBox[{
+            RowBox[{"lambda", "[", " ", 
+             RowBox[{"k", ",", " ", "0"}], " ", "]"}], " ", "=", " ", 
+            RowBox[{"Min", "[", " ", 
+             RowBox[{"1", ",", " ", 
+              RowBox[{"h", "[", " ", 
+               RowBox[{"k", ",", " ", "0"}], " ", "]"}]}], " ", "]"}]}], 
+           ";"}], "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"lambda", "[", " ", 
+             RowBox[{"k", ",", " ", "0"}], " ", "]"}], " ", "=", " ", 
+            "lambda0"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"l", " ", "=", " ", 
+         RowBox[{"Max", "[", " ", 
+          RowBox[{
+           RowBox[{"lambda", "[", " ", 
+            RowBox[{"k", ",", " ", "0"}], " ", "]"}], ",", " ", "lambdaMin"}],
+           " ", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"j", "=", "0"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\< Lambda: \>\"", ",", " ", "l"}], " ", "}"}]}], " ", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"a", " ", "posteriori", " ", "loop"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"Label", "[", "\"\<posterioriLoop\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\< posteriori loop: \>\"", ",", " ", "j"}], " ", 
+           "}"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"compute", " ", "trial", " ", "iterate"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{"j", ">", "0"}], ",", " ", 
+          RowBox[{"Unset", "[", " ", 
+           RowBox[{"u", "[", 
+            RowBox[{
+             RowBox[{"k", "+", "1"}], ",", 
+             RowBox[{"j", "-", "1"}]}], "]"}], " ", "]"}]}], " ", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"u", "[", " ", 
+          RowBox[{
+           RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}], " ", "=", 
+         " ", 
+         RowBox[{
+          RowBox[{"u", "[", "k", "]"}], " ", "+", "  ", 
+          RowBox[{"l", " ", "*", " ", 
+           RowBox[{"du", "[", "k", "]"}]}]}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"evaluate", " ", "system"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"evaluationStep", "[", " ", 
+         RowBox[{"u", "[", " ", 
+          RowBox[{
+           RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}], " ", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{"j", ">", "0"}], ",", " ", 
+          RowBox[{"Unset", "[", " ", 
+           RowBox[{"f", "[", " ", 
+            RowBox[{
+             RowBox[{"k", "+", "1"}], ",", " ", 
+             RowBox[{"j", "-", "1"}]}], " ", "]"}], " ", "]"}]}], " ", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"f", "[", " ", 
+          RowBox[{
+           RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}], " ", "=", 
+         " ", 
+         RowBox[{"myF", "[", " ", 
+          RowBox[{"u", "[", " ", 
+           RowBox[{
+            RowBox[{"k", "+", "1"}], ",", "j"}], " ", "]"}], " ", "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "compute", " ", "simplified", " ", "newton", " ", "correction"}], 
+         " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{"j", ">", "1"}], ",", " ", 
+          RowBox[{"Unset", "[", " ", 
+           RowBox[{"duBar", "[", " ", 
+            RowBox[{
+             RowBox[{"k", "+", "1"}], ",", " ", 
+             RowBox[{"j", "-", "1"}]}], " ", "]"}], " ", "]"}]}], " ", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"duBar", "[", " ", 
+          RowBox[{
+           RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}], " ", "=", 
+         " ", 
+         RowBox[{"-", 
+          RowBox[{"lsf", "[", " ", 
+           RowBox[{"f", "[", " ", 
+            RowBox[{
+             RowBox[{"k", "+", "1"}], ",", "j"}], " ", "]"}], " ", "]"}]}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<  Norm[du]: \>\"", ",", " ", 
+            RowBox[{"myNorm", "[", " ", 
+             RowBox[{
+              RowBox[{"dInverse", "[", "k", "]"}], ".", 
+              RowBox[{"(", " ", 
+               RowBox[{"du", "[", " ", "k", " ", "]"}], " ", ")"}]}], " ", 
+             "]"}]}], " ", "}"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<  Norm[duBar]: \>\"", ",", " ", 
+            RowBox[{"myNorm", "[", " ", 
+             RowBox[{
+              RowBox[{"dInverse", "[", "k", "]"}], ".", " ", 
+              RowBox[{"duBar", "[", " ", 
+               RowBox[{
+                RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}]}], " ", 
+             "]"}]}], " ", "}"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"why", " ", 
+          RowBox[{
+           RowBox[{"duBar", "[", 
+            RowBox[{"blah", ",", " ", "0"}], "]"}], " ", "?"}]}], " ", "*)"}],
+         "\[IndentingNewLine]", 
+        RowBox[{"residualMon", "[", " ", 
+         RowBox[{"resid", " ", "=", " ", 
+          RowBox[{"myNorm", "[", " ", 
+           RowBox[{
+            RowBox[{"dInverse", "[", "k", "]"}], ".", 
+            RowBox[{"(", " ", 
+             RowBox[{"duBar", "[", " ", 
+              RowBox[{
+               RowBox[{"k", "+", "1"}], ",", " ", "0"}], " ", "]"}], " ", 
+             ")"}]}], " ", "]"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"k", "==", "0"}], " ", "&&", " ", 
+           RowBox[{"j", "==", "0"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+           "if", " ", "the", " ", "solution", " ", "if", " ", "found", " ", 
+            "in", " ", "the", " ", "first", " ", "and", " ", "the", " ", 
+            "starting", " ", "vector", " ", "was", " ", "0", " ", "then", " ", 
+            RowBox[{"Norm", "[", "du", "]"}], " ", "is", " ", "not", " ", 
+            "smaller", " ", 
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"10", "*", "tol"}], "]"}]}], "  ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"exitQ", " ", "=", " ", 
+            RowBox[{"(", "  ", 
+             RowBox[{
+              RowBox[{"resid", " ", "\[LessEqual]", " ", "tol"}], " ", "&&", 
+              " ", 
+              RowBox[{"l", " ", "\[Equal]", " ", "1"}]}], " ", ")"}]}], ";"}],
+           ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"exitQ", " ", "=", " ", 
+            RowBox[{"(", "  ", 
+             RowBox[{
+              RowBox[{"resid", " ", "\[LessEqual]", " ", "tol"}], " ", "&&", 
+              " ", 
+              RowBox[{
+               RowBox[{"myNorm", "[", " ", 
+                RowBox[{
+                 RowBox[{"dInverse", "[", "k", "]"}], ".", 
+                 RowBox[{"(", " ", 
+                  RowBox[{"du", "[", " ", "k", " ", "]"}], " ", ")"}]}], " ", 
+                "]"}], " ", "\[LessEqual]", " ", 
+               RowBox[{"Sqrt", "[", " ", 
+                RowBox[{"10", " ", "*", " ", "tol"}], " ", "]"}]}], " ", "&&",
+               " ", 
+              RowBox[{"l", " ", "\[Equal]", " ", "1"}]}], " ", ")"}]}], 
+           ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\< exit check: \>\"", ",", " ", "exitQ"}], " ", "}"}]}],
+          " ", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", " ", 
+         RowBox[{"exitQ", ",", " ", 
+          RowBox[{
+           RowBox[{"result", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"u", "[", " ", 
+              RowBox[{
+               RowBox[{"k", "+", "1"}], ",", "0"}], " ", "]"}], " ", "+", " ", 
+             RowBox[{"duBar", "[", " ", 
+              RowBox[{
+               RowBox[{"k", "+", "1"}], ",", "0"}], " ", "]"}]}]}], ";", 
+           RowBox[{"successfullStep", "[", " ", "result", " ", "]"}], ";", 
+           RowBox[{"Return", "[", " ", "result", " ", "]"}]}]}], " ", "]"}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "compute", " ", "a", " ", "posteriory", " ", "damping", " ", 
+          "factor"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"h", "[", " ", 
+          RowBox[{"k", ",", " ", 
+           RowBox[{"j", "+", "1"}]}], " ", "]"}], " ", "=", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"2", "/", 
+            RowBox[{"l", "^", "2"}]}], ")"}], " ", "*", " ", 
+          RowBox[{
+           RowBox[{"myNorm", "[", " ", 
+            RowBox[{
+             RowBox[{"dInverse", "[", "k", "]"}], ".", 
+             RowBox[{"(", " ", 
+              RowBox[{
+               RowBox[{"duBar", "[", " ", 
+                RowBox[{
+                 RowBox[{"k", "+", "1"}], ",", "j"}], " ", "]"}], " ", "-", 
+               " ", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"1", "-", "l"}], ")"}], "*", 
+                RowBox[{"du", "[", "k", "]"}]}]}], " ", ")"}]}], " ", "]"}], 
+           " ", "/", " ", 
+           RowBox[{"myNorm", "[", " ", 
+            RowBox[{
+             RowBox[{"dInverse", "[", "k", "]"}], ".", 
+             RowBox[{"(", " ", 
+              RowBox[{"du", "[", "k", "]"}], " ", ")"}]}], " ", "]"}]}]}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"lambda", "[", " ", 
+          RowBox[{"k", ",", " ", 
+           RowBox[{"j", "+", "1"}]}], " ", "]"}], " ", "=", " ", 
+         RowBox[{"Min", "[", " ", 
+          RowBox[{"1", ",", " ", 
+           RowBox[{"1", "/", 
+            RowBox[{"h", "[", " ", 
+             RowBox[{"k", ",", " ", 
+              RowBox[{"j", "+", "1"}]}], " ", "]"}]}]}], " ", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\< Posteriori Lambda: \>\"", ",", " ", 
+            RowBox[{"lambda", "[", " ", 
+             RowBox[{"k", ",", " ", 
+              RowBox[{"j", "+", "1"}]}], " ", "]"}]}], " ", "}"}]}], " ", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"nonotonicity", " ", "Check"}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"konvQ", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"myNorm", "[", " ", 
+           RowBox[{
+            RowBox[{"dInverse", "[", "k", "]"}], ".", 
+            RowBox[{"(", " ", 
+             RowBox[{"duBar", "[", " ", 
+              RowBox[{
+               RowBox[{"k", "+", "1"}], ",", " ", "j"}], " ", "]"}], " ", 
+             ")"}]}], " ", "]"}], " ", "\[LessEqual]", " ", 
+          RowBox[{"myNorm", "[", " ", 
+           RowBox[{
+            RowBox[{"dInverse", "[", "k", "]"}], ".", 
+            RowBox[{"(", " ", 
+             RowBox[{"du", "[", "k", "]"}], " ", ")"}]}], " ", "]"}]}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"imsDebugMessage", "[", 
+         RowBox[{
+         "\"\<Imtek`NonlinearSolve`Private`imsAffineInvarianteDampedNewton`\>\
+\"", ",", "1", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\< monotonicity check: \>\"", ",", " ", "konvQ"}], " ", 
+           "}"}]}], " ", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", "\[IndentingNewLine]", 
+         RowBox[{"konvQ", ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"duBar", "[", 
+             RowBox[{"k", "+", "1"}], "]"}], " ", "=", " ", 
+            RowBox[{"duBar", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"u", "[", 
+             RowBox[{"k", "+", "1"}], "]"}], "=", " ", 
+            RowBox[{"u", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"successfullStep", "[", " ", 
+            RowBox[{"u", "[", 
+             RowBox[{"k", "+", "1"}], "]"}], " ", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"f", "[", 
+             RowBox[{"k", "+", "1"}], "]"}], "=", " ", 
+            RowBox[{"f", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Unset", "[", " ", 
+            RowBox[{"duBar", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], "]"}], " ", "]"}], ";", 
+           " ", 
+           RowBox[{"If", "[", " ", 
+            RowBox[{
+             RowBox[{"j", ">", "1"}], ",", 
+             RowBox[{"Unset", "[", " ", 
+              RowBox[{"duBar", "[", 
+               RowBox[{
+                RowBox[{"k", "+", "1"}], ",", "0"}], "]"}], " ", "]"}]}], " ",
+             "]"}], ";", " ", 
+           RowBox[{"Unset", "[", " ", 
+            RowBox[{"u", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], " ", "]"}], " ", "]"}], 
+           ";", " ", 
+           RowBox[{"Unset", "[", " ", 
+            RowBox[{"f", "[", 
+             RowBox[{
+              RowBox[{"k", "+", "1"}], ",", "j"}], "]"}], " ", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"lambda", "[", "k", "]"}], " ", "=", " ", "l"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"k", "=", 
+            RowBox[{"k", "+", "1"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", " ", 
+            RowBox[{
+             RowBox[{"k", ">", "itmax"}], ",", " ", 
+             RowBox[{
+              RowBox[{"Message", "[", 
+               RowBox[{
+                RowBox[{
+                "imsAffineInvarianteDampedNewton", "::", 
+                 "\"\<maxIterations\>\""}], ",", " ", 
+                RowBox[{"k", " ", "-", " ", "1"}]}], "]"}], ";", " ", 
+              RowBox[{"Return", "[", " ", 
+               RowBox[{"u", "[", " ", "k", " ", "]"}], " ", "]"}]}]}], " ", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"Goto", "[", "\"\<newtonStep\>\"", "]"}]}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"j", "=", 
+            RowBox[{"j", "+", "1"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", " ", 
+            RowBox[{
+             RowBox[{"l", " ", "\[LessEqual]", " ", "lambdaMin"}], ",", " ", 
+             RowBox[{
+              RowBox[{"Message", "[", 
+               RowBox[{
+                RowBox[{
+                "imsAffineInvarianteDampedNewton", "::", 
+                 "\"\<dampingFactorMin\>\""}], ",", " ", "l"}], " ", "]"}], 
+              ";", " ", 
+              RowBox[{"Return", "[", " ", 
+               RowBox[{"u", "[", " ", "k", " ", "]"}], " ", "]"}]}]}], "  ", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"(*", " ", 
+            RowBox[{
+             RowBox[{"Print", "[", " ", 
+              RowBox[{
+              "\"\< k: \>\"", ",", " ", "k", ",", " ", "\"\< j: \>\"", ",", 
+               " ", "j", ",", " ", "\"\< l/2 \>\"", ",", " ", 
+               RowBox[{"l", "/", "2"}], ",", " ", "\"\< \>\"", ",", " ", 
+               RowBox[{"lambda", "[", 
+                RowBox[{"k", ",", "j"}], "]"}], ",", " ", "\"\< \>\"", ",", 
+               " ", "lambdaMin"}], " ", "]"}], ";"}], " ", "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"l", " ", "=", " ", 
+            RowBox[{"Min", "[", " ", 
+             RowBox[{
+              RowBox[{"lambda", "[", 
+               RowBox[{"k", ",", "j"}], "]"}], ",", " ", 
+              RowBox[{"l", "/", "2"}]}], " ", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"l", " ", "=", 
+            RowBox[{"Max", "[", " ", 
+             RowBox[{"l", ",", " ", "lambdaMin"}], " ", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Goto", "[", "\"\<posterioriLoop\>\"", "]"}]}]}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.700803803920156*^9, 3.70080381198483*^9}, 
+   3.700803944093628*^9, {3.700804082085837*^9, 3.700804097454523*^9}, {
+   3.700804221250553*^9, 3.700804226247262*^9}, 
+   3.700804292375663*^9},ExpressionUUID->"7fb2c08c-7495-4500-ae91-\
+bfb2782e35b2"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Representors", "Section"],
+Cell["Representors", "Section",ExpressionUUID->"c854a704-81bf-449a-b7a0-7280e70fe3b4"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      representors\ *) \)\(\[IndentingNewLine]\)\( (*\ *) \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", "representors", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"2b9c2b30-bc67-433d-bc4e-bfc15688bf58"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["End Private", "Section"],
+Cell["End Private", "Section",ExpressionUUID->"cff4ba1c-232e-4703-af51-583d5fc983eb"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      Begin\ Private\ *) \)\(\[IndentingNewLine]\)\(End[]\)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Begin", " ", "Private"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"End", "[", "]"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"5d330982-1bc3-4062-b512-827ab7ee95d0"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["End Package", "Section"],
+Cell["End Package", "Section",ExpressionUUID->"d8faf273-23eb-49e6-8595-c2bd71509575"],
 
 Cell[BoxData[
-    \(\(\( (*\ 
-      Protect[]\ *) \)\(\[IndentingNewLine]\)\(\(EndPackage[]\)\(\ \)\(\n\)
-    \)\)\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Protect", "[", "]"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"EndPackage", "[", "]"}], " ", "\n"}]}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"be63ee43-8ab2-4425-a6a2-3eae9315cb16"]
 }, Closed]]
 }, Open  ]]
 },
-FrontEndVersion->"5.2 for X",
-ScreenRectangle->{{0, 1280}, {0, 1024}},
 AutoGeneratedPackage->Automatic,
-WindowSize->{1166, 930},
-WindowMargins->{{Automatic, -186}, {-23, Automatic}}
+WindowSize->{636, 1041},
+WindowMargins->{{Automatic, 322}, {Automatic, 18}},
+FrontEndVersion->"11.1 for Linux x86 (64-bit) (March 13, 2017)",
+StyleDefinitions->"Default.nb"
 ]
+(* End of Notebook Content *)
 
-(*******************************************************************
-Cached data follows.  If you edit this Notebook file directly, not
-using Mathematica, you must remove the line containing CacheID at
-the top of  the file.  The cache data will then be recreated when
-you save this file from within Mathematica.
-*******************************************************************)
-
+(* Internal cache information *)
 (*CellTagsOutline
 CellTagsIndex->{}
 *)
-
 (*CellTagsIndex
 CellTagsIndex->{}
 *)
-
 (*NotebookFileOutline
 Notebook[{
-
 Cell[CellGroupData[{
-Cell[1776, 53, 42, 0, 51, "Subtitle"],
-
+Cell[580, 22, 97, 0, 51, "Subtitle", "ExpressionUUID" -> \
+"04965b64-f1a8-45ea-8ed0-de57c8a71830"],
 Cell[CellGroupData[{
-Cell[1843, 57, 31, 0, 74, "Section"],
-Cell[1877, 59, 2168, 36, 475, "Input",
-  InitializationCell->True],
-
+Cell[702, 26, 86, 0, 65, "Section", "ExpressionUUID" -> \
+"a1595f06-872f-4904-a47f-f4900215a659"],
+Cell[791, 28, 4549, 110, 770, "Input", "ExpressionUUID" -> \
+"569342d2-dd6f-457f-bddc-09e527dd549c",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[4070, 99, 35, 0, 28, "Subsubsection"],
-Cell[4108, 101, 618, 10, 123, "Input",
-  InitializationCell->True],
-Cell[4729, 113, 1793, 30, 379, "Input",
-  InitializationCell->True]
+Cell[5365, 142, 90, 0, 35, "Subsubsection", "ExpressionUUID" -> \
+"b67b8342-1e18-4c42-ac47-7e6ef6d6a432"],
+Cell[5458, 144, 1218, 30, 236, "Input", "ExpressionUUID" -> \
+"95e7d539-c391-4c87-be58-eff32124f479",
+ InitializationCell->True],
+Cell[6679, 176, 3483, 81, 724, "Input", "ExpressionUUID" -> \
+"de273c59-401a-422c-88df-595fa849bcb3",
+ InitializationCell->True]
 }, Closed]]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[6571, 149, 32, 0, 44, "Section"],
-Cell[6606, 151, 195, 5, 43, "Input",
-  InitializationCell->True]
+Cell[10211, 263, 87, 0, 51, "Section", "ExpressionUUID" -> \
+"4b5869a4-5cf6-48b0-b3fd-924b2f5f9fed"],
+Cell[10301, 265, 377, 9, 76, "Input", "ExpressionUUID" -> \
+"2d71bc6a-ebec-4e28-96cb-b7cf9957fc05",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[6838, 161, 52, 0, 44, "Section"],
-
+Cell[10715, 279, 107, 0, 51, "Section", "ExpressionUUID" -> \
+"0ea367d8-d5a8-43cc-8778-577b4de52430"],
 Cell[CellGroupData[{
-Cell[6915, 165, 26, 0, 38, "Subsection"],
-Cell[6944, 167, 843, 13, 267, "Input",
-  InitializationCell->True]
+Cell[10847, 283, 81, 0, 44, "Subsection", "ExpressionUUID" -> \
+"4e230632-f75d-41ec-9ad3-35d970f04c95"],
+Cell[10931, 285, 1183, 25, 445, "Input", "ExpressionUUID" -> \
+"c7b030c7-fb4d-45bf-8f55-bc7893fb93c5",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[7824, 185, 34, 0, 30, "Subsection"],
-Cell[7861, 187, 954, 17, 219, "Input",
-  InitializationCell->True]
+Cell[12151, 315, 89, 0, 37, "Subsection", "ExpressionUUID" -> \
+"b3cab49d-d211-49e5-a165-68502bcde518"],
+Cell[12243, 317, 1445, 34, 399, "Input", "ExpressionUUID" -> \
+"3f1f548a-c212-455a-af5f-63e64b30b6e7",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[8852, 209, 36, 0, 30, "Subsection"],
-Cell[8891, 211, 411, 7, 91, "Input",
-  InitializationCell->True],
-Cell[9305, 220, 358, 6, 59, "Input",
-  InitializationCell->True]
+Cell[13725, 356, 91, 0, 37, "Subsection", "ExpressionUUID" -> \
+"935c2faa-b2cf-41c2-8691-d888dde5998d"],
+Cell[13819, 358, 623, 15, 166, "Input", "ExpressionUUID" -> \
+"f1e21cb2-1df8-4d9b-9a36-1643cb728263",
+ InitializationCell->True],
+Cell[14445, 375, 477, 10, 120, "Input", "ExpressionUUID" -> \
+"3c92b6b6-b6d1-4933-8dd7-6c34d7d88f30",
+ InitializationCell->True]
 }, Closed]]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[9712, 232, 32, 0, 44, "Section"],
-Cell[9747, 234, 88, 2, 27, "Input",
-  InitializationCell->True]
+Cell[14971, 391, 87, 0, 51, "Section", "ExpressionUUID" -> \
+"faaf02e4-c041-4db9-81e0-4f733c947d29"],
+Cell[15061, 393, 177, 4, 53, "Input", "ExpressionUUID" -> \
+"e3f5e9b9-b26d-47b3-ad40-ad029c420148",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[9872, 241, 42, 0, 44, "Section"],
-Cell[9917, 243, 266, 5, 91, "Input",
-  InitializationCell->True]
+Cell[15275, 402, 97, 0, 51, "Section", "ExpressionUUID" -> \
+"21946299-c543-47a5-a166-2bc907e8df9f"],
+Cell[15375, 404, 452, 10, 122, "Input", "ExpressionUUID" -> \
+"64fc0484-55cc-4f20-8989-08cc4f7d860c",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[10220, 253, 30, 0, 44, "Section"],
-Cell[10253, 255, 291, 5, 107, "Input",
-  InitializationCell->True]
+Cell[15864, 419, 85, 0, 51, "Section", "ExpressionUUID" -> \
+"a09814f4-15c5-4996-90e9-06d409740b65"],
+Cell[15952, 421, 457, 10, 165, "Input", "ExpressionUUID" -> \
+"0adc1fde-002d-4e0a-95fb-0a2ba8ba2583",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[10581, 265, 26, 0, 44, "Section"],
-Cell[10610, 267, 365, 7, 91, "Input",
-  InitializationCell->True],
-Cell[10978, 276, 701, 13, 91, "Input",
-  InitializationCell->True]
+Cell[16446, 436, 81, 0, 51, "Section", "ExpressionUUID" -> \
+"a04fc1a4-4166-4d2c-bcad-4c18a6c7e362"],
+Cell[16530, 438, 700, 19, 144, "Input", "ExpressionUUID" -> \
+"af37d2d4-860c-4f3d-a4b8-e451456c78c7",
+ InitializationCell->True],
+Cell[17233, 459, 1244, 26, 193, "Input", "ExpressionUUID" -> \
+"2eacbe81-61b9-478d-bb85-9f535a41f648",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[11716, 294, 27, 0, 44, "Section"],
-Cell[11746, 296, 129, 3, 43, "Input",
-  InitializationCell->True]
+Cell[18514, 490, 82, 0, 51, "Section", "ExpressionUUID" -> \
+"148aea56-d972-4988-b1b0-677ba771dfc1"],
+Cell[18599, 492, 219, 5, 73, "Input", "ExpressionUUID" -> \
+"92a9c6b7-dd0c-4888-ae02-ae783a94b69e",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[11912, 304, 29, 0, 44, "Section"],
-Cell[11944, 306, 131, 3, 43, "Input",
-  InitializationCell->True]
+Cell[18855, 502, 84, 0, 51, "Section", "ExpressionUUID" -> \
+"11a7db8e-851d-4fd0-8312-0e3e114b9e67"],
+Cell[18942, 504, 221, 5, 73, "Input", "ExpressionUUID" -> \
+"400c9580-5f57-4d7f-bcb7-7c9d8a7e501d",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[12112, 314, 41, 0, 44, "Section"],
-Cell[12156, 316, 141, 4, 43, "Input",
-  InitializationCell->True],
-Cell[12300, 322, 730, 14, 107, "Input",
-  InitializationCell->True],
-Cell[13033, 338, 454, 9, 59, "Input",
-  InitializationCell->True],
-Cell[13490, 349, 12140, 226, 2203, "Input",
-  InitializationCell->True]
+Cell[19200, 514, 96, 0, 51, "Section", "ExpressionUUID" -> \
+"d9cb3e2e-2436-49d7-8f04-d5ad9662a875"],
+Cell[19299, 516, 253, 7, 73, "Input", "ExpressionUUID" -> \
+"4feb4d5e-b9d6-4a63-abd0-f85dee91b89c",
+ InitializationCell->True],
+Cell[19555, 525, 2089, 50, 239, "Input", "ExpressionUUID" -> \
+"84089ba8-9722-4b22-a698-25e1fb413760",
+ InitializationCell->True],
+Cell[21647, 577, 1212, 28, 145, "Input", "ExpressionUUID" -> \
+"399cbd97-f016-4561-951c-f214bba16457",
+ InitializationCell->True],
+Cell[22862, 607, 31149, 712, 3897, "Input", "ExpressionUUID" -> \
+"7fb2c08c-7495-4500-ae91-bfb2782e35b2",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[25667, 580, 31, 0, 44, "Section"],
-Cell[25701, 582, 133, 3, 43, "Input",
-  InitializationCell->True]
+Cell[54048, 1324, 86, 0, 51, "Section", "ExpressionUUID" -> \
+"c854a704-81bf-449a-b7a0-7280e70fe3b4"],
+Cell[54137, 1326, 223, 5, 43, "Input", "ExpressionUUID" -> \
+"2b9c2b30-bc67-433d-bc4e-bfc15688bf58",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[25871, 590, 30, 0, 44, "Section"],
-Cell[25904, 592, 132, 3, 43, "Input",
-  InitializationCell->True]
+Cell[54397, 1336, 85, 0, 51, "Section", "ExpressionUUID" -> \
+"cff4ba1c-232e-4703-af51-583d5fc983eb"],
+Cell[54485, 1338, 246, 6, 43, "Input", "ExpressionUUID" -> \
+"5d330982-1bc3-4062-b512-827ab7ee95d0",
+ InitializationCell->True]
 }, Closed]],
-
 Cell[CellGroupData[{
-Cell[26073, 600, 30, 0, 44, "Section"],
-Cell[26106, 602, 155, 4, 59, "Input",
-  InitializationCell->True]
+Cell[54768, 1349, 85, 0, 51, "Section", "ExpressionUUID" -> \
+"d8faf273-23eb-49e6-8595-c2bd71509575"],
+Cell[54856, 1351, 274, 7, 59, "Input", "ExpressionUUID" -> \
+"be63ee43-8ab2-4425-a6a2-3eae9315cb16",
+ InitializationCell->True]
 }, Closed]]
 }, Open  ]]
 }
 ]
 *)
-
-
-
-(*******************************************************************
-End of Mathematica Notebook file.
-*******************************************************************)
 
